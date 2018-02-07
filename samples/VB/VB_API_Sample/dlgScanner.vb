@@ -91,6 +91,7 @@ Friend Class dlgScanner
     Public WithEvents Label21 As System.Windows.Forms.Label
     Public WithEvents Label22 As System.Windows.Forms.Label
     Friend WithEvents cmdOptions As System.Windows.Forms.Button
+    Friend WithEvents cmdFilter As System.Windows.Forms.Button
     Public WithEvents txtStockTypeFilter As System.Windows.Forms.TextBox
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
@@ -145,6 +146,7 @@ Friend Class dlgScanner
         Me.Frame1 = New System.Windows.Forms.GroupBox()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.cmdOptions = New System.Windows.Forms.Button()
+        Me.cmdFilter = New System.Windows.Forms.Button()
         Me.frameTickerDesc.SuspendLayout()
         Me.Frame1.SuspendLayout()
         Me.SuspendLayout()
@@ -896,11 +898,21 @@ Friend Class dlgScanner
         Me.cmdOptions.Text = "Options"
         Me.cmdOptions.UseVisualStyleBackColor = True
         '
+        'cmdFilter
+        '
+        Me.cmdFilter.Location = New System.Drawing.Point(399, 576)
+        Me.cmdFilter.Name = "cmdFilter"
+        Me.cmdFilter.Size = New System.Drawing.Size(66, 25)
+        Me.cmdFilter.TabIndex = 7
+        Me.cmdFilter.Text = "Filter"
+        Me.cmdFilter.UseVisualStyleBackColor = True
+        '
         'dlgScanner
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
         Me.BackColor = System.Drawing.Color.Gainsboro
-        Me.ClientSize = New System.Drawing.Size(395, 605)
+        Me.ClientSize = New System.Drawing.Size(472, 605)
+        Me.Controls.Add(Me.cmdFilter)
         Me.Controls.Add(Me.cmdOptions)
         Me.Controls.Add(Me.cmdCancelSubscription)
         Me.Controls.Add(Me.cmdSubscribe)
@@ -945,6 +957,7 @@ Friend Class dlgScanner
     Private m_id As Integer
     Private m_ok As Boolean
     Private m_scannerSubscriptionOptions As List(Of IBApi.TagValue)
+    Private m_scannerSubscriptionFilterOptions As List(Of IBApi.TagValue)
 
     ' ========================================================
     ' Public Methods
@@ -976,7 +989,7 @@ Friend Class dlgScanner
 
     Private Sub cmdSubscribe_Click(sender As Object, e As EventArgs) Handles cmdSubscribe.Click
         populateSubscription()
-        m_mainWnd.Api.reqScannerSubscription(m_id, m_subscription, m_scannerSubscriptionOptions)
+        m_mainWnd.Api.reqScannerSubscription(m_id, m_subscription, m_scannerSubscriptionOptions, m_scannerSubscriptionFilterOptions)
         Hide()
     End Sub
 
@@ -1024,4 +1037,16 @@ Friend Class dlgScanner
             numFromText = CDbl(textStr)
         End If
     End Function
+
+    Private Sub cmdFilter_Click(sender As Object, e As EventArgs) Handles cmdFilter.Click
+        Dim dlg As New dlgSmartComboRoutingParams
+
+        dlg.init(m_scannerSubscriptionFilterOptions, "Scanner Subscription Filter Options")
+
+        Dim res = dlg.ShowDialog()
+
+        If res = DialogResult.OK Then
+            m_scannerSubscriptionFilterOptions = dlg.smartComboRoutingParams
+        End If
+    End Sub
 End Class

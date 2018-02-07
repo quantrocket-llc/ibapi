@@ -956,14 +956,15 @@ public class ApiController implements EWrapper {
 		sendEOM();
 	}
 
-	public void reqScannerSubscription( ScannerSubscription sub, IScannerHandler handler) {
+	public void reqScannerSubscription(ScannerSubscription sub, List<TagValue> filterOptions, IScannerHandler handler) {
 		if (!checkConnection())
 			return;
 
 		int reqId = m_reqId++;
-		m_scannerMap.put( reqId, handler);
-		List<TagValue> scannerSubscriptionOptions = new ArrayList<>();
-		m_client.reqScannerSubscription( reqId, sub, scannerSubscriptionOptions);
+		
+		m_scannerMap.put(reqId, handler);
+		m_client.reqScannerSubscription(reqId, sub, null, filterOptions);
+		
 		sendEOM();
 	}
 

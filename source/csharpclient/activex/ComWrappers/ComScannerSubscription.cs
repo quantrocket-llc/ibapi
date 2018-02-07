@@ -125,9 +125,9 @@ namespace TWSLib
             set { if (data != null) data.CouponRateBelow = value; }
         }
 
-        public string ExcludeConvertible
+        public bool ExcludeConvertible
         {
-            get { return data != null ? data.ExcludeConvertible : default(string); }
+            get { return data != null ? data.ExcludeConvertible : default(bool); }
             set { if (data != null) data.ExcludeConvertible = value; }
         }
 
@@ -181,8 +181,8 @@ namespace TWSLib
 
         int TWSLib.IScannerSubscription.excludeConvertible
         {
-            get { return string.IsNullOrEmpty(ExcludeConvertible) ? 0 : int.Parse(ExcludeConvertible); }
-            set { ExcludeConvertible = value.ToString(); }
+            get { return !ExcludeConvertible ? 0 : 1; }
+            set { ExcludeConvertible = value != 0; }
         }
 
         string TWSLib.IScannerSubscription.scannerSettingPairs { get { return ScannerSettingPairs; } set { ScannerSettingPairs = value; } }

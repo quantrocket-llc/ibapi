@@ -36,13 +36,13 @@ namespace IBSampleApp
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(IBSampleAppDialog));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend4 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.connectButton = new System.Windows.Forms.Button();
             this.clientid_CT = new System.Windows.Forms.TextBox();
             this.cliet_label_CT = new System.Windows.Forms.Label();
@@ -424,6 +424,7 @@ namespace IBSampleApp
             this.accountSelectorLabel = new System.Windows.Forms.Label();
             this.accountSelector = new System.Windows.Forms.ComboBox();
             this.tradingTab = new System.Windows.Forms.TabPage();
+            this.buttonAttachOrder = new System.Windows.Forms.Button();
             this.execFilterGroup = new System.Windows.Forms.GroupBox();
             this.execFilterExchange = new System.Windows.Forms.TextBox();
             this.execFilterSide = new System.Windows.Forms.TextBox();
@@ -648,6 +649,14 @@ namespace IBSampleApp
             this.label11 = new System.Windows.Forms.Label();
             this.hdRequest_TimeUnit = new System.Windows.Forms.ComboBox();
             this.marketScanner_MDT = new System.Windows.Forms.TabPage();
+            this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.FilterOptionRemove_button = new System.Windows.Forms.Button();
+            this.FilterOptionAdd_button = new System.Windows.Forms.Button();
+            this.label17 = new System.Windows.Forms.Label();
+            this.textBoxFilterValue = new System.Windows.Forms.TextBox();
+            this.label16 = new System.Windows.Forms.Label();
+            this.comboBoxFilterName = new System.Windows.Forms.ComboBox();
+            this.listViewFilterOptions = new System.Windows.Forms.ListView();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.scanCode = new System.Windows.Forms.ComboBox();
             this.scanInstrument = new System.Windows.Forms.ComboBox();
@@ -679,7 +688,8 @@ namespace IBSampleApp
             this.tbNumOfTicks = new System.Windows.Forms.TextBox();
             this.tbStartDate = new System.Windows.Forms.TextBox();
             this.TabControl = new System.Windows.Forms.TabControl();
-            this.buttonAttachOrder = new System.Windows.Forms.Button();
+            this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.comboTab.SuspendLayout();
             this.comboDeltaNeutralBox.SuspendLayout();
             this.comboLegsBox.SuspendLayout();
@@ -801,6 +811,7 @@ namespace IBSampleApp
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.marketScanner_MDT.SuspendLayout();
+            this.groupBox8.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.historicalTicks_MDT.SuspendLayout();
             this.groupBoxTickByTickType.SuspendLayout();
@@ -4434,6 +4445,16 @@ namespace IBSampleApp
             this.tradingTab.TabIndex = 2;
             this.tradingTab.Text = "Trading";
             // 
+            // buttonAttachOrder
+            // 
+            this.buttonAttachOrder.Location = new System.Drawing.Point(1088, 51);
+            this.buttonAttachOrder.Name = "buttonAttachOrder";
+            this.buttonAttachOrder.Size = new System.Drawing.Size(105, 23);
+            this.buttonAttachOrder.TabIndex = 11;
+            this.buttonAttachOrder.Text = "Attach order";
+            this.buttonAttachOrder.UseVisualStyleBackColor = true;
+            this.buttonAttachOrder.Click += new System.EventHandler(this.buttonAttachOrder_Click);
+            // 
             // execFilterGroup
             // 
             this.execFilterGroup.Controls.Add(this.execFilterExchange);
@@ -5072,14 +5093,14 @@ namespace IBSampleApp
             this.askBookPrice,
             this.askBookSize,
             this.askBookMaker});
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.deepBookGrid.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.deepBookGrid.DefaultCellStyle = dataGridViewCellStyle2;
             this.deepBookGrid.Location = new System.Drawing.Point(4, 19);
             this.deepBookGrid.Name = "deepBookGrid";
             this.deepBookGrid.ReadOnly = true;
@@ -5225,27 +5246,27 @@ namespace IBSampleApp
             this.historicalChart.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.historicalChart.BackImageTransparentColor = System.Drawing.Color.Silver;
             this.historicalChart.BackSecondaryColor = System.Drawing.Color.Silver;
-            chartArea1.AxisX.MajorGrid.Enabled = false;
-            chartArea1.AxisX.MajorTickMark.Enabled = false;
-            chartArea1.AxisY.IsStartedFromZero = false;
-            chartArea1.Name = "ChartArea1";
-            chartArea1.Position.Auto = false;
-            chartArea1.Position.Height = 100F;
-            chartArea1.Position.Width = 100F;
-            this.historicalChart.ChartAreas.Add(chartArea1);
-            legend1.Name = "Legend1";
-            this.historicalChart.Legends.Add(legend1);
+            chartArea3.AxisX.MajorGrid.Enabled = false;
+            chartArea3.AxisX.MajorTickMark.Enabled = false;
+            chartArea3.AxisY.IsStartedFromZero = false;
+            chartArea3.Name = "ChartArea1";
+            chartArea3.Position.Auto = false;
+            chartArea3.Position.Height = 100F;
+            chartArea3.Position.Width = 100F;
+            this.historicalChart.ChartAreas.Add(chartArea3);
+            legend3.Name = "Legend1";
+            this.historicalChart.Legends.Add(legend3);
             this.historicalChart.Location = new System.Drawing.Point(529, 3);
             this.historicalChart.Name = "historicalChart";
-            series1.ChartArea = "ChartArea1";
-            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Candlestick;
-            series1.IsVisibleInLegend = false;
-            series1.IsXValueIndexed = true;
-            series1.Legend = "Legend1";
-            series1.Name = "Series1";
-            series1.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.DateTime;
-            series1.YValuesPerPoint = 4;
-            this.historicalChart.Series.Add(series1);
+            series3.ChartArea = "ChartArea1";
+            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Candlestick;
+            series3.IsVisibleInLegend = false;
+            series3.IsXValueIndexed = true;
+            series3.Legend = "Legend1";
+            series3.Name = "Series1";
+            series3.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.DateTime;
+            series3.YValuesPerPoint = 4;
+            this.historicalChart.Series.Add(series3);
             this.historicalChart.Size = new System.Drawing.Size(699, 199);
             this.historicalChart.TabIndex = 0;
             this.historicalChart.Text = "Historical Data";
@@ -5352,26 +5373,26 @@ namespace IBSampleApp
             this.rtBarsChart.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.rtBarsChart.BackImageTransparentColor = System.Drawing.Color.Silver;
             this.rtBarsChart.BackSecondaryColor = System.Drawing.Color.Silver;
-            chartArea2.AxisX.MajorGrid.Enabled = false;
-            chartArea2.AxisX.MajorTickMark.Enabled = false;
-            chartArea2.AxisY.IsStartedFromZero = false;
-            chartArea2.Name = "ChartArea1";
-            chartArea2.Position.Auto = false;
-            chartArea2.Position.Height = 100F;
-            chartArea2.Position.Width = 100F;
-            this.rtBarsChart.ChartAreas.Add(chartArea2);
-            legend2.Name = "Legend1";
-            this.rtBarsChart.Legends.Add(legend2);
+            chartArea4.AxisX.MajorGrid.Enabled = false;
+            chartArea4.AxisX.MajorTickMark.Enabled = false;
+            chartArea4.AxisY.IsStartedFromZero = false;
+            chartArea4.Name = "ChartArea1";
+            chartArea4.Position.Auto = false;
+            chartArea4.Position.Height = 100F;
+            chartArea4.Position.Width = 100F;
+            this.rtBarsChart.ChartAreas.Add(chartArea4);
+            legend4.Name = "Legend1";
+            this.rtBarsChart.Legends.Add(legend4);
             this.rtBarsChart.Location = new System.Drawing.Point(531, 4);
             this.rtBarsChart.Name = "rtBarsChart";
-            series2.ChartArea = "ChartArea1";
-            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Candlestick;
-            series2.IsVisibleInLegend = false;
-            series2.Legend = "Legend1";
-            series2.Name = "Series1";
-            series2.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.DateTime;
-            series2.YValuesPerPoint = 4;
-            this.rtBarsChart.Series.Add(series2);
+            series4.ChartArea = "ChartArea1";
+            series4.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Candlestick;
+            series4.IsVisibleInLegend = false;
+            series4.Legend = "Legend1";
+            series4.Name = "Series1";
+            series4.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.DateTime;
+            series4.YValuesPerPoint = 4;
+            this.rtBarsChart.Series.Add(series4);
             this.rtBarsChart.Size = new System.Drawing.Size(699, 199);
             this.rtBarsChart.TabIndex = 2;
             this.rtBarsChart.Text = "Historical Data";
@@ -6629,6 +6650,7 @@ namespace IBSampleApp
             // marketScanner_MDT
             // 
             this.marketScanner_MDT.BackColor = System.Drawing.Color.LightGray;
+            this.marketScanner_MDT.Controls.Add(this.groupBox8);
             this.marketScanner_MDT.Controls.Add(this.groupBox4);
             this.marketScanner_MDT.Controls.Add(this.scannerParamsRequest_button);
             this.marketScanner_MDT.Location = new System.Drawing.Point(4, 22);
@@ -6637,6 +6659,94 @@ namespace IBSampleApp
             this.marketScanner_MDT.Size = new System.Drawing.Size(1230, 200);
             this.marketScanner_MDT.TabIndex = 4;
             this.marketScanner_MDT.Text = "Scanner";
+            // 
+            // groupBox8
+            // 
+            this.groupBox8.Controls.Add(this.FilterOptionRemove_button);
+            this.groupBox8.Controls.Add(this.FilterOptionAdd_button);
+            this.groupBox8.Controls.Add(this.label17);
+            this.groupBox8.Controls.Add(this.textBoxFilterValue);
+            this.groupBox8.Controls.Add(this.label16);
+            this.groupBox8.Controls.Add(this.comboBoxFilterName);
+            this.groupBox8.Controls.Add(this.listViewFilterOptions);
+            this.groupBox8.Location = new System.Drawing.Point(402, 6);
+            this.groupBox8.Name = "groupBox8";
+            this.groupBox8.Size = new System.Drawing.Size(482, 179);
+            this.groupBox8.TabIndex = 14;
+            this.groupBox8.TabStop = false;
+            this.groupBox8.Text = "Filter options";
+            // 
+            // FilterOptionRemove_button
+            // 
+            this.FilterOptionRemove_button.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.FilterOptionRemove_button.Location = new System.Drawing.Point(401, 65);
+            this.FilterOptionRemove_button.Name = "FilterOptionRemove_button";
+            this.FilterOptionRemove_button.Size = new System.Drawing.Size(75, 23);
+            this.FilterOptionRemove_button.TabIndex = 6;
+            this.FilterOptionRemove_button.Text = "Remove";
+            this.FilterOptionRemove_button.UseVisualStyleBackColor = true;
+            this.FilterOptionRemove_button.Click += new System.EventHandler(this.FilterOptionRemove_button_Click);
+            // 
+            // FilterOptionAdd_button
+            // 
+            this.FilterOptionAdd_button.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.FilterOptionAdd_button.Location = new System.Drawing.Point(320, 65);
+            this.FilterOptionAdd_button.Name = "FilterOptionAdd_button";
+            this.FilterOptionAdd_button.Size = new System.Drawing.Size(75, 23);
+            this.FilterOptionAdd_button.TabIndex = 5;
+            this.FilterOptionAdd_button.Text = "Add";
+            this.FilterOptionAdd_button.UseVisualStyleBackColor = true;
+            this.FilterOptionAdd_button.Click += new System.EventHandler(this.FilterOptionAdd_button_Click);
+            // 
+            // label17
+            // 
+            this.label17.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(407, 19);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(37, 13);
+            this.label17.TabIndex = 4;
+            this.label17.Text = "Value:";
+            // 
+            // textBoxFilterValue
+            // 
+            this.textBoxFilterValue.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxFilterValue.Location = new System.Drawing.Point(410, 39);
+            this.textBoxFilterValue.Name = "textBoxFilterValue";
+            this.textBoxFilterValue.Size = new System.Drawing.Size(66, 20);
+            this.textBoxFilterValue.TabIndex = 3;
+            // 
+            // label16
+            // 
+            this.label16.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(251, 19);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(38, 13);
+            this.label16.TabIndex = 2;
+            this.label16.Text = "Name:";
+            // 
+            // comboBoxFilterName
+            // 
+            this.comboBoxFilterName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.comboBoxFilterName.FormattingEnabled = true;
+            this.comboBoxFilterName.Location = new System.Drawing.Point(251, 38);
+            this.comboBoxFilterName.Name = "comboBoxFilterName";
+            this.comboBoxFilterName.Size = new System.Drawing.Size(153, 21);
+            this.comboBoxFilterName.TabIndex = 1;
+            // 
+            // listViewFilterOptions
+            // 
+            this.listViewFilterOptions.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader3,
+            this.columnHeader4});
+            this.listViewFilterOptions.FullRowSelect = true;
+            this.listViewFilterOptions.Location = new System.Drawing.Point(6, 17);
+            this.listViewFilterOptions.Name = "listViewFilterOptions";
+            this.listViewFilterOptions.Size = new System.Drawing.Size(240, 156);
+            this.listViewFilterOptions.TabIndex = 0;
+            this.listViewFilterOptions.UseCompatibleStateImageBehavior = false;
+            this.listViewFilterOptions.View = System.Windows.Forms.View.Details;
             // 
             // groupBox4
             // 
@@ -7043,15 +7153,14 @@ namespace IBSampleApp
             this.TabControl.Size = new System.Drawing.Size(1256, 474);
             this.TabControl.TabIndex = 7;
             // 
-            // buttonAttachOrder
+            // columnHeader3
             // 
-            this.buttonAttachOrder.Location = new System.Drawing.Point(1088, 51);
-            this.buttonAttachOrder.Name = "buttonAttachOrder";
-            this.buttonAttachOrder.Size = new System.Drawing.Size(105, 23);
-            this.buttonAttachOrder.TabIndex = 11;
-            this.buttonAttachOrder.Text = "Attach order";
-            this.buttonAttachOrder.UseVisualStyleBackColor = true;
-            this.buttonAttachOrder.Click += new System.EventHandler(this.buttonAttachOrder_Click);
+            this.columnHeader3.Text = "Name";
+            this.columnHeader3.Width = 175;
+            // 
+            // columnHeader4
+            // 
+            this.columnHeader4.Text = "Value";
             // 
             // IBSampleAppDialog
             // 
@@ -7239,6 +7348,8 @@ namespace IBSampleApp
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.marketScanner_MDT.ResumeLayout(false);
+            this.groupBox8.ResumeLayout(false);
+            this.groupBox8.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             this.historicalTicks_MDT.ResumeLayout(false);
@@ -7890,6 +8001,16 @@ namespace IBSampleApp
         private System.Windows.Forms.Label labelNewsArticlePath;
         private System.Windows.Forms.Button buttonPdfPathDialog;
         private System.Windows.Forms.Button buttonAttachOrder;
+        private System.Windows.Forms.GroupBox groupBox8;
+        private System.Windows.Forms.Button FilterOptionRemove_button;
+        private System.Windows.Forms.Button FilterOptionAdd_button;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.TextBox textBoxFilterValue;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.ComboBox comboBoxFilterName;
+        private System.Windows.Forms.ListView listViewFilterOptions;
+        private System.Windows.Forms.ColumnHeader columnHeader3;
+        private System.Windows.Forms.ColumnHeader columnHeader4;
     }
 }
 

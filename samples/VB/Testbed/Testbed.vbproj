@@ -118,7 +118,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\source\csharpclient\client\CSharpAPI.csproj">
-      <Project>{8EDE0744-96C2-40B0-A8DC-37DF79370203}</Project>
+      <Project>{8ede0744-96c2-40b0-a8dc-37df79370203}</Project>
       <Name>CSharpAPI</Name>
     </ProjectReference>
   </ItemGroup>

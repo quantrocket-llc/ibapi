@@ -63,9 +63,9 @@ namespace IBSampleApp.ui
             rowCounter = -1;
         }
 
-        public void AddRequest(ScannerSubscription scannerSubscription)
+        public void AddRequest(ScannerSubscription scannerSubscription, List<TagValue> filterOptions)
         {
-            ibClient.ClientSocket.reqScannerSubscription(currentTicker, scannerSubscription, new List<TagValue>());
+            ibClient.ClientSocket.reqScannerSubscription(currentTicker, scannerSubscription, null, filterOptions);
         }
 
         public void RequestParameters()

@@ -565,7 +565,7 @@ class SampleFrame extends JFrame implements EWrapper {
         }
         else if (m_scannerDlg.m_userSelection == ScannerDlg.SUBSCRIBE_SELECTION) {
             m_client.reqScannerSubscription(m_scannerDlg.m_id,
-                                            m_scannerDlg.m_subscription, m_scannerDlg.scannerSubscriptionOptions());
+                                            m_scannerDlg.m_subscription, m_scannerDlg.scannerSubscriptionOptions(), m_scannerDlg.scannerFilterOptions());
         }
         else if (m_scannerDlg.m_userSelection == ScannerDlg.REQUEST_PARAMETERS_SELECTION) {
             m_client.reqScannerParameters();
