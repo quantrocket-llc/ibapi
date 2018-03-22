@@ -94,12 +94,13 @@ const int MIN_SERVER_VER_TICK_BY_TICK               = 137;
 const int MIN_SERVER_VER_DECISION_MAKER             = 138;
 const int MIN_SERVER_VER_MIFID_EXECUTION            = 139;
 const int MIN_SERVER_VER_TICK_BY_TICK_IGNORE_SIZE   = 140;
+const int MIN_SERVER_VER_AUTO_PRICE_FOR_HEDGE       = 141;
 
 /* 100+ messaging */
 // 100 = enhanced handshake, msg length prefixes
 
 const int MIN_CLIENT_VER = 100;
-const int MAX_CLIENT_VER = MIN_SERVER_VER_TICK_BY_TICK_IGNORE_SIZE;
+const int MAX_CLIENT_VER = MIN_SERVER_VER_AUTO_PRICE_FOR_HEDGE;
 
 
 // incoming msg id's

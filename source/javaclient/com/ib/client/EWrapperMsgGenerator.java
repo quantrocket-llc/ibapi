@@ -159,7 +159,8 @@ public class EWrapperMsgGenerator {
 				.append(" whatIf=").append(order.whatIf())
 				.append(" solicited=").append(order.solicited())
 				.append(" randomize size=").append(order.randomizeSize())
-				.append(" randomize price=").append(order.randomizePrice());
+				.append(" randomize price=").append(order.randomizePrice())
+				.append(" dontUseAutoPriceForHedge=").append(order.dontUseAutoPriceForHedge());
         
 
         if ("BAG".equals(contract.getSecType())) {

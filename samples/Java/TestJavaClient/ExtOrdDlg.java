@@ -104,6 +104,7 @@ public class ExtOrdDlg extends JDialog {
 	private UpperField  m_mifid2DecisionAlgo = new UpperField();
     private UpperField  m_mifid2ExecutionTrader = new UpperField();
     private UpperField  m_mifid2ExecutionAlgo = new UpperField();
+    private JCheckBox   m_dontUseAutoPriceForHedge = new JCheckBox("Don't use auto price for hedge", false);
 
     ExtOrdDlg( OrderDlg owner) {
         super( owner, true);
@@ -271,6 +272,8 @@ public class ExtOrdDlg extends JDialog {
         extOrderDetailsPanel.add(m_mifid2ExecutionTrader);
         extOrderDetailsPanel.add(new JLabel("MiFID II Execution Algo"));
         extOrderDetailsPanel.add(m_mifid2ExecutionAlgo);
+        
+        extOrderDetailsPanel.add(m_dontUseAutoPriceForHedge);
 
         // create button panel
         JPanel buttonPanel = new JPanel();
@@ -379,6 +382,7 @@ public class ExtOrdDlg extends JDialog {
             m_order.mifid2DecisionAlgo(m_mifid2DecisionAlgo.getText());
             m_order.mifid2ExecutionTrader(m_mifid2ExecutionTrader.getText());
             m_order.mifid2ExecutionAlgo(m_mifid2ExecutionAlgo.getText());
+            m_order.dontUseAutoPriceForHedge(m_dontUseAutoPriceForHedge.isSelected());
         }
         catch( Exception e) {
             Main.inform( this, "Error - " + e);

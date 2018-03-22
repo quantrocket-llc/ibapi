@@ -201,6 +201,9 @@ public class Order {
 	private String m_mifid2DecisionAlgo = EMPTY_STR;
     private String m_mifid2ExecutionTrader = EMPTY_STR;
     private String m_mifid2ExecutionAlgo = EMPTY_STR;	
+    
+    // don't use auto price for hedge
+    private boolean m_dontUseAutoPriceForHedge;
 	
 	// getters
     public Action  action()                         { return Action.get(m_action); }
@@ -332,6 +335,7 @@ public class Order {
     public String mifid2DecisionAlgo()              { return m_mifid2DecisionAlgo; }
     public String mifid2ExecutionTrader()           { return m_mifid2ExecutionTrader; }
     public String mifid2ExecutionAlgo()             { return m_mifid2ExecutionAlgo; }
+    public boolean dontUseAutoPriceForHedge()       { return m_dontUseAutoPriceForHedge; }
   
 	// setters
 	public void referenceContractId(int m_referenceContractId)          { this.m_referenceContractId = m_referenceContractId; }
@@ -464,6 +468,7 @@ public class Order {
     public void mifid2DecisionAlgo(String v)                            { m_mifid2DecisionAlgo = v; }
     public void mifid2ExecutionTrader(String v)                         { m_mifid2ExecutionTrader = v; }
     public void mifid2ExecutionAlgo(String v)                           { m_mifid2ExecutionAlgo = v; }
+    public void dontUseAutoPriceForHedge(boolean v)                     { m_dontUseAutoPriceForHedge = v; }
 
 
     public Order() {
@@ -498,6 +503,7 @@ public class Order {
         m_randomizePrice = false;
         m_extOperator = EMPTY_STR;
         m_softDollarTier = new SoftDollarTier(EMPTY_STR, EMPTY_STR, EMPTY_STR);
+        m_dontUseAutoPriceForHedge = false;
     }
 
     public List<TagValue> algoParams() {
@@ -591,7 +597,8 @@ public class Order {
         	|| m_adjustableTrailingUnit != l_theOther.m_adjustableTrailingUnit
         	|| m_lmtPriceOffset != l_theOther.m_lmtPriceOffset
         	|| !m_softDollarTier.equals(l_theOther.m_softDollarTier)
-        	|| m_cashQty != l_theOther.m_cashQty) {
+        	|| m_cashQty != l_theOther.m_cashQty
+        	|| m_dontUseAutoPriceForHedge != l_theOther.m_dontUseAutoPriceForHedge) {
         	return false;
         }
 

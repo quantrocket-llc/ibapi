@@ -277,9 +277,10 @@ public abstract class EClient {
     protected static final int MIN_SERVER_VER_DECISION_MAKER = 138;
     protected static final int MIN_SERVER_VER_MIFID_EXECUTION = 139;
     protected static final int MIN_SERVER_VER_TICK_BY_TICK_IGNORE_SIZE = 140;
+    protected static final int MIN_SERVER_VER_AUTO_PRICE_FOR_HEDGE = 141;
     
     public static final int MIN_VERSION = 100; // envelope encoding, applicable to useV100Plus mode only
-    public static final int MAX_VERSION = MIN_SERVER_VER_TICK_BY_TICK_IGNORE_SIZE; // ditto
+    public static final int MAX_VERSION = MIN_SERVER_VER_AUTO_PRICE_FOR_HEDGE; // ditto
 
     protected EReaderSignal m_signal;
     protected EWrapper m_eWrapper;    // msg handler
@@ -1505,6 +1506,13 @@ public abstract class EClient {
             return;
         }
 
+        if (m_serverVersion < MIN_SERVER_VER_AUTO_PRICE_FOR_HEDGE
+                && order.dontUseAutoPriceForHedge()) {
+            error(id, EClientErrors.UPDATE_TWS,
+                "  It does not support don't use auto price for hedge parameter.");
+            return;
+        }
+        
 
         int VERSION = (m_serverVersion < MIN_SERVER_VER_NOT_HELD) ? 27 : 45;
 
@@ -1909,7 +1917,11 @@ public abstract class EClient {
                b.send(order.mifid2ExecutionTrader());
                b.send(order.mifid2ExecutionAlgo());
            }
-           
+
+           if (m_serverVersion >= MIN_SERVER_VER_AUTO_PRICE_FOR_HEDGE) {
+               b.send(order.dontUseAutoPriceForHedge());
+           }
+
            closeAndSend(b);
         }
         catch( Exception e) {

@@ -21,6 +21,7 @@ namespace IBSampleApp
         private MarginDialog marginDialog;
         private OrderManager orderManager;
         private int orderId;
+        private int parentOrderId;
         private BindingSource orderBindingSource = new BindingSource();
 
         public OrderDialog(OrderManager orderManager)
@@ -199,6 +200,8 @@ namespace IBSampleApp
             Order order = new Order();
             if (orderId != 0)
                 order.OrderId = orderId;
+            if (parentOrderId != 0)
+                order.ParentId = parentOrderId;
             order.Action = action.Text;
             order.OrderType = orderType.Text;
             if (!lmtPrice.Text.Equals(""))
@@ -326,6 +329,7 @@ namespace IBSampleApp
             order.Mifid2DecisionAlgo = mifid2DecisionAlgo.Text;
             order.Mifid2ExecutionTrader = mifid2ExecutionTrader.Text;
             order.Mifid2ExecutionAlgo = mifid2ExecutionAlgo.Text;
+            order.DontUseAutoPriceForHedge = dontUseAutoPriceForHedge.Checked;
         }
 
         private void FillVolatilityAttributes(Order order)
@@ -445,6 +449,7 @@ namespace IBSampleApp
             auxPrice.Text = doubleToStr(order.AuxPrice);
             displaySize.Text = order.DisplaySize.ToString();
             cashQty.Text = doubleToStr(order.CashQty);
+            dontUseAutoPriceForHedge.Checked = order.DontUseAutoPriceForHedge;
 
             //order = GetExtendedOrderAttributes(order);
             //order = GetAdvisorAttributes(order);
@@ -476,6 +481,16 @@ namespace IBSampleApp
             orderBindingSource.DataSource = order.Conditions;
             ignoreRth.Checked = order.ConditionsIgnoreRth;
             cancelOrder.SelectedIndex = order.ConditionsCancelOrder ? 1 : 0;
+        }
+
+        public void SetParentOrderId(int id)
+        {
+            parentOrderId = id;
+        }
+
+        public void SetOrderId(int id)
+        {
+            orderId = id;
         }
 
         string doubleToStr(double val)

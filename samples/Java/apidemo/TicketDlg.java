@@ -396,6 +396,7 @@ class TicketDlg extends JDialog {
 		final JCheckBox m_eTradeOnly = new JCheckBox();
 		final JCheckBox m_firmQuoteOnly = new JCheckBox();
 		final JCheckBox m_optOutSmartRouting = new JCheckBox();
+		final JCheckBox m_dontUseAutoPriceForHedge = new JCheckBox();
 		
 		
 
@@ -431,6 +432,7 @@ class TicketDlg extends JDialog {
 			right.add( "E-trade only", m_eTradeOnly);
 			right.add( "Firm quote only", m_firmQuoteOnly);
 			right.add( "Opt out SMART routing", m_optOutSmartRouting);
+			right.add( "Don't use auto price for hedge", m_dontUseAutoPriceForHedge);
 			right.add( "Transmit", m_transmit);
 			
 			HorzPanel checks = new HorzPanel();
@@ -472,6 +474,7 @@ class TicketDlg extends JDialog {
 			m_transmit.setSelected( true);
 			m_extOperator.setText(m_order.extOperator());
 			m_softDollarTiers.removeAllItems();
+			m_dontUseAutoPriceForHedge.setSelected( m_order.dontUseAutoPriceForHedge());
 			
 			ApiDemo.INSTANCE.controller().reqSoftDollarTiers(tiers -> {
                 m_softDollarTiers.invalidate();
@@ -514,6 +517,7 @@ class TicketDlg extends JDialog {
 			m_order.transmit( m_transmit.isSelected() );
 			m_order.extOperator(m_extOperator .getText());
 			m_order.softDollarTier(m_softDollarTiers.getSelectedItem());
+			m_order.dontUseAutoPriceForHedge( m_dontUseAutoPriceForHedge.isSelected() );
 		}
 	}
 	

@@ -1758,6 +1758,11 @@ namespace IBApi
                 order.CashQty = ReadDoubleMax();
             }
 
+            if (serverVersion >= MinServerVer.AUTO_PRICE_FOR_HEDGE)
+            {
+                order.DontUseAutoPriceForHedge = ReadBoolFromInt();
+            }
+
             eWrapper.openOrder(order.OrderId, contract, order, orderState);
         }
 
