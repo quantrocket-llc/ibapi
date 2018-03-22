@@ -1672,6 +1672,10 @@ class EDecoder implements ObjectInput {
 		if (m_serverVersion >= EClient.MIN_SERVER_VER_CASH_QTY) {
 			order.cashQty(readDoubleMax());
 		}
+
+		if (m_serverVersion >= EClient.MIN_SERVER_VER_AUTO_PRICE_FOR_HEDGE) {
+			order.dontUseAutoPriceForHedge(readBoolFromInt());
+		}
 		
 		m_EWrapper.openOrder( order.orderId(), contract, order, orderState);
 	}

@@ -86,6 +86,30 @@ namespace IBSampleApp.ui
             }
         }
 
+
+        public void AttachOrder()
+        {
+            if (liveOrdersGrid.SelectedRows.Count > 0 && (int)(liveOrdersGrid.SelectedRows[0].Cells[2].Value) != 0 && (int)(liveOrdersGrid.SelectedRows[0].Cells[1].Value) == ibClient.ClientId)
+            {
+                DataGridViewRow selectedRow = liveOrdersGrid.SelectedRows[0];
+                int orderId = (int)selectedRow.Cells[2].Value;
+                for (int i = 0; i < openOrders.Count; i++)
+                {
+                    if (openOrders[i].OrderId == orderId)
+                    {
+                        orderDialog.SetOrderContract(openOrders[i].Contract);
+                        orderDialog.SetOrder(openOrders[i].Order);
+
+                        orderDialog.SetOrderId(ibClient.NextOrderId);
+                        ibClient.NextOrderId++;
+                        orderDialog.SetParentOrderId(orderId);
+                    }
+                }
+
+                orderDialog.ShowDialog();
+            }
+        }
+
         public void CancelSelection()
         {
             if (liveOrdersGrid.SelectedRows.Count > 0)

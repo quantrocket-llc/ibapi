@@ -697,6 +697,10 @@ const char* EDecoder::processOpenOrderMsg(const char* ptr, const char* endPtr) {
 		DECODE_FIELD_MAX(order.cashQty);
 	}
 
+	if (m_serverVersion >= MIN_SERVER_VER_AUTO_PRICE_FOR_HEDGE) {
+		DECODE_FIELD(order.dontUseAutoPriceForHedge);
+	}
+
 	m_pEWrapper->openOrder( (OrderId)order.orderId, contract, order, orderState);
 
 	return ptr;

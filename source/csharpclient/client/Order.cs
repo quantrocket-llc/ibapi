@@ -173,6 +173,9 @@ namespace IBApi
         // native cash quantity
         private double cashQty;
 
+        // don't use auto price for hedge
+        private bool dontUseAutoPriceForHedge;
+
         /**
          * @brief The API client's order id.
          */
@@ -1201,7 +1204,16 @@ namespace IBApi
          * @brief For MiFID 2 reporting; identifies the algorithm responsible for the execution of a transaction within the firm. Requires TWS 969+.
          */
 		public string Mifid2ExecutionAlgo { get; set; }
-	
+
+        /**
+         * @brief Don't use auto price for hedge
+         */
+        public bool DontUseAutoPriceForHedge
+        {
+            get { return dontUseAutoPriceForHedge; }
+            set { dontUseAutoPriceForHedge = value; }
+        }
+
         public Order()
         {
             lmtPrice = Double.MaxValue;
@@ -1266,6 +1278,7 @@ namespace IBApi
             Mifid2DecisionAlgo = EMPTY_STR;
             Mifid2ExecutionTrader = EMPTY_STR;
             Mifid2ExecutionAlgo = EMPTY_STR;
+            dontUseAutoPriceForHedge = false;
         }
 
         public override bool Equals(Object p_other)
@@ -1346,7 +1359,8 @@ namespace IBApi
                 ConditionsIgnoreRth != l_theOther.ConditionsIgnoreRth ||
                 ConditionsCancelOrder != l_theOther.ConditionsCancelOrder ||
                 Tier != l_theOther.Tier ||
-                CashQty != l_theOther.CashQty)
+                CashQty != l_theOther.CashQty ||
+                dontUseAutoPriceForHedge != l_theOther.dontUseAutoPriceForHedge)
             {
                 return false;
             }

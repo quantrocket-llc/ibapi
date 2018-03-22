@@ -306,5 +306,8 @@ namespace TWSLib
 
         [DispId(172)]
         string mifid2ExecutionAlgo { get; set; }
+
+        [DispId(173)]
+        bool dontUseAutoPriceForHedge { get; set; }
     }
 }

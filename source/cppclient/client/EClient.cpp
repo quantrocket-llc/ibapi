@@ -1401,6 +1401,12 @@ void EClient::placeOrder( OrderId id, const Contract& contract, const Order& ord
             return;
     }
 
+    if (m_serverVersion < MIN_SERVER_VER_AUTO_PRICE_FOR_HEDGE
+        && order.dontUseAutoPriceForHedge) {
+            m_pEWrapper->error(id, UPDATE_TWS.code(), UPDATE_TWS.msg() +
+                " It does not support don't use auto price for hedge parameter");
+            return;
+    }
 
 	std::stringstream msg;
 	prepareBuffer( msg);
@@ -1796,6 +1802,10 @@ void EClient::placeOrder( OrderId id, const Contract& contract, const Order& ord
     if (m_serverVersion >= MIN_SERVER_VER_MIFID_EXECUTION) {
         ENCODE_FIELD(order.mifid2ExecutionTrader);
         ENCODE_FIELD(order.mifid2ExecutionAlgo);
+    }
+
+    if (m_serverVersion >= MIN_SERVER_VER_AUTO_PRICE_FOR_HEDGE) {
+        ENCODE_FIELD(order.dontUseAutoPriceForHedge);
     }
 
 	closeAndSend( msg.str());

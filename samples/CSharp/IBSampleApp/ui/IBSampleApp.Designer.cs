@@ -159,6 +159,7 @@ namespace IBSampleApp
             this.tabPageNewsProviders = new System.Windows.Forms.TabPage();
             this.tabPageNewsArticle = new System.Windows.Forms.TabPage();
             this.groupBoxNewsArticle = new System.Windows.Forms.GroupBox();
+            this.buttonPdfPathDialog = new System.Windows.Forms.Button();
             this.textBoxNewsArticlePath = new System.Windows.Forms.TextBox();
             this.labelNewsArticlePath = new System.Windows.Forms.Label();
             this.textBoxNewsArticleArticleId = new System.Windows.Forms.TextBox();
@@ -678,7 +679,7 @@ namespace IBSampleApp
             this.tbNumOfTicks = new System.Windows.Forms.TextBox();
             this.tbStartDate = new System.Windows.Forms.TextBox();
             this.TabControl = new System.Windows.Forms.TabControl();
-            this.buttonPdfPathDialog = new System.Windows.Forms.Button();
+            this.buttonAttachOrder = new System.Windows.Forms.Button();
             this.comboTab.SuspendLayout();
             this.comboDeltaNeutralBox.SuspendLayout();
             this.comboLegsBox.SuspendLayout();
@@ -2032,6 +2033,16 @@ namespace IBSampleApp
             this.groupBoxNewsArticle.TabIndex = 1;
             this.groupBoxNewsArticle.TabStop = false;
             this.groupBoxNewsArticle.Text = "News Article";
+            // 
+            // buttonPdfPathDialog
+            // 
+            this.buttonPdfPathDialog.Location = new System.Drawing.Point(234, 58);
+            this.buttonPdfPathDialog.Name = "buttonPdfPathDialog";
+            this.buttonPdfPathDialog.Size = new System.Drawing.Size(26, 20);
+            this.buttonPdfPathDialog.TabIndex = 65;
+            this.buttonPdfPathDialog.Text = "...";
+            this.buttonPdfPathDialog.UseVisualStyleBackColor = true;
+            this.buttonPdfPathDialog.Click += new System.EventHandler(this.buttonPdfPathDialog_Click);
             // 
             // textBoxNewsArticlePath
             // 
@@ -4406,6 +4417,7 @@ namespace IBSampleApp
             // tradingTab
             // 
             this.tradingTab.BackColor = System.Drawing.Color.LightGray;
+            this.tradingTab.Controls.Add(this.buttonAttachOrder);
             this.tradingTab.Controls.Add(this.execFilterGroup);
             this.tradingTab.Controls.Add(this.globalCancelButton);
             this.tradingTab.Controls.Add(this.clientOrdersButton);
@@ -7031,15 +7043,15 @@ namespace IBSampleApp
             this.TabControl.Size = new System.Drawing.Size(1256, 474);
             this.TabControl.TabIndex = 7;
             // 
-            // buttonPdfPathDialog
+            // buttonAttachOrder
             // 
-            this.buttonPdfPathDialog.Location = new System.Drawing.Point(234, 58);
-            this.buttonPdfPathDialog.Name = "buttonPdfPathDialog";
-            this.buttonPdfPathDialog.Size = new System.Drawing.Size(26, 20);
-            this.buttonPdfPathDialog.TabIndex = 65;
-            this.buttonPdfPathDialog.Text = "...";
-            this.buttonPdfPathDialog.UseVisualStyleBackColor = true;
-            this.buttonPdfPathDialog.Click += new System.EventHandler(this.buttonPdfPathDialog_Click);
+            this.buttonAttachOrder.Location = new System.Drawing.Point(1088, 51);
+            this.buttonAttachOrder.Name = "buttonAttachOrder";
+            this.buttonAttachOrder.Size = new System.Drawing.Size(105, 23);
+            this.buttonAttachOrder.TabIndex = 11;
+            this.buttonAttachOrder.Text = "Attach order";
+            this.buttonAttachOrder.UseVisualStyleBackColor = true;
+            this.buttonAttachOrder.Click += new System.EventHandler(this.buttonAttachOrder_Click);
             // 
             // IBSampleAppDialog
             // 
@@ -7877,6 +7889,7 @@ namespace IBSampleApp
         private System.Windows.Forms.TextBox textBoxNewsArticlePath;
         private System.Windows.Forms.Label labelNewsArticlePath;
         private System.Windows.Forms.Button buttonPdfPathDialog;
+        private System.Windows.Forms.Button buttonAttachOrder;
     }
 }
 

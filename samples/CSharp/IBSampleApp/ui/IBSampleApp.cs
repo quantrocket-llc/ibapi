@@ -1381,5 +1381,10 @@ namespace IBSampleApp
 
             textBoxNewsArticlePath.Text = fbd.SelectedPath;
         }
+
+        private void buttonAttachOrder_Click(object sender, EventArgs e)
+        {
+            orderManager.AttachOrder();
+        }
     }
 }

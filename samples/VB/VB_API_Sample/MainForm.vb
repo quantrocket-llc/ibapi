@@ -2573,6 +2573,8 @@ Friend Class MainForm
         m_utils.addListItem(Utils.ListType.ServerResponses, "  randomize size=" & order.RandomizeSize)
         m_utils.addListItem(Utils.ListType.ServerResponses, "  randomize price=" & order.RandomizePrice)
 
+        m_utils.addListItem(Utils.ListType.ServerResponses, "  dontUseAutoPriceForHedge=" & order.DontUseAutoPriceForHedge)
+
         ' ALGO orders only
         Dim algoStrategy = order.AlgoStrategy
         If (algoStrategy <> "") Then

@@ -1129,6 +1129,11 @@ namespace IBApi
                 paramsList.AddParameter(order.Mifid2ExecutionAlgo);
             }
 
+            if (serverVersion >= MinServerVer.AUTO_PRICE_FOR_HEDGE)
+            {
+                paramsList.AddParameter(order.DontUseAutoPriceForHedge);
+            }
+
             CloseAndSend(id, paramsList, lengthPos, EClientErrors.FAIL_SEND_ORDER);
         }
 
@@ -3358,6 +3363,12 @@ namespace IBApi
                     || !IsEmpty(order.Mifid2ExecutionAlgo)))
             {
                 ReportError(id, EClientErrors.UPDATE_TWS, " It does not support MIFID II execution parameters");
+            }
+
+            if (serverVersion < MinServerVer.AUTO_PRICE_FOR_HEDGE
+                && order.DontUseAutoPriceForHedge)
+            {
+                ReportError(id, EClientErrors.UPDATE_TWS, " It does not support don't use auto price for hedge parameter");
             }
 
             return true;

@@ -185,6 +185,7 @@ Public Class dlgOrderAttribs
     Public WithEvents Label66 As System.Windows.Forms.Label
     Public WithEvents txtMifid2ExecutionAlgo As System.Windows.Forms.TextBox
     Public WithEvents Label67 As System.Windows.Forms.Label
+    Friend WithEvents checkDontUseAutoPriceForHedge As System.Windows.Forms.CheckBox
     Public WithEvents Label41 As System.Windows.Forms.Label
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
@@ -336,6 +337,7 @@ Public Class dlgOrderAttribs
         Me.Label66 = New System.Windows.Forms.Label()
         Me.txtMifid2ExecutionAlgo = New System.Windows.Forms.TextBox()
         Me.Label67 = New System.Windows.Forms.Label()
+        Me.checkDontUseAutoPriceForHedge = New System.Windows.Forms.CheckBox()
         Me.SuspendLayout()
         '
         'txtHedgeParam
@@ -397,7 +399,7 @@ Public Class dlgOrderAttribs
         Me.txtMinQty.Name = "txtMinQty"
         Me.txtMinQty.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.txtMinQty.Size = New System.Drawing.Size(85, 13)
-        Me.txtMinQty.TabIndex = 51
+        Me.txtMinQty.TabIndex = 55
         '
         'txtPercentOffset
         '
@@ -412,7 +414,7 @@ Public Class dlgOrderAttribs
         Me.txtPercentOffset.Name = "txtPercentOffset"
         Me.txtPercentOffset.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.txtPercentOffset.Size = New System.Drawing.Size(85, 13)
-        Me.txtPercentOffset.TabIndex = 53
+        Me.txtPercentOffset.TabIndex = 57
         '
         'txtETradeOnly
         '
@@ -427,7 +429,7 @@ Public Class dlgOrderAttribs
         Me.txtETradeOnly.Name = "txtETradeOnly"
         Me.txtETradeOnly.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.txtETradeOnly.Size = New System.Drawing.Size(85, 13)
-        Me.txtETradeOnly.TabIndex = 55
+        Me.txtETradeOnly.TabIndex = 59
         Me.txtETradeOnly.Text = "0"
         '
         'txtFirmQuoteOnly
@@ -443,7 +445,7 @@ Public Class dlgOrderAttribs
         Me.txtFirmQuoteOnly.Name = "txtFirmQuoteOnly"
         Me.txtFirmQuoteOnly.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.txtFirmQuoteOnly.Size = New System.Drawing.Size(85, 13)
-        Me.txtFirmQuoteOnly.TabIndex = 57
+        Me.txtFirmQuoteOnly.TabIndex = 61
         Me.txtFirmQuoteOnly.Text = "0"
         '
         'txtNBBOPriceCap
@@ -459,7 +461,7 @@ Public Class dlgOrderAttribs
         Me.txtNBBOPriceCap.Name = "txtNBBOPriceCap"
         Me.txtNBBOPriceCap.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.txtNBBOPriceCap.Size = New System.Drawing.Size(85, 13)
-        Me.txtNBBOPriceCap.TabIndex = 59
+        Me.txtNBBOPriceCap.TabIndex = 63
         '
         'txtAuctionStrategy
         '
@@ -474,7 +476,7 @@ Public Class dlgOrderAttribs
         Me.txtAuctionStrategy.Name = "txtAuctionStrategy"
         Me.txtAuctionStrategy.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.txtAuctionStrategy.Size = New System.Drawing.Size(85, 13)
-        Me.txtAuctionStrategy.TabIndex = 75
+        Me.txtAuctionStrategy.TabIndex = 79
         Me.txtAuctionStrategy.Text = "0"
         '
         'txtStartingPrice
@@ -490,7 +492,7 @@ Public Class dlgOrderAttribs
         Me.txtStartingPrice.Name = "txtStartingPrice"
         Me.txtStartingPrice.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.txtStartingPrice.Size = New System.Drawing.Size(85, 13)
-        Me.txtStartingPrice.TabIndex = 77
+        Me.txtStartingPrice.TabIndex = 81
         '
         'txtStockRefPrice
         '
@@ -505,7 +507,7 @@ Public Class dlgOrderAttribs
         Me.txtStockRefPrice.Name = "txtStockRefPrice"
         Me.txtStockRefPrice.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.txtStockRefPrice.Size = New System.Drawing.Size(85, 13)
-        Me.txtStockRefPrice.TabIndex = 79
+        Me.txtStockRefPrice.TabIndex = 83
         '
         'txtDelta
         '
@@ -520,7 +522,7 @@ Public Class dlgOrderAttribs
         Me.txtDelta.Name = "txtDelta"
         Me.txtDelta.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.txtDelta.Size = New System.Drawing.Size(85, 13)
-        Me.txtDelta.TabIndex = 81
+        Me.txtDelta.TabIndex = 85
         '
         'txtStockRangeLower
         '
@@ -535,7 +537,7 @@ Public Class dlgOrderAttribs
         Me.txtStockRangeLower.Name = "txtStockRangeLower"
         Me.txtStockRangeLower.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.txtStockRangeLower.Size = New System.Drawing.Size(85, 13)
-        Me.txtStockRangeLower.TabIndex = 83
+        Me.txtStockRangeLower.TabIndex = 87
         '
         'txtStockRangeUpper
         '
@@ -550,7 +552,7 @@ Public Class dlgOrderAttribs
         Me.txtStockRangeUpper.Name = "txtStockRangeUpper"
         Me.txtStockRangeUpper.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.txtStockRangeUpper.Size = New System.Drawing.Size(85, 13)
-        Me.txtStockRangeUpper.TabIndex = 85
+        Me.txtStockRangeUpper.TabIndex = 89
         '
         'txtAllOrNone
         '
@@ -565,7 +567,7 @@ Public Class dlgOrderAttribs
         Me.txtAllOrNone.Name = "txtAllOrNone"
         Me.txtAllOrNone.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.txtAllOrNone.Size = New System.Drawing.Size(85, 13)
-        Me.txtAllOrNone.TabIndex = 49
+        Me.txtAllOrNone.TabIndex = 53
         Me.txtAllOrNone.Text = "0"
         '
         'txtOcaType
@@ -597,7 +599,7 @@ Public Class dlgOrderAttribs
         Me.txtShortSaleSlot.Name = "txtShortSaleSlot"
         Me.txtShortSaleSlot.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.txtShortSaleSlot.Size = New System.Drawing.Size(85, 13)
-        Me.txtShortSaleSlot.TabIndex = 73
+        Me.txtShortSaleSlot.TabIndex = 77
         '
         'txtDesignatedLocation
         '
@@ -627,7 +629,7 @@ Public Class dlgOrderAttribs
         Me.txtDiscretionaryAmt.Name = "txtDiscretionaryAmt"
         Me.txtDiscretionaryAmt.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.txtDiscretionaryAmt.Size = New System.Drawing.Size(85, 13)
-        Me.txtDiscretionaryAmt.TabIndex = 71
+        Me.txtDiscretionaryAmt.TabIndex = 75
         Me.txtDiscretionaryAmt.Text = "0"
         '
         'cmdOk
@@ -641,7 +643,7 @@ Public Class dlgOrderAttribs
         Me.cmdOk.Name = "cmdOk"
         Me.cmdOk.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.cmdOk.Size = New System.Drawing.Size(73, 25)
-        Me.cmdOk.TabIndex = 137
+        Me.cmdOk.TabIndex = 146
         Me.cmdOk.Text = "Ok"
         Me.cmdOk.UseVisualStyleBackColor = True
         '
@@ -656,7 +658,7 @@ Public Class dlgOrderAttribs
         Me.cmdCancel.Name = "cmdCancel"
         Me.cmdCancel.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.cmdCancel.Size = New System.Drawing.Size(73, 25)
-        Me.cmdCancel.TabIndex = 138
+        Me.cmdCancel.TabIndex = 147
         Me.cmdCancel.Text = "Cancel"
         Me.cmdCancel.UseVisualStyleBackColor = True
         '
@@ -673,7 +675,7 @@ Public Class dlgOrderAttribs
         Me.txtHidden.Name = "txtHidden"
         Me.txtHidden.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.txtHidden.Size = New System.Drawing.Size(85, 13)
-        Me.txtHidden.TabIndex = 69
+        Me.txtHidden.TabIndex = 73
         Me.txtHidden.Text = "0"
         '
         'txtOutsideRth
@@ -689,7 +691,7 @@ Public Class dlgOrderAttribs
         Me.txtOutsideRth.Name = "txtOutsideRth"
         Me.txtOutsideRth.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.txtOutsideRth.Size = New System.Drawing.Size(85, 13)
-        Me.txtOutsideRth.TabIndex = 67
+        Me.txtOutsideRth.TabIndex = 71
         Me.txtOutsideRth.Text = "0"
         '
         'txtTriggerMethod
@@ -705,7 +707,7 @@ Public Class dlgOrderAttribs
         Me.txtTriggerMethod.Name = "txtTriggerMethod"
         Me.txtTriggerMethod.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.txtTriggerMethod.Size = New System.Drawing.Size(85, 13)
-        Me.txtTriggerMethod.TabIndex = 65
+        Me.txtTriggerMethod.TabIndex = 69
         Me.txtTriggerMethod.Text = "0"
         '
         'txtDisplaySize
@@ -721,7 +723,7 @@ Public Class dlgOrderAttribs
         Me.txtDisplaySize.Name = "txtDisplaySize"
         Me.txtDisplaySize.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.txtDisplaySize.Size = New System.Drawing.Size(85, 13)
-        Me.txtDisplaySize.TabIndex = 63
+        Me.txtDisplaySize.TabIndex = 67
         Me.txtDisplaySize.Text = "0"
         '
         'txtSweepToFill
@@ -916,7 +918,7 @@ Public Class dlgOrderAttribs
         Me.Label33.Name = "Label33"
         Me.Label33.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Label33.Size = New System.Drawing.Size(121, 17)
-        Me.Label33.TabIndex = 50
+        Me.Label33.TabIndex = 54
         Me.Label33.Text = "Minimum Quantity"
         '
         'Label32
@@ -929,7 +931,7 @@ Public Class dlgOrderAttribs
         Me.Label32.Name = "Label32"
         Me.Label32.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Label32.Size = New System.Drawing.Size(105, 17)
-        Me.Label32.TabIndex = 52
+        Me.Label32.TabIndex = 56
         Me.Label32.Text = "Percent Offset"
         '
         'Label31
@@ -942,7 +944,7 @@ Public Class dlgOrderAttribs
         Me.Label31.Name = "Label31"
         Me.Label31.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Label31.Size = New System.Drawing.Size(136, 17)
-        Me.Label31.TabIndex = 54
+        Me.Label31.TabIndex = 58
         Me.Label31.Text = "Electronic Exchange Only"
         '
         'Label30
@@ -955,7 +957,7 @@ Public Class dlgOrderAttribs
         Me.Label30.Name = "Label30"
         Me.Label30.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Label30.Size = New System.Drawing.Size(105, 17)
-        Me.Label30.TabIndex = 56
+        Me.Label30.TabIndex = 60
         Me.Label30.Text = "Firm Quote Only"
         '
         'Label29
@@ -968,7 +970,7 @@ Public Class dlgOrderAttribs
         Me.Label29.Name = "Label29"
         Me.Label29.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Label29.Size = New System.Drawing.Size(105, 17)
-        Me.Label29.TabIndex = 58
+        Me.Label29.TabIndex = 62
         Me.Label29.Text = "NBBO Price Cap"
         '
         'Label28
@@ -981,7 +983,7 @@ Public Class dlgOrderAttribs
         Me.Label28.Name = "Label28"
         Me.Label28.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Label28.Size = New System.Drawing.Size(120, 17)
-        Me.Label28.TabIndex = 74
+        Me.Label28.TabIndex = 78
         Me.Label28.Text = "BOX: Auction Strategy"
         '
         'Label27
@@ -994,7 +996,7 @@ Public Class dlgOrderAttribs
         Me.Label27.Name = "Label27"
         Me.Label27.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Label27.Size = New System.Drawing.Size(113, 17)
-        Me.Label27.TabIndex = 76
+        Me.Label27.TabIndex = 80
         Me.Label27.Text = "BOX: Starting Price"
         '
         'Label26
@@ -1007,7 +1009,7 @@ Public Class dlgOrderAttribs
         Me.Label26.Name = "Label26"
         Me.Label26.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Label26.Size = New System.Drawing.Size(113, 17)
-        Me.Label26.TabIndex = 78
+        Me.Label26.TabIndex = 82
         Me.Label26.Text = "BOX: Stock Ref Price"
         '
         'Label25
@@ -1020,7 +1022,7 @@ Public Class dlgOrderAttribs
         Me.Label25.Name = "Label25"
         Me.Label25.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Label25.Size = New System.Drawing.Size(73, 17)
-        Me.Label25.TabIndex = 80
+        Me.Label25.TabIndex = 84
         Me.Label25.Text = "BOX: Delta"
         '
         'Label24
@@ -1033,7 +1035,7 @@ Public Class dlgOrderAttribs
         Me.Label24.Name = "Label24"
         Me.Label24.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Label24.Size = New System.Drawing.Size(160, 17)
-        Me.Label24.TabIndex = 82
+        Me.Label24.TabIndex = 86
         Me.Label24.Text = "BOX/VOL: Stock Range Lower"
         '
         'Label23
@@ -1046,7 +1048,7 @@ Public Class dlgOrderAttribs
         Me.Label23.Name = "Label23"
         Me.Label23.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Label23.Size = New System.Drawing.Size(160, 17)
-        Me.Label23.TabIndex = 84
+        Me.Label23.TabIndex = 88
         Me.Label23.Text = "BOX/VOL: Stock Range Upper"
         '
         'Label20
@@ -1059,7 +1061,7 @@ Public Class dlgOrderAttribs
         Me.Label20.Name = "Label20"
         Me.Label20.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Label20.Size = New System.Drawing.Size(73, 17)
-        Me.Label20.TabIndex = 48
+        Me.Label20.TabIndex = 52
         Me.Label20.Text = "All or None"
         '
         'Label19
@@ -1085,7 +1087,7 @@ Public Class dlgOrderAttribs
         Me.Label17.Name = "Label17"
         Me.Label17.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Label17.Size = New System.Drawing.Size(152, 17)
-        Me.Label17.TabIndex = 72
+        Me.Label17.TabIndex = 76
         Me.Label17.Text = "Short Sales Slot"
         '
         'Label16
@@ -1111,7 +1113,7 @@ Public Class dlgOrderAttribs
         Me.Label15.Name = "Label15"
         Me.Label15.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Label15.Size = New System.Drawing.Size(152, 17)
-        Me.Label15.TabIndex = 70
+        Me.Label15.TabIndex = 74
         Me.Label15.Text = "Discretionary Amt"
         '
         'Label14
@@ -1124,7 +1126,7 @@ Public Class dlgOrderAttribs
         Me.Label14.Name = "Label14"
         Me.Label14.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Label14.Size = New System.Drawing.Size(65, 17)
-        Me.Label14.TabIndex = 68
+        Me.Label14.TabIndex = 72
         Me.Label14.Text = "Hidden"
         '
         'Label13
@@ -1137,7 +1139,7 @@ Public Class dlgOrderAttribs
         Me.Label13.Name = "Label13"
         Me.Label13.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Label13.Size = New System.Drawing.Size(81, 17)
-        Me.Label13.TabIndex = 66
+        Me.Label13.TabIndex = 70
         Me.Label13.Text = "Outside RTH"
         '
         'Label12
@@ -1150,7 +1152,7 @@ Public Class dlgOrderAttribs
         Me.Label12.Name = "Label12"
         Me.Label12.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Label12.Size = New System.Drawing.Size(88, 17)
-        Me.Label12.TabIndex = 64
+        Me.Label12.TabIndex = 68
         Me.Label12.Text = "Trigger Method"
         '
         'Label11
@@ -1163,7 +1165,7 @@ Public Class dlgOrderAttribs
         Me.Label11.Name = "Label11"
         Me.Label11.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Label11.Size = New System.Drawing.Size(65, 17)
-        Me.Label11.TabIndex = 62
+        Me.Label11.TabIndex = 66
         Me.Label11.Text = "Display Size"
         '
         'Label10
@@ -1309,7 +1311,7 @@ Public Class dlgOrderAttribs
         Me.txtVolatility.Name = "txtVolatility"
         Me.txtVolatility.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.txtVolatility.Size = New System.Drawing.Size(85, 13)
-        Me.txtVolatility.TabIndex = 93
+        Me.txtVolatility.TabIndex = 101
         '
         'txtVolatilityType
         '
@@ -1324,7 +1326,7 @@ Public Class dlgOrderAttribs
         Me.txtVolatilityType.Name = "txtVolatilityType"
         Me.txtVolatilityType.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.txtVolatilityType.Size = New System.Drawing.Size(85, 13)
-        Me.txtVolatilityType.TabIndex = 95
+        Me.txtVolatilityType.TabIndex = 103
         '
         'txtDeltaNeutralOrderType
         '
@@ -1339,7 +1341,7 @@ Public Class dlgOrderAttribs
         Me.txtDeltaNeutralOrderType.Name = "txtDeltaNeutralOrderType"
         Me.txtDeltaNeutralOrderType.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.txtDeltaNeutralOrderType.Size = New System.Drawing.Size(85, 13)
-        Me.txtDeltaNeutralOrderType.TabIndex = 97
+        Me.txtDeltaNeutralOrderType.TabIndex = 105
         '
         'txtContinuousUpdate
         '
@@ -1354,7 +1356,7 @@ Public Class dlgOrderAttribs
         Me.txtContinuousUpdate.Name = "txtContinuousUpdate"
         Me.txtContinuousUpdate.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.txtContinuousUpdate.Size = New System.Drawing.Size(85, 13)
-        Me.txtContinuousUpdate.TabIndex = 116
+        Me.txtContinuousUpdate.TabIndex = 124
         '
         'txtReferencePriceType
         '
@@ -1369,7 +1371,7 @@ Public Class dlgOrderAttribs
         Me.txtReferencePriceType.Name = "txtReferencePriceType"
         Me.txtReferencePriceType.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.txtReferencePriceType.Size = New System.Drawing.Size(85, 13)
-        Me.txtReferencePriceType.TabIndex = 118
+        Me.txtReferencePriceType.TabIndex = 126
         '
         'Label21
         '
@@ -1381,7 +1383,7 @@ Public Class dlgOrderAttribs
         Me.Label21.Name = "Label21"
         Me.Label21.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Label21.Size = New System.Drawing.Size(105, 17)
-        Me.Label21.TabIndex = 92
+        Me.Label21.TabIndex = 100
         Me.Label21.Text = "VOL: Volatility"
         '
         'Label22
@@ -1394,7 +1396,7 @@ Public Class dlgOrderAttribs
         Me.Label22.Name = "Label22"
         Me.Label22.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Label22.Size = New System.Drawing.Size(144, 17)
-        Me.Label22.TabIndex = 94
+        Me.Label22.TabIndex = 102
         Me.Label22.Text = "VOL: Volatility Type (1 or 2)"
         '
         'Label36
@@ -1407,7 +1409,7 @@ Public Class dlgOrderAttribs
         Me.Label36.Name = "Label36"
         Me.Label36.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Label36.Size = New System.Drawing.Size(152, 17)
-        Me.Label36.TabIndex = 96
+        Me.Label36.TabIndex = 104
         Me.Label36.Text = "VOL: Hedge Delta Order Type"
         '
         'Label37
@@ -1420,7 +1422,7 @@ Public Class dlgOrderAttribs
         Me.Label37.Name = "Label37"
         Me.Label37.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Label37.Size = New System.Drawing.Size(128, 17)
-        Me.Label37.TabIndex = 115
+        Me.Label37.TabIndex = 123
         Me.Label37.Text = "VOL: Continuous Update"
         '
         'Label40
@@ -1433,7 +1435,7 @@ Public Class dlgOrderAttribs
         Me.Label40.Name = "Label40"
         Me.Label40.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Label40.Size = New System.Drawing.Size(181, 17)
-        Me.Label40.TabIndex = 117
+        Me.Label40.TabIndex = 125
         Me.Label40.Text = "VOL: Reference Price Type (1 or 2)"
         '
         'txtDeltaNeutralAuxPrice
@@ -1449,7 +1451,7 @@ Public Class dlgOrderAttribs
         Me.txtDeltaNeutralAuxPrice.Name = "txtDeltaNeutralAuxPrice"
         Me.txtDeltaNeutralAuxPrice.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.txtDeltaNeutralAuxPrice.Size = New System.Drawing.Size(85, 13)
-        Me.txtDeltaNeutralAuxPrice.TabIndex = 99
+        Me.txtDeltaNeutralAuxPrice.TabIndex = 107
         '
         'Label38
         '
@@ -1461,7 +1463,7 @@ Public Class dlgOrderAttribs
         Me.Label38.Name = "Label38"
         Me.Label38.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Label38.Size = New System.Drawing.Size(152, 17)
-        Me.Label38.TabIndex = 98
+        Me.Label38.TabIndex = 106
         Me.Label38.Text = "VOL: Hedge Delta Aux Price"
         '
         'txtTrailStopPrice
@@ -1477,7 +1479,7 @@ Public Class dlgOrderAttribs
         Me.txtTrailStopPrice.Name = "txtTrailStopPrice"
         Me.txtTrailStopPrice.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.txtTrailStopPrice.Size = New System.Drawing.Size(85, 13)
-        Me.txtTrailStopPrice.TabIndex = 45
+        Me.txtTrailStopPrice.TabIndex = 49
         '
         'Label39
         '
@@ -1489,7 +1491,7 @@ Public Class dlgOrderAttribs
         Me.Label39.Name = "Label39"
         Me.Label39.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Label39.Size = New System.Drawing.Size(96, 17)
-        Me.Label39.TabIndex = 44
+        Me.Label39.TabIndex = 48
         Me.Label39.Text = "Trail Stop Price"
         '
         'txtOverridePercentageConstraints
@@ -1505,7 +1507,7 @@ Public Class dlgOrderAttribs
         Me.txtOverridePercentageConstraints.Name = "txtOverridePercentageConstraints"
         Me.txtOverridePercentageConstraints.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.txtOverridePercentageConstraints.Size = New System.Drawing.Size(85, 13)
-        Me.txtOverridePercentageConstraints.TabIndex = 61
+        Me.txtOverridePercentageConstraints.TabIndex = 65
         '
         'Label41
         '
@@ -1517,7 +1519,7 @@ Public Class dlgOrderAttribs
         Me.Label41.Name = "Label41"
         Me.Label41.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Label41.Size = New System.Drawing.Size(168, 17)
-        Me.Label41.TabIndex = 60
+        Me.Label41.TabIndex = 64
         Me.Label41.Text = "Override Percentage Constraints"
         '
         'txtScaleInitLevelSize
@@ -1533,7 +1535,7 @@ Public Class dlgOrderAttribs
         Me.txtScaleInitLevelSize.Name = "txtScaleInitLevelSize"
         Me.txtScaleInitLevelSize.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.txtScaleInitLevelSize.Size = New System.Drawing.Size(85, 13)
-        Me.txtScaleInitLevelSize.TabIndex = 120
+        Me.txtScaleInitLevelSize.TabIndex = 128
         '
         'txtScaleSubsLevelSize
         '
@@ -1548,7 +1550,7 @@ Public Class dlgOrderAttribs
         Me.txtScaleSubsLevelSize.Name = "txtScaleSubsLevelSize"
         Me.txtScaleSubsLevelSize.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.txtScaleSubsLevelSize.Size = New System.Drawing.Size(85, 13)
-        Me.txtScaleSubsLevelSize.TabIndex = 122
+        Me.txtScaleSubsLevelSize.TabIndex = 130
         '
         'txtScalePriceIncr
         '
@@ -1563,7 +1565,7 @@ Public Class dlgOrderAttribs
         Me.txtScalePriceIncr.Name = "txtScalePriceIncr"
         Me.txtScalePriceIncr.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.txtScalePriceIncr.Size = New System.Drawing.Size(85, 13)
-        Me.txtScalePriceIncr.TabIndex = 124
+        Me.txtScalePriceIncr.TabIndex = 132
         '
         'Label42
         '
@@ -1575,7 +1577,7 @@ Public Class dlgOrderAttribs
         Me.Label42.Name = "Label42"
         Me.Label42.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Label42.Size = New System.Drawing.Size(128, 17)
-        Me.Label42.TabIndex = 119
+        Me.Label42.TabIndex = 127
         Me.Label42.Text = "SCALE: Init Level Size"
         '
         'Label43
@@ -1588,7 +1590,7 @@ Public Class dlgOrderAttribs
         Me.Label43.Name = "Label43"
         Me.Label43.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Label43.Size = New System.Drawing.Size(128, 17)
-        Me.Label43.TabIndex = 121
+        Me.Label43.TabIndex = 129
         Me.Label43.Text = "SCALE: Subs Level Size"
         '
         'Label44
@@ -1601,7 +1603,7 @@ Public Class dlgOrderAttribs
         Me.Label44.Name = "Label44"
         Me.Label44.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Label44.Size = New System.Drawing.Size(128, 17)
-        Me.Label44.TabIndex = 123
+        Me.Label44.TabIndex = 131
         Me.Label44.Text = "SCALE: Price Increment"
         '
         'txtClearingAccount
@@ -1739,7 +1741,7 @@ Public Class dlgOrderAttribs
         Me.Label47.Name = "Label47"
         Me.Label47.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Label47.Size = New System.Drawing.Size(152, 17)
-        Me.Label47.TabIndex = 100
+        Me.Label47.TabIndex = 108
         Me.Label47.Text = "VOL: Hedge Delta Con Id"
         '
         'Label48
@@ -1752,7 +1754,7 @@ Public Class dlgOrderAttribs
         Me.Label48.Name = "Label48"
         Me.Label48.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Label48.Size = New System.Drawing.Size(181, 17)
-        Me.Label48.TabIndex = 102
+        Me.Label48.TabIndex = 110
         Me.Label48.Text = "VOL: Hedge Delta Settling Firm"
         '
         'Label49
@@ -1765,7 +1767,7 @@ Public Class dlgOrderAttribs
         Me.Label49.Name = "Label49"
         Me.Label49.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Label49.Size = New System.Drawing.Size(188, 17)
-        Me.Label49.TabIndex = 104
+        Me.Label49.TabIndex = 112
         Me.Label49.Text = "VOL: Hedge Delta Clearing Account"
         '
         'Label50
@@ -1778,7 +1780,7 @@ Public Class dlgOrderAttribs
         Me.Label50.Name = "Label50"
         Me.Label50.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Label50.Size = New System.Drawing.Size(181, 17)
-        Me.Label50.TabIndex = 106
+        Me.Label50.TabIndex = 114
         Me.Label50.Text = "VOL: Hedge Delta Clearing Intent"
         '
         'txtDeltaNeutralConId
@@ -1794,7 +1796,7 @@ Public Class dlgOrderAttribs
         Me.txtDeltaNeutralConId.Name = "txtDeltaNeutralConId"
         Me.txtDeltaNeutralConId.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.txtDeltaNeutralConId.Size = New System.Drawing.Size(85, 13)
-        Me.txtDeltaNeutralConId.TabIndex = 101
+        Me.txtDeltaNeutralConId.TabIndex = 109
         '
         'txtDeltaNeutralClearingIntent
         '
@@ -1809,7 +1811,7 @@ Public Class dlgOrderAttribs
         Me.txtDeltaNeutralClearingIntent.Name = "txtDeltaNeutralClearingIntent"
         Me.txtDeltaNeutralClearingIntent.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.txtDeltaNeutralClearingIntent.Size = New System.Drawing.Size(85, 13)
-        Me.txtDeltaNeutralClearingIntent.TabIndex = 107
+        Me.txtDeltaNeutralClearingIntent.TabIndex = 115
         '
         'txtDeltaNeutralClearingAccount
         '
@@ -1824,7 +1826,7 @@ Public Class dlgOrderAttribs
         Me.txtDeltaNeutralClearingAccount.Name = "txtDeltaNeutralClearingAccount"
         Me.txtDeltaNeutralClearingAccount.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.txtDeltaNeutralClearingAccount.Size = New System.Drawing.Size(85, 13)
-        Me.txtDeltaNeutralClearingAccount.TabIndex = 105
+        Me.txtDeltaNeutralClearingAccount.TabIndex = 113
         '
         'txtDeltaNeutralSettlingFirm
         '
@@ -1839,7 +1841,7 @@ Public Class dlgOrderAttribs
         Me.txtDeltaNeutralSettlingFirm.Name = "txtDeltaNeutralSettlingFirm"
         Me.txtDeltaNeutralSettlingFirm.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.txtDeltaNeutralSettlingFirm.Size = New System.Drawing.Size(85, 13)
-        Me.txtDeltaNeutralSettlingFirm.TabIndex = 103
+        Me.txtDeltaNeutralSettlingFirm.TabIndex = 111
         '
         'Label51
         '
@@ -1851,7 +1853,7 @@ Public Class dlgOrderAttribs
         Me.Label51.Name = "Label51"
         Me.Label51.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Label51.Size = New System.Drawing.Size(181, 17)
-        Me.Label51.TabIndex = 125
+        Me.Label51.TabIndex = 133
         Me.Label51.Text = "SCALE: Price Adjust Value"
         '
         'Label52
@@ -1864,7 +1866,7 @@ Public Class dlgOrderAttribs
         Me.Label52.Name = "Label52"
         Me.Label52.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Label52.Size = New System.Drawing.Size(181, 17)
-        Me.Label52.TabIndex = 127
+        Me.Label52.TabIndex = 135
         Me.Label52.Text = "SCALE: Price Adjust Interval"
         '
         'Label53
@@ -1877,7 +1879,7 @@ Public Class dlgOrderAttribs
         Me.Label53.Name = "Label53"
         Me.Label53.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Label53.Size = New System.Drawing.Size(181, 17)
-        Me.Label53.TabIndex = 129
+        Me.Label53.TabIndex = 137
         Me.Label53.Text = "SCALE: Profit Offset"
         '
         'checkScaleAutoReset
@@ -1886,7 +1888,7 @@ Public Class dlgOrderAttribs
         Me.checkScaleAutoReset.Location = New System.Drawing.Point(550, 490)
         Me.checkScaleAutoReset.Name = "checkScaleAutoReset"
         Me.checkScaleAutoReset.Size = New System.Drawing.Size(119, 18)
-        Me.checkScaleAutoReset.TabIndex = 131
+        Me.checkScaleAutoReset.TabIndex = 139
         Me.checkScaleAutoReset.Text = "SCALE: Auto Reset"
         Me.checkScaleAutoReset.UseVisualStyleBackColor = True
         '
@@ -1903,7 +1905,7 @@ Public Class dlgOrderAttribs
         Me.txtScalePriceAdjustValue.Name = "txtScalePriceAdjustValue"
         Me.txtScalePriceAdjustValue.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.txtScalePriceAdjustValue.Size = New System.Drawing.Size(85, 13)
-        Me.txtScalePriceAdjustValue.TabIndex = 126
+        Me.txtScalePriceAdjustValue.TabIndex = 134
         '
         'Label54
         '
@@ -1915,7 +1917,7 @@ Public Class dlgOrderAttribs
         Me.Label54.Name = "Label54"
         Me.Label54.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Label54.Size = New System.Drawing.Size(181, 17)
-        Me.Label54.TabIndex = 132
+        Me.Label54.TabIndex = 140
         Me.Label54.Text = "SCALE: Init Position"
         '
         'Label55
@@ -1928,7 +1930,7 @@ Public Class dlgOrderAttribs
         Me.Label55.Name = "Label55"
         Me.Label55.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Label55.Size = New System.Drawing.Size(181, 17)
-        Me.Label55.TabIndex = 134
+        Me.Label55.TabIndex = 142
         Me.Label55.Text = "SCALE: Init Fill Qty"
         '
         'checkScaleRandomPercent
@@ -1937,7 +1939,7 @@ Public Class dlgOrderAttribs
         Me.checkScaleRandomPercent.Location = New System.Drawing.Point(550, 567)
         Me.checkScaleRandomPercent.Name = "checkScaleRandomPercent"
         Me.checkScaleRandomPercent.Size = New System.Drawing.Size(145, 18)
-        Me.checkScaleRandomPercent.TabIndex = 136
+        Me.checkScaleRandomPercent.TabIndex = 144
         Me.checkScaleRandomPercent.Text = "SCALE: Random Percent"
         Me.checkScaleRandomPercent.UseVisualStyleBackColor = True
         '
@@ -1954,7 +1956,7 @@ Public Class dlgOrderAttribs
         Me.txtScalePriceAdjustInterval.Name = "txtScalePriceAdjustInterval"
         Me.txtScalePriceAdjustInterval.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.txtScalePriceAdjustInterval.Size = New System.Drawing.Size(85, 13)
-        Me.txtScalePriceAdjustInterval.TabIndex = 128
+        Me.txtScalePriceAdjustInterval.TabIndex = 136
         '
         'txtScaleInitPosition
         '
@@ -1969,7 +1971,7 @@ Public Class dlgOrderAttribs
         Me.txtScaleInitPosition.Name = "txtScaleInitPosition"
         Me.txtScaleInitPosition.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.txtScaleInitPosition.Size = New System.Drawing.Size(85, 13)
-        Me.txtScaleInitPosition.TabIndex = 133
+        Me.txtScaleInitPosition.TabIndex = 141
         '
         'txtScaleInitFillQty
         '
@@ -1984,7 +1986,7 @@ Public Class dlgOrderAttribs
         Me.txtScaleInitFillQty.Name = "txtScaleInitFillQty"
         Me.txtScaleInitFillQty.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.txtScaleInitFillQty.Size = New System.Drawing.Size(85, 13)
-        Me.txtScaleInitFillQty.TabIndex = 135
+        Me.txtScaleInitFillQty.TabIndex = 143
         '
         'txtScaleProfitOffset
         '
@@ -1999,7 +2001,7 @@ Public Class dlgOrderAttribs
         Me.txtScaleProfitOffset.Name = "txtScaleProfitOffset"
         Me.txtScaleProfitOffset.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.txtScaleProfitOffset.Size = New System.Drawing.Size(85, 13)
-        Me.txtScaleProfitOffset.TabIndex = 130
+        Me.txtScaleProfitOffset.TabIndex = 138
         '
         'Label56
         '
@@ -2011,7 +2013,7 @@ Public Class dlgOrderAttribs
         Me.Label56.Name = "Label56"
         Me.Label56.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Label56.Size = New System.Drawing.Size(136, 17)
-        Me.Label56.TabIndex = 46
+        Me.Label56.TabIndex = 50
         Me.Label56.Text = "Trailing Percent"
         '
         'txtTrailingPercent
@@ -2027,7 +2029,7 @@ Public Class dlgOrderAttribs
         Me.txtTrailingPercent.Name = "txtTrailingPercent"
         Me.txtTrailingPercent.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.txtTrailingPercent.Size = New System.Drawing.Size(85, 13)
-        Me.txtTrailingPercent.TabIndex = 47
+        Me.txtTrailingPercent.TabIndex = 51
         '
         'txtDeltaNeutralOpenClose
         '
@@ -2042,7 +2044,7 @@ Public Class dlgOrderAttribs
         Me.txtDeltaNeutralOpenClose.Name = "txtDeltaNeutralOpenClose"
         Me.txtDeltaNeutralOpenClose.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.txtDeltaNeutralOpenClose.Size = New System.Drawing.Size(85, 13)
-        Me.txtDeltaNeutralOpenClose.TabIndex = 109
+        Me.txtDeltaNeutralOpenClose.TabIndex = 117
         '
         'Label57
         '
@@ -2054,7 +2056,7 @@ Public Class dlgOrderAttribs
         Me.Label57.Name = "Label57"
         Me.Label57.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Label57.Size = New System.Drawing.Size(181, 17)
-        Me.Label57.TabIndex = 108
+        Me.Label57.TabIndex = 116
         Me.Label57.Text = "VOL: Hedge Delta Open/Close"
         '
         'checkDeltaNeutralShortSale
@@ -2063,7 +2065,7 @@ Public Class dlgOrderAttribs
         Me.checkDeltaNeutralShortSale.Location = New System.Drawing.Point(553, 228)
         Me.checkDeltaNeutralShortSale.Name = "checkDeltaNeutralShortSale"
         Me.checkDeltaNeutralShortSale.Size = New System.Drawing.Size(165, 18)
-        Me.checkDeltaNeutralShortSale.TabIndex = 110
+        Me.checkDeltaNeutralShortSale.TabIndex = 118
         Me.checkDeltaNeutralShortSale.Text = "VOL: Hedge Delta Short Sale"
         Me.checkDeltaNeutralShortSale.UseVisualStyleBackColor = True
         '
@@ -2080,7 +2082,7 @@ Public Class dlgOrderAttribs
         Me.txtDeltaNeutralShortSaleSlot.Name = "txtDeltaNeutralShortSaleSlot"
         Me.txtDeltaNeutralShortSaleSlot.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.txtDeltaNeutralShortSaleSlot.Size = New System.Drawing.Size(85, 13)
-        Me.txtDeltaNeutralShortSaleSlot.TabIndex = 112
+        Me.txtDeltaNeutralShortSaleSlot.TabIndex = 120
         Me.txtDeltaNeutralShortSaleSlot.Text = "0"
         '
         'Label58
@@ -2093,7 +2095,7 @@ Public Class dlgOrderAttribs
         Me.Label58.Name = "Label58"
         Me.Label58.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Label58.Size = New System.Drawing.Size(181, 17)
-        Me.Label58.TabIndex = 111
+        Me.Label58.TabIndex = 119
         Me.Label58.Text = "VOL: Hedge Delta Short Sale Slot"
         '
         'txtDeltaNeutralDesignatedLocation
@@ -2109,7 +2111,7 @@ Public Class dlgOrderAttribs
         Me.txtDeltaNeutralDesignatedLocation.Name = "txtDeltaNeutralDesignatedLocation"
         Me.txtDeltaNeutralDesignatedLocation.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.txtDeltaNeutralDesignatedLocation.Size = New System.Drawing.Size(85, 13)
-        Me.txtDeltaNeutralDesignatedLocation.TabIndex = 114
+        Me.txtDeltaNeutralDesignatedLocation.TabIndex = 122
         '
         'Label59
         '
@@ -2121,7 +2123,7 @@ Public Class dlgOrderAttribs
         Me.Label59.Name = "Label59"
         Me.Label59.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Label59.Size = New System.Drawing.Size(181, 31)
-        Me.Label59.TabIndex = 113
+        Me.Label59.TabIndex = 121
         Me.Label59.Text = "VOL: Hedge Delta Designated Location"
         '
         'txtActiveStopTime
@@ -2137,7 +2139,7 @@ Public Class dlgOrderAttribs
         Me.txtActiveStopTime.Name = "txtActiveStopTime"
         Me.txtActiveStopTime.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.txtActiveStopTime.Size = New System.Drawing.Size(85, 13)
-        Me.txtActiveStopTime.TabIndex = 91
+        Me.txtActiveStopTime.TabIndex = 95
         '
         'txtActiveStartTime
         '
@@ -2152,7 +2154,7 @@ Public Class dlgOrderAttribs
         Me.txtActiveStartTime.Name = "txtActiveStartTime"
         Me.txtActiveStartTime.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.txtActiveStartTime.Size = New System.Drawing.Size(85, 13)
-        Me.txtActiveStartTime.TabIndex = 89
+        Me.txtActiveStartTime.TabIndex = 93
         '
         'txtScaleTable
         '
@@ -2167,7 +2169,7 @@ Public Class dlgOrderAttribs
         Me.txtScaleTable.Name = "txtScaleTable"
         Me.txtScaleTable.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.txtScaleTable.Size = New System.Drawing.Size(85, 13)
-        Me.txtScaleTable.TabIndex = 87
+        Me.txtScaleTable.TabIndex = 91
         '
         'Label60
         '
@@ -2179,7 +2181,7 @@ Public Class dlgOrderAttribs
         Me.Label60.Name = "Label60"
         Me.Label60.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Label60.Size = New System.Drawing.Size(160, 17)
-        Me.Label60.TabIndex = 90
+        Me.Label60.TabIndex = 94
         Me.Label60.Text = "Active Stop Time"
         '
         'Label61
@@ -2192,7 +2194,7 @@ Public Class dlgOrderAttribs
         Me.Label61.Name = "Label61"
         Me.Label61.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Label61.Size = New System.Drawing.Size(160, 17)
-        Me.Label61.TabIndex = 88
+        Me.Label61.TabIndex = 92
         Me.Label61.Text = "Active Start Time"
         '
         'Label62
@@ -2205,7 +2207,7 @@ Public Class dlgOrderAttribs
         Me.Label62.Name = "Label62"
         Me.Label62.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Label62.Size = New System.Drawing.Size(160, 17)
-        Me.Label62.TabIndex = 86
+        Me.Label62.TabIndex = 90
         Me.Label62.Text = "SCALE: Scale Table"
         '
         'cbSolicited
@@ -2279,7 +2281,7 @@ Public Class dlgOrderAttribs
         Me.txtMifid2DecisionMaker.Name = "txtMifid2DecisionMaker"
         Me.txtMifid2DecisionMaker.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.txtMifid2DecisionMaker.Size = New System.Drawing.Size(85, 13)
-        Me.txtMifid2DecisionMaker.TabIndex = 140
+        Me.txtMifid2DecisionMaker.TabIndex = 45
         '
         'Label64
         '
@@ -2291,7 +2293,7 @@ Public Class dlgOrderAttribs
         Me.Label64.Name = "Label64"
         Me.Label64.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Label64.Size = New System.Drawing.Size(121, 17)
-        Me.Label64.TabIndex = 139
+        Me.Label64.TabIndex = 44
         Me.Label64.Text = "MiFID II Decision Maker"
         '
         'txtMifid2DecisionAlgo
@@ -2307,7 +2309,7 @@ Public Class dlgOrderAttribs
         Me.txtMifid2DecisionAlgo.Name = "txtMifid2DecisionAlgo"
         Me.txtMifid2DecisionAlgo.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.txtMifid2DecisionAlgo.Size = New System.Drawing.Size(85, 13)
-        Me.txtMifid2DecisionAlgo.TabIndex = 142
+        Me.txtMifid2DecisionAlgo.TabIndex = 97
         '
         'Label65
         '
@@ -2319,7 +2321,7 @@ Public Class dlgOrderAttribs
         Me.Label65.Name = "Label65"
         Me.Label65.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Label65.Size = New System.Drawing.Size(160, 17)
-        Me.Label65.TabIndex = 141
+        Me.Label65.TabIndex = 96
         Me.Label65.Text = "MiFID II Decision Algo"
         '
         'txtMifid2ExecutionTrader
@@ -2335,7 +2337,7 @@ Public Class dlgOrderAttribs
         Me.txtMifid2ExecutionTrader.Name = "txtMifid2ExecutionTrader"
         Me.txtMifid2ExecutionTrader.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.txtMifid2ExecutionTrader.Size = New System.Drawing.Size(85, 13)
-        Me.txtMifid2ExecutionTrader.TabIndex = 144
+        Me.txtMifid2ExecutionTrader.TabIndex = 47
         '
         'Label66
         '
@@ -2347,7 +2349,7 @@ Public Class dlgOrderAttribs
         Me.Label66.Name = "Label66"
         Me.Label66.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Label66.Size = New System.Drawing.Size(133, 17)
-        Me.Label66.TabIndex = 143
+        Me.Label66.TabIndex = 46
         Me.Label66.Text = "MiFID II Execution Trader"
         '
         'txtMifid2ExecutionAlgo
@@ -2363,7 +2365,7 @@ Public Class dlgOrderAttribs
         Me.txtMifid2ExecutionAlgo.Name = "txtMifid2ExecutionAlgo"
         Me.txtMifid2ExecutionAlgo.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.txtMifid2ExecutionAlgo.Size = New System.Drawing.Size(85, 13)
-        Me.txtMifid2ExecutionAlgo.TabIndex = 146
+        Me.txtMifid2ExecutionAlgo.TabIndex = 99
         '
         'Label67
         '
@@ -2375,14 +2377,25 @@ Public Class dlgOrderAttribs
         Me.Label67.Name = "Label67"
         Me.Label67.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Label67.Size = New System.Drawing.Size(160, 17)
-        Me.Label67.TabIndex = 145
+        Me.Label67.TabIndex = 98
         Me.Label67.Text = "MiFID II Execution Algo"
+        '
+        'checkDontUseAutoPriceForHedge
+        '
+        Me.checkDontUseAutoPriceForHedge.AutoSize = True
+        Me.checkDontUseAutoPriceForHedge.Location = New System.Drawing.Point(549, 591)
+        Me.checkDontUseAutoPriceForHedge.Name = "checkDontUseAutoPriceForHedge"
+        Me.checkDontUseAutoPriceForHedge.Size = New System.Drawing.Size(230, 18)
+        Me.checkDontUseAutoPriceForHedge.TabIndex = 145
+        Me.checkDontUseAutoPriceForHedge.Text = "Don't use auto price for hedge"
+        Me.checkDontUseAutoPriceForHedge.UseVisualStyleBackColor = True
         '
         'dlgOrderAttribs
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
         Me.BackColor = System.Drawing.Color.Gainsboro
         Me.ClientSize = New System.Drawing.Size(850, 674)
+        Me.Controls.Add(Me.checkDontUseAutoPriceForHedge)
         Me.Controls.Add(Me.txtMifid2ExecutionTrader)
         Me.Controls.Add(Me.Label66)
         Me.Controls.Add(Me.txtMifid2ExecutionAlgo)
@@ -2676,6 +2689,7 @@ Public Class dlgOrderAttribs
         txtMifid2ExecutionTrader.Text = m_orderInfo.Mifid2ExecutionTrader
         txtMifid2ExecutionAlgo.Text = m_orderInfo.Mifid2ExecutionAlgo
 
+        checkDontUseAutoPriceForHedge.Checked = m_orderInfo.DontUseAutoPriceForHedge
 
     End Sub
 
@@ -2831,6 +2845,8 @@ Public Class dlgOrderAttribs
         m_orderInfo.Mifid2DecisionAlgo = txtMifid2DecisionAlgo.Text
         m_orderInfo.Mifid2ExecutionTrader = txtMifid2ExecutionTrader.Text
         m_orderInfo.Mifid2ExecutionAlgo = txtMifid2ExecutionAlgo.Text
+
+        m_orderInfo.DontUseAutoPriceForHedge = checkDontUseAutoPriceForHedge.Checked
 
         m_ok = True
         Hide()
