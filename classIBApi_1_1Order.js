@@ -42,6 +42,7 @@ var classIBApi_1_1Order =
     [ "DesignatedLocation", "classIBApi_1_1Order.html#a0e16ab90707927c67d5b35f03ae20bfd", null ],
     [ "DiscretionaryAmt", "classIBApi_1_1Order.html#a2f17f0c79c5f62a39fb2a93672767efa", null ],
     [ "DisplaySize", "classIBApi_1_1Order.html#a87316898d4e44f4537555f5999088457", null ],
+    [ "DontUseAutoPriceForHedge", "classIBApi_1_1Order.html#a3a72d85e71fe9a36bdebeeac873126bf", null ],
     [ "ETradeOnly", "classIBApi_1_1Order.html#acf7d37ea31f6d733e9616ecadbb81a64", null ],
     [ "ExemptCode", "classIBApi_1_1Order.html#a7da1a8a1d588259cecb1367adeb03d17", null ],
     [ "ExtOperator", "classIBApi_1_1Order.html#a4f1ee7e600df1c65f25a5bd4d84467cb", null ],

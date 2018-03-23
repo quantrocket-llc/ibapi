@@ -75,7 +75,6 @@ var NAVTREE =
         [ "The charts shown by my charting software differ from the ones shown by the TWS", "third_party.html#tp_data_mismatch", null ]
       ] ]
     ] ],
-    [ "Delayed Streaming Data", "delayed.html", null ],
     [ "Namespaces", null, [
       [ "Namespace List", "namespaces.html", "namespaces" ]
     ] ],
@@ -97,7 +96,7 @@ var NAVTREEINDEX =
 [
 "account_portfolio.html",
 "classIBApi_1_1EClient.html#a80207770f2654147d5a1c4c985748f38",
-"classIBApi_1_1Order.html#ad20733800e5dc40758b9d7f07dccb4ab",
+"classIBApi_1_1Order.html#acf7d37ea31f6d733e9616ecadbb81a64",
 "functions_prop_0x75.html",
 "realtime_bars.html"
 ];

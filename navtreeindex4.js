@@ -113,6 +113,7 @@ var NAVTREEINDEX4 =
 "third_party.html#tp_ping_pong":[20,0,2],
 "third_party.html#tp_support":[20,0,1],
 "tick_types.html":[7,3,0,3],
+"tick_types.html#delayed":[7,3,0,3,5],
 "tick_types.html#halted":[7,3,0,3,0],
 "tick_types.html#ib_dividends":[7,3,0,3,4],
 "tick_types.html#rt_trd_volume":[7,3,0,3,3],

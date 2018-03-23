@@ -84,25 +84,17 @@ function checkCookie() {
   <td style="padding: 0 0 0 1em;">
    <ul id="tabs"><li class="active">C#</li><li>Java</li><li>VB</li><li>C++</li><li>Python</li></ul>
   </td>
-  <td><a href="https://www.interactivebrokers.com/en/index.php?f=customerService&p=email" style="color:#C7C7C7;font-weight:bold;padding: 0 0 0 1em;">Contact us</a></td>
-  <!--BEGIN GCS_SEARCHBOX-->
-  <td style="position: absolute; right: 0;">
-   <div id="google-custom-search" align="right" style="vertical-align: top;">
-   <script>
-  (function() {
-    var cx = '015239726745168389685:6_uymb577ei';
-	var gcse = document.createElement('script');
-    gcse.type = 'text/javascript';
-    gcse.async = true;
-    gcse.src = 'https://cse.google.com/cse.js?cx=' + cx;
-    var s = document.getElementsByTagName('script')[0];
-    s.parentNode.insertBefore(gcse, s);
-  })();
-	</script>
-	<gcse:search newWindow="false" enableHistory="true"></gcse:search>
-   </div>
-   </td>
-  <!--END !GCS_SEARCHBOX-->
+  <!--BEGIN SS360 SEARCH-->
+  <td>
+	<div id="site-search-360" align="right" style="padding-left: 1em;">
+		<input id="searchBox" type="search" placeholder="Search..." />
+		<input id="ss360SearchButton" type="submit" />
+	</div>
+  </td>
+  <!--END SS360 SEARCH-->
+  <div id="contact-us" align="right">
+	<td><a href="https://www.interactivebrokers.com/en/index.php?f=customerService&p=email" style="color:#C7C7C7;font-weight:bold;padding: 0 0 0 1em;">Contact us</a></td>
+  </div>
  </tr>
  </tbody>
 </table>
@@ -497,8 +489,8 @@ Requesting News Articles</h1>
 </div><!-- fragment -->  </li>
 <li>
 <div class="fragment"><div class="line">    TagValueList* list = <span class="keyword">new</span> TagValueList();</div>
-<div class="line">    list-&gt;push_back((TagValueSPtr)<span class="keyword">new</span> TagValue(<span class="stringliteral">&quot;manual&quot;</span>, <span class="stringliteral">&quot;1&quot;</span>));</div>
-<div class="line">    m_pClient-&gt;reqNewsArticle(12001, <span class="stringliteral">&quot;BZ&quot;</span>, <span class="stringliteral">&quot;BZ$04507322&quot;</span>, TagValueListSPtr(list));</div>
+<div class="line">    <span class="comment">// list-&gt;push_back((TagValueSPtr)new TagValue(&quot;manual&quot;, &quot;1&quot;));</span></div>
+<div class="line">    m_pClient-&gt;reqNewsArticle(12001, <span class="stringliteral">&quot;MST&quot;</span>, <span class="stringliteral">&quot;MST$06f53098&quot;</span>, TagValueListSPtr(list));</div>
 </div><!-- fragment -->  </li>
 <li>
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;        self.reqNewsArticle(214,<span class="stringliteral">&quot;BZ&quot;</span>, <span class="stringliteral">&quot;BZ$04507322&quot;</span>, [])</div>
@@ -516,30 +508,82 @@ Requesting News Articles</h1>
     <li class="footer">This website uses cookies. By navigating through it you agree to the use of cookies. Copyright Interactive Brokers 2016 </li>
   </ul>
 </div>
-<!--BEGIN GCS_SEARCHBOX-->
-<style type='text/css'>
-	.gsc-control-cse{
-		font family: Arial, sans-serif;
-		border-color: #000100;
-		background-color: #000000;
-		width:260px;
-		height: 20px;
-		padding-top: 6px;
-	}
-	input.gsc-search-button {
-		background-color: #6D1800;
-		color: #fff;
-		cursor: pointer;
-	}
-	input.gsc-search-button:hover {
-		background-color: #A02200;
-	}
-	td.gsc-clear-button {
-		position: relative;
-		right: 85px;
-	}
-  }
-</style>
-<!--END GCS_SEARCHBOX-->
+<!--BEGIN !SS360 SEARCH-->
+<script>
+var ss360Config = {
+    /********* General *********/
+    siteId: 'tws-api-doc',
+    animationSpeed: 250,
+    themeColor: '#A02424',
+    showErrors: false,
+    /********* Search Box *********/
+    searchBoxSelector: '#searchBox',
+    searchBoxStyle: {
+        text: {
+            color: '#ffffff',
+            size: '12px',
+        },
+        background: {
+            color: '#000000',
+        },
+        padding: '8px',        
+        icon: {
+            image: undefined,
+        },
+        border: {
+            color: '#464646',
+            radius: '7px',
+        },
+        button: {
+            text: ' ',
+            icon: 'magnifier'
+        }
+    },
+    placeholder: 'Search...',
+    searchButton: '#ss360SearchButton',
+    /********* Search Suggestions *********/
+    showSearchSuggestions: true,
+    suggestionsStyle: {
+        text: {
+            color: '#333333',
+        },
+        background: {
+            color: '#ffffff'
+        },
+        padding: '10px',
+        distanceFromTop: '7px',
+        border: {
+            color: '#dddddd',
+            radius: '7px',
+        },
+    },
+    showImagesSuggestions: true,
+    numSuggestions: 6,
+    maxQuerySuggestions: 3,
+    minChars: 3,
+    highlight: true,
+    /********* Search Results *********/
+    searchResults: undefined,
+    searchResultsCaption: 'We found #COUNT# results for your query "#QUERY#"',
+    numResults: 50,
+    navigation: 'top',
+    highlightQueryTerms: true,
+    showImagesResults: true,
+    showResultLink: true,
+    resultLinksOpenNewTab: false,
+    queryCorrectionText: 'Did you mean "#CORRECTION#"?',
+    noResultsText: 'Sorry, we have not found any matches for your query.',
+    otherContentGroupName: 'Other',
+    ignoreOtherContentGroup: false,
+    moreResultsButton: undefined,
+    moreResultsPagingSize: 50,
+    groupResults: true,
+    loader: {
+        type: 'circle'
+    }
+}
+</script>
+<script src="https://sitesearch360.com/cdn/sitesearch360-v10.min.js"></script>
+<!--END !SS360 SEARCH-->
 </body>
 </html>
