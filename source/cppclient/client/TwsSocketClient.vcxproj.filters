@@ -219,5 +219,14 @@
     <ClInclude Include="HistoricalTick.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="HistoricalTickBidAsk.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HistoricalTickLast.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EWrapper_prototypes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
