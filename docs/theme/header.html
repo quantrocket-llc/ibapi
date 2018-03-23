@@ -100,36 +100,21 @@ $extrastylesheet
   <!--END PROJECT_NAME-->
 
   <!--BEGIN !PROJECT_NAME-->
-   <!--BEGIN PROJECT_BRIEF-->
     <td style="padding-left: 0.5em;">
     <div id="projectbrief">$projectbrief</div>
     </td>
-   <!--END PROJECT_BRIEF-->
   <!--END !PROJECT_NAME-->
-  <td><a href="https://www.interactivebrokers.com/en/index.php?f=customerService&p=email" style="color:#C7C7C7;font-weight:bold;padding: 0 0 0 1em;">Contact us</a></td>
-  <!--BEGIN GCS_SEARCHBOX-->
-  <td style="position: absolute; right: 0;">
-   <div id="google-custom-search" align="right" style="vertical-align: top;">
-   <script>
-  (function() {
-    var cx = '015239726745168389685:6_uymb577ei';
-	var gcse = document.createElement('script');
-    gcse.type = 'text/javascript';
-    gcse.async = true;
-    gcse.src = 'https://cse.google.com/cse.js?cx=' + cx;
-    var s = document.getElementsByTagName('script')[0];
-    s.parentNode.insertBefore(gcse, s);
-  })();
-	</script>
-	<gcse:search newWindow="false" enableHistory="true"></gcse:search>
-   </div>
-   </td>
-  <!--END !GCS_SEARCHBOX-->
-  <!--BEGIN DISABLE_INDEX-->
-   <!--BEGIN SEARCHENGINE-->
-   <td>$Searchbox</td>
-   <!--END SEARCHENGINE-->
-  <!--END DISABLE_INDEX-->
+  <!--BEGIN SS360 SEARCH-->
+  <td>
+	<div id="site-search-360" align="right" style="padding-left: 1em;">
+		<input id="searchBox" type="search" placeholder="Search..." />
+		<input id="ss360SearchButton" type="submit" />
+	</div>
+  </td>
+  <!--END SS360 SEARCH-->
+  <div id="contact-us" align="right">
+	<td><a href="https://www.interactivebrokers.com/en/index.php?f=customerService&p=email" style="color:#C7C7C7;font-weight:bold;padding: 0 0 0 1em;">Contact us</a></td>
+  </div>
  </tr>
  </tbody>
 </table>

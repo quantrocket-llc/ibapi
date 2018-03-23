@@ -15,31 +15,82 @@ $generatedby &#160;<a href="http://www.doxygen.org/index.html">
 </a> $doxygenversion
 </small></address>
 <!--END !GENERATE_TREEVIEW-->
-<!--BEGIN GCS_SEARCHBOX-->
-<style type='text/css'>
-	.gsc-control-cse{
-		font family: Arial, sans-serif;
-		border-color: #000100;
-		background-color: #000000;
-		width:260px;
-		height: 20px;
-		padding-top: 6px;
-	}
-	input.gsc-search-button {
-		background-color: #6D1800;
-		color: #fff;
-		cursor: pointer;
-	}
-	input.gsc-search-button:hover {
-		background-color: #A02200;
-	}
-	td.gsc-clear-button {
-		position: relative;
-		right: 85px;
-	}
-  }
-
-</style>
-<!--END GCS_SEARCHBOX-->
+<!--BEGIN !SS360 SEARCH-->
+<script>
+var ss360Config = {
+    /********* General *********/
+    siteId: 'tws-api-doc',
+    animationSpeed: 250,
+    themeColor: '#A02424',
+    showErrors: false,
+    /********* Search Box *********/
+    searchBoxSelector: '#searchBox',
+    searchBoxStyle: {
+        text: {
+            color: '#ffffff',
+            size: '12px',
+        },
+        background: {
+            color: '#000000',
+        },
+        padding: '8px',        
+        icon: {
+            image: undefined,
+        },
+        border: {
+            color: '#464646',
+            radius: '7px',
+        },
+        button: {
+            text: ' ',
+            icon: 'magnifier'
+        }
+    },
+    placeholder: 'Search...',
+    searchButton: '#ss360SearchButton',
+    /********* Search Suggestions *********/
+    showSearchSuggestions: true,
+    suggestionsStyle: {
+        text: {
+            color: '#333333',
+        },
+        background: {
+            color: '#ffffff'
+        },
+        padding: '10px',
+        distanceFromTop: '7px',
+        border: {
+            color: '#dddddd',
+            radius: '7px',
+        },
+    },
+    showImagesSuggestions: true,
+    numSuggestions: 6,
+    maxQuerySuggestions: 3,
+    minChars: 3,
+    highlight: true,
+    /********* Search Results *********/
+    searchResults: undefined,
+    searchResultsCaption: 'We found #COUNT# results for your query "#QUERY#"',
+    numResults: 50,
+    navigation: 'top',
+    highlightQueryTerms: true,
+    showImagesResults: true,
+    showResultLink: true,
+    resultLinksOpenNewTab: false,
+    queryCorrectionText: 'Did you mean "#CORRECTION#"?',
+    noResultsText: 'Sorry, we have not found any matches for your query.',
+    otherContentGroupName: 'Other',
+    ignoreOtherContentGroup: false,
+    moreResultsButton: undefined,
+    moreResultsPagingSize: 50,
+    groupResults: true,
+    loader: {
+        type: 'circle'
+    }
+}
+</script>
+<script src="https://sitesearch360.com/cdn/sitesearch360-v10.min.js"></script>
+<!--END !SS360 SEARCH-->
 </body>
 </html>
