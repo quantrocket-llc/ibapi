@@ -204,6 +204,7 @@
     <ClInclude Include="EReaderOSSignal.h" />
     <ClInclude Include="ESocket.h" />
     <ClInclude Include="ETransport.h" />
+    <ClInclude Include="EWrapper_prototypes.h" />
     <ClInclude Include="executioncondition.h" />
     <ClInclude Include="FamilyCode.h" />
     <ClInclude Include="HistoricalTick.h" />
