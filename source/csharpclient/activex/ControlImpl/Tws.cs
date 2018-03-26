@@ -20,7 +20,7 @@ namespace TWSLib
     [Guid("0A77CCF8-052C-11D6-B0EC-00B0D074179C")]
     [ComVisible(true), ClassInterface(ClassInterfaceType.None)]
     [ComSourceInterfaces(typeof(ITwsEvents))]
-    public class Tws: UserControl, EWrapper, ITws, IDisposable
+    public class Tws: EWrapper, ITws, IDisposable
     {
         static T GetCustomAtribute<T>(ICustomAttributeProvider t) where T : Attribute
         {
@@ -49,10 +49,7 @@ namespace TWSLib
 
         public Tws()
         {
-            sc = SynchronizationContext.Current;
-
-            Debug.Assert(sc != null);
-
+            sc = new WindowsFormsSynchronizationContext();
             socket = new EClientSocket(this, eReaderSignal);
 
             (this as ITws).resetAllProperties();

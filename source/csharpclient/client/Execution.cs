@@ -18,9 +18,9 @@ namespace IBApi
      */
     public class Liquidity
     {
-		/**
+        /**
          * @brief The enum of available liquidity flag types. 
-		 * 0 = Unknown, 1 = Added liquidity, 2 = Removed liquidity, 3 = Liquidity routed out
+         * 0 = Unknown, 1 = Added liquidity, 2 = Removed liquidity, 3 = Liquidity routed out
          */
         public enum Values
         {
@@ -37,8 +37,8 @@ namespace IBApi
         {
             Value = (Values)p;
         }
-		
-		/**
+
+        /**
          * @brief The value of the liquidity type.
          */
         public Values Value { get; set; }
@@ -162,6 +162,7 @@ namespace IBApi
             CumQty = 0;
             AvgPrice = 0;
             EvMultiplier = 0;
+            LastLiquidity = new Liquidity(0);
         }
 
         public Execution(int orderId, int clientId, String execId, String time,
