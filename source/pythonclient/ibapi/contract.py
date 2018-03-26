@@ -44,7 +44,7 @@ class ComboLeg(Object):
             str(self.exemptCode)))
 
 
-class UnderComp(Object):
+class DeltaNeutralContract(Object):
     def __init__(self):
         self.conId = 0   # type: int
         self.delta = 0.  # type: float
@@ -78,7 +78,7 @@ class Contract(Object):
         #combos
         self.comboLegsDescrip = ""  # type: str; received in open order 14 and up for all combos
         self.comboLegs = None     # type: list<ComboLeg>
-        self.underComp = None
+        self.deltaNeutralContract = None
 
 
     def __str__(self):
@@ -104,8 +104,8 @@ class Contract(Object):
             for leg in self.comboLegs:
                 s += ";" + str(leg)
 
-        if self.underComp:
-            s += ";" + str(self.underComp)
+        if self.deltaNeutralContract:
+            s += ";" + str(self.deltaNeutralContract)
 
         return s
 

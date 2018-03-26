@@ -1,8 +1,8 @@
-﻿' Copyright (C) 2016 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+' Copyright (C) 2016 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
 ' and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable.
 
 <Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-Partial Class dlgUnderComp
+Partial Class dlgDeltaNeutralContract
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
@@ -149,7 +149,7 @@ Partial Class dlgUnderComp
         Me.txtConId.Size = New System.Drawing.Size(91, 13)
         Me.txtConId.TabIndex = 0
         '
-        'dlgUnderComp
+        'dlgDeltaNeutralContract
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
@@ -159,10 +159,10 @@ Partial Class dlgUnderComp
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.MaximizeBox = False
         Me.MinimizeBox = False
-        Me.Name = "dlgUnderComp"
+        Me.Name = "dlgDeltaNeutralContract"
         Me.ShowInTaskbar = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
-        Me.Text = "dlgUnderComp"
+        Me.Text = "dlgDeltaNeutralContract"
         Me.TableLayoutPanel1.ResumeLayout(False)
         Me.TableLayoutPanel1.PerformLayout()
         Me.ResumeLayout(False)

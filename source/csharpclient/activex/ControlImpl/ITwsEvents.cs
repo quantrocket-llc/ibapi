@@ -93,7 +93,7 @@ namespace TWSLib
         [DispId(38)]
         void execDetailsEnd(int reqId);
         [DispId(39)]
-        void deltaNeutralValidation(int reqId, IUnderComp underComp);
+        void deltaNeutralValidation(int reqId, IDeltaNeutralContract deltaNeutralContract);
         [DispId(40)]
         void tickSnapshotEnd(int reqId);
         [DispId(41)]

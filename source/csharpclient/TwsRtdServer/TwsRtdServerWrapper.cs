@@ -185,7 +185,7 @@ namespace TwsRtdServer
             // TODO: add support for tickEFP
         }
 
-        public void deltaNeutralValidation(int reqId, UnderComp underComp) { }
+        public void deltaNeutralValidation(int reqId, DeltaNeutralContract deltaNeutralContract) { }
         public void tickOptionComputation(int tickerId, int field, double impliedVolatility, double delta, double optPrice, double pvDividend, double gamma, double vega, double theta, double undPrice) 
         { 
             TwsRtdServerData.OptionComputationData value = new TwsRtdServerData.OptionComputationData(impliedVolatility,

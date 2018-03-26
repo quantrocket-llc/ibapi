@@ -267,56 +267,56 @@ namespace TwsRtdServer
                 return contract;
             }
 
-            // parse under comp
-            string underCompStr = strings[13];
+            // parse delta-neutral contract
+            string deltaNeutralContractStr = strings[13];
 
             try 
             {
-                if (underCompStr != null && underCompStr.Length > 0)
+                if (deltaNeutralContractStr != null && deltaNeutralContractStr.Length > 0)
                 {
-                    contract.UnderComp = new UnderComp();
+                    contract.DeltaNeutralContract = new DeltaNeutralContract();
 
-                    string[] underCompParams = underCompStr.Split(TwsRtdServerData.CHAR_HASH);
-                    if (underCompParams != null && underCompParams.Length >= 3)
+                    string[] deltaNeutralContractParams = deltaNeutralContractStr.Split(TwsRtdServerData.CHAR_HASH);
+                    if (deltaNeutralContractParams != null && deltaNeutralContractParams.Length >= 3)
                     {
                         try
                         {
-                            contract.UnderComp.ConId = StrToInt(underCompParams[0]);
+                            contract.DeltaNeutralContract.ConId = StrToInt(deltaNeutralContractParams[0]);
                         }
                         catch
                         {
-                            SetError(TwsRtdServerErrors.CANNOT_EXTRACT_UNDER_COMP, "Cannot convert conid from " + underCompParams[0] + " : " + StrToInt(underCompParams[0]));
+                            SetError(TwsRtdServerErrors.CANNOT_EXTRACT_DELTA_NEUTRAL_CONTRACT, "Cannot convert conid from " + deltaNeutralContractParams[0] + " : " + StrToInt(deltaNeutralContractParams[0]));
                             return contract;
                         }
                         try
                         {
-                            contract.UnderComp.Delta = StrToDouble(underCompParams[1]);
+                            contract.DeltaNeutralContract.Delta = StrToDouble(deltaNeutralContractParams[1]);
                         }
                         catch
                         {
-                            SetError(TwsRtdServerErrors.CANNOT_EXTRACT_UNDER_COMP, "Cannot convert delta from " + underCompParams[1] + " : " + StrToDouble(underCompParams[1]));
+                            SetError(TwsRtdServerErrors.CANNOT_EXTRACT_DELTA_NEUTRAL_CONTRACT, "Cannot convert delta from " + deltaNeutralContractParams[1] + " : " + StrToDouble(deltaNeutralContractParams[1]));
                             return contract;
                         }
                         try
                         {
-                            contract.UnderComp.Price = StrToDouble(underCompParams[2]);
+                            contract.DeltaNeutralContract.Price = StrToDouble(deltaNeutralContractParams[2]);
                         }
                         catch
                         {
-                            SetError(TwsRtdServerErrors.CANNOT_EXTRACT_UNDER_COMP, "Cannot convert price from " + underCompParams[2] + " : " + StrToDouble(underCompParams[2]));
+                            SetError(TwsRtdServerErrors.CANNOT_EXTRACT_DELTA_NEUTRAL_CONTRACT, "Cannot convert price from " + deltaNeutralContractParams[2] + " : " + StrToDouble(deltaNeutralContractParams[2]));
                             return contract;
                         }
                     }
                     else
                     {
-                        SetError(TwsRtdServerErrors.CANNOT_EXTRACT_UNDER_COMP, "Cannot extract under comp from " + underCompStr);
+                        SetError(TwsRtdServerErrors.CANNOT_EXTRACT_DELTA_NEUTRAL_CONTRACT, "Cannot extract delta-neutral contract from " + deltaNeutralContractStr);
                         return contract;
                     }
                 }
             }
             catch
             {
-                SetError(TwsRtdServerErrors.CANNOT_EXTRACT_UNDER_COMP, "Exception during under comp extraction from " + underCompStr);
+                SetError(TwsRtdServerErrors.CANNOT_EXTRACT_DELTA_NEUTRAL_CONTRACT, "Exception during delta-neutral contract extraction from " + deltaNeutralContractStr);
             }
 
             return contract;
@@ -441,7 +441,7 @@ namespace TwsRtdServer
             string conIdStr = null;
             string tradingClassStr = null;
             string comboStr = null;
-            string underCompStr = null;
+            string deltaNeutralContractStr = null;
             string optionsStr = null;
             string genTicksStr = null;
 
@@ -465,7 +465,7 @@ namespace TwsRtdServer
                         }
 
                         if (tickerStr.IndexOf(TwsRtdServerData.CHAR_DOT) >= 0 && tickerStr.ToLower().IndexOf(TwsRtdServerData.HOST_STR) < 0 &&
-                            tickerStr.ToLower().IndexOf(TwsRtdServerData.UNDERCOMP_STR) < 0 && tickerStr.ToUpper().IndexOf(TwsRtdServerData.CHAR_SLASH + TwsRtdServerData.CASH_STR) >= 0)
+                            tickerStr.ToLower().IndexOf(TwsRtdServerData.DELTANEUTRALCONTRACT_STR) < 0 && tickerStr.ToUpper().IndexOf(TwsRtdServerData.CHAR_SLASH + TwsRtdServerData.CASH_STR) >= 0)
                         {
                             // parse string like "EUR.USD/CASH"
                             string[] contractStrings = tickerStr.ToUpper().Split(TwsRtdServerData.CHAR_SLASH);
@@ -606,10 +606,10 @@ namespace TwsRtdServer
                         // parse string like "cmb=..."
                         comboStr = s.Substring(TwsRtdServerData.COMBO_STR.Length, s.Length - TwsRtdServerData.COMBO_STR.Length).ToUpper();
                     }
-                    if (underCompStr == null && s.ToLower().IndexOf(TwsRtdServerData.UNDERCOMP_STR) >= 0)
+                    if (deltaNeutralContractStr == null && s.ToLower().IndexOf(TwsRtdServerData.DELTANEUTRALCONTRACT_STR) >= 0)
                     {
                         // parse string like "und=..."
-                        underCompStr = s.Substring(TwsRtdServerData.UNDERCOMP_STR.Length, s.Length - TwsRtdServerData.UNDERCOMP_STR.Length).ToUpper();
+                        deltaNeutralContractStr = s.Substring(TwsRtdServerData.DELTANEUTRALCONTRACT_STR.Length, s.Length - TwsRtdServerData.DELTANEUTRALCONTRACT_STR.Length).ToUpper();
                     }
                     if (optionsStr == null && s.ToLower().IndexOf(TwsRtdServerData.OPTIONS_STR) >= 0)
                     {
@@ -654,7 +654,7 @@ namespace TwsRtdServer
                                 localSymbolStr + TwsRtdServerData.CHAR_UNDERSCORE +
                                 tradingClassStr + TwsRtdServerData.CHAR_UNDERSCORE +
                                 comboStr + TwsRtdServerData.CHAR_UNDERSCORE +
-                                underCompStr + TwsRtdServerData.CHAR_UNDERSCORE +
+                                deltaNeutralContractStr + TwsRtdServerData.CHAR_UNDERSCORE +
                                 optionsStr + TwsRtdServerData.CHAR_UNDERSCORE +
                                 genTicksStr;
 

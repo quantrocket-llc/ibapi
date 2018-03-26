@@ -26,7 +26,7 @@ public class Contract implements Cloneable {
     private String  m_secIdType; // CUSIP;SEDOL;ISIN;RIC
     private String  m_secId;
 
-    private DeltaNeutralContract m_underComp;
+    private DeltaNeutralContract m_deltaNeutralContract;
     private boolean m_includeExpired;  // can not be set to true for orders
     // COMBOS
     private String m_comboLegsDescrip; // received in open order version 14 and up for all combos 
@@ -51,7 +51,7 @@ public class Contract implements Cloneable {
     public String secId()           { return m_secId; }
     public String symbol()          { return m_symbol; }
     public boolean includeExpired() { return m_includeExpired; }
-    public DeltaNeutralContract underComp() { return m_underComp; }
+    public DeltaNeutralContract deltaNeutralContract() { return m_deltaNeutralContract; }
     public List<ComboLeg> comboLegs()  { return m_comboLegs; }
     public String comboLegsDescrip()        { return m_comboLegsDescrip; }
 
@@ -73,7 +73,7 @@ public class Contract implements Cloneable {
     public void secType(String v)       { m_secType = v; }
     public void strike(double v)        { m_strike = v; }
     public void symbol(String v)        { m_symbol = v; }
-    public void underComp(DeltaNeutralContract v) { m_underComp = v; }
+    public void deltaNeutralContract(DeltaNeutralContract v) { m_deltaNeutralContract = v; }
     public void includeExpired(boolean v)         { m_includeExpired = v; }
     public void comboLegs(List<ComboLeg> v)  { m_comboLegs = v; }
     public void comboLegsDescrip(String v)        { m_comboLegsDescrip = v; }
@@ -179,11 +179,11 @@ public class Contract implements Cloneable {
         	return false;
         }
 
-        if (m_underComp != l_theOther.m_underComp) {
-        	if (m_underComp == null || l_theOther.m_underComp == null) {
+        if (m_deltaNeutralContract != l_theOther.m_deltaNeutralContract) {
+        	if (m_deltaNeutralContract == null || l_theOther.m_deltaNeutralContract == null) {
         		return false;
         	}
-        	if (!m_underComp.equals(l_theOther.m_underComp)) {
+        	if (!m_deltaNeutralContract.equals(l_theOther.m_deltaNeutralContract)) {
         		return false;
         	}
         }

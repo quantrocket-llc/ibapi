@@ -1042,11 +1042,11 @@ namespace IBApi
         {
             int msgVersion = ReadInt();
             int requestId = ReadInt();
-            UnderComp underComp = new UnderComp();
-            underComp.ConId = ReadInt();
-            underComp.Delta = ReadDouble();
-            underComp.Price = ReadDouble();
-            eWrapper.deltaNeutralValidation(requestId, underComp);
+            DeltaNeutralContract deltaNeutralContract = new DeltaNeutralContract();
+            deltaNeutralContract.ConId = ReadInt();
+            deltaNeutralContract.Delta = ReadDouble();
+            deltaNeutralContract.Price = ReadDouble();
+            eWrapper.deltaNeutralValidation(requestId, deltaNeutralContract);
         }
 
         private void TickOptionComputationEvent()
@@ -1656,11 +1656,11 @@ namespace IBApi
             {
                 if (ReadBoolFromInt())
                 {
-                    UnderComp underComp = new UnderComp();
-                    underComp.ConId = ReadInt();
-                    underComp.Delta = ReadDouble();
-                    underComp.Price = ReadDouble();
-                    contract.UnderComp = underComp;
+                    DeltaNeutralContract deltaNeutralContract = new DeltaNeutralContract();
+                    deltaNeutralContract.ConId = ReadInt();
+                    deltaNeutralContract.Delta = ReadDouble();
+                    deltaNeutralContract.Price = ReadDouble();
+                    contract.DeltaNeutralContract = deltaNeutralContract;
                 }
             }
 

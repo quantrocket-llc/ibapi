@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -59,6 +59,7 @@
     <Compile Include="ContractCondition.cs" />
     <Compile Include="ContractDescription.cs" />
     <Compile Include="ContractDetails.cs" />
+    <Compile Include="DeltaNeutralContract.cs" />
     <Compile Include="HistoricalTick.cs" />
     <Compile Include="HistoricalTickBidAsk.cs" />
     <Compile Include="HistoricalTickLast.cs" />
@@ -106,7 +107,6 @@
     <Compile Include="TickAttrib.cs" />
     <Compile Include="TickType.cs" />
     <Compile Include="TimeCondition.cs" />
-    <Compile Include="UnderComp.cs" />
     <Compile Include="Util.cs" />
     <Compile Include="VolumeCondition.cs" />
   </ItemGroup>

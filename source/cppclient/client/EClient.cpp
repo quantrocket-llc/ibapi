@@ -217,8 +217,8 @@ void EClient::reqMktData(TickerId tickerId, const Contract& contract,
 	//	return;
 	//}
 
-	if( m_serverVersion < MIN_SERVER_VER_UNDER_COMP) {
-		if( contract.underComp) {
+	if( m_serverVersion < MIN_SERVER_VER_DELTA_NEUTRAL) {
+		if( contract.deltaNeutralContract) {
 			m_pEWrapper->error( tickerId, UPDATE_TWS.code(), UPDATE_TWS.msg() +
 				"  It does not support delta-neutral orders.");
 			return;
@@ -290,13 +290,13 @@ void EClient::reqMktData(TickerId tickerId, const Contract& contract,
 		}
 	}
 
-	if( m_serverVersion >= MIN_SERVER_VER_UNDER_COMP) {
-		if( contract.underComp) {
-			const UnderComp& underComp = *contract.underComp;
+	if( m_serverVersion >= MIN_SERVER_VER_DELTA_NEUTRAL) {
+		if( contract.deltaNeutralContract) {
+			const DeltaNeutralContract& deltaNeutralContract = *contract.deltaNeutralContract;
 			ENCODE_FIELD( true);
-			ENCODE_FIELD( underComp.conId);
-			ENCODE_FIELD( underComp.delta);
-			ENCODE_FIELD( underComp.price);
+			ENCODE_FIELD( deltaNeutralContract.conId);
+			ENCODE_FIELD( deltaNeutralContract.delta);
+			ENCODE_FIELD( deltaNeutralContract.price);
 		}
 		else {
 			ENCODE_FIELD( false);
@@ -1169,8 +1169,8 @@ void EClient::placeOrder( OrderId id, const Contract& contract, const Order& ord
 	//	}
 	//}
 
-	if( m_serverVersion < MIN_SERVER_VER_UNDER_COMP) {
-		if( contract.underComp) {
+	if( m_serverVersion < MIN_SERVER_VER_DELTA_NEUTRAL) {
+		if( contract.deltaNeutralContract) {
 			m_pEWrapper->error( id, UPDATE_TWS.code(), UPDATE_TWS.msg() +
 				"  It does not support delta-neutral orders.");
 			return;
@@ -1700,13 +1700,13 @@ void EClient::placeOrder( OrderId id, const Contract& contract, const Order& ord
 		ENCODE_FIELD( order.notHeld);
 	}
 
-	if( m_serverVersion >= MIN_SERVER_VER_UNDER_COMP) {
-		if( contract.underComp) {
-			const UnderComp& underComp = *contract.underComp;
+	if( m_serverVersion >= MIN_SERVER_VER_DELTA_NEUTRAL) {
+		if( contract.deltaNeutralContract) {
+			const DeltaNeutralContract& deltaNeutralContract = *contract.deltaNeutralContract;
 			ENCODE_FIELD( true);
-			ENCODE_FIELD( underComp.conId);
-			ENCODE_FIELD( underComp.delta);
-			ENCODE_FIELD( underComp.price);
+			ENCODE_FIELD( deltaNeutralContract.conId);
+			ENCODE_FIELD( deltaNeutralContract.delta);
+			ENCODE_FIELD( deltaNeutralContract.price);
 		}
 		else {
 			ENCODE_FIELD( false);

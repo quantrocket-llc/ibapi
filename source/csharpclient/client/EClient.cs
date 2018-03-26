@@ -1005,15 +1005,15 @@ namespace IBApi
                 paramsList.AddParameter(order.NotHeld);
             }
 
-            if (serverVersion >= MinServerVer.UNDER_COMP)
+            if (serverVersion >= MinServerVer.DELTA_NEUTRAL)
             {
-                if (contract.UnderComp != null)
+                if (contract.DeltaNeutralContract != null)
                 {
-                    UnderComp underComp = contract.UnderComp;
+                    DeltaNeutralContract deltaNeutralContract = contract.DeltaNeutralContract;
                     paramsList.AddParameter(true);
-                    paramsList.AddParameter(underComp.ConId);
-                    paramsList.AddParameter(underComp.Delta);
-                    paramsList.AddParameter(underComp.Price);
+                    paramsList.AddParameter(deltaNeutralContract.ConId);
+                    paramsList.AddParameter(deltaNeutralContract.Delta);
+                    paramsList.AddParameter(deltaNeutralContract.Price);
                 }
                 else
                 {
@@ -1752,7 +1752,7 @@ namespace IBApi
                 "It does not support snapshot market data requests."))
                 return;
 
-            if (contract.UnderComp != null && !CheckServerVersion(tickerId, MinServerVer.UNDER_COMP,
+            if (contract.DeltaNeutralContract != null && !CheckServerVersion(tickerId, MinServerVer.DELTA_NEUTRAL,
                 " It does not support delta-neutral orders"))
                 return;
 
@@ -1827,14 +1827,14 @@ namespace IBApi
                 }
             }
 
-            if (serverVersion >= MinServerVer.UNDER_COMP)
+            if (serverVersion >= MinServerVer.DELTA_NEUTRAL)
             {
-                if (contract.UnderComp != null)
+                if (contract.DeltaNeutralContract != null)
                 {
                     paramsList.AddParameter(true);
-                    paramsList.AddParameter(contract.UnderComp.ConId);
-                    paramsList.AddParameter(contract.UnderComp.Delta);
-                    paramsList.AddParameter(contract.UnderComp.Price);
+                    paramsList.AddParameter(contract.DeltaNeutralContract.ConId);
+                    paramsList.AddParameter(contract.DeltaNeutralContract.Delta);
+                    paramsList.AddParameter(contract.DeltaNeutralContract.Price);
                 }
                 else
                 {
@@ -3103,9 +3103,9 @@ namespace IBApi
                 }
             }
 
-            if (serverVersion < MinServerVer.UNDER_COMP)
+            if (serverVersion < MinServerVer.DELTA_NEUTRAL)
             {
-                if (contract.UnderComp != null)
+                if (contract.DeltaNeutralContract != null)
                 {
                     ReportError(id, EClientErrors.UPDATE_TWS,
                         "  It does not support delta-neutral orders.");

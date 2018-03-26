@@ -215,7 +215,7 @@ public class DefaultEWrapper implements EWrapper {
 	}
 
 	@Override
-	public void deltaNeutralValidation(int reqId, DeltaNeutralContract underComp) {
+	public void deltaNeutralValidation(int reqId, DeltaNeutralContract deltaNeutralContract) {
 		// TODO Auto-generated method stub
 		
 	}

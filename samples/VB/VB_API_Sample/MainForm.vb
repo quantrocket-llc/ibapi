@@ -1140,7 +1140,7 @@ Friend Class MainForm
     Private m_contractInfo As IBApi.Contract
     Private m_orderInfo As IBApi.Order
     Private m_execFilter As IBApi.ExecutionFilter
-    Private m_underComp As IBApi.UnderComp
+    Private m_deltaNeutralContract As IBApi.DeltaNeutralContract
     Private m_mktDataOptions As List(Of IBApi.TagValue)
     Private m_chartOptions As List(Of IBApi.TagValue)
     Private m_mktDepthOptions As List(Of IBApi.TagValue)
@@ -1195,7 +1195,7 @@ Friend Class MainForm
         m_contractInfo = New IBApi.Contract
         m_orderInfo = New IBApi.Order
         m_execFilter = New IBApi.ExecutionFilter
-        m_underComp = New IBApi.UnderComp
+        m_deltaNeutralContract = New IBApi.DeltaNeutralContract
 
     End Sub
 
@@ -1266,7 +1266,7 @@ Friend Class MainForm
     Private Sub cmdReqMktData_Click(sender As Object, e As EventArgs) Handles cmdReqMktData.Click
         ' Set the dialog state
         m_dlgOrder.init(dlgOrder.DialogType.RequestMarketData,
-            m_contractInfo, m_orderInfo, m_underComp, m_mktDataOptions, Me)
+            m_contractInfo, m_orderInfo, m_deltaNeutralContract, m_mktDataOptions, Me)
 
         m_dlgOrder.ShowDialog()
 
@@ -1284,7 +1284,7 @@ Friend Class MainForm
     Private Sub cmdCancelMktData_Click(sender As Object, e As EventArgs) Handles cmdCancelMktData.Click
         ' Set the dialog state
         m_dlgOrder.init(dlgOrder.DialogType.CancelMarketData,
-            m_contractInfo, m_orderInfo, m_underComp, Nothing, Me)
+            m_contractInfo, m_orderInfo, m_deltaNeutralContract, Nothing, Me)
 
         m_dlgOrder.ShowDialog()
         If m_dlgOrder.ok Then
@@ -1298,7 +1298,7 @@ Friend Class MainForm
     Private Sub cmdReqMktDepth_Click(sender As Object, e As EventArgs) Handles cmdReqMktDepth.Click
         ' Set the dialog state
         m_dlgOrder.init(dlgOrder.DialogType.RequestMarketDepth,
-            m_contractInfo, m_orderInfo, m_underComp, m_mktDepthOptions, Me)
+            m_contractInfo, m_orderInfo, m_deltaNeutralContract, m_mktDepthOptions, Me)
 
         m_dlgOrder.ShowDialog()
 
@@ -1323,7 +1323,7 @@ Friend Class MainForm
     Private Sub cmdCancelMktDepth_Click(sender As Object, e As EventArgs) Handles cmdCancelMktDepth.Click
         ' Set the dialog state
         m_dlgOrder.init(dlgOrder.DialogType.CancelMarketDepth,
-            m_contractInfo, m_orderInfo, m_underComp, Nothing, Me)
+            m_contractInfo, m_orderInfo, m_deltaNeutralContract, Nothing, Me)
 
         m_dlgOrder.ShowDialog()
         If m_dlgOrder.ok Then
@@ -1337,7 +1337,7 @@ Friend Class MainForm
     Private Sub cmdReqHistoricalData_Click(sender As Object, e As EventArgs) Handles cmdReqHistoricalData.Click
         ' Set the dialog state
         m_dlgOrder.init(dlgOrder.DialogType.RequestHistoricalData,
-            m_contractInfo, m_orderInfo, m_underComp, m_chartOptions, Me)
+            m_contractInfo, m_orderInfo, m_deltaNeutralContract, m_chartOptions, Me)
 
         m_dlgOrder.ShowDialog()
 
@@ -1357,7 +1357,7 @@ Friend Class MainForm
     Private Sub cmdCancelHistData_Click(sender As Object, e As EventArgs) Handles cmdCancelHistData.Click
         ' Set the dialog state
         m_dlgOrder.init(dlgOrder.DialogType.CancelHistoricalData,
-            m_contractInfo, m_orderInfo, m_underComp, Nothing, Me)
+            m_contractInfo, m_orderInfo, m_deltaNeutralContract, Nothing, Me)
 
         m_dlgOrder.ShowDialog()
         If m_dlgOrder.ok Then
@@ -1371,7 +1371,7 @@ Friend Class MainForm
     Private Sub cmdReqFundamentalData_Click(sender As Object, e As EventArgs) Handles cmdReqFundamentalData.Click
         ' Set the dialog state
         m_dlgOrder.init(dlgOrder.DialogType.RequestFundamentalData,
-            m_contractInfo, m_orderInfo, m_underComp, Nothing, Me)
+            m_contractInfo, m_orderInfo, m_deltaNeutralContract, Nothing, Me)
         m_dlgOrder.ShowDialog()
 
         If m_dlgOrder.ok Then
@@ -1385,7 +1385,7 @@ Friend Class MainForm
     Private Sub cmdCancelFundamentalData_Click(sender As Object, e As EventArgs) Handles cmdCancelFundamentalData.Click
         ' Set the dialog state
         m_dlgOrder.init(dlgOrder.DialogType.CancelFundamentalData,
-            m_contractInfo, m_orderInfo, m_underComp, Nothing, Me)
+            m_contractInfo, m_orderInfo, m_deltaNeutralContract, Nothing, Me)
 
         m_dlgOrder.ShowDialog()
         m_api.cancelFundamentalData(m_dlgOrder.orderId)
@@ -1398,7 +1398,7 @@ Friend Class MainForm
     Private Sub cmdReqRealTimeBars_Click(sender As Object, e As EventArgs) Handles cmdReqRealTimeBars.Click
         ' Set the dialog state
         m_dlgOrder.init(dlgOrder.DialogType.RequestRealtimeBars,
-            m_contractInfo, m_orderInfo, m_underComp, m_realTimeBarsOptions, Me)
+            m_contractInfo, m_orderInfo, m_deltaNeutralContract, m_realTimeBarsOptions, Me)
 
         m_dlgOrder.ShowDialog()
 
@@ -1417,7 +1417,7 @@ Friend Class MainForm
     Private Sub cmdCancelRealTimeBars_Click(sender As Object, e As EventArgs) Handles cmdCancelRealTimeBars.Click
         ' Set the dialog state
         m_dlgOrder.init(dlgOrder.DialogType.CancelRealtimeBars,
-            m_contractInfo, m_orderInfo, m_underComp, Nothing, Me)
+            m_contractInfo, m_orderInfo, m_deltaNeutralContract, Nothing, Me)
 
         m_dlgOrder.ShowDialog()
         If m_dlgOrder.ok Then
@@ -1452,7 +1452,7 @@ Friend Class MainForm
 
         ' Set the dialog state
         m_dlgOrder.init(dlgOrder.DialogType.PlaceOrder,
-            m_contractInfo, m_orderInfo, m_underComp, m_orderInfo.OrderMiscOptions, Me)
+            m_contractInfo, m_orderInfo, m_deltaNeutralContract, m_orderInfo.OrderMiscOptions, Me)
 
         m_dlgOrder.ShowDialog()
 
@@ -1473,7 +1473,7 @@ Friend Class MainForm
     Private Sub cmdCancelOrder_Click(sender As Object, e As EventArgs) Handles cmdCancelOrder.Click
         ' Set the dialog state
         m_dlgOrder.init(dlgOrder.DialogType.CancelOrder,
-            m_contractInfo, m_orderInfo, m_underComp, Nothing, Me)
+            m_contractInfo, m_orderInfo, m_deltaNeutralContract, Nothing, Me)
 
         m_dlgOrder.ShowDialog()
         If m_dlgOrder.ok Then
@@ -1487,7 +1487,7 @@ Friend Class MainForm
     Private Sub cmdExerciseOptions_Click(sender As Object, e As EventArgs) Handles cmdExerciseOptions.Click
         ' Set the dialog state
         m_dlgOrder.init(dlgOrder.DialogType.ExerciseOptions,
-            m_contractInfo, m_orderInfo, m_underComp, Nothing, Me)
+            m_contractInfo, m_orderInfo, m_deltaNeutralContract, Nothing, Me)
 
         m_dlgOrder.ShowDialog()
         If m_dlgOrder.ok Then
@@ -1516,7 +1516,7 @@ Friend Class MainForm
     Private Sub cmdReqContractData_Click(sender As Object, e As EventArgs) Handles cmdReqContractData.Click
         ' Set the dialog state
         m_dlgOrder.init(dlgOrder.DialogType.RequestContractDetails,
-            m_contractInfo, m_orderInfo, m_underComp, Nothing, Me)
+            m_contractInfo, m_orderInfo, m_deltaNeutralContract, Nothing, Me)
 
         m_dlgOrder.ShowDialog()
         If m_dlgOrder.ok Then
@@ -1634,7 +1634,7 @@ Friend Class MainForm
     Private Sub cmdCalcImpliedVolatility_Click(sender As Object, e As EventArgs) Handles cmdCalcImpliedVolatility.Click
         ' Set the dialog state
         m_dlgOrder.init(dlgOrder.DialogType.CalculateImpliedVolatility,
-            m_contractInfo, m_orderInfo, m_underComp, Nothing, Me)
+            m_contractInfo, m_orderInfo, m_deltaNeutralContract, Nothing, Me)
 
         m_dlgOrder.ShowDialog()
 
@@ -1649,7 +1649,7 @@ Friend Class MainForm
     Private Sub cmdCalcOptionPrice_Click(sender As Object, e As EventArgs) Handles cmdCalcOptionPrice.Click
         ' Set the dialog state
         m_dlgOrder.init(dlgOrder.DialogType.CalculateOptionPrice,
-            m_contractInfo, m_orderInfo, m_underComp, Nothing, Me)
+            m_contractInfo, m_orderInfo, m_deltaNeutralContract, Nothing, Me)
         m_dlgOrder.ShowDialog()
 
         If m_dlgOrder.ok Then
@@ -1664,7 +1664,7 @@ Friend Class MainForm
     Private Sub cmdCancelCalcImpliedVolatility_Click(sender As Object, e As EventArgs) Handles cmdCancelCalcImpliedVolatility.Click
         ' Set the dialog state
         m_dlgOrder.init(dlgOrder.DialogType.CancelCalculateImpliedVolatility,
-            m_contractInfo, m_orderInfo, m_underComp, Nothing, Me)
+            m_contractInfo, m_orderInfo, m_deltaNeutralContract, Nothing, Me)
 
         m_dlgOrder.ShowDialog()
         If m_dlgOrder.ok Then
@@ -1678,7 +1678,7 @@ Friend Class MainForm
     Private Sub cmdCancelCalcOptionPrice_Click(sender As Object, e As EventArgs) Handles cmdCancelCalcOptionPrice.Click
         ' Set the dialog state
         m_dlgOrder.init(dlgOrder.DialogType.CancelCalculateOptionPrice,
-   m_contractInfo, m_orderInfo, m_underComp, Nothing, Me)
+   m_contractInfo, m_orderInfo, m_deltaNeutralContract, Nothing, Me)
 
         m_dlgOrder.ShowDialog()
         If m_dlgOrder.ok Then
@@ -1699,7 +1699,7 @@ Friend Class MainForm
     Private Sub cmdReqMarketDataType_Click(sender As Object, e As EventArgs) Handles cmdReqMarketDataType.Click
         ' Set the dialog state
         m_dlgOrder.init(dlgOrder.DialogType.RequestMarketDataType,
-            m_contractInfo, m_orderInfo, m_underComp, Nothing, Me)
+            m_contractInfo, m_orderInfo, m_deltaNeutralContract, Nothing, Me)
 
         m_dlgOrder.ShowDialog()
         If m_dlgOrder.ok Then
@@ -1883,7 +1883,7 @@ Friend Class MainForm
     Private Sub cmdReqMatchingSymbols_Click(sender As Object, e As EventArgs) Handles cmdReqMatchingSymbols.Click
         ' Set the dialog state
         m_dlgOrder.init(dlgOrder.DialogType.RequestMatchingSymbols,
-        m_contractInfo, m_orderInfo, m_underComp, Nothing, Me)
+        m_contractInfo, m_orderInfo, m_deltaNeutralContract, Nothing, Me)
 
         m_dlgOrder.ShowDialog()
 
@@ -2456,13 +2456,13 @@ Friend Class MainForm
         End If
         m_utils.addListItem(Utils.ListType.ServerResponses, "  }")
 
-        Dim underComp = contract.UnderComp
+        Dim deltaNeutralContract = contract.DeltaNeutralContract
 
-        If (Not underComp Is Nothing) Then
-            With underComp
-                m_utils.addListItem(Utils.ListType.ServerResponses, "  underComp.conId=" & .ConId)
-                m_utils.addListItem(Utils.ListType.ServerResponses, "  underComp.delta=" & .Delta)
-                m_utils.addListItem(Utils.ListType.ServerResponses, "  underComp.delta=" & .Price)
+        If (Not deltaNeutralContract Is Nothing) Then
+            With deltaNeutralContract
+                m_utils.addListItem(Utils.ListType.ServerResponses, "  deltaNeutralContract.conId=" & .ConId)
+                m_utils.addListItem(Utils.ListType.ServerResponses, "  deltaNeutralContract.delta=" & .Delta)
+                m_utils.addListItem(Utils.ListType.ServerResponses, "  deltaNeutralContract.delta=" & .Price)
             End With
         End If
 
@@ -2623,13 +2623,13 @@ Friend Class MainForm
     Private Sub Api_deltaNeutralValidation(sender As Object, e As DeltaNeutralValidationEventArgs) Handles m_apiEvents.DeltaNeutralValidation
         m_utils.addListItem(Utils.ListType.ServerResponses, "deltaNeutralValidation called, reqId=" & e.reqId)
 
-        Dim underComp = e.underComp
+        Dim deltaNeutralContract = e.deltaNeutralContract
 
-        If (underComp IsNot Nothing) Then
-            With underComp
-                m_utils.addListItem(Utils.ListType.ServerResponses, "  underComp.conId=" & .ConId)
-                m_utils.addListItem(Utils.ListType.ServerResponses, "  underComp.delta=" & .Delta)
-                m_utils.addListItem(Utils.ListType.ServerResponses, "  underComp.delta=" & .Price)
+        If (deltaNeutralContract IsNot Nothing) Then
+            With deltaNeutralContract
+                m_utils.addListItem(Utils.ListType.ServerResponses, "  deltaNeutralContract.conId=" & .ConId)
+                m_utils.addListItem(Utils.ListType.ServerResponses, "  deltaNeutralContract.delta=" & .Delta)
+                m_utils.addListItem(Utils.ListType.ServerResponses, "  deltaNeutralContract.delta=" & .Price)
             End With
         End If
     End Sub
@@ -3434,7 +3434,7 @@ Friend Class MainForm
     Private Sub cmdReqHeadTimestamp_Click(sender As Object, e As EventArgs) Handles cmdReqHeadTimestamp.Click
         ' Set the dialog state
         m_dlgOrder.init(dlgOrder.DialogType.RequestHistoricalData,
-            m_contractInfo, m_orderInfo, m_underComp, m_chartOptions, Me)
+            m_contractInfo, m_orderInfo, m_deltaNeutralContract, m_chartOptions, Me)
 
         m_dlgOrder.ShowDialog()
 
@@ -3450,7 +3450,7 @@ Friend Class MainForm
     Private Sub cmdReqHistogramData_Click(sender As Object, e As EventArgs) Handles cmdReqHistogramData.Click
         ' Set the dialog state
         m_dlgOrder.init(dlgOrder.DialogType.RequestHistoricalData,
-            m_contractInfo, m_orderInfo, m_underComp, m_chartOptions, Me)
+            m_contractInfo, m_orderInfo, m_deltaNeutralContract, m_chartOptions, Me)
 
         m_dlgOrder.ShowDialog()
 
@@ -3485,7 +3485,7 @@ Friend Class MainForm
 
     Private Sub cmdReqHistoricalTicks_Click(sender As Object, e As EventArgs) Handles cmdReqHistoricalTicks.Click
         m_dlgOrder.init(dlgOrder.DialogType.RequestHistoricalTicks,
-            m_contractInfo, m_orderInfo, m_underComp, m_mktDataOptions, Me)
+            m_contractInfo, m_orderInfo, m_deltaNeutralContract, m_mktDataOptions, Me)
 
         If m_dlgOrder.ShowDialog() = Windows.Forms.DialogResult.OK Then
             m_api.reqHistoricalTicks(m_dlgOrder.orderId, m_contractInfo, m_dlgOrder.histStartDateTime, m_dlgOrder.histEndDateTime, m_dlgOrder.numberOfTicks,

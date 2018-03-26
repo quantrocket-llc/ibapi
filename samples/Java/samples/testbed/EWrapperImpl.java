@@ -279,7 +279,7 @@ public class EWrapperImpl implements EWrapper {
 	}
 	//! [fundamentaldata]
 	@Override
-	public void deltaNeutralValidation(int reqId, DeltaNeutralContract underComp) {
+	public void deltaNeutralValidation(int reqId, DeltaNeutralContract deltaNeutralContract) {
 		System.out.println("deltaNeutralValidation");
 	}
 	//! [ticksnapshotend]

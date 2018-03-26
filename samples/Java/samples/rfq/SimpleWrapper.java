@@ -236,7 +236,7 @@ public class SimpleWrapper implements EWrapper {
 		logIn("fundamentalData");    	
 	}
 
-	public void deltaNeutralValidation(int reqId, DeltaNeutralContract underComp) {
+	public void deltaNeutralValidation(int reqId, DeltaNeutralContract deltaNeutralContract) {
 		logIn("deltaNeutralValidation");    	
 	}
 

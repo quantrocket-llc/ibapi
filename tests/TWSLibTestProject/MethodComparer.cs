@@ -1,4 +1,4 @@
-﻿using IBApi;
+using IBApi;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -69,7 +69,7 @@ namespace OrderConditionsParsingTestProject
            { typeof(HistogramEntry[]), typeof(ComHistogramEntry[]) },
            { typeof(PriceIncrement[]), typeof(IPriceIncrementList) },
            { typeof(TickAttrib), typeof(bool) },
-           { typeof(UnderComp), typeof(IUnderComp) },
+           { typeof(DeltaNeutralContract), typeof(IDeltaNeutralContract) },
            { typeof(ContractDetails), typeof(IContractDetails) },
            { typeof(Contract), typeof(IContract) },
            { typeof(Order), typeof(IOrder) },

@@ -17,8 +17,8 @@ import javax.swing.JTextField;
 import com.ib.client.DeltaNeutralContract;
 
 
-public class UnderCompDlg extends JDialog {
-	private DeltaNeutralContract m_underComp;
+public class DeltaNeutralContractDlg extends JDialog {
+	private DeltaNeutralContract m_deltaNeutralContract;
 
     private JTextField 	m_txtConId = new JTextField();
     private JTextField 	m_txtDelta = new JTextField();
@@ -30,10 +30,10 @@ public class UnderCompDlg extends JDialog {
     private static final int COL1_WIDTH = 30 ;
     private static final int COL2_WIDTH = 100 - COL1_WIDTH ;
 
-    UnderCompDlg(DeltaNeutralContract underComp, JDialog owner) {
+    DeltaNeutralContractDlg(DeltaNeutralContract deltaNeutralContract, JDialog owner) {
     	super( owner, true);
 
-    	m_underComp = underComp;
+    	m_deltaNeutralContract = deltaNeutralContract;
 
         // create button panel
         JPanel buttonPanel = new JPanel();
@@ -58,7 +58,7 @@ public class UnderCompDlg extends JDialog {
 
         // create mid panel
         IBGridBagPanel midPanel = new IBGridBagPanel();
-        midPanel.setBorder(BorderFactory.createTitledBorder( "Under Comp"));
+        midPanel.setBorder(BorderFactory.createTitledBorder( "Delta-Neutral Contract"));
         addGBComponent(midPanel, new JLabel( "Contract Id"), gbc, COL1_WIDTH, GridBagConstraints.RELATIVE) ;
         addGBComponent(midPanel, m_txtConId, gbc, COL2_WIDTH, GridBagConstraints.REMAINDER) ;
         addGBComponent(midPanel, new JLabel( "Delta"), gbc, COL1_WIDTH, GridBagConstraints.RELATIVE) ;
@@ -67,9 +67,9 @@ public class UnderCompDlg extends JDialog {
         addGBComponent(midPanel, m_txtPrice, gbc, COL2_WIDTH, GridBagConstraints.REMAINDER) ;
 
 
-        m_txtConId.setText(Integer.toString(m_underComp.conid()));
-        m_txtDelta.setText(Double.toString(m_underComp.delta()));
-        m_txtPrice.setText(Double.toString(m_underComp.price()));
+        m_txtConId.setText(Integer.toString(m_deltaNeutralContract.conid()));
+        m_txtDelta.setText(Double.toString(m_deltaNeutralContract.delta()));
+        m_txtPrice.setText(Double.toString(m_deltaNeutralContract.price()));
 
         // create dlg box
         getContentPane().add( midPanel, BorderLayout.CENTER);
@@ -86,9 +86,9 @@ public class UnderCompDlg extends JDialog {
 			double delta = Double.parseDouble(m_txtDelta.getText());
 			double price = Double.parseDouble(m_txtPrice.getText());
 
-			m_underComp.conid(conId);
-			m_underComp.delta(delta);
-			m_underComp.price(price);
+			m_deltaNeutralContract.conid(conId);
+			m_deltaNeutralContract.delta(delta);
+			m_deltaNeutralContract.price(price);
 			m_ok = true;
 			setVisible( false);
 		}
@@ -98,9 +98,9 @@ public class UnderCompDlg extends JDialog {
 	}
 
 	private void onReset() {
-		m_underComp.conid(0);
-		m_underComp.delta(0);
-		m_underComp.price(0);
+		m_deltaNeutralContract.conid(0);
+		m_deltaNeutralContract.delta(0);
+		m_deltaNeutralContract.price(0);
 		m_reset = true;
 		setVisible( false);
 	}

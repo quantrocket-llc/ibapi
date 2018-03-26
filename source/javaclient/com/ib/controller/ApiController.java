@@ -1263,7 +1263,7 @@ public class ApiController implements EWrapper {
 
 	// ---------------------------------------- other methods ----------------------------------------
 	/** Not supported in ApiController. */
-	@Override public void deltaNeutralValidation(int reqId, DeltaNeutralContract underComp) {
+	@Override public void deltaNeutralValidation(int reqId, DeltaNeutralContract deltaNeutralContract) {
 		show( "RECEIVED DN VALIDATION");
 		recEOM();
 	}

@@ -1,4 +1,4 @@
-﻿/* Copyright (C) 2013 Interactive Brokers LLC. All rights reserved.  This code is subject to the terms
+/* Copyright (C) 2013 Interactive Brokers LLC. All rights reserved.  This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 using IBApi;
@@ -191,12 +191,12 @@ namespace TWSLib
         /**
          * @brief Delta and underlying price for Delta-Neutral combo orders.
          * Underlying (STK or FUT), delta and underlying price goes into this attribute.
-         * @sa UnderComp
+         * @sa DeltaNeutralContract
          */
-        ComUnderComp UnderComp
+        ComDeltaNeutralContract DeltaNeutralContract
         {
-            get { return (ComUnderComp)data.UnderComp; }
-            set { if (data != null) data.UnderComp = (UnderComp)value; }
+            get { return (ComDeltaNeutralContract)data.DeltaNeutralContract; }
+            set { if (data != null) data.DeltaNeutralContract = (DeltaNeutralContract)value; }
         }
 
         int TWSLib.IContract.conId { get { return ConId; } set { ConId = value; } }
@@ -234,12 +234,12 @@ namespace TWSLib
             set { ComboLegs = value is ComComboLegList ? (value as ComComboLegList).Ocl : null; }
         }
 
-        object TWSLib.IContract.underComp
+        object TWSLib.IContract.deltaNeutralContract
         {
             [return: MarshalAs(UnmanagedType.IDispatch)]
-            get { return UnderComp; }
+            get { return DeltaNeutralContract; }
             [param: MarshalAs(UnmanagedType.IDispatch)]
-            set { UnderComp = value as ComUnderComp; }
+            set { DeltaNeutralContract = value as ComDeltaNeutralContract; }
         }
 
         string TWSLib.IContract.comboLegsDescrip { get { return ComboLegsDescription; } }

@@ -15,7 +15,7 @@ namespace TwsRtdServer
         public const int CANNOT_EXTRACT_GENERIC_TICKS = 5;
         public const int SOCKET_IS_NULL = 6;
         public const int CANNOT_EXTRACT_COMBO_LEGS = 7;
-        public const int CANNOT_EXTRACT_UNDER_COMP = 8;
+        public const int CANNOT_EXTRACT_DELTA_NEUTRAL_CONTRACT = 8;
 
         // tws errors
         public const int ALREADY_CONNECTED = 501;
@@ -44,7 +44,7 @@ namespace TwsRtdServer
             { CANNOT_EXTRACT_GENERIC_TICKS, "Cannot extract generic ticks." },
             { SOCKET_IS_NULL, "Socket is null." },
             { CANNOT_EXTRACT_COMBO_LEGS, "Cannot extract combo legs." },
-            { CANNOT_EXTRACT_UNDER_COMP, "Cannot extract under comp." }
+            { CANNOT_EXTRACT_DELTA_NEUTRAL_CONTRACT, "Cannot extract delta-neutral contract." }
         };
 
         private static int[] m_twsServerErrors = new int[] {

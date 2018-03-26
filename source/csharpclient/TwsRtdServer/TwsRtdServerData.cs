@@ -217,7 +217,7 @@ namespace TwsRtdServer{
         public const string LOCALSYMBOL_STR = "loc=";
         public const string TRADINGCLASS_STR = "tc=";
         public const string COMBO_STR = "cmb=";
-        public const string UNDERCOMP_STR = "und=";
+        public const string DELTANEUTRALCONTRACT_STR = "und=";
         public const string OPTIONS_STR = "opt=";
         public const string GENTICKS_STR = "genticks=";
         public const string ACTION_BUY_1 = "BUY";

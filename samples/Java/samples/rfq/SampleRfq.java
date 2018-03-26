@@ -90,11 +90,11 @@ public class SampleRfq extends SimpleWrapper {
             String msg = "Done, bid=" + m_bidSize + "@" + m_bidPrice +
                               " ask=" + m_askSize + "@" + m_askPrice;
 
-            DeltaNeutralContract underComp = m_contract.underComp();
-            if (underComp != null) {
-               msg += " DN: conId=" + underComp.conid()
-                        + " price=" + underComp.price()
-                        + " delta=" + underComp.delta(); 
+            DeltaNeutralContract deltaNeutralContract = m_contract.deltaNeutralContract();
+            if (deltaNeutralContract != null) {
+               msg += " DN: conId=" + deltaNeutralContract.conid()
+                        + " price=" + deltaNeutralContract.price()
+                        + " delta=" + deltaNeutralContract.delta(); 
             } 
             consoleMsg(msg);
          }
@@ -135,9 +135,9 @@ public class SampleRfq extends SimpleWrapper {
            case 5:
                m_contract = new ComboContract("IBM");
                m_contract.comboLegs(new ArrayList<>(1));
-               m_contract.underComp(new DeltaNeutralContract());
-               //m_contract.m_underComp.m_delta = 0.8;
-               // m_contract.m_underComp.m_price = 120;
+               m_contract.deltaNeutralContract(new DeltaNeutralContract());
+               //m_contract.m_deltaNeutralContract.m_delta = 0.8;
+               // m_contract.m_deltaNeutralContract.m_price = 120;
                {
                    Contract l1 = new OptContract("IBM", "200809", 120, "CALL");
                    submitSecDef(1, l1);
@@ -147,7 +147,7 @@ public class SampleRfq extends SimpleWrapper {
            case 6:
                m_contract = new ComboContract("RUT");
                m_contract.comboLegs(new ArrayList<>(1));
-               m_contract.underComp(new DeltaNeutralContract());
+               m_contract.deltaNeutralContract(new DeltaNeutralContract());
                m_needFrontMonthFuture = true;
                {
                    Contract l1 = new OptContract("RUT", "200809", 740, "CALL");
@@ -158,7 +158,7 @@ public class SampleRfq extends SimpleWrapper {
            case 7:
                m_contract = new ComboContract("Z", "GBP", "LIFFE");
                m_contract.comboLegs(new ArrayList<>(1));
-               m_contract.underComp(new DeltaNeutralContract());
+               m_contract.deltaNeutralContract(new DeltaNeutralContract());
                m_needFrontMonthFuture = true;
                {
                    Contract l1 = new OptContract("Z", "LIFFE", "200808", 55.00, "CALL");
@@ -180,7 +180,7 @@ public class SampleRfq extends SimpleWrapper {
    private void submitRfq() {
       consoleMsg("REQ: rfq " + m_rfqId);
 
-      m_status = m_contract.underComp() != null ? Status.Rfq : Status.Ticks;
+      m_status = m_contract.deltaNeutralContract() != null ? Status.Rfq : Status.Ticks;
 
       client().placeOrder(m_rfqId, m_contract, new RfqOrder(m_clientId, m_rfqId, 1));
    }
@@ -220,7 +220,7 @@ public class SampleRfq extends SimpleWrapper {
                      return;
                }
 
-               if (m_contract.underComp() != null) {
+               if (m_contract.deltaNeutralContract() != null) {
                   /*
                    * Store underConId if needed
                    */
@@ -245,7 +245,7 @@ public class SampleRfq extends SimpleWrapper {
                   }
 
                   consoleMsg("using " + m_underConId + " for hedging");
-                  m_contract.underComp().conid(m_underConId);
+                  m_contract.deltaNeutralContract().conid(m_underConId);
                }
 
                /*
@@ -318,7 +318,7 @@ public class SampleRfq extends SimpleWrapper {
                consoleMsg("using " + m_frontMonthFuture.conid() +
                   " for hedging");
 
-               m_contract.underComp().conid(m_frontMonthFuture.conid());
+               m_contract.deltaNeutralContract().conid(m_frontMonthFuture.conid());
 
                /*
                 * And finally submit RFQ
@@ -333,7 +333,7 @@ public class SampleRfq extends SimpleWrapper {
       }
    }
 
-   public void deltaNeutralValidation(int reqId, DeltaNeutralContract underComp) {
+   public void deltaNeutralValidation(int reqId, DeltaNeutralContract deltaNeutralContract) {
       consoleMsg("deltaNeutralValidation:" + reqId);    	
 
       synchronized (m_mutex) {
@@ -343,8 +343,8 @@ public class SampleRfq extends SimpleWrapper {
                return;
             }
 
-            // update underComp
-            m_contract.underComp(underComp);
+            // update deltaNeutralContract
+            m_contract.deltaNeutralContract(deltaNeutralContract);
             m_status = Status.Ticks;
          }
       }

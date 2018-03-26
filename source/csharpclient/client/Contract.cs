@@ -1,4 +1,4 @@
-﻿/* Copyright (C) 2013 Interactive Brokers LLC. All rights reserved.  This code is subject to the terms
+/* Copyright (C) 2013 Interactive Brokers LLC. All rights reserved.  This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 using System;
@@ -33,7 +33,7 @@ namespace IBApi
         private string secId;
         private string comboLegsDescription;
         private List<ComboLeg> comboLegs;
-        private UnderComp underComp;
+        private DeltaNeutralContract deltaNeutralContract;
 
 
         /**
@@ -213,12 +213,12 @@ namespace IBApi
         /**
          * @brief Delta and underlying price for Delta-Neutral combo orders.
          * Underlying (STK or FUT), delta and underlying price goes into this attribute.
-         * @sa UnderComp
+         * @sa DeltaNeutralContract
          */
-        public UnderComp UnderComp
+        public DeltaNeutralContract DeltaNeutralContract
         {
-            get { return underComp; }
-            set { underComp = value; }
+            get { return deltaNeutralContract; }
+            set { deltaNeutralContract = value; }
         }
 
         public override string ToString()

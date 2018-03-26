@@ -1350,8 +1350,8 @@ class SampleFrame extends JFrame implements EWrapper {
 		String msg = EWrapperMsgGenerator.fundamentalData(reqId, data);
 		m_tickers.add(msg);
 	}
-	public void deltaNeutralValidation(int reqId, DeltaNeutralContract underComp) {
-		String msg = EWrapperMsgGenerator.deltaNeutralValidation(reqId, underComp);
+	public void deltaNeutralValidation(int reqId, DeltaNeutralContract deltaNeutralContract) {
+		String msg = EWrapperMsgGenerator.deltaNeutralValidation(reqId, deltaNeutralContract);
 		m_TWS.add(msg);
 	}
 

@@ -208,8 +208,8 @@ public class Test implements EWrapper {
 		System.out.println(EWrapperMsgGenerator.fundamentalData( reqId,  data));
 	}
 
-	@Override public void deltaNeutralValidation(int reqId, DeltaNeutralContract underComp) {
-		System.out.println(EWrapperMsgGenerator.deltaNeutralValidation( reqId, underComp));
+	@Override public void deltaNeutralValidation(int reqId, DeltaNeutralContract deltaNeutralContract) {
+		System.out.println(EWrapperMsgGenerator.deltaNeutralValidation( reqId, deltaNeutralContract));
 	}
 
 	@Override public void tickSnapshotEnd(int reqId) {

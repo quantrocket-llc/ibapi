@@ -57,7 +57,7 @@ public abstract class EClient {
 	// 38 = can receive multiplier and primaryExchange in portfolio updates
 	//    ; can receive cumQty and avgPrice in execution
 	//    ; can receive fundamental data
-	//    ; can receive underComp for Contract objects
+	//    ; can receive deltaNeutralContract for Contract objects
 	//    ; can receive reqId and end marker in contractDetails/bondContractDetails
  	//    ; can receive ScaleInitComponentSize and ScaleSubsComponentSize for Order objects
 	// 39 = can receive underConId in contractDetails
@@ -203,7 +203,7 @@ public abstract class EClient {
 	private static final int MIN_SERVER_VER_CONTRACT_CONID = 37;
 	private static final int MIN_SERVER_VER_PTA_ORDERS = 39;
 	private static final int MIN_SERVER_VER_FUNDAMENTAL_DATA = 40;
-	private static final int MIN_SERVER_VER_UNDER_COMP = 40;
+	private static final int MIN_SERVER_VER_DELTA_NEUTRAL = 40;
 	private static final int MIN_SERVER_VER_CONTRACT_DATA_CHAIN = 40;
 	private static final int MIN_SERVER_VER_SCALE_ORDERS2 = 40;
 	private static final int MIN_SERVER_VER_ALGO_ORDERS = 41;
@@ -534,8 +534,8 @@ public abstract class EClient {
         	return;
         }
 
-        if (m_serverVersion < MIN_SERVER_VER_UNDER_COMP) {
-        	if (contract.underComp() != null) {
+        if (m_serverVersion < MIN_SERVER_VER_DELTA_NEUTRAL) {
+        	if (contract.deltaNeutralContract() != null) {
         		error(tickerId, EClientErrors.UPDATE_TWS,
         			"  It does not support delta-neutral orders.");
         		return;
@@ -619,14 +619,14 @@ public abstract class EClient {
                 }
             }
 
-            if (m_serverVersion >= MIN_SERVER_VER_UNDER_COMP) {
-         	   if (contract.underComp() != null) {
-         		   DeltaNeutralContract underComp = contract.underComp();
+            if (m_serverVersion >= MIN_SERVER_VER_DELTA_NEUTRAL) {
+         	   if (contract.deltaNeutralContract() != null) {
+         		   DeltaNeutralContract deltaNeutralContract = contract.deltaNeutralContract();
          		   
          		   b.send(true);
-         		   b.send(underComp.conid());
-         		   b.send(underComp.delta());
-         		   b.send(underComp.price());
+         		   b.send(deltaNeutralContract.conid());
+         		   b.send(deltaNeutralContract.delta());
+         		   b.send(deltaNeutralContract.price());
          	   }
          	   else {
          		   b.send( false);
@@ -1291,8 +1291,8 @@ public abstract class EClient {
         	}
         }
 
-        if (m_serverVersion < MIN_SERVER_VER_UNDER_COMP) {
-        	if (contract.underComp() != null) {
+        if (m_serverVersion < MIN_SERVER_VER_DELTA_NEUTRAL) {
+        	if (contract.deltaNeutralContract() != null) {
         		error(id, EClientErrors.UPDATE_TWS,
         			"  It does not support delta-neutral orders.");
         		return;
@@ -1815,13 +1815,13 @@ public abstract class EClient {
         	   b.send (order.notHeld());
            }
 
-           if (m_serverVersion >= MIN_SERVER_VER_UNDER_COMP) {
-        	   if (contract.underComp() != null) {
-        		   DeltaNeutralContract underComp = contract.underComp();
+           if (m_serverVersion >= MIN_SERVER_VER_DELTA_NEUTRAL) {
+        	   if (contract.deltaNeutralContract() != null) {
+        		   DeltaNeutralContract deltaNeutralContract = contract.deltaNeutralContract();
         		   b.send( true);
-        		   b.send( underComp.conid());
-        		   b.send( underComp.delta());
-        		   b.send( underComp.price());
+        		   b.send( deltaNeutralContract.conid());
+        		   b.send( deltaNeutralContract.delta());
+        		   b.send( deltaNeutralContract.price());
         	   }
         	   else {
         		   b.send( false);

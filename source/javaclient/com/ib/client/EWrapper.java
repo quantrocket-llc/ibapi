@@ -52,7 +52,7 @@ public interface EWrapper {
     void realtimeBar(int reqId, long time, double open, double high, double low, double close, long volume, double wap, int count);
     void currentTime(long time);
     void fundamentalData(int reqId, String data);
-    void deltaNeutralValidation(int reqId, DeltaNeutralContract underComp);
+    void deltaNeutralValidation(int reqId, DeltaNeutralContract deltaNeutralContract);
     void tickSnapshotEnd(int reqId);
     void marketDataType(int reqId, int marketDataType);
     void commissionReport(CommissionReport commissionReport);

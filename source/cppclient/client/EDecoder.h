@@ -18,7 +18,7 @@
 //const int MIN_SERVER_VER_CONTRACT_CONID       = 37;
 const int MIN_SERVER_VER_PTA_ORDERS                 = 39;
 const int MIN_SERVER_VER_FUNDAMENTAL_DATA           = 40;
-const int MIN_SERVER_VER_UNDER_COMP                 = 40;
+const int MIN_SERVER_VER_DELTA_NEUTRAL              = 40;
 const int MIN_SERVER_VER_CONTRACT_DATA_CHAIN        = 40;
 const int MIN_SERVER_VER_SCALE_ORDERS2              = 40;
 const int MIN_SERVER_VER_ALGO_ORDERS                = 41;
