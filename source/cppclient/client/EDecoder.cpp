@@ -42,7 +42,7 @@ const char* EDecoder::processTickPriceMsg(const char* ptr, const char* endPtr) {
 	DECODE_FIELD( size); // ver 2 field
 	DECODE_FIELD( attrMask); // ver 3 field
 
-	TickAttrib attrib;
+	TickAttrib attrib = {};
 
 	attrib.canAutoExecute = attrMask == 1;
 
@@ -2295,7 +2295,7 @@ const char* EDecoder::processTickByTickDataMsg(const char* ptr, const char* endP
             double price;
             int size;
             int attrMask;
-            TickAttrib attribs;
+            TickAttrib attribs = {};
             std::string exchange;
             std::string specialConditions;
 
@@ -2324,7 +2324,7 @@ const char* EDecoder::processTickByTickDataMsg(const char* ptr, const char* endP
             DECODE_FIELD(askSize);
             DECODE_FIELD(attrMask);
 
-            TickAttrib attribs;
+            TickAttrib attribs = {};
             std::bitset<32> mask(attrMask);
             attribs.bidPastLow = mask[0];
             attribs.askPastHigh = mask[1];
