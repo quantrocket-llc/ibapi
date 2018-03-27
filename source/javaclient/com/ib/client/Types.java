@@ -160,7 +160,7 @@ public class Types {
 	}
 
 	public enum Rule80A implements IApiEnum {
-		None(""), IndivArb("J"), IndivBigNonArb("K"), IndivSmallNonArb("I"), INST_ARB("U"), InstBigNonArb("Y"), InstSmallNonArb("A");
+		None(""), Individual("I"), Agency("A"), AgentOtherMember("W"), IndividualPTIA("J"), AgencyPTIA("U"), AgentOtherMemberPTIA("M"), IndividualPT("K"), AgencyPT("Y"), AgentOtherMemberPT("N");
 
 		private String m_apiString;
 
