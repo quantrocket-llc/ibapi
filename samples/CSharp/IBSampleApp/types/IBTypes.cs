@@ -54,15 +54,18 @@ namespace IBSampleApp.types
     {
         public static object[] GetAll()
         {
-            return new object[] { None, IndivArb, IndivBigNonArb, IndivSmallNonArb, INST_ARB, InstBigNonArb, InstSmallNonArb };
+            return new object[] { None, Individual, Agency, AgentOtherMember, IndividualPTIA, AgencyPTIA, AgentOtherMemberPTIA, IndividualPT, AgencyPT, AgentOtherMemberPT };
         }
         public static IBType None = new IBType("None", "");
-        public static IBType IndivArb = new IBType("IndivArb", "J");
-        public static IBType IndivBigNonArb = new IBType("IndivBigNonArb", "K");
-        public static IBType IndivSmallNonArb = new IBType("IndivSmallNonArb", "I");
-        public static IBType INST_ARB = new IBType("INST_ARB", "U");
-        public static IBType InstBigNonArb = new IBType("InstBigNonArb", "Y");
-        public static IBType InstSmallNonArb = new IBType("InstSmallNonArb", "A");
+        public static IBType Individual = new IBType("Individual", "I");
+        public static IBType Agency = new IBType("Agency", "A");
+        public static IBType AgentOtherMember = new IBType("AgentOtherMember", "W");
+        public static IBType IndividualPTIA = new IBType("IndividualPTIA", "J");
+        public static IBType AgencyPTIA = new IBType("AgencyPTIA", "U");
+        public static IBType AgentOtherMemberPTIA = new IBType("AgentOtherMemberPTIA", "M");
+        public static IBType IndividualPT = new IBType("IndividualPT", "K");
+        public static IBType AgencyPT = new IBType("AgencyPT", "Y");
+        public static IBType AgentOtherMemberPT = new IBType("AgentOtherMemberPT", "N");
     }
 
     class OCAType
