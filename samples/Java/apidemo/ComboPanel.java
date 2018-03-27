@@ -234,7 +234,7 @@ public class ComboPanel extends JPanel implements INewTab {
 			}
 			
 			if (m_dnContract != null) {
-				comboContract.underComp( m_dnContract);
+				comboContract.deltaNeutralContract( m_dnContract);
 			}
 
 			return comboContract;

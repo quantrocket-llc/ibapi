@@ -587,15 +587,15 @@ const char* EDecoder::processOpenOrderMsg(const char* ptr, const char* endPtr) {
 		DECODE_FIELD( order.notHeld);
 	}
 
-	UnderComp underComp;
+	DeltaNeutralContract deltaNeutralContract;
 	if( version >= 20) {
-		bool underCompPresent = false;
-		DECODE_FIELD(underCompPresent);
-		if( underCompPresent){
-			DECODE_FIELD(underComp.conId);
-			DECODE_FIELD(underComp.delta);
-			DECODE_FIELD(underComp.price);
-			contract.underComp = &underComp;
+		bool deltaNeutralContractPresent = false;
+		DECODE_FIELD(deltaNeutralContractPresent);
+		if( deltaNeutralContractPresent){
+			DECODE_FIELD(deltaNeutralContract.conId);
+			DECODE_FIELD(deltaNeutralContract.delta);
+			DECODE_FIELD(deltaNeutralContract.price);
+			contract.deltaNeutralContract = &deltaNeutralContract;
 		}
 	}
 
@@ -1407,13 +1407,13 @@ const char* EDecoder::processDeltaNeutralValidationMsg(const char* ptr, const ch
 	DECODE_FIELD( version);
 	DECODE_FIELD( reqId);
 
-	UnderComp underComp;
+	DeltaNeutralContract deltaNeutralContract;
 
-	DECODE_FIELD( underComp.conId);
-	DECODE_FIELD( underComp.delta);
-	DECODE_FIELD( underComp.price);
+	DECODE_FIELD( deltaNeutralContract.conId);
+	DECODE_FIELD( deltaNeutralContract.delta);
+	DECODE_FIELD( deltaNeutralContract.price);
 
-	m_pEWrapper->deltaNeutralValidation( reqId, underComp);
+	m_pEWrapper->deltaNeutralValidation( reqId, deltaNeutralContract);
 
 	return ptr;
 }

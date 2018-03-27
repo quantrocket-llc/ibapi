@@ -320,7 +320,7 @@ namespace TWSLib
         [DispId(204)]
         IScannerSubscription createScannerSubscription();
         [DispId(205)]
-        IUnderComp createUnderComp();
+        IDeltaNeutralContract createDeltaNeutralContract();
         [DispId(206)]
         ITagValueList createTagValueList();
         [DispId(207)]

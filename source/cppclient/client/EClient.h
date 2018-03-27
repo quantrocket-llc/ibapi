@@ -63,7 +63,7 @@ namespace client_constants {
 // 38 = can receive multipier and primaryExchange in portfolio updates
 //    ; can receive cumQty and avgPrice in execution
 //    ; can receive fundamental data
-//    ; can receive underComp for Contract objects
+//    ; can receive deltaNeutralContract for Contract objects
 //    ; can receive reqId and end marker in contractDetails/bondContractDetails
 //    ; can receive ScaleInitComponentSize and ScaleSubsComponentSize for Order objects
 // 39 = can receive underConId in contractDetails

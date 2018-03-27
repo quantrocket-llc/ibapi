@@ -25,7 +25,7 @@ namespace IBApi
 
         public const int PTA_ORDERS = 39;
         public const int FUNDAMENTAL_DATA = 40;
-        public const int UNDER_COMP = 40;
+        public const int DELTA_NEUTRAL = 40;
         public const int CONTRACT_DATA_CHAIN = 40;
         public const int SCALE_ORDERS2 = 40;
         public const int ALGO_ORDERS = 41;

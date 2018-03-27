@@ -1663,8 +1663,8 @@ void TestCppClient::fundamentalData(TickerId reqId, const std::string& data) {
 }
 //! [fundamentaldata]
 
-void TestCppClient::deltaNeutralValidation(int reqId, const UnderComp& underComp) {
-	printf( "DeltaNeutralValidation. %d, ConId: %ld, Delta: %g, Price: %g\n", reqId, underComp.conId, underComp.delta, underComp.price);
+void TestCppClient::deltaNeutralValidation(int reqId, const DeltaNeutralContract& deltaNeutralContract) {
+	printf( "DeltaNeutralValidation. %d, ConId: %ld, Delta: %g, Price: %g\n", reqId, deltaNeutralContract.conId, deltaNeutralContract.delta, deltaNeutralContract.price);
 }
 
 //! [ticksnapshotend]

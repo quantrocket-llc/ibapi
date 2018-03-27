@@ -116,11 +116,13 @@ namespace Samples
             NextOrderId = orderId;
         }
         //! [nextvalidid]
-        
-        public virtual void deltaNeutralValidation(int reqId, UnderComp underComp)
+
+        //! [deltaneutralvalidation]
+        public virtual void deltaNeutralValidation(int reqId, DeltaNeutralContract deltaNeutralContract)
         {
-            Console.WriteLine("DeltaNeutralValidation. "+reqId+", ConId: "+underComp.ConId+", Delta: "+underComp.Delta+", Price: "+underComp.Price);
+            Console.WriteLine("DeltaNeutralValidation. " + reqId + ", ConId: " + deltaNeutralContract.ConId + ", Delta: " + deltaNeutralContract.Delta + ", Price: " + deltaNeutralContract.Price);
         }
+        //! [deltaneutralvalidation]
 
         //! [managedaccounts]
         public virtual void managedAccounts(string accountsList) 

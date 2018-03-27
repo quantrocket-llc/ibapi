@@ -1,4 +1,4 @@
-﻿' Copyright (C) 2016 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+' Copyright (C) 2016 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
 ' and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable.
 
 
@@ -130,7 +130,7 @@ Friend Class dlgOrder
     Public WithEvents cmdAddCmboLegs As System.Windows.Forms.Button
     Public WithEvents tGTD As System.Windows.Forms.TextBox
     Public WithEvents tGAT As System.Windows.Forms.TextBox
-    Public WithEvents cmdUnderComp As System.Windows.Forms.Button
+    Public WithEvents cmdDeltaNeutralContract As System.Windows.Forms.Button
     Public WithEvents cmdAlgoParams As System.Windows.Forms.Button
     Public WithEvents frameOrderDesc As System.Windows.Forms.GroupBox
     Friend WithEvents txtSecId As System.Windows.Forms.TextBox
@@ -248,7 +248,7 @@ Friend Class dlgOrder
         Me.cmdAddCmboLegs = New System.Windows.Forms.Button()
         Me.tGTD = New System.Windows.Forms.TextBox()
         Me.tGAT = New System.Windows.Forms.TextBox()
-        Me.cmdUnderComp = New System.Windows.Forms.Button()
+        Me.cmdDeltaNeutralContract = New System.Windows.Forms.Button()
         Me.cmdAlgoParams = New System.Windows.Forms.Button()
         Me.frameOrderDesc = New System.Windows.Forms.GroupBox()
         Me.txtCashQty = New System.Windows.Forms.TextBox()
@@ -1549,19 +1549,19 @@ Friend Class dlgOrder
         Me.tGAT.Size = New System.Drawing.Size(112, 13)
         Me.tGAT.TabIndex = 11
         '
-        'cmdUnderComp
+        'cmdDeltaNeutralContract
         '
-        Me.cmdUnderComp.BackColor = System.Drawing.SystemColors.Control
-        Me.cmdUnderComp.Cursor = System.Windows.Forms.Cursors.Default
-        Me.cmdUnderComp.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.cmdUnderComp.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.cmdUnderComp.Location = New System.Drawing.Point(17, 298)
-        Me.cmdUnderComp.Name = "cmdUnderComp"
-        Me.cmdUnderComp.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.cmdUnderComp.Size = New System.Drawing.Size(99, 25)
-        Me.cmdUnderComp.TabIndex = 18
-        Me.cmdUnderComp.Text = "Delta Neutral"
-        Me.cmdUnderComp.UseVisualStyleBackColor = True
+        Me.cmdDeltaNeutralContract.BackColor = System.Drawing.SystemColors.Control
+        Me.cmdDeltaNeutralContract.Cursor = System.Windows.Forms.Cursors.Default
+        Me.cmdDeltaNeutralContract.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cmdDeltaNeutralContract.ForeColor = System.Drawing.SystemColors.ControlText
+        Me.cmdDeltaNeutralContract.Location = New System.Drawing.Point(17, 298)
+        Me.cmdDeltaNeutralContract.Name = "cmdDeltaNeutralContract"
+        Me.cmdDeltaNeutralContract.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.cmdDeltaNeutralContract.Size = New System.Drawing.Size(99, 25)
+        Me.cmdDeltaNeutralContract.TabIndex = 18
+        Me.cmdDeltaNeutralContract.Text = "Delta Neutral"
+        Me.cmdDeltaNeutralContract.UseVisualStyleBackColor = True
         '
         'cmdAlgoParams
         '
@@ -1588,7 +1588,7 @@ Friend Class dlgOrder
         Me.frameOrderDesc.Controls.Add(Me.cmdOptions)
         Me.frameOrderDesc.Controls.Add(Me.cmdSmartComboRoutingParams)
         Me.frameOrderDesc.Controls.Add(Me.cmdAlgoParams)
-        Me.frameOrderDesc.Controls.Add(Me.cmdUnderComp)
+        Me.frameOrderDesc.Controls.Add(Me.cmdDeltaNeutralContract)
         Me.frameOrderDesc.Controls.Add(Me.tGAT)
         Me.frameOrderDesc.Controls.Add(Me.tGTD)
         Me.frameOrderDesc.Controls.Add(Me.cmdAddCmboLegs)
@@ -1843,7 +1843,7 @@ Friend Class dlgOrder
 
     Private m_contractInfo As IBApi.Contract
     Private m_orderInfo As IBApi.Order
-    Private m_underComp As IBApi.UnderComp
+    Private m_deltaNeutralContract As IBApi.DeltaNeutralContract
 
     Private m_faMethod, m_faGroup, m_faPercentage As Object
     Private m_faProfile As String
@@ -2063,15 +2063,15 @@ Friend Class dlgOrder
         End With
     End Sub
 
-    Private Sub cmdUnderComp_Click(sender As Object, e As EventArgs) Handles cmdUnderComp.Click
-        Dim dlg As New dlgUnderComp
+    Private Sub cmdDeltaNeutralContract_Click(sender As Object, e As EventArgs) Handles cmdDeltaNeutralContract.Click
+        Dim dlg As New dlgDeltaNeutralContract
 
         With dlg
-            .init(m_underComp)
+            .init(m_deltaNeutralContract)
             Dim res = .ShowDialog()
             Select Case res
-                Case DialogResult.OK : m_contractInfo.UnderComp = m_underComp
-                Case DialogResult.Abort : m_contractInfo.UnderComp = Nothing
+                Case DialogResult.OK : m_contractInfo.DeltaNeutralContract = m_deltaNeutralContract
+                Case DialogResult.Abort : m_contractInfo.DeltaNeutralContract = Nothing
             End Select
         End With
     End Sub
@@ -2157,14 +2157,14 @@ Friend Class dlgOrder
     ' Sets the dialog field and button states based on the dialog type
     '--------------------------------------------------------------------------------
     Public Sub init(dlgType As DialogType, contractInfo As IBApi.Contract,
-        orderInfo As IBApi.Order, underComp As IBApi.UnderComp,
+        orderInfo As IBApi.Order, deltaNeutralContract As IBApi.DeltaNeutralContract,
         options As List(Of IBApi.TagValue),
         mainWin As System.Windows.Forms.Form)
         DialogResult = Windows.Forms.DialogResult.Abort
 
         m_contractInfo = contractInfo
         m_orderInfo = orderInfo
-        m_underComp = underComp
+        m_deltaNeutralContract = deltaNeutralContract
         m_options = options
 
         m_mainWnd = MainForm.DefInstance
@@ -2176,7 +2176,7 @@ Friend Class dlgOrder
             dlgType = DialogType.RequestHistoricalData Or
             dlgType = DialogType.RequestMarketData)
 
-        cmdUnderComp.Enabled =
+        cmdDeltaNeutralContract.Enabled =
             (dlgType = DialogType.PlaceOrder Or
             dlgType = DialogType.RequestMarketData)
 

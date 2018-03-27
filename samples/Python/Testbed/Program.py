@@ -1864,9 +1864,9 @@ def main():
     from ibapi import utils
     from ibapi.order import Order
     Order.__setattr__ = utils.setattr_log
-    from ibapi.contract import Contract, UnderComp
+    from ibapi.contract import Contract, DeltaNeutralContract
     Contract.__setattr__ = utils.setattr_log
-    UnderComp.__setattr__ = utils.setattr_log
+    DeltaNeutralContract.__setattr__ = utils.setattr_log
     from ibapi.tag_value import TagValue
     TagValue.__setattr__ = utils.setattr_log
     TimeCondition.__setattr__ = utils.setattr_log

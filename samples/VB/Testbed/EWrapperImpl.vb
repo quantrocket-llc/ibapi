@@ -203,9 +203,9 @@ Namespace Samples
         End Sub
         '! [currenttime]
 
-        Public Sub deltaNeutralValidation(reqId As Integer, underComp As IBApi.UnderComp) Implements IBApi.EWrapper.deltaNeutralValidation
-            Console.WriteLine("DeltaNeutralValidation - ReqId [" & reqId & "] UnderComp [ConId:" & underComp.ConId & ", Price:" &
-                          underComp.Price & ", Delta:" & underComp.Delta & "]")
+        Public Sub deltaNeutralValidation(reqId As Integer, deltaNeutralContract As IBApi.DeltaNeutralContract) Implements IBApi.EWrapper.deltaNeutralValidation
+            Console.WriteLine("DeltaNeutralValidation - ReqId [" & reqId & "] DeltaNeutralContract [ConId:" & deltaNeutralContract.ConId & ", Price:" &
+                          deltaNeutralContract.Price & ", Delta:" & deltaNeutralContract.Delta & "]")
         End Sub
 
         '! [displaygrouplist]

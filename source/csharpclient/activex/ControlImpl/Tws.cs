@@ -892,7 +892,7 @@ namespace TWSLib
         
         IScannerSubscription ITws.createScannerSubscription() { return new ComScannerSubscription(); }
         
-        IUnderComp ITws.createUnderComp() { return new ComUnderComp(); }
+        IDeltaNeutralContract ITws.createDeltaNeutralContract() { return new ComDeltaNeutralContract(); }
         
         ITagValueList ITws.createTagValueList() { return new ComTagValueList(); }
         
@@ -1621,13 +1621,13 @@ namespace TWSLib
                 sc.Post(state => t_execDetailsEnd(reqId), null);
         }
 
-        public delegate void deltaNeutralValidationDelegate(int reqId, IUnderComp underComp);
+        public delegate void deltaNeutralValidationDelegate(int reqId, IDeltaNeutralContract deltaNeutralContract);
         public event deltaNeutralValidationDelegate deltaNeutralValidation;
-        void EWrapper.deltaNeutralValidation(int reqId, UnderComp underComp)
+        void EWrapper.deltaNeutralValidation(int reqId, DeltaNeutralContract deltaNeutralContract)
         {
             var t_deltaNeutralValidation = this.deltaNeutralValidation;
             if (t_deltaNeutralValidation != null)
-                sc.Post(state => t_deltaNeutralValidation(reqId, (ComUnderComp)underComp), null);
+                sc.Post(state => t_deltaNeutralValidation(reqId, (ComDeltaNeutralContract)deltaNeutralContract), null);
         }
 
         public delegate void tickSnapshotEndDelegate(int reqId);

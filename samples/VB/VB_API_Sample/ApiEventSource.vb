@@ -141,11 +141,11 @@ Friend Class ApiEventSource
                          End Sub)
     End Sub
 
-    Private Sub EWrapper_DeltaNeutralValidation(reqId As Integer, underComp As IBApi.UnderComp) Implements IBApi.EWrapper.deltaNeutralValidation
+    Private Sub EWrapper_DeltaNeutralValidation(reqId As Integer, deltaNeutralContract As IBApi.DeltaNeutralContract) Implements IBApi.EWrapper.deltaNeutralValidation
         InvokeIfRequired(Sub()
                              RaiseEvent DeltaNeutralValidation(Me, New DeltaNeutralValidationEventArgs With {
                                                                       .reqId = reqId,
-                                                                      .underComp = underComp
+                                                                      .deltaNeutralContract = deltaNeutralContract
                                                                      })
                          End Sub)
     End Sub

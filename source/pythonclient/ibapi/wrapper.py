@@ -22,7 +22,7 @@ server and client.
 
 from ibapi.common import *
 from ibapi.utils import *
-from ibapi.contract import (Contract, ContractDetails, UnderComp)
+from ibapi.contract import (Contract, ContractDetails, DeltaNeutralContract)
 from ibapi.order import Order
 from ibapi.order_state import OrderState
 from ibapi.execution import Execution
@@ -409,9 +409,9 @@ class EWrapper:
         self.logAnswer(current_fn_name(), vars())
 
 
-    def deltaNeutralValidation(self, reqId:int, underComp:UnderComp):
+    def deltaNeutralValidation(self, reqId:int, deltaNeutralContract:DeltaNeutralContract):
         """Upon accepting a Delta-Neutral RFQ(request for quote), the
-        server sends a deltaNeutralValidation() message with the UnderComp
+        server sends a deltaNeutralValidation() message with the DeltaNeutralContract
         structure. If the delta and price fields are empty in the original
         request, the confirmation will contain the current values from the
         server. These values are locked when the RFQ is processed and remain

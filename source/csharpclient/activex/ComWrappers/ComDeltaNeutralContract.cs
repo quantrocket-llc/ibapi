@@ -1,4 +1,4 @@
-﻿/* Copyright (C) 2013 Interactive Brokers LLC. All rights reserved.  This code is subject to the terms
+/* Copyright (C) 2013 Interactive Brokers LLC. All rights reserved.  This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 using IBApi;
@@ -14,7 +14,7 @@ namespace TWSLib
      * @brief Delta-Neutral Underlying Component.
      */
     [ComVisible(true)]
-    public class ComUnderComp : ComWrapper<UnderComp>, IUnderComp
+    public class ComDeltaNeutralContract : ComWrapper<DeltaNeutralContract>, IDeltaNeutralContract
     {
         /**
          * @brief
@@ -43,7 +43,7 @@ namespace TWSLib
             set { if (data != null) data.Price = value; }
         }
 
-        int TWSLib.IUnderComp.conId
+        int TWSLib.IDeltaNeutralContract.conId
         {
             get
             {
@@ -55,7 +55,7 @@ namespace TWSLib
             }
         }
 
-        double TWSLib.IUnderComp.delta
+        double TWSLib.IDeltaNeutralContract.delta
         {
             get
             {
@@ -67,7 +67,7 @@ namespace TWSLib
             }
         }
 
-        double TWSLib.IUnderComp.price
+        double TWSLib.IDeltaNeutralContract.price
         {
             get
             {
@@ -79,14 +79,14 @@ namespace TWSLib
             }
         }
 
-        public static explicit operator ComUnderComp(UnderComp uc)
+        public static explicit operator ComDeltaNeutralContract(DeltaNeutralContract dnc)
         {
-            return new ComUnderComp().ConvertFrom(uc) as ComUnderComp;
+            return new ComDeltaNeutralContract().ConvertFrom(dnc) as ComDeltaNeutralContract;
         }
 
-        public static explicit operator UnderComp(ComUnderComp cuc)
+        public static explicit operator DeltaNeutralContract(ComDeltaNeutralContract dnc)
         {
-            return cuc.ConvertTo();
+            return dnc.ConvertTo();
         }
     }
 }

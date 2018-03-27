@@ -98,12 +98,12 @@ namespace IBApi
         /**
          * @brief -
          * Upon accepting a Delta-Neutral DN RFQ(request for quote), the server sends a deltaNeutralValidation() message with the 
-         * UnderComp structure. If the delta and price fields are empty in the original request, the confirmation will contain the current
+         * DeltaNeutralContract structure. If the delta and price fields are empty in the original request, the confirmation will contain the current
          * values from the server. These values are locked when RFQ is processed and remain locked unitl the RFQ is cancelled.
          * @param reqId the request's identifier.
-         * @param underComp Underlying Component
+         * @param deltaNeutralContract Delta-Neutral Contract
          */
-        void deltaNeutralValidation(int reqId, UnderComp underComp);
+        void deltaNeutralValidation(int reqId, DeltaNeutralContract deltaNeutralContract);
 
         /**
          * @brief Receive's option specific market data.

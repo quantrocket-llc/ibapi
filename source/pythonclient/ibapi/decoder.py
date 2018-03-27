@@ -19,7 +19,7 @@ from ibapi.order import Order
 from ibapi.order import OrderComboLeg
 from ibapi.contract import Contract
 from ibapi.contract import ContractDescription
-from ibapi.contract import UnderComp
+from ibapi.contract import DeltaNeutralContract
 from ibapi.contract import ComboLeg
 from ibapi.execution import Execution
 from ibapi.order_state import OrderState
@@ -342,12 +342,12 @@ class Decoder(Object):
             order.notHeld = decode(bool, fields)
 
         if version >= 20:
-            contract.underCompPresent = decode(bool, fields)
-            if contract.underCompPresent:
-                contract.underComp = UnderComp()
-                contract.underComp.conId = decode(int, fields)
-                contract.underComp.delta = decode(float, fields)
-                contract.underComp.price = decode(float, fields)
+            contract.deltaNeutralContractPresent = decode(bool, fields)
+            if contract.deltaNeutralContractPresent:
+                contract.deltaNeutralContract = DeltaNeutralContract()
+                contract.deltaNeutralContract.conId = decode(int, fields)
+                contract.deltaNeutralContract.delta = decode(float, fields)
+                contract.deltaNeutralContract.price = decode(float, fields)
 
         if version >= 21:
             order.algoStrategy = decode(str, fields)
@@ -818,13 +818,13 @@ class Decoder(Object):
         version = decode(int, fields)
         reqId = decode(int, fields)
 
-        underComp = UnderComp()
+        deltaNeutralContract = DeltaNeutralContract()
 
-        underComp.conId = decode(int, fields)
-        underComp.delta = decode(float, fields)
-        underComp.price = decode(float, fields)
+        deltaNeutralContract.conId = decode(int, fields)
+        deltaNeutralContract.delta = decode(float, fields)
+        deltaNeutralContract.price = decode(float, fields)
 
-        self.wrapper.deltaNeutralValidation(reqId, underComp)
+        self.wrapper.deltaNeutralValidation(reqId, deltaNeutralContract)
 
 
     def processCommissionReportMsg(self, fields):

@@ -56,7 +56,7 @@ namespace IBApi
         {
         }
 
-        public virtual void deltaNeutralValidation(int reqId, UnderComp underComp)
+        public virtual void deltaNeutralValidation(int reqId, DeltaNeutralContract deltaNeutralContract)
         {
         }
 

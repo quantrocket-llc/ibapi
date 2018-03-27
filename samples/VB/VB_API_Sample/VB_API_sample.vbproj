@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
     <ProjectType>Local</ProjectType>
@@ -305,10 +305,10 @@
     <Compile Include="dlgSharesAlloc.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="dlgUnderComp.Designer.vb">
-      <DependentUpon>dlgUnderComp.vb</DependentUpon>
+    <Compile Include="dlgDeltaNeutralContract.Designer.vb">
+      <DependentUpon>dlgDeltaNeutralContract.vb</DependentUpon>
     </Compile>
-    <Compile Include="dlgUnderComp.vb">
+    <Compile Include="dlgDeltaNeutralContract.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="EventArgs\HeadTimestampEventArgs.vb" />
@@ -434,9 +434,9 @@
     <EmbeddedResource Include="dlgSmartComponents.resx">
       <DependentUpon>dlgSmartComponents.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="dlgUnderComp.resX">
+    <EmbeddedResource Include="dlgDeltaNeutralContract.resX">
       <SubType>Designer</SubType>
-      <DependentUpon>dlgUnderComp.vb</DependentUpon>
+      <DependentUpon>dlgDeltaNeutralContract.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resX">
       <DependentUpon>MainForm.vb</DependentUpon>

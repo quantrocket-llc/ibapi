@@ -249,14 +249,14 @@ namespace IBSampleApp
             NextOrderId = orderId;
         }
 
-        public event Action<int, UnderComp> DeltaNeutralValidation;
+        public event Action<int, DeltaNeutralContract> DeltaNeutralValidation;
 
-        void EWrapper.deltaNeutralValidation(int reqId, UnderComp underComp)
+        void EWrapper.deltaNeutralValidation(int reqId, DeltaNeutralContract deltaNeutralContract)
         {
             var tmp = DeltaNeutralValidation;
 
             if (tmp != null)
-                sc.Post((t) => tmp(reqId, underComp), null);
+                sc.Post((t) => tmp(reqId, deltaNeutralContract), null);
         }
 
         public event Action<ManagedAccountsMessage> ManagedAccounts;

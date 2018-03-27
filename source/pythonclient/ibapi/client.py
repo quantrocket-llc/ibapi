@@ -338,8 +338,8 @@ class EClient(object):
                                NOT_CONNECTED.msg())
             return
 
-        if self.serverVersion() < MIN_SERVER_VER_UNDER_COMP:
-            if contract.underComp:
+        if self.serverVersion() < MIN_SERVER_VER_DELTA_NEUTRAL:
+            if contract.deltaNeutralContract:
                 self.wrapper.error(reqId, UPDATE_TWS.code(),
                     UPDATE_TWS.msg() + "  It does not support delta-neutral orders.")
                 return
@@ -392,12 +392,12 @@ class EClient(object):
                         make_field( comboLeg.action),
                         make_field( comboLeg.exchange)]
 
-        if self.serverVersion() >= MIN_SERVER_VER_UNDER_COMP:
-            if contract.underComp:
+        if self.serverVersion() >= MIN_SERVER_VER_DELTA_NEUTRAL:
+            if contract.deltaNeutralContract:
                 flds += [make_field(True),
-                    make_field(contract.underComp.conId),
-                    make_field(contract.underComp.delta),
-                    make_field(contract.underComp.price)]
+                    make_field(contract.deltaNeutralContract.conId),
+                    make_field(contract.deltaNeutralContract.delta),
+                    make_field(contract.deltaNeutralContract.price)]
             else:
                 flds += [make_field(False),]
 
@@ -843,8 +843,8 @@ class EClient(object):
             self.wrapper.error(orderId, NOT_CONNECTED.code(), NOT_CONNECTED.msg())
             return
 
-        if self.serverVersion() < MIN_SERVER_VER_UNDER_COMP:
-            if contract.underComp:
+        if self.serverVersion() < MIN_SERVER_VER_DELTA_NEUTRAL:
+            if contract.deltaNeutralContract:
                 self.wrapper.error(orderId, UPDATE_TWS.code(), UPDATE_TWS.msg() +
                         "  It does not support delta-neutral orders.")
                 return
@@ -1236,12 +1236,12 @@ class EClient(object):
         if self.serverVersion() >= MIN_SERVER_VER_NOT_HELD:
             flds.append(make_field( order.notHeld))
 
-        if self.serverVersion() >= MIN_SERVER_VER_UNDER_COMP:
-            if contract.underComp:
+        if self.serverVersion() >= MIN_SERVER_VER_DELTA_NEUTRAL:
+            if contract.deltaNeutralContract:
                 flds += [make_field(True),
-                    make_field(contract.underComp.conId),
-                    make_field(contract.underComp.delta),
-                    make_field(contract.underComp.price)]
+                    make_field(contract.deltaNeutralContract.conId),
+                    make_field(contract.deltaNeutralContract.delta),
+                    make_field(contract.deltaNeutralContract.price)]
             else:
                 flds.append(make_field(False))
 
@@ -2247,7 +2247,7 @@ class EClient(object):
             return
 
         if self.serverVersion() < MIN_SERVER_VER_TRADING_CLASS:
-            if contract.underComp:
+            if contract.tradingClass or contract.conId > 0:
                 self.wrapper.error(reqId, UPDATE_TWS.code(),
                     UPDATE_TWS.msg() + "  It does not support conId and tradingClass parameters in reqHistoricalData.")
                 return

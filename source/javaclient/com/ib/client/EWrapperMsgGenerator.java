@@ -196,11 +196,11 @@ public class EWrapperMsgGenerator {
         	}
         }
         
-    	if (contract.underComp() != null) {
-    		DeltaNeutralContract underComp = contract.underComp();
-    		sb.append(" underComp.conId=").append(underComp.conid())
-					.append(" underComp.delta=").append(underComp.delta())
-					.append(" underComp.price=").append(underComp.price());
+    	if (contract.deltaNeutralContract() != null) {
+    		DeltaNeutralContract deltaNeutralContract = contract.deltaNeutralContract();
+    		sb.append(" deltaNeutralContract.conId=").append(deltaNeutralContract.conid())
+					.append(" deltaNeutralContract.delta=").append(deltaNeutralContract.delta())
+					.append(" deltaNeutralContract.price=").append(deltaNeutralContract.price());
     	}
     	
         if (!Util.StringIsEmpty(order.getAlgoStrategy())) {
@@ -501,11 +501,11 @@ public class EWrapperMsgGenerator {
 		return "id  = " + reqId + " len = " + data.length() + '\n' + data;
     }
     
-    public static String deltaNeutralValidation(int reqId, DeltaNeutralContract underComp) {
+    public static String deltaNeutralValidation(int reqId, DeltaNeutralContract deltaNeutralContract) {
     	return "id = " + reqId
-    	+ " underComp.conId =" + underComp.conid()
-    	+ " underComp.delta =" + underComp.delta()
-    	+ " underComp.price =" + underComp.price();
+    	+ " deltaNeutralContract.conId =" + deltaNeutralContract.conid()
+    	+ " deltaNeutralContract.delta =" + deltaNeutralContract.delta()
+    	+ " deltaNeutralContract.price =" + deltaNeutralContract.price();
     }
     public static String tickSnapshotEnd(int tickerId) {
     	return "id=" + tickerId + " =============== end ===============";

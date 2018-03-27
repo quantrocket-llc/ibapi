@@ -44,7 +44,7 @@ public class OrderDlg extends JDialog {
     public int          m_marketDepthRows;
     private Contract 	m_contract = new Contract();
     public Order 		m_order = new Order();
-    public DeltaNeutralContract	m_underComp = new DeltaNeutralContract();
+    public DeltaNeutralContract	m_deltaNeutralContract = new DeltaNeutralContract();
     public int          m_exerciseAction;
     public int          m_exerciseQuantity;
     public int          m_override;
@@ -87,7 +87,7 @@ public class OrderDlg extends JDialog {
 
     private JButton	    m_sharesAlloc = new JButton("FA Allocation Info...");
     private JButton 	m_comboLegs = new JButton( "Combo Legs");
-    private JButton 	m_btnUnderComp = new JButton( "Delta Neutral");
+    private JButton 	m_btnDeltaNeutralContract = new JButton( "Delta Neutral");
     private JButton 	m_btnAlgoParams = new JButton( "Algo Params");
     private JButton 	m_btnSmartComboRoutingParams = new JButton( "Smart Combo Routing Params");
     private JButton 	m_btnOptions = new JButton( "Options");
@@ -234,7 +234,7 @@ public class OrderDlg extends JDialog {
         JPanel pOrderButtonPanel = new JPanel();
         pOrderButtonPanel.add( m_sharesAlloc);
         pOrderButtonPanel.add( m_comboLegs);
-        pOrderButtonPanel.add( m_btnUnderComp);
+        pOrderButtonPanel.add( m_btnDeltaNeutralContract);
         pOrderButtonPanel.add( m_btnAlgoParams);
         pOrderButtonPanel.add( m_btnSmartComboRoutingParams);
 
@@ -262,7 +262,7 @@ public class OrderDlg extends JDialog {
         m_sharesAlloc.addActionListener(e -> onSharesAlloc());
 
         m_comboLegs.addActionListener(e -> onAddComboLegs());
-        m_btnUnderComp.addActionListener(e -> onBtnUnderComp());
+        m_btnDeltaNeutralContract.addActionListener(e -> onBtnDeltaNeutralContract());
         m_btnAlgoParams.addActionListener(e -> onBtnAlgoParams());
         m_btnSmartComboRoutingParams.addActionListener(e -> onBtnSmartComboRoutingParams());
         m_btnOptions.addActionListener(e -> onBtnOptions());
@@ -358,16 +358,16 @@ public class OrderDlg extends JDialog {
         comboLegDlg.setVisible( true);
     }
 
-    void onBtnUnderComp() {
-        UnderCompDlg underCompDlg = new UnderCompDlg(m_underComp, this);
+    void onBtnDeltaNeutralContract() {
+        DeltaNeutralContractDlg deltaNeutralContractDlg = new DeltaNeutralContractDlg(m_deltaNeutralContract, this);
 
         // show delta neutral dialog
-        underCompDlg.setVisible( true);
-        if (underCompDlg.ok()) {
-        	m_contract.underComp(m_underComp);
+        deltaNeutralContractDlg.setVisible( true);
+        if (deltaNeutralContractDlg.ok()) {
+        	m_contract.deltaNeutralContract(m_deltaNeutralContract);
         }
-        else if (underCompDlg.reset()) {
-        	m_contract.underComp(null);
+        else if (deltaNeutralContractDlg.reset()) {
+        	m_contract.deltaNeutralContract(null);
         }
     }
 

@@ -889,8 +889,8 @@ class EDecoder implements ObjectInput {
 		/*int version =*/ readInt();
 		int reqId = readInt();
 
-		DeltaNeutralContract underComp = new DeltaNeutralContract(readInt(), readDouble(), readDouble());
-		m_EWrapper.deltaNeutralValidation( reqId, underComp);
+		DeltaNeutralContract deltaNeutralContract = new DeltaNeutralContract(readInt(), readDouble(), readDouble());
+		m_EWrapper.deltaNeutralValidation( reqId, deltaNeutralContract);
 	}
 
 	private void processExecutionDataEndMsg() throws IOException {
@@ -1583,11 +1583,11 @@ class EDecoder implements ObjectInput {
 
 		if (version >= 20) {
 		    if (readBoolFromInt()) {
-		        DeltaNeutralContract underComp = new DeltaNeutralContract();
-		        underComp.conid(readInt());
-		        underComp.delta(readDouble());
-		        underComp.price(readDouble());
-		        contract.underComp(underComp);
+		        DeltaNeutralContract deltaNeutralContract = new DeltaNeutralContract();
+		        deltaNeutralContract.conid(readInt());
+		        deltaNeutralContract.delta(readDouble());
+		        deltaNeutralContract.price(readDouble());
+		        contract.deltaNeutralContract(deltaNeutralContract);
 		    }
 		}
 
