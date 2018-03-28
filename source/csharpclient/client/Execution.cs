@@ -11,7 +11,7 @@ using System.Text;
 namespace IBApi
 {
 
-	/**
+    /**
      * @class Liquidity
      * @brief Class describing the liquidity type of an execution.
      * @sa Execution
@@ -22,30 +22,28 @@ namespace IBApi
          * @brief The enum of available liquidity flag types. 
          * 0 = Unknown, 1 = Added liquidity, 2 = Removed liquidity, 3 = Liquidity routed out
          */
-        public enum Values
-        {
-            None = 0,
-            [Description("Added Liquidity")]
-            Added = 1,
-            [Description("Removed Liquidity")]
-            Removed = 2,
-            [Description("Liquidity Routed Out")]
-            RoudedOut = 3
-        }
+
+        static readonly Dictionary<int, string> Values = new Dictionary<int, string> 
+        { 
+            {0, "None"}, 
+            {1, "Added Liquidity"}, 
+            {2, "Removed Liquidity"}, 
+            {3, "Liquidity Routed Out" }
+        };
 
         public Liquidity(int p)
         {
-            Value = (Values)p;
+            Value = Values.ContainsKey(p) ? p : 0;
         }
 
         /**
          * @brief The value of the liquidity type.
          */
-        public Values Value { get; set; }
+        public int Value { get; set; }
 
         public override string ToString()
         {
-            return (Value.GetType().GetMember(Value + "")[0].GetCustomAttributes(typeof(DescriptionAttribute), true)[0] as DescriptionAttribute).Description;
+            return Values[Value];
         }
     }
 
@@ -145,8 +143,8 @@ namespace IBApi
          * @brief model code
          */
         public string ModelCode { get; set; }
-		
-		/**
+
+        /**
          * @brief The liquidity type of the execution. Requires TWS 968+ and API v973.05+. Python API specifically requires API v973.06+.
          */
         public Liquidity LastLiquidity { get; set; }
