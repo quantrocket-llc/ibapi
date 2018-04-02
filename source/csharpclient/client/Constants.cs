@@ -19,7 +19,7 @@ namespace IBApi
         public const int FaProfiles = 2;
         public const int FaAliases = 3;
         public const int MinVersion = 100;
-        public const int MaxVersion = MinServerVer.AUTO_PRICE_FOR_HEDGE;
+        public const int MaxVersion = MinServerVer.WHAT_IF_EXT_FIELDS;
         public const int MaxMsgSize = 0x00FFFFFF;
     }
 }

@@ -66,7 +66,7 @@ Module MainModule
         '***************************************************
         '** Tick option computation operations - Tickers ***
         '***************************************************
-        tickOptionComputationOperations(client)
+        'tickOptionComputationOperations(client)
 
         '*******************************************************
         '** Real time market data operations  - Market Depth ***
@@ -184,6 +184,11 @@ Module MainModule
         '*** Tick-By-Tick    ***
         '***********************
         'tickByTickOperations(client)
+
+        '**********************
+        '** What-If samples ***
+        '**********************
+        whatIfSamples(client, nextValidId)
 
         Thread.Sleep(15000)
         Console.WriteLine("Done")
@@ -1059,5 +1064,11 @@ Module MainModule
 
     End Sub
 
+    Private Sub whatIfSamples(client As EClientSocket, nextOrderId As Integer)
+        '** Placing what-if order ***
+        '! [whatiforder]
+        client.placeOrder(increment(nextOrderId), ContractSamples.USStockAtSmart(), OrderSamples.WhatIfLimitOrder("BUY", 200, 120))
+        '! [whatiforder]
+    End Sub
 
 End Module

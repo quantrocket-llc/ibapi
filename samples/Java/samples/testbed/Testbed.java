@@ -49,7 +49,7 @@ public class Testbed {
 
 		//tickByTickOperations(wrapper.getClient());
 		//tickDataOperations(wrapper.getClient());
-		tickOptionComputations(wrapper.getClient());
+		//tickOptionComputations(wrapper.getClient());
 		//orderOperations(wrapper.getClient(), wrapper.getCurrentOrderId());
 		//contractOperations(wrapper.getClient());
 		//hedgeSample(wrapper.getClient(), wrapper.getCurrentOrderId());
@@ -69,6 +69,7 @@ public class Testbed {
 		//continuousFuturesOperations(wrapper.getClient());
 		//pnlSingle(wrapper.getClient());
 		//histogram(wrapper.getClient());
+		whatIfSamples(wrapper.getClient(), wrapper.getCurrentOrderId());
 
 		Thread.sleep(100000);
 		m_client.eDisconnect();
@@ -890,5 +891,13 @@ public class Testbed {
 		client.cancelTickByTickData(19007);
 		client.cancelTickByTickData(19008);
 		//! [canceltickbytick]
-	}	
+	}
+	
+	private static void whatIfSamples(EClientSocket client, int nextOrderId) throws InterruptedException {
+		
+		/*** Placing what-if order ***/
+		//! [whatiforder]
+		client.placeOrder(nextOrderId++, ContractSamples.USStockAtSmart(), OrderSamples.WhatIfLimitOrder("BUY", 200, 120));
+		//! [whatiforder]
+	}
 }

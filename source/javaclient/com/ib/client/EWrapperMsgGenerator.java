@@ -3,6 +3,8 @@
 
 package com.ib.client;
 
+import static com.ib.controller.Formats.fmt;
+
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.util.Date;
@@ -230,9 +232,15 @@ public class EWrapperMsgGenerator {
         }
     
         sb.append(" status=").append(orderState.getStatus())
-				.append(" initMargin=").append(orderState.initMargin())
-				.append(" maintMargin=").append(orderState.maintMargin())
-				.append(" equityWithLoan=").append(orderState.equityWithLoan())
+				.append(" initMarginBefore=").append(fmt(Double.parseDouble(orderState.initMarginBefore())))
+				.append(" maintMarginBefore=").append(fmt(Double.parseDouble(orderState.maintMarginBefore())))
+				.append(" equityWithLoanBefore=").append(fmt(Double.parseDouble(orderState.equityWithLoanBefore())))
+				.append(" initMarginChange=").append(fmt(Double.parseDouble(orderState.initMarginChange())))
+				.append(" maintMarginChange=").append(fmt(Double.parseDouble(orderState.maintMarginChange())))
+				.append(" equityWithLoanChange=").append(fmt(Double.parseDouble(orderState.equityWithLoanChange())))
+				.append(" initMarginAfter=").append(fmt(Double.parseDouble(orderState.initMarginAfter())))
+				.append(" maintMarginAfter=").append(fmt(Double.parseDouble(orderState.maintMarginAfter())))
+				.append(" equityWithLoanAfter=").append(fmt(Double.parseDouble(orderState.equityWithLoanAfter())))
 				.append(" commission=").append(Util.DoubleMaxString(orderState.commission()))
 				.append(" minCommission=").append(Util.DoubleMaxString(orderState.minCommission()))
 				.append(" maxCommission=").append(Util.DoubleMaxString(orderState.maxCommission()))

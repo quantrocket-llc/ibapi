@@ -1694,9 +1694,18 @@ namespace IBApi
             {
                 order.WhatIf = ReadBoolFromInt();
                 orderState.Status = ReadString();
-                orderState.InitMargin = ReadString();
-                orderState.MaintMargin = ReadString();
-                orderState.EquityWithLoan = ReadString();
+                if (serverVersion >= MinServerVer.WHAT_IF_EXT_FIELDS)
+                {
+                    orderState.InitMarginBefore = ReadString();
+                    orderState.MaintMarginBefore = ReadString();
+                    orderState.EquityWithLoanBefore = ReadString();
+                    orderState.InitMarginChange = ReadString();
+                    orderState.MaintMarginChange = ReadString();
+                    orderState.EquityWithLoanChange = ReadString();
+                }
+                orderState.InitMarginAfter = ReadString();
+                orderState.MaintMarginAfter = ReadString();
+                orderState.EquityWithLoanAfter = ReadString();
                 orderState.Commission = ReadDoubleMax();
                 orderState.MinCommission = ReadDoubleMax();
                 orderState.MaxCommission = ReadDoubleMax();

@@ -100,5 +100,6 @@ namespace IBApi
         public const int MIFID_EXECUTION = 139;
         public const int TICK_BY_TICK_IGNORE_SIZE = 140;
         public const int AUTO_PRICE_FOR_HEDGE = 141;
+        public const int WHAT_IF_EXT_FIELDS = 142;
     }
 }

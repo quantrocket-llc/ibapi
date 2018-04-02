@@ -17,9 +17,15 @@ namespace IBApi
     public class OrderState
     {
         private string status;
-        private string initMargin;
-        private string maintMargin;
-        private string equityWithLoan;
+        private string initMarginBefore;
+        private string maintMarginBefore;
+        private string equityWithLoanBefore;
+        private string initMarginChange;
+        private string maintMarginChange;
+        private string equityWithLoanChange;
+        private string initMarginAfter;
+        private string maintMarginAfter;
+        private string equityWithLoanAfter;
         private double commission;
         private double minCommission;
         private double maxCommission;
@@ -36,30 +42,84 @@ namespace IBApi
         }
 
         /**
+         * @brief The account's current initial margin.
+         */
+        public string InitMarginBefore
+        {
+            get { return initMarginBefore; }
+            set { initMarginBefore = value; }
+        }
+
+        /**
+        * @brief The account's current maintenance margin
+        */
+        public string MaintMarginBefore
+        {
+            get { return maintMarginBefore; }
+            set { maintMarginBefore = value; }
+        }
+
+        /**
+        * @brief The account's current equity with loan
+        */
+        public string EquityWithLoanBefore
+        {
+            get { return equityWithLoanBefore; }
+            set { equityWithLoanBefore = value; }
+        }
+
+        /**
+         * @brief The change of the account's initial margin.
+         */
+        public string InitMarginChange
+        {
+            get { return initMarginChange; }
+            set { initMarginChange = value; }
+        }
+
+        /**
+        * @brief The change of the account's maintenance margin
+        */
+        public string MaintMarginChange
+        {
+            get { return maintMarginChange; }
+            set { maintMarginChange = value; }
+        }
+
+        /**
+        * @brief The change of the account's equity with loan
+        */
+        public string EquityWithLoanChange
+        {
+            get { return equityWithLoanChange; }
+            set { equityWithLoanChange = value; }
+        }
+
+        /**
          * @brief The order's impact on the account's initial margin.
          */
-        public string InitMargin
+        public string InitMarginAfter
         {
-            get { return initMargin; }
-            set { initMargin = value; }
+            get { return initMarginAfter; }
+            set { initMarginAfter = value; }
         }
 
         /**
         * @brief The order's impact on the account's maintenance margin
         */
-        public string MaintMargin
+        public string MaintMarginAfter
         {
-            get { return maintMargin; }
-            set { maintMargin = value; }
+            get { return maintMarginAfter; }
+            set { maintMarginAfter = value; }
         }
 
         /**
         * @brief Shows the impact the order would have on the account's equity with loan
         */
-        public string EquityWithLoan
+        public string EquityWithLoanAfter
         {
-            get { return equityWithLoan; }
-            set { equityWithLoan = value; }
+            get { return equityWithLoanAfter; }
+            set { equityWithLoanAfter = value; }
         }
 
         /**
@@ -111,9 +171,15 @@ namespace IBApi
         public OrderState()
         {
             Status = null;
-            InitMargin = null;
-            MaintMargin = null;
-            EquityWithLoan = null;
+            InitMarginBefore = null;
+            MaintMarginBefore = null;
+            EquityWithLoanBefore = null;
+            InitMarginChange = null;
+            MaintMarginChange = null;
+            EquityWithLoanChange = null;
+            InitMarginAfter = null;
+            MaintMarginAfter = null;
+            EquityWithLoanAfter = null;
             Commission = 0.0;
             MinCommission = 0.0;
             MaxCommission = 0.0;
@@ -121,14 +187,22 @@ namespace IBApi
             WarningText = null;
         }
 
-        public OrderState(string status, string initMargin, string maintMargin,
-                string equityWithLoan, double commission, double minCommission,
+        public OrderState(string status,
+                string initMarginBefore, string maintMarginBefore, string equityWithLoanBefore,
+                string initMarginChange, string maintMarginChange, string equityWithLoanChange,
+                string initMarginAfter, string maintMarginAfter, string equityWithLoanAfter,
+                double commission, double minCommission,
                 double maxCommission, string commissionCurrency, string warningText)
         {
-
-            InitMargin = initMargin;
-            MaintMargin = maintMargin;
-            EquityWithLoan = equityWithLoan;
+            InitMarginBefore = initMarginBefore;
+            MaintMarginBefore = maintMarginBefore;
+            EquityWithLoanBefore = equityWithLoanBefore;
+            InitMarginChange = initMarginChange;
+            MaintMarginChange = maintMarginChange;
+            EquityWithLoanChange = equityWithLoanChange;
+            InitMarginAfter = initMarginAfter;
+            MaintMarginAfter = maintMarginAfter;
+            EquityWithLoanAfter = equityWithLoanAfter;
             Commission = commission;
             MinCommission = minCommission;
             MaxCommission = maxCommission;
@@ -155,9 +229,15 @@ namespace IBApi
             }
 
             if (Util.StringCompare(status, state.status) != 0 ||
-                Util.StringCompare(initMargin, state.initMargin) != 0 ||
-                Util.StringCompare(maintMargin, state.maintMargin) != 0 ||
-                Util.StringCompare(equityWithLoan, state.equityWithLoan) != 0 ||
+                Util.StringCompare(initMarginBefore, state.initMarginBefore) != 0 ||
+                Util.StringCompare(maintMarginBefore, state.maintMarginBefore) != 0 ||
+                Util.StringCompare(equityWithLoanBefore, state.equityWithLoanBefore) != 0 ||
+                Util.StringCompare(initMarginChange, state.initMarginChange) != 0 ||
+                Util.StringCompare(maintMarginChange, state.maintMarginChange) != 0 ||
+                Util.StringCompare(equityWithLoanChange, state.equityWithLoanChange) != 0 ||
+                Util.StringCompare(initMarginAfter, state.initMarginAfter) != 0 ||
+                Util.StringCompare(maintMarginAfter, state.maintMarginAfter) != 0 ||
+                Util.StringCompare(equityWithLoanAfter, state.equityWithLoanAfter) != 0 ||
                 Util.StringCompare(commissionCurrency, state.commissionCurrency) != 0)
             {
                 return false;

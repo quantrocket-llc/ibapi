@@ -25,9 +25,15 @@ namespace IBSampleApp.ui
 
         public void FillAndDisplay(OrderState state)
         {
-            this.equityWithLoanResult.Text = state.EquityWithLoan.ToString();
-            this.initialMarginResult.Text = state.InitMargin.ToString();
-            this.maintenanceMarginResult.Text = state.MaintMargin.ToString();
+            this.equityWithLoanBefore.Text = Util.formatDoubleString(state.EquityWithLoanBefore);
+            this.initialMarginBefore.Text = Util.formatDoubleString(state.InitMarginBefore);
+            this.maintenanceMarginBefore.Text = Util.formatDoubleString(state.MaintMarginBefore);
+            this.equityWithLoanChange.Text = Util.formatDoubleString(state.EquityWithLoanChange);
+            this.initialMarginChange.Text = Util.formatDoubleString(state.InitMarginChange);
+            this.maintenanceMarginChange.Text = Util.formatDoubleString(state.MaintMarginChange);
+            this.equityWithLoanAfter.Text = Util.formatDoubleString(state.EquityWithLoanAfter);
+            this.initialMarginAfter.Text = Util.formatDoubleString(state.InitMarginAfter);
+            this.maintenanceMarginAfter.Text = Util.formatDoubleString(state.MaintMarginAfter);
         }
 
         public void UpdateMarginInformation(OrderState state)
@@ -38,10 +44,17 @@ namespace IBSampleApp.ui
 
         private void acceptMarginButton_Click(object sender, EventArgs e)
         {
-            this.equityWithLoanResult.Text = "";
-            this.initialMarginResult.Text = "";
-            this.maintenanceMarginResult.Text = "";
+            this.equityWithLoanBefore.Text = "";
+            this.initialMarginBefore.Text = "";
+            this.maintenanceMarginBefore.Text = "";
+            this.equityWithLoanChange.Text = "";
+            this.initialMarginChange.Text = "";
+            this.maintenanceMarginChange.Text = "";
+            this.equityWithLoanAfter.Text = "";
+            this.initialMarginAfter.Text = "";
+            this.maintenanceMarginAfter.Text = "";
             this.Visible = false;
         }
+
     }
 }

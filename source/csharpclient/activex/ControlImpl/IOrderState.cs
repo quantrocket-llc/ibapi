@@ -1,4 +1,4 @@
-﻿/* Copyright (C) 2013 Interactive Brokers LLC. All rights reserved.  This code is subject to the terms
+/* Copyright (C) 2013 Interactive Brokers LLC. All rights reserved.  This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 using System;
@@ -12,13 +12,19 @@ namespace TWSLib
     public interface IOrderState
     {
 		[DispId(1)] string status{ get; }
-		[DispId(2)] string initMargin{ get; }
-		[DispId(3)] string maintMargin{ get; }
-		[DispId(4)] string equityWithLoan{ get; }
+		[DispId(2)] string initMarginAfter{ get; }
+		[DispId(3)] string maintMarginAfter{ get; }
+		[DispId(4)] string equityWithLoanAfter{ get; }
 		[DispId(5)] double commission{ get; }
 		[DispId(6)] double minCommission{ get; }
 		[DispId(7)] double maxCommission{ get; }
 		[DispId(8)] string commissionCurrency{ get; }
 		[DispId(9)] string warningText{ get; }
+		[DispId(10)] string initMarginBefore { get; }
+		[DispId(11)] string maintMarginBefore { get; }
+		[DispId(12)] string equityWithLoanBefore { get; }
+		[DispId(13)] string initMarginChange { get; }
+		[DispId(14)] string maintMarginChange { get; }
+		[DispId(15)] string equityWithLoanChange { get; }
 	};
 }

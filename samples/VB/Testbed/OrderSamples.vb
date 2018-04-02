@@ -971,6 +971,14 @@ Namespace Samples
             Return order
         End Function
 
+        Public Shared Function WhatIfLimitOrder(action As String, quantity As Double, limitPrice As Double) As Order
+            '! [whatiflimitorder]
+            Dim order As Order = LimitOrder(action, quantity, limitPrice)
+            order.WhatIf = True
+            '! [whatiflimitorder]
+            Return order
+        End Function
+
         Public Shared Function PriceCondition(conId As Integer, exchange As String, price As Double, isMore As Boolean, isConjunction As Boolean) As PriceCondition
 
             '! [price_condition]
