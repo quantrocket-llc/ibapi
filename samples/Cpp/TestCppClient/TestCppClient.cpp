@@ -299,6 +299,11 @@ void TestCppClient::processMessages()
 			break;
 		case ST_REQTICKBYTICKDATA_ACK:
 			break;
+		case ST_WHATIFSAMPLES:
+			whatIfSamples();
+			break;
+		case ST_WHATIFSAMPLES_ACK:
+			break;
 		case ST_PING:
 			reqCurrentTime();
 			break;
@@ -1300,6 +1305,16 @@ void TestCppClient::reqTickByTickData()
     m_state = ST_REQTICKBYTICKDATA_ACK;
 }
 
+void TestCppClient::whatIfSamples()
+{
+    /*** Placing waht-if order ***/
+    //! [whatiforder]
+    m_pClient->placeOrder(m_orderId++, ContractSamples::USStockAtSmart(), OrderSamples::WhatIfLimitOrder("BUY", 200, 120));
+    //! [whatiforder]
+
+    m_state = ST_WHATIFSAMPLES_ACK;
+}
+
 //! [nextvalidid]
 void TestCppClient::nextValidId( OrderId orderId)
 {
@@ -1340,13 +1355,14 @@ void TestCppClient::nextValidId( OrderId orderId)
 	//m_state = ST_REQNEWSTICKS;
 	//m_state = ST_REQSMARTCOMPONENTS;
 	//m_state = ST_NEWSPROVIDERS;
-	m_state = ST_REQNEWSARTICLE;
+	//m_state = ST_REQNEWSARTICLE;
 	//m_state = ST_REQHISTORICALNEWS;
 	//m_state = ST_REQHEADTIMESTAMP;
 	//m_state = ST_REQHISTOGRAMDATA;
 	//m_state = ST_REROUTECFD;
 	//m_state = ST_MARKETRULE;
 	//m_state = ST_PING;
+	m_state = ST_WHATIFSAMPLES;
 }
 
 
@@ -1419,6 +1435,12 @@ void TestCppClient::orderStatus(OrderId orderId, const std::string& status, doub
 //! [openorder]
 void TestCppClient::openOrder( OrderId orderId, const Contract& contract, const Order& order, const OrderState& ostate) {
 	printf( "OpenOrder. ID: %ld, %s, %s @ %s: %s, %s, %g, %g, %s, %s\n", orderId, contract.symbol.c_str(), contract.secType.c_str(), contract.exchange.c_str(), order.action.c_str(), order.orderType.c_str(), order.totalQuantity, order.cashQty == UNSET_DOUBLE ? 0 : order.cashQty, ostate.status.c_str(), order.dontUseAutoPriceForHedge ? "true" : "false");
+	if (order.whatIf) {
+		printf( "What-If. ID: %ld, InitMarginBefore: %s, MaintMarginBefore: %s, EquityWithLoanBefore: %s, InitMarginChange: %s, MaintMarginChange: %s, EquityWithLoanChange: %s, InitMarginAfter: %s, MaintMarginAfter: %s, EquityWithLoanAfter: %s\n", 
+			orderId, Utils::formatDoubleString(ostate.initMarginBefore).c_str(), Utils::formatDoubleString(ostate.maintMarginBefore).c_str(), Utils::formatDoubleString(ostate.equityWithLoanBefore).c_str(),
+			Utils::formatDoubleString(ostate.initMarginChange).c_str(), Utils::formatDoubleString(ostate.maintMarginChange).c_str(), Utils::formatDoubleString(ostate.equityWithLoanChange).c_str(),
+			Utils::formatDoubleString(ostate.initMarginAfter).c_str(), Utils::formatDoubleString(ostate.maintMarginAfter).c_str(), Utils::formatDoubleString(ostate.equityWithLoanAfter).c_str());
+	}
 }
 //! [openorder]
 

@@ -204,4 +204,8 @@ Friend Class Utils
         End If
     End Function
 
+    Public Shared Function FormatDoubleString(str As String) As String
+        Return Format(str, "Standard")
+    End Function
+
 End Class

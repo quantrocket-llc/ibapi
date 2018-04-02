@@ -190,12 +190,21 @@ class TicketDlg extends JDialog {
 	}
 
 	private void displayMargin(OrderState orderState) {
-		String str = String.format( "Equity with loan: %s%n%nInitial margin: %s%nMaintenance margin: %s%n",
-				fmt( Double.parseDouble(orderState.equityWithLoan() ) ),
-				fmt( Double.parseDouble( orderState.initMargin() ) ),
-				fmt( Double.parseDouble(orderState.maintMargin() ) ) );
+		String str = String.format( "Current:%nEquity with loan: %s%nInitial margin: %s%nMaintenance margin: %s%n%n"
+				+ "Change:%nEquity with loan: %s%nInitial margin: %s%nMaintenance margin: %s%n%n"
+				+ "Post-Trade:%nEquity with loan: %s%nInitial margin: %s%nMaintenance margin: %s%n%n",
+				fmt( Double.parseDouble(orderState.equityWithLoanBefore() ) ),
+				fmt( Double.parseDouble( orderState.initMarginBefore() ) ),
+				fmt( Double.parseDouble(orderState.maintMarginBefore() ) ), 
+				fmt( Double.parseDouble(orderState.equityWithLoanChange() ) ),
+				fmt( Double.parseDouble( orderState.initMarginChange() ) ),
+				fmt( Double.parseDouble(orderState.maintMarginChange() ) ), 
+				fmt( Double.parseDouble(orderState.equityWithLoanAfter() ) ),
+				fmt( Double.parseDouble( orderState.initMarginAfter() ) ),
+				fmt( Double.parseDouble(orderState.maintMarginAfter() ) ) 
+				);
 		
-		JOptionPane.showMessageDialog( this, str, "Post-Trade Margin Requirements", JOptionPane.INFORMATION_MESSAGE);
+		JOptionPane.showMessageDialog( this, str, "Margin Requirements", JOptionPane.INFORMATION_MESSAGE);
 	}
 
 	private void scrape() {

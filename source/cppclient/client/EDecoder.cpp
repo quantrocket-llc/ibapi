@@ -628,9 +628,17 @@ const char* EDecoder::processOpenOrderMsg(const char* ptr, const char* endPtr) {
 	DECODE_FIELD( order.whatIf); // ver 16 field
 
 	DECODE_FIELD( orderState.status); // ver 16 field
-	DECODE_FIELD( orderState.initMargin); // ver 16 field
-	DECODE_FIELD( orderState.maintMargin); // ver 16 field
-	DECODE_FIELD( orderState.equityWithLoan); // ver 16 field
+	if (m_serverVersion >= MIN_SERVER_VER_WHAT_IF_EXT_FIELDS) {
+		DECODE_FIELD( orderState.initMarginBefore);
+		DECODE_FIELD( orderState.maintMarginBefore);
+		DECODE_FIELD( orderState.equityWithLoanBefore);
+		DECODE_FIELD( orderState.initMarginChange);
+		DECODE_FIELD( orderState.maintMarginChange);
+		DECODE_FIELD( orderState.equityWithLoanChange);
+	}
+	DECODE_FIELD( orderState.initMarginAfter); // ver 16 field
+	DECODE_FIELD( orderState.maintMarginAfter); // ver 16 field
+	DECODE_FIELD( orderState.equityWithLoanAfter); // ver 16 field
 	DECODE_FIELD_MAX( orderState.commission); // ver 16 field
 	DECODE_FIELD_MAX( orderState.minCommission); // ver 16 field
 	DECODE_FIELD_MAX( orderState.maxCommission); // ver 16 field

@@ -99,8 +99,7 @@ public class EWrapperImpl implements EWrapper {
 	@Override
 	public void openOrder(int orderId, Contract contract, Order order,
 			OrderState orderState) {
-		System.out.println("OpenOrder. ID: "+orderId+", "+contract.symbol()+", "+contract.secType()+" @ "+contract.exchange()+": "+
-			order.action()+", "+order.orderType()+" "+order.totalQuantity()+", "+orderState.status());
+		System.out.println(EWrapperMsgGenerator.openOrder(orderId, contract, order, orderState));
 	}
 	//! [openorder]
 	

@@ -90,5 +90,10 @@ namespace IBApi
         {
             return new DateTime(1970, 1, 1, 0, 0, 0).AddSeconds(Convert.ToDouble(seconds)).ToString(format);
         }
+
+        public static string formatDoubleString(String str)
+        {
+            return String.Format("{0,0:N2}", Double.Parse(str));
+        }
     }
 }

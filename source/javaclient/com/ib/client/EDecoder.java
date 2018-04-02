@@ -1616,9 +1616,19 @@ class EDecoder implements ObjectInput {
 			order.whatIf(readBoolFromInt());
 
 			orderState.status(readStr());
-			orderState.initMargin(readStr());
-			orderState.maintMargin(readStr());
-			orderState.equityWithLoan(readStr());
+
+			if (m_serverVersion >= EClient.MIN_SERVER_VER_WHAT_IF_EXT_FIELDS) {
+				orderState.initMarginBefore(readStr());
+				orderState.maintMarginBefore(readStr());
+				orderState.equityWithLoanBefore(readStr());
+				orderState.initMarginChange(readStr());
+				orderState.maintMarginChange(readStr());
+				orderState.equityWithLoanChange(readStr());
+			}
+
+			orderState.initMarginAfter(readStr());
+			orderState.maintMarginAfter(readStr());
+			orderState.equityWithLoanAfter(readStr());
 			orderState.commission(readDoubleMax());
 			orderState.minCommission(readDoubleMax());
 			orderState.maxCommission(readDoubleMax());

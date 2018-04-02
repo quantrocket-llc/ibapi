@@ -933,6 +933,15 @@ namespace Samples
             return order;
         }
 
+        public static Order WhatIfLimitOrder(string action, double quantity, double limitPrice)
+        {
+            // ! [whatiflimitorder]
+            Order order = LimitOrder(action, quantity, limitPrice);
+            order.WhatIf = true;
+            // ! [whatiflimitorder]
+            return order;
+        }
+
         public static PriceCondition PriceCondition(int conId, string exchange, double price, bool isMore, bool isConjunction)
         {
             //! [price_condition]

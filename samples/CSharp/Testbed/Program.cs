@@ -60,7 +60,7 @@ namespace Samples
             /***************************************************/
             /*** Option computation operations  - Tickers    ***/
             /***************************************************/
-            tickOptionComputationOperations(client);
+            //tickOptionComputationOperations(client);
 
             /********************************************************/
             /*** Real time market data operations  - Market Depth ***/
@@ -182,6 +182,11 @@ namespace Samples
             /*** Tick-By-Tick       ***/
             /**************************/
             //tickByTickOperations(client);
+
+            /***********************/
+            /*** What-If samples ***/
+            /***********************/
+            whatIfSamples(client, nextValidId);
 
             Thread.Sleep(3000);
             Console.WriteLine("Done");
@@ -1034,6 +1039,14 @@ namespace Samples
             Thread.Sleep(10000);
             client.cancelHistoricalData(18002);
             //! [reqhistoricaldatacontfut]
+        }
+
+        private static void whatIfSamples(EClientSocket client, int nextOrderId)
+        {
+            /*** Placing what-if order ***/
+            //! [whatiforder]
+            client.placeOrder(nextOrderId++, ContractSamples.USStockAtSmart(), OrderSamples.WhatIfLimitOrder("BUY", 200, 120));
+            //! [whatiforder]
         }
     }
 }

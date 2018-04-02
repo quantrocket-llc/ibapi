@@ -706,5 +706,13 @@ public class OrderSamples {
     	//! [volume_condition]
         return volCon;
     }
-	
+
+    public static Order WhatIfLimitOrder(String action, double quantity, double limitPrice) {
+        // ! [whatiflimitorder]
+        Order order = LimitOrder(action, quantity, limitPrice);
+        order.whatIf(true);
+        // ! [whatiflimitorder]
+        return order;
+    }
+
 }
