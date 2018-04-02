@@ -230,14 +230,14 @@ public class EWrapperMsgGenerator {
         	}
         	sb.append('}');
         }
-    
-        sb.append(" status=").append(orderState.getStatus())
-				.append(" initMarginBefore=").append(fmt(Double.parseDouble(orderState.initMarginBefore())))
-				.append(" maintMarginBefore=").append(fmt(Double.parseDouble(orderState.maintMarginBefore())))
-				.append(" equityWithLoanBefore=").append(fmt(Double.parseDouble(orderState.equityWithLoanBefore())))
-				.append(" initMarginChange=").append(fmt(Double.parseDouble(orderState.initMarginChange())))
-				.append(" maintMarginChange=").append(fmt(Double.parseDouble(orderState.maintMarginChange())))
-				.append(" equityWithLoanChange=").append(fmt(Double.parseDouble(orderState.equityWithLoanChange())))
+
+		sb.append(" status=").append(orderState.getStatus())
+				.append(" initMarginBefore=").append(orderState.initMarginBefore() != null ? fmt(Double.parseDouble(orderState.initMarginBefore())) : "")
+				.append(" maintMarginBefore=").append(orderState.maintMarginBefore() != null ? fmt(Double.parseDouble(orderState.maintMarginBefore())) : "")
+				.append(" equityWithLoanBefore=").append(orderState.equityWithLoanBefore() != null ? fmt(Double.parseDouble(orderState.equityWithLoanBefore())) : "")
+				.append(" initMarginChange=").append(orderState.initMarginChange() != null ? fmt(Double.parseDouble(orderState.initMarginChange())) : "")
+				.append(" maintMarginChange=").append(orderState.maintMarginChange() != null ? fmt(Double.parseDouble(orderState.maintMarginChange())) : "")
+				.append(" equityWithLoanChange=").append(orderState.equityWithLoanChange() != null ? fmt(Double.parseDouble(orderState.equityWithLoanChange())) : "")
 				.append(" initMarginAfter=").append(fmt(Double.parseDouble(orderState.initMarginAfter())))
 				.append(" maintMarginAfter=").append(fmt(Double.parseDouble(orderState.maintMarginAfter())))
 				.append(" equityWithLoanAfter=").append(fmt(Double.parseDouble(orderState.equityWithLoanAfter())))
