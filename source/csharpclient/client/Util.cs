@@ -93,7 +93,7 @@ namespace IBApi
 
         public static string formatDoubleString(String str)
         {
-            return String.Format("{0,0:N2}", Double.Parse(str));
+            return String.IsNullOrEmpty(str) ? "" : String.Format("{0,0:N2}", Double.Parse(str));
         }
     }
 }

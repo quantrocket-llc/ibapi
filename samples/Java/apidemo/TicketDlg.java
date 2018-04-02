@@ -193,12 +193,12 @@ class TicketDlg extends JDialog {
 		String str = String.format( "Current:%nEquity with loan: %s%nInitial margin: %s%nMaintenance margin: %s%n%n"
 				+ "Change:%nEquity with loan: %s%nInitial margin: %s%nMaintenance margin: %s%n%n"
 				+ "Post-Trade:%nEquity with loan: %s%nInitial margin: %s%nMaintenance margin: %s%n%n",
-				fmt( Double.parseDouble(orderState.equityWithLoanBefore() ) ),
-				fmt( Double.parseDouble( orderState.initMarginBefore() ) ),
-				fmt( Double.parseDouble(orderState.maintMarginBefore() ) ), 
-				fmt( Double.parseDouble(orderState.equityWithLoanChange() ) ),
-				fmt( Double.parseDouble( orderState.initMarginChange() ) ),
-				fmt( Double.parseDouble(orderState.maintMarginChange() ) ), 
+				orderState.equityWithLoanBefore() != null ? fmt(Double.parseDouble(orderState.equityWithLoanBefore())) : "",
+				orderState.initMarginBefore() != null ? fmt(Double.parseDouble(orderState.initMarginBefore())) : "",
+				orderState.maintMarginBefore() != null ? fmt(Double.parseDouble(orderState.maintMarginBefore())) : "",
+				orderState.equityWithLoanChange() != null ? fmt(Double.parseDouble(orderState.equityWithLoanChange())) : "",
+				orderState.initMarginChange() != null ? fmt(Double.parseDouble(orderState.initMarginChange())) : "",
+				orderState.maintMarginChange() != null ? fmt(Double.parseDouble(orderState.maintMarginChange())) : "",
 				fmt( Double.parseDouble(orderState.equityWithLoanAfter() ) ),
 				fmt( Double.parseDouble( orderState.initMarginAfter() ) ),
 				fmt( Double.parseDouble(orderState.maintMarginAfter() ) ) 
