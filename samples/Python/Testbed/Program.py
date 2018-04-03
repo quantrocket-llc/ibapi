@@ -251,7 +251,7 @@ class TestApp(TestWrapper, TestClient):
             #self.reqGlobalCancel()
             #self.marketDataType_req()
             #self.accountOperations_req()
-            self.tickDataOperations_req()
+            #self.tickDataOperations_req()
             #self.marketDepthOperations_req()
             #self.realTimeBars_req()
             #self.historicalDataRequests_req()
@@ -269,6 +269,7 @@ class TestApp(TestWrapper, TestClient):
             #self.pnlOperations()
             #self.historicalTicksRequests_req()
             #self.tickByTickOperations()
+            self.whatIfOrder_req()
             print("Executing requests ... finished")
 
     def keyboardInterrupt(self):
@@ -320,6 +321,12 @@ class TestApp(TestWrapper, TestClient):
               "@", contract.exchange, ":", order.action, order.orderType,
               order.totalQuantity, orderState.status)
         # ! [openorder]
+
+        if order.whatIf:
+            print("WhatIf: ", orderId, "initMarginBefore: ", orderState.initMarginBefore, " maintMarginBefore: ", orderState.maintMarginBefore,
+             "equityWithLoanBefore ", orderState.equityWithLoanBefore, " initMarginChange ", orderState.initMarginChange, " maintMarginChange: ", orderState.maintMarginChange,
+                  " equityWithLoanChange: ", orderState.equityWithLoanChange, " initMarginAfter: ", orderState.initMarginAfter, " maintMarginAfter: ", orderState.maintMarginAfter,
+            " equityWithLoanAfter: ", orderState.equityWithLoanAfter)
 
         order.contract = contract
         self.permId2ord[order.permId] = order
@@ -1630,6 +1637,16 @@ class TestApp(TestWrapper, TestClient):
         print("displayGroupUpdated. Request:", reqId, "ContractInfo:", contractInfo)
 
     # ! [displaygroupupdated]
+
+
+    @printWhenExecuting
+    def whatIfOrder_req(self):
+    # ! [whatiflimitorder]
+        whatIfOrder = OrderSamples.LimitOrder("SELL", 5, 70)
+        whatIfOrder.whatIf = True
+        self.placeOrder(self.nextOrderId(), ContractSamples.USStock(), whatIfOrder)
+    # ! [whatiflimitorder]
+        time.sleep(2)
 
 
     @printWhenExecuting

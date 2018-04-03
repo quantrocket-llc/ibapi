@@ -139,9 +139,9 @@ def main():
     import utils 
     from order import Order
     Order.__setattr__ = utils.setattr_log
-    from contract import Contract,UnderComp
-    Contract.__setattr__ = utils.setattr_log 
-    UnderComp.__setattr__ = utils.setattr_log 
+    from contract import Contract,DeltaNeutralContract
+    Contract.__setattr__ = utils.setattr_log
+    DeltaNeutralContract.__setattr__ = utils.setattr_log
     from tag_value import TagValue
     TagValue.__setattr__ = utils.setattr_log
     TimeCondition.__setattr__ = utils.setattr_log 

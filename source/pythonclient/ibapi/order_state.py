@@ -11,13 +11,19 @@ class OrderState:
 
     def __init__(self):
       self.status= ""
-      self.initMargin= ""
-      self.maintMargin= ""
-      self.equityWithLoan= ""
+
+      self.initMarginBefore= ""
+      self.maintMarginBefore= ""
+      self.equityWithLoanBefore= ""
+      self.initMarginChange= ""
+      self.maintMarginChange= ""
+      self.equityWithLoanChange= ""
+      self.initMarginAfter= ""
+      self.maintMarginAfter= ""
+      self.equityWithLoanAfter= ""
 
       self.commission = UNSET_DOUBLE      # type: float
       self.minCommission = UNSET_DOUBLE   # type: float
       self.maxCommission = UNSET_DOUBLE   # type: float
       self.commissionCurrency = ""
       self.warningText = ""
-
