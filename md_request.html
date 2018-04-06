@@ -5,7 +5,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.4"/>
-<title>TWS API v9.72+: Requesting Market Data</title>
+<title>TWS API v9.72+: Requesting Watchlist Data</title>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
 <link href="https://www.interactivebrokers.com/favicon.ico" rel="shortcut icon">
@@ -118,10 +118,10 @@ $(document).ready(function(){initNavTree('md_request.html','');});
 <div id="doc-content">
 <div class="header">
   <div class="headertitle">
-<div class="title">Requesting Market Data </div>  </div>
+<div class="title">Requesting Watchlist Data </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>In order to receive live quotes, you must first make the request call via <a class="el" href="classIBApi_1_1EClient.html#a7a19258a3a2087c07c1c57b93f659b63">IBApi.EClient.reqMktData</a> within your API program. Every request needs a unique identifier which will serve to identify the returned data:</p>
+<div class="textblock"><p>Streaming market data values corresponding to data shown in TWS watchlists is available via the <a class="el" href="classIBApi_1_1EClient.html#a7a19258a3a2087c07c1c57b93f659b63">IBApi.EClient.reqMktData</a>. This data is not tick-by-tick but consists of aggregate snapshots taken several times per second. A set of 'default' tick types are returned by default from a call to <a class="el" href="classIBApi_1_1EClient.html#a7a19258a3a2087c07c1c57b93f659b63">IBApi.EClient.reqMktData</a>, and additional tick types are available by specifying the corresponding generic tick type in the market data request. Including the generic tick types many, but not all, types of data are available that can be displayed in TWS watchlists by adding additional columns. Each market data request uses a unique identifier (ticker ID) which identifies the returned data:</p>
 <ul id="tab">
 <li class="active">
 <div class="fragment"><div class="line">            client.reqMktData(1001, ContractSamples.StockComboContract(), <span class="keywordtype">string</span>.Empty, <span class="keyword">false</span>, <span class="keyword">false</span>, null);</div>

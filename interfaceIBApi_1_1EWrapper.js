@@ -12,7 +12,7 @@ var interfaceIBApi_1_1EWrapper =
     [ "contractDetails", "interfaceIBApi_1_1EWrapper.html#a1b767810613c700b5bb1056a836da0bc", null ],
     [ "contractDetailsEnd", "interfaceIBApi_1_1EWrapper.html#a4e9466339bac7149c2fdb48cda0dd088", null ],
     [ "currentTime", "interfaceIBApi_1_1EWrapper.html#a7004c6c027c90ecdc1f5c68759e37fd2", null ],
-    [ "deltaNeutralValidation", "interfaceIBApi_1_1EWrapper.html#abf465aff35de5e6c8ea15cecc953de3a", null ],
+    [ "deltaNeutralValidation", "interfaceIBApi_1_1EWrapper.html#a045cfed857662fb305164aab714cff5f", null ],
     [ "displayGroupList", "interfaceIBApi_1_1EWrapper.html#ac36bbb024e3aa3873b8fd08f8848943f", null ],
     [ "displayGroupUpdated", "interfaceIBApi_1_1EWrapper.html#a9d7f55fc848c0329c3482d198b188f70", null ],
     [ "error", "interfaceIBApi_1_1EWrapper.html#a7dfc221702ca65195609213c984729b8", null ],

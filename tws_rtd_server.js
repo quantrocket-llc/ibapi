@@ -10,6 +10,7 @@ var tws_rtd_server =
     ] ],
     [ "TWS RTD Server Formula Syntax", "tws_rtd_server.html#rtd_syntax_headline", null ],
     [ "Syntax Samples", "tws_rtd_server.html#rtd_examples_headline", null ],
+    [ "rtd_message_limit", "tws_rtd_server.html#rtd_message_limit", null ],
     [ "Change Data Refresh Rate", "tws_rtd_server.html#rtd_throttle_headline", null ],
     [ "Troubleshooting Common Errors", "tws_rtd_server.html#rtd_fqa_errors_headline", null ],
     [ "Simple Syntax", "rtd_simple_syntax.html", [
@@ -104,6 +105,7 @@ var tws_rtd_server =
     [ "Troubleshooting Common Errors for RTD", "rtd_fqa_errors.html", [
       [ "Troubleshooting Common Errors", "rtd_fqa_errors.html#rtd_common_errors", [
         [ "TwsRtdServer error: Cannot connect to TWS.", "rtd_fqa_errors.html#rtd_common_errors_cannot_connect", null ],
+        [ "TwsRtdServer error: RTD Server disconnects from TWS such that cells stop updating", "rtd_fqa_errors.html#rtd_common_errors_disconnects", null ],
         [ "TwsRtdServer error: No security definition has been found for the request.", "rtd_fqa_errors.html#rtd_common_errors_no_security", null ],
         [ "TwsRtdServer error: The contract description specified for <SYMBOL> is ambiguous.", "rtd_fqa_errors.html#rtd_common_errors_ambiguity", null ],
         [ "TwsRtdServer error: Requested market data is not subscribed. Displaying delayed market data...", "rtd_fqa_errors.html#rtd_common_errors_data_not_subscribed", null ],

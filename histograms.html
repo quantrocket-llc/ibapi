@@ -161,7 +161,7 @@ $(document).ready(function(){initNavTree('histograms.html','');});
 <div class="line"><span class="stringliteral">        End Sub</span></div>
 </div><!-- fragment -->  </li>
 <li>
-<div class="fragment"><div class="line"><span class="keywordtype">void</span> TestCppClient::histogramData(<span class="keywordtype">int</span> reqId, HistogramDataVector data) {</div>
+<div class="fragment"><div class="line"><span class="keywordtype">void</span> TestCppClient::histogramData(<span class="keywordtype">int</span> reqId, <span class="keyword">const</span> HistogramDataVector&amp; data) {</div>
 <div class="line">    printf(<span class="stringliteral">&quot;Histogram. ReqId: %d, data length: %lu\n&quot;</span>, reqId, data.size());</div>
 <div class="line"></div>
 <div class="line">    <span class="keywordflow">for</span> (<span class="keyword">auto</span> item : data) {</div>

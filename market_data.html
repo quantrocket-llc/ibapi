@@ -125,7 +125,7 @@ $(document).ready(function(){initNavTree('market_data.html','');});
 <ul>
 <li><a class="el" href="top_data.html">Top Market Data (Level I)</a></li>
 <li><a class="el" href="market_depth.html">Market Depth (Level II)</a></li>
-<li><a class="el" href="realtime_bars.html">Real Time Bars</a></li>
+<li><a class="el" href="realtime_bars.html">5 Second Real Time Bars</a></li>
 </ul>
 <h1><a class="anchor" id="market_subscriptions"></a>
 Live Market Data</h1>
@@ -162,9 +162,6 @@ Market Data Lines</h1>
 <p><b>Example: </b> To clarify this concept further, let us assume a user has a maxTicker Limit of <b>ten</b> market data lines and is already observing the real time data of say <b>five</b> stocks within the TWS itself. When the user connects his TWS API client application to the TWS, he then requests the real time market data for another <b>different five</b> instruments. At a later point while all 10 requests are still active, the user tries to subscribe to the live real time market data of an eleventh product. Since the user is already making use of ten market data lines (five in the TWS and another five in his client application), the TWS will respond with an error message telling the client application it has reached the maximum number of simultaneous requests. In order to request the market data of the eleventh product, the user will have to cancel at least one of the currently active subscriptions (either within TWS or from his client program.)</p>
 <p>By default, every user has a maxTicker Limit of 100 market data lines and as such can obtain the real time market data of up to 100 instruments <b>simultaneously</b>. This limit however can be further extended either through the purchase of quote booster packs or by increasing the equity and/or commissions of the user's account. For further details on how to increment the number of market data lines or how is your market data lines' entitlement calculated, please refer to our website's "Market Data Display" section within the <a href="https://www.interactivebrokers.com/en/index.php?f=14193" target="_blank" class="linkexternal">Research, News and Market Data</a> page.</p>
 <p><b>Note: </b>It is important to understand the concept of market data lines since it has an impact not only on the live real time requests but also for requesting market depth and real time bars.</p>
-<p><br/>
-</p>
-<p>-<a class="el" href="delayed_data.html">Delayed Streaming Data</a></p>
 <p><br/>
 <br/>
  </p>

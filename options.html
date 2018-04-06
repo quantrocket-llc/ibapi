@@ -123,7 +123,7 @@ $(document).ready(function(){initNavTree('options.html','');});
 <div class="contents">
 <div class="textblock"><h1><a class="anchor" id="option_chains"></a>
 Option Chains</h1>
-<p>The option chain for a given security can be returned using the function reqContractDetails. If an option contract is incompletely defined (say with the strike undefined) and used as an argument to <a class="el" href="classIBApi_1_1EClient.html#ade440c6db838b548594981d800ea5ca9" title="Requests contract information.  This method will provide all the contracts matching the contract prov...">IBApi::EClient::reqContractDetails</a>, a list of all matching option contracts will be returned.</p>
+<p>The option chain for a given security can be returned using the function reqContractDetails. If an option contract is incompletely defined (for instance with the strike undefined) and used as an argument to <a class="el" href="classIBApi_1_1EClient.html#ade440c6db838b548594981d800ea5ca9" title="Requests contract information.  This method will provide all the contracts matching the contract prov...">IBApi::EClient::reqContractDetails</a>, a list of all matching option contracts will be returned.</p>
 <p>The example below shows an "incomplete" option <a class="el" href="classIBApi_1_1Contract.html">IBApi.Contract</a> with no last trading day, strike nor multiplier defined. In most cases using such a contract would result into a contract ambiguity error since there are lots of instruments matching the same description. <a class="el" href="classIBApi_1_1EClient.html#ade440c6db838b548594981d800ea5ca9">IBApi.EClient.reqContractDetails</a> will instead use it to obtain the whole option chain from the TWS.</p>
 <ul id="tab">
 <li class="active">
@@ -188,6 +188,10 @@ Option Chains</h1>
 </div><!-- fragment -->  </li>
 </ul>
 <p>One limitation of this technique is that the return of option chains will be throttled and take a longer time the more ambiguous the contract definition. Starting in version 9.72 of the API, a new function <a class="el" href="classIBApi_1_1EClient.html#adb17b291044d2f8dcca5169b2c6fd690" title="Requests security definition option parameters for viewing a contract&#39;s option chain. ">IBApi::EClient::reqSecDefOptParams</a> is introduced that does not have the throttling limitation.</p>
+<ul>
+<li>It is not recommended to use reqContractDetails to receive complete option chains on an underlying, e.g. all combinations of strikes/rights/expiries.</li>
+<li>For very large option chains returned from reqContractDetails, unchecking the setting in TWS Global Configuration at API -&gt; Settings -&gt; "Expose entire trading schedule to the API" will decrease the amount of data returned per option and help to return the contract list more quickly.</li>
+</ul>
 <ul id="tab">
 <li class="active">
 <div class="fragment"><div class="line">            client.reqSecDefOptParams(0, <span class="stringliteral">&quot;IBM&quot;</span>, <span class="stringliteral">&quot;&quot;</span>, <span class="stringliteral">&quot;STK&quot;</span>, 8314);</div>
@@ -214,7 +218,8 @@ Option Chains</h1>
 </div><!-- fragment -->  </li>
 <li>
 <div class="fragment"><div class="line">    m_pClient-&gt;reqSecDefOptParams(0, <span class="stringliteral">&quot;IBM&quot;</span>, <span class="stringliteral">&quot;&quot;</span>, <span class="stringliteral">&quot;STK&quot;</span>, 8314);</div>
-</div><!-- fragment --> ... <div class="fragment"><div class="line"><span class="keywordtype">void</span> TestCppClient::securityDefinitionOptionalParameter(<span class="keywordtype">int</span> reqId, <span class="keyword">const</span> std::string&amp; exchange, <span class="keywordtype">int</span> underlyingConId, <span class="keyword">const</span> std::string&amp; tradingClass, <span class="keyword">const</span> std::string&amp; multiplier, std::set&lt;std::string&gt; expirations, std::set&lt;double&gt; strikes) {</div>
+</div><!-- fragment --> ... <div class="fragment"><div class="line"><span class="keywordtype">void</span> TestCppClient::securityDefinitionOptionalParameter(<span class="keywordtype">int</span> reqId, <span class="keyword">const</span> std::string&amp; exchange, <span class="keywordtype">int</span> underlyingConId, <span class="keyword">const</span> std::string&amp; tradingClass,</div>
+<div class="line">                                                        <span class="keyword">const</span> std::string&amp; multiplier, <span class="keyword">const</span> std::set&lt;std::string&gt;&amp; expirations, <span class="keyword">const</span> std::set&lt;double&gt;&amp; strikes) {</div>
 <div class="line">    printf(<span class="stringliteral">&quot;Security Definition Optional Parameter. Request: %d, Trading Class: %s, Multiplier: %s\n&quot;</span>, reqId, tradingClass.c_str(), multiplier.c_str());</div>
 <div class="line">}</div>
 </div><!-- fragment -->  </li>
@@ -240,6 +245,10 @@ Option Chains</h1>
 <h1><a class="anchor" id="option_exercising"></a>
 Exercising options</h1>
 <p>Options are exercised or lapsed from the API with the function <a class="el" href="classIBApi_1_1EClient.html#aad70a7b82ad3b5e7ae3e9f0b98dc2a5b">IBApi.EClient.exerciseOptions</a></p>
+<ul>
+<li>Option exercise will appear with order status side = "BUY" and limit price of 0, but only at the time the request is made</li>
+<li>Option exercise can be distinguished by price = 0</li>
+</ul>
 <ul id="tab">
 <li class="active">
 <div class="fragment"><div class="line">            client.exerciseOptions(5003, ContractSamples.OptionWithTradingClass(), 1, 1, null, 1);</div>

@@ -187,10 +187,10 @@ $(document).ready(function(){initNavTree('smart_components.html','');});
 <div class="line"><span class="stringliteral">        End Sub</span></div>
 </div><!-- fragment -->  </li>
 <li>
-<div class="fragment"><div class="line"><span class="keywordtype">void</span> TestCppClient::smartComponents(<span class="keywordtype">int</span> reqId, SmartComponentsMap theMap) {</div>
+<div class="fragment"><div class="line"><span class="keywordtype">void</span> TestCppClient::smartComponents(<span class="keywordtype">int</span> reqId, <span class="keyword">const</span> SmartComponentsMap&amp; theMap) {</div>
 <div class="line">    printf(<span class="stringliteral">&quot;Smart components: (%lu):\n&quot;</span>, theMap.size());</div>
 <div class="line"></div>
-<div class="line">    <span class="keywordflow">for</span> (SmartComponentsMap::iterator i = theMap.begin(); i != theMap.end(); i++) {</div>
+<div class="line">    <span class="keywordflow">for</span> (SmartComponentsMap::const_iterator i = theMap.begin(); i != theMap.end(); i++) {</div>
 <div class="line">        printf(<span class="stringliteral">&quot; bit number: %d exchange: %s exchange letter: %c\n&quot;</span>, i-&gt;first, std::get&lt;0&gt;(i-&gt;second).c_str(), std::get&lt;1&gt;(i-&gt;second));</div>
 <div class="line">    }</div>
 <div class="line">}</div>

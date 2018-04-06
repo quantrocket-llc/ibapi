@@ -228,10 +228,10 @@ Receiving Historical Bar Data</h1>
 <li>
 <div class="fragment"><div class="line"><span class="keyword">class </span>TestCppClient : <span class="keyword">public</span> EWrapper</div>
 <div class="line">{</div>
-</div><!-- fragment --> ... <div class="fragment"><div class="line"><span class="keywordtype">void</span> TestCppClient::historicalData(TickerId reqId, Bar bar) {</div>
+</div><!-- fragment --> ... <div class="fragment"><div class="line"><span class="keywordtype">void</span> TestCppClient::historicalData(TickerId reqId, <span class="keyword">const</span> Bar&amp; bar) {</div>
 <div class="line">    printf( <span class="stringliteral">&quot;HistoricalData. ReqId: %ld - Date: %s, Open: %g, High: %g, Low: %g, Close: %g, Volume: %lld, Count: %d, WAP: %g\n&quot;</span>, reqId, bar.time.c_str(), bar.open, bar.high, bar.low, bar.close, bar.volume, bar.count, bar.wap);</div>
 <div class="line">}</div>
-</div><!-- fragment --> ... <div class="fragment"><div class="line"><span class="keywordtype">void</span> TestCppClient::historicalDataEnd(<span class="keywordtype">int</span> reqId, std::string startDateStr, std::string endDateStr) { </div>
+</div><!-- fragment --> ... <div class="fragment"><div class="line"><span class="keywordtype">void</span> TestCppClient::historicalDataEnd(<span class="keywordtype">int</span> reqId, <span class="keyword">const</span> std::string&amp; startDateStr, <span class="keyword">const</span> std::string&amp; endDateStr) {</div>
 <div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;HistoricalDataEnd. ReqId: &quot;</span> &lt;&lt; reqId &lt;&lt; <span class="stringliteral">&quot; - Start Date: &quot;</span> &lt;&lt; startDateStr &lt;&lt; <span class="stringliteral">&quot;, End Date: &quot;</span> &lt;&lt; endDateStr &lt;&lt; std::endl;   </div>
 <div class="line">}</div>
 </div><!-- fragment -->  </li>
@@ -268,7 +268,7 @@ Receiving Historical Bar Data</h1>
 <div class="line">        End Sub</div>
 </div><!-- fragment -->  </li>
 <li>
-<div class="fragment"><div class="line"><span class="keywordtype">void</span> TestCppClient::historicalDataUpdate(TickerId reqId, Bar bar) { </div>
+<div class="fragment"><div class="line"><span class="keywordtype">void</span> TestCppClient::historicalDataUpdate(TickerId reqId, <span class="keyword">const</span> Bar&amp; bar) {</div>
 <div class="line">    printf( <span class="stringliteral">&quot;HistoricalDataUpdate. ReqId: %ld - Date: %s, Open: %g, High: %g, Low: %g, Close: %g, Volume: %lld, Count: %d, WAP: %g\n&quot;</span>, reqId, bar.time.c_str(), bar.open, bar.high, bar.low, bar.close, bar.volume, bar.count, bar.wap);</div>
 <div class="line">}</div>
 </div><!-- fragment -->  </li>

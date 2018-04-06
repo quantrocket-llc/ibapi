@@ -136,6 +136,9 @@ Troubleshooting Common Errors</h1>
 <h2><a class="anchor" id="rtd_common_errors_cannot_connect"></a>
 TwsRtdServer error: Cannot connect to TWS.</h2>
 <p>This error message is most likely triggered because your TWS has not been configured properly for API socket connection. Please make sure to <a class="el" href="initial_setup.html#enable_api">Enable ActiveX and Socket Client</a> settings in your TWS. Also bear in mind that TWS Rtd Server connects to socket port 7496 by default. You will see the above error message if the socket port configured in your TWS API settings does not match what RTD is trying to connect to. See more details in <a class="el" href="tws_rtd_server.html#rtd_what_you_will_need">What You Will Need</a> .</p>
+<h2><a class="anchor" id="rtd_common_errors_disconnects"></a>
+TwsRtdServer error: RTD Server disconnects from TWS such that cells stop updating</h2>
+<p>This can occur if the API message rate of 50 messages/second is exceeded. No more than 50 messages can be sent from an API application such as RTD Server to TWS per second (this does not include messages in the opposite direction). Each ticker subscription request and subscription cancellation request corresponds to 1 message. If the 50 messages/second rate is exceeded, TWS will eventually close the connection. So for constructing an RTD spreadsheet with more than 50 tickers, it must be built to only make at most 50 new subscriptions or cancellations per second.</p>
 <h2><a class="anchor" id="rtd_common_errors_no_security"></a>
 TwsRtdServer error: No security definition has been found for the request.</h2>
 <p>This error message is triggered to indicate the contract definition provided in your RTD formula cannot be found by TWS. Usually it is caused by incorrect contract attribute definitions or typo. You are suggested to refer to some <a class="el" href="rtd_examples.html">Syntax Samples</a> and find out the issue in your RTD formula.</p>

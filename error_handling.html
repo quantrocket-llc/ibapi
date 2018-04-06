@@ -156,7 +156,7 @@ $(document).ready(function(){initNavTree('error_handling.html','');});
 <li>
 <div class="fragment"><div class="line"><span class="keyword">class </span>TestCppClient : <span class="keyword">public</span> EWrapper</div>
 <div class="line">{</div>
-</div><!-- fragment --> ... <div class="fragment"><div class="line"><span class="keywordtype">void</span> TestCppClient::error(<span class="keyword">const</span> <span class="keywordtype">int</span> <span class="keywordtype">id</span>, <span class="keyword">const</span> <span class="keywordtype">int</span> errorCode, <span class="keyword">const</span> std::string errorString)</div>
+</div><!-- fragment --> ... <div class="fragment"><div class="line"><span class="keywordtype">void</span> TestCppClient::error(<span class="keywordtype">int</span> <span class="keywordtype">id</span>, <span class="keywordtype">int</span> errorCode, <span class="keyword">const</span> std::string&amp; errorString)</div>
 <div class="line">{</div>
 <div class="line">    printf( <span class="stringliteral">&quot;Error. Id: %d, Code: %d, Msg: %s\n&quot;</span>, <span class="keywordtype">id</span>, errorCode, errorString.c_str());</div>
 <div class="line">}</div>

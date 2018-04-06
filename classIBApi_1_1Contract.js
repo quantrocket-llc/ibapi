@@ -5,6 +5,7 @@ var classIBApi_1_1Contract =
     [ "ComboLegsDescription", "classIBApi_1_1Contract.html#abd38cc68a8531bfb49805d24494947de", null ],
     [ "ConId", "classIBApi_1_1Contract.html#ad95ff82697b5dcfbf64f404b9ce0f750", null ],
     [ "Currency", "classIBApi_1_1Contract.html#a467a3f862c9a75cc0ad246ba386411a3", null ],
+    [ "DeltaNeutralContract", "classIBApi_1_1Contract.html#a354959091ca3c8f24c2f31c5a96e5ab9", null ],
     [ "Exchange", "classIBApi_1_1Contract.html#a529401ecdd1b9f7f8a3b42c25dccdf5c", null ],
     [ "IncludeExpired", "classIBApi_1_1Contract.html#a871739ededda61657cd2482aaf6c8449", null ],
     [ "LastTradeDateOrContractMonth", "classIBApi_1_1Contract.html#a1f8ef7a93e053e20235e9e0ba272b646", null ],
@@ -17,6 +18,5 @@ var classIBApi_1_1Contract =
     [ "SecType", "classIBApi_1_1Contract.html#a4f83111c0ea37a19fe1dae98e3b67456", null ],
     [ "Strike", "classIBApi_1_1Contract.html#a6abc153eb1f0ca527fb8fb8f763e519f", null ],
     [ "Symbol", "classIBApi_1_1Contract.html#a598b75bfd99d152464ba0da8db597986", null ],
-    [ "TradingClass", "classIBApi_1_1Contract.html#acc60f572d977ce30f385e1b419b77ba0", null ],
-    [ "UnderComp", "classIBApi_1_1Contract.html#a40ceeacbb1fd811752aa919039c68a93", null ]
+    [ "TradingClass", "classIBApi_1_1Contract.html#acc60f572d977ce30f385e1b419b77ba0", null ]
 ];

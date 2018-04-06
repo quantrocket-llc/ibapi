@@ -11,10 +11,9 @@ var market_data =
       [ "Canceling", "market_depth.html#canceling", null ],
       [ "Limitations", "market_depth.html#limitations", null ]
     ] ],
-    [ "Real Time Bars", "realtime_bars.html", [
+    [ "5 Second Real Time Bars", "realtime_bars.html", [
       [ "Requesting", "realtime_bars.html#rt_bars_req", null ],
       [ "Receiving", "realtime_bars.html#rt_bars_rec", null ],
       [ "Canceling", "realtime_bars.html#rt_bars_cancel", null ]
-    ] ],
-    [ "Delayed Streaming Data", "delayed_data.html", null ]
+    ] ]
 ];

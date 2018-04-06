@@ -12,6 +12,7 @@ var hierarchy =
       [ "VolumeCondition", "classIBApi_1_1VolumeCondition.html", null ]
     ] ],
     [ "ContractDetails", "classIBApi_1_1ContractDetails.html", null ],
+    [ "DeltaNeutralContract", "classIBApi_1_1DeltaNeutralContract.html", null ],
     [ "EClient", "classIBApi_1_1EClient.html", [
       [ "EClientSocket", "classIBApi_1_1EClientSocket.html", [
         [ "EClientSocketSSL", "classIBApi_1_1EClientSocketSSL.html", null ]
@@ -42,6 +43,5 @@ var hierarchy =
     [ "ScannerSubscription", "classIBApi_1_1ScannerSubscription.html", null ],
     [ "SoftDollarTier", "classIBApi_1_1SoftDollarTier.html", null ],
     [ "TagValue", "classIBApi_1_1TagValue.html", null ],
-    [ "TickAttrib", "classIBApi_1_1TickAttrib.html", null ],
-    [ "UnderComp", "classIBApi_1_1UnderComp.html", null ]
+    [ "TickAttrib", "classIBApi_1_1TickAttrib.html", null ]
 ];

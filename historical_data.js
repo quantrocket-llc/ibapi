@@ -3,7 +3,6 @@ var historical_data =
     [ "Historical Data Limitations", "historical_limitations.html", [
       [ "Pacing Violations for Small Bars (30 secs or less)", "historical_limitations.html#pacing_violations", null ],
       [ "Step Sizes", "historical_limitations.html#hd_step_sizes", null ],
-      [ "Data Availability for Stocks", "historical_limitations.html#hd_availability", null ],
       [ "Unavailable Historical Data", "historical_limitations.html#non-available_hd", null ]
     ] ],
     [ "Historical Bar Data", "historical_bars.html", [

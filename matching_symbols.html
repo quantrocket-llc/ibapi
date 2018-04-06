@@ -122,6 +122,9 @@ $(document).ready(function(){initNavTree('matching_symbols.html','');});
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p>Starting in API <b>v973.02</b> and TWS <b>v964</b>, a function <a class="el" href="classIBApi_1_1EClient.html#aa0bff193c5cbaa73e89dccdd0f027195" title="Requests matching stock symbols. ">IBApi::EClient::reqMatchingSymbols</a> is available to search for stock contracts. The input can be either the first few letters of the ticker symbol, or for longer strings, a character sequence matching a word in the security name. For instance to search for the stock symbol 'IBKR', the input 'I' or 'IB' can be used, as well as the word 'Interactive'. Up to 16 matching results are returned.</p>
+<ul>
+<li>There must be an interval of at least 1 second between successive calls to reqMatchingSymbols</li>
+</ul>
 <ul id="tab">
 <li class="active">
 <div class="fragment"><div class="line">            client.reqMatchingSymbols(211, <span class="stringliteral">&quot;IB&quot;</span>);</div>

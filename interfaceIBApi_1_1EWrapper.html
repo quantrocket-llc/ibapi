@@ -156,12 +156,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:af8afed0428f2f848f15ac137d81283fc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interfaceIBApi_1_1EWrapper.html#af8afed0428f2f848f15ac137d81283fc">tickEFP</a> (int tickerId, int tickType, double basisPoints, string formattedBasisPoints, double impliedFuture, int holdDays, string futureLastTradeDate, double dividendImpact, double dividendsToLastTradeDate)</td></tr>
 <tr class="memdesc:af8afed0428f2f848f15ac137d81283fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exchange for Physicals.  <a href="#af8afed0428f2f848f15ac137d81283fc">More...</a><br/></td></tr>
 <tr class="separator:af8afed0428f2f848f15ac137d81283fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abf465aff35de5e6c8ea15cecc953de3a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interfaceIBApi_1_1EWrapper.html#abf465aff35de5e6c8ea15cecc953de3a">deltaNeutralValidation</a> (int reqId, <a class="el" href="classIBApi_1_1UnderComp.html">UnderComp</a> underComp)</td></tr>
-<tr class="memdesc:abf465aff35de5e6c8ea15cecc953de3a"><td class="mdescLeft">&#160;</td><td class="mdescRight"><ul>
-<li>Upon accepting a Delta-Neutral DN RFQ(request for quote), the server sends a <a class="el" href="interfaceIBApi_1_1EWrapper.html#abf465aff35de5e6c8ea15cecc953de3a" title="Upon accepting a Delta-Neutral DN RFQ(request for quote), the server sends a deltaNeutralValidation()...">deltaNeutralValidation()</a> message with the <a class="el" href="classIBApi_1_1UnderComp.html" title="Delta-Neutral Underlying Component. ">UnderComp</a> structure. If the delta and price fields are empty in the original request, the confirmation will contain the current values from the server. These values are locked when RFQ is processed and remain locked unitl the RFQ is cancelled. </li>
+<tr class="memitem:a045cfed857662fb305164aab714cff5f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interfaceIBApi_1_1EWrapper.html#a045cfed857662fb305164aab714cff5f">deltaNeutralValidation</a> (int reqId, <a class="el" href="classIBApi_1_1DeltaNeutralContract.html">DeltaNeutralContract</a> deltaNeutralContract)</td></tr>
+<tr class="memdesc:a045cfed857662fb305164aab714cff5f"><td class="mdescLeft">&#160;</td><td class="mdescRight"><ul>
+<li>Upon accepting a Delta-Neutral DN RFQ(request for quote), the server sends a <a class="el" href="interfaceIBApi_1_1EWrapper.html#a045cfed857662fb305164aab714cff5f" title="Upon accepting a Delta-Neutral DN RFQ(request for quote), the server sends a deltaNeutralValidation()...">deltaNeutralValidation()</a> message with the <a class="el" href="classIBApi_1_1DeltaNeutralContract.html" title="Delta-Neutral Contract. ">DeltaNeutralContract</a> structure. If the delta and price fields are empty in the original request, the confirmation will contain the current values from the server. These values are locked when RFQ is processed and remain locked unitl the RFQ is cancelled. </li>
 </ul>
- <a href="#abf465aff35de5e6c8ea15cecc953de3a">More...</a><br/></td></tr>
-<tr class="separator:abf465aff35de5e6c8ea15cecc953de3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+ <a href="#a045cfed857662fb305164aab714cff5f">More...</a><br/></td></tr>
+<tr class="separator:a045cfed857662fb305164aab714cff5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acacbf738e95ff9ffcc19b130f39938b3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interfaceIBApi_1_1EWrapper.html#acacbf738e95ff9ffcc19b130f39938b3">tickOptionComputation</a> (int tickerId, int field, double impliedVolatility, double delta, double optPrice, double pvDividend, double gamma, double vega, double theta, double undPrice)</td></tr>
 <tr class="memdesc:acacbf738e95ff9ffcc19b130f39938b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Receive's option specific market data. This method is called when the market in an option or its underlier moves. TWS’s option model volatilities, prices, and deltas, along with the present value of dividends expected on that options underlier are received.  <a href="#acacbf738e95ff9ffcc19b130f39938b3">More...</a><br/></td></tr>
 <tr class="separator:acacbf738e95ff9ffcc19b130f39938b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -767,7 +767,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="inte
 
 </div>
 </div>
-<a class="anchor" id="abf465aff35de5e6c8ea15cecc953de3a"></a>
+<a class="anchor" id="a045cfed857662fb305164aab714cff5f"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -780,8 +780,8 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="inte
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="classIBApi_1_1UnderComp.html">UnderComp</a>&#160;</td>
-          <td class="paramname"><em>underComp</em>&#160;</td>
+          <td class="paramtype"><a class="el" href="classIBApi_1_1DeltaNeutralContract.html">DeltaNeutralContract</a>&#160;</td>
+          <td class="paramname"><em>deltaNeutralContract</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -792,13 +792,13 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="inte
 </div><div class="memdoc">
 
 <p><ul>
-<li>Upon accepting a Delta-Neutral DN RFQ(request for quote), the server sends a <a class="el" href="interfaceIBApi_1_1EWrapper.html#abf465aff35de5e6c8ea15cecc953de3a" title="Upon accepting a Delta-Neutral DN RFQ(request for quote), the server sends a deltaNeutralValidation()...">deltaNeutralValidation()</a> message with the <a class="el" href="classIBApi_1_1UnderComp.html" title="Delta-Neutral Underlying Component. ">UnderComp</a> structure. If the delta and price fields are empty in the original request, the confirmation will contain the current values from the server. These values are locked when RFQ is processed and remain locked unitl the RFQ is cancelled. </li>
+<li>Upon accepting a Delta-Neutral DN RFQ(request for quote), the server sends a <a class="el" href="interfaceIBApi_1_1EWrapper.html#a045cfed857662fb305164aab714cff5f" title="Upon accepting a Delta-Neutral DN RFQ(request for quote), the server sends a deltaNeutralValidation()...">deltaNeutralValidation()</a> message with the <a class="el" href="classIBApi_1_1DeltaNeutralContract.html" title="Delta-Neutral Contract. ">DeltaNeutralContract</a> structure. If the delta and price fields are empty in the original request, the confirmation will contain the current values from the server. These values are locked when RFQ is processed and remain locked unitl the RFQ is cancelled. </li>
 </ul>
 </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">reqId</td><td>the request's identifier. </td></tr>
-    <tr><td class="paramname">underComp</td><td>Underlying Component </td></tr>
+    <tr><td class="paramname">deltaNeutralContract</td><td>Delta-Neutral <a class="el" href="classIBApi_1_1Contract.html" title="class describing an instrument&#39;s definition ">Contract</a> </td></tr>
   </table>
   </dd>
 </dl>
@@ -1812,7 +1812,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="inte
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">orderId</td><td>the order's client id. </td></tr>
-    <tr><td class="paramname">status</td><td>the current status of the order. Possible values: PendingSubmit - indicates that you have transmitted the order, but have not yet received confirmation that it has been accepted by the order destination. PendingCancel - indicates that you have sent a request to cancel the order but have not yet received cancel confirmation from the order destination. At this point, your order is not confirmed canceled. It is not guaranteed that the cancellation will be successful. PreSubmitted - indicates that a simulated order type has been accepted by the IB system and that this order has yet to be elected. The order is held in the IB system until the election criteria are met. At that time the order is transmitted to the order destination as specified . Submitted - indicates that your order has been accepted by the system. ApiCanceled - after an order has been submitted and before it has been acknowledged, an API client client can request its cancelation, producing this state. Cancelled - indicates that the balance of your order has been confirmed canceled by the IB system. This could occur unexpectedly when IB or the destination has rejected your order. Filled - indicates that the order has been completely filled. Market orders executions will not always trigger a Filled status. Inactive - indicates that the order was received by the system but is no longer active because it was rejected or canceled. </td></tr>
+    <tr><td class="paramname">status</td><td>the current status of the order. Possible values: PendingSubmit - indicates that you have transmitted the order, but have not yet received confirmation that it has been accepted by the order destination. PendingCancel - indicates that you have sent a request to cancel the order but have not yet received cancel confirmation from the order destination. At this point, your order is not confirmed canceled. It is not guaranteed that the cancellation will be successful. PreSubmitted - indicates that a simulated order type has been accepted by the IB system and that this order has yet to be elected. The order is held in the IB system until the election criteria are met. At that time the order is transmitted to the order destination as specified . Submitted - indicates that your order has been accepted by the system. ApiCancelled - after an order has been submitted and before it has been acknowledged, an API client client can request its cancelation, producing this state. Cancelled - indicates that the balance of your order has been confirmed canceled by the IB system. This could occur unexpectedly when IB or the destination has rejected your order. Filled - indicates that the order has been completely filled. Market orders executions will not always trigger a Filled status. Inactive - indicates that the order was received by the system but is no longer active because it was rejected or canceled. </td></tr>
     <tr><td class="paramname">filled</td><td>number of filled positions. </td></tr>
     <tr><td class="paramname">remaining</td><td>the remnant positions. </td></tr>
     <tr><td class="paramname">avgFillPrice</td><td>average filling price. </td></tr>

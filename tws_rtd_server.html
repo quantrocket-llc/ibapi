@@ -143,7 +143,7 @@ What You Will Need</h1>
 <p>Please also be mindful of the socket port that you configure in your TWS API settings. The default socket port TWS will listen on is <b>7496</b> for a live session, and <b>7497</b> for a paper session. It is further discussed in section <a class="el" href="rtd_simple_syntax.html#rtd_simple_syntax_conn">Connection Parameters</a> that TWS RTD Server connects to port <b>7496</b> by default, and you are able to customize the port number to connect by specifying pre-defined <a class="el" href="rtd_simple_syntax.html#rtd_simple_syntax_conn">Connection Parameters</a> or using rtd_complex_syntax string "port=&lt;port&gt;". You can use any valid port for connection as you wish, and you just need to make sure that the port you are trying to connect to via the API is the same port your TWS is listening on.</p>
 <h2><a class="anchor" id="rtd_req_excel"></a>
 - Microsoft Excel®</h2>
-<p>After installing the API, the pre-compiled RTD library file (located at <em>C:\TWS API\source\csharpclient\TwsRtdServer\bin\Release\TwsRtdServer.dll</em> by default) registered on your computer will be in 32-bit by default. If you are using 64-bit Microsoft Excel, you would need to re-compile RTD server dll file into 64-bit and register the library by re-building the RTD source solution using Visual Studio. Please refer to the <a href="https://attendee.gotowebinar.com/register/7412660386944689921" target="_blank">TWS Excel APIs, featuring the RealTimeData Server</a> recorded webinar for detailed instructions.</p>
+<p>After installing the API, the pre-compiled RTD library file (located at <em>C:\TWS API\source\csharpclient\TwsRtdServer\bin\Release\TwsRtdServer.dll</em> by default) registered on your computer will be in 32-bit by default for API versions from 973.03 to 973.06. If you are using 64-bit Microsoft Excel, you would need to re-compile RTD server dll file into 64-bit and register the library by re-building the RTD source solution using Visual Studio. Please refer to the <a href="https://attendee.gotowebinar.com/register/7412660386944689921" target="_blank">TWS Excel APIs, featuring the RealTimeData Server</a> recorded webinar for more information. Beginning in API v973.07* it is expected that the API installer for RTD Server will be compatible with both 32 bit and 64 bit Excel (* expected version number).</p>
 <h1><a class="anchor" id="rtd_syntax_headline"></a>
 TWS RTD Server Formula Syntax</h1>
 <p>Customer can request market data by entering the following formula with corresponding parameters into an Excel spreadsheet cell:</p>
@@ -178,6 +178,11 @@ Syntax Samples</h1>
 <li><a class="el" href="rtd_examples.html#rtd_samples_spread">Spreads</a></li>
 </ul>
 <p>Besides reading through the written documentation, you can also watch the <a href="https://attendee.gotowebinar.com/register/7412660386944689921" target="_blank">TWS Excel APIs, featuring the RealTimeData Server</a> recorded webinar for a more interactive tutorial video.</p>
+<h1><a class="anchor" id="rtd_message_limit"></a>
+rtd_message_limit</h1>
+<ul>
+<li>It is important to keep in mind the 50 message/second API limit applies to RTD Server in the same way as other socket-based API technologies. So the Excel spreadsheet can send no more than 50 messages/second to TWS. Each subscription or cancellation request counts as 1 message (messages in the opposite direction are not included). So a spreadsheet can have hundreds of streaming tickers, but the subscriptions must be spread out over time so that no more than 50 new subscriptions are made per second, or the spreadsheet can become disconnected.</li>
+</ul>
 <h1><a class="anchor" id="rtd_throttle_headline"></a>
 Change Data Refresh Rate</h1>
 <ul>

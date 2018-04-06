@@ -5,7 +5,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.4"/>
-<title>TWS API v9.72+: Third Party Software</title>
+<title>TWS API v9.72+: Using Third Party API Platforms</title>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
 <link href="https://www.interactivebrokers.com/favicon.ico" rel="shortcut icon">
@@ -118,10 +118,13 @@ $(document).ready(function(){initNavTree('third_party.html','');});
 <div id="doc-content">
 <div class="header">
   <div class="headertitle">
-<div class="title">Third Party Software </div>  </div>
+<div class="title">Using Third Party API Platforms </div>  </div>
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p>Third party software vendors make use of the TWS' programming interface (API) to integrate their platforms with Interactive Broker's. Thanks to the TWS API, well known platforms such as Ninja Trader or Multicharts can interact with the TWS to fetch market data, place orders and/or manage account and portfolio information.</p>
+<ul>
+<li><b>It is important to keep in mind that most third party API platforms are not compatible with all IB account structures</b>. Always check first with the software vendor before opening a specific account type or converting an IB account type. For instance, many third party API platforms such as NinjaTrader and TradeNavigator are <b>not</b> compatible with IB linked account structures, so it is highly recommended to first check with the third party vendor before linking your IB accounts.</li>
+</ul>
 <p>A non-exhaustive list of third party platforms implementing our interface can be found in our <a href="https://www.interactivebrokers.com/Universal/servlet/MarketPlace.MarketPlaceServlet" target="_blank" class="linkexternal">Investor's Marketplace</a>. As stated in the marketplace, the vendors' list is in no way a recommendation from Interactive Brokers. If you are interested in a given platform that is not listed, please contact the platform's vendor directly for further information.</p>
 <h1><a class="anchor" id="third_party_faq"></a>
 Frequently Asked Questions</h1>
@@ -152,7 +155,7 @@ Where to get support for a third party software connecting to the TWS.</h2>
 <h2><a class="anchor" id="tp_ping_pong"></a>
 My program's vendor did not find any issue on its side and asked me to contact Interactive Brokers directly.</h2>
 <p>There will be occasions when a given operation will not be fulfilled as expected not because of a malfunction in either platform but because of the business logic involved. The typical behaviour of the TWS is to either perform the requested operation or to return an explanatory message which will point you in the right direction. It is the duty of the third party program to clearly show these TWS' messages within its own user interface. Without a relevant error message our support team will not be able to give any advice.</p>
-<p>In case of a malfunction on Interactive Broker's side, clear and concise technical information needs to be provided including evidence of the malfunction in the form of TWS or API message log files as detailed in <a class="el" href="support.html#tws_logs">TWS/IBG Logs</a> section of this guide. Collecting all the needed information is not a trivial process and might require a very detailed knowledge of our API. To prevent being caught in between support teams, please request your third party vendor to contact us directly via email to <a href="#" onclick="location.href='mai'+'lto:'+'api'+'@i'+'nte'+'ra'+'cti'+'ve'+'bro'+'ke'+'rs.'+'co'+'m'; return false;">api@i<span style="display: none;">.nosp@m.</span>nter<span style="display: none;">.nosp@m.</span>activ<span style="display: none;">.nosp@m.</span>ebro<span style="display: none;">.nosp@m.</span>kers.<span style="display: none;">.nosp@m.</span>com</a> with as much information as possible.</p>
+<p>In case of a malfunction on Interactive Broker's side, clear and concise technical information needs to be provided including evidence of the malfunction in the form of TWS or API message log files as detailed in <a class="el" href="support.html#tws_logs">Log Files</a> section of this guide. Collecting all the needed information is not a trivial process and might require a very detailed knowledge of our API. To prevent being caught in between support teams, please request your third party vendor to contact us directly via email to <a href="#" onclick="location.href='mai'+'lto:'+'api'+'@i'+'nte'+'ra'+'cti'+'ve'+'bro'+'ke'+'rs.'+'co'+'m'; return false;">api@i<span style="display: none;">.nosp@m.</span>nter<span style="display: none;">.nosp@m.</span>activ<span style="display: none;">.nosp@m.</span>ebro<span style="display: none;">.nosp@m.</span>kers.<span style="display: none;">.nosp@m.</span>com</a> with as much information as possible.</p>
 <h2><a class="anchor" id="tp_bypass_warning"></a>
 TWS generates warning messages that block my orders being automatically transmitted</h2>
 <p>There are precautionary settings in TWS that are designed to be a order safety check. TWS would usually generate a pop-up warning dialogue, or sent back an error message via the API, when there is any violation to the pre-define precautionary settings in <a href="https://www.interactivebrokers.com/en/software/tws/usersguidebook/configuretws/define_precautionary_settings.htm" target="_blank" class="linkexternal">TWS Presets</a>.</p>

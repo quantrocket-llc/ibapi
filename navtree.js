@@ -20,45 +20,7 @@ var NAVTREE =
       [ "Installing the API source", "initial_setup.html#install", null ],
       [ "Changing the installed API version", "initial_setup.html#changing", null ]
     ] ],
-    [ "API Software Architecture", "client_wrapper.html", [
-      [ "EClientSocket and EWrapper Classes", "client_wrapper.html#The", null ],
-      [ "Implementing the EWrapper Interface", "client_wrapper.html#ewrapper_impl", null ],
-      [ "The EClientSocket Class", "client_wrapper.html#client_socket", null ]
-    ] ],
-    [ "Connection", "connection.html", [
-      [ "Establishing an API connection", "connection.html#connect", null ],
-      [ "The EReader Thread", "connection.html#ereader", null ],
-      [ "Accepting an API connection from TWS", "connection.html#accept_connections", null ],
-      [ "Broken API socket connection", "connection.html#broken", null ]
-    ] ],
-    [ "Contracts", "contracts.html", "contracts" ],
-    [ "Orders", "orders.html", "orders" ],
-    [ "Streaming Market Data", "market_data.html", "market_data" ],
-    [ "Historical Market Data", "historical_data.html", "historical_data" ],
-    [ "News", "news.html", [
-      [ "Checking Subscribed News Sources", "news.html#news_providers", null ],
-      [ "Contract Specific News", "news.html#news_contract", null ],
-      [ "Historical News Headlines", "news.html#historical_news", null ],
-      [ "Requesting News Articles", "news.html#news_articles", null ]
-    ] ],
-    [ "Options", "options.html", "options" ],
-    [ "Account & Portfolio", "account_portfolio.html", "account_portfolio" ],
-    [ "Market Scanners", "market_scanners.html", "market_scanners" ],
-    [ "Financial Advisor", "financial_advisor.html", "financial_advisor" ],
-    [ "Fundamental Data", "reuters_fundamentals.html", [
-      [ "Report Types", "reuters_fundamentals.html#report_type", null ]
-    ] ],
-    [ "IB Bulletins", "ib_bulletins.html", null ],
-    [ "Display Groups", "display_groups.html", [
-      [ "Query Display Groups", "display_groups.html#query_display_request", null ],
-      [ "Subscribe To Group Events", "display_groups.html#subscribe_to_group_events", null ],
-      [ "Update Display Group", "display_groups.html#update_display_group", null ],
-      [ "Unsubscribe From Group Events", "display_groups.html#unsubscribe_from_group_events", null ]
-    ] ],
-    [ "Error Handling", "error_handling.html", "error_handling" ],
-    [ "Excel APIs", "excel_apis.html", "excel_apis" ],
-    [ "Troubleshooting & Support", "support.html", "support" ],
-    [ "Third Party Software", "third_party.html", [
+    [ "Using Third Party API Platforms", "third_party.html", [
       [ "Frequently Asked Questions", "third_party.html#third_party_faq", [
         [ "How to connect a 3rd party platform to Interactive Brokers' Trader Workstation", "third_party.html#tp_faq_connect", null ],
         [ "Where to get support for a third party software connecting to the TWS.", "third_party.html#tp_support", null ],
@@ -75,6 +37,51 @@ var NAVTREE =
         [ "The charts shown by my charting software differ from the ones shown by the TWS", "third_party.html#tp_data_mismatch", null ]
       ] ]
     ] ],
+    [ "Excel APIs", "excel_apis.html", "excel_apis" ],
+    [ "Troubleshooting & Support", "support.html", [
+      [ "Log Files", "support.html#tws_logs", [
+        [ "API Log", "support.html#api_logs", null ],
+        [ "TWS Log File", "support.html#logging_level", null ],
+        [ "Local location of logs", "support.html#log_files", null ],
+        [ "Uploading logs", "support.html#uploading_logs", null ]
+      ] ]
+    ] ],
+    [ "Programming the API: Architecture", "client_wrapper.html", [
+      [ "EClientSocket and EWrapper Classes", "client_wrapper.html#The", null ],
+      [ "Implementing the EWrapper Interface", "client_wrapper.html#ewrapper_impl", null ],
+      [ "The EClientSocket Class", "client_wrapper.html#client_socket", null ]
+    ] ],
+    [ "Connectivity", "connection.html", [
+      [ "Establishing an API connection", "connection.html#connect", null ],
+      [ "The EReader Thread", "connection.html#ereader", null ],
+      [ "Accepting an API connection from TWS", "connection.html#accept_connections", null ],
+      [ "Broken API socket connection", "connection.html#broken", null ]
+    ] ],
+    [ "Financial Instruments (Contracts)", "contracts.html", "contracts" ],
+    [ "Orders", "orders.html", "orders" ],
+    [ "Streaming Market Data", "market_data.html", "market_data" ],
+    [ "Historical Market Data", "historical_data.html", "historical_data" ],
+    [ "Account & Portfolio Data", "account_portfolio.html", "account_portfolio" ],
+    [ "Options", "options.html", "options" ],
+    [ "Financial Advisors", "financial_advisor.html", "financial_advisor" ],
+    [ "Fundamental Data", "reuters_fundamentals.html", [
+      [ "Report Types", "reuters_fundamentals.html#report_type", null ]
+    ] ],
+    [ "Error Handling", "error_handling.html", "error_handling" ],
+    [ "Market Scanners", "market_scanners.html", "market_scanners" ],
+    [ "News", "news.html", [
+      [ "Checking Subscribed News Sources", "news.html#news_providers", null ],
+      [ "Contract Specific News", "news.html#news_contract", null ],
+      [ "Historical News Headlines", "news.html#historical_news", null ],
+      [ "Requesting News Articles", "news.html#news_articles", null ]
+    ] ],
+    [ "IB Bulletins", "ib_bulletins.html", null ],
+    [ "Display Groups", "display_groups.html", [
+      [ "Query Display Groups", "display_groups.html#query_display_request", null ],
+      [ "Subscribe To Group Events", "display_groups.html#subscribe_to_group_events", null ],
+      [ "Update Display Group", "display_groups.html#update_display_group", null ],
+      [ "Unsubscribe From Group Events", "display_groups.html#unsubscribe_from_group_events", null ]
+    ] ],
     [ "Namespaces", null, [
       [ "Namespace List", "namespaces.html", "namespaces" ]
     ] ],
@@ -85,7 +92,6 @@ var NAVTREE =
       [ "Class Members", "functions.html", [
         [ "All", "functions.html", "functions_dup" ],
         [ "Functions", "functions_func.html", null ],
-        [ "Enumerations", "functions_enum.html", null ],
         [ "Properties", "functions_prop.html", "functions_prop" ]
       ] ]
     ] ]
@@ -95,10 +101,10 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "account_portfolio.html",
-"classIBApi_1_1EClient.html#a80207770f2654147d5a1c4c985748f38",
-"classIBApi_1_1Order.html#acf7d37ea31f6d733e9616ecadbb81a64",
+"classIBApi_1_1EClient.html#a7d9ed965cf5738965bcfb482aad494c3",
+"classIBApi_1_1Order.html#ad20733800e5dc40758b9d7f07dccb4ab",
 "functions_prop_0x75.html",
-"realtime_bars.html"
+"rtd_complex_syntax.html#rtd_complex_additional"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

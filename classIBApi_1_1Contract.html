@@ -171,15 +171,15 @@ string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cl
 <tr class="separator:a529401ecdd1b9f7f8a3b42c25dccdf5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a467a3f862c9a75cc0ad246ba386411a3"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a467a3f862c9a75cc0ad246ba386411a3"></a>
 string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIBApi_1_1Contract.html#a467a3f862c9a75cc0ad246ba386411a3">Currency</a><code> [get, set]</code></td></tr>
-<tr class="memdesc:a467a3f862c9a75cc0ad246ba386411a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">The underlying's cuurrency. <br/></td></tr>
+<tr class="memdesc:a467a3f862c9a75cc0ad246ba386411a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">The underlying's currency. <br/></td></tr>
 <tr class="separator:a467a3f862c9a75cc0ad246ba386411a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af15eacebf568bb73abe17937097242d9"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af15eacebf568bb73abe17937097242d9"></a>
 string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIBApi_1_1Contract.html#af15eacebf568bb73abe17937097242d9">LocalSymbol</a><code> [get, set]</code></td></tr>
-<tr class="memdesc:af15eacebf568bb73abe17937097242d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">The contract's symbol within its primary exchange. <br/></td></tr>
+<tr class="memdesc:af15eacebf568bb73abe17937097242d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">The contract's symbol within its primary exchange For options, this will be the OCC symbol. <br/></td></tr>
 <tr class="separator:af15eacebf568bb73abe17937097242d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae31aaa76ab07d7ddb72197b4a68aa984"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae31aaa76ab07d7ddb72197b4a68aa984"></a>
 string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIBApi_1_1Contract.html#ae31aaa76ab07d7ddb72197b4a68aa984">PrimaryExch</a><code> [get, set]</code></td></tr>
-<tr class="memdesc:ae31aaa76ab07d7ddb72197b4a68aa984"><td class="mdescLeft">&#160;</td><td class="mdescRight">The contract's primary exchange. <br/></td></tr>
+<tr class="memdesc:ae31aaa76ab07d7ddb72197b4a68aa984"><td class="mdescLeft">&#160;</td><td class="mdescRight">The contract's primary exchange. For smart routed contracts, used to define contract in case of ambiguity. Should be defined as native exchange of contract, e.g. ISLAND for MSFT For exchanges which contain a period in name, will only be part of exchange name prior to period, i.e. ENEXT for ENEXT.BE. <br/></td></tr>
 <tr class="separator:ae31aaa76ab07d7ddb72197b4a68aa984"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acc60f572d977ce30f385e1b419b77ba0"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="acc60f572d977ce30f385e1b419b77ba0"></a>
 string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIBApi_1_1Contract.html#acc60f572d977ce30f385e1b419b77ba0">TradingClass</a><code> [get, set]</code></td></tr>
@@ -187,11 +187,11 @@ string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cl
 <tr class="separator:acc60f572d977ce30f385e1b419b77ba0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a871739ededda61657cd2482aaf6c8449"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a871739ededda61657cd2482aaf6c8449"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIBApi_1_1Contract.html#a871739ededda61657cd2482aaf6c8449">IncludeExpired</a><code> [get, set]</code></td></tr>
-<tr class="memdesc:a871739ededda61657cd2482aaf6c8449"><td class="mdescLeft">&#160;</td><td class="mdescRight">If set to true, contract details requests and historical data queries can be performed pertaining to expired contracts. Note: Historical data queries on expired contracts are limited to the last year of the contracts life, and are initially only supported for expired futures contracts. <br/></td></tr>
+<tr class="memdesc:a871739ededda61657cd2482aaf6c8449"><td class="mdescLeft">&#160;</td><td class="mdescRight">If set to true, contract details requests and historical data queries can be performed pertaining to expired futures contracts. Expired options or other instrument types are not available. <br/></td></tr>
 <tr class="separator:a871739ededda61657cd2482aaf6c8449"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7fa1428a037567a1b0c32ff77e22b3ce"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7fa1428a037567a1b0c32ff77e22b3ce"></a>
 string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIBApi_1_1Contract.html#a7fa1428a037567a1b0c32ff77e22b3ce">SecIdType</a><code> [get, set]</code></td></tr>
-<tr class="memdesc:a7fa1428a037567a1b0c32ff77e22b3ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Security's identifier when querying contract's details or placing orders SIN - Example: Apple: US0378331005 CUSIP - Example: Apple: 037833100 SEDOL - Consists of 6-AN + check digit. Example: BAE: 0263494 RIC - Consists of exchange-independent RIC Root and a suffix identifying the exchange. Example: AAPL.O for Apple on NASDAQ. <br/></td></tr>
+<tr class="memdesc:a7fa1428a037567a1b0c32ff77e22b3ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Security's identifier when querying contract's details or placing orders ISIN - Example: Apple: US0378331005 CUSIP - Example: Apple: 037833100. <br/></td></tr>
 <tr class="separator:a7fa1428a037567a1b0c32ff77e22b3ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a68793e149b70f758bc1238b269378310"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIBApi_1_1Contract.html#a68793e149b70f758bc1238b269378310">SecId</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:a68793e149b70f758bc1238b269378310"><td class="mdescLeft">&#160;</td><td class="mdescRight">Identifier of the security type.  <a href="#a68793e149b70f758bc1238b269378310">More...</a><br/></td></tr>
@@ -203,9 +203,9 @@ string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cl
 <tr class="memitem:a08b1e62aa65c87da75e650e4958cdeab"><td class="memItemLeft" align="right" valign="top">List&lt; <a class="el" href="classIBApi_1_1ComboLeg.html">ComboLeg</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIBApi_1_1Contract.html#a08b1e62aa65c87da75e650e4958cdeab">ComboLegs</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:a08b1e62aa65c87da75e650e4958cdeab"><td class="mdescLeft">&#160;</td><td class="mdescRight">The legs of a combined contract definition.  <a href="#a08b1e62aa65c87da75e650e4958cdeab">More...</a><br/></td></tr>
 <tr class="separator:a08b1e62aa65c87da75e650e4958cdeab"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a40ceeacbb1fd811752aa919039c68a93"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classIBApi_1_1UnderComp.html">UnderComp</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIBApi_1_1Contract.html#a40ceeacbb1fd811752aa919039c68a93">UnderComp</a><code> [get, set]</code></td></tr>
-<tr class="memdesc:a40ceeacbb1fd811752aa919039c68a93"><td class="mdescLeft">&#160;</td><td class="mdescRight">Delta and underlying price for Delta-Neutral combo orders. Underlying (STK or FUT), delta and underlying price goes into this attribute.  <a href="#a40ceeacbb1fd811752aa919039c68a93">More...</a><br/></td></tr>
-<tr class="separator:a40ceeacbb1fd811752aa919039c68a93"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a354959091ca3c8f24c2f31c5a96e5ab9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classIBApi_1_1DeltaNeutralContract.html">DeltaNeutralContract</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIBApi_1_1Contract.html#a354959091ca3c8f24c2f31c5a96e5ab9">DeltaNeutralContract</a><code> [get, set]</code></td></tr>
+<tr class="memdesc:a354959091ca3c8f24c2f31c5a96e5ab9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Delta and underlying price for Delta-Neutral combo orders. Underlying (STK or FUT), delta and underlying price goes into this attribute.  <a href="#a354959091ca3c8f24c2f31c5a96e5ab9">More...</a><br/></td></tr>
+<tr class="separator:a354959091ca3c8f24c2f31c5a96e5ab9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>class describing an instrument's definition </p>
@@ -234,6 +234,29 @@ string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cl
 
 </div>
 </div>
+<a class="anchor" id="a354959091ca3c8f24c2f31c5a96e5ab9"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classIBApi_1_1DeltaNeutralContract.html">DeltaNeutralContract</a> <a class="el" href="classIBApi_1_1DeltaNeutralContract.html">DeltaNeutralContract</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Delta and underlying price for Delta-Neutral combo orders. Underlying (STK or FUT), delta and underlying price goes into this attribute. </p>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classIBApi_1_1DeltaNeutralContract.html" title="Delta-Neutral Contract. ">DeltaNeutralContract</a> </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="a68793e149b70f758bc1238b269378310"></a>
 <div class="memitem">
 <div class="memproto">
@@ -254,29 +277,6 @@ string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cl
 
 <p>Identifier of the security type. </p>
 <dl class="section see"><dt>See Also</dt><dd>secIdType </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="a40ceeacbb1fd811752aa919039c68a93"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classIBApi_1_1UnderComp.html">UnderComp</a> <a class="el" href="classIBApi_1_1UnderComp.html">UnderComp</a></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Delta and underlying price for Delta-Neutral combo orders. Underlying (STK or FUT), delta and underlying price goes into this attribute. </p>
-<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classIBApi_1_1UnderComp.html" title="Delta-Neutral Underlying Component. ">UnderComp</a> </dd></dl>
 
 </div>
 </div>

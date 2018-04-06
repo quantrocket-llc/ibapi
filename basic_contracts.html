@@ -204,7 +204,7 @@ Stocks</h1>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;        contract.exchange = <span class="stringliteral">&quot;ISLAND&quot;</span></div>
 </div><!-- fragment -->  </li>
 </ul>
-<p>For certain smart-routed stock contracts that have the same <b>symbol</b>, <b>currency</b> and <b>exchange</b>, you would also need to specify the <b>primary exchange</b> attribute to uniquely define the contract. This should be defined as the native exchange of a contract, and is good practice for all stocks:</p>
+<p>For certain smart-routed stock contracts that have the same <b>symbol</b>, <b>currency</b> and <b>exchange</b>, you would also need to specify the <b>primary exchange</b> attribute to uniquely define the contract. This should be defined as the native exchange of a contract, and is good practice to include for all stocks:</p>
 <ul id="tab">
 <li class="active">
 <div class="fragment"><div class="line">            Contract contract = <span class="keyword">new</span> Contract();</div>
@@ -257,7 +257,7 @@ Stocks</h1>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;        contract.primaryExchange = <span class="stringliteral">&quot;ISLAND&quot;</span></div>
 </div><!-- fragment -->  </li>
 </ul>
-<p>As an alternative to defining the exchange and primary exchange fields, it is possible to specify the exchange field as "Exchange:Primary Exchange", e.g. "SMART:NASDAQ". The colon ":" or slash "/" separating this fields is known as the "Component Exchange Separator" and defined in the API Settings in Global Configuration.</p>
+<p>For the purpose of requesting market data, the routing exchange and primary exchange can be specified in a single 'exchange' field if they are separated by a valid component exchange separator, for instance exchange = "SMART:ARCA". The default separators available are colon ":" and slash "/". Other component exchange separators can be defined using the field defined in TWS Global Configuration under API -&gt; Settings. The component exchange separator syntax can currently only be used to request market data and not to place orders.</p>
 <h1><a class="anchor" id="ind"></a>
 Indexes</h1>
 <p>ISINs for indices which are available in IB's database are available in the API as of TWS 965+.</p>
@@ -339,7 +339,7 @@ CFDs</h1>
 </ul>
 <h1><a class="anchor" id="fut"></a>
 Futures</h1>
-<p>A regular futures contract is commonly defined using an expiry and the symbol field defined as the symbol of the underlying.</p>
+<p>A regular futures contract is commonly defined using an expiry and the symbol field defined as the symbol of the underlying. Historical data for futures is available up to 2 years after they expire by setting the includeExpired flag within the Contract class to True.</p>
 <ul id="tab">
 <li class="active">
 <div class="fragment"><div class="line">            Contract contract = <span class="keyword">new</span> Contract();</div>
@@ -468,7 +468,7 @@ Futures</h1>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;        contract.multiplier = <span class="stringliteral">&quot;5&quot;</span></div>
 </div><!-- fragment -->  </li>
 </ul>
-<p>It is possible to use <b>continuous futures</b> contracts to receive historical data, real time bars, or contract details (requires TWS v966+). Continuous futures cannot be used with real time data or to place orders.</p>
+<p>A project is under development to allow for <b>continuous futures</b> from the API to receive historical data, real time bars, or contract details (requires TWS v966+). Continuous futures cannot be used with real time data or to place orders. To request historical data with continuous futures it is recommended to use TWS Build 971 or higher.</p>
 <ul id="tab">
 <li class="active">
 <div class="fragment"><div class="line">            Contract contract = <span class="keyword">new</span> Contract();</div>
@@ -835,7 +835,7 @@ Bonds</h1>
 </ul>
 <h1><a class="anchor" id="funds"></a>
 Mutual Funds</h1>
-<p>Mutual Funds are supported in the API. Note: Mutual Funds cannot be traded in paper accounts.</p>
+<p>Mutual Fund orders are <b>not</b> currently supported from the API. Note: Mutual Funds cannot be traded in paper accounts, in TWS or the API.</p>
 <ul id="tab">
 <li class="active">
 <div class="fragment"><div class="line">            Contract contract = <span class="keyword">new</span> Contract();</div>

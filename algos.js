@@ -50,7 +50,7 @@ var algos =
       [ "Darkseek (DS)", "jefferies.html#dark_seek", null ],
       [ "Post (POST)", "jefferies.html#post_", null ],
       [ "MultiScale (MS)", "jefferies.html#multi_scale", null ],
-      [ "Operner (OPERNER)", "jefferies.html#operner_", null ],
+      [ "Opener (OPENER)", "jefferies.html#opener_", null ],
       [ "Finale (TOC)", "jefferies.html#finale_", null ],
       [ "Portfolio (PORT)", "jefferies.html#portfolio_", null ],
       [ "Patience (PATIENCE)", "jefferies.html#patience_", null ],
