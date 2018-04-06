@@ -697,7 +697,7 @@ void TestCppClient::accountOperations()
 	std::this_thread::sleep_for(std::chrono::seconds(2));
 
 	//! [reqaaccountupdatesmulti]
-	m_pClient->reqAccountUpdatessMulti(9002, "U150462", "EUstocks", true);
+	m_pClient->reqAccountUpdatesMulti(9002, "U150462", "EUstocks", true);
 	//! [reqaaccountupdatesmulti]
 	std::this_thread::sleep_for(std::chrono::seconds(2));
 

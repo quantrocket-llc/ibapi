@@ -1,4 +1,4 @@
-/*! \page client_wrapper API Software Architecture
+/*! \page client_wrapper Programming the API: Architecture 
 
 	\section The EClientSocket and EWrapper Classes
 

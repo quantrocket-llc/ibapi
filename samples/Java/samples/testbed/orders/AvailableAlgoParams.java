@@ -7,6 +7,29 @@ import com.ib.client.TagValue;
 
 public class AvailableAlgoParams {
 	
+	//! [scale_params]
+	public static void FillScaleParams (Order baseOrder, int scaleInitLevelSize, int scaleSubsLevelSize, boolean scaleRandomPercent, 
+		double scalePriceIncrement, double scalePriceAdjustValue, int scalePriceAdjustInterval, double scaleProfitOffset,
+		boolean scaleAutoReset, int scaleInitPosition, int scaleInitFillQty) {	
+		
+      baseOrder.scaleInitLevelSize(scaleInitLevelSize);   //Initial Component Size
+      baseOrder.scaleSubsLevelSize(scaleSubsLevelSize);    //Subsequent Comp. Size
+      baseOrder.scaleRandomPercent(scaleRandomPercent);   //Randomize size by +/-55%
+      baseOrder.scalePriceIncrement(scalePriceIncrement);   //Price Increment
+
+      /*Auto Price adjustment*/
+      baseOrder.scalePriceAdjustValue(scalePriceAdjustValue);    //starting price by
+      baseOrder.scalePriceAdjustInterval(scalePriceAdjustInterval);   // in seconds
+
+      /*Profit Orders*/
+      baseOrder.scaleProfitOffset(scaleProfitOffset);   //Create profit taking order Profit Offset
+      baseOrder.scaleAutoReset(scaleAutoReset);      //Restore size after taking profit
+      baseOrder.scaleInitPosition(scaleInitPosition);     //Initial Position
+      baseOrder.scaleInitFillQty(scaleInitFillQty);      //Filled initial Component Size
+      
+	}		
+	//! [scale_params]
+
 	//! [arrivalpx_params]
 	public static void FillArrivalPriceParams(Order baseOrder, double maxPctVol, String riskAversion, String startTime, 
 			String endTime, boolean forceCompletion, boolean allowPastTime, double monetaryValue) {

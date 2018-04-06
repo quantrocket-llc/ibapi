@@ -1,7 +1,8 @@
 /*! \page top_data Top Market Data (Level I)
   
-  Using the TWS API, you can request real time market data for trading and analysis. It is important to mention that our real time market data is not tick-by-tick meaning you will not obtain
-  every single price movement happening in the market. Instead, real time data is given as snapshots generated at a fixed given pace:
+  Using the TWS API, you can request real time market data for trading and analysis. From the API, market data returned from the function @ref IBApi::EClient::reqMktData corresponds to market data displayed in TWS watchlists. This data is not tick-by-tick but consists of aggregated snapshots taken at intra-second intervals which differ depending on the type of instrument: 
+  
+  - Important to note: Live market data and historical bars are currently not available from the API for the exchanges <b>OSE</b> and <b>SEHKTL</b>. Only 15 minute delayed streaming data will be available for these exchanges. 
   
 	<table>
 		<tr><th>Product</th><th>Frequency</th></tr>
@@ -25,6 +26,13 @@
 	
    \subpage market_data_type 
 	
+  Beginning in TWS v969 and API v973.04, tick-by-tick data. In TWS, tick-by-tick data is available in the Time & Sales Window. From the API, this corresponds to the function @ref IBApi::EClient::reqTickByTick. Tick-by-tick data can be streamed for up to 5 instruments simultaneously in TWS and the API.
+   
+  - Real time tick-by-tick data is currently not available for options. Historical tick-by-tick data is available.
+	
+   \subpage tick_data
+	
+   \subpage delayed_data
 	
 	<br><br>
 	

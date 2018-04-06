@@ -5,7 +5,7 @@
 	<b>Note</b>: Invoking reqContractDetails with a Contract object which has currency = USD will only return US contracts, even if there are non-US instruments which have the USD currency. 
 	
 	Request for Bond details will be returned to  IBApi::EWrapper::bondContractDetails instead. Because of bond market data license restrictions, there are only
-	a few available fields to be returned in a bond contract description, namely the minTick, exchange, currency, and short name. 
+	a few available fields to be returned in a bond contract description, namely the minTick, exchange, and short name. 
 
 	One particular use of the IBApi::EClient::reqContractDetails function is to request an option chain. See @ref option_chains for more details. 
 	

@@ -2637,7 +2637,7 @@ void EClient::cancelPositionsMulti( int reqId)
 	closeAndSend( msg.str());
 }
 
-void EClient::reqAccountUpdatessMulti( int reqId, const std::string& account, const std::string& modelCode, bool ledgerAndNLV)
+void EClient::reqAccountUpdatesMulti( int reqId, const std::string& account, const std::string& modelCode, bool ledgerAndNLV)
 {
 	// not connected?
 	if( !isConnected()) {

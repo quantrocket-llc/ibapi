@@ -1,4 +1,4 @@
-/*! \page realtime_bars Real Time Bars
+/*! \page realtime_bars 5 Second Real Time Bars
 
 	Real time and historical data functionality is combined through the @ref IBApi::EClient::reqRealTimeBars request. reqRealTimeBars will create an active subscription that will return a single bar in real time every five seconds that has the OHLC values over that period. reqRealTimeBars can only be used with a bar size of 5 seconds. 
 	

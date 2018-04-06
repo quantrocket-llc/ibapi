@@ -2416,7 +2416,7 @@ namespace IBApi
 		 * @param reqId identifier to label the request 
 		 * @param account account values can be requested for a particular account
 		 * @param modelCode values can also be requested for a model
-		 * @param ledgerAndNLV returns light-weight request; only currency positions as opposed to account values and current positions
+		 * @param ledgerAndNLV returns light-weight request; only currency positions as opposed to account values and currency positions
          * @sa cancelAccountUpdatesMulti, EWrapper::accountUpdateMulti, EWrapper::accountUpdateMultiEnd
          */
         public void reqAccountUpdatesMulti(int requestId, string account, string modelCode, bool ledgerAndNLV)

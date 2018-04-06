@@ -207,7 +207,8 @@ namespace IBApi
         /**
         * @brief The trading hours of the product.
          * This value will contain the trading hours of the current day as well as the next's. For example, 20090507:0700-1830,1830-2330;20090508:CLOSED.
-		 * In TWS versions 965+ there is an option in the Global Configuration API settings to return 1 month of trading hours. 
+		 * In TWS versions 965+ there is an option in the Global Configuration API settings to return 1 month of trading hours.
+		 * In TWS version 970+, the format includes the date of the closing time to clarify potential ambiguity, ex: 20180323:0400-20180323:2000;20180326:0400-20180326:2000
 		 * The trading hours will correspond to the hours for the product on the associated exchange. The same instrument can have different hours on different exchanges.
         */
         public string TradingHours
@@ -220,8 +221,9 @@ namespace IBApi
 
         /**
         * @brief The liquid hours of the product.
-        * This value will contain the liquid hours (regular trading hours) of the contract on the specified exchange. For example, 20090507:0700-1830,1830-2330;20090508:CLOSED.
-        * In TWS versions 965+ there is an option in the Global Configuration API settings to return 1 month of trading hours. 
+        * This value will contain the liquid hours (regular trading hours) of the contract on the specified exchange. Format for TWS versions until 969: 20090507:0700-1830,1830-2330;20090508:CLOSED.
+		* In TWS versions 965+ there is an option in the Global Configuration API settings to return 1 month of trading hours.
+		* In TWS v970 and above, the format includes the date of the closing time to clarify potential ambiguity, e.g. 20180323:0930-20180323:1600;20180326:0930-20180326:1600
 		*/
         public string LiquidHours
         {

@@ -25,7 +25,7 @@ public class Testbed {
 		final EClientSocket m_client = wrapper.getClient();
 		final EReaderSignal m_signal = wrapper.getSignal();
 		//! [connect]
-		m_client.eConnect("127.0.0.1", 7497, 0);
+		m_client.eConnect("127.0.0.1", 7497, 2);
 		//! [connect]
 		//! [ereader]
 		final EReader reader = new EReader(m_client, m_signal);   
@@ -53,7 +53,7 @@ public class Testbed {
 		//orderOperations(wrapper.getClient(), wrapper.getCurrentOrderId());
 		//contractOperations(wrapper.getClient());
 		//hedgeSample(wrapper.getClient(), wrapper.getCurrentOrderId());
-		//testAlgoSamples(wrapper.getClient(), wrapper.getCurrentOrderId());
+		testAlgoSamples(wrapper.getClient(), wrapper.getCurrentOrderId());
 		//bracketSample(wrapper.getClient(), wrapper.getCurrentOrderId());
 		//bulletins(wrapper.getClient());
 		//reutersFundamentals(wrapper.getClient());
@@ -545,6 +545,14 @@ public class Testbed {
 	
 	private static void testAlgoSamples(EClientSocket client, int nextOrderId) throws InterruptedException {
 		
+		//! [scale_order]
+		Order scaleOrder = OrderSamples.RelativePeggedToPrimary("BUY",  70000,  189,  0.01);
+		AvailableAlgoParams.FillScaleParams(scaleOrder, 2000, 500, true, .02, 189.00, 3600, 2.00, true, 10, 40);
+		client.placeOrder(nextOrderId++, ContractSamples.USStockAtSmart(), scaleOrder);
+		//! [scale_order]
+
+		Thread.sleep(500);
+
 		//! [algo_base_order]
 		Order baseOrder = OrderSamples.LimitOrder("BUY", 1000, 1);
 		//! [algo_base_order]

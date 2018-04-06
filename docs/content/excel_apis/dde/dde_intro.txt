@@ -16,9 +16,9 @@
 	
 	<b>Limitations specific to DDE</b>
 	- DDE does not have the full range of tick types available to the socket-based APIs
-	- DDE requires live market data in TWS to receive any market data. It is not compatible with delayed data.
+	- DDE <b>requires live market data</b> in TWS to receive either streaming or historical market data. It is not compatible with delayed data.
 	- Other applications running DDE in the background can interfere with Excel DDE and cannot be used simultaneously.
-	
+	- A DDE command string can be at most <b>255</b> characters. For that reason very lengthy commands such as those involving four-legged spreads are not available. 
 	
 	\section dde_issues Troubleshooting Excel DDE
 	
@@ -32,7 +32,7 @@
 	
 	- <b>3)</b> "Enable DDE" is not checked in the TWS (or IB Gateway Global Configuration). In TWS this setting is at Global Configuration -> API -> Settings -> "Enable DDE".
 	
-	- <b>4)</b> The incorrect username is input into a formula in Excel. The username in the spreadsheet must match the username used to login to TWS. For paper accounts, it must be the paper account username and not the live username (every paper account has a distinct username). 
+	- <b>4)</b> The incorrect username is input into a formula in Excel. The username in the spreadsheet must match the username used to login to TWS. For paper accounts, it must be the paper account username and not the live username (every paper account has its own username distinct from the live username). 
 	
 	<b>(5)</b> In rare cases it is necessary to run Excel as Administrator to use DDE.
 	

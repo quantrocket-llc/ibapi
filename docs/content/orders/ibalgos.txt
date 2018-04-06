@@ -9,8 +9,8 @@
 		<tr><th>Parameter</th><th>Description</th><th>Values</th></tr>
 		<tr>
 			<td>adaptivePriority</td>
-			<td>The 'Priority' selector determines the time taken to scan for better execution prices. The 'Critical' setting scans only briefly, while the 'Patient' scan works more slowly and has a higher chance of achieving a better overall fill for your order.</td>
-			<td>Critical > Urgent > Normal > Patient</td>
+			<td>The 'Priority' selector determines the time taken to scan for better execution prices. The 'Urgent' setting scans only briefly, while the 'Patient' scan works more slowly and has a higher chance of achieving a better overall fill for your order.</td>
+			<td>Urgent > Normal > Patient</td>
 		</tr>
 	</table>
 	
@@ -234,9 +234,7 @@
 	The <a href="https://www.interactivebrokers.com/en/index.php?f=1223" target="_blank" class="linkexternal">Accumulate/Distribute</a> algo can help you to achieve the best price for a 
 	large volume order without being noticed in the market, and can be set up for high frequency trading. By slicing your order into smaller randomly-sized order increments that are released 
 	at random time intervals within a user-defined time period, the algo allows the trading of large blocks of stock and other instruments without being detected in the market. The algo allows 
-	limit, market, and relative order types. When you put in a Relative Order, you must specify what it is relative to, and here you have a lot of choices. Of course, if it is relative to a 
-	fixed value then it is really a Limit Order, but you can make it relative to things like the prevailing bid, the ask, the last price, the VWAP or moving VWAP, the moving average or 
-	exponential moving average, your last trade price or the number of shares you have bought so far.
+	limit, market, and relative order types. It is important to keep in mind the API A/D algo will not have all available parameters of the A/D algos that can be created in TWS.
 	
 	<table>
 		<tr><th>Parameter</th><th>Description</th><th>Values</th></tr>
@@ -247,8 +245,8 @@
 		<tr><td>giveUp</td><td>Number associated with the clearing</td><td></td></tr>
 		<tr><td>catchUp</td><td>Catch up in time</td><td>1 (true) or 0 (false)</td></tr>
 		<tr><td>waitForFill</td><td>Wait for current order to fill before submitting next order</td><td>1 (true) or 0 (false)</td></tr>
-		<tr><td>startTime</td><td>Algorithm starting time</td><td>hh:mm:ss TMZ or YYYYMMDD-hh:mm:ss TMZ</td></tr>
-		<tr><td>endTime</td><td>Algorithm ending time</td><td>hh:mm:ss TMZ or YYYYMMDD-hh:mm:ss TMZ</td></tr>
+		<tr><td>startTime</td><td>Algorithm starting time</td><td>YYYYMMDD-hh:mm:ss TMZ</td></tr>
+		<tr><td>endTime</td><td>Algorithm ending time</td><td>YYYYMMDD-hh:mm:ss TMZ</td></tr>
 	</table>
 	
 	<br>

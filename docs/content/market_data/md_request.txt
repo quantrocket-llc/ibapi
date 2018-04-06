@@ -1,7 +1,6 @@
-/*! \page md_request Requesting Market Data
+/*! \page md_request Requesting Watchlist Data
 
-	In order to receive live quotes, you must first make the request call via @ref IBApi::EClient::reqMktData within your API program. Every request needs a unique identifier which will serve
-	to identify the returned data:
+	Streaming market data values corresponding to data shown in TWS watchlists is available via the @ref IBApi::EClient::reqMktData. This data is not tick-by-tick but consists of aggregate snapshots taken several times per second. A set of 'default' tick types are returned by default from a call to @ref IBApi::EClient::reqMktData, and additional tick types are available by specifying the corresponding generic tick type in the market data request. Including the generic tick types many, but not all, types of data are available that can be displayed in TWS watchlists by adding additional columns. Each market data request uses a unique identifier (ticker ID) which identifies the returned data:
 		
 	<ul id="tab">
 		<li class="active"> 

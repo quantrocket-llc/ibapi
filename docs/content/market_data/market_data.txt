@@ -63,9 +63,6 @@
 	
 	<b>Note: </b>It is important to understand the concept of market data lines since it has an impact not only on the live real time requests but also for requesting market depth and real time bars.
 	
-	<br>
-	
-	-\subpage delayed_data
 	
 	<br><br>
 

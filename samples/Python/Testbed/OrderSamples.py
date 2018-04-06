@@ -977,17 +977,17 @@ class OrderSamples:
         #Attached order is a conventional STP order
         order = OrderSamples.Stop("SELL" if parent.action == "BUY" else "BUY",
                      parent.totalQuantity, attachedOrderStopPrice)
-        order.ParentId = parent.orderId
+        order.parentId = parent.orderId
         #When trigger price is penetrated
-        order.TriggerPrice = triggerPrice
+        order.triggerPrice = triggerPrice
         #The parent order will be turned into a TRAIL order
-        order.AdjustedOrderType = "TRAIL"
+        order.adjustedOrderType = "TRAIL"
         #With a stop price of...
-        order.AdjustedStopPrice = adjustedStopPrice
+        order.adjustedStopPrice = adjustedStopPrice
         #traling by and amount (0) or a percent (1)...
-        order.AdjustableTrailingUnit = trailUnit
+        order.adjustableTrailingUnit = trailUnit
         #of...
-        order.AdjustedTrailingAmount = adjustedTrailAmount
+        order.adjustedTrailingAmount = adjustedTrailAmount
         #! [adjustable_trail]        
         return order
  

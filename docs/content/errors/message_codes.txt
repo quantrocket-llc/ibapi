@@ -429,7 +429,7 @@
 		</tr>
 		<tr>
 			<td>303</td><td>Invalid action:</td>
-			<td>An action field was specified that is not available for the account. For most accounts this is only BUY or SELL. Some institional accounts also have the options SSELL or SLONG available.</td>
+			<td>An action field was specified that is not available for the account. For most accounts this is only BUY or SELL. Some institutional accounts also have the options SSHORT or SLONG available.</td>
 		</tr>
 		<tr>
 			<td>304</td><td>Invalid account value action:</td>

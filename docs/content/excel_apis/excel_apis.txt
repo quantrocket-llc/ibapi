@@ -2,13 +2,15 @@
 
 	\section available_excel_apis Available Excel APIs
 
-	There are several API technologies available for Microsoft Excel. Since they utilize Windows technologies they require the Windows OS.
+	There are several API technologies available for Microsoft Excel. Since they utilize Windows technologies the Excel APIs require a Windows OS.
 
 	- \subpage tws_rtd_server
   
 	- \subpage dde_intro
 	
 	- \subpage activex
+	
+	<b>Important:</b> Sample spreadsheet applications are distributed with the API download for each of the API technologies (RTD Server, ActiveX, DDE). It is important to keep in mind that the sample applications are intended as simple demonstrations of API functionality for third party programmers. They do not have robust error handling functionality and are not intended to be used as production level trading tools. 
 	
 	Recorded webinars providing an introduction to Excel API technologies are available from the IB website at: <a href="https://www.interactivebrokers.com/en/index.php?f=1350&t=recorded&q=Excel%20API&p=1" target="_blank">Recorded Excel API Webinars</a>
 	
@@ -22,9 +24,11 @@
 		<tr><td>Designed to not overwhelm Excel</td><td>Yes</td><td>No</td><td>No</td></tr>
 		<tr><td>Open Source</td><td>Yes</td><td>No</td><td>Yes</td></tr>
 		<tr><td>Market Data Refresh rate</td><td>250 ms</td><td>250 ms</td><td>1 sec</td></tr>
-		<tr><td>Sample compatible with 64 bit Excel</td><td>No</td><td>Yes</td><td>No</td>	</tr>
+		<tr><td>Sample compatible with 64 bit Excel</td><td>No*</td><td>Yes</td><td>Yes**</td>	</tr>
 	</table>
-
+	\*expected in next API release, to be named 973.07 <br>
+	
+	\*\*API ActiveX installer is compatible with both 32 and 64 bit applications starting with v973.05
 	\section excel_limitations Limitations of Microsoft Excel APIs
 	
 	By design, Microsoft Excel gives precedence to the user interface over the data connection to other applications. For that reason, Excel only receives updates when it is in a 'ready' state, and may ignore data sent for instance when a modal dialogue box is displayed to the user, a cell is being edited, or Excel is busy doing other things. A new Excel Real Time Data server (RTD) API has been introduced to help address some of these limitations, but they are inherent to Excel as a trading application and not specific to an API technology. 

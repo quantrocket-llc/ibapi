@@ -1,0 +1,128 @@
+/*! \page tick_data Tick-by-Tick Data
+
+	Tick-by-tick data corresponding to the data shown in the TWS Time & Sales Window is available starting with TWS v969 and API v973.04. Up to 5 instruments can receive tick-by-tick data at a time.
+	
+	- The tick type field is case sensitive - it must be BidAsk, Last, AllLast, MidPoint. AllLast has additional trade types such as combos, derivatives, and average price trades which are not included in Last. 
+	- Tick-by-tick data for options is currently only available historically and not in real time.
+	
+	<ul id="tab">
+		<li class="active"> 
+			\snippet Program.cs reqtickbytick
+		</li>
+		<li>
+			\snippet Testbed.java reqtickbytick
+		</li>
+		<li>
+			\snippet MainModule.vb reqtickbytick
+		</li>
+		<li>
+			\snippet TestCppClient.cpp reqtickbytick
+		</li>
+		<li>
+			\snippet Program.py reqtickbytick
+		</li>
+	</ul>
+
+	Depending on the type of data requested, it will be returned to one of the functions IBApi::EWrapper::historicalTicksLast, IBApi::EWrapper::historicalTicksBidAsk, IBApi::EWrapper::tickByTickMidPoint, or IBApi::EWrapper::tickByTickAllLast
+	
+	<ul id="tab">
+		<li class="active">
+			\snippet EWrapperImpl.cs historicaltickslast
+		</li>
+		<li>
+			\snippet EWrapperImpl.java historicaltickslast
+		</li>
+		<li>
+			\snippet EWrapperImpl.vb historicaltickslast
+		</li>
+		<li>
+			\snippet TestCppClient.cpp historicaltickslast
+		</li>
+		<li>
+			\snippet Program.py historicaltickslast
+		</li>
+	</ul>
+	
+	<br>
+	
+	<ul id="tab">
+		<li class="active">
+			\snippet EWrapperImpl.cs historicalticksbidask
+		</li>
+		<li>
+			\snippet EWrapperImpl.java historicalticksbidask
+		</li>
+		<li>
+			\snippet EWrapperImpl.vb historicalticksbidask
+		</li>
+		<li>
+			\snippet TestCppClient.cpp historicalticksbidask
+		</li>
+		<li>
+			\snippet Program.py historicalticksbidask
+		</li>
+	</ul>
+	
+	<br>
+	
+	<ul id="tab">
+		<li class="active">
+			\snippet EWrapperImpl.cs tickbytickmidpoint
+		</li>
+		<li>
+			\snippet EWrapperImpl.java tickbytickmidpoint
+		</li>
+		<li>
+			\snippet EWrapperImpl.vb tickbytickmidpoint
+		</li>
+		<li>
+			\snippet TestCppClient.cpp tickbytickmidpoint
+		</li>
+		<li>
+			\snippet Program.py tickbytickmidpoint
+		</li>
+	</ul>
+	
+	<br>
+	
+	<ul id="tab">
+		<li class="active">
+			\snippet EWrapperImpl.cs tickbytickalllast
+		</li>
+		<li>
+			\snippet EWrapperImpl.java tickbytickalllast
+		</li>
+		<li>
+			\snippet EWrapperImpl.vb tickbytickalllast
+		</li>
+		<li>
+			\snippet TestCppClient.cpp tickbytickalllast
+		</li>
+		<li>
+			\snippet Program.py tickbytickalllast
+		</li>
+	</ul>
+	
+	Tick-by-tick subscriptions can be cancelled using the function IBApi::EClient::cancelTickByTickData
+	<br>
+	
+	<ul id="tab">
+		<li class="active"> 
+			\snippet Program.cs canceltickbytick
+		</li>
+		<li>
+			\snippet Testbed.java canceltickbytick
+		</li>
+		<li>
+			\snippet MainModule.vb canceltickbytick
+		</li>
+		<li>
+			\snippet TestCppClient.cpp canceltickbytick
+		</li>
+		<li>
+			\snippet Program.py canceltickbytick
+		</li>
+	</ul>
+	
+	<br><br>
+*/

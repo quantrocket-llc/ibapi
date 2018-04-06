@@ -613,7 +613,7 @@ public class OrderSamples {
         //! [adjustable_trail]
         return order;
     }
-    
+    	
     public static PriceCondition PriceCondition(int conId, String exchange, double price, boolean isMore, boolean isConjunction) {
     	//! [price_condition]
     	//Conditions have to be created via the OrderCondition.Create

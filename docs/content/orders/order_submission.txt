@@ -64,7 +64,7 @@
 	
 	<b>The next valid identifier is persistent between TWS sessions.</b>
 
-	If necessary, you can reset the order ID sequence within the API Settings dialogue. Note however that the order sequence Id can only be reset if there are no active orders.
+	If necessary, you can reset the order ID sequence within the API Settings dialogue. Note however that the order sequence Id can only be reset if there are no active API orders.
 
 	\image html order_id_reset.png
 
@@ -129,7 +129,7 @@
 	
 	\section order_status The orderStatus callback
 	 
-	The @ref IBApi::EWrapper::orderStatus method contains all relevant information on the current status of the order execution-wise (i.e. amount filled and pending, filling price, etc.).
+	The @ref IBApi::EWrapper::orderStatus method contains all relevant information on the current status of the order execution-wise (i.e. amount filled and pending, filling price, etc.). 
 	
 	<ul id="tab">
 		<li class="active">
@@ -169,20 +169,27 @@
 	
 	<b>Possible Order States</b>
 	
-	- <b>PendingSubmit</b> - indicates the order was sent to TWS, but confirmation has not been received that it has been received by the IB server.
+	- <b>ApiPending</b> - indicates order has not yet been sent to IB server, for instance if there is a delay in receiving the security definition. Uncommonly received.
+	- <b>PendingSubmit</b> - indicates the order was sent from TWS, but confirmation has not been received that it has been received by the destination. Most commonly because exchange is closed.
 	- <b>PendingCancel</b> - indicates that a request has been sent to cancel an order but confirmation has not been received of its cancellation.
 	- <b>PreSubmitted</b> - indicates that a simulated order type has been accepted by the IB system and that this order has yet to be elected. The order is held in the IB system until the election criteria are met. At that time the order is transmitted to the order destination as specified. 
 	- <b>Submitted</b> - indicates that your order has been accepted at the order destination and is working. 
-	- <b>ApiCanceled</b> - after an order has been submitted and before it has been acknowledged, an API client client can request its cancellation, producing this state. 
+	- <b>ApiCancelled</b> - after an order has been submitted and before it has been acknowledged, an API client client can request its cancellation, producing this state. 
 	- <b>Cancelled</b> - indicates that the balance of your order has been confirmed cancelled by the IB system. This could occur unexpectedly when IB or the destination has rejected your order. 
 	- <b>Filled</b> - indicates that the order has been completely filled. 
-	- <b>Inactive</b> - indicates an order is not working because it is invalid or triggered an error.
-	
+	- <b>Inactive</b> - indicates an order is not working, possible reasons include: 
+		- it is invalid or triggered an error. A corresponding error code is expected to the error() function. 
+		- the order is to short shares but the order is being held while shares are being located. 
+		- an order is placed manually in TWS while the exchange is closed.
+	    - an order is blocked by TWS due to a precautionary setting and appears there in an untransmitted state 
+		
 	<b>Important notes</b> concerning @ref IBApi::EWrapper::orderStatus :
 	
 	- Typically there are duplicate orderStatus messages with the same information that will be received by a client. This corresponds to messages sent back from TWS, the IB server, or the exchange. 
 	
 	- There are not guaranteed to be orderStatus callbacks for every change in order status. For example with market orders when the order is accepted and executes immediately, there commonly will not be any corresponding orderStatus callbacks. For that reason it is recommended to monitor the @ref IBApi::EWrapper::execDetails function in addition to @ref IBApi::EWrapper::orderStatus.
+	
+	- Beginning in API v973.04, a parameter mktCapPrice is included in the orderStatus callback. If an order has been <a target="_blank" class="linkexternal" href="https://www.interactivebrokers.com/en/index.php?f=14186" >price-capped</a>, mktCapPrice will indicate the price at which it has been capped. 
 	
 	\section order_attach Attaching Orders
 	

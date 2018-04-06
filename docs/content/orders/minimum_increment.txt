@@ -4,6 +4,8 @@
 
 	The function reqContractDetails when used with a Contract object will return contractDetails object to the contractDetails function which has a list of the valid exchanges where the instrument trades. Also within the contractDetails object is a field called marketRuleIDs which has a list of "market rules". A market rule is defined as a rule which defines the minimum price increment given the price. The market rule list returned in contractDetails has a list of market rules in the same order as the list of valid exchanges. In this way, the market rule ID for a contract on a particular exchange can be determined. 
 
+	- Market rule for forex and forex CFDs indicates default configuration (1/2 and not 1/10 pips). It can be adjusted to 1/10 pips through TWS or IB Gateway Global Configuration.
+	
 	With the market rule ID number, the corresponding rule can be found with the API function IBApi::EClient::reqMarketRule:
 
 	<ul id="tab">

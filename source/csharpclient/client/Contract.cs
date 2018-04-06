@@ -122,7 +122,7 @@ namespace IBApi
         }
 
         /**
-         * @brief The underlying's cuurrency
+         * @brief The underlying's currency
          */
         public string Currency
         {
@@ -132,6 +132,7 @@ namespace IBApi
 
         /**
          * @brief The contract's symbol within its primary exchange
+		 * For options, this will be the OCC symbol
          */
         public string LocalSymbol
         {
@@ -141,6 +142,9 @@ namespace IBApi
 
         /**
          * @brief The contract's primary exchange.
+		 * For smart routed contracts, used to define contract in case of ambiguity. 
+		 * Should be defined as native exchange of contract, e.g. ISLAND for MSFT
+		 * For exchanges which contain a period in name, will only be part of exchange name prior to period, i.e. ENEXT for ENEXT.BE
          */
         public string PrimaryExch
         {
@@ -159,8 +163,8 @@ namespace IBApi
         }
 
         /**
-        * @brief If set to true, contract details requests and historical data queries can be performed pertaining to expired contracts.
-        * Note: Historical data queries on expired contracts are limited to the last year of the contracts life, and are initially only supported for expired futures contracts.
+        * @brief If set to true, contract details requests and historical data queries can be performed pertaining to expired futures contracts.
+        * Expired options or other instrument types are not available.
         */
         public bool IncludeExpired
         {
@@ -170,10 +174,8 @@ namespace IBApi
 
         /**
          * @brief Security's identifier when querying contract's details or placing orders
-         *      SIN - Example: Apple: US0378331005
+         *      ISIN - Example: Apple: US0378331005
          *      CUSIP - Example: Apple: 037833100
-         *      SEDOL - Consists of 6-AN + check digit. Example: BAE: 0263494
-         *      RIC - Consists of exchange-independent RIC Root and a suffix identifying the exchange. Example: AAPL.O for Apple on NASDAQ.
          */
         public string SecIdType
         {

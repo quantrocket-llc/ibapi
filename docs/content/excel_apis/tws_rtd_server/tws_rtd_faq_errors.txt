@@ -15,6 +15,10 @@
 	Also bear in mind that TWS Rtd Server connects to socket port 7496 by default. You will see the above error message if the socket port configured in your TWS API settings does not match what RTD is trying to connect to. 
 	See more details in \ref rtd_what_you_will_need .
 	
+	\subsection rtd_common_errors_disconnects TwsRtdServer error: RTD Server disconnects from TWS such that cells stop updating
+	
+	This can occur if the API message rate of 50 messages/second is exceeded. No more than 50 messages can be sent from an API application such as RTD Server to TWS per second (this does not include messages in the opposite direction). Each ticker subscription request and subscription cancellation request corresponds to 1 message. If the 50 messages/second rate is exceeded, TWS will eventually close the connection. So for constructing an RTD spreadsheet with more than 50 tickers, it must be built to only make at most 50 new subscriptions or cancellations per second.
+	
 	\subsection rtd_common_errors_no_security TwsRtdServer error: No security definition has been found for the request.
 	
 	This error message is triggered to indicate the contract definition provided in your RTD formula cannot be found by TWS. 
@@ -39,6 +43,7 @@
 	This should show a small pop-up window and indicate the maximum allowed market data lines as well as the currently subscribed top market data count. If you are subscribed to more than the maximum allowed, some of the data point will show '0'.
 	
 	\image html rtd_maxdataline.PNG
+	
 	
 	<br><br>
 */

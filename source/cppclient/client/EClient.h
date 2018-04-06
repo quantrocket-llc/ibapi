@@ -326,7 +326,7 @@ public:
 	void unsubscribeFromGroupEvents(int reqId);
 	void reqPositionsMulti(int reqId, const std::string& account, const std::string& modelCode);
 	void cancelPositionsMulti(int reqId);
-	void reqAccountUpdatessMulti(int reqId, const std::string& account, const std::string& modelCode, bool ledgerAndNLV);
+	void reqAccountUpdatesMulti(int reqId, const std::string& account, const std::string& modelCode, bool ledgerAndNLV);
 	void cancelAccountUpdatesMulti(int reqId);
 	void reqSecDefOptParams(int reqId, const std::string& underlyingSymbol, const std::string& futFopExchange, const std::string& underlyingSecType, int underlyingConId);
 	void reqSoftDollarTiers(int reqId);

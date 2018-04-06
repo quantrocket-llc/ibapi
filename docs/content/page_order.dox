@@ -1,22 +1,23 @@
 /*! 
 	\page introduction Introduction
 	\page initial_setup Initial Setup
-	\page client_wrapper EWrapper and EClientSocket
+	\page third_party Using Third Party API Platforms 
+	\page excel_apis Excel APIs
+	\page support Troubleshooting & Support
+	\page client_wrapper Programming the API: Architecture 
 	\page connection Connectivity
-	\page contracts Contracts
+	\page contracts Financial Instruments (Contracts)
 	\page orders Orders
 	\page market_data Streaming Market Data
 	\page historical_data Historical Market Data
-	\page news News
+	\page account_portfolio Account & Portfolio Data
 	\page options Options
-	\page account_portfolio Account & Portfolio
-	\page market_scanners Market Scanners
-	\page financial_advisor Financial Advisor
+	\page financial_advisor Financial Advisors
 	\page reuters_fundamentals Fundamental Data
+	\page error_handling Error Handling
+	\page market_scanners Market Scanners
+	\page news News
 	\page ib_bulletins IB Bulletins
 	\page display_groups Display Groups
-	\page error_handling Error Handling
-	\page excel_apis Excel APIs
-	\page support Troubleshooting & Support
-	\page third_party Third Party Software
+	
 */

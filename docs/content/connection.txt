@@ -92,7 +92,8 @@
 	
 	If there is a problem with the socket connection between TWS and the API client, for instance if TWS suddenly closes, this will trigger an exception in the EReader thread which is reading from the socket. This exception will also occur if an API client attempts to connect with a client ID that is already in use. 
 	
-	The socket EOF is handled slightly differently in different API languages. For instance in Java, it is caught and sent to the client application to IBApi::EWrapper::error with errorCode 507: "Bad Message". In C# it is caught and sent to IBApi::EWrapper::error with errorCode -1. The client application needs to handle this error message and use it to indicate that an exception has been thrown in the socket connection. Associated functions such as IBApi::EWrapper::connectionClosed and IBApi::EClient::IsConnected functions are not called automatically by the API code but need to be handled at the API client-level.
+	The socket EOF is handled slightly differently in different API languages. For instance in Java, it is caught and sent to the client application to IBApi::EWrapper::error with errorCode 507: "Bad Message". In C# it is caught and sent to IBApi::EWrapper::error with errorCode -1. The client application needs to handle this error message and use it to indicate that an exception has been thrown in the socket connection. Associated functions such as IBApi::EWrapper::connectionClosed and IBApi::EClient::IsConnected functions are not called automatically by the API code but need to be handled at the API client-level*.
+	\* This has been changed in API version 973.04 
 	
 	<br><br>
 

@@ -29,12 +29,10 @@
 	
 	\section reqmktdepthexchanges Exchanges supplying Market Makers
 	
-	<b> This function is still under development </b>
-	
 	Market depth will be returned via the @ref IBApi::EWrapper::updateMktDepth and @ref IBApi::EWrapper::updateMktDepthL2 callback. The two functions differentiate in that, for exchanges have additional Market Makers than itself, market depth data will be relayed back through @ref IBApi::EWrapper::updateMktDepthL2, otherwise @ref IBApi::EWrapper::updateMktDepth. 
-	For example, ARCA only has ARCA itself as a Market Maker. Therefore when requesting market depth data from ARCA, the data will be relayed back via @ref IBApi::EWrapper::updateMktDepth. On the other hand, exchange like ISLAND (ECN for NASDAQ) has additional Market Makers, such as Timberhill, so the data will be relayed back via @ref IBApi::EWrapper::updateMktDepthL2, where the Market Maker information is directly available as a parameter of the call back function.
+	For example, ARCA only has ARCA itself as a Market Maker. Therefore when requesting market depth data from ARCA, the data will be relayed back via @ref IBApi::EWrapper::updateMktDepth. On the other hand, exchange like ISLAND (ECN for NASDAQ) has additional Market Makers, so the data will be relayed back via @ref IBApi::EWrapper::updateMktDepthL2, where the Market Maker information is directly available as a parameter of the call back function.
 
-	To check which market depth subscriptions provide market maker information, the function IBApi::EClient::reqMktDepthExchanges can be invoked.
+	To check which market depth subscriptions provide market maker information, the function IBApi::EClient::reqMktDepthExchanges can be invoked. It will return a list of exchanges from where market depth is available if the user has the appropriate market data subscription. 
 
 	<ul id="tab">
 		<li class="active"> 

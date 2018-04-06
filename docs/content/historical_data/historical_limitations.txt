@@ -36,64 +36,22 @@
 		<tr><td>1 Y</td><td>1 day - 1 month</td></tr>
 	</table>
 
-	\section hd_availability Data Availability for Stocks
-	
-	The <b>minimum</b> expected historical data availability for stocks is one year, and depends on the user's maximum @ref market_lines :
-	
-	<table>           
-        <tr><th>Years of Historical Data</th><th>Lines required</th><th>Required monthly commissions</th><th>Required monthly equity</th><th>Booster packs</th></tr>
-        <tr>
-			<td>One year</td>
-			<td>0 - 499</td>
-			<td>Less than USD 4000</td>
-			<td>Less Then USD 5,000,000</td>
-			<td>0</td>
-		</tr>
-		<tr>
-			<td>Two years</td>
-			<td>500 - 749</td>
-			<td>USD 4,000</td>
-			<td>USD 5,000,000</td>
-			<td>4
-			</td>
-		</tr>
-		<tr>
-			<td>Three years</td>
-			<td>750 - 999</td>
-			<td>USD 6,000</td>
-			<td>USD 7,500,000</td>
-			<td>7</td>
-		</tr>
-		<tr>
-			<td>Four years</td>
-			<td>1000 - 1249</td>
-			<td>USD 8,000</td>
-			<td>USD 10,000,000</td>
-			<td>9</td>
-		</tr>
-		<tr>
-			<td>Five years</td>
-			<td>1250 - 1499</td>
-			<td>USD 10,000</td>
-			<td>USD 12,500,000</td>
-			<td>N/A (1)</td>
-		</tr>
-    </table>
-	
 	(1) The maximum number of Quote Booster packs per user name is 10.
 		
 	\section non-available_hd Unavailable Historical Data
 	
-	- Tick-by-tick historical data. The smallest bar size is 1 second.
-	- Studies and indicators such as Weighted Moving Averages or Bollinger Bands.
+	- Studies and indicators such as Weighted Moving Averages or Bollinger Bands are not available from the API. VWAP is available.
+
+	The other historical data limitations listed are general limitations for all trading platforms:	
+
 	- Bars which size is 30 seconds or less <b>older than six months</b>
 	- Expired futures data older than two years counting from the future's expiration date.
-	- Data for continuous futures contracts
 	- Expired options, FOPs, warrants and structured products.
 	- End of Day (EOD) data for options, FOPs, warrants and structured products.
 	- Data for expired future spreads
 	- Data for securities which are no longer trading.
-	
+	- Native historical data for combos. Historical data is not stored in the IB database separately for combos.; combo historical data in TWS or the API is the sum of data from the legs. 
+
 	<i>
 		<i><b>Note:</b></i> 
 		

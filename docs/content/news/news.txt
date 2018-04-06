@@ -6,12 +6,12 @@
 	- Briefing.com Analyst Actions (BRFUPDN)
 	- Dow Jones Newsletters (DJNL)
 	
-	There are also four additional news services available with all TWS versions which require <b>API-specific subscriptions</b> to first be made in Account Management. They have different data fees than the subscription for the same news in TWS-only. As with all susbcriptions, they only apply to the specific TWS username under which they were made: 
+	There are also four additional news services available with all TWS versions which require <b>API-specific subscriptions</b> to first be made in Account Management. They have different data fees than the subscription for the same news in TWS-only. As with all subscriptions, they only apply to the specific TWS username under which they were made: 
 	
 	- Briefing Trader (BT)
 	- Benzinga Pro (BZ)
 	- Fly on the Wall (FLY)
-	- Midnight Trader (MT)
+	- Midnight Trader (MT) <b>*</b>not currently available from the API
 	
 	The API functions which handle news are able to query available news provides, subscribe to news in real time to receive headlines as they are released, request specific news articles, and return a historical list of news stories that are cached in the system. 
 

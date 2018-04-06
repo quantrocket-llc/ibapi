@@ -28,7 +28,7 @@
 	
 	\ref multi_scale "MultiScale"
 	
-	\ref operner_ "Operner"
+	\ref opener_ "Opener"
 	
 	\ref finale_ "Finale"
 	
@@ -775,7 +775,7 @@
 	</table>
 	<br>
 	
-	\section operner_ Operner (OPERNER)
+	\section opener_ Opener (OPENER)
 	
 	<table>
 		<tr>

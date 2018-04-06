@@ -745,8 +745,8 @@ WARN_LOGFILE           =
 # Note: If this tag is empty the current directory is searched.
 
 #Markup based content
-INPUT					= ./content
-INPUT					+= ./content/page_order.dox
+INPUT					= ./content/page_order.dox
+INPUT					+= ./content
 INPUT					+= ./content/orders
 INPUT					+= ./content/market_data
 INPUT					+= ./content/historical_data
