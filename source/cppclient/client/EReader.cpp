@@ -120,7 +120,8 @@ bool EReader::processNonBlockingSelect() {
 		FD_ZERO( &errorSet);
 
 		FD_SET( m_pClientSocket->fd(), &readSet);
-		FD_SET( m_pClientSocket->fd(), &writeSet);
+		if (!m_pClientSocket->getTransport()->isOutBufferEmpty())
+			FD_SET( m_pClientSocket->fd(), &writeSet);
 		FD_SET( m_pClientSocket->fd(), &errorSet);
 
 		int ret = select( m_pClientSocket->fd() + 1, &readSet, &writeSet, &errorSet, &tval);
