@@ -195,6 +195,7 @@ class Order(Object):
         self.mifid2ExecutionTrader = ""
         self.mifid2ExecutionAlgo = ""
 
+        self.dontUseAutoPriceForHedge = False
 
     def __str__(self):
         s = "%s,%d,%s:" % (self.orderId, self.clientId, self.permId)

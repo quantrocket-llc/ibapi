@@ -1009,6 +1009,10 @@ class EClient(object):
                         " It does not support MIFID II execution parameters")
             return
 
+        if self.serverVersion() < MIN_SERVER_VER_AUTO_PRICE_FOR_HEDGE and order.dontUseAutoPriceForHedge:
+            self.wrapper.error(orderId, UPDATE_TWS.code(), UPDATE_TWS.msg() +
+                        " It does not support dontUseAutoPriceForHedge parameter")
+            return
 
         VERSION = 27 if (self.serverVersion() < MIN_SERVER_VER_NOT_HELD) else 45
 
@@ -1318,6 +1322,9 @@ class EClient(object):
         if self.serverVersion() >= MIN_SERVER_VER_MIFID_EXECUTION:
             flds.append(make_field( order.mifid2ExecutionTrader))
             flds.append(make_field( order.mifid2ExecutionAlgo))
+
+        if self.serverVersion() >= MIN_SERVER_VER_AUTO_PRICE_FOR_HEDGE:
+            flds.append(make_field(order.dontUseAutoPriceForHedge))
 
         msg = "".join(flds)
         self.sendMsg(msg)

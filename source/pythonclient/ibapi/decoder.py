@@ -369,9 +369,18 @@ class Decoder(Object):
         order.whatIf = decode(bool, fields) # ver 16 field
 
         orderState.status = decode(str, fields) # ver 16 field
-        orderState.initMargin = decode(str, fields) # ver 16 field
-        orderState.maintMargin = decode(str, fields) # ver 16 field
-        orderState.equityWithLoan = decode(str, fields) # ver 16 field
+        if self.serverVersion >= MIN_SERVER_VER_WHAT_IF_EXT_FIELDS:
+            orderState.initMarginBefore = decode(str, fields)
+            orderState.maintMarginBefore = decode(str, fields)
+            orderState.equityWithLoanBefore = decode(str, fields)
+            orderState.initMarginChange = decode(str, fields)
+            orderState.maintMarginChange = decode(str, fields)
+            orderState.equityWithLoanChange = decode(str, fields)
+
+        orderState.initMarginAfter = decode(str, fields) # ver 16 field
+        orderState.maintMarginAfter = decode(str, fields) # ver 16 field
+        orderState.equityWithLoanAfter = decode(str, fields) # ver 16 field
+
         orderState.commission = decode(float, fields, SHOW_UNSET) # ver 16 field
         orderState.minCommission = decode(float, fields, SHOW_UNSET) # ver 16 field
         orderState.maxCommission = decode(float, fields, SHOW_UNSET) # ver 16 field
@@ -419,6 +428,9 @@ class Decoder(Object):
 
         if self.serverVersion >= MIN_SERVER_VER_CASH_QTY:
             order.cashQty = decode(float,fields)
+
+        if self.serverVersion >= MIN_SERVER_VER_AUTO_PRICE_FOR_HEDGE:
+            order.dontUseAutoPriceForHedge = decode(bool,fields)
 
         self.wrapper.openOrder(order.orderId, contract, order, orderState)
 
