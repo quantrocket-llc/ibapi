@@ -826,6 +826,7 @@ class TestApp(TestWrapper, TestClient):
         # ! [canceltickbytickwithhist]
 
     @iswrapper
+	# ! [tickbytickalllast]
     def tickByTickAllLast(self, reqId: int, tickType: int, time: int, price: float,
                           size: int, attribs: TickAttrib, exchange: str,
                           specialConditions: str):
@@ -844,8 +845,10 @@ class TestApp(TestWrapper, TestClient):
         if attribs.unreported:
             print(" unreported", end='')
         print()
-
+	# ! [tickbytickalllast]
+		
     @iswrapper
+	# ! [tickbytickbidask]
     def tickByTickBidAsk(self, reqId: int, time: int, bidPrice: float, askPrice: float,
                          bidSize: int, askSize: int, attribs: TickAttrib):
         super().tickByTickBidAsk(reqId, time, bidPrice, askPrice, bidSize,
@@ -859,7 +862,10 @@ class TestApp(TestWrapper, TestClient):
         if attribs.askPastHigh:
             print(" askPastHigh", end='')
         print()
-
+		
+	# ! [tickbytickbidask]
+		
+	# ! [tickbytickmidpoint]
     @iswrapper
     def tickByTickMidPoint(self, reqId: int, time: int, midPoint: float):
         super().tickByTickMidPoint(reqId, time, midPoint)
@@ -867,7 +873,8 @@ class TestApp(TestWrapper, TestClient):
               " Time: ", datetime.datetime.fromtimestamp(time).strftime("%Y%m%d %H:%M:%S"),
               " MidPoint: ", midPoint)
 
-
+	# ! [tickbytickmidpoint]
+			  
     @printWhenExecuting
     def marketDepthOperations_req(self):
         # Requesting the Deep Book

@@ -26,7 +26,25 @@
 	- @ref tp_cfd_charting
 	- @ref tp_paper_with_live
 	- @ref tp_data_mismatch
-	
+	- @ref fees
+	- @ref trial_accounts
+	- @ref apis_available
+	- @ref api_vs_fix
+	- @ref multiple_trading_applications
+	- @ref eligible_accounts
+	- @ref untransmitted_orders
+	- @ref autolaunching
+	- @ref autoshutdown_requirement
+	- @ref programming_consultants
+	- @ref tws_vs_ibg
+	- @ref gui_requirement
+	- @ref upgrading
+	- @ref red_data_indicator
+	- @ref reporting_problem
+	- @ref historical_positions
+	- @ref web_hosting
+	- @ref excel_windows
+		
 	\subsection tp_faq_connect How to connect a 3rd party platform to Interactive Brokers' Trader Workstation
 	
 	Connecting any third party program to the TWS requires you to enable API connectivity on the TWS itself as explained in @ref enable_api section. Your third party program will need
@@ -118,7 +136,90 @@
 	or from our SMART routing strategy. inadvertently you might as well be looking at TRADES on one side while having MIDPOINT or BID_ASK on another. Another common mistake involves having
 	different timezones between the TWS and your client application.
 	
+	\subsection fees Is there a fee involved to receive data from the API?
 	
+	Streaming real time data or receiving historical bars from the API requires streaming level 1 market data subscriptions. Subscriptions for instruments other than forex, bonds, and index CFDs incur a monthly fee.  
+	http://interactivebrokers.github.io/tws-api/market_data.html
+	
+	\subsection trial_accounts Can the TWS API be used with trial accounts?
+	
+	Yes it is possible to connect an API application to a trial account. However it is not possible to receive real time market data or historical candlesticks for most instruments from the TWS API with a trial account login.
+	
+	\subsection apis_available What types of APIs are available? 
+	
+	There is an API for Traders Workstation (TWS API). It is the most full-featured and can be used by all clients with trading access.
+	There is a WT Web API for white-branded advisors and introducing brokers that provides streaming and historical data.
+	There is a REST WebAPI for third party companies and institutions. It can be used to place stock and forex orders, receive market data snapshots, and receive account and portfolio information.
+	https://www.interactivebrokers.com/en/index.php?f=1325
+	
+	\subsection api_vs_fix What are differences between connecting to the TWS API and using a FIX/CTCI connection?
+	
+	The TWS API is an interface to TWS or IB Gateway. It provides many functionalities, such as the ability to receive market data, place orders, and receive account information. The TWS API requires that the user first login to either TWS or IB Gateway, both standalone desktop applications. The TWS API has an order rate limitation of 50 orders per second.
+	
+	FIX/CTCI connectivity can be configured to connect either with IB Gateway or directly to IB. Unlike the TWS API, FIX/CTCI is only for order placement and can not be used to receive market data. Also, FIX/CTCI has monthly minimum commissions involved. 
+	
+	\subsection multiple_trading_applications Can I use another trading application (IBKR mobile, WebTrader, TWS) while an API program is connected?
+ 
+	To connect to the same IB account simultaneously with multiple trading applications it is necessary to have multiple usernames. Additional usernames can be created through Account Management free of charge. Market data subscriptions however only apply to individual usernames so the fees would be charged separately. 
+	
+	\subsection eligible_accounts Can the TWS API be used with any IB account? 
+	
+	Most third party API applications do not support all IB account structures, so it is highly recommended to consult with the third party software vendor before opening or converting to a specific IB account type to use with a third party application. 
+	
+	\subsection untransmitted_orders Why does an order from the API appear as untransmitted in TWS with a 'T' button next to it? 
+ 
+	If an order appears in TWS as untransmitted and is not sent to IB, there are generally three causes: 
+	(1) There is an error in the order preventing transmission
+	(2) There is a TWS precautionary setting preventing transmission to IB. Precautionary settings can be globally overridden in TWS through the settings in Global Configuration at API -> Precautions -> Bypass Order Precautions for API Orders
+	(3) The order was sent with the 'transmit' boolean flag in the API Order class set to False. By default, its value is True. 
+	
+	\subsection autolaunching Is autolaunching of TWS or IB Gateway supported by IB? 
+	
+	Unfortunately for security reasons auto-launching of TWS or IB Gateway is not supported. Both applications are designed to require the user to manually enter his or her credentials into the UI. 
+ 
+	\subsection autoshutdown_requirement Is it possible to disable the daily auto-logoff requirement of TWS? 
+	
+	It is possible to adjust the time of auto-logoff, but not disable it. However, IB Gateway can be substituted for TWS for use with an API application and it does not have the daily logoff requirement. 
+ 
+	\subsection programming_consultants Do you recommend any third party products or programming consultants? 
+	IB does not recommend particular third parties, but a list is maintained on the Investors Marketplace. 
+	https://gdcdyn.interactivebrokers.com/Universal/servlet/MarketPlace.MarketPlaceServlet
+ 
+	\subsection tws_vs_ibg What are the differences between using an API application with TWS and IB Gateway? 
+	
+	From the point of view of an API application, TWS and IB Gateway are essentially identical. TWS additionally offers the user the ability to directly view positions, trades, and market data, and provides a number of tools for trading, research, and analysis. IB Gateway has a simple graphical user interface that is only used for modifying settings. The advantages of IB Gateway is that it consumes 40% fewer resources and can run for longer periods without automatically closing down. http://interactivebrokers.github.io/tws-api/initial_setup.html
+ 
+	\subsection gui_requirement Is it possible to run TWS or IB Gateway on a headless server? 
+ 
+	Both TWS and IB Gateway are designed to have a user interface for the client to enter their account credentials. For that reason, headless or GUI-less operation is not supported. 
+ 
+	\subsection upgrading Do I ever need to upgrade the TWS API? 
+ 
+	TWS is very backwards compatible with the API so it is not necessary to upgrade the API when upgrading to a new version of TWS. Generally the only reason it is necessary to upgrade the API is to take advantage of a new feature introduced in a more recent API version.
+ 
+	\subsection red_data_indicator The data indicator in IB Gateway is red. Is something wrong?
+ 
+	It is normal for the market data farm connection indicator to stay red until a market data request is made from the API application. The farms can also turn red after extended inactivity. 
+ 
+	\subsection reporting_problem How do I report a problem to the API Support team? 
+	
+	Diagnosing specific issues will generally require that API logging is enabled in TWS or IB Gateway when the issue occurs. 
+	In TWS this is done by navigating to Global Configuration -> API -> Settings and checking the box "Create API Message Log", and setting the logging level to "Detail"
+	In IB Gateway, these settings are found at Configure -> Settings -> API -> Settings
+	If an issue occurs after logs are enabled, they can be uploaded using the combination Ctrl-Alt-Q and then clicking Submit. Please let API Support know logs have been uploaded.
+ 
+	\subsection historical_positions Are historical account positions or account values available from the TWS API? 
+ 
+	Since the API cannot provide information not available in TWS, historical portfolio information is not available. It is available from statements and flex queries in Account Management.
+ 
+	\subsection web_hosting Does IB provide hosting services for custom algorithms?
+ 
+	Unfortunately no, web hosting is not provided.
+ 
+	\subsection excel_windows Is there an Excel API for MacOS? 
+	
+	The Excel APIs require a Windows computer with Microsoft Excel.
+ 
 	<br><br>
 
 */

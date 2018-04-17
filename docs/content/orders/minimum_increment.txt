@@ -6,6 +6,8 @@
 
 	- Market rule for forex and forex CFDs indicates default configuration (1/2 and not 1/10 pips). It can be adjusted to 1/10 pips through TWS or IB Gateway Global Configuration.
 	
+	- Some non-US securities, for instance on the SEHK exchange, have a minimum lot size. This information is not available from the API but can be obtained from the IB Contracts and Securities search page. It will also be indicated in the error message returned from an order which does not conform to the minimum lot size. 
+	
 	With the market rule ID number, the corresponding rule can be found with the API function IBApi::EClient::reqMarketRule:
 
 	<ul id="tab">

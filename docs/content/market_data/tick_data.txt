@@ -4,6 +4,7 @@
 	
 	- The tick type field is case sensitive - it must be BidAsk, Last, AllLast, MidPoint. AllLast has additional trade types such as combos, derivatives, and average price trades which are not included in Last. 
 	- Tick-by-tick data for options is currently only available historically and not in real time.
+	- Tick-by-tick data is not available for combos.
 	
 	<ul id="tab">
 		<li class="active"> 

@@ -35,13 +35,17 @@
 	
 	The daily bar size has several unique characteristics. This is true both in TWS and the API:
 	
-	- For futures, the close price of daily bars can be the <i>settlement</i> price if provided by the exchange. 
+	- For futures, the close price of daily bars can be the <i>settlement</i> price if provided by the exchange. Generally the official settlement price is not available until several hours after a trading session closes. The Friday settlement price will sometimes not be available until Saturday. 
 	- A daily bar will refer to a trading session which may cross calendar days. In that case the date of the bar will correspond to the day on which the bar closes. 
 	
 	\section hd_receive Receiving Historical Bar Data
 	
 	The historical data will be delivered via the IBApi::EWrapper::historicalData method in the form of <b>candlesticks</b>. The time zone of returned bars is the time zone chosen in TWS on the login screen. If reqHistoricalData was invoked with <i><b>keepUpToDate = false</b></i>, once all candlesticks have been received the @ref IBApi::EWrapper::historicalDataEnd
 	marker will be sent. Otherwise updates of the most recent partial five-second bar will continue to be returned in real time to IBApi::EWrapper::historicalDataUpdate. The keepUpToDate functionality can only be used with bar sizes 5 seconds or greater and requires the endDate is set as the empty string. 
+	
+	- Note: IB's historical data feed is filtered for some types of trades which generally occur away from the NBBO such as combos, block trades, and derivatives. For that reason the historical data volume will be lower than an unfiltered historical data feed.
+	
+	- IB does not maintain separate historical data for combos. Historical data returned for a combo contract will be the sum of data from the individual legs.
 	
 	<ul id="tab">
 		<li class="active"> 
