@@ -122,6 +122,9 @@ $(document).ready(function(){initNavTree('market_data_type.html','');});
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p>The API can request Live, Frozen, Delayed and Delayed Frozen market data from Trader Workstation by switching market data type via the <a class="el" href="classIBApi_1_1EClient.html#ae03b31bb2702ba519ed63c46455872b6">IBApi.EClient.reqMarketDataType</a> before making a market data request with reqMktData. A successful switch to a different (non-live) market data type for a particular market data request will be indicated by a callback to <a class="el" href="interfaceIBApi_1_1EWrapper.html#a79918660257f0e7ce77309bf3bccf13c" title="Returns the market data type (real-time, frozen, delayed, delayed-frozen) of ticker sent by EClientSo...">IBApi::EWrapper::marketDataType</a> with the ticker ID of the market data request which is returning a different type of data.</p>
+<ul>
+<li>Beginning in TWS <b>v970</b>, a <a class="el" href="classIBApi_1_1EClient.html#ae03b31bb2702ba519ed63c46455872b6">IBApi.EClient.reqMarketDataType</a> callback of <b>1</b> will occur automatically after invoking reqMktData if the user has live data permissions for the instrument.</li>
+</ul>
 <table class="doxtable">
 <tr>
 <th>Market Data Type</th><th>ID</th><th>Description </th></tr>

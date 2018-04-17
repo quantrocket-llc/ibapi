@@ -141,6 +141,24 @@ Frequently Asked Questions</h1>
 <li><a class="el" href="third_party.html#tp_cfd_charting">I cannot chart CFDs from my third party program yet the TWS shows the data correctly.</a></li>
 <li><a class="el" href="third_party.html#tp_paper_with_live">Can I connect simultaneously to my live and paper TWS?</a></li>
 <li><a class="el" href="third_party.html#tp_data_mismatch">The charts shown by my charting software differ from the ones shown by the TWS</a></li>
+<li><a class="el" href="third_party.html#fees">Is there a fee involved to receive data from the API?</a></li>
+<li><a class="el" href="third_party.html#trial_accounts">Can the TWS API be used with trial accounts?</a></li>
+<li><a class="el" href="third_party.html#apis_available">What types of APIs are available?</a></li>
+<li><a class="el" href="third_party.html#api_vs_fix">What are differences between connecting to the TWS API and using a FIX/CTCI connection?</a></li>
+<li><a class="el" href="third_party.html#multiple_trading_applications">Can I use another trading application (IBKR mobile, WebTrader, TWS) while an API program is connected?</a></li>
+<li><a class="el" href="third_party.html#eligible_accounts">Can the TWS API be used with any IB account?</a></li>
+<li><a class="el" href="third_party.html#untransmitted_orders">Why does an order from the API appear as untransmitted in TWS with a 'T' button next to it?</a></li>
+<li><a class="el" href="third_party.html#autolaunching">Is autolaunching of TWS or IB Gateway supported by IB?</a></li>
+<li><a class="el" href="third_party.html#autoshutdown_requirement">Is it possible to disable the daily auto-logoff requirement of TWS?</a></li>
+<li><a class="el" href="third_party.html#programming_consultants">Do you recommend any third party products or programming consultants?</a></li>
+<li><a class="el" href="third_party.html#tws_vs_ibg">What are the differences between using an API application with TWS and IB Gateway?</a></li>
+<li><a class="el" href="third_party.html#gui_requirement">Is it possible to run TWS or IB Gateway on a headless server?</a></li>
+<li><a class="el" href="third_party.html#upgrading">Do I ever need to upgrade the TWS API?</a></li>
+<li><a class="el" href="third_party.html#red_data_indicator">The data indicator in IB Gateway is red. Is something wrong?</a></li>
+<li><a class="el" href="third_party.html#reporting_problem">How do I report a problem to the API Support team?</a></li>
+<li><a class="el" href="third_party.html#historical_positions">Are historical account positions or account values available from the TWS API?</a></li>
+<li><a class="el" href="third_party.html#web_hosting">Does IB provide hosting services for custom algorithms?</a></li>
+<li><a class="el" href="third_party.html#excel_windows">Is there an Excel API for MacOS?</a></li>
 </ul>
 <h2><a class="anchor" id="tp_faq_connect"></a>
 How to connect a 3rd party platform to Interactive Brokers' Trader Workstation</h2>
@@ -194,6 +212,61 @@ The charts shown by my charting software differ from the ones shown by the TWS</
 <p>Given that the historical data sent down the TWS API comes from the same source as the one displayed by the TWS itself it is almost impossible for it to differ.</p>
 <p>Some charting platforms circumvent our <a class="el" href="historical_limitations.html">Historical Data Limitations</a> by combining real time and historical data. Since our real time market data is <b>not</b> tick-by-tick, bars built from it will hardly match those retrieved from our historical market data service.</p>
 <p>Alternatively, you might as well be comparing different charts without noticing. A chart displaying data from NYSE will never be the same as another built from the ARCA exchange or from our SMART routing strategy. inadvertently you might as well be looking at TRADES on one side while having MIDPOINT or BID_ASK on another. Another common mistake involves having different timezones between the TWS and your client application.</p>
+<h2><a class="anchor" id="fees"></a>
+Is there a fee involved to receive data from the API?</h2>
+<p>Streaming real time data or receiving historical bars from the API requires streaming level 1 market data subscriptions. Subscriptions for instruments other than forex, bonds, and index CFDs incur a monthly fee. <a href="http://interactivebrokers.github.io/tws-api/market_data.html">http://interactivebrokers.github.io/tws-api/market_data.html</a></p>
+<h2><a class="anchor" id="trial_accounts"></a>
+Can the TWS API be used with trial accounts?</h2>
+<p>Yes it is possible to connect an API application to a trial account. However it is not possible to receive real time market data or historical candlesticks for most instruments from the TWS API with a trial account login.</p>
+<h2><a class="anchor" id="apis_available"></a>
+What types of APIs are available?</h2>
+<p>There is an API for Traders Workstation (TWS API). It is the most full-featured and can be used by all clients with trading access. There is a WT Web API for white-branded advisors and introducing brokers that provides streaming and historical data. There is a REST WebAPI for third party companies and institutions. It can be used to place stock and forex orders, receive market data snapshots, and receive account and portfolio information. <a href="https://www.interactivebrokers.com/en/index.php?f=1325">https://www.interactivebrokers.com/en/index.php?f=1325</a></p>
+<h2><a class="anchor" id="api_vs_fix"></a>
+What are differences between connecting to the TWS API and using a FIX/CTCI connection?</h2>
+<p>The TWS API is an interface to TWS or IB Gateway. It provides many functionalities, such as the ability to receive market data, place orders, and receive account information. The TWS API requires that the user first login to either TWS or IB Gateway, both standalone desktop applications. The TWS API has an order rate limitation of 50 orders per second.</p>
+<p>FIX/CTCI connectivity can be configured to connect either with IB Gateway or directly to IB. Unlike the TWS API, FIX/CTCI is only for order placement and can not be used to receive market data. Also, FIX/CTCI has monthly minimum commissions involved.</p>
+<h2><a class="anchor" id="multiple_trading_applications"></a>
+Can I use another trading application (IBKR mobile, WebTrader, TWS) while an API program is connected?</h2>
+<p>To connect to the same IB account simultaneously with multiple trading applications it is necessary to have multiple usernames. Additional usernames can be created through Account Management free of charge. Market data subscriptions however only apply to individual usernames so the fees would be charged separately.</p>
+<h2><a class="anchor" id="eligible_accounts"></a>
+Can the TWS API be used with any IB account?</h2>
+<p>Most third party API applications do not support all IB account structures, so it is highly recommended to consult with the third party software vendor before opening or converting to a specific IB account type to use with a third party application.</p>
+<h2><a class="anchor" id="untransmitted_orders"></a>
+Why does an order from the API appear as untransmitted in TWS with a 'T' button next to it?</h2>
+<p>If an order appears in TWS as untransmitted and is not sent to IB, there are generally three causes: (1) There is an error in the order preventing transmission (2) There is a TWS precautionary setting preventing transmission to IB. Precautionary settings can be globally overridden in TWS through the settings in Global Configuration at API -&gt; Precautions -&gt; Bypass Order Precautions for API Orders (3) The order was sent with the 'transmit' boolean flag in the API Order class set to False. By default, its value is True.</p>
+<h2><a class="anchor" id="autolaunching"></a>
+Is autolaunching of TWS or IB Gateway supported by IB?</h2>
+<p>Unfortunately for security reasons auto-launching of TWS or IB Gateway is not supported. Both applications are designed to require the user to manually enter his or her credentials into the UI.</p>
+<h2><a class="anchor" id="autoshutdown_requirement"></a>
+Is it possible to disable the daily auto-logoff requirement of TWS?</h2>
+<p>It is possible to adjust the time of auto-logoff, but not disable it. However, IB Gateway can be substituted for TWS for use with an API application and it does not have the daily logoff requirement.</p>
+<h2><a class="anchor" id="programming_consultants"></a>
+Do you recommend any third party products or programming consultants?</h2>
+<p>IB does not recommend particular third parties, but a list is maintained on the Investors Marketplace. <a href="https://gdcdyn.interactivebrokers.com/Universal/servlet/MarketPlace.MarketPlaceServlet">https://gdcdyn.interactivebrokers.com/Universal/servlet/MarketPlace.MarketPlaceServlet</a></p>
+<h2><a class="anchor" id="tws_vs_ibg"></a>
+What are the differences between using an API application with TWS and IB Gateway?</h2>
+<p>From the point of view of an API application, TWS and IB Gateway are essentially identical. TWS additionally offers the user the ability to directly view positions, trades, and market data, and provides a number of tools for trading, research, and analysis. IB Gateway has a simple graphical user interface that is only used for modifying settings. The advantages of IB Gateway is that it consumes 40% fewer resources and can run for longer periods without automatically closing down. <a href="http://interactivebrokers.github.io/tws-api/initial_setup.html">http://interactivebrokers.github.io/tws-api/initial_setup.html</a></p>
+<h2><a class="anchor" id="gui_requirement"></a>
+Is it possible to run TWS or IB Gateway on a headless server?</h2>
+<p>Both TWS and IB Gateway are designed to have a user interface for the client to enter their account credentials. For that reason, headless or GUI-less operation is not supported.</p>
+<h2><a class="anchor" id="upgrading"></a>
+Do I ever need to upgrade the TWS API?</h2>
+<p>TWS is very backwards compatible with the API so it is not necessary to upgrade the API when upgrading to a new version of TWS. Generally the only reason it is necessary to upgrade the API is to take advantage of a new feature introduced in a more recent API version.</p>
+<h2><a class="anchor" id="red_data_indicator"></a>
+The data indicator in IB Gateway is red. Is something wrong?</h2>
+<p>It is normal for the market data farm connection indicator to stay red until a market data request is made from the API application. The farms can also turn red after extended inactivity.</p>
+<h2><a class="anchor" id="reporting_problem"></a>
+How do I report a problem to the API Support team?</h2>
+<p>Diagnosing specific issues will generally require that API logging is enabled in TWS or IB Gateway when the issue occurs. In TWS this is done by navigating to Global Configuration -&gt; API -&gt; Settings and checking the box "Create API Message Log", and setting the logging level to "Detail" In IB Gateway, these settings are found at Configure -&gt; Settings -&gt; API -&gt; Settings If an issue occurs after logs are enabled, they can be uploaded using the combination Ctrl-Alt-Q and then clicking Submit. Please let API Support know logs have been uploaded.</p>
+<h2><a class="anchor" id="historical_positions"></a>
+Are historical account positions or account values available from the TWS API?</h2>
+<p>Since the API cannot provide information not available in TWS, historical portfolio information is not available. It is available from statements and flex queries in Account Management.</p>
+<h2><a class="anchor" id="web_hosting"></a>
+Does IB provide hosting services for custom algorithms?</h2>
+<p>Unfortunately no, web hosting is not provided.</p>
+<h2><a class="anchor" id="excel_windows"></a>
+Is there an Excel API for MacOS?</h2>
+<p>The Excel APIs require a Windows computer with Microsoft Excel.</p>
 <p><br/>
 <br/>
  </p>

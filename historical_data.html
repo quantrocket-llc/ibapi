@@ -121,9 +121,10 @@ $(document).ready(function(){initNavTree('historical_data.html','');});
 <div class="title">Historical Market Data </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>In order to receive historical data from the API, there are the same requirements as to receive Level 1 real time market data <a class="el" href="market_data.html#market_subscriptions">Live Market Data</a>. The API historical data functionality simply pulls certain types of data from TWS charts or the historical Time&amp;Sales Window, so if data is not available for a contract in a specified period there, it will also not be available from the API. In TWS, charts can be created for most instruments without market data subscriptions, but in the API its always necessary to have L1 real time data available in order to receive historical data.</p>
+<div class="textblock"><p>Receiving historical data from the API has the same market data subscription requirement as receiving streaming top-of-book live data <a class="el" href="market_data.html#market_subscriptions">Live Market Data</a>. The API historical data functionality pulls certain types of data from TWS charts or the historical Time&amp;Sales Window. So if data is not available for a specific instrument, data type, or period within a TWS chart it will also not be available from the API. Unlike TWS, which can create 'delayed charts' for most instruments without any market data subscriptions that have data up until 10-15 minutes prior to the current moment; the API always requires Level 1 streaming real time data to return historical data.</p>
 <ul>
-<li>For non-US stocks, a smart-routed historical data requests requires subscriptions to all exchanges on which a contract trades.</li>
+<li>In general, a <b>smart-routed</b> historical data requests will require subscriptions to <b>all exchanges</b> on which a instrument trades.</li>
+<li>For instance, a historical data request for a pink sheet (OTC) stock which trades on ARCAEDGE will require the subscription "OTC Global Equities" or "Global OTC Equities and OTC Markets" for ARCAEDGE in addition to the regular subscription (e.g. "OTC Markets").</li>
 <li>When retrieving historical data from the TWS, be aware of the <a class="el" href="historical_limitations.html">Historical Data Limitations</a>.</li>
 </ul>
 <h2>Types of Historical Data Available</h2>
@@ -135,6 +136,10 @@ $(document).ready(function(){initNavTree('historical_data.html','');});
 <p>Finding earliest date historical data is available for an instrument</p>
 <ul>
 <li><a class="el" href="head_timestamp.html">Finding Earliest Data Point</a></li>
+</ul>
+<p>Note about Interactive Brokers' historical data:</p>
+<ul>
+<li>Historical data at IB is filtered for trade types which occur away from the NBBO such as combo legs, block trades, and derivative trades. For that reason the daily volume from the (unfiltered) real time data functionality will generally be larger than the (filtered) historical volume reported by historical data functionality. Also, differences are expected in other fields such as the VWAP between the real time and historical data feeds.</li>
 </ul>
 <p><br/>
 <br/>

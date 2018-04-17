@@ -125,6 +125,7 @@ $(document).ready(function(){initNavTree('tick_data.html','');});
 <ul>
 <li>The tick type field is case sensitive - it must be BidAsk, Last, AllLast, MidPoint. AllLast has additional trade types such as combos, derivatives, and average price trades which are not included in Last.</li>
 <li>Tick-by-tick data for options is currently only available historically and not in real time.</li>
+<li>Tick-by-tick data is not available for combos.</li>
 </ul>
 <ul id="tab">
 <li class="active">
@@ -146,7 +147,11 @@ $(document).ready(function(){initNavTree('tick_data.html','');});
 <div class="line">        client.reqTickByTickData(19004, ContractSamples.EurGbpFx(), <span class="stringliteral">&quot;MidPoint&quot;</span>, 0, False)</div>
 </div><!-- fragment -->  </li>
 <li>
-<div class="fragment"></div><!-- fragment -->  </li>
+<div class="fragment"><div class="line">    m_pClient-&gt;reqTickByTickData(20005, ContractSamples::EuropeanStock(), <span class="stringliteral">&quot;Last&quot;</span>, 10, <span class="keyword">false</span>);</div>
+<div class="line">    m_pClient-&gt;reqTickByTickData(20006, ContractSamples::EuropeanStock(), <span class="stringliteral">&quot;AllLast&quot;</span>, 10, <span class="keyword">false</span>);</div>
+<div class="line">    m_pClient-&gt;reqTickByTickData(20007, ContractSamples::EuropeanStock(), <span class="stringliteral">&quot;BidAsk&quot;</span>, 10, <span class="keyword">false</span>);</div>
+<div class="line">    m_pClient-&gt;reqTickByTickData(20008, ContractSamples::EurGbpFx(), <span class="stringliteral">&quot;MidPoint&quot;</span>, 10, <span class="keyword">true</span>);</div>
+</div><!-- fragment -->  </li>
 <li>
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;        self.reqTickByTickData(19001, ContractSamples.USStockAtSmart(), <span class="stringliteral">&quot;Last&quot;</span>, 0, <span class="keyword">True</span>)</div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;        self.reqTickByTickData(19002, ContractSamples.USStockAtSmart(), <span class="stringliteral">&quot;AllLast&quot;</span>, 0, <span class="keyword">False</span>)</div>
@@ -265,14 +270,25 @@ $(document).ready(function(){initNavTree('tick_data.html','');});
 <div class="line">    }</div>
 </div><!-- fragment -->  </li>
 <li>
-<div class="fragment"></div><!-- fragment -->  </li>
+<div class="fragment"><div class="line">        Public Sub tickByTickMidPoint(reqId As Integer, time As Long, midPoint As Double) Implements EWrapper.tickByTickMidPoint</div>
+<div class="line">            Console.WriteLine(<span class="stringliteral">&quot;Tick-By-Tick. Request Id: {0}, TickType: MidPoint, Time: {1}, MidPoint: {2}&quot;</span>,</div>
+<div class="line">                reqId, Util.UnixSecondsToString(time, <span class="stringliteral">&quot;yyyyMMdd-HH:mm:ss zzz&quot;</span>), midPoint)</div>
+<div class="line">        End Sub</div>
+</div><!-- fragment -->  </li>
 <li>
 <div class="fragment"><div class="line"><span class="keywordtype">void</span> TestCppClient::tickByTickMidPoint(<span class="keywordtype">int</span> reqId, time_t time, <span class="keywordtype">double</span> midPoint) {</div>
 <div class="line">    printf(<span class="stringliteral">&quot;Tick-By-Tick. ReqId: %d, TickType: MidPoint, Time: %s, MidPoint: %g\n&quot;</span>, reqId, ctime(&amp;time), midPoint);</div>
 <div class="line">}</div>
 </div><!-- fragment -->  </li>
 <li>
-<div class="fragment"></div><!-- fragment -->  </li>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;    @iswrapper</div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;    <span class="keyword">def </span>tickByTickMidPoint(self, reqId: int, time: int, midPoint: float):</div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;        super().tickByTickMidPoint(reqId, time, midPoint)</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;        print(<span class="stringliteral">&quot;Midpoint. Req Id: &quot;</span>, reqId,</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;              <span class="stringliteral">&quot; Time: &quot;</span>, datetime.datetime.fromtimestamp(time).strftime(<span class="stringliteral">&quot;%Y%m%d %H:%M:%S&quot;</span>),</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;              <span class="stringliteral">&quot; MidPoint: &quot;</span>, midPoint)</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
+</div><!-- fragment -->  </li>
 </ul>
 <p><br/>
 </p>
@@ -310,7 +326,25 @@ $(document).ready(function(){initNavTree('tick_data.html','');});
 <div class="line">}</div>
 </div><!-- fragment -->  </li>
 <li>
-<div class="fragment"></div><!-- fragment -->  </li>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;    <span class="keyword">def </span>tickByTickAllLast(self, reqId: int, tickType: int, time: int, price: float,</div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;                          size: int, attribs: TickAttrib, exchange: str,</div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;                          specialConditions: str):</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;        super().tickByTickAllLast(reqId, tickType, time, price, size, attribs,</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;                                  exchange, specialConditions)</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;        <span class="keywordflow">if</span> tickType == 1:</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;            print(<span class="stringliteral">&quot;Last.&quot;</span>, end=<span class="stringliteral">&#39;&#39;</span>)</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;        <span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;            print(<span class="stringliteral">&quot;AllLast.&quot;</span>, end=<span class="stringliteral">&#39;&#39;</span>)</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;        print(<span class="stringliteral">&quot; ReqId: &quot;</span>, reqId,</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;              <span class="stringliteral">&quot; Time: &quot;</span>, datetime.datetime.fromtimestamp(time).strftime(<span class="stringliteral">&quot;%Y%m%d %H:%M:%S&quot;</span>),</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;              <span class="stringliteral">&quot; Price: &quot;</span>, price, <span class="stringliteral">&quot; Size: &quot;</span>, size, <span class="stringliteral">&quot; Exch: &quot;</span> , exchange,</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;              <span class="stringliteral">&quot;Spec Cond: &quot;</span>, specialConditions, end=<span class="stringliteral">&#39;&#39;</span>)</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;        <span class="keywordflow">if</span> attribs.pastLimit:</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;            print(<span class="stringliteral">&quot; pastLimit &quot;</span>, end=<span class="stringliteral">&#39;&#39;</span>)</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        <span class="keywordflow">if</span> attribs.unreported:</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;            print(<span class="stringliteral">&quot; unreported&quot;</span>, end=<span class="stringliteral">&#39;&#39;</span>)</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        print()</div>
+</div><!-- fragment -->  </li>
 </ul>
 <p>Tick-by-tick subscriptions can be cancelled using the function <a class="el" href="classIBApi_1_1EClient.html#aac9e8993d986547848543fca7270b73e" title="Cancels tick-by-tick data. . ">IBApi::EClient::cancelTickByTickData</a> <br/>
 </p>
@@ -334,7 +368,11 @@ $(document).ready(function(){initNavTree('tick_data.html','');});
 <div class="line">        client.cancelTickByTickData(19004)</div>
 </div><!-- fragment -->  </li>
 <li>
-<div class="fragment"></div><!-- fragment -->  </li>
+<div class="fragment"><div class="line">    m_pClient-&gt;cancelTickByTickData(20001);</div>
+<div class="line">    m_pClient-&gt;cancelTickByTickData(20002);</div>
+<div class="line">    m_pClient-&gt;cancelTickByTickData(20003);</div>
+<div class="line">    m_pClient-&gt;cancelTickByTickData(20004);</div>
+</div><!-- fragment -->  </li>
 <li>
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;        self.cancelTickByTickData(19001)</div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;        self.cancelTickByTickData(19002)</div>

@@ -121,12 +121,12 @@ $(document).ready(function(){initNavTree('activex.html','');});
 <div class="title">ActiveX for Excel API </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>The ActiveX API wraps the C#/.NET API and is provided as an open source project TWSLib. If possible, it is suggested to consider using the C# API directly as it provides seamless integration to the .NET framework.</p>
+<div class="textblock"><p>The ActiveX API wraps the C#/.NET API and is provided as an open source project TWSLib. It is suggested to also consider using the C# API directly as it provides seamless integration with the .NET framework.</p>
 <p>One possible advantage of using the ActiveX for Excel API as compared to RTDServer or DDE is that ActiveX does provide the same number of functions as the other socket-based technologies (C#, Java, C++, Python). Disadvantages of the ActiveX Excel API is that it is more difficult to program as compared to other Excel APIs and not as robust as non-Excel socket-based API applications.</p>
 <p>See <a class="el" href="excel_apis.html#excel_api_comparison">Excel API comparison</a></p>
 <h1><a class="anchor" id="activex_sample"></a>
 ActiveX Sample Spreadsheet</h1>
-<p>A sample ActiveX for Excel spreadsheet is included with the API installation and installs to C:\TWS API\samples\Excel\TwsActiveX.xls. The spreadsheet and the included ActiveX control are built for the 32 bit version of Excel. For 64 bit applications, it would be necessary to compile a 64 bit control from the included ActiveX project TWSLib.</p>
+<p>A sample ActiveX for Excel spreadsheet is included with the API installation and installs to C:\TWS API\samples\Excel\TwsActiveX.xls. The spreadsheet and the included ActiveX control are built for the 32 bit version of Excel for API versions until 973.05. With API versions 973.05+, the provided installed ActiveX control and Excel spreadsheet sample will work with either 32 bit or 64 bit applications. If version 9.73 of the ActiveX API is used, it is recommended to use version <b>973.07</b> or higher.</p>
 <p><b>Important:</b> Please note the sample ActiveX spreadsheet provided with the API is meant only as a demonstration of API functionality, and not intended as a production-level tool to be used in trading. While it is designed with examples of almost all API functions, it does not have the necessary functionality to handle problems that may occur during trading such as disconnections, error codes, or dropped events in a robust way.</p>
 <p><br/>
 <br/>
