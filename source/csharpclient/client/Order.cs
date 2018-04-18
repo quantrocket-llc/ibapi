@@ -1282,6 +1282,7 @@ namespace IBApi
             dontUseAutoPriceForHedge = false;
         }
 
+		// Note: Two orders can be 'equivalent' even if all fields do not match. This function is not intended to be used with Order objects returned from TWS.
         public override bool Equals(Object p_other)
         {
 

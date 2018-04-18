@@ -712,7 +712,7 @@ Namespace Samples
             Console.WriteLine("Tick-By-Tick. Request Id: {0}, TickType: MidPoint, Time: {1}, MidPoint: {2}",
                 reqId, Util.UnixSecondsToString(time, "yyyyMMdd-HH:mm:ss zzz"), midPoint)
         End Sub
-        '! [tickbytickbidask]
+        '! [tickbytickmidpoint]
 
     End Class
 

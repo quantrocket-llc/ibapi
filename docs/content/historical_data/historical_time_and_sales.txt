@@ -4,6 +4,8 @@
 	
 	The highest granularity of historical data from IB's database can be retrieved using the API function IBApi::EClient::reqHistoricalTicks. This corresponds to the <a href="https://www.interactivebrokers.com/en/software/tws/usersguidebook/mosaic/timensales.htm" target="_blank" class="linkexternal">TWS Historical Time & Sales</a> Window. TWS build <b>968+</b> and API version <b>973.04+</b> is required.
 	
+	- Historical Tick-By-Tick data is not available for combos
+	
 	<ul id="tab">
 		<li class="active">
 		</li>

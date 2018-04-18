@@ -1273,7 +1273,7 @@ void TestCppClient::reqHistoricalTicks()
 void TestCppClient::reqTickByTickData() 
 {
     /*** Requesting tick-by-tick data (only refresh) ***/
-    //! [reqtickbytickdata]
+    
     m_pClient->reqTickByTickData(20001, ContractSamples::EuropeanStock(), "Last", 0, false);
     m_pClient->reqTickByTickData(20002, ContractSamples::EuropeanStock(), "AllLast", 0, false);
     m_pClient->reqTickByTickData(20003, ContractSamples::EuropeanStock(), "BidAsk", 0, true);
@@ -1281,25 +1281,27 @@ void TestCppClient::reqTickByTickData()
 
     std::this_thread::sleep_for(std::chrono::seconds(10));
 
+	//! [canceltickbytick]
     m_pClient->cancelTickByTickData(20001);
     m_pClient->cancelTickByTickData(20002);
     m_pClient->cancelTickByTickData(20003);
     m_pClient->cancelTickByTickData(20004);
-    
+    //! [canceltickbytick]
+	
     /*** Requesting tick-by-tick data (historical + refresh) ***/
-    //! [reqtickbytickdata]
+    //! [reqtickbytick]
     m_pClient->reqTickByTickData(20005, ContractSamples::EuropeanStock(), "Last", 10, false);
     m_pClient->reqTickByTickData(20006, ContractSamples::EuropeanStock(), "AllLast", 10, false);
     m_pClient->reqTickByTickData(20007, ContractSamples::EuropeanStock(), "BidAsk", 10, false);
     m_pClient->reqTickByTickData(20008, ContractSamples::EurGbpFx(), "MidPoint", 10, true);
-
+	//! [reqtickbytick]
+	
     std::this_thread::sleep_for(std::chrono::seconds(10));
 
     m_pClient->cancelTickByTickData(20005);
     m_pClient->cancelTickByTickData(20006);
     m_pClient->cancelTickByTickData(20007);
     m_pClient->cancelTickByTickData(20008);
-    //! [reqtickbytickdata]
 
     m_state = ST_REQTICKBYTICKDATA_ACK;
 }

@@ -2,6 +2,8 @@
 	
 	The API can request Live, Frozen, Delayed and Delayed Frozen market data from Trader Workstation by switching market data type via the @ref IBApi::EClient::reqMarketDataType before making a market data request with reqMktData. A successful switch to a different (non-live) market data type for a particular market data request will be indicated by a callback to IBApi::EWrapper::marketDataType with the ticker ID of the market data request which is returning a different type of data. 
 	
+	- Beginning in TWS <b>v970</b>, a @ref IBApi::EClient::reqMarketDataType callback of <b>1</b> will occur automatically after invoking reqMktData if the user has live data permissions for the instrument. 
+	
 	<table>
 		<tr><th>Market Data Type</th><th>ID</th><th>Description</th></tr>
 		<tr><td>Live</td><td>1</td><td>Live market data is streaming data relayed back in real time. Market data subscriptions are required to receive live market data. </td></tr>

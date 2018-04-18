@@ -35,8 +35,6 @@
 		<tr><td>1 M</td><td>30 mins - 1 month</td></tr>
 		<tr><td>1 Y</td><td>1 day - 1 month</td></tr>
 	</table>
-
-	(1) The maximum number of Quote Booster packs per user name is 10.
 		
 	\section non-available_hd Unavailable Historical Data
 	
@@ -51,6 +49,7 @@
 	- Data for expired future spreads
 	- Data for securities which are no longer trading.
 	- Native historical data for combos. Historical data is not stored in the IB database separately for combos.; combo historical data in TWS or the API is the sum of data from the legs. 
+	- Historical data for securities which move to a new exchange will often not be available prior to the time of the move.
 
 	<i>
 		<i><b>Note:</b></i> 
