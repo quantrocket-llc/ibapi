@@ -2,6 +2,7 @@ var tick_types =
 [
     [ "Halted", "tick_types.html#halted", null ],
     [ "Shortable", "tick_types.html#shortable", null ],
+    [ "Volume Data", "tick_types.html#volume_figures", null ],
     [ "RT Volume", "tick_types.html#rt_volume", null ],
     [ "RT Trade Volume", "tick_types.html#rt_trd_volume", null ],
     [ "IB Dividends", "tick_types.html#ib_dividends", null ],

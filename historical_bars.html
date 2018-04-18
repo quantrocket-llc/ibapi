@@ -184,12 +184,16 @@ Requesting Historical Bar Data</h1>
 </ul>
 <p>The daily bar size has several unique characteristics. This is true both in TWS and the API:</p>
 <ul>
-<li>For futures, the close price of daily bars can be the <em>settlement</em> price if provided by the exchange.</li>
+<li>For futures, the close price of daily bars can be the <em>settlement</em> price if provided by the exchange. Generally the official settlement price is not available until several hours after a trading session closes. The Friday settlement price will sometimes not be available until Saturday.</li>
 <li>A daily bar will refer to a trading session which may cross calendar days. In that case the date of the bar will correspond to the day on which the bar closes.</li>
 </ul>
 <h1><a class="anchor" id="hd_receive"></a>
 Receiving Historical Bar Data</h1>
 <p>The historical data will be delivered via the <a class="el" href="interfaceIBApi_1_1EWrapper.html#ac943e5b81f6de111ddf71a1f05ab6282" title="returns the requested historical data bars ">IBApi::EWrapper::historicalData</a> method in the form of <b>candlesticks</b>. The time zone of returned bars is the time zone chosen in TWS on the login screen. If reqHistoricalData was invoked with <em><b>keepUpToDate = false</b></em>, once all candlesticks have been received the <a class="el" href="interfaceIBApi_1_1EWrapper.html#a715bb6750de66a0e072a910e697e20cf">IBApi.EWrapper.historicalDataEnd</a> marker will be sent. Otherwise updates of the most recent partial five-second bar will continue to be returned in real time to <a class="el" href="interfaceIBApi_1_1EWrapper.html#a8c168da3a812b667421bec4e6e2a5b2d" title="Receives bars in real time if keepUpToDate is set as True in reqHistoricalData. Similar to realTimeBa...">IBApi::EWrapper::historicalDataUpdate</a>. The keepUpToDate functionality can only be used with bar sizes 5 seconds or greater and requires the endDate is set as the empty string.</p>
+<ul>
+<li>Note: IB's historical data feed is filtered for some types of trades which generally occur away from the NBBO such as combos, block trades, and derivatives. For that reason the historical data volume will be lower than an unfiltered historical data feed.</li>
+<li>IB does not maintain separate historical data for combos. Historical data returned for a combo contract will be the sum of data from the individual legs.</li>
+</ul>
 <ul id="tab">
 <li class="active">
 <div class="fragment"><div class="line">    <span class="keyword">public</span> <span class="keyword">class </span>EWrapperImpl : EWrapper </div>

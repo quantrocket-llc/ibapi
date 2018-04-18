@@ -161,7 +161,6 @@ Step Sizes</h1>
 <tr>
 <td>1 Y</td><td>1 day - 1 month </td></tr>
 </table>
-<p>(1) The maximum number of Quote Booster packs per user name is 10.</p>
 <h1><a class="anchor" id="non-available_hd"></a>
 Unavailable Historical Data</h1>
 <ul>
@@ -176,6 +175,7 @@ Unavailable Historical Data</h1>
 <li>Data for expired future spreads</li>
 <li>Data for securities which are no longer trading.</li>
 <li>Native historical data for combos. Historical data is not stored in the IB database separately for combos.; combo historical data in TWS or the API is the sum of data from the legs.</li>
+<li>Historical data for securities which move to a new exchange will often not be available prior to the time of the move.</li>
 </ul>
 <p><em> <em><b>Note:</b></em></em></p>
 <p><em> <em>1. At this time Historical Data Limitations for barSize = "1 mins" and greater have been lifted. However, please use caution when requesting large amounts of historical data or sending historical data requests too frequently. Though IB has lifted the "hard" limit, we still implement a "soft" slow to load-balance client requests vs. server response. Requesting too much historical data can lead to throttling and eventual disconnect of the API client. If a request requires more than several minutes to return data, it would be best to cancel the request using the <a class="el" href="classIBApi_1_1EClient.html#ab27324bd18e7022e26ac4520808b919f">IBApi.EClient.cancelHistoricalData</a> function. </em> </em></p>

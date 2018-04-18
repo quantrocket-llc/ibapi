@@ -335,6 +335,14 @@ Shortable</h1>
 <td>1.5 or less</td><td>Contract is not available for short selling. </td></tr>
 </table>
 <p>The TWS API cannot send the exact number of shortable shares available. For more detailed information about shortability data (shortable shares, fee rate, rebate rate) available outside of TWS, IB provides an FTP site. For more information, see knowledge base article <a href="https://ibkb.interactivebrokers.com/it/article/2024" target="_blank">2024</a></p>
+<h1><a class="anchor" id="volume_figures"></a>
+Volume Data</h1>
+<p>The API reports the current day's volume in several ways. They are summarized as follows:</p>
+<ul>
+<li>Volume tick type 8: The 'native volume'. This includes delayed transactions, busted trades, and combos, but will not update with every tick.</li>
+<li>RTVolume: highest number, includes non-reportable trades such as odd lots, average price and derivative trades.</li>
+<li>RTTradeVolume: only includes 'last' ticks, similar to number also used in charts/historical data.</li>
+</ul>
 <h1><a class="anchor" id="rt_volume"></a>
 RT Volume</h1>
 <p>The RT Volume tick type corresponds to the TWS' Time &amp; Sales window and contains the last trade's price, size and time along with current day's total traded volume, Volume Weighted Average Price (VWAP) and whether or not the trade was filled by a single market maker.</p>

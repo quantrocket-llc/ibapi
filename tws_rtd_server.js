@@ -10,7 +10,7 @@ var tws_rtd_server =
     ] ],
     [ "TWS RTD Server Formula Syntax", "tws_rtd_server.html#rtd_syntax_headline", null ],
     [ "Syntax Samples", "tws_rtd_server.html#rtd_examples_headline", null ],
-    [ "rtd_message_limit", "tws_rtd_server.html#rtd_message_limit", null ],
+    [ "Outgoing message rate limit", "tws_rtd_server.html#rtd_message_limit", null ],
     [ "Change Data Refresh Rate", "tws_rtd_server.html#rtd_throttle_headline", null ],
     [ "Troubleshooting Common Errors", "tws_rtd_server.html#rtd_fqa_errors_headline", null ],
     [ "Simple Syntax", "rtd_simple_syntax.html", [
