@@ -272,7 +272,8 @@
 	
 	\section fop Futures Options
 	
-	Futures options follow the same rules as conventional option contracts:
+	Futures options follow the same rules as conventional option contracts.
+	For some futures options (e.g GE) it will be necessary to define a trading class, or use the local symbol or conId. 
 	
 	<ul id="tab">
 		<li class="active">
@@ -336,8 +337,8 @@
 	
 	\section funds Mutual Funds
 	
-	Mutual Fund orders are <b>not</b> currently supported from the API. 
-	Note: Mutual Funds cannot be traded in paper accounts, in TWS or the API.
+	Trading Mutual Funds is <b>not</b> currently fully-supported from the API. 
+	Note: Mutual Funds orders cannot be placed in paper accounts from any trading system.
 	
 	<ul id="tab">
 		<li class="active">
@@ -377,9 +378,11 @@
 		</li>
 	</ul>
 	
-	\section iopts Dutch Warrants
+	\section iopts Dutch Warrants and Structured Products
 	
-	Dutch Warrants (IOPTs) can be defined with the local symbol or contract ID (conid), but not the ISIN.
+	To unambiguously define a Dutch Warrant or Structured Product (IOPTs) the conId or localSymbol field must be used.
+	- It is important to note that if reqContractDetails is used with an incompletely-defined IOPT contract definition, that thousands of results can be returned and the API connection broken.
+	- IOPT contract definitions will often change and it will be necessary to restart TWS or IB Gateway to download the new contract definition. 
 	
 	<ul id="tab">
 		<li class="active">

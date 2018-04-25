@@ -415,8 +415,7 @@ public class OrderSamples {
 		order.totalQuantity(quantity);
 		if (nonGuaranteed)
 		{
-			List<TagValue> smartComboRoutingParams = new ArrayList<>();
-			smartComboRoutingParams.add(new TagValue("NonGuaranteed", "1"));
+			order.smartComboRoutingParams().add(new TagValue("NonGuaranteed", "1"));
 		}
 		// ! [combolimit]
 		return order;
@@ -430,8 +429,7 @@ public class OrderSamples {
 		order.totalQuantity(quantity);
 		if (nonGuaranteed)
 		{
-			List<TagValue> smartComboRoutingParams = new ArrayList<>();
-			smartComboRoutingParams.add(new TagValue("NonGuaranteed", "1"));
+			order.smartComboRoutingParams().add(new TagValue("NonGuaranteed", "1"));
 		}
 		// ! [combomarket]
 		return order;
@@ -453,8 +451,7 @@ public class OrderSamples {
 		
 		if (nonGuaranteed)
 		{
-			List<TagValue> smartComboRoutingParams = new ArrayList<>();
-			smartComboRoutingParams.add(new TagValue("NonGuaranteed", "1"));
+			order.smartComboRoutingParams().add(new TagValue("NonGuaranteed", "1"));
 		}
 		// ! [limitordercombolegprices]
 		return order;
@@ -467,10 +464,10 @@ public class OrderSamples {
 		order.orderType("REL + LMT");
 		order.totalQuantity(quantity);
 		order.lmtPrice(limitPrice);
+
 		if (nonGuaranteed)
 		{
-			List<TagValue> smartComboRoutingParams = new ArrayList<>();
-			smartComboRoutingParams.add(new TagValue("NonGuaranteed", "1"));
+			order.smartComboRoutingParams().add(new TagValue("NonGuaranteed", "1"));
 		}
 		// ! [relativelimitcombo]
 		return order;
@@ -484,8 +481,7 @@ public class OrderSamples {
 		order.totalQuantity(quantity);
 		if (nonGuaranteed)
 		{
-			List<TagValue> smartComboRoutingParams = new ArrayList<>();
-			smartComboRoutingParams.add(new TagValue("NonGuaranteed", "1"));
+			order.smartComboRoutingParams().add(new TagValue("NonGuaranteed", "1"));
 		}
 		// ! [relativemarketcombo]
 		return order;
