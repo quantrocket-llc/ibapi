@@ -372,7 +372,7 @@ void EClientSocketSSL::serverVersion(int version, const char *time) {
 void EClientSocketSSL::redirect(const char *host, int port) {
     const char* hostNorm = (host && *host) ? host : "127.0.0.1";
 
-    if( (hostNorm != this->host() || port != this->port())) {
+	if( (hostNorm != this->host() || (port > 0 && (unsigned int)port != this->port()))) {
         if (!m_allowRedirect) {
             getWrapper()->error(NO_VALID_ID, CONNECT_FAIL.code(), CONNECT_FAIL.msg());
 
