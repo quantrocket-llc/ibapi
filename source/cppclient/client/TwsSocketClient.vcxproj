@@ -232,7 +232,6 @@
     <ClInclude Include="Order.h" />
     <ClInclude Include="OrderState.h" />
     <ClInclude Include="ScannerSubscription.h" />
-    <ClInclude Include="shared_ptr.h" />
     <ClInclude Include="TagValue.h" />
     <ClInclude Include="TickAttrib.h" />
     <ClInclude Include="TimeCondition.h" />
