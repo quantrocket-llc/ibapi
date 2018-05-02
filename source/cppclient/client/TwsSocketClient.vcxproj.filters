@@ -138,9 +138,6 @@
     <ClInclude Include="ScannerSubscription.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="shared_ptr.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="TagValue.h">
       <Filter>Header Files</Filter>
     </ClInclude>
