@@ -1,7 +1,9 @@
 *.class
-*.jar
-*.suo
+*.d
 *.exe
+*.jar
+*.o
+*.suo
 *.user
 /source/javaclient/nbproject/private/
 /source/csharpclient/client/bin
