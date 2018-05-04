@@ -179,7 +179,7 @@ class Order(Object):
         self.adjustableTrailingUnit = 0
         self.lmtPriceOffset = UNSET_DOUBLE
 
-        self.conditions = []  # std::vector<ibapi::shared_ptr<OrderCondition>>
+        self.conditions = []  # std::vector<std::shared_ptr<OrderCondition>>
         self.conditionsCancelOrder = False
         self.conditionsIgnoreRth = False
 
