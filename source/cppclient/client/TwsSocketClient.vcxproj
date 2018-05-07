@@ -207,6 +207,7 @@
     <ClInclude Include="EWrapper_prototypes.h" />
     <ClInclude Include="executioncondition.h" />
     <ClInclude Include="FamilyCode.h" />
+    <ClInclude Include="HistogramEntry.h" />
     <ClInclude Include="HistoricalTick.h" />
     <ClInclude Include="HistoricalTickBidAsk.h" />
     <ClInclude Include="HistoricalTickLast.h" />

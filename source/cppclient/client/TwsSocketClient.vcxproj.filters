@@ -225,5 +225,8 @@
     <ClInclude Include="EWrapper_prototypes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="HistogramEntry.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
