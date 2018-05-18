@@ -279,9 +279,10 @@ public abstract class EClient {
     protected static final int MIN_SERVER_VER_TICK_BY_TICK_IGNORE_SIZE = 140;
     protected static final int MIN_SERVER_VER_AUTO_PRICE_FOR_HEDGE = 141;
     protected static final int MIN_SERVER_VER_WHAT_IF_EXT_FIELDS = 142;
+    protected static final int MIN_SERVER_VER_SCANNER_GENERIC_OPTS = 143;
     
     public static final int MIN_VERSION = 100; // envelope encoding, applicable to useV100Plus mode only
-    public static final int MAX_VERSION = MIN_SERVER_VER_WHAT_IF_EXT_FIELDS; // ditto
+    public static final int MAX_VERSION = MIN_SERVER_VER_SCANNER_GENERIC_OPTS; // ditto
 
     protected EReaderSignal m_signal;
     protected EWrapper m_eWrapper;    // msg handler
@@ -460,7 +461,10 @@ public abstract class EClient {
         }
     }
 
-    public synchronized void reqScannerSubscription( int tickerId, ScannerSubscription subscription, List<TagValue> scannerSubscriptionOptions) {
+    public synchronized void reqScannerSubscription(int tickerId, 
+            ScannerSubscription subscription, 
+            List<TagValue> scannerSubscriptionOptions, 
+            List<TagValue> scannerSubscriptionFilterOptions) {
         // not connected?
         if (!isConnected()) {
             notConnected();
@@ -470,21 +474,34 @@ public abstract class EClient {
         if (m_serverVersion < 24) {
           error(EClientErrors.NO_VALID_ID, EClientErrors.UPDATE_TWS,
                 "  It does not support API scanner subscription.");
+          
           return;
+        }
+        
+        if (m_serverVersion < MIN_SERVER_VER_SCANNER_GENERIC_OPTS) {
+            error(EClientErrors.NO_VALID_ID, EClientErrors.UPDATE_TWS, 
+                    " It does not support API scanner subscription generic filter options");
+            
+            return;
         }
 
         final int VERSION = 4;
 
         try {
-            Builder b = prepareBuffer(); 
+            Builder b = prepareBuffer();
 
             b.send(REQ_SCANNER_SUBSCRIPTION);
-            b.send(VERSION);
+            
+            if (m_serverVersion < MIN_SERVER_VER_SCANNER_GENERIC_OPTS) {
+                b.send(VERSION);
+            }
+            
             b.send(tickerId);
             b.sendMax(subscription.numberOfRows());
             b.send(subscription.instrument());
             b.send(subscription.locationCode());
             b.send(subscription.scanCode());
+
             b.sendMax(subscription.abovePrice());
             b.sendMax(subscription.belowPrice());
             b.sendMax(subscription.aboveVolume());
@@ -498,15 +515,19 @@ public abstract class EClient {
             b.send(subscription.maturityDateBelow());
             b.sendMax(subscription.couponRateAbove());
             b.sendMax(subscription.couponRateBelow());
-            b.send(subscription.excludeConvertible());
-            
+            b.send(subscription.excludeConvertible());           
+
             if (m_serverVersion >= 25) {
                 b.sendMax(subscription.averageOptionVolumeAbove());
                 b.send(subscription.scannerSettingPairs());
             }
-            
+
             if (m_serverVersion >= 27) {
                 b.send(subscription.stockTypeFilter());
+            }
+
+            if (m_serverVersion >= MIN_SERVER_VER_SCANNER_GENERIC_OPTS) {
+                b.send(scannerSubscriptionFilterOptions);
             }
             
             // send scannerSubscriptionOptions parameter
@@ -1513,7 +1534,7 @@ public abstract class EClient {
                 "  It does not support don't use auto price for hedge parameter.");
             return;
         }
-        
+
 
         int VERSION = (m_serverVersion < MIN_SERVER_VER_NOT_HELD) ? 27 : 45;
 
@@ -1918,7 +1939,7 @@ public abstract class EClient {
                b.send(order.mifid2ExecutionTrader());
                b.send(order.mifid2ExecutionAlgo());
            }
-
+           
            if (m_serverVersion >= MIN_SERVER_VER_AUTO_PRICE_FOR_HEDGE) {
                b.send(order.dontUseAutoPriceForHedge());
            }

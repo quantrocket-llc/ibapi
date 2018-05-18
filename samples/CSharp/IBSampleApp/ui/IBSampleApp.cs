@@ -17,6 +17,7 @@ using IBSampleApp.types;
 using System.Threading;
 using System.Threading.Tasks;
 using System.IO;
+using System.Xml;
 
 
 namespace IBSampleApp
@@ -50,7 +51,7 @@ namespace IBSampleApp
 
         private EReaderMonitorSignal signal = new EReaderMonitorSignal();
 
-        private DataTable pnldataTable = new DataTable(), 
+        private DataTable pnldataTable = new DataTable(),
             pnlSingledataTable = new DataTable(),
             historicalTickTable = new DataTable(),
             historicalTickBidAskTable = new DataTable(),
@@ -119,7 +120,7 @@ namespace IBSampleApp
 
             comboBoxMarketDataType_MDT.Items.AddRange(MarketDataType.GetAll());
             comboBoxMarketDataType_MDT.SelectedIndex = 0;
-            
+
             this.groupMethod.DataSource = AllocationGroupMethod.GetAsData();
             this.groupMethod.ValueMember = "Value";
             this.groupMethod.DisplayMember = "Name";
@@ -175,23 +176,24 @@ namespace IBSampleApp
             ibClient.ExecDetailsEnd += reqId => addTextToBox("ExecDetailsEnd. " + reqId + "\n");
             ibClient.CommissionReport += commissionReport => orderManager.HandleCommissionMessage(new CommissionMessage(commissionReport));
             ibClient.FundamentalData += UpdateUI;
-            
+
             ibClient.HistoricalData += historicalDataManager.UpdateUI;
             ibClient.HistoricalDataUpdate += historicalDataManager.UpdateUI;
             ibClient.HistoricalDataEnd += historicalDataManager.UpdateUI;
-            
+
             ibClient.MarketDataType += UpdateUI;
             ibClient.UpdateMktDepth += deepBookManager.UpdateUI;
             ibClient.UpdateMktDepthL2 += deepBookManager.UpdateUI;
-            ibClient.UpdateNewsBulletin += (msgId, msgType, message, origExchange) => 
+            ibClient.UpdateNewsBulletin += (msgId, msgType, message, origExchange) =>
                 addTextToBox("News Bulletins. " + msgId + " - Type: " + msgType + ", Message: " + message + ", Exchange of Origin: " + origExchange + "\n");
 
             ibClient.Position += accountManager.HandlePosition;
             ibClient.PositionEnd += () => addTextToBox("PositionEnd \n");
             ibClient.RealtimeBar += realTimeBarManager.UpdateUI;
             ibClient.ScannerParameters += xml => scannerManager.UpdateUI(new ScannerParametersMessage(xml));
+            ibClient.ScannerParameters += UpdateUi;
             ibClient.ScannerData += scannerManager.UpdateUI;
-            
+
             ibClient.ScannerDataEnd += reqId => addTextToBox("ScannerDataEnd. " + reqId + "\r\n");
             ibClient.ReceiveFA += advisorManager.UpdateUI;
             ibClient.BondContractDetails += contractManager.HandleBondContractMessage;
@@ -232,6 +234,17 @@ namespace IBSampleApp
             ibClient.tickByTickAllLast += UpdateUI;
             ibClient.tickByTickBidAsk += UpdateUI;
             ibClient.tickByTickMidPoint += UpdateUI;
+        }
+
+        private void UpdateUi(string xml)
+        {
+            XmlDocument doc = new XmlDocument();
+
+            doc.LoadXml(xml);
+
+            var filters = doc.SelectNodes("//AbstractField/code").OfType<XmlNode>().ToList().Select(n => n.InnerText).ToArray();
+
+            comboBoxFilterName.Items.AddRange(filters);
         }
 
         private void UpdateUI(TickByTickMidPointMessage msg)
@@ -304,7 +317,7 @@ namespace IBSampleApp
 
         void ibClient_Tick(TickPriceMessage msg)
         {
-            addTextToBox("Tick Price. Ticker Id:" + msg.RequestId + ", Type: " + TickType.getField(msg.Field) + ", Price: " + msg.Price + ", Pre-Open: " + msg.Attribs.PreOpen +"\n");
+            addTextToBox("Tick Price. Ticker Id:" + msg.RequestId + ", Type: " + TickType.getField(msg.Field) + ", Price: " + msg.Price + ", Pre-Open: " + msg.Attribs.PreOpen + "\n");
 
             if (msg.RequestId < OptionsManager.OPTIONS_ID_BASE)
             {
@@ -350,7 +363,7 @@ namespace IBSampleApp
             HandleErrorMessage(new ErrorMessage(-1, -1, text));
         }
 
-       
+
         public bool IsConnected
         {
             get { return isConnected; }
@@ -390,7 +403,7 @@ namespace IBSampleApp
         private void UpdateUI(UpdatePortfolioMessage message)
         {
             accountManager.HandlePortfolioValue(message);
-         
+
             if (exerciseAccount.SelectedItem != null)
                 optionsManager.HandlePosition(message);
         }
@@ -491,7 +504,7 @@ namespace IBSampleApp
             {
             }
         }
-               
+
         private void connectButton_Click(object sender, EventArgs e)
         {
             if (!IsConnected)
@@ -594,7 +607,7 @@ namespace IBSampleApp
                 ShowTab(marketData_MDT, rtBarsTab_MDT);
             }
         }
-        
+
         private void rtBarsCloseLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             realTimeBarManager.Clear();
@@ -611,7 +624,7 @@ namespace IBSampleApp
                 subscription.LocationCode = scanLocation.Text;
                 subscription.StockTypeFilter = scanStockType.Text;
                 subscription.NumberOfRows = Int32.Parse(scanNumRows.Text);
-                scannerManager.AddRequest(subscription);
+                scannerManager.AddRequest(subscription, listViewFilterOptions.Items.OfType<ListViewItem>().Select(i => new TagValue(i.Text, i.SubItems[1].Text)).ToList());
                 ShowTab(marketData_MDT, scannerTab);
             }
         }
@@ -637,7 +650,7 @@ namespace IBSampleApp
         }
 
         private Contract GetMDContract()
-        {   
+        {
             Contract contract = new Contract();
             contract.SecType = this.secType_TMD_MDT.Text;
             contract.Symbol = this.symbol_TMD_MDT.Text;
@@ -649,7 +662,7 @@ namespace IBSampleApp
 
             if (!mdContractRight.Text.Equals("") && !mdContractRight.Text.Equals("None"))
                 contract.Right = (string)((IBType)mdContractRight.SelectedItem).Value;
-            
+
             contract.Strike = stringToDouble(this.strike_TMD_MDT.Text);
             contract.Multiplier = this.multiplier_TMD_MDT.Text;
             contract.LocalSymbol = this.localSymbol_TMD_MDT.Text;
@@ -689,7 +702,7 @@ namespace IBSampleApp
             tradeLogGrid.Rows.Clear();
 
             ExecutionFilter execFilter = new ExecutionFilter();
-            if(!execFilterClientId.Text.Equals(String.Empty))
+            if (!execFilterClientId.Text.Equals(String.Empty))
                 execFilter.ClientId = Int32.Parse(execFilterClientId.Text);
             execFilter.AcctCode = execFilterAccount.Text;
             execFilter.Time = execFilterTime.Text;
@@ -737,7 +750,7 @@ namespace IBSampleApp
 
         private void accUpdatesSubscribe_Click(object sender, EventArgs e)
         {
-            if(accUpdatesSubscribe.Text.Equals("Subscribe"))
+            if (accUpdatesSubscribe.Text.Equals("Subscribe"))
             {
                 accUpdatesSubscribedAccount.Text = accountSelector.SelectedItem.ToString();
                 accUpdatesSubscribe.Text = "Unsubscribe";
@@ -856,7 +869,7 @@ namespace IBSampleApp
                 underlying.SecType = "OPT";
                 optionsManager.AddOptionChainRequest(underlying, this.optionChainExchange.Text, optionChainUseSnapshot.Checked);
                 ShowTab(contractInfoTab, optionChainPage);
-               
+
             }
         }
 
@@ -1125,7 +1138,7 @@ namespace IBSampleApp
         {
             newsManager.ClearNewsProviders();
         }
-        
+
         private void buttonRequestNewsArticle_Click(object sender, EventArgs e)
         {
             ShowTab(tabControlNewsResults, tabPageNewsArticleResults);
@@ -1136,7 +1149,7 @@ namespace IBSampleApp
         {
             newsManager.ClearArticleText();
         }
-        
+
 
         private void buttonRequestHistoricalNews_Click(object sender, EventArgs e)
         {
@@ -1385,6 +1398,16 @@ namespace IBSampleApp
         private void buttonAttachOrder_Click(object sender, EventArgs e)
         {
             orderManager.AttachOrder();
+        }
+
+        private void FilterOptionAdd_button_Click(object sender, EventArgs e)
+        {
+            listViewFilterOptions.Items.Add(new ListViewItem(new[] { comboBoxFilterName.Text, textBoxFilterValue.Text }));
+        }
+
+        private void FilterOptionRemove_button_Click(object sender, EventArgs e)
+        {
+            listViewFilterOptions.SelectedItems.OfType<ListViewItem>().ToList().ForEach(i => listViewFilterOptions.Items.Remove(i));
         }
     }
 }

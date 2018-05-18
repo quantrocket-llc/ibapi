@@ -573,7 +573,7 @@ namespace TWSLib
             string moodyRatingBelow, string spRatingAbove, string spRatingBelow,
             string maturityDateAbove, string maturityDateBelow, double couponRateAbove,
             double couponRateBelow, int excludeConvertible, int averageOptionVolumeAbove,
-            string scannerSettingPairs, string stockTypeFilter, ITagValueList options)
+            string scannerSettingPairs, string stockTypeFilter, ITagValueList scannerSubscriptionFilterOptions, ITagValueList options)
         {
             ScannerSubscription subscription = new ScannerSubscription();
 
@@ -594,12 +594,12 @@ namespace TWSLib
             subscription.MaturityDateBelow = maturityDateBelow;
             subscription.CouponRateAbove = couponRateAbove;
             subscription.CouponRateBelow = couponRateBelow;
-            subscription.ExcludeConvertible = excludeConvertible.ToString();
+            subscription.ExcludeConvertible = excludeConvertible != 0;
             subscription.AverageOptionVolumeAbove = averageOptionVolumeAbove;
             subscription.ScannerSettingPairs = scannerSettingPairs;
             subscription.StockTypeFilter = stockTypeFilter;
 
-            this.socket.reqScannerSubscription(tickerId, subscription, ITagValueListToListTagValue(options));
+            this.socket.reqScannerSubscription(tickerId, subscription, ITagValueListToListTagValue(scannerSubscriptionFilterOptions), ITagValueListToListTagValue(options));
         }
 
         
@@ -819,10 +819,13 @@ namespace TWSLib
             this.socket.reqRealTimeBars(tickerId, (Contract)(contract as ComContract), barSize, whatToShow, useRTH, ITagValueListToListTagValue(options));
         }
 
-        
-        void ITws.reqScannerSubscriptionEx(int tickerId, IScannerSubscription subscription, ITagValueList options)
+
+        void ITws.reqScannerSubscriptionEx(int tickerId, IScannerSubscription subscription, ITagValueList options, ITagValueList scannerSubscriptionFilterOptions)
         {
-            this.socket.reqScannerSubscription(tickerId, (ScannerSubscription)(subscription as ComScannerSubscription), ITagValueListToListTagValue(options));
+            this.socket.reqScannerSubscription(tickerId,
+                (ScannerSubscription)(subscription as ComScannerSubscription), 
+                ITagValueListToListTagValue(options), 
+                ITagValueListToListTagValue(scannerSubscriptionFilterOptions));
         }
 
         

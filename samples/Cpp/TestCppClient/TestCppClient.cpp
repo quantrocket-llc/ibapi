@@ -612,7 +612,7 @@ void TestCppClient::marketScanners()
 
 	/*** Triggering a scanner subscription ***/
 	//! [reqscannersubscription]
-	m_pClient->reqScannerSubscription(7001, ScannerSubscriptionSamples::HotUSStkByVolume(), TagValueListSPtr());
+	m_pClient->reqScannerSubscription(7001, ScannerSubscriptionSamples::HotUSStkByVolume(), TagValueListSPtr(), TagValueListSPtr());
 	//! [reqscannersubscription]
 
 	std::this_thread::sleep_for(std::chrono::seconds(2));

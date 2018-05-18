@@ -45,6 +45,9 @@ import com.ib.controller.ApiController.IScannerHandler;
 import com.ib.controller.ApiController.ISecDefOptParamsReqHandler;
 import com.ib.controller.ApiController.ISmartComponentsHandler;
 import com.ib.controller.ApiController.ISymbolSamplesHandler;
+
+import TestJavaClient.SmartComboRoutingParamsDlg;
+
 import com.ib.controller.Bar;
 import com.ib.controller.Formats;
 import com.ib.controller.Instrument;
@@ -978,6 +981,8 @@ class MarketDataPanel extends JPanel {
 		final TCombo<String> m_stockType = new TCombo<>( "ALL", "STOCK", "ETF");
 		private MarketDataPanel m_parentPanel;
 		
+		private List<TagValue> m_filterOptions = new ArrayList<>();
+		
 		ScannerRequestPanel(MarketDataPanel parentPanel) {
 			m_parentPanel = parentPanel;
 			
@@ -988,28 +993,39 @@ class MarketDataPanel extends JPanel {
 			};
 			
 			VerticalPanel paramsPanel = new VerticalPanel();
-			paramsPanel.add( "Scan code", m_scanCode);
-			paramsPanel.add( "Instrument", m_instrument);
-			paramsPanel.add( "Location", m_location, Box.createHorizontalStrut(10), go);
-			paramsPanel.add( "Stock type", m_stockType);
-			paramsPanel.add( "Num rows", m_numRows);
+			
+			paramsPanel.add("Scan code", m_scanCode);
+			paramsPanel.add("Instrument", m_instrument);
+			paramsPanel.add("Location", m_location, Box.createHorizontalStrut(10), go);
+			paramsPanel.add("Stock type", m_stockType);
+			paramsPanel.add("Num rows", m_numRows);
+			paramsPanel.add("Filter options", new HtmlButton("configure") {protected void actionPerformed() { onFilterOptions(); } });
 			
 			setLayout( new BorderLayout() );
 			add( paramsPanel, BorderLayout.NORTH);
 		}
 
-		void onGo() {
+		protected void  onFilterOptions() {
+		    SmartComboRoutingParamsDlg smartComboRoutingParamsDlg = new SmartComboRoutingParamsDlg("Scanner Subscription Filter Options", m_filterOptions, SwingUtilities.getWindowAncestor(this));
+
+	        smartComboRoutingParamsDlg.setVisible( true);
+	        
+	        m_filterOptions = smartComboRoutingParamsDlg.smartComboRoutingParams();
+        }
+
+        void onGo() {
 			ScannerSubscription sub = new ScannerSubscription();
-			sub.numberOfRows( m_numRows.getInt() );
-			sub.scanCode( m_scanCode.getSelectedItem().toString() );
-			sub.instrument( m_instrument.getSelectedItem().toString() );
-			sub.locationCode( m_location.getText() );
-			sub.stockTypeFilter( m_stockType.getSelectedItem() );
+			
+			sub.numberOfRows(m_numRows.getInt() );
+			sub.scanCode(m_scanCode.getSelectedItem().toString() );
+			sub.instrument(m_instrument.getSelectedItem().toString() );
+			sub.locationCode(m_location.getText() );
+			sub.stockTypeFilter(m_stockType.getSelectedItem() );
 			
 			ScannerResultsPanel resultsPanel = new ScannerResultsPanel(m_parentPanel);
 			m_resultsPanel.addTab( sub.scanCode(), resultsPanel, true, true);
 
-			ApiDemo.INSTANCE.controller().reqScannerSubscription( sub, resultsPanel);
+			ApiDemo.INSTANCE.controller().reqScannerSubscription(sub, m_filterOptions, resultsPanel);
 		}
 	}
 

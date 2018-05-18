@@ -438,7 +438,7 @@ Module MainModule
 
         '*** Triggering a scanner subscription ***/
         '! [reqscannersubscription]
-        client.reqScannerSubscription(7001, ScannerSubscriptionSamples.HighOptVolumePCRatioUSIndexes(), Nothing)
+        client.reqScannerSubscription(7001, ScannerSubscriptionSamples.HighOptVolumePCRatioUSIndexes(), Nothing, Nothing)
         '! [reqscannersubscription]
 
         Thread.Sleep(2000)

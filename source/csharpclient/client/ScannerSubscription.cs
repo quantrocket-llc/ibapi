@@ -33,7 +33,7 @@ namespace IBApi
         private string maturityDateBelow;
         private double couponRateAbove = Double.MaxValue;
         private double couponRateBelow = Double.MaxValue;
-        private string excludeConvertible;
+        private bool excludeConvertible;
         private string scannerSettingPairs;
         private string stockTypeFilter;
 
@@ -202,7 +202,7 @@ namespace IBApi
         /**
          * @brief Filters out Convertible bonds
          */
-        public string ExcludeConvertible
+        public bool ExcludeConvertible
         {
             get { return excludeConvertible; }
             set { excludeConvertible = value; }

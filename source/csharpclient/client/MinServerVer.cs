@@ -101,5 +101,6 @@ namespace IBApi
         public const int TICK_BY_TICK_IGNORE_SIZE = 140;
         public const int AUTO_PRICE_FOR_HEDGE = 141;
         public const int WHAT_IF_EXT_FIELDS = 142;
+        public const int SCANNER_GENERIC_OPTS = 143;
     }
 }

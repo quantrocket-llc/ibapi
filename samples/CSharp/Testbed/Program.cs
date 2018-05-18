@@ -520,7 +520,7 @@ namespace Samples
 
             /*** Triggering a scanner subscription ***/
             //! [reqscannersubscription]
-            client.reqScannerSubscription(7001, ScannerSubscriptionSamples.HighOptVolumePCRatioUSIndexes(), null);
+            client.reqScannerSubscription(7001, ScannerSubscriptionSamples.HighOptVolumePCRatioUSIndexes(), null, null);
             //! [reqscannersubscription]
 
             Thread.Sleep(2000);

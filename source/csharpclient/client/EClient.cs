@@ -276,7 +276,8 @@ namespace IBApi
             paramsList.AddParameter(contract.TradingClass);
             paramsList.AddParameter(tickType);
 
-            if (serverVersion >= MinServerVer.TICK_BY_TICK_IGNORE_SIZE) {
+            if (serverVersion >= MinServerVer.TICK_BY_TICK_IGNORE_SIZE)
+            {
                 paramsList.AddParameter(numberOfTicks);
                 paramsList.AddParameter(ignoreSize);
             }
@@ -343,7 +344,7 @@ namespace IBApi
             {
                 paramsList.AddParameter(contract.TradingClass);
             }
-            
+
             paramsList.AddParameter(optionPrice);
             paramsList.AddParameter(underPrice);
 
@@ -400,7 +401,7 @@ namespace IBApi
             {
                 paramsList.AddParameter(contract.TradingClass);
             }
-            
+
             paramsList.AddParameter(volatility);
             paramsList.AddParameter(underPrice);
 
@@ -516,7 +517,7 @@ namespace IBApi
 
         /**
          * @brief Cancels an active order placed by from the same API client ID.\n
-		 * Note: API clients cannot cancel individual orders placed by other clients. Only reqGlobalCancel is available.\n
+         * Note: API clients cannot cancel individual orders placed by other clients. Only reqGlobalCancel is available.\n
          * @param orderId the order's client id
          * @sa placeOrder, reqGlobalCancel
          */
@@ -572,7 +573,7 @@ namespace IBApi
 
         /**
          * @brief Exercises an options contract\n
-		 * Note: this function is affected by a TWS setting which specifies if an exercise request must be finalized
+         * Note: this function is affected by a TWS setting which specifies if an exercise request must be finalized
          * @param tickerId exercise request's identifier
          * @param contract the option Contract to be exercised.
          * @param exerciseAction set to 1 to exercise the option, set to 2 to let the option lapse.
@@ -1275,8 +1276,8 @@ namespace IBApi
 
         /**
          * @brief Requests all *current* open orders in associated accounts at the current moment. The existing orders will be received via the openOrder and orderStatus events.
-		 * Open orders are returned once; this function does not initiate a subscription
-		 * @sa reqAutoOpenOrders, reqOpenOrders, EWrapper::openOrder, EWrapper::orderStatus, EWrapper::openOrderEnd
+         * Open orders are returned once; this function does not initiate a subscription
+         * @sa reqAutoOpenOrders, reqOpenOrders, EWrapper::openOrder, EWrapper::orderStatus, EWrapper::openOrderEnd
          */
         public void reqAllOpenOrders()
         {
@@ -1612,12 +1613,12 @@ namespace IBApi
             }
 
             paramsList.AddParameter(tickerId);
-            
+
             if (serverVersion >= MinServerVer.TRADING_CLASS)
             {
                 paramsList.AddParameter(contract.ConId);
             }
-            
+
             paramsList.AddParameter(contract.Symbol);
             paramsList.AddParameter(contract.SecType);
             paramsList.AddParameter(contract.LastTradeDateOrContractMonth);
@@ -1771,23 +1772,23 @@ namespace IBApi
             paramsList.AddParameter(OutgoingMessages.RequestMarketData);
             paramsList.AddParameter(version);
             paramsList.AddParameter(tickerId);
-            
+
             if (serverVersion >= MinServerVer.CONTRACT_CONID)
             {
                 paramsList.AddParameter(contract.ConId);
             }
-            
+
             paramsList.AddParameter(contract.Symbol);
             paramsList.AddParameter(contract.SecType);
             paramsList.AddParameter(contract.LastTradeDateOrContractMonth);
             paramsList.AddParameter(contract.Strike);
             paramsList.AddParameter(contract.Right);
-            
+
             if (serverVersion >= 15)
             {
                 paramsList.AddParameter(contract.Multiplier);
             }
-            
+
             paramsList.AddParameter(contract.Exchange);
 
             if (serverVersion >= 14)
@@ -1796,7 +1797,7 @@ namespace IBApi
             }
 
             paramsList.AddParameter(contract.Currency);
-            
+
             if (serverVersion >= 2)
             {
                 paramsList.AddParameter(contract.LocalSymbol);
@@ -2084,7 +2085,7 @@ namespace IBApi
 
         /**
          * @brief Requests an XML list of scanner parameters valid in TWS. \n
-		 * Not all parameters are valid from API scanner.
+         * Not all parameters are valid from API scanner.
          * @sa reqScannerSubscription
          */
         public void reqScannerParameters()
@@ -2106,22 +2107,33 @@ namespace IBApi
          * @param subscription summary of the scanner subscription including its filters.
          * @sa reqScannerParameters, ScannerSubscription, EWrapper::scannerData
          */
-        public void reqScannerSubscription(int reqId, ScannerSubscription subscription, List<TagValue> scannerSubscriptionOptions)
+        public void reqScannerSubscription(int reqId, ScannerSubscription subscription, List<TagValue> scannerSubscriptionOptions, List<TagValue> scannerSubscriptionFilterOptions)
         {
             if (!CheckConnection())
                 return;
+
+            if (!CheckServerVersion(MinServerVer.SCANNER_GENERIC_OPTS, " It does not support API scanner subscription generic filter options"))
+            {
+                return;
+            }
 
             const int VERSION = 4;
             var paramsList = new BinaryWriter(new MemoryStream());
             var lengthPos = prepareBuffer(paramsList);
 
             paramsList.AddParameter(OutgoingMessages.RequestScannerSubscription);
-            paramsList.AddParameter(VERSION);
+
+            if (serverVersion < MinServerVer.SCANNER_GENERIC_OPTS)
+            {
+                paramsList.AddParameter(VERSION);
+            }
+
             paramsList.AddParameter(reqId);
             paramsList.AddParameterMax(subscription.NumberOfRows);
             paramsList.AddParameter(subscription.Instrument);
             paramsList.AddParameter(subscription.LocationCode);
             paramsList.AddParameter(subscription.ScanCode);
+
             paramsList.AddParameterMax(subscription.AbovePrice);
             paramsList.AddParameterMax(subscription.BelowPrice);
             paramsList.AddParameterMax(subscription.AboveVolume);
@@ -2148,6 +2160,11 @@ namespace IBApi
                 paramsList.AddParameter(subscription.StockTypeFilter);
             }
 
+            if (serverVersion >= MinServerVer.SCANNER_GENERIC_OPTS)
+            {
+                paramsList.AddParameter(scannerSubscriptionFilterOptions);
+            }
+
             if (serverVersion >= MinServerVer.LINKING)
             {
                 paramsList.AddParameter(scannerSubscriptionOptions);
@@ -2158,8 +2175,8 @@ namespace IBApi
 
         /**
          * @brief Changes the TWS/GW log level.
-		 * The default is 2 = ERROR\n
-		 * 5 = DETAIL is required for capturing all API messages and troubleshooting API programs\n
+         * The default is 2 = ERROR\n
+         * 5 = DETAIL is required for capturing all API messages and troubleshooting API programs\n
          * Valid values are:\n
          * 1 = SYSTEM\n
          * 2 = ERROR\n
@@ -2362,7 +2379,7 @@ namespace IBApi
 
         /**
          * @brief Requests position subscription for account and/or model
-		 * Initially all positions are returned, and then updates are returned for any position changes in real time.
+         * Initially all positions are returned, and then updates are returned for any position changes in real time.
          * @param requestId - Request's identifier
          * @param account - If an account Id is provided, only the account's positions belonging to the specified model will be delivered
          * @param modelCode - The code of the model's positions we are interested in.
@@ -2413,9 +2430,9 @@ namespace IBApi
 
         /**
          * @brief Requests account updates for account and/or model
-		 * @param reqId identifier to label the request 
-		 * @param account account values can be requested for a particular account
-		 * @param modelCode values can also be requested for a model
+         * @param reqId identifier to label the request 
+         * @param account account values can be requested for a particular account
+         * @param modelCode values can also be requested for a model
 		 * @param ledgerAndNLV returns light-weight request; only currency positions as opposed to account values and currency positions
          * @sa cancelAccountUpdatesMulti, EWrapper::accountUpdateMulti, EWrapper::accountUpdateMultiEnd
          */
@@ -2441,7 +2458,7 @@ namespace IBApi
 
         /**
          * @brief Cancels account updates request for account and/or model
-		 * @param requestId account subscription to cancel  
+         * @param requestId account subscription to cancel  
          * @sa reqAccountUpdatesMulti
          */
         public void cancelAccountUpdatesMulti(int requestId)
@@ -2536,7 +2553,7 @@ namespace IBApi
 
         /**
         * @brief Requests matching stock symbols
-		* @param reqId id to specify the request
+        * @param reqId id to specify the request
         * @param pattern - either start of ticker symbol or (for larger strings) company name
         * @sa EWrapper::symbolSamples
         */
@@ -2580,8 +2597,8 @@ namespace IBApi
 
         /**
          * @brief Returns the mapping of single letter codes to exchange names given the mapping identifier
-		 * @param reqId id of the request
-		 * @param bboExchange mapping identifier received from EWrapper.tickReqParams
+         * @param reqId id of the request
+         * @param bboExchange mapping identifier received from EWrapper.tickReqParams
          * @sa EWrapper::smartComponents
              */
         public void reqSmartComponents(int reqId, String bboExchange)
@@ -2624,10 +2641,10 @@ namespace IBApi
 
         /**
          * @brief Requests news article body given articleId.
-		 * @param requestId id of the request
-		 * @param providerCode short code indicating news provider, e.g. FLY
-		 * @param articleId id of the specific article
-		 * @param newsArticleOptions reserved for internal use. Should be defined as null.
+         * @param requestId id of the request
+         * @param providerCode short code indicating news provider, e.g. FLY
+         * @param articleId id of the specific article
+         * @param newsArticleOptions reserved for internal use. Should be defined as null.
          * @sa EWrapper::newsArticle, 
          */
         public void reqNewsArticle(int requestId, string providerCode, string articleId, List<TagValue> newsArticleOptions)
@@ -2663,7 +2680,7 @@ namespace IBApi
         * @param startDateTime - marks the (exclusive) start of the date range. The format is yyyy-MM-dd HH:mm:ss.0
         * @param endDateTime - marks the (inclusive) end of the date range. The format is yyyy-MM-dd HH:mm:ss.0
         * @param totalResults - the maximum number of headlines to fetch (1 - 300)
-		* @param historicalNewsOptions reserved for internal use. Should be defined as null.
+        * @param historicalNewsOptions reserved for internal use. Should be defined as null.
         * @sa EWrapper::historicalNews, EWrapper::historicalNewsEnd
         */
         public void reqHistoricalNews(int requestId, int conId, string providerCodes, string startDateTime, string endDateTime, int totalResults, List<TagValue> historicalNewsOptions)
@@ -2725,11 +2742,11 @@ namespace IBApi
             CloseAndSend(paramsList, lengthPos, EClientErrors.FAIL_SEND_REQHEADTIMESTAMP);
         }
 
-		/**
-		* @brief Cancels a pending reqHeadTimeStamp request\n
-		* @param tickerId Id of the request
-		*/
-		
+        /**
+        * @brief Cancels a pending reqHeadTimeStamp request\n
+        * @param tickerId Id of the request
+        */
+
         public void cancelHeadTimestamp(int tickerId)
         {
             if (!CheckConnection())
@@ -2747,7 +2764,7 @@ namespace IBApi
             CloseAndSend(paramsList, lengthPos, EClientErrors.FAIL_SEND_CANCELHEADTIMESTAMP);
         }
 
-			
+
         /**
         * @brief Returns data histogram of specified contract\n
         * @param tickerId - an identifier for the request\n
@@ -2803,8 +2820,8 @@ namespace IBApi
 
         /**
         * @brief Requests details about a given market rule\n
-		* The market rule for an instrument on a particular exchange provides details about how the minimum price increment changes with price\n
-		* A list of market rule ids can be obtained by invoking reqContractDetails on a particular contract. The returned market rule ID list will provide the market rule ID for the instrument in the correspond valid exchange list in contractDetails.\n
+        * The market rule for an instrument on a particular exchange provides details about how the minimum price increment changes with price\n
+        * A list of market rule ids can be obtained by invoking reqContractDetails on a particular contract. The returned market rule ID list will provide the market rule ID for the instrument in the correspond valid exchange list in contractDetails.\n
         * @param marketRuleId - the id of market rule\n
         * @sa EWrapper::marketRule
         */
@@ -2826,12 +2843,12 @@ namespace IBApi
             CloseAndSend(paramsList, lengthPos, EClientErrors.FAIL_SEND_REQMARKETRULE);
         }
 
-		/**
+        /**
         * @brief Creates subscription for real time daily PnL and unrealized PnL updates
         * @param account account for which to receive PnL updates
-		* @param modelCode specify to request PnL updates for a specific model
+        * @param modelCode specify to request PnL updates for a specific model
         */
-		
+
         public void reqPnL(int reqId, string account, string modelCode)
         {
             if (!CheckConnection())
@@ -2852,11 +2869,11 @@ namespace IBApi
             CloseAndSend(paramsList, lengthPos, EClientErrors.FAIL_SEND_REQPNL);
         }
 
-		/** 
-		* @brief cancels subscription for real time updated daily PnL
-		* params reqId
-		*/
-		
+        /** 
+        * @brief cancels subscription for real time updated daily PnL
+        * params reqId
+        */
+
         public void cancelPnL(int reqId)
         {
             if (!CheckConnection())
@@ -2875,15 +2892,15 @@ namespace IBApi
             CloseAndSend(paramsList, lengthPos, EClientErrors.FAIL_SEND_CANCELPNL);
         }
 
-		/**
-		* @brief Requests real time updates for daily PnL of individual positions
-		* @param reqId
-		* @param account account in which position exists
-		* @param modelCode model in which position exists
-		* @param conId contract ID (conId) of contract to receive daily PnL updates for.  
-		* Note: does not return message if invalid conId is entered
-		*/
-		
+        /**
+        * @brief Requests real time updates for daily PnL of individual positions
+        * @param reqId
+        * @param account account in which position exists
+        * @param modelCode model in which position exists
+        * @param conId contract ID (conId) of contract to receive daily PnL updates for.  
+        * Note: does not return message if invalid conId is entered
+        */
+
         public void reqPnLSingle(int reqId, string account, string modelCode, int conId)
         {
             if (!CheckConnection())
@@ -2905,11 +2922,11 @@ namespace IBApi
             CloseAndSend(paramsList, lengthPos, EClientErrors.FAIL_SEND_REQPNLSINGLE);
         }
 
-		/** 
-		* @brief Cancels real time subscription for a positions daily PnL information
-		* @param reqId
-		*/
-		
+        /** 
+        * @brief Cancels real time subscription for a positions daily PnL information
+        * @param reqId
+        */
+
         public void cancelPnLSingle(int reqId)
         {
             if (!CheckConnection())
@@ -2928,19 +2945,19 @@ namespace IBApi
             CloseAndSend(paramsList, lengthPos, EClientErrors.FAIL_SEND_REQPNLSINGLE);
         }
 
-		/**
-		* @brief Requests historical Time&Sales data for an instrument
-		* @param reqId id of the request
-		* @param contract Contract object that is subject of query
-		* @param startDateTime ,i.e. "20170701 12:01:00". Uses TWS timezone specified at login.
-		* @param endDateTime ,i.e. "20170701 13:01:00". In TWS timezone. Exactly one of start time and end time has to be defined.
-		* @param numberOfTicks Number of distinct data points. Max currently 1000 per request.
-		* @param whatToShow (Bid_Ask, Midpoint, Trades) Type of data requested. 
-		* @param useRth Data from regular trading hours (1), or all available hours (0)
-		* @param ignoreSize A filter only used when the source price is Bid_Ask
-		* @param miscOptions should be defined as <i>null</i>, reserved for internal use
-		*/
-		
+        /**
+        * @brief Requests historical Time&Sales data for an instrument
+        * @param reqId id of the request
+        * @param contract Contract object that is subject of query
+        * @param startDateTime ,i.e. "20170701 12:01:00". Uses TWS timezone specified at login.
+        * @param endDateTime ,i.e. "20170701 13:01:00". In TWS timezone. Exactly one of start time and end time has to be defined.
+        * @param numberOfTicks Number of distinct data points. Max currently 1000 per request.
+        * @param whatToShow (Bid_Ask, Midpoint, Trades) Type of data requested. 
+        * @param useRth Data from regular trading hours (1), or all available hours (0)
+        * @param ignoreSize A filter only used when the source price is Bid_Ask
+        * @param miscOptions should be defined as <i>null</i>, reserved for internal use
+        */
+
         public void reqHistoricalTicks(int reqId, Contract contract, string startDateTime,
             string endDateTime, int numberOfTicks, string whatToShow, int useRth, bool ignoreSize,
             List<TagValue> miscOptions)
@@ -3351,7 +3368,7 @@ namespace IBApi
                 return false;
             }
 
-            if (serverVersion < MinServerVer.DECISION_MAKER 
+            if (serverVersion < MinServerVer.DECISION_MAKER
                 && (!IsEmpty(order.Mifid2DecisionMaker)
                     || !IsEmpty(order.Mifid2DecisionAlgo)))
             {

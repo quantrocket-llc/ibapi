@@ -34,8 +34,8 @@ public class SmartComboRoutingParamsDlg extends JDialog {
     public SmartComboRoutingParamModel paramModel() { return m_paramModel; }
     public List<TagValue> smartComboRoutingParams() { return m_smartComboRoutingParams; }
 
-    SmartComboRoutingParamsDlg(String dlgTitle, List<TagValue> smartComboRoutingParams, JDialog owner) {
-        super( owner, dlgTitle, true);
+    public SmartComboRoutingParamsDlg(String dlgTitle, List<TagValue> smartComboRoutingParams, Window owner) {
+        super(owner, dlgTitle, ModalityType.APPLICATION_MODAL);
 
         setTitle( dlgTitle);
 
