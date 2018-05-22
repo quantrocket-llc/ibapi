@@ -16,7 +16,7 @@ var contracts =
       [ "Bonds", "basic_contracts.html#Bonds", null ],
       [ "Mutual Funds", "basic_contracts.html#funds", null ],
       [ "Commodities", "basic_contracts.html#Commodities", null ],
-      [ "Dutch Warrants", "basic_contracts.html#iopts", null ]
+      [ "Dutch Warrants and Structured Products", "basic_contracts.html#iopts", null ]
     ] ],
     [ "Spreads", "spread_contracts.html", [
       [ "Stock Spread", "spread_contracts.html#bag_stk", null ],
