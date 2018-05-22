@@ -48,7 +48,7 @@
 
 	With an exchange market data subscription, such as Network A (NYSE), Network B(ARCA), or Network C(NASDAQ) for US stocks, it is possible to request a snapshot of the current state of the market once instead of requesting a stream of updates continuously as market values change. By invoking the IBApi::EClient::reqMktData function 
 	passing in <b>true</b> for the snapshot parameter, the client application will receive the currently available market data once before a @ref IBApi::EWrapper::tickSnapshotEnd
-	event is sent 11 seconds later. Snapshot requests can only be made for the default tick types; no generic ticks can be specified. It is important to note that a snapshot request will only return available data over the 11 second span; in many cases values for all default ticks will not be returned. However snapshots are allowed a higher rate limit than the normal 50 messages per second limitation of other EClientSocket functions.
+	event is sent 11 seconds later. Snapshot requests can only be made for the default tick types; no generic ticks can be specified. It is important to note that a snapshot request will only return available data over the 11 second span; in some cases values may not be returned for all tick types. 
 	<h4>Snapshot request:</h4>
 	<ul id="tab">
 		<li class="active"> 

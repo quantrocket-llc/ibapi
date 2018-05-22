@@ -8,7 +8,7 @@
 	
 	\section bag_stk Stock Spread
 	
-	Beginning with TWS v971, Stock/Stock combos will have ticker symbols in alphabetical order when they are both used in the symbol field, e.g. "AMD,IBKR"
+	Beginning with TWS v971, Stock/Stock combos will have ticker symbols in alphabetical order when they are both used in the symbol field, e.g. "AMD,IBKR".
 	
 	<ul id="tab">
 		<li class="active">
