@@ -830,4 +830,8 @@ public class EWrapperMsgGenerator {
     public static String tickByTickMidPoint(int reqId, long time, double midPoint){
         return "MidPoint. Req Id: " + reqId + " Time: " + Util.UnixSecondsToString(time, "yyyyMMdd-HH:mm:ss zzz") + " MidPoint: " + midPoint;
     }
+    
+    public static String orderBound(long orderId, int apiClientId, int apiOrderId){
+        return "order bound: orderId=" + apiOrderId + " clientId=" + apiClientId + " permId=" + orderId;
+    }
 }

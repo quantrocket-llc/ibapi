@@ -783,5 +783,13 @@ namespace Samples
                 reqId, Util.UnixSecondsToString(time, "yyyyMMdd-HH:mm:ss zzz"), midPoint);
         }
         //! [tickbytickmidpoint]
+
+        //! [orderbound]
+        public void orderBound(long orderId, int apiClientId, int apiOrderId)
+        {
+            Console.WriteLine("Order bound. Order Id: {0}, Api Client Id: {1}, Api Order Id: {2}", orderId, apiClientId, apiOrderId);
+        }
+        //! [orderbound]
+
     }
 }

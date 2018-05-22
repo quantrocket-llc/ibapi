@@ -234,6 +234,7 @@ namespace IBSampleApp
             ibClient.tickByTickAllLast += UpdateUI;
             ibClient.tickByTickBidAsk += UpdateUI;
             ibClient.tickByTickMidPoint += UpdateUI;
+            ibClient.OrderBound += msg => addTextToBox("Order bound. OrderId: " + msg.OrderId + ", ApiClientId: " + msg.ApiClientId + ", ApiOrderId: " + msg.ApiOrderId);
         }
 
         private void UpdateUi(string xml)

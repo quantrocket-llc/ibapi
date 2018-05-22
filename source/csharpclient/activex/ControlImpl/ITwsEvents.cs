@@ -197,5 +197,7 @@ namespace TWSLib
         void tickByTickBidAsk(int reqId, string time, double bidPrice, double askPrice, int bidSize, int askSize, ITickAttrib attribs);
         [DispId(148)]
         void tickByTickMidPoint(int reqId, string time, double midPoint);
+        [DispId(149)]
+        void orderBound(string orderId, int apiClientId, int apiOrderId);
     }
 }

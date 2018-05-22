@@ -669,4 +669,11 @@ public class EWrapperImpl implements EWrapper {
         System.out.println(EWrapperMsgGenerator.tickByTickMidPoint(reqId, time, midPoint));
     }
     //! [tickbytickmidpoint]
+
+    //! [orderbound]
+    @Override
+    public void orderBound(long orderId, int apiClientId, int apiOrderId) {
+        System.out.println(EWrapperMsgGenerator.orderBound(orderId, apiClientId, apiOrderId));
+    }
+    //! [orderbound]
 }

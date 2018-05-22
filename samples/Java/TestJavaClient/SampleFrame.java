@@ -1750,4 +1750,11 @@ class SampleFrame extends JFrame implements EWrapper {
 
         m_tickers.add(msg);
     }
+
+	@Override
+	public void orderBound(long orderId, int apiClientId, int apiOrderId) {
+        String msg = EWrapperMsgGenerator.orderBound(orderId, apiClientId, apiOrderId);
+
+        m_TWS.add(msg);
+	}
 }

@@ -818,6 +818,16 @@ Friend Class ApiEventSource
                          End Sub)
     End Sub
 
+    Public Sub EWrapper_OrderBound(orderId As Long, apiClientId As Integer, apiOrderId As Integer) Implements EWrapper.orderBound
+        InvokeIfRequired(Sub()
+                             RaiseEvent OrderBound(Me, New OrderBoundEventArgs With {
+                                                            .orderId = orderId,
+                                                            .apiClientId = apiClientId,
+                                                            .apiOrderId = apiOrderId
+                                                            })
+                         End Sub)
+    End Sub
+
 #End Region
 
 #Region "Event declarations"
@@ -899,6 +909,7 @@ Friend Class ApiEventSource
     Event TickByTickAllLast(sender As Object, e As TickByTickAllLastEventArgs)
     Event TickByTickBidAsk(sender As Object, e As TickByTickBidAskEventArgs)
     Event TickByTickMidPoint(sender As Object, e As TickByTickMidPointEventArgs)
+    Event OrderBound(sender As Object, e As OrderBoundEventArgs)
 
 #End Region
 

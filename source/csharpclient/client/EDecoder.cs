@@ -378,12 +378,25 @@ namespace IBApi
                     TickByTickEvent();
                     break;
 
+                case IncomingMessage.OrderBound:
+                    OrderBoundEvent();
+                    break;
+
                 default:
                     eWrapper.error(IncomingMessage.NotValid, EClientErrors.UNKNOWN_ID.Code, EClientErrors.UNKNOWN_ID.Message);
                     return false;
             }
 
             return true;
+        }
+
+        private void OrderBoundEvent()
+        {
+            long orderId = ReadLong();
+            int apiClientId = ReadInt();
+            int apiOrderId = ReadInt();
+
+            eWrapper.orderBound(orderId, apiClientId, apiOrderId);
         }
 
         private void TickByTickEvent()

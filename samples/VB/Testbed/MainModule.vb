@@ -124,7 +124,7 @@ Module MainModule
         '*********************
         '** Order handling ***
         '*********************
-        'orderOperations(client, nextValidId)
+        orderOperations(client, nextValidId)
 
         '***********************************
         '** Financial Advisor Exclusive Operations ***
@@ -191,7 +191,7 @@ Module MainModule
         '**********************
         '** What-If samples ***
         '**********************
-        whatIfSamples(client, nextValidId)
+        'whatIfSamples(client, nextValidId)
 
         Thread.Sleep(15000)
         Console.WriteLine("Done")

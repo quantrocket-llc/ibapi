@@ -947,5 +947,16 @@ namespace IBSampleApp
             if (tmp != null)
                 sc.Post((t) => tmp(new TickByTickMidPointMessage(reqId, time, midPoint)), null);
         }
+
+        public event Action<OrderBoundMessage> OrderBound;
+
+        void EWrapper.orderBound(long orderId, int apiClientId, int apiOrderId)
+        {
+            var tmp = OrderBound;
+
+            if (tmp != null)
+                sc.Post((t) => tmp(new OrderBoundMessage(orderId, apiClientId, apiOrderId)), null);
+        }
+
     }
 }
