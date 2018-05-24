@@ -2112,7 +2112,7 @@ namespace IBApi
             if (!CheckConnection())
                 return;
 
-            if (!CheckServerVersion(MinServerVer.SCANNER_GENERIC_OPTS, " It does not support API scanner subscription generic filter options"))
+            if (scannerSubscriptionFilterOptions != null && !CheckServerVersion(MinServerVer.SCANNER_GENERIC_OPTS, " It does not support API scanner subscription generic filter options"))
             {
                 return;
             }
