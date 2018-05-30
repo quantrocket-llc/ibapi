@@ -282,5 +282,6 @@ namespace TwsRtdServer
         public void tickByTickAllLast(int reqId, int tickType, long time, double price, int size, TickAttrib attribs, string exchange, string specialConditions) { }
         public void tickByTickBidAsk(int reqId, long time, double bidPrice, double askPrice, int bidSize, int askSize, TickAttrib attribs) { }
         public void tickByTickMidPoint(int reqId, long time, double midPoint) { }
+        public void orderBound(long orderId, int apiClientId, int apiOrderId) { }
     }
 }

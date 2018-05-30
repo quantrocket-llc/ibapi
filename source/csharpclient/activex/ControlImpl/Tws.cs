@@ -2119,6 +2119,16 @@ namespace TWSLib
                 sc.Post(state => tmp(reqId, time.ToString("G"), midPoint), null);
         }
 
+        public delegate void OrderBoundDelegate(string orderId, int apiClientId, int apiOrderId);
+        public event OrderBoundDelegate orderBound;
+        void EWrapper.orderBound(long orderId, int apiClientId, int apiOrderId)
+        {
+            var tmp = this.orderBound;
+
+            if (tmp != null)
+                sc.Post(state => tmp(orderId.ToString(), apiClientId, apiOrderId), null);
+        }
+
         #endregion
 
         List<ComboLeg> comboLegs = new List<ComboLeg>();

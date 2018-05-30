@@ -115,7 +115,7 @@ namespace Samples
             /**********************/
             /*** Order handling ***/
             /**********************/
-            //orderOperations(client, nextValidId);
+            orderOperations(client, nextValidId);
 
             /************************************/
             /*** Financial Advisor Exclusive Operations ***/
@@ -186,7 +186,7 @@ namespace Samples
             /***********************/
             /*** What-If samples ***/
             /***********************/
-            whatIfSamples(client, nextValidId);
+            //whatIfSamples(client, nextValidId);
 
             Thread.Sleep(3000);
             Console.WriteLine("Done");
@@ -742,13 +742,13 @@ namespace Samples
             //client.placeOrder(nextOrderId++, ContractSamples.EuropeanStock(), OrderSamples.AttachAdjustableToTrailAmount(lmtParent, 34, 32, 33, 0.008));
             //TestAlgoSamples(client, nextOrderId);
             //Thread.Sleep(30000);
-		//! [cancelorder]
-		client.cancelOrder(nextOrderId-1);
-		//! [cancelorder]
+            //! [cancelorder]
+            client.cancelOrder(nextOrderId-1);
+            //! [cancelorder]
             /*** Cancel all orders for all accounts ***/
-		//! [reqglobalcancel]
-        client.reqGlobalCancel();
-		//! [reqglobalcancel]
+            //! [reqglobalcancel]
+            client.reqGlobalCancel();
+            //! [reqglobalcancel]
             /*** Request the day's executions ***/
             //! [reqexecutions]
             client.reqExecutions(10001, new ExecutionFilter());

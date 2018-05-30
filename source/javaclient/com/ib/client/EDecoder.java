@@ -94,6 +94,7 @@ class EDecoder implements ObjectInput {
     private static final int HISTORICAL_TICKS_BID_ASK = 97;
     private static final int HISTORICAL_TICKS_LAST = 98;
     private static final int TICK_BY_TICK = 99;
+    private static final int ORDER_BOUND = 100;
     
 
     static final int MAX_MSG_LENGTH = 0xffffff;
@@ -462,7 +463,11 @@ class EDecoder implements ObjectInput {
             case TICK_BY_TICK:
                 processTickByTickMsg();
                 break;
-                
+
+            case ORDER_BOUND:
+                processOrderBoundMsg();
+                break;
+
             default: {
                 m_EWrapper.error( EClientErrors.NO_VALID_ID, EClientErrors.UNKNOWN_ID.code(), EClientErrors.UNKNOWN_ID.msg());
                 return 0;
@@ -2129,6 +2134,13 @@ class EDecoder implements ObjectInput {
                 m_EWrapper.tickByTickMidPoint(reqId, time, midPoint);
                 break;
         }
+    }
+
+    private void processOrderBoundMsg() throws IOException {
+        long orderId = readLong();
+        int apiClientId = readInt();
+        int apiOrderId = readInt();
+        m_EWrapper.orderBound(orderId, apiClientId, apiOrderId);
     }
 
     private void readLastTradeDate(ContractDetails contract, boolean isBond) throws IOException {

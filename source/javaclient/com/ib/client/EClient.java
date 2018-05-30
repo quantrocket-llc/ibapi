@@ -280,9 +280,10 @@ public abstract class EClient {
     protected static final int MIN_SERVER_VER_AUTO_PRICE_FOR_HEDGE = 141;
     protected static final int MIN_SERVER_VER_WHAT_IF_EXT_FIELDS = 142;
     protected static final int MIN_SERVER_VER_SCANNER_GENERIC_OPTS = 143;
+    protected static final int MIN_SERVER_VER_API_BIND_ORDER = 144;
     
     public static final int MIN_VERSION = 100; // envelope encoding, applicable to useV100Plus mode only
-    public static final int MAX_VERSION = MIN_SERVER_VER_SCANNER_GENERIC_OPTS; // ditto
+    public static final int MAX_VERSION = MIN_SERVER_VER_API_BIND_ORDER; // ditto
 
     protected EReaderSignal m_signal;
     protected EWrapper m_eWrapper;    // msg handler

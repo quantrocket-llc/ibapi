@@ -428,4 +428,9 @@ public class Test implements EWrapper {
     public void tickByTickMidPoint(int reqId, long time, double midPoint) {
         System.out.println(EWrapperMsgGenerator.tickByTickMidPoint(reqId, time, midPoint));
     }
+
+    @Override
+    public void orderBound(long orderId, int apiClientId, int apiOrderId) {
+        System.out.println(EWrapperMsgGenerator.orderBound(orderId, apiClientId, apiOrderId));
+    }
 }

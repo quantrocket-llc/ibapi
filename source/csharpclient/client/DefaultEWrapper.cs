@@ -352,5 +352,9 @@ namespace IBApi
         public void tickByTickMidPoint(int reqId, long time, double midPoint)
         {
         }
+
+        public void orderBound(long orderId, int apiClientId, int apiOrderId)
+        {
+        }
     }
 }

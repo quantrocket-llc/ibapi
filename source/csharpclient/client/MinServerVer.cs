@@ -102,5 +102,6 @@ namespace IBApi
         public const int AUTO_PRICE_FOR_HEDGE = 141;
         public const int WHAT_IF_EXT_FIELDS = 142;
         public const int SCANNER_GENERIC_OPTS = 143;
+        public const int API_BIND_ORDER = 144;
     }
 }

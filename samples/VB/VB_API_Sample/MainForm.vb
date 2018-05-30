@@ -1981,6 +1981,10 @@ Friend Class MainForm
 
 #Region "API event handlers"
 
+    Private Sub m_apiEvents_OrderBound(sender As Object, e As OrderBoundEventArgs) Handles m_apiEvents.OrderBound
+        m_utils.addListItem(Utils.ListType.ServerResponses, String.Format("Order bound. Order Id: {0}, Api Client Id: {1}, Api Order Id: {2}", e.orderId, e.apiClientId, e.apiOrderId))
+    End Sub
+
     Private Sub m_apiEvents_TickByTickAllLast(sender As Object, e As TickByTickAllLastEventArgs) Handles m_apiEvents.TickByTickAllLast
         Dim tickTypeStr As String
 

@@ -523,4 +523,9 @@ public class DefaultEWrapper implements EWrapper {
     public void tickByTickMidPoint(int reqId, long time, double midPoint) {
         // TODO Auto-generated method stub
     }
+
+    @Override
+    public void orderBound(long orderId, int apiClientId, int apiOrderId) {
+        // TODO Auto-generated method stub
+    }
 }

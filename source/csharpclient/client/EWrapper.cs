@@ -901,5 +901,14 @@ namespace IBApi
         * @sa EClient::reqTickByTickData
         */
         void tickByTickMidPoint(int reqId, long time, double midPoint);
+
+        /**
+        * @brief response to API bind order control message
+        * @param orderId - FIX order id
+        * @param apiClientId - API client id
+        * @param apiOrderId - API order id
+        * @sa EClient::reqOpenOrders
+        */
+        void orderBound(long orderId, int apiClientId, int apiOrderId);
     }
 }

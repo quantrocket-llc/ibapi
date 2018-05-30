@@ -1895,5 +1895,9 @@ public class ApiController implements EWrapper {
 
         recEOM();
     }
-    
+
+    @Override
+    public void orderBound(long orderId, int apiClientId, int apiOrderId) {
+        show( "Order bound. OrderId: " + orderId + ", apiClientId: " + apiClientId + ", apiOrderId: " + apiOrderId);
+    }
 }

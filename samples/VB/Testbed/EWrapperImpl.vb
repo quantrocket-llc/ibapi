@@ -717,6 +717,12 @@ Namespace Samples
         End Sub
         '! [tickbytickmidpoint]
 
+        '! [orderbound]
+        Public Sub orderBound(orderId As Long, apiClientId As Integer, apiOrderId As Integer) Implements EWrapper.orderBound
+            Console.WriteLine("Order bound. Order Id: {0}, Api Client Id: {1}, Api Order Id: {2}", orderId, apiClientId, apiOrderId)
+        End Sub
+        '! [orderbound]
+
     End Class
 
 End Namespace
