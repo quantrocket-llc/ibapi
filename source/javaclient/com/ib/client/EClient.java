@@ -479,7 +479,7 @@ public abstract class EClient {
           return;
         }
         
-        if (m_serverVersion < MIN_SERVER_VER_SCANNER_GENERIC_OPTS) {
+        if (m_serverVersion < MIN_SERVER_VER_SCANNER_GENERIC_OPTS && scannerSubscriptionFilterOptions != null) {
             error(EClientErrors.NO_VALID_ID, EClientErrors.UPDATE_TWS, 
                     " It does not support API scanner subscription generic filter options");
             
