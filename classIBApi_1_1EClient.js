@@ -80,7 +80,7 @@ var classIBApi_1_1EClient =
     [ "reqPositionsMulti", "classIBApi_1_1EClient.html#a4fa2744c3459f9f6cf695980267608c3", null ],
     [ "reqRealTimeBars", "classIBApi_1_1EClient.html#a644a8d918f3108a3817e8672b9782e67", null ],
     [ "reqScannerParameters", "classIBApi_1_1EClient.html#a5839736a34d827f8db87f536a73ae970", null ],
-    [ "reqScannerSubscription", "classIBApi_1_1EClient.html#a13dd1287f67c6873b3e8b85d6c19f885", null ],
+    [ "reqScannerSubscription", "classIBApi_1_1EClient.html#acad52cf030d62faa55656f27039dcb49", null ],
     [ "reqSecDefOptParams", "classIBApi_1_1EClient.html#adb17b291044d2f8dcca5169b2c6fd690", null ],
     [ "reqSmartComponents", "classIBApi_1_1EClient.html#a3c656183f9a8d46349167cf2ebe9dfa2", null ],
     [ "reqSoftDollarTiers", "classIBApi_1_1EClient.html#a3a187b45bb69f801b1c67bdf3fb66a88", null ],

@@ -1,6 +1,5 @@
 var NAVTREEINDEX1 =
 {
-"classIBApi_1_1EClient.html#a7d9ed965cf5738965bcfb482aad494c3":[22,0,0,0,32],
 "classIBApi_1_1EClient.html#a7f2915171d0c150723e297be291beabb":[22,0,0,0,65],
 "classIBApi_1_1EClient.html#a7f7a3199c392465d0767c6506c1af5b4":[22,0,0,0,27],
 "classIBApi_1_1EClient.html#a7ff2dbde6ec82a3d6dc5036168ddd38a":[22,0,0,0,41],
@@ -37,6 +36,7 @@ var NAVTREEINDEX1 =
 "classIBApi_1_1EClient.html#ac48f75cf63bc2208cdee548ebcea8cf4":[22,0,0,0,30],
 "classIBApi_1_1EClient.html#ac70715859101096c48d83e7177859622":[22,0,0,0,26],
 "classIBApi_1_1EClient.html#ac922fe1a0578c66415c44a3e464dce1b":[22,0,0,0,96],
+"classIBApi_1_1EClient.html#acad52cf030d62faa55656f27039dcb49":[22,0,0,0,80],
 "classIBApi_1_1EClient.html#acc9a6d7c7f6db257ec75b61d8e906bb6":[22,0,0,0,40],
 "classIBApi_1_1EClient.html#accd383725ef440070775654a9ab4bf47":[22,0,0,0,16],
 "classIBApi_1_1EClient.html#acd1ccc4382e3e51fa07091426422d61b":[22,0,0,0,7],

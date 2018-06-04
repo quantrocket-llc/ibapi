@@ -468,7 +468,7 @@ Futures</h1>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;        contract.multiplier = <span class="stringliteral">&quot;5&quot;</span></div>
 </div><!-- fragment -->  </li>
 </ul>
-<p>A project is under development to allow for <b>continuous futures</b> from the API to receive historical data, real time bars, or contract details (requires TWS v966+). Continuous futures cannot be used with real time data or to place orders. To request historical data with continuous futures it is recommended to use TWS Build 971 or higher.</p>
+<p>Continuous futures are available from the API with <b>TWS v971</b> and higher. Continuous futures cannot be used with real time data or to place orders, but only for historical data.</p>
 <ul id="tab">
 <li class="active">
 <div class="fragment"><div class="line">            Contract contract = <span class="keyword">new</span> Contract();</div>
@@ -702,7 +702,9 @@ Options</h1>
 </ul>
 <h1><a class="anchor" id="fop"></a>
 Futures Options</h1>
-<p>Futures options follow the same rules as conventional option contracts:</p>
+<p><b>Important: In TWS versions prior to 972</b>, if defining a futures option that has a price magnifier using the strike price, the strike will be the strike price displayed in TWS divided by the price magnifier. (e.g. displayed in dollars not cents for ZW)<br/>
+ In <b>TWS versions 972 and greater</b>, the strike prices will be shown in TWS and the API the same way (without a price magnifier applied) <br/>
+ For some futures options (e.g GE) it will be necessary to define a trading class, or use the local symbol, or conId.</p>
 <ul id="tab">
 <li class="active">
 <div class="fragment"><div class="line">            Contract contract = <span class="keyword">new</span> Contract();</div>
@@ -835,7 +837,7 @@ Bonds</h1>
 </ul>
 <h1><a class="anchor" id="funds"></a>
 Mutual Funds</h1>
-<p>Mutual Fund orders are <b>not</b> currently supported from the API. Note: Mutual Funds cannot be traded in paper accounts, in TWS or the API.</p>
+<p>Trading Mutual Funds is <b>not</b> currently fully-supported from the API. Note: Mutual Funds orders cannot be placed in paper accounts from any trading system.</p>
 <ul id="tab">
 <li class="active">
 <div class="fragment"><div class="line">            Contract contract = <span class="keyword">new</span> Contract();</div>
@@ -913,8 +915,12 @@ Commodities</h1>
 </div><!-- fragment -->  </li>
 </ul>
 <h1><a class="anchor" id="iopts"></a>
-Dutch Warrants</h1>
-<p>Dutch Warrants (IOPTs) can be defined with the local symbol or contract ID (conid), but not the ISIN.</p>
+Dutch Warrants and Structured Products</h1>
+<p>To unambiguously define a Dutch Warrant or Structured Product (IOPTs) the conId or localSymbol field must be used.</p>
+<ul>
+<li>It is important to note that if reqContractDetails is used with an incompletely-defined IOPT contract definition, that thousands of results can be returned and the API connection broken.</li>
+<li>IOPT contract definitions will often change and it will be necessary to restart TWS or IB Gateway to download the new contract definition.</li>
+</ul>
 <ul id="tab">
 <li class="active">
 <div class="fragment"><div class="line">            Contract contract = <span class="keyword">new</span> Contract();</div>
