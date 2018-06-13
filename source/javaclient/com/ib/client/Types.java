@@ -212,7 +212,8 @@ public class Types {
 		ReportRatios("Financial ratios"),
 		ReportsFinStatements("Financial statements"),
 		RESC("Analyst estimates"),
-		CalendarReport("Company calendar");
+		CalendarReport("Company calendar"), 
+		ReportsOwnership("Company ownership");
 
 		private final String description;
 
