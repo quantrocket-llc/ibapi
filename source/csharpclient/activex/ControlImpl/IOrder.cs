@@ -309,5 +309,8 @@ namespace TWSLib
 
         [DispId(173)]
         bool dontUseAutoPriceForHedge { get; set; }
+
+        [DispId(174)]
+        bool isOmsContainer { get; set; }
     }
 }

@@ -649,7 +649,12 @@ namespace IBApi
 
 
             paramsList.AddParameter(OutgoingMessages.PlaceOrder);
-            paramsList.AddParameter(MsgVersion);
+            
+            if (serverVersion < MinServerVer.ORDER_CONTAINER)
+            {
+                paramsList.AddParameter(MsgVersion);
+            }
+
             paramsList.AddParameter(id);
 
             if (serverVersion >= MinServerVer.PLACE_ORDER_CONID)
@@ -1133,6 +1138,11 @@ namespace IBApi
             if (serverVersion >= MinServerVer.AUTO_PRICE_FOR_HEDGE)
             {
                 paramsList.AddParameter(order.DontUseAutoPriceForHedge);
+            }
+
+            if (serverVersion >= MinServerVer.ORDER_CONTAINER)
+            {
+                paramsList.AddParameter(order.IsOmsContainer);
             }
 
             CloseAndSend(id, paramsList, lengthPos, EClientErrors.FAIL_SEND_ORDER);
@@ -3386,6 +3396,11 @@ namespace IBApi
                 && order.DontUseAutoPriceForHedge)
             {
                 ReportError(id, EClientErrors.UPDATE_TWS, " It does not support don't use auto price for hedge parameter");
+            }
+
+            if (serverVersion < MinServerVer.ORDER_CONTAINER && order.IsOmsContainer)
+            {
+                ReportError(id, EClientErrors.UPDATE_TWS, " It does not support oms container parameter.");
             }
 
             return true;

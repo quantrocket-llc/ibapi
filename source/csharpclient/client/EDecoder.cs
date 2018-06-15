@@ -1351,7 +1351,7 @@ namespace IBApi
 
         private void OpenOrderEvent()
         {
-            int msgVersion = ReadInt();
+            int msgVersion = serverVersion < MinServerVer.ORDER_CONTAINER ? ReadInt() : serverVersion;
             // read order id
             Order order = new Order();
             order.OrderId = ReadInt();
@@ -1783,6 +1783,11 @@ namespace IBApi
             if (serverVersion >= MinServerVer.AUTO_PRICE_FOR_HEDGE)
             {
                 order.DontUseAutoPriceForHedge = ReadBoolFromInt();
+            }
+
+            if (serverVersion >= MinServerVer.ORDER_CONTAINER)
+            {
+                order.IsOmsContainer = ReadBoolFromInt();
             }
 
             eWrapper.openOrder(order.OrderId, contract, order, orderState);

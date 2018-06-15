@@ -405,44 +405,46 @@ class TicketDlg extends JDialog {
 		final JCheckBox m_eTradeOnly = new JCheckBox();
 		final JCheckBox m_firmQuoteOnly = new JCheckBox();
 		final JCheckBox m_optOutSmartRouting = new JCheckBox();
-		final JCheckBox m_dontUseAutoPriceForHedge = new JCheckBox();
+        final JCheckBox m_dontUseAutoPriceForHedge = new JCheckBox();
+        final JCheckBox m_omsContainer = new JCheckBox();
 		
 		
 
 		MiscTicketPanel() {
 			VerticalPanel top = new VerticalPanel();
-			top.add( "Order ref", m_orderRef);
-			top.add( "Min Qty", m_minQty);
-			top.add( "Good after", m_goodAfter);
-			top.add( "Good until", m_goodTil);
-			top.add( "Rule 80A", m_rule80A);
-			top.add( "Trigger method", m_trigger);
-			top.add( "Percent Offset", m_percentOffset);
-			top.add( "Trail order stop price", m_trailingStopPrice);
-			top.add( "Trailing percent", m_trailingPercent);
+			top.add("Order ref", m_orderRef);
+			top.add("Min Qty", m_minQty);
+			top.add("Good after", m_goodAfter);
+			top.add("Good until", m_goodTil);
+			top.add("Rule 80A", m_rule80A);
+			top.add("Trigger method", m_trigger);
+			top.add("Percent Offset", m_percentOffset);
+			top.add("Trail order stop price", m_trailingStopPrice);
+			top.add("Trailing percent", m_trailingPercent);
 			top.add("Discretionary amount", m_discretionaryAmt);
 			top.add("NBBO price cap", m_nbboPriceCap);
-			top.add( "Algo Id", m_algoId);
-			top.add( "OCA group and type", m_ocaGroup, m_ocaType);
-			top.add( "Hedge type and param" , m_hedgeType, m_hedgeParam);
+			top.add("Algo Id", m_algoId);
+			top.add("OCA group and type", m_ocaGroup, m_ocaType);
+			top.add("Hedge type and param" , m_hedgeType, m_hedgeParam);
 			top.add("Ext operator", m_extOperator);
 			top.add("Soft dollar tier", m_softDollarTiers);
 			
 			VerticalPanel left = new VerticalPanel();
-			left.add( "Not held", m_notHeld);
-			left.add( "Block order", m_blockOrder);
-			left.add( "Sweep-to-fill", m_sweepToFill);
-			left.add( "Hidden", m_hidden);
-			left.add( "Fill outside RTH", m_outsideRth);
-			left.add( "All-or-none", m_allOrNone);
+			left.add("Not held", m_notHeld);
+			left.add("Block order", m_blockOrder);
+			left.add("Sweep-to-fill", m_sweepToFill);
+			left.add("Hidden", m_hidden);
+			left.add("Fill outside RTH", m_outsideRth);
+			left.add("All-or-none", m_allOrNone);
 
 			VerticalPanel right = new VerticalPanel();
-			right.add( "Override constraints", m_overrideConstraints);
-			right.add( "E-trade only", m_eTradeOnly);
-			right.add( "Firm quote only", m_firmQuoteOnly);
-			right.add( "Opt out SMART routing", m_optOutSmartRouting);
-			right.add( "Don't use auto price for hedge", m_dontUseAutoPriceForHedge);
-			right.add( "Transmit", m_transmit);
+			right.add("Override constraints", m_overrideConstraints);
+			right.add("E-trade only", m_eTradeOnly);
+			right.add("Firm quote only", m_firmQuoteOnly);
+			right.add("Opt out SMART routing", m_optOutSmartRouting);
+			right.add("Don't use auto price for hedge", m_dontUseAutoPriceForHedge);
+			right.add("Transmit", m_transmit);
+            right.add("OMS Container", m_omsContainer);
 			
 			HorzPanel checks = new HorzPanel();
 			checks.add( left);
@@ -484,6 +486,7 @@ class TicketDlg extends JDialog {
 			m_extOperator.setText(m_order.extOperator());
 			m_softDollarTiers.removeAllItems();
 			m_dontUseAutoPriceForHedge.setSelected( m_order.dontUseAutoPriceForHedge());
+			m_omsContainer.setSelected(m_order.isOmsContainer());
 			
 			ApiDemo.INSTANCE.controller().reqSoftDollarTiers(tiers -> {
                 m_softDollarTiers.invalidate();
@@ -527,6 +530,7 @@ class TicketDlg extends JDialog {
 			m_order.extOperator(m_extOperator .getText());
 			m_order.softDollarTier(m_softDollarTiers.getSelectedItem());
 			m_order.dontUseAutoPriceForHedge( m_dontUseAutoPriceForHedge.isSelected() );
+			m_order.isOmsContainer(m_omsContainer.isSelected());
 		}
 	}
 	

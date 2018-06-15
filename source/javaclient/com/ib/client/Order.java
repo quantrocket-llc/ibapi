@@ -204,6 +204,8 @@ public class Order {
     
     // don't use auto price for hedge
     private boolean m_dontUseAutoPriceForHedge;
+    
+    private boolean m_isOmsContainer;
 	
 	// getters
     public Action  action()                         { return Action.get(m_action); }
@@ -336,6 +338,7 @@ public class Order {
     public String mifid2ExecutionTrader()           { return m_mifid2ExecutionTrader; }
     public String mifid2ExecutionAlgo()             { return m_mifid2ExecutionAlgo; }
     public boolean dontUseAutoPriceForHedge()       { return m_dontUseAutoPriceForHedge; }
+    public boolean isOmsContainer()                 { return m_isOmsContainer; }
   
 	// setters
 	public void referenceContractId(int m_referenceContractId)          { this.m_referenceContractId = m_referenceContractId; }
@@ -469,6 +472,7 @@ public class Order {
     public void mifid2ExecutionTrader(String v)                         { m_mifid2ExecutionTrader = v; }
     public void mifid2ExecutionAlgo(String v)                           { m_mifid2ExecutionAlgo = v; }
     public void dontUseAutoPriceForHedge(boolean v)                     { m_dontUseAutoPriceForHedge = v; }
+    public void isOmsContainer(boolean v)                               { m_isOmsContainer = v; }
 
 
     public Order() {
@@ -504,6 +508,7 @@ public class Order {
         m_extOperator = EMPTY_STR;
         m_softDollarTier = new SoftDollarTier(EMPTY_STR, EMPTY_STR, EMPTY_STR);
         m_dontUseAutoPriceForHedge = false;
+        m_isOmsContainer = false;
     }
 
     public List<TagValue> algoParams() {
@@ -598,7 +603,8 @@ public class Order {
         	|| m_lmtPriceOffset != l_theOther.m_lmtPriceOffset
         	|| !m_softDollarTier.equals(l_theOther.m_softDollarTier)
         	|| m_cashQty != l_theOther.m_cashQty
-        	|| m_dontUseAutoPriceForHedge != l_theOther.m_dontUseAutoPriceForHedge) {
+        	|| m_dontUseAutoPriceForHedge != l_theOther.m_dontUseAutoPriceForHedge
+        	|| m_isOmsContainer != l_theOther.m_isOmsContainer) {
         	return false;
         }
 

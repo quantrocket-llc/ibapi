@@ -281,9 +281,10 @@ public abstract class EClient {
     protected static final int MIN_SERVER_VER_WHAT_IF_EXT_FIELDS = 142;
     protected static final int MIN_SERVER_VER_SCANNER_GENERIC_OPTS = 143;
     protected static final int MIN_SERVER_VER_API_BIND_ORDER = 144;
+    protected static final int MIN_SERVER_VER_ORDER_CONTAINER = 145;
     
     public static final int MIN_VERSION = 100; // envelope encoding, applicable to useV100Plus mode only
-    public static final int MAX_VERSION = MIN_SERVER_VER_API_BIND_ORDER; // ditto
+    public static final int MAX_VERSION = MIN_SERVER_VER_ORDER_CONTAINER; // ditto
 
     protected EReaderSignal m_signal;
     protected EWrapper m_eWrapper;    // msg handler
@@ -1535,6 +1536,13 @@ public abstract class EClient {
                 "  It does not support don't use auto price for hedge parameter.");
             return;
         }
+        
+        if (m_serverVersion < MIN_SERVER_VER_ORDER_CONTAINER
+                && order.isOmsContainer()) {
+            error(id, EClientErrors.UPDATE_TWS,
+                    "  It does not support oms container parameter.");
+            return;           
+        }
 
 
         int VERSION = (m_serverVersion < MIN_SERVER_VER_NOT_HELD) ? 27 : 45;
@@ -1544,7 +1552,11 @@ public abstract class EClient {
             final Builder b = prepareBuffer(); 
 
             b.send( PLACE_ORDER);
-            b.send( VERSION);
+            
+            if (m_serverVersion < MIN_SERVER_VER_ORDER_CONTAINER) {
+                b.send( VERSION);
+            }
+            
             b.send( id);
 
             // send contract fields
@@ -1943,6 +1955,10 @@ public abstract class EClient {
            
            if (m_serverVersion >= MIN_SERVER_VER_AUTO_PRICE_FOR_HEDGE) {
                b.send(order.dontUseAutoPriceForHedge());
+           }
+           
+           if (m_serverVersion >= MIN_SERVER_VER_ORDER_CONTAINER) {
+               b.send(order.isOmsContainer());
            }
 
            closeAndSend(b);
