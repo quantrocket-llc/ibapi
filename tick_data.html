@@ -121,10 +121,11 @@ $(document).ready(function(){initNavTree('tick_data.html','');});
 <div class="title">Tick-by-Tick Data </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>Tick-by-tick data corresponding to the data shown in the TWS Time &amp; Sales Window is available starting with TWS v969 and API v973.04. Up to 5 instruments can receive tick-by-tick data at a time.</p>
+<div class="textblock"><p>Tick-by-tick data corresponding to the data shown in the TWS Time &amp; Sales Window is available starting with TWS v969 and API v973.04. The maximum number of simultaneous tick-by-tick subscriptions allowed for a user is determined by the same formula used to calculate maximum number of market depth subscriptions <a class="el" href="market_depth.html#limitations">Limitations</a>.</p>
 <ul>
 <li>The tick type field is case sensitive - it must be BidAsk, Last, AllLast, MidPoint. AllLast has additional trade types such as combos, derivatives, and average price trades which are not included in Last.</li>
 <li>Tick-by-tick data for options is currently only available historically and not in real time.</li>
+<li>Tick-by-tick data for indices is only provided for indices on CME.</li>
 <li>Tick-by-tick data is not available for combos.</li>
 </ul>
 <ul id="tab">

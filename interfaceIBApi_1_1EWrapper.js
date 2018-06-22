@@ -41,6 +41,7 @@ var interfaceIBApi_1_1EWrapper =
     [ "nextValidId", "interfaceIBApi_1_1EWrapper.html#a09c07727efd297e438690ab42838d332", null ],
     [ "openOrder", "interfaceIBApi_1_1EWrapper.html#aa05258f1d005accd3efc0d60bc151407", null ],
     [ "openOrderEnd", "interfaceIBApi_1_1EWrapper.html#ab86caf7ed61e14d9b5609e8dd60b93e1", null ],
+    [ "orderBound", "interfaceIBApi_1_1EWrapper.html#a1f900736d47e30361e0c32e11eff1056", null ],
     [ "orderStatus", "interfaceIBApi_1_1EWrapper.html#a17f2a02d6449710b6394d0266a353313", null ],
     [ "pnl", "interfaceIBApi_1_1EWrapper.html#ad19e3db5eaded96b4ed7aefe886d9d59", null ],
     [ "pnlSingle", "interfaceIBApi_1_1EWrapper.html#aebeb008f2b763d7bed2969b66bbd1b33", null ],

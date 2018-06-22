@@ -1,5 +1,7 @@
 var NAVTREEINDEX4 =
 {
+"reuters_fundamentals.html#report_type":[15,0],
+"rtd_complex_syntax.html":[4,3,8],
 "rtd_complex_syntax.html#rtd_complex_additional":[4,3,8,1],
 "rtd_complex_syntax.html#rtd_complex_syntax_strings":[4,3,8,0],
 "rtd_examples.html":[4,3,10],

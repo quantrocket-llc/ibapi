@@ -141,6 +141,7 @@ $(document).ready(function(){initNavTree('reuters_fundamentals.html','');});
 </div><!-- fragment -->  </li>
 </ul>
 <p>Note how a string attribute specifies the requested report type. In the example above the request was made for the financial summary. See <a class="el" href="reuters_fundamentals.html#report_type">Report Types</a> at the bottom of this page for the rest report types available.</p>
+<p>There is a limitation of 60 reqFundamentalData requests that can be made in a 10 minute period.</p>
 <p>Results are delivered via <a class="el" href="interfaceIBApi_1_1EWrapper.html#af209070fa9583fb4780be0f3ff1e61e4">IBApi.EWrapper.fundamentalData</a> in form of an XML report:</p>
 <ul id="tab">
 <li class="active">

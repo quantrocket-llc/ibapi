@@ -13,7 +13,8 @@ var order_management =
       [ "API client's orders", "open_orders.html#connected_client_orders", null ],
       [ "All submitted orders", "open_orders.html#all_api_orders", null ],
       [ "Manually submitted orders", "open_orders.html#manually_submitted", null ],
-      [ "Receiving Order Information", "open_orders.html#receiving_orders", null ]
+      [ "Receiving Order Information", "open_orders.html#receiving_orders", null ],
+      [ "Order Binding Notification", "open_orders.html#binding", null ]
     ] ],
     [ "Executions and Commissions", "executions_commissions.html", [
       [ "Requesting Executions", "executions_commissions.html#execution_request", null ]

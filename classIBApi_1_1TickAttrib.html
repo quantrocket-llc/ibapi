@@ -132,24 +132,27 @@ $(document).ready(function(){initNavTree('classIBApi_1_1TickAttrib.html','');});
 Properties</h2></td></tr>
 <tr class="memitem:a87a410c75776ce0d7b2bb13a180153e7"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a87a410c75776ce0d7b2bb13a180153e7"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIBApi_1_1TickAttrib.html#a87a410c75776ce0d7b2bb13a180153e7">CanAutoExecute</a><code> [get, set]</code></td></tr>
-<tr class="memdesc:a87a410c75776ce0d7b2bb13a180153e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Specifies whether the price tick is available for automatic execution (1) or not (0) <br/></td></tr>
+<tr class="memdesc:a87a410c75776ce0d7b2bb13a180153e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Used with tickPrice callback from reqMktData. Specifies whether the price tick is available for automatic execution (1) or not (0). <br/></td></tr>
 <tr class="separator:a87a410c75776ce0d7b2bb13a180153e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a60b2ae486164d13e938f3f96f78a17f3"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a60b2ae486164d13e938f3f96f78a17f3"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIBApi_1_1TickAttrib.html#a60b2ae486164d13e938f3f96f78a17f3">PastLimit</a><code> [get, set]</code></td></tr>
-<tr class="memdesc:a60b2ae486164d13e938f3f96f78a17f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Indicates whether the bid price is lower than the day's lowest value or the ask price is higher than the highest ask. <br/></td></tr>
+<tr class="memdesc:a60b2ae486164d13e938f3f96f78a17f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Used with tickPrice to indicate if the bid price is lower than the day's lowest value or the ask price is higher than the highest ask. <br/></td></tr>
 <tr class="separator:a60b2ae486164d13e938f3f96f78a17f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a54e549ff4a7e32183173752574cf72cf"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a54e549ff4a7e32183173752574cf72cf"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIBApi_1_1TickAttrib.html#a54e549ff4a7e32183173752574cf72cf">PreOpen</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:a54e549ff4a7e32183173752574cf72cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Indicates whether the bid/ask price tick is from pre-open session. <br/></td></tr>
 <tr class="separator:a54e549ff4a7e32183173752574cf72cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8f84036c308a6b8042f675605cd2f11b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8f84036c308a6b8042f675605cd2f11b"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>Unreported</b><code> [get, set]</code></td></tr>
+bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIBApi_1_1TickAttrib.html#a8f84036c308a6b8042f675605cd2f11b">Unreported</a><code> [get, set]</code></td></tr>
+<tr class="memdesc:a8f84036c308a6b8042f675605cd2f11b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Used with tick-by-tick data to indicate if a trade is classified as 'unreportable' (odd lots, combos, derivative trades, etc) <br/></td></tr>
 <tr class="separator:a8f84036c308a6b8042f675605cd2f11b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad5969d29e5c1d20c290ddbefeff78d6d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad5969d29e5c1d20c290ddbefeff78d6d"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>BidPastLow</b><code> [get, set]</code></td></tr>
+bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIBApi_1_1TickAttrib.html#ad5969d29e5c1d20c290ddbefeff78d6d">BidPastLow</a><code> [get, set]</code></td></tr>
+<tr class="memdesc:ad5969d29e5c1d20c290ddbefeff78d6d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Used with real time tick-by-tick. Indicates if bid is lower than day's lowest low. <br/></td></tr>
 <tr class="separator:ad5969d29e5c1d20c290ddbefeff78d6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac3759d4238479460b1e35ebe8c3d80b3"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac3759d4238479460b1e35ebe8c3d80b3"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>AskPastHigh</b><code> [get, set]</code></td></tr>
+bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIBApi_1_1TickAttrib.html#ac3759d4238479460b1e35ebe8c3d80b3">AskPastHigh</a><code> [get, set]</code></td></tr>
+<tr class="memdesc:ac3759d4238479460b1e35ebe8c3d80b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Used with real time tick-by-tick. Indicates if ask is higher than day's highest ask. <br/></td></tr>
 <tr class="separator:ac3759d4238479460b1e35ebe8c3d80b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>

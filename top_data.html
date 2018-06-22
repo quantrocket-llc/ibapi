@@ -123,7 +123,7 @@ $(document).ready(function(){initNavTree('top_data.html','');});
 <div class="contents">
 <div class="textblock"><p>Using the TWS API, you can request real time market data for trading and analysis. From the API, market data returned from the function <a class="el" href="classIBApi_1_1EClient.html#a7a19258a3a2087c07c1c57b93f659b63">IBApi.EClient.reqMktData</a> corresponds to market data displayed in TWS watchlists. This data is not tick-by-tick but consists of aggregated snapshots taken at intra-second intervals which differ depending on the type of instrument:</p>
 <ul>
-<li><p class="startli">Important to note: Live market data and historical bars are currently not available from the API for the exchanges <b>OSE</b> and <b>SEHKTL</b>. Only 15 minute delayed streaming data will be available for these exchanges.</p>
+<li><p class="startli">Important to note: Live market data and historical bars are currently not available from the API for the exchange <b>OSE</b>. Only 15 minute delayed streaming data will be available for this exchange.</p>
 <table class="doxtable">
 <tr>
 <th>Product</th><th>Frequency </th></tr>
@@ -141,7 +141,7 @@ $(document).ready(function(){initNavTree('top_data.html','');});
 <p class="startli"><a class="el" href="market_data_type.html">Market Data Types</a></p>
 </li>
 </ul>
-<p>Beginning in TWS v969 and API v973.04, tick-by-tick data. In TWS, tick-by-tick data is available in the Time &amp; Sales Window. From the API, this corresponds to the function IBApi::EClient::reqTickByTick. Tick-by-tick data can be streamed for up to 5 instruments simultaneously in TWS and the API.</p>
+<p>Beginning in TWS <b>v969</b> and API <b>v973.04</b>, tick-by-tick data. In TWS, tick-by-tick data is available in the Time &amp; Sales Window. From the API, this corresponds to the function <a class="el" href="classIBApi_1_1EClient.html#a3ab310450f1261accd706f69766b2263">IBApi.EClient.reqTickByTickData</a>. The maximum number of simultaneous tick-by-tick subscriptions allowed for a user is determined by the same formula used to calculate maximum number of market depth subscriptions <a class="el" href="market_depth.html#limitations">Limitations</a>.</p>
 <ul>
 <li><p class="startli">Real time tick-by-tick data is currently not available for options. Historical tick-by-tick data is available.</p>
 <p class="startli"><a class="el" href="tick_data.html">Tick-by-Tick Data</a></p>

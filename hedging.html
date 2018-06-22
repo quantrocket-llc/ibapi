@@ -137,6 +137,7 @@ $(document).ready(function(){initNavTree('hedging.html','');});
 </div><!-- fragment --> ... <div class="fragment"><div class="line">            <span class="comment">//Parent order on a contract which currency differs from your base currency</span></div>
 <div class="line">            Order parent = OrderSamples.LimitOrder(<span class="stringliteral">&quot;BUY&quot;</span>, 100, 10);</div>
 <div class="line">            parent.OrderId = nextOrderId++;</div>
+<div class="line">            parent.Transmit = <span class="keyword">false</span>;</div>
 <div class="line">            <span class="comment">//Hedge on the currency conversion</span></div>
 <div class="line">            Order hedge = OrderSamples.MarketFHedge(parent.OrderId, <span class="stringliteral">&quot;BUY&quot;</span>);</div>
 <div class="line">            <span class="comment">//Place the parent first...</span></div>
@@ -155,6 +156,7 @@ $(document).ready(function(){initNavTree('hedging.html','');});
 </div><!-- fragment --> ... <div class="fragment"><div class="line">        <span class="comment">//Parent order on a contract which currency differs from your base currency</span></div>
 <div class="line">        Order parent = OrderSamples.LimitOrder(<span class="stringliteral">&quot;BUY&quot;</span>, 100, 10);</div>
 <div class="line">        parent.orderId(nextOrderId++);</div>
+<div class="line">        parent.transmit(<span class="keyword">false</span>);</div>
 <div class="line">        <span class="comment">//Hedge on the currency conversion</span></div>
 <div class="line">        Order hedge = OrderSamples.MarketFHedge(parent.orderId(), <span class="stringliteral">&quot;BUY&quot;</span>);</div>
 <div class="line">        <span class="comment">//Place the parent first...</span></div>
@@ -174,6 +176,7 @@ $(document).ready(function(){initNavTree('hedging.html','');});
 </div><!-- fragment --> ... <div class="fragment"><div class="line">        <span class="stringliteral">&#39;Parent order on a contract which currency differs from your base currency</span></div>
 <div class="line"><span class="stringliteral">        Dim parent As Order = OrderSamples.LimitOrder(&quot;BUY&quot;, 100, 10)</span></div>
 <div class="line"><span class="stringliteral">        parent.OrderId = increment(nextOrderId)</span></div>
+<div class="line"><span class="stringliteral">        parent.Transmit = False</span></div>
 <div class="line"><span class="stringliteral">        &#39;</span>Hedge on the currency conversion</div>
 <div class="line">        Dim hedge As Order = OrderSamples.MarketFHedge(parent.OrderId, <span class="stringliteral">&quot;BUY&quot;</span>)</div>
 <div class="line">        <span class="stringliteral">&#39;Place the parent first...</span></div>
@@ -192,6 +195,7 @@ $(document).ready(function(){initNavTree('hedging.html','');});
 </div><!-- fragment --> ... <div class="fragment"><div class="line">    <span class="comment">//Parent order on a contract which currency differs from your base currency</span></div>
 <div class="line">    Order parent = OrderSamples::LimitOrder(<span class="stringliteral">&quot;BUY&quot;</span>, 100, 10);</div>
 <div class="line">    parent.orderId = m_orderId++;</div>
+<div class="line">    parent.transmit = <span class="keyword">false</span>;</div>
 <div class="line">    <span class="comment">//Hedge on the currency conversion</span></div>
 <div class="line">    Order hedge = OrderSamples::MarketFHedge(parent.orderId, <span class="stringliteral">&quot;BUY&quot;</span>);</div>
 <div class="line">    <span class="comment">//Place the parent first...</span></div>
@@ -212,12 +216,13 @@ $(document).ready(function(){initNavTree('hedging.html','');});
 </div><!-- fragment --> ... <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;        <span class="comment"># Parent order on a contract which currency differs from your base currency</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;        parent = OrderSamples.LimitOrder(<span class="stringliteral">&quot;BUY&quot;</span>, 100, 10)</div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;        parent.orderId = self.nextOrderId()</div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;        <span class="comment"># Hedge on the currency conversion</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;        hedge = OrderSamples.MarketFHedge(parent.orderId, <span class="stringliteral">&quot;BUY&quot;</span>)</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;        <span class="comment"># Place the parent first...</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;        self.placeOrder(parent.orderId, ContractSamples.EuropeanStock(), parent)</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;        <span class="comment"># Then the hedge order</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;        self.placeOrder(self.nextOrderId(), ContractSamples.EurGbpFx(), hedge)</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;        parent.transmit = <span class="keyword">False</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;        <span class="comment"># Hedge on the currency conversion</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;        hedge = OrderSamples.MarketFHedge(parent.orderId, <span class="stringliteral">&quot;BUY&quot;</span>)</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;        <span class="comment"># Place the parent first...</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;        self.placeOrder(parent.orderId, ContractSamples.EuropeanStock(), parent)</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;        <span class="comment"># Then the hedge order</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;        self.placeOrder(self.nextOrderId(), ContractSamples.EurGbpFx(), hedge)</div>
 </div><!-- fragment -->  </li>
 </ul>
 <p>Note that in some cases it will be necessary to include a small delay of 50 ms or less after placing the parent order for processing, before placing the child order. Otherwise the error "10006: Missing parent order" will be triggered.</p>
