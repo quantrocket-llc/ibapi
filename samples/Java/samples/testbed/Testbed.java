@@ -4,20 +4,17 @@
 package samples.testbed;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
+import com.ib.client.*;
 import samples.testbed.advisor.FAMethodSamples;
 import samples.testbed.contracts.ContractSamples;
 import samples.testbed.orders.AvailableAlgoParams;
 import samples.testbed.orders.OrderSamples;
 import samples.testbed.scanner.ScannerSubscriptionSamples;
 
-import com.ib.client.EClientSocket;
-import com.ib.client.EReader;
-import com.ib.client.EReaderSignal;
-import com.ib.client.ExecutionFilter;
-import com.ib.client.Order;
 import com.ib.client.Types.FADataType;
 
 public class Testbed {
@@ -536,6 +533,7 @@ public class Testbed {
 		//Parent order on a contract which currency differs from your base currency
 		Order parent = OrderSamples.LimitOrder("BUY", 100, 10);
 		parent.orderId(nextOrderId++);
+		parent.transmit(false);
 		//Hedge on the currency conversion
 		Order hedge = OrderSamples.MarketFHedge(parent.orderId(), "BUY");
 		//Place the parent first...
@@ -709,12 +707,21 @@ public class Testbed {
         /*** Triggering a scanner subscription ***/
         //! [reqscannersubscription]
         client.reqScannerSubscription(7001, ScannerSubscriptionSamples.HighOptVolumePCRatioUSIndexes(), null, null);
+		
+		TagValue t1 = new TagValue("usdMarketCapAbove", "10000");
+		TagValue t2 = new TagValue("optVolumeAbove", "1000");
+		TagValue t3 = new TagValue("avgVolumeAbove", "100000000");
+
+		List<TagValue> TagValues = Arrays.asList(t1, t2, t3);
+		client.reqScannerSubscription(7002, ScannerSubscriptionSamples.HotUSStkByVolume(), null, TagValues); // requires TWS v973+
+
         //! [reqscannersubscription]
 
         Thread.sleep(2000);
         /*** Canceling the scanner subscription ***/
         //! [cancelscannersubscription]
         client.cancelScannerSubscription(7001);
+		client.cancelScannerSubscription(7002);
         //! [cancelscannersubscription]
 		
 	}

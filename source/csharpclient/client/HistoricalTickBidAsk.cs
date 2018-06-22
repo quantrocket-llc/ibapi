@@ -30,6 +30,10 @@ namespace IBApi
 		
 		/**
          * @brief Mask
+		 * 0: neither bidPastLow nor askPastHigh
+		 * 1: bidPastLow
+		 * 2: askPastHigh
+		 * 3: bidPastLow and askPastHigh
          */
         public int Mask { get; private set; }
 		

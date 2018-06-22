@@ -521,12 +521,21 @@ namespace Samples
             /*** Triggering a scanner subscription ***/
             //! [reqscannersubscription]
             client.reqScannerSubscription(7001, ScannerSubscriptionSamples.HighOptVolumePCRatioUSIndexes(), null, null);
+			
+			TagValue t1 = new TagValue("usdMarketCapAbove", "10000");
+			TagValue t2 = new TagValue("optVolumeAbove", "1000");
+			TagValue t3 = new TagValue("avgVolumeAbove", "100000000");
+
+			List<TagValue> TagValues = new List<TagValue>{t1, t2, t3};
+			client.reqScannerSubscription(7002, ScannerSubscriptionSamples.HotUSStkByVolume(), null, TagValues); // requires TWS v973+
+			
             //! [reqscannersubscription]
 
             Thread.Sleep(2000);
             /*** Canceling the scanner subscription ***/
             //! [cancelscannersubscription]
             client.cancelScannerSubscription(7001);
+			client.cancelScannerSubscription(7002);
             //! [cancelscannersubscription]
         }
 
@@ -845,6 +854,7 @@ namespace Samples
             //Parent order on a contract which currency differs from your base currency
             Order parent = OrderSamples.LimitOrder("BUY", 100, 10);
             parent.OrderId = nextOrderId++;
+            parent.Transmit = false;
             //Hedge on the currency conversion
             Order hedge = OrderSamples.MarketFHedge(parent.OrderId, "BUY");
             //Place the parent first...

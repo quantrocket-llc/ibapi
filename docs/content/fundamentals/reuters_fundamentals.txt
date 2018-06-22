@@ -23,6 +23,8 @@
 	Note how a string attribute specifies the requested report type. In the example above the request was made for the financial summary. See @ref report_type at the bottom of this page 
 	for the rest report types available.
 	
+	There is a limitation of 60 reqFundamentalData requests that can be made in a 10 minute period. 
+	
 	Results are delivered via @ref IBApi::EWrapper::fundamentalData in form of an XML report:
 	
 	<ul id="tab">

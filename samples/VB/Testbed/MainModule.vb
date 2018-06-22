@@ -439,12 +439,21 @@ Module MainModule
         '*** Triggering a scanner subscription ***/
         '! [reqscannersubscription]
         client.reqScannerSubscription(7001, ScannerSubscriptionSamples.HighOptVolumePCRatioUSIndexes(), Nothing, Nothing)
+
+        Dim TagValues As List(Of IBApi.TagValue) = New List(Of TagValue)
+        TagValues.Add(New TagValue("usdMarketCapAbove", "10000"))
+        TagValues.Add(New TagValue("optVolumeAbove", "1000"))
+        TagValues.Add(New TagValue("avgVolumeAbove", "100000000"))
+
+        client.reqScannerSubscription(7002, ScannerSubscriptionSamples.HotUSStkByVolume(), Nothing, TagValues) ' requires TWS v973+
+
         '! [reqscannersubscription]
 
         Thread.Sleep(2000)
         '*** Canceling the scanner subscription ***/
         '! [cancelscannersubscription]
         client.cancelScannerSubscription(7001)
+        client.cancelScannerSubscription(7002)
         '! [cancelscannersubscription]
 
     End Sub
@@ -779,6 +788,7 @@ Module MainModule
         'Parent order on a contract which currency differs from your base currency
         Dim parent As Order = OrderSamples.LimitOrder("BUY", 100, 10)
         parent.OrderId = increment(nextOrderId)
+		parent.Transmit = False
         'Hedge on the currency conversion
         Dim hedge As Order = OrderSamples.MarketFHedge(parent.OrderId, "BUY")
         'Place the parent first...

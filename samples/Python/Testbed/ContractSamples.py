@@ -511,7 +511,7 @@ class ContractSamples:
         #! [newsfeedforquery]
         contract = Contract()
         contract.secType = "NEWS"
-        contract.exchange = "BT" #Briefing Trader
+        contract.exchange = "BRF" #Briefing Trader
         #! [newsfeedforquery]
         return contract
 
@@ -520,9 +520,9 @@ class ContractSamples:
     def BTbroadtapeNewsFeed():
         #! [newscontractbt]
         contract = Contract()
-        contract.symbol  = "BT:BT_ALL" #BroadTape All News
+        contract.symbol  = "BRF:BRF_ALL" #BroadTape All News
         contract.secType = "NEWS"
-        contract.exchange = "BT" #Briefing Trader
+        contract.exchange = "BRF" #Briefing Trader
         #! [newscontractbt]
         return contract
 
