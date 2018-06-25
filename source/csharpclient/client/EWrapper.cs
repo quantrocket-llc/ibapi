@@ -904,7 +904,7 @@ namespace IBApi
 
         /**
         * @brief response to API bind order control message
-        * @param orderId - FIX order id
+        * @param orderId - permId
         * @param apiClientId - API client id
         * @param apiOrderId - API order id
         * @sa EClient::reqOpenOrders

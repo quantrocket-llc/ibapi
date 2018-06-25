@@ -575,7 +575,7 @@ namespace Samples
             //! [newsFeedforquery]
             Contract contract = new Contract();
             contract.SecType = "NEWS";
-            contract.Exchange = "BT"; //Briefing Trader
+            contract.Exchange = "BRF"; //Briefing Trader
             //! [newsFeedforquery]
             return contract;
         }
@@ -584,9 +584,9 @@ namespace Samples
         {
             //! [newscontractbt]
             Contract contract = new Contract();
-            contract.Symbol = "BT:BT_ALL"; //BroadTape All News
+            contract.Symbol = "BRF:BRF_ALL"; //BroadTape All News
             contract.SecType = "NEWS";
-            contract.Exchange = "BT"; //Briefing Trader
+            contract.Exchange = "BRF"; //Briefing Trader
             //! [newscontractbt]
             return contract;
         }

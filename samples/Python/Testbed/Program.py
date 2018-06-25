@@ -28,6 +28,7 @@ from ibapi.execution import ExecutionFilter
 from ibapi.commission_report import CommissionReport
 from ibapi.scanner import ScannerSubscription
 from ibapi.ticktype import *
+from ibapi.tag_value import TagValue
 
 from ibapi.account_summary_tags import *
 
@@ -1264,8 +1265,15 @@ class TestApp(TestWrapper, TestClient):
 
         # Triggering a scanner subscription
         # ! [reqscannersubscription]
-        self.reqScannerSubscription(7001,
-                                    ScannerSubscriptionSamples.HighOptVolumePCRatioUSIndexes(), [])
+        self.reqScannerSubscription(7001, ScannerSubscriptionSamples.HighOptVolumePCRatioUSIndexes(), [])
+
+        # Generic Filters not yet available in Python
+        #tagvalues = []
+        #tagvalues.append(TagValue("usdMarketCapAbove", "10000"))
+        #tagvalues.append(TagValue(("optVolumeAbove", "1000")))
+        #tagvalues.append(TagValue(("avgVolumeAbove","100000")))
+
+        #self.reqScannerSubscription(7002, ScannerSubscriptionSamples.HotUSStkByVolume(), [], tagvalues) # requires TWS v973+
         # ! [reqscannersubscription]
 
     @printWhenExecuting
@@ -1273,6 +1281,7 @@ class TestApp(TestWrapper, TestClient):
         # Canceling the scanner subscription
         # ! [cancelscannersubscription]
         self.cancelScannerSubscription(7001)
+        self.cancelScannerSubscription(7002)
         # ! [cancelscannersubscription]
 
     @iswrapper
@@ -1433,6 +1442,7 @@ class TestApp(TestWrapper, TestClient):
         # Parent order on a contract which currency differs from your base currency
         parent = OrderSamples.LimitOrder("BUY", 100, 10)
         parent.orderId = self.nextOrderId()
+        parent.transmit = False
         # Hedge on the currency conversion
         hedge = OrderSamples.MarketFHedge(parent.orderId, "BUY")
         # Place the parent first...

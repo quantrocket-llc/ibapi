@@ -574,7 +574,7 @@ Namespace Samples
             '! [newsfeedforquery]
             Dim contract As Contract = New Contract()
             contract.SecType = "NEWS"
-            contract.Exchange = "BT" 'Briefing Trader
+            contract.Exchange = "BRF" 'Briefing Trader
             '! [newsfeedforquery]
             Return contract
 
@@ -583,9 +583,9 @@ Namespace Samples
         Public Shared Function BTbroadtapeNewsFeed() As Contract
             '! [newscontractbt]
             Dim contract As Contract = New Contract()
-            contract.Symbol = "BT:BT_ALL" 'BroadTape All News
+            contract.Symbol = "BRF:BRF_ALL" 'BroadTape All News
             contract.SecType = "NEWS"
-            contract.Exchange = "BT" 'Briefing Trader
+            contract.Exchange = "BRF" 'Briefing Trader
             '! [newscontractbt]
             Return contract
         End Function

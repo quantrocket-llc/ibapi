@@ -500,7 +500,7 @@ public class ContractSamples {
 		//! [newsfeedforquery]
 		Contract contract = new Contract();
 		contract.secType("NEWS");
-		contract.exchange("BT"); //Briefing Trader
+		contract.exchange("BRF"); //Briefing Trader
 		//! [newsfeedforquery]
 		return contract;
 	}
@@ -508,9 +508,9 @@ public class ContractSamples {
 	public static Contract BTbroadtapeNewsFeed() {
 		//! [newscontractbt]
 		Contract contract = new Contract();
-		contract.symbol("BT:BT_ALL"); //BroadTape All News
+		contract.symbol("BRF:BRF_ALL"); //BroadTape All News
 		contract.secType("NEWS");
-		contract.exchange("BT"); //Briefing Trader
+		contract.exchange("BRF"); //Briefing Trader
 		//! [newscontractbt]
 		return contract;
 	}

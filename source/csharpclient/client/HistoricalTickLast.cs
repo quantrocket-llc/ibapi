@@ -40,6 +40,10 @@ namespace IBApi
 		
 		/**
          * @brief Mask
+		 * 0: Neither PastLimit nor Unreportable
+		 * 1: PastLimit and not Unreportable
+		 * 2: Not PastLimit but Unreportable
+		 * 3: PastLimit and Unreportable
          */
         public int Mask { get; private set; }
 

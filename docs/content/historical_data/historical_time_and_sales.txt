@@ -5,6 +5,8 @@
 	The highest granularity of historical data from IB's database can be retrieved using the API function IBApi::EClient::reqHistoricalTicks. This corresponds to the <a href="https://www.interactivebrokers.com/en/software/tws/usersguidebook/mosaic/timensales.htm" target="_blank" class="linkexternal">TWS Historical Time & Sales</a> Window. TWS build <b>968+</b> and API version <b>973.04+</b> is required.
 	
 	- Historical Tick-By-Tick data is not available for combos
+	- Data will not be returned from multiple trading sessions in a single request; Multiple requests must be used 
+	- To complete a full second, more ticks may be returned than requested
 	
 	<ul id="tab">
 		<li class="active">
@@ -45,10 +47,10 @@
 	- <i><b>numberOfTicks</b></i>, Number of distinct data points. Max currently 1000 per request.
 	- <i><b>whatToShow</b></i>, (Bid_Ask, Midpoint, Trades) Type of data requested. 
 	- <i><b>useRth</b></i>, Data from regular trading hours (1), or all available hours (0)
-	- <i><b>ignoreSize</b></i>, A filter only used when the source price is Bid_Ask
+	- <i><b>ignoreSize</b></i>, Specifies to not return changes only in the size of orders source price is Bid_Ask
 	- <i><b>miscOptions</b></i> should be defined as <i>null</i>, reserved for internal use
 	
-	Data is returned to the functions @ref IBApi::EWrapper::historicalTicks, @ref IBApi::EWrapper::historicalTicksBidAsk, and @ref IBApi::EWrapper::historicalTicksLast, depending on the type of data requested. 
+	Data is returned to the functions @ref IBApi::EWrapper::historicalTicks (for whatToShow=MIDPOINT), @ref IBApi::EWrapper::historicalTicksBidAsk (for whatToShow=BID_ASK), and @ref IBApi::EWrapper::historicalTicksLast for (for whatToShow=TRADES), depending on the type of data requested. 
 	
 	<ul id="tab">
 		<li class="active">
