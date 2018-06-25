@@ -126,6 +126,8 @@ High Resolution Historical Data</h1>
 <p>The highest granularity of historical data from IB's database can be retrieved using the API function <a class="el" href="classIBApi_1_1EClient.html#a99dbcf80c99b8f262a524de64b2f9c1e" title="Requests historical Time&amp;Sales data for an instrument. ">IBApi::EClient::reqHistoricalTicks</a>. This corresponds to the <a href="https://www.interactivebrokers.com/en/software/tws/usersguidebook/mosaic/timensales.htm" target="_blank" class="linkexternal">TWS Historical Time &amp; Sales</a> Window. TWS build <b>968+</b> and API version <b>973.04+</b> is required.</p>
 <ul>
 <li>Historical Tick-By-Tick data is not available for combos</li>
+<li>Data will not be returned from multiple trading sessions in a single request; Multiple requests must be used</li>
+<li>To complete a full second, more ticks may be returned than requested</li>
 </ul>
 <ul id="tab">
 <li class="active">
@@ -177,10 +179,10 @@ High Resolution Historical Data</h1>
 <li><em><b>numberOfTicks</b></em>, Number of distinct data points. Max currently 1000 per request.</li>
 <li><em><b>whatToShow</b></em>, (Bid_Ask, Midpoint, Trades) Type of data requested.</li>
 <li><em><b>useRth</b></em>, Data from regular trading hours (1), or all available hours (0)</li>
-<li><em><b>ignoreSize</b></em>, A filter only used when the source price is Bid_Ask</li>
+<li><em><b>ignoreSize</b></em>, Specifies to not return changes only in the size of orders source price is Bid_Ask</li>
 <li><em><b>miscOptions</b></em> should be defined as <em>null</em>, reserved for internal use</li>
 </ul>
-<p>Data is returned to the functions <a class="el" href="interfaceIBApi_1_1EWrapper.html#aaef348882e2a2c1c21ad8dd2167b2229">IBApi.EWrapper.historicalTicks</a>, <a class="el" href="interfaceIBApi_1_1EWrapper.html#aceda2894391ebddeb4409447fc453a4b">IBApi.EWrapper.historicalTicksBidAsk</a>, and <a class="el" href="interfaceIBApi_1_1EWrapper.html#a0d0c407b72a8ae93a7b65818eaf63381">IBApi.EWrapper.historicalTicksLast</a>, depending on the type of data requested.</p>
+<p>Data is returned to the functions <a class="el" href="interfaceIBApi_1_1EWrapper.html#aaef348882e2a2c1c21ad8dd2167b2229">IBApi.EWrapper.historicalTicks</a> (for whatToShow=MIDPOINT), <a class="el" href="interfaceIBApi_1_1EWrapper.html#aceda2894391ebddeb4409447fc453a4b">IBApi.EWrapper.historicalTicksBidAsk</a> (for whatToShow=BID_ASK), and <a class="el" href="interfaceIBApi_1_1EWrapper.html#a0d0c407b72a8ae93a7b65818eaf63381">IBApi.EWrapper.historicalTicksLast</a> for (for whatToShow=TRADES), depending on the type of data requested.</p>
 <ul id="tab">
 <li class="active">
 <div class="fragment"><div class="line">        <span class="keyword">public</span> <span class="keywordtype">void</span> historicalTicks(<span class="keywordtype">int</span> reqId, HistoricalTick[] ticks, <span class="keywordtype">bool</span> done)</div>

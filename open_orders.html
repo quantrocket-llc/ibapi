@@ -125,7 +125,7 @@ $(document).ready(function(){initNavTree('open_orders.html','');});
 <p><b>Note:</b> it is not possible to obtain cancelled or fully filled orders.</p>
 <h1><a class="anchor" id="connected_client_orders"></a>
 API client's orders</h1>
-<p>The <a class="el" href="classIBApi_1_1EClient.html#a11e9c0dce640a3b8ed7a221792412c05">IBApi.EClient.reqOpenOrders</a> method allows to obtain all active orders submitted by the client application connected with the exact same client Id with which the order was sent to the TWS. If client 0 invokes reqOpenOrders, it will cause <b>currently</b> open orders placed from TWS manually to be 'bound', i.e. assigned an order ID so that they can be modified or cancelled by the API client 0. In the API settings in Global Configuration, is a setting checked by default "Use negative numbers to bind automatic orders" which will specify how manual TWS orders are assigned an API order ID.</p>
+<p>The <a class="el" href="classIBApi_1_1EClient.html#a11e9c0dce640a3b8ed7a221792412c05">IBApi.EClient.reqOpenOrders</a> method allows to obtain all active orders submitted by the client application connected with the exact same client Id with which the order was sent to the TWS. If client 0 invokes reqOpenOrders, it will cause <b>currently</b> open orders placed from TWS manually to be 'bound', i.e. assigned an order ID so that they can be modified or cancelled by the API client 0. In API versions after 973.07 there will be <a class="el" href="interfaceIBApi_1_1EWrapper.html#a1f900736d47e30361e0c32e11eff1056">IBApi.EWrapper.orderBound</a> callback in response to newly bound orders that indicates the mapping between the permID (unique account-wide) and API Order ID (specific to an API client). In the API settings in Global Configuration, is a setting checked by default "Use negative numbers to bind automatic orders" which will specify how manual TWS orders are assigned an API order ID.</p>
 <ul id="tab">
 <li class="active">
 <div class="fragment"><div class="line">            client.reqOpenOrders();</div>
@@ -303,6 +303,39 @@ Receiving Order Information</h1>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;        super().openOrderEnd()</div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;        print(<span class="stringliteral">&quot;OpenOrderEnd&quot;</span>)</div>
 </div><!-- fragment -->  </li>
+</ul>
+<p><br/>
+</p>
+<h1><a class="anchor" id="binding"></a>
+Order Binding Notification</h1>
+<p>When an order is bound by API client 0 there will be callback to <a class="el" href="interfaceIBApi_1_1EWrapper.html#a1f900736d47e30361e0c32e11eff1056" title="response to API bind order control message ">IBApi::EWrapper::orderBound</a>.<br/>
+ This indicates the mapping between API order ID and permID. <br/>
+<b>**</b>not yet implemented</p>
+<ul id="tab">
+<li class="active">
+<div class="fragment"><div class="line">        <span class="keyword">public</span> <span class="keywordtype">void</span> orderBound(<span class="keywordtype">long</span> orderId, <span class="keywordtype">int</span> apiClientId, <span class="keywordtype">int</span> apiOrderId)</div>
+<div class="line">        {</div>
+<div class="line">            Console.WriteLine(<span class="stringliteral">&quot;Order bound. Order Id: {0}, Api Client Id: {1}, Api Order Id: {2}&quot;</span>, orderId, apiClientId, apiOrderId);</div>
+<div class="line">        }</div>
+</div><!-- fragment -->  </li>
+<li>
+<div class="fragment"><div class="line">    @Override</div>
+<div class="line">    <span class="keyword">public</span> <span class="keywordtype">void</span> orderBound(<span class="keywordtype">long</span> orderId, <span class="keywordtype">int</span> apiClientId, <span class="keywordtype">int</span> apiOrderId) {</div>
+<div class="line">        System.out.println(EWrapperMsgGenerator.orderBound(orderId, apiClientId, apiOrderId));</div>
+<div class="line">    }</div>
+</div><!-- fragment -->  </li>
+<li>
+<div class="fragment"><div class="line">        Public Sub orderBound(orderId As Long, apiClientId As Integer, apiOrderId As Integer) Implements EWrapper.orderBound</div>
+<div class="line">            Console.WriteLine(<span class="stringliteral">&quot;Order bound. Order Id: {0}, Api Client Id: {1}, Api Order Id: {2}&quot;</span>, orderId, apiClientId, apiOrderId)</div>
+<div class="line">        End Sub</div>
+</div><!-- fragment -->  </li>
+<li>
+<div class="fragment"><div class="line"><span class="keywordtype">void</span> TestCppClient::orderBound(<span class="keywordtype">long</span> <span class="keywordtype">long</span> orderId, <span class="keywordtype">int</span> apiClientId, <span class="keywordtype">int</span> apiOrderId) {</div>
+<div class="line">    printf(<span class="stringliteral">&quot;Order bound. OrderId: %lld, ApiClientId: %d, ApiOrderId: %d\n&quot;</span>, orderId, apiClientId, apiOrderId);</div>
+<div class="line">}</div>
+</div><!-- fragment -->  </li>
+<li>
+<div class="fragment"></div><!-- fragment -->  </li>
 </ul>
 <p><br/>
 <br/>
