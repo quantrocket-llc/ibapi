@@ -103,5 +103,6 @@ namespace IBApi
         public const int WHAT_IF_EXT_FIELDS = 142;
         public const int SCANNER_GENERIC_OPTS = 143;
         public const int API_BIND_ORDER = 144;
+        public const int ORDER_CONTAINER = 145;
     }
 }

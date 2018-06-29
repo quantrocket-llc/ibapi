@@ -1362,7 +1362,8 @@ namespace IBApi
                 ConditionsCancelOrder != l_theOther.ConditionsCancelOrder ||
                 Tier != l_theOther.Tier ||
                 CashQty != l_theOther.CashQty ||
-                dontUseAutoPriceForHedge != l_theOther.dontUseAutoPriceForHedge)
+                dontUseAutoPriceForHedge != l_theOther.dontUseAutoPriceForHedge ||
+                IsOmsContainer != l_theOther.IsOmsContainer)
             {
                 return false;
             }
@@ -1507,5 +1508,7 @@ namespace IBApi
         * @brief Define the Soft Dollar Tier used for the order. Only provided for registered professional advisors and hedge and mutual funds.
         */
         public SoftDollarTier Tier { get; set; }
+
+        public bool IsOmsContainer { get; set; }
     }
 }

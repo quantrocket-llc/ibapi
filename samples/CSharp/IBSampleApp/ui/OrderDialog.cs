@@ -330,6 +330,7 @@ namespace IBSampleApp
             order.Mifid2ExecutionTrader = mifid2ExecutionTrader.Text;
             order.Mifid2ExecutionAlgo = mifid2ExecutionAlgo.Text;
             order.DontUseAutoPriceForHedge = dontUseAutoPriceForHedge.Checked;
+            order.IsOmsContainer = omsContainer.Checked;
         }
 
         private void FillVolatilityAttributes(Order order)

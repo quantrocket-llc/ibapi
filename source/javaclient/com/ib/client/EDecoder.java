@@ -1317,11 +1317,13 @@ class EDecoder implements ObjectInput {
 	}
 
 	private void processOpenOrderMsg() throws IOException {
-		// read version
-		int version = readInt();
 
-		// read order id
-		Order order = new Order();
+	    // read version
+	    int version = m_serverVersion < EClient.MIN_SERVER_VER_ORDER_CONTAINER ? readInt() : m_serverVersion;
+
+
+	    // read order id
+	    Order order = new Order();
 		order.orderId(readInt());
 
 		// read contract fields
@@ -1692,7 +1694,11 @@ class EDecoder implements ObjectInput {
 			order.dontUseAutoPriceForHedge(readBoolFromInt());
 		}
 		
-		m_EWrapper.openOrder( order.orderId(), contract, order, orderState);
+		if (m_serverVersion >= EClient.MIN_SERVER_VER_ORDER_CONTAINER) {
+		    order.isOmsContainer(readBoolFromInt());
+		}
+		
+		m_EWrapper.openOrder(order.orderId(), contract, order, orderState);
 	}
 
 	private void processErrMsgMsg() throws IOException {

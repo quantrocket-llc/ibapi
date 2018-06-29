@@ -186,6 +186,7 @@ Public Class dlgOrderAttribs
     Public WithEvents txtMifid2ExecutionAlgo As System.Windows.Forms.TextBox
     Public WithEvents Label67 As System.Windows.Forms.Label
     Friend WithEvents checkDontUseAutoPriceForHedge As System.Windows.Forms.CheckBox
+    Friend WithEvents checkOmsContainer As System.Windows.Forms.CheckBox
     Public WithEvents Label41 As System.Windows.Forms.Label
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
@@ -338,6 +339,7 @@ Public Class dlgOrderAttribs
         Me.txtMifid2ExecutionAlgo = New System.Windows.Forms.TextBox()
         Me.Label67 = New System.Windows.Forms.Label()
         Me.checkDontUseAutoPriceForHedge = New System.Windows.Forms.CheckBox()
+        Me.checkOmsContainer = New System.Windows.Forms.CheckBox()
         Me.SuspendLayout()
         '
         'txtHedgeParam
@@ -2385,16 +2387,27 @@ Public Class dlgOrderAttribs
         Me.checkDontUseAutoPriceForHedge.AutoSize = True
         Me.checkDontUseAutoPriceForHedge.Location = New System.Drawing.Point(549, 591)
         Me.checkDontUseAutoPriceForHedge.Name = "checkDontUseAutoPriceForHedge"
-        Me.checkDontUseAutoPriceForHedge.Size = New System.Drawing.Size(230, 18)
+        Me.checkDontUseAutoPriceForHedge.Size = New System.Drawing.Size(172, 18)
         Me.checkDontUseAutoPriceForHedge.TabIndex = 145
         Me.checkDontUseAutoPriceForHedge.Text = "Don't use auto price for hedge"
         Me.checkDontUseAutoPriceForHedge.UseVisualStyleBackColor = True
+        '
+        'checkOmsContainer
+        '
+        Me.checkOmsContainer.AutoSize = True
+        Me.checkOmsContainer.Location = New System.Drawing.Point(549, 615)
+        Me.checkOmsContainer.Name = "checkOmsContainer"
+        Me.checkOmsContainer.Size = New System.Drawing.Size(98, 18)
+        Me.checkOmsContainer.TabIndex = 148
+        Me.checkOmsContainer.Text = "OMS Container"
+        Me.checkOmsContainer.UseVisualStyleBackColor = True
         '
         'dlgOrderAttribs
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
         Me.BackColor = System.Drawing.Color.Gainsboro
         Me.ClientSize = New System.Drawing.Size(850, 674)
+        Me.Controls.Add(Me.checkOmsContainer)
         Me.Controls.Add(Me.checkDontUseAutoPriceForHedge)
         Me.Controls.Add(Me.txtMifid2ExecutionTrader)
         Me.Controls.Add(Me.Label66)
@@ -2690,6 +2703,7 @@ Public Class dlgOrderAttribs
         txtMifid2ExecutionAlgo.Text = m_orderInfo.Mifid2ExecutionAlgo
 
         checkDontUseAutoPriceForHedge.Checked = m_orderInfo.DontUseAutoPriceForHedge
+        checkOmsContainer.Checked = m_orderInfo.IsOmsContainer
 
     End Sub
 
@@ -2847,6 +2861,7 @@ Public Class dlgOrderAttribs
         m_orderInfo.Mifid2ExecutionAlgo = txtMifid2ExecutionAlgo.Text
 
         m_orderInfo.DontUseAutoPriceForHedge = checkDontUseAutoPriceForHedge.Checked
+        m_orderInfo.IsOmsContainer = checkOmsContainer.Checked
 
         m_ok = True
         Hide()

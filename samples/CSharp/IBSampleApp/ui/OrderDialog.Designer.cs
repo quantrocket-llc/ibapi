@@ -248,6 +248,7 @@ namespace IBSampleApp
             this.textBox8 = new System.Windows.Forms.TextBox();
             this.checkMarginButton = new System.Windows.Forms.Button();
             this.closeOrderDialogButton = new System.Windows.Forms.Button();
+            this.omsContainer = new System.Windows.Forms.CheckBox();
             this.conditionsTab.SuspendLayout();
             this.orderContractTab.SuspendLayout();
             this.baseGroup.SuspendLayout();
@@ -766,6 +767,7 @@ namespace IBSampleApp
             // extendedOrderTab
             // 
             this.extendedOrderTab.BackColor = System.Drawing.Color.LightGray;
+            this.extendedOrderTab.Controls.Add(this.omsContainer);
             this.extendedOrderTab.Controls.Add(this.dontUseAutoPriceForHedge);
             this.extendedOrderTab.Controls.Add(this.label22);
             this.extendedOrderTab.Controls.Add(this.mifid2ExecutionAlgo);
@@ -2467,6 +2469,17 @@ namespace IBSampleApp
             this.closeOrderDialogButton.UseVisualStyleBackColor = true;
             this.closeOrderDialogButton.Click += new System.EventHandler(this.closeOrderDialogButton_Click);
             // 
+            // omsContainer
+            // 
+            this.omsContainer.AutoSize = true;
+            this.omsContainer.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.omsContainer.Location = new System.Drawing.Point(437, 254);
+            this.omsContainer.Name = "omsContainer";
+            this.omsContainer.Size = new System.Drawing.Size(98, 17);
+            this.omsContainer.TabIndex = 50;
+            this.omsContainer.Text = "OMS Container";
+            this.omsContainer.UseVisualStyleBackColor = true;
+            // 
             // OrderDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2732,6 +2745,7 @@ namespace IBSampleApp
         private System.Windows.Forms.Label label23;
         private System.Windows.Forms.TextBox mifid2ExecutionTrader;
         private System.Windows.Forms.CheckBox dontUseAutoPriceForHedge;
+        private System.Windows.Forms.CheckBox omsContainer;
         
     }
 }
