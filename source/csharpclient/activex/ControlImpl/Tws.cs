@@ -1056,6 +1056,11 @@ namespace TWSLib
             this.socket.cancelTickByTickData(reqId);
         }
 
+        void ITws.reqHistoricalTicks(int reqId, IContract contract, string startDateTime, string endDateTime, int numberOfTicks, string whatToShow, int useRth, bool ignoreSize, ITagValueList options)
+        {
+            this.socket.reqHistoricalTicks(reqId, (Contract)(contract as ComContract), startDateTime, endDateTime, numberOfTicks, whatToShow, useRth, ignoreSize, ITagValueListToListTagValue(options));
+        }
+
         #endregion
 
         #region events

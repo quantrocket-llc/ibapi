@@ -375,7 +375,8 @@ namespace TWSLib
         void reqTickByTickData(int reqId, IContract contract, string tickType, int numberOfTicks, bool ignoreSize);
         [DispId(232)]
         void cancelTickByTickData(int reqId);
-
+        [DispId(233)]
+        void reqHistoricalTicks(int reqId, IContract contract, string startDateTime, string endDateTime, int numberOfTicks, string whatToShow, int useRth, bool ignoreSize, ITagValueList options);
         #endregion
     }
 }
