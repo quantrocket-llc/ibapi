@@ -1,4 +1,4 @@
-﻿/* Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 using System;
@@ -11,16 +11,20 @@ namespace IBApi
 {
 	/**
      * @class HistoricalTickLast
-     * @brief The historical tick's description. Used when requesting historical tick data with whatToShow = TRADES
+     * @brief The historical last tick's description. Used when requesting historical tick data with whatToShow = TRADES
      * @sa EClient, EWrapper
      */
     [ComVisible(true)]
     public class HistoricalTickLast
     {
-        public HistoricalTickLast(long time, int mask, double price, long size, string exchange, string specialConditions)
+        public HistoricalTickLast()
+        {
+        }
+
+        public HistoricalTickLast(long time, TickAttribLast tickAttribLast, double price, long size, string exchange, string specialConditions)
         {
             Time = time;
-            Mask = mask;
+            TickAttribLast = tickAttribLast;
             Price = price;
             Size = size;
             Exchange = exchange;
@@ -39,13 +43,9 @@ namespace IBApi
         }
 		
 		/**
-         * @brief Mask
-		 * 0: Neither PastLimit nor Unreportable
-		 * 1: PastLimit and not Unreportable
-		 * 2: Not PastLimit but Unreportable
-		 * 3: PastLimit and Unreportable
+         * @brief Tick attribs of historical last tick
          */
-        public int Mask { get; private set; }
+        public TickAttribLast TickAttribLast { get; private set; }
 
 		/**
          * @brief The last price of the historical tick 

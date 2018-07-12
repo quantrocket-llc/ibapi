@@ -97,9 +97,9 @@ namespace IBSampleApp
 
             historicalTickTable.Columns.AddRange(new[] { "Time", "Price", "Size" }.Select(toDataColumn).ToArray());
             historicalTickBidAskTable.Columns.AddRange(
-                new[] { "Time", "Mask", "Price bid", "Price ask", "Size bid", "Size ask" }.Select(toDataColumn).ToArray());
+                new[] { "Time", "Price bid", "Price ask", "Size bid", "Size ask", "Bid/Ask Tick Attribs" }.Select(toDataColumn).ToArray());
             historicalTickLastTable.Columns.AddRange(
-                new[] { "Time", "Mask", "Price", "Size", "Exchange", "Special Conditions" }.Select(toDataColumn).ToArray());
+                new[] { "Time", "Price", "Size", "Exchange", "Special Conditions", "Last Tick Attribs" }.Select(toDataColumn).ToArray());
 
             tickByTickLastTable.Columns.AddRange(new[] { "Time", "Price", "Size", "Exchange", "Special Conditions", "PastLimit" }.Select(toDataColumn).ToArray());
             tickByTickAllLastTable.Columns.AddRange(new[] { "Time", "Price", "Size", "Exchange", "Special Conditions", "PastLimit", "Unreported" }.Select(toDataColumn).ToArray());
@@ -257,7 +257,7 @@ namespace IBSampleApp
         private void UpdateUI(TickByTickBidAskMessage msg)
         {
             dataGridViewTickByTick.DataSource = tickByTickBidAskTable;
-            tickByTickBidAskTable.Rows.Add(Util.UnixSecondsToString(msg.Time, "yyyyMMdd-HH:mm:ss zzz"), msg.BidPrice, msg.AskPrice, msg.BidSize, msg.AskSize, msg.Attribs.BidPastLow, msg.Attribs.AskPastHigh);
+            tickByTickBidAskTable.Rows.Add(Util.UnixSecondsToString(msg.Time, "yyyyMMdd-HH:mm:ss zzz"), msg.BidPrice, msg.AskPrice, msg.BidSize, msg.AskSize, msg.TickAttribBidAsk.BidPastLow, msg.TickAttribBidAsk.AskPastHigh);
         }
 
         private void UpdateUI(TickByTickAllLastMessage msg)
@@ -265,12 +265,12 @@ namespace IBSampleApp
             if (msg.TickType == 1)
             {
                 dataGridViewTickByTick.DataSource = tickByTickLastTable;
-                tickByTickLastTable.Rows.Add(Util.UnixSecondsToString(msg.Time, "yyyyMMdd-HH:mm:ss zzz"), msg.Price, msg.Size, msg.Exchange, msg.SpecialConditions, msg.Attribs.PastLimit);
+                tickByTickLastTable.Rows.Add(Util.UnixSecondsToString(msg.Time, "yyyyMMdd-HH:mm:ss zzz"), msg.Price, msg.Size, msg.Exchange, msg.SpecialConditions, msg.TickAttribLast.PastLimit);
             }
             else if (msg.TickType == 2)
             {
                 dataGridViewTickByTick.DataSource = tickByTickAllLastTable;
-                tickByTickAllLastTable.Rows.Add(Util.UnixSecondsToString(msg.Time, "yyyyMMdd-HH:mm:ss zzz"), msg.Price, msg.Size, msg.Exchange, msg.SpecialConditions, msg.Attribs.PastLimit, msg.Attribs.Unreported);
+                tickByTickAllLastTable.Rows.Add(Util.UnixSecondsToString(msg.Time, "yyyyMMdd-HH:mm:ss zzz"), msg.Price, msg.Size, msg.Exchange, msg.SpecialConditions, msg.TickAttribLast.PastLimit, msg.TickAttribLast.Unreported);
             }
         }
 
@@ -278,14 +278,14 @@ namespace IBSampleApp
         {
             dataGridViewHistoricalTicks.DataSource = historicalTickLastTable;
 
-            historicalTickLastTable.Rows.Add(Util.UnixSecondsToString(msg.Time, "yyyyMMdd-HH:mm:ss zzz"), msg.Mask, msg.Price, msg.Size, msg.Exchange, msg.SpecialConditions);
+            historicalTickLastTable.Rows.Add(Util.UnixSecondsToString(msg.Time, "yyyyMMdd-HH:mm:ss zzz"), msg.Price, msg.Size, msg.Exchange, msg.SpecialConditions, msg.TickAttribLast.toString());
         }
 
         private void UpdateUI(HistoricalTickBidAskMessage msg)
         {
             dataGridViewHistoricalTicks.DataSource = historicalTickBidAskTable;
 
-            historicalTickBidAskTable.Rows.Add(Util.UnixSecondsToString(msg.Time, "yyyyMMdd-HH:mm:ss zzz"), msg.Mask, msg.PriceBid, msg.PriceAsk, msg.SizeBid, msg.SizeAsk);
+            historicalTickBidAskTable.Rows.Add(Util.UnixSecondsToString(msg.Time, "yyyyMMdd-HH:mm:ss zzz"), msg.PriceBid, msg.PriceAsk, msg.SizeBid, msg.SizeAsk, msg.TickAttribBidAsk.toString());
         }
 
         private void UpdateUI(HistoricalTickMessage msg)

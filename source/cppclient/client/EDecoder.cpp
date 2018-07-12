@@ -2257,7 +2257,11 @@ void EDecoder::callEWrapperCallBack(int reqId, const std::vector<HistoricalTick>
 
 const char* EDecoder::decodeTick(HistoricalTickBidAsk& tick, const char* ptr, const char* endPtr) {
     DECODE_FIELD(tick.time);
-    DECODE_FIELD(tick.mask);
+    int attrMask;
+    DECODE_FIELD(attrMask);
+    std::bitset<32> mask(attrMask);
+    tick.tickAttribBidAsk.askPastHigh = mask[0];
+    tick.tickAttribBidAsk.bidPastLow = mask[1];
     DECODE_FIELD(tick.priceBid);
     DECODE_FIELD(tick.priceAsk);
     DECODE_FIELD(tick.sizeBid);
@@ -2272,7 +2276,11 @@ void EDecoder::callEWrapperCallBack(int reqId, const std::vector<HistoricalTickB
 
 const char* EDecoder::decodeTick(HistoricalTickLast& tick, const char* ptr, const char* endPtr) {
     DECODE_FIELD(tick.time);
-    DECODE_FIELD(tick.mask);
+    int attrMask;
+    DECODE_FIELD(attrMask);
+    std::bitset<32> mask(attrMask);
+    tick.tickAttribLast.pastLimit = mask[0];
+    tick.tickAttribLast.unreported = mask[1];
     DECODE_FIELD(tick.price);
     DECODE_FIELD(tick.size);
     DECODE_FIELD(tick.exchange);
@@ -2310,7 +2318,7 @@ const char* EDecoder::processTickByTickDataMsg(const char* ptr, const char* endP
             double price;
             int size;
             int attrMask;
-            TickAttrib attribs = {};
+            TickAttribLast tickAttribLast = {};
             std::string exchange;
             std::string specialConditions;
 
@@ -2319,13 +2327,13 @@ const char* EDecoder::processTickByTickDataMsg(const char* ptr, const char* endP
             DECODE_FIELD(attrMask);
 
             std::bitset<32> mask(attrMask);
-            attribs.pastLimit = mask[0];
-            attribs.unreported = mask[1];
+            tickAttribLast.pastLimit = mask[0];
+            tickAttribLast.unreported = mask[1];
 
             DECODE_FIELD(exchange);
             DECODE_FIELD(specialConditions);
 
-            m_pEWrapper->tickByTickAllLast(reqId, tickType, time, price, size, attribs, exchange, specialConditions);
+            m_pEWrapper->tickByTickAllLast(reqId, tickType, time, price, size, tickAttribLast, exchange, specialConditions);
 
     } else if (tickType == 3) { // BidAsk
             double bidPrice;
@@ -2339,12 +2347,12 @@ const char* EDecoder::processTickByTickDataMsg(const char* ptr, const char* endP
             DECODE_FIELD(askSize);
             DECODE_FIELD(attrMask);
 
-            TickAttrib attribs = {};
+            TickAttribBidAsk tickAttribBidAsk = {};
             std::bitset<32> mask(attrMask);
-            attribs.bidPastLow = mask[0];
-            attribs.askPastHigh = mask[1];
+            tickAttribBidAsk.bidPastLow = mask[0];
+            tickAttribBidAsk.askPastHigh = mask[1];
 
-            m_pEWrapper->tickByTickBidAsk(reqId, time, bidPrice, askPrice, bidSize, askSize, attribs);
+            m_pEWrapper->tickByTickBidAsk(reqId, time, bidPrice, askPrice, bidSize, askSize, tickAttribBidAsk);
     } else if (tickType == 4) { // MidPoint
             double midPoint;
             DECODE_FIELD(midPoint);

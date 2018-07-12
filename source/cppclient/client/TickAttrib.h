@@ -10,9 +10,6 @@ struct TickAttrib
 	bool canAutoExecute;
 	bool pastLimit;
 	bool preOpen;
-	bool unreported;
-	bool bidPastLow;
-	bool askPastHigh;
 };
 
 #endif

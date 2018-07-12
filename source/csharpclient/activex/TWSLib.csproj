@@ -205,6 +205,12 @@
     <Compile Include="..\client\TickAttrib.cs">
       <Link>CSharpAPI\TickAttrib.cs</Link>
     </Compile>
+    <Compile Include="..\client\TickAttribBidAsk.cs">
+      <Link>CSharpAPI\TickAttribBidAsk.cs</Link>
+    </Compile>
+    <Compile Include="..\client\TickAttribLast.cs">
+      <Link>CSharpAPI\TickAttribLast.cs</Link>
+    </Compile>
     <Compile Include="..\client\TickType.cs">
       <Link>CSharpAPI\TickType.cs</Link>
     </Compile>
@@ -239,6 +245,19 @@
     <Compile Include="ComWrappers\ComDepthMktDataDescription.cs" />
     <Compile Include="ComWrappers\ComPriceIncrement.cs" />
     <Compile Include="ComWrappers\ComTickAttrib.cs" />
+    <Compile Include="ComWrappers\ComHistoricalTickLast.cs" />
+    <Compile Include="ComWrappers\ComHistoricalTickBidAsk.cs" />
+    <Compile Include="ComWrappers\ComHistoricalTick.cs" />
+    <Compile Include="ComWrappers\ComTickAttribLast.cs" />
+    <Compile Include="ComWrappers\ComTickAttribBidAsk.cs" />
+    <Compile Include="ControlImpl\ITickAtrribBidAsk.cs" />
+    <Compile Include="ControlImpl\ITickAtrribLast.cs" />
+    <Compile Include="ControlImpl\IHistoricalTickList.cs" />
+    <Compile Include="ControlImpl\IHistoricalTick.cs" />
+    <Compile Include="ControlImpl\IHistoricalTickBidAskList.cs" />
+    <Compile Include="ControlImpl\IHistoricalTickBidAsk.cs" />
+    <Compile Include="ControlImpl\IHistoricalTickLastList.cs" />
+    <Compile Include="ControlImpl\IHistoricalTickLast.cs" />
     <Compile Include="ControlImpl\ITickAtrrib.cs" />
     <Compile Include="ControlImpl\IPriceIncrementList.cs" />
     <Compile Include="ControlImpl\IPriceIncrement.cs" />
@@ -268,9 +287,7 @@
     <Compile Include="ControlImpl\ITws.cs" />
     <Compile Include="ControlImpl\ITwsEvents.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ControlImpl\Tws.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Include="ControlImpl\Tws.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

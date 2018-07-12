@@ -12,7 +12,7 @@ public interface EWrapper {
     ///////////////////////////////////////////////////////////////////////
     // Interface methods
     ///////////////////////////////////////////////////////////////////////
-    void tickPrice( int tickerId, int field, double price, TickAttr attrib);
+    void tickPrice( int tickerId, int field, double price, TickAttrib attrib);
     void tickSize( int tickerId, int field, int size);
     void tickOptionComputation( int tickerId, int field, double impliedVol,
     		double delta, double optPrice, double pvDividend,
@@ -100,8 +100,8 @@ public interface EWrapper {
     void historicalTicks(int reqId, List<HistoricalTick> ticks, boolean done);
     void historicalTicksBidAsk(int reqId, List<HistoricalTickBidAsk> ticks, boolean done);
     void historicalTicksLast(int reqId, List<HistoricalTickLast> ticks, boolean done);
-    void tickByTickAllLast(int reqId, int tickType, long time, double price, int size, TickAttr attribs, String exchange, String specialConditions);
-    void tickByTickBidAsk(int reqId, long time, double bidPrice, double askPrice, int bidSize, int askSize, TickAttr attribs);
+    void tickByTickAllLast(int reqId, int tickType, long time, double price, int size, TickAttribLast tickAttribLast, String exchange, String specialConditions);
+    void tickByTickBidAsk(int reqId, long time, double bidPrice, double askPrice, int bidSize, int askSize, TickAttribBidAsk tickAttribBidAsk);
     void tickByTickMidPoint(int reqId, long time, double midPoint);
     void orderBound(long orderId, int apiClientId, int apiOrderId);
 }

@@ -15,7 +15,7 @@ Class TickByTickAllLastEventArgs
 
     Property size As Integer
 
-    Property attribs As TickAttrib
+    Property tickAttribLast As TickAttribLast
 
     Property exchange As String
 

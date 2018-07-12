@@ -235,6 +235,8 @@
     <ClInclude Include="ScannerSubscription.h" />
     <ClInclude Include="TagValue.h" />
     <ClInclude Include="TickAttrib.h" />
+    <ClInclude Include="TickAttribBidAsk.h" />
+    <ClInclude Include="TickAttribLast.h" />
     <ClInclude Include="TimeCondition.h" />
     <ClInclude Include="TwsSocketClientErrors.h" />
     <ClInclude Include="VolumeCondition.h" />

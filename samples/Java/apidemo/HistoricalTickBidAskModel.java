@@ -33,11 +33,11 @@ class HistoricalTickBidAskModel extends AbstractTableModel {
                 
         switch (columnIndex) {
             case 0: return row.time();
-            case 1: return row.mask();
-            case 2: return row.priceBid();
-            case 3: return row.priceAsk();
-            case 4: return row.sizeBid();
-            case 5: return row.sizeAsk();
+            case 1: return row.priceBid();
+            case 2: return row.priceAsk();
+            case 3: return row.sizeBid();
+            case 4: return row.sizeAsk();
+            case 5: return row.tickAttribBidAsk().toString();
         }
         
         return null;
@@ -47,11 +47,11 @@ class HistoricalTickBidAskModel extends AbstractTableModel {
     public String getColumnName(int column) {
         switch (column) {
             case 0: return "Time";
-            case 1: return "Mask";
-            case 2: return "Price Bid";
-            case 3: return "Price Ask";
-            case 4: return "Size Bid";
-            case 5: return "Size Ask";
+            case 1: return "Price Bid";
+            case 2: return "Price Ask";
+            case 3: return "Size Bid";
+            case 4: return "Size Ask";
+            case 5: return "Bid/Ask Tick Attribs";
         }
 
         return super.getColumnName(column);

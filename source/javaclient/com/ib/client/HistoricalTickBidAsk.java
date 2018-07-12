@@ -5,15 +5,15 @@ package com.ib.client;
 
 public class HistoricalTickBidAsk {
     private long m_time;
-    private int m_mask;
+    private TickAttribBidAsk m_tickAttribBidAsk;
     private double m_priceBid;
     private double m_priceAsk;
     private long m_sizeBid;
     private long m_sizeAsk;
 
-    public HistoricalTickBidAsk(long time, int mask, double priceBid, double priceAsk, long sizeBid, long sizeAsk) {
+    public HistoricalTickBidAsk(long time, TickAttribBidAsk tickAttribBidAsk, double priceBid, double priceAsk, long sizeBid, long sizeAsk) {
         m_time = time;
-        m_mask = mask;
+        m_tickAttribBidAsk = tickAttribBidAsk;
         m_priceBid = priceBid;
         m_priceAsk = priceAsk;
         m_sizeBid = sizeBid;
@@ -24,8 +24,8 @@ public class HistoricalTickBidAsk {
         return m_time;
     }
 
-    public int mask() {
-        return m_mask;
+    public TickAttribBidAsk tickAttribBidAsk() {
+        return m_tickAttribBidAsk;
     }
 
     public double priceBid() {

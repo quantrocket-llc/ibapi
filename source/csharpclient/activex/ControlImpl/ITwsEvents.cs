@@ -186,15 +186,15 @@ namespace TWSLib
         [DispId(142)]
         void pnlSingle(int reqId, int pos, double dailyPnL, double unrealizedPnL, double realizedPnL, double value);
         [DispId(143)]
-        void historicalTicks(int reqId, HistoricalTick[] ticks, bool done);
+        void historicalTicks(int reqId, IHistoricalTickList ticks, bool done);
         [DispId(144)]
-        void historicalTicksBidAsk(int reqId, HistoricalTickBidAsk[] ticks, bool done);
+        void historicalTicksBidAsk(int reqId, IHistoricalTickBidAskList ticks, bool done);
         [DispId(145)]
-        void historicalTicksLast(int reqId, HistoricalTickLast[] ticks, bool done);
+        void historicalTicksLast(int reqId, IHistoricalTickLastList ticks, bool done);
         [DispId(146)]
-        void tickByTickAllLast(int reqId, int tickType, string time, double price, int size, ITickAttrib attribs, string exchange, string specialConditions);
+        void tickByTickAllLast(int reqId, int tickType, string time, double price, int size, ITickAttribLast tickAttribLast, string exchange, string specialConditions);
         [DispId(147)]
-        void tickByTickBidAsk(int reqId, string time, double bidPrice, double askPrice, int bidSize, int askSize, ITickAttrib attribs);
+        void tickByTickBidAsk(int reqId, string time, double bidPrice, double askPrice, int bidSize, int askSize, ITickAttribBidAsk tickAttribBidAsk);
         [DispId(148)]
         void tickByTickMidPoint(int reqId, string time, double midPoint);
         [DispId(149)]

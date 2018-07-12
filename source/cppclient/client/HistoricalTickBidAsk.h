@@ -5,10 +5,12 @@
 #ifndef TWS_API_CLIENT_HISTORICALTICKBIDASK_H
 #define TWS_API_CLIENT_HISTORICALTICKBIDASK_H
 
+#include "TickAttribBidAsk.h"
+
 struct HistoricalTickBidAsk
 {
     long long time;
-    int mask;
+    TickAttribBidAsk tickAttribBidAsk;
     double priceBid;
     double priceAsk;
     long long sizeBid;

@@ -1,4 +1,4 @@
-﻿/* Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 using System;
@@ -29,13 +29,9 @@ namespace IBApi
         }
 		
 		/**
-         * @brief Mask
-		 * 0: neither bidPastLow nor askPastHigh
-		 * 1: bidPastLow
-		 * 2: askPastHigh
-		 * 3: bidPastLow and askPastHigh
+         * @brief Tick attribs of historical bid/ask tick
          */
-        public int Mask { get; private set; }
+        public TickAttribBidAsk TickAttribBidAsk { get; private set; }
 		
 		/**
          * @brief The bid price of the historical tick
@@ -69,10 +65,14 @@ namespace IBApi
             private set;
         }
 
-        public HistoricalTickBidAsk(long time, int mask, double priceBid, double priceAsk, long sizeBid, long sizeAsk)
+        public HistoricalTickBidAsk()
+        {
+        }
+
+        public HistoricalTickBidAsk(long time, TickAttribBidAsk tickAttribBidAsk, double priceBid, double priceAsk, long sizeBid, long sizeAsk)
         {
             Time = time;
-            Mask = mask;
+            TickAttribBidAsk = tickAttribBidAsk;
             PriceBid = priceBid;
             PriceAsk = priceAsk;
             SizeBid = sizeBid;

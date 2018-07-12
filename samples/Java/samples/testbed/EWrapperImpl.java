@@ -41,7 +41,7 @@ public class EWrapperImpl implements EWrapper {
 	
 	 //! [tickprice]
 	@Override
-	public void tickPrice(int tickerId, int field, double price, TickAttr attribs) {
+	public void tickPrice(int tickerId, int field, double price, TickAttrib attribs) {
 		System.out.println("Tick Price. Ticker Id:"+tickerId+", Field: "+field+", Price: "+price+", CanAutoExecute: "+ attribs.canAutoExecute()
 		+ ", pastLimit: " + attribs.pastLimit() + ", pre-open: " + attribs.preOpen());
 	}
@@ -631,7 +631,7 @@ public class EWrapperImpl implements EWrapper {
     @Override
     public void historicalTicksBidAsk(int reqId, List<HistoricalTickBidAsk> ticks, boolean done) {
         for (HistoricalTickBidAsk tick : ticks) {
-            System.out.println(EWrapperMsgGenerator.historicalTickBidAsk(reqId, tick.time(), tick.mask(), tick.priceBid(), tick.priceAsk(), tick.sizeBid(),
+            System.out.println(EWrapperMsgGenerator.historicalTickBidAsk(reqId, tick.time(), tick.tickAttribBidAsk(), tick.priceBid(), tick.priceAsk(), tick.sizeBid(),
                     tick.sizeAsk()));
         }
     }   
@@ -641,7 +641,7 @@ public class EWrapperImpl implements EWrapper {
 	//! [historicaltickslast]
     public void historicalTicksLast(int reqId, List<HistoricalTickLast> ticks, boolean done) {
         for (HistoricalTickLast tick : ticks) {
-            System.out.println(EWrapperMsgGenerator.historicalTickLast(reqId, tick.time(), tick.mask(), tick.price(), tick.size(), tick.exchange(), 
+            System.out.println(EWrapperMsgGenerator.historicalTickLast(reqId, tick.time(), tick.tickAttribLast(), tick.price(), tick.size(), tick.exchange(), 
                 tick.specialConditions()));
         }
     }
@@ -649,17 +649,17 @@ public class EWrapperImpl implements EWrapper {
 
     //! [tickbytickalllast]
    @Override
-    public void tickByTickAllLast(int reqId, int tickType, long time, double price, int size, TickAttr attribs,
+    public void tickByTickAllLast(int reqId, int tickType, long time, double price, int size, TickAttribLast tickAttribLast,
             String exchange, String specialConditions) {
-        System.out.println(EWrapperMsgGenerator.tickByTickAllLast(reqId, tickType, time, price, size, attribs, exchange, specialConditions));
+        System.out.println(EWrapperMsgGenerator.tickByTickAllLast(reqId, tickType, time, price, size, tickAttribLast, exchange, specialConditions));
     }
     //! [tickbytickalllast]
 
     //! [tickbytickbidask]
     @Override
     public void tickByTickBidAsk(int reqId, long time, double bidPrice, double askPrice, int bidSize, int askSize,
-            TickAttr attribs) {
-        System.out.println(EWrapperMsgGenerator.tickByTickBidAsk(reqId, time, bidPrice, askPrice, bidSize, askSize, attribs));
+            TickAttribBidAsk tickAttribBidAsk) {
+        System.out.println(EWrapperMsgGenerator.tickByTickBidAsk(reqId, time, bidPrice, askPrice, bidSize, askSize, tickAttribBidAsk));
     }
     //! [tickbytickbidask]
     

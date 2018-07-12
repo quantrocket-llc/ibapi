@@ -1,4 +1,4 @@
-﻿/* Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 using System;
@@ -44,5 +44,18 @@ namespace IBApi
          * @brief Used with real time tick-by-tick. Indicates if ask is higher than day's highest ask. 
          */
         public bool AskPastHigh { get; set; }
+
+        /**
+         * @brief Returns string to display. 
+         */
+        public string toString()
+        {
+            return (CanAutoExecute ? "canAutoExecute " : "") +
+                (PastLimit ? "pastLimit " : "") +
+                (PreOpen ? "preOpen " : "") +
+                (Unreported ? "unreported " : "") +
+                (BidPastLow ? "bidPastLow " : "") +
+                (AskPastHigh ? "askPastHigh " : "");
+        }
     }
 }
