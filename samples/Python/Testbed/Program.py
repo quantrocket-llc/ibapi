@@ -220,7 +220,7 @@ class TestApp(TestWrapper, TestClient):
     @iswrapper
     # ! [connectack]
     def connectAck(self):
-        if self.async:
+        if self.asynchronous:
             self.startApi()
 
     # ! [connectack]
