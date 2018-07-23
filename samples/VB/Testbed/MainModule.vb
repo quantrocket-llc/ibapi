@@ -124,7 +124,7 @@ Module MainModule
         '*********************
         '** Order handling ***
         '*********************
-        orderOperations(client, nextValidId)
+        'orderOperations(client, nextValidId)
 
         '***********************************
         '** Financial Advisor Exclusive Operations ***
@@ -181,7 +181,7 @@ Module MainModule
         '**************************
         'continuousFuturesOperations(client)
 
-        'historicalTicks(client)
+        historicalTicks(client)
 
         '***********************
         '*** Tick-By-Tick    ***

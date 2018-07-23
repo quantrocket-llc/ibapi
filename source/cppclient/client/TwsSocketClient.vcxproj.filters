@@ -228,5 +228,11 @@
     <ClInclude Include="HistogramEntry.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="TickAttribBidAsk.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TickAttribLast.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

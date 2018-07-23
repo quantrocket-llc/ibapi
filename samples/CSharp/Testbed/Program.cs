@@ -115,7 +115,7 @@ namespace Samples
             /**********************/
             /*** Order handling ***/
             /**********************/
-            orderOperations(client, nextValidId);
+            //orderOperations(client, nextValidId);
 
             /************************************/
             /*** Financial Advisor Exclusive Operations ***/
@@ -176,7 +176,7 @@ namespace Samples
             /**************************/
             //continuousFuturesOperations(client);
 
-            //historicalTicks(client);
+            historicalTicks(client);
 
             /**************************/
             /*** Tick-By-Tick       ***/

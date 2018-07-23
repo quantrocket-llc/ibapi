@@ -50,7 +50,7 @@ public class Testbed {
 		//tickByTickOperations(wrapper.getClient());
 		//tickDataOperations(wrapper.getClient());
 		//tickOptionComputations(wrapper.getClient());
-		orderOperations(wrapper.getClient(), wrapper.getCurrentOrderId());
+		//orderOperations(wrapper.getClient(), wrapper.getCurrentOrderId());
 		//contractOperations(wrapper.getClient());
 		//hedgeSample(wrapper.getClient(), wrapper.getCurrentOrderId());
 		//testAlgoSamples(wrapper.getClient(), wrapper.getCurrentOrderId());
@@ -70,6 +70,7 @@ public class Testbed {
 		//pnlSingle(wrapper.getClient());
 		//histogram(wrapper.getClient());
 		//whatIfSamples(wrapper.getClient(), wrapper.getCurrentOrderId());
+		historicalTicks(wrapper.getClient());
 
 		Thread.sleep(100000);
 		m_client.eDisconnect();

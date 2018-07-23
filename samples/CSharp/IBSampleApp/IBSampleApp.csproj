@@ -59,7 +59,7 @@
     <Compile Include="messages\TickByTickAllLastMessage.cs" />
     <Compile Include="messages\HistoricalTickLastMessage.cs" />
     <Compile Include="messages\HistoricalTickLastEndMessage.cs" />
-    <Compile Include="messages\HistoricalTickBidAsk.cs" />
+    <Compile Include="messages\HistoricalTickBidAskMessage.cs" />
     <Compile Include="messages\HistoricalTickEndMessage.cs" />
     <Compile Include="messages\HistoricalTickBidAskEndMessage.cs" />
     <Compile Include="messages\HistoricalTickMessage.cs" />

@@ -405,7 +405,6 @@ namespace IBApi
             int tickType = ReadInt();
             long time = ReadLong();
             BitMask mask;
-            TickAttrib attribs;
 
             switch (tickType)
             {
@@ -416,12 +415,12 @@ namespace IBApi
                     double price = ReadDouble();
                     int size = ReadInt();
                     mask = new BitMask(ReadInt());
-                    attribs = new TickAttrib();
-                    attribs.PastLimit = mask[0];
-                    attribs.Unreported = mask[1];
+                    TickAttribLast tickAttribLast = new TickAttribLast();
+                    tickAttribLast.PastLimit = mask[0];
+                    tickAttribLast.Unreported = mask[1];
                     String exchange = ReadString();
                     String specialConditions = ReadString();
-                    eWrapper.tickByTickAllLast(reqId, tickType, time, price, size, attribs, exchange, specialConditions);
+                    eWrapper.tickByTickAllLast(reqId, tickType, time, price, size, tickAttribLast, exchange, specialConditions);
                     break;
                 case 3: // BidAsk
                     double bidPrice = ReadDouble();
@@ -429,10 +428,10 @@ namespace IBApi
                     int bidSize = ReadInt();
                     int askSize = ReadInt();
                     mask = new BitMask(ReadInt());
-                    attribs = new TickAttrib();
-                    attribs.BidPastLow = mask[0];
-                    attribs.AskPastHigh = mask[1];
-                    eWrapper.tickByTickBidAsk(reqId, time, bidPrice, askPrice, bidSize, askSize, attribs);
+                    TickAttribBidAsk tickAttribBidAsk = new TickAttribBidAsk();
+                    tickAttribBidAsk.BidPastLow = mask[0];
+                    tickAttribBidAsk.AskPastHigh = mask[1];
+                    eWrapper.tickByTickBidAsk(reqId, time, bidPrice, askPrice, bidSize, askSize, tickAttribBidAsk);
                     break;
                 case 4: // MidPoint
                     double midPoint = ReadDouble();
@@ -450,13 +449,16 @@ namespace IBApi
             for (int i = 0; i < nTicks; i++)
             {
                 var time = ReadLong();
-                var mask = ReadInt();
+                BitMask mask = new BitMask(ReadInt());
+                TickAttribLast tickAttribLast = new TickAttribLast();
+                tickAttribLast.PastLimit = mask[0];
+                tickAttribLast.Unreported = mask[1];
                 var price = ReadDouble();
                 var size = ReadLong();
                 var exchange = ReadString();
                 var specialConditions = ReadString();
 
-                ticks[i] = new HistoricalTickLast(time, mask, price, size, exchange, specialConditions);
+                ticks[i] = new HistoricalTickLast(time, tickAttribLast, price, size, exchange, specialConditions);
             }
 
             bool done = ReadBoolFromInt();
@@ -473,13 +475,16 @@ namespace IBApi
             for (int i = 0; i < nTicks; i++)
             {
                 var time = ReadLong();
-                var mask = ReadInt();
+                BitMask mask = new BitMask(ReadInt());
+                TickAttribBidAsk tickAttribBidAsk = new TickAttribBidAsk();
+                tickAttribBidAsk.AskPastHigh = mask[0];
+                tickAttribBidAsk.BidPastLow = mask[1];
                 var priceBid = ReadDouble();
                 var priceAsk = ReadDouble();
                 var sizeBid = ReadLong();
                 var sizeAsk = ReadLong();
 
-                ticks[i] = new HistoricalTickBidAsk(time, mask, priceBid, priceAsk, sizeBid, sizeAsk);
+                ticks[i] = new HistoricalTickBidAsk(time, tickAttribBidAsk, priceBid, priceAsk, sizeBid, sizeAsk);
             }
 
             bool done = ReadBoolFromInt();

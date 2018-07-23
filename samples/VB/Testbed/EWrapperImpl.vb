@@ -675,8 +675,8 @@ Namespace Samples
 		'! [historicalticksbidask]
         Public Sub historicalTickBidAsk(reqId As Integer, ticks As HistoricalTickBidAsk(), done As Boolean) Implements EWrapper.historicalTicksBidAsk
             For Each tick In ticks
-                Console.WriteLine("Historical Tick Bid/Ask. Request Id: {0}, Time: {1}, Mask: {2} Price Bid: {3}, Price Ask {4}, Size Bid: {5}, Size Ask {6}",
-                    reqId, Util.UnixSecondsToString(tick.Time, "yyyyMMdd-HH:mm:ss zzz"), tick.Mask, tick.PriceBid, tick.PriceAsk, tick.SizeBid, tick.SizeAsk)
+                Console.WriteLine("Historical Tick Bid/Ask. Request Id: {0}, Time: {1}, Price Bid: {2}, Price Ask: {3}, Size Bid: {4}, Size Ask: {5}, Bid/Ask Tick Attribs: {6}",
+                    reqId, Util.UnixSecondsToString(tick.Time, "yyyyMMdd-HH:mm:ss zzz"), tick.PriceBid, tick.PriceAsk, tick.SizeBid, tick.SizeAsk, tick.TickAttribBidAsk.toString())
             Next
         End Sub
 		'! [historicalticksbidask]
@@ -684,14 +684,14 @@ Namespace Samples
 		'! [historicaltickslast]
         Public Sub historicalTickLast(reqId As Integer, ticks As HistoricalTickLast(), done As Boolean) Implements EWrapper.historicalTicksLast
             For Each tick In ticks
-                Console.WriteLine("Historical Tick Last. Request Id: {0}, Time: {1}, Mask: {2}, Price: {3}, Size: {4}, Exchange: {5}, Special Conditions: {6}",
-                    reqId, Util.UnixSecondsToString(tick.Time, "yyyyMMdd-HH:mm:ss zzz"), tick.Mask, tick.Price, tick.Size, tick.Exchange, tick.SpecialConditions)
+                Console.WriteLine("Historical Tick Last. Request Id: {0}, Time: {1}, Price: {2}, Size: {3}, Exchange: {4}, Special Conditions: {5}, Last Tick Attribs: {6}",
+                    reqId, Util.UnixSecondsToString(tick.Time, "yyyyMMdd-HH:mm:ss zzz"), tick.Price, tick.Size, tick.Exchange, tick.SpecialConditions, tick.TickAttribLast.toString())
             Next
         End Sub
         '! [historicaltickslast]
 
         '! [tickbytickalllast]
-        Public Sub tickByTickAllLast(reqId As Integer, tickType As Integer, time As Long, price As Double, size As Integer, attribs As TickAttrib, exchange As String, specialConditions As String) Implements EWrapper.tickByTickAllLast
+        Public Sub tickByTickAllLast(reqId As Integer, tickType As Integer, time As Long, price As Double, size As Integer, tickAttribLast As TickAttribLast, exchange As String, specialConditions As String) Implements EWrapper.tickByTickAllLast
             Dim tickTypeStr As String
             If tickType = 1 Then
                 tickTypeStr = "Last"
@@ -699,14 +699,14 @@ Namespace Samples
                 tickTypeStr = "AllLast"
             End If
             Console.WriteLine("Tick-By-Tick. Request Id: {0}, TickType: {1}, Time: {2}, Price: {3}, Size: {4}, Exchange: {5}, Special Conditions: {6}, PastLimit: {7}, Unreported: {8}",
-                reqId, tickTypeStr, Util.UnixSecondsToString(time, "yyyyMMdd-HH:mm:ss zzz"), price, size, exchange, specialConditions, attribs.PastLimit, attribs.Unreported)
+                reqId, tickTypeStr, Util.UnixSecondsToString(time, "yyyyMMdd-HH:mm:ss zzz"), price, size, exchange, specialConditions, tickAttribLast.PastLimit, tickAttribLast.Unreported)
         End Sub
         '! [tickbytickalllast]
 
         '! [tickbytickbidask]
-        Public Sub tickByTickBidAsk(reqId As Integer, time As Long, bidPrice As Double, askPrice As Double, bidSize As Integer, askSize As Integer, attribs As TickAttrib) Implements EWrapper.tickByTickBidAsk
+        Public Sub tickByTickBidAsk(reqId As Integer, time As Long, bidPrice As Double, askPrice As Double, bidSize As Integer, askSize As Integer, tickAttribBidAsk As TickAttribBidAsk) Implements EWrapper.tickByTickBidAsk
             Console.WriteLine("Tick-By-Tick. Request Id: {0}, TickType: BidAsk, Time: {1}, BidPrice: {2}, AskPrice: {3}, BidSize: {4}, AskSize: {5}, BidPastLow: {6}, AskPastHigh: {7}",
-                reqId, Util.UnixSecondsToString(time, "yyyyMMdd-HH:mm:ss zzz"), bidPrice, askPrice, bidSize, askSize, attribs.BidPastLow, attribs.AskPastHigh)
+                reqId, Util.UnixSecondsToString(time, "yyyyMMdd-HH:mm:ss zzz"), bidPrice, askPrice, bidSize, askSize, tickAttribBidAsk.BidPastLow, tickAttribBidAsk.AskPastHigh)
         End Sub
         '! [tickbytickbidask]
 

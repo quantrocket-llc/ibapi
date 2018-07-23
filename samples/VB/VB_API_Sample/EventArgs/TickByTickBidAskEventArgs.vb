@@ -17,6 +17,6 @@ Class TickByTickBidAskEventArgs
 
     Property askSize As Integer
 
-    Property attribs As TickAttrib
+    Property tickAttribBidAsk As TickAttribBidAsk
 
 End Class

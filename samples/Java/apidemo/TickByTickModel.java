@@ -59,7 +59,7 @@ class TickByTickModel extends AbstractTableModel {
                 case 0: return Util.UnixSecondsToString(row.time(), "yyyyMMdd-HH:mm:ss zzz");
                 case 1: return row.price();
                 case 2: return row.size();
-                case 3: return row.attribsStr();
+                case 3: return row.tickAttribLastStr();
                 case 4: return row.exchange();
                 case 5: return row.specialConditions();
             }
@@ -71,7 +71,7 @@ class TickByTickModel extends AbstractTableModel {
                 case 2: return row.bidSize();
                 case 3: return row.askPrice();
                 case 4: return row.askSize();
-                case 5: return row.attribsStr();
+                case 5: return row.tickAttribBidAskStr();
             }
             break;
         case MidPoint:
@@ -96,7 +96,7 @@ class TickByTickModel extends AbstractTableModel {
                     case 0: return "Time";
                     case 1: return "Price";
                     case 2: return "Size";
-                    case 3: return "Attribs";
+                    case 3: return "Last Tick Attribs";
                     case 4: return "Exchange";
                     case 5: return "Spec Cond";
                 }
@@ -108,7 +108,7 @@ class TickByTickModel extends AbstractTableModel {
                     case 2: return "Bid Size";
                     case 3: return "Ask Price";
                     case 4: return "Ask Size";
-                    case 5: return "Attribs";
+                    case 5: return "Bid/Ask Tick Attribs";
                 }
                 break;
             case MidPoint:

@@ -28,7 +28,7 @@ import javax.swing.table.AbstractTableModel;
 import com.ib.client.Contract;
 import com.ib.client.ContractDetails;
 import com.ib.client.MarketDataType;
-import com.ib.client.TickAttr;
+import com.ib.client.TickAttrib;
 import com.ib.client.TickType;
 import com.ib.client.Types.Right;
 import com.ib.client.Types.SecType;
@@ -126,7 +126,7 @@ class OptionChainsPanel extends JPanel {
 		Timer m_timer = new Timer( 800, this);
 	    JLabel m_labUnderPrice = new JLabel();
 	    transient TopMktDataAdapter m_stockListener = new TopMktDataAdapter() {
-            @Override public void tickPrice(TickType tickType, double price, TickAttr attribs) {
+            @Override public void tickPrice(TickType tickType, double price, TickAttrib attribs) {
                 if (tickType == TickType.LAST || tickType == TickType.DELAYED_LAST) {
                     m_labUnderPrice.setText( "" + price);
                 }
@@ -277,7 +277,7 @@ class OptionChainsPanel extends JPanel {
 					m_c = contract;
 				}
 		
-				@Override public void tickPrice(TickType tickType, double price, TickAttr attribs) {
+				@Override public void tickPrice(TickType tickType, double price, TickAttrib attribs) {
 					switch( tickType) {
 						case BID:
 						case DELAYED_BID:

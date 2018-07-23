@@ -779,7 +779,7 @@ Friend Class ApiEventSource
     End Sub
 
     Public Sub EWrapper_TickByTickAllLast(reqId As Integer, tickType As Integer, time As Long, price As Double, size As Integer,
-                                          attribs As TickAttrib, exchange As String, specialConditions As String) Implements EWrapper.tickByTickAllLast
+                                          tickAttribLast As TickAttribLast, exchange As String, specialConditions As String) Implements EWrapper.tickByTickAllLast
         InvokeIfRequired(Sub()
                              RaiseEvent TickByTickAllLast(Me, New TickByTickAllLastEventArgs With {
                                                             .reqId = reqId,
@@ -787,14 +787,14 @@ Friend Class ApiEventSource
                                                             .time = time,
                                                             .price = price,
                                                             .size = size,
-                                                            .attribs = attribs,
+                                                            .tickAttribLast = tickAttribLast,
                                                             .exchange = exchange,
                                                             .specialConditions = specialConditions 
                                                             })
                          End Sub)
     End Sub
 
-    Public Sub EWrapper_TickByTickBidAsk(reqId As Integer, time As Long, bidPrice As Double, askPrice As Double, bidSize As Integer, askSize As Integer, attribs As TickAttrib) Implements EWrapper.tickByTickBidAsk
+    Public Sub EWrapper_TickByTickBidAsk(reqId As Integer, time As Long, bidPrice As Double, askPrice As Double, bidSize As Integer, askSize As Integer, tickAttribBidAsk As TickAttribBidAsk) Implements EWrapper.tickByTickBidAsk
         InvokeIfRequired(Sub()
                              RaiseEvent TickByTickBidAsk(Me, New TickByTickBidAskEventArgs With {
                                                             .reqId = reqId,
@@ -803,7 +803,7 @@ Friend Class ApiEventSource
                                                             .askPrice = askPrice,
                                                             .bidSize = bidSize,
                                                             .askSize = askSize,
-                                                            .attribs = attribs
+                                                            .tickAttribBidAsk = tickAttribBidAsk
                                                             })
                          End Sub)
     End Sub

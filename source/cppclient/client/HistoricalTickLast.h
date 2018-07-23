@@ -5,10 +5,12 @@
 #ifndef TWS_API_CLIENT_HISTORICALTICKLAST_H
 #define TWS_API_CLIENT_HISTORICALTICKLAST_H
 
+#include "TickAttribLast.h"
+
 struct HistoricalTickLast
 {
     long long time;
-    int mask; 
+    TickAttribLast tickAttribLast;
     double price;
     long long size;
     std::string exchange;

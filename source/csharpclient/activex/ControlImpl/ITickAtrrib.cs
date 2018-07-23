@@ -19,11 +19,5 @@ namespace TWSLib
         bool pastLimit { [return: MarshalAs(UnmanagedType.Bool)] get; [param: MarshalAs(UnmanagedType.Bool)] set; }
         [DispId(3)]
         bool preOpen { [return: MarshalAs(UnmanagedType.Bool)] get; [param: MarshalAs(UnmanagedType.Bool)] set; }
-        [DispId(4)]
-        bool unreported { [return: MarshalAs(UnmanagedType.Bool)] get; [param: MarshalAs(UnmanagedType.Bool)] set; }
-        [DispId(5)]
-        bool bidPastLow { [return: MarshalAs(UnmanagedType.Bool)] get; [param: MarshalAs(UnmanagedType.Bool)] set; }
-        [DispId(6)]
-        bool askPastHigh { [return: MarshalAs(UnmanagedType.Bool)] get; [param: MarshalAs(UnmanagedType.Bool)] set; }
     }
 }

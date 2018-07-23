@@ -17,7 +17,9 @@ import com.ib.client.BitMask;
 import com.ib.client.HistoricalTick;
 import com.ib.client.HistoricalTickBidAsk;
 import com.ib.client.HistoricalTickLast;
-import com.ib.client.TickAttr;
+import com.ib.client.TickAttrib;
+import com.ib.client.TickAttribBidAsk;
+import com.ib.client.TickAttribLast;
 import com.ib.client.TickByTick;
 import com.ib.client.Types.TickByTickType;
 import com.ib.controller.ApiController.ITickByTickDataHandler;
@@ -53,9 +55,9 @@ class TickByTickResultsPanel extends NewTabPanel implements ITickByTickDataHandl
     }
 
     @Override
-    public void tickByTickAllLast(int reqId, int tickType, long time, double price, int size, TickAttr attribs,
+    public void tickByTickAllLast(int reqId, int tickType, long time, double price, int size, TickAttribLast tickAttribLast,
             String exchange, String specialConditions) {
-        TickByTick tick = new TickByTick(tickType, time, price, size, attribs, exchange, specialConditions);
+        TickByTick tick = new TickByTick(tickType, time, price, size, tickAttribLast, exchange, specialConditions);
         m_tickByTickRows.add(tick);
 
         m_table.setModel(m_tickModel);
@@ -64,8 +66,8 @@ class TickByTickResultsPanel extends NewTabPanel implements ITickByTickDataHandl
 
     @Override
     public void tickByTickBidAsk(int reqId, long time, double bidPrice, double askPrice, int bidSize, int askSize,
-            TickAttr attribs) {
-        TickByTick tick = new TickByTick(time, bidPrice, bidSize, askPrice, askSize, attribs);
+            TickAttribBidAsk tickAttribBidAsk) {
+        TickByTick tick = new TickByTick(time, bidPrice, bidSize, askPrice, askSize, tickAttribBidAsk);
         m_tickByTickRows.add(tick);
 
         m_table.setModel(m_tickModel);
@@ -92,12 +94,7 @@ class TickByTickResultsPanel extends NewTabPanel implements ITickByTickDataHandl
     @Override
     public void tickByTickHistoricalTickAllLast(int reqId, List<HistoricalTickLast> ticks) {
         for (HistoricalTickLast tick : ticks) {
-            BitMask bitMask = new BitMask(tick.mask());
-            TickAttr attribs = new TickAttr();
-            attribs.pastLimit(bitMask.get(0));
-            attribs.unreported(bitMask.get(1));
-
-            TickByTick tickByTick = new TickByTick(2, tick.time(), tick.price(), tick.size(), attribs, tick.exchange(), tick.specialConditions());
+            TickByTick tickByTick = new TickByTick(2, tick.time(), tick.price(), tick.size(), tick.tickAttribLast(), tick.exchange(), tick.specialConditions());
             m_tickByTickRows.add(tickByTick);
         }
 
@@ -108,12 +105,7 @@ class TickByTickResultsPanel extends NewTabPanel implements ITickByTickDataHandl
 	@Override
 	public void tickByTickHistoricalTickBidAsk(int reqId, List<HistoricalTickBidAsk> ticks) {
         for (HistoricalTickBidAsk tick : ticks) {
-            BitMask bitMask = new BitMask(tick.mask());
-            TickAttr attribs = new TickAttr();
-            attribs.bidPastLow(bitMask.get(0));
-            attribs.askPastHigh(bitMask.get(1));
-
-            TickByTick tickByTick = new TickByTick(tick.time(), tick.priceBid(), tick.sizeBid(), tick.priceAsk(), tick.sizeAsk(), attribs);
+            TickByTick tickByTick = new TickByTick(tick.time(), tick.priceBid(), tick.sizeBid(), tick.priceAsk(), tick.sizeAsk(), tick.tickAttribBidAsk());
             m_tickByTickRows.add(tickByTick);
         }
 

@@ -44,53 +44,23 @@ namespace TWSLib
             set { if (data != null) data.PreOpen = value; }
         }
 
-        /**
-         * @brief unreported
-         */
-        bool Unreported
-        {
-            get { return data != null ? data.Unreported : default(bool); }
-            set { if (data != null) data.Unreported = value; }
-        }
-
-        /**
-         * @brief bidPastlow
-         */
-        bool BidPastLow
-        {
-            get { return data != null ? data.BidPastLow : default(bool); }
-            set { if (data != null) data.BidPastLow = value; }
-        }
-
-        /**
-         * @brief askPastHigh
-         */
-        bool AskPastHigh
-        {
-            get { return data != null ? data.AskPastHigh : default(bool); }
-            set { if (data != null) data.AskPastHigh = value; }
-        }
-
         public ComTickAttrib()
         {
         }
 
-        public static explicit operator TickAttrib(ComTickAttrib cta)
+        public static explicit operator TickAttrib(ComTickAttrib comTickAttrib)
         {
-            return cta.ConvertTo();
+            return comTickAttrib.ConvertTo();
         }
 
-        public static explicit operator ComTickAttrib(TickAttrib ta)
+        public static explicit operator ComTickAttrib(TickAttrib tickAttrib)
         {
-            return new ComTickAttrib().ConvertFrom(ta) as ComTickAttrib;
+            return new ComTickAttrib().ConvertFrom(tickAttrib) as ComTickAttrib;
         }
 
         bool TWSLib.ITickAttrib.canAutoExecute { get { return CanAutoExecute; } set { CanAutoExecute = value; } }
         bool TWSLib.ITickAttrib.pastLimit { get { return PastLimit; } set { PastLimit = value; } }
         bool TWSLib.ITickAttrib.preOpen { get { return PreOpen; } set { PreOpen = value; } }
-        bool TWSLib.ITickAttrib.unreported { get { return Unreported; } set { Unreported = value; } }
-        bool TWSLib.ITickAttrib.bidPastLow { get { return BidPastLow; } set { BidPastLow = value; } }
-        bool TWSLib.ITickAttrib.askPastHigh { get { return AskPastHigh; } set { AskPastHigh = value; } }
 
     }
 }

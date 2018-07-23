@@ -1080,7 +1080,7 @@ class SampleFrame extends JFrame implements EWrapper {
                 m_historicalNewsDlg.m_retEndDateTime, m_historicalNewsDlg.m_retTotalResults, m_historicalNewsOptions);
     }
 
-    public void tickPrice( int tickerId, int field, double price, TickAttr attribs) {
+    public void tickPrice( int tickerId, int field, double price, TickAttrib attribs) {
         // received price tick
     	String msg = EWrapperMsgGenerator.tickPrice( tickerId, field, price, attribs);
         m_tickers.add( msg );
@@ -1707,7 +1707,7 @@ class SampleFrame extends JFrame implements EWrapper {
         StringBuilder msg = new StringBuilder();
         
         for (HistoricalTickBidAsk tick : ticks) {
-            msg.append(EWrapperMsgGenerator.historicalTickBidAsk(reqId, tick.time(), tick.mask(), tick.priceBid(), tick.priceAsk(), tick.sizeBid(), 
+            msg.append(EWrapperMsgGenerator.historicalTickBidAsk(reqId, tick.time(), tick.tickAttribBidAsk(), tick.priceBid(), tick.priceAsk(), tick.sizeBid(), 
                     tick.sizeAsk()));
             msg.append("\n");
         }
@@ -1721,7 +1721,7 @@ class SampleFrame extends JFrame implements EWrapper {
         StringBuilder msg = new StringBuilder();
         
         for (HistoricalTickLast tick : ticks) {
-            msg.append(EWrapperMsgGenerator.historicalTickLast(reqId, tick.time(), tick.mask(), tick.price(), tick.size(), tick.exchange(), 
+            msg.append(EWrapperMsgGenerator.historicalTickLast(reqId, tick.time(), tick.tickAttribLast(), tick.price(), tick.size(), tick.exchange(), 
                     tick.specialConditions()));
             msg.append("\n");
         }
@@ -1730,17 +1730,17 @@ class SampleFrame extends JFrame implements EWrapper {
     }
 
     @Override
-    public void tickByTickAllLast(int reqId, int tickType, long time, double price, int size, TickAttr attribs,
+    public void tickByTickAllLast(int reqId, int tickType, long time, double price, int size, TickAttribLast tickAttribLast,
             String exchange, String specialConditions) {
-        String msg = EWrapperMsgGenerator.tickByTickAllLast(reqId, tickType, time, price, size, attribs, exchange, specialConditions);
+        String msg = EWrapperMsgGenerator.tickByTickAllLast(reqId, tickType, time, price, size, tickAttribLast, exchange, specialConditions);
 
         m_tickers.add(msg);
     }
 
     @Override
     public void tickByTickBidAsk(int reqId, long time, double bidPrice, double askPrice, int bidSize, int askSize,
-            TickAttr attribs) {
-        String msg = EWrapperMsgGenerator.tickByTickBidAsk(reqId, time, bidPrice, askPrice, bidSize, askSize, attribs);
+            TickAttribBidAsk tickAttribBidAsk) {
+        String msg = EWrapperMsgGenerator.tickByTickBidAsk(reqId, time, bidPrice, askPrice, bidSize, askSize, tickAttribBidAsk);
 
         m_tickers.add(msg);
     }

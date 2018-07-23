@@ -17,9 +17,9 @@ namespace IBSampleApp.messages
         public double AskPrice { get; private set; }
         public long BidSize { get; private set; }
         public long AskSize { get; private set; }
-        public TickAttrib Attribs { get; private set; }
+        public TickAttribBidAsk TickAttribBidAsk { get; private set; }
 
-        public TickByTickBidAskMessage(int reqId, long time, double bidPrice, double askPrice, long bidSize, long askSize, TickAttrib attribs)
+        public TickByTickBidAskMessage(int reqId, long time, double bidPrice, double askPrice, long bidSize, long askSize, TickAttribBidAsk tickAttribBidAsk)
         {
             ReqId = reqId;
             Time = time;
@@ -27,7 +27,7 @@ namespace IBSampleApp.messages
             AskPrice = askPrice;
             BidSize = bidSize;
             AskSize = askSize;
-            Attribs = attribs;
+            TickAttribBidAsk = tickAttribBidAsk;
         }
     }
 }

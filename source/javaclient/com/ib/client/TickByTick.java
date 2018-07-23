@@ -8,7 +8,8 @@ public class TickByTick {
     private long m_time;  // in seconds
     private double m_price;
     private long m_size;
-    private TickAttr m_attribs;
+    private TickAttribLast m_tickAttribLast;
+    private TickAttribBidAsk m_tickAttribBidAsk;
     private String m_exchange;
     private String m_specialConditions;
     private double m_bidPrice;
@@ -17,24 +18,24 @@ public class TickByTick {
     private long m_askSize;
     private double m_midPoint;
 
-    public TickByTick(int tickType, long time, double price, long size, TickAttr attribs, String exchange, String specialConditions) {
+    public TickByTick(int tickType, long time, double price, long size, TickAttribLast tickAttribLast, String exchange, String specialConditions) {
     	m_tickType = tickType;
         m_time = time;
         m_price = price;
         m_size = size;
-        m_attribs = attribs;
+        m_tickAttribLast = tickAttribLast;
         m_exchange = exchange;
         m_specialConditions = specialConditions;
     }
 
-    public TickByTick(long time, double bidPrice, long bidSize, double askPrice, long askSize, TickAttr attribs) {
+    public TickByTick(long time, double bidPrice, long bidSize, double askPrice, long askSize, TickAttribBidAsk tickAttribBidAsk) {
     	m_tickType = 3;
         m_time = time;
         m_bidPrice = bidPrice;
         m_bidSize = bidSize;
         m_askPrice = askPrice;
         m_askSize = askSize;
-        m_attribs = attribs;
+        m_tickAttribBidAsk = tickAttribBidAsk;
     }
 
     public TickByTick(long time, double midPoint) {
@@ -59,19 +60,28 @@ public class TickByTick {
         return m_size;
     }
 
-    public TickAttr attribs() {
-    	return m_attribs;
+    public TickAttribLast tickAttribLast() {
+    	return m_tickAttribLast;
     }
 
-    public String attribsStr() {
+    public TickAttribBidAsk tickAttribBidAsk() {
+    	return m_tickAttribBidAsk;
+    }
+    
+    public String tickAttribLastStr() {
         StringBuilder sb = new StringBuilder();
-        sb.append(m_attribs.pastLimit() ? "PastLimit " : "");
-        sb.append(m_attribs.unreported() ? "Unreported " : "");
-        sb.append(m_attribs.bidPastLow() ? "BidPastLow " : "");
-        sb.append(m_attribs.askPastHigh() ? "AskPastHigh " : "");
+        sb.append(m_tickAttribLast.pastLimit() ? "PastLimit " : "");
+        sb.append(m_tickAttribLast.unreported() ? "Unreported " : "");
         return sb.toString();
     }
 
+    public String tickAttribBidAskStr() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(m_tickAttribBidAsk.bidPastLow() ? "BidPastLow " : "");
+        sb.append(m_tickAttribBidAsk.askPastHigh() ? "AskPastHigh " : "");
+        return sb.toString();
+    }
+    
     public String exchange() {
         return m_exchange;
     }

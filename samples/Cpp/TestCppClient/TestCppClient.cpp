@@ -1340,7 +1340,7 @@ void TestCppClient::nextValidId( OrderId orderId)
     //m_state = ST_TICKOPTIONCOMPUTATIONOPERATION; 
     //m_state = ST_TICKDATAOPERATION; 
     //m_state = ST_REQTICKBYTICKDATA; 
-    //m_state = ST_REQHISTORICALTICKS; 
+    m_state = ST_REQHISTORICALTICKS; 
     //m_state = ST_CONTFUT; 
     //m_state = ST_PNLSINGLE; 
     //m_state = ST_PNL; 
@@ -1354,7 +1354,7 @@ void TestCppClient::nextValidId( OrderId orderId)
 	//m_state = ST_REUTERSFUNDAMENTALS;
 	//m_state = ST_BULLETINS;
 	//m_state = ST_ACCOUNTOPERATIONS;
-	m_state = ST_ORDEROPERATIONS;
+	//m_state = ST_ORDEROPERATIONS;
 	//m_state = ST_OCASAMPLES;
 	//m_state = ST_CONDITIONSAMPLES;
 	//m_state = ST_BRACKETSAMPLES;
@@ -2007,8 +2007,9 @@ void TestCppClient::historicalTicks(int reqId, const std::vector<HistoricalTick>
 void TestCppClient::historicalTicksBidAsk(int reqId, const std::vector<HistoricalTickBidAsk>& ticks, bool done) {
     for (HistoricalTickBidAsk tick : ticks) {
 	std::time_t t = tick.time;
-        std::cout << "Historical tick bid/ask. ReqId: " << reqId << ", time: " << ctime(&t) << ", mask: " << tick.mask << ", price bid: "<< tick.priceBid <<
-            ", price ask: "<< tick.priceAsk << ", size bid: " << tick.sizeBid << ", size ask: " << tick.sizeAsk << std::endl;
+        std::cout << "Historical tick bid/ask. ReqId: " << reqId << ", time: " << ctime(&t) << ", price bid: "<< tick.priceBid <<
+            ", price ask: "<< tick.priceAsk << ", size bid: " << tick.sizeBid << ", size ask: " << tick.sizeAsk <<
+            ", bidPastLow: " << tick.tickAttribBidAsk.bidPastLow << ", askPastHigh: " << tick.tickAttribBidAsk.askPastHigh << std::endl;
     }
 }
 //! [historicalticksbidask]
@@ -2017,23 +2018,24 @@ void TestCppClient::historicalTicksBidAsk(int reqId, const std::vector<Historica
 void TestCppClient::historicalTicksLast(int reqId, const std::vector<HistoricalTickLast>& ticks, bool done) {
     for (HistoricalTickLast tick : ticks) {
 	std::time_t t = tick.time;
-        std::cout << "Historical tick last. ReqId: " << reqId << ", time: " << ctime(&t) << ", mask: " << tick.mask << ", price: "<< tick.price <<
-            ", size: " << tick.size << ", exchange: " << tick.exchange << ", special conditions: " << tick.specialConditions << std::endl;
+        std::cout << "Historical tick last. ReqId: " << reqId << ", time: " << ctime(&t) << ", price: "<< tick.price <<
+            ", size: " << tick.size << ", exchange: " << tick.exchange << ", special conditions: " << tick.specialConditions <<
+            ", unreported: " << tick.tickAttribLast.unreported << ", pastLimit: " << tick.tickAttribLast.pastLimit << std::endl;
     }
 }
 //! [historicaltickslast]
 
 //! [tickbytickalllast]
-void TestCppClient::tickByTickAllLast(int reqId, int tickType, time_t time, double price, int size, const TickAttrib& attribs, const std::string& exchange, const std::string& specialConditions) {
+void TestCppClient::tickByTickAllLast(int reqId, int tickType, time_t time, double price, int size, const TickAttribLast& tickAttribLast, const std::string& exchange, const std::string& specialConditions) {
     printf("Tick-By-Tick. ReqId: %d, TickType: %s, Time: %s, Price: %g, Size: %d, PastLimit: %d, Unreported: %d, Exchange: %s, SpecialConditions:%s\n", 
-        reqId, (tickType == 1 ? "Last" : "AllLast"), ctime(&time), price, size, attribs.pastLimit, attribs.unreported, exchange.c_str(), specialConditions.c_str());
+        reqId, (tickType == 1 ? "Last" : "AllLast"), ctime(&time), price, size, tickAttribLast.pastLimit, tickAttribLast.unreported, exchange.c_str(), specialConditions.c_str());
 }
 //! [tickbytickalllast]
 
 //! [tickbytickbidask]
-void TestCppClient::tickByTickBidAsk(int reqId, time_t time, double bidPrice, double askPrice, int bidSize, int askSize, const TickAttrib& attribs) {
+void TestCppClient::tickByTickBidAsk(int reqId, time_t time, double bidPrice, double askPrice, int bidSize, int askSize, const TickAttribBidAsk& tickAttribBidAsk) {
     printf("Tick-By-Tick. ReqId: %d, TickType: BidAsk, Time: %s, BidPrice: %g, AskPrice: %g, BidSize: %d, AskSize: %d, BidPastLow: %d, AskPastHigh: %d\n", 
-        reqId, ctime(&time), bidPrice, askPrice, bidSize, askSize, attribs.bidPastLow, attribs.askPastHigh);
+        reqId, ctime(&time), bidPrice, askPrice, bidSize, askSize, tickAttribBidAsk.bidPastLow, tickAttribBidAsk.askPastHigh);
 }
 //! [tickbytickbidask]
 

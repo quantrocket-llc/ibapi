@@ -17,7 +17,7 @@ public class EWrapperMsgGenerator {
     public static final String SCANNER_PARAMETERS = "SCANNER PARAMETERS:";
     public static final String FINANCIAL_ADVISOR = "FA:";
     
-	public static String tickPrice( int tickerId, int field, double price, TickAttr attribs) {
+	public static String tickPrice( int tickerId, int field, double price, TickAttrib attribs) {
     	return "id=" + tickerId + "  " + TickType.getField( field) + "=" + price + " " + 
         (attribs.canAutoExecute() ? " canAutoExecute" : " noAutoExecute") + " pastLimit = " + attribs.pastLimit() +
         (field == TickType.BID.index() || field == TickType.ASK.index() ? " preOpen = " + attribs.preOpen() : "");
@@ -801,31 +801,33 @@ public class EWrapperMsgGenerator {
                 + size;
     }
 
-    public static String historicalTickBidAsk(int reqId, long time, int mask, double priceBid, double priceAsk,
+    public static String historicalTickBidAsk(int reqId, long time, TickAttribBidAsk tickAttribBidAsk, double priceBid, double priceAsk,
             long sizeBid, long sizeAsk) {
         return "Historical Tick Bid/Ask. Req Id: " + reqId + ", time: " + Util.UnixSecondsToString(time, "yyyyMMdd-HH:mm:ss zzz") + ", bid price: " + priceBid 
-                + ", ask price: " + priceAsk + ", bid size: " + sizeBid + ", ask size: " + sizeAsk;
+                + ", ask price: " + priceAsk + ", bid size: " + sizeBid + ", ask size: " + sizeAsk 
+                + ", tick attribs: " + (tickAttribBidAsk.bidPastLow() ? "bidPastLow " : "") + (tickAttribBidAsk.askPastHigh() ? "askPastHigh " : "");
     }
 
-    public static String historicalTickLast(int reqId, long time, int mask, double price, long size, String exchange,
+    public static String historicalTickLast(int reqId, long time, TickAttribLast tickAttribLast, double price, long size, String exchange,
             String specialConditions) {        
         return "Historical Tick Last. Req Id: " + reqId + ", time: " + Util.UnixSecondsToString(time, "yyyyMMdd-HH:mm:ss zzz") + ", price: " + price + ", size: " 
-                + size + ", exchange: " + exchange + ", special conditions:" + specialConditions;
+                + size + ", exchange: " + exchange + ", special conditions:" + specialConditions 
+                + ", tick attribs: " + (tickAttribLast.pastLimit() ? "pastLimit " : "") + (tickAttribLast.unreported() ? "unreported " : "");
     }
     
-    public static String tickByTickAllLast(int reqId, int tickType, long time, double price, int size, TickAttr attribs, 
+    public static String tickByTickAllLast(int reqId, int tickType, long time, double price, int size, TickAttribLast tickAttribLast, 
             String exchange, String specialConditions){
         return (tickType == 1 ? "Last." : "AllLast.") +
                 " Req Id: " + reqId + " Time: " + Util.UnixSecondsToString(time, "yyyyMMdd-HH:mm:ss zzz") + " Price: " + price + " Size: " + size +
-                " Exch: " + exchange + " Spec Cond: " + specialConditions + (attribs.pastLimit() ? " pastLimit" : "") +
-                (tickType == 1 ? "" : (attribs.unreported() ? " unreported" : ""));
+                " Exch: " + exchange + " Spec Cond: " + specialConditions + " Tick Attibs: " + (tickAttribLast.pastLimit() ? "pastLimit " : "") +
+                (tickType == 1 ? "" : (tickAttribLast.unreported() ? "unreported " : ""));
     }
     
     public static String tickByTickBidAsk(int reqId, long time, double bidPrice, double askPrice, int bidSize, int askSize,
-            TickAttr attribs){
+            TickAttribBidAsk tickAttribBidAsk){
         return "BidAsk. Req Id: " + reqId + " Time: " + Util.UnixSecondsToString(time, "yyyyMMdd-HH:mm:ss zzz") + " BidPrice: " + bidPrice + 
-                " AskPrice: " + askPrice + " BidSize: " + bidSize + " AskSize: " + askSize + 
-                (attribs.bidPastLow() ? " bidPastLow" : "") + (attribs.askPastHigh() ? " askPastHigh" : "");
+                " AskPrice: " + askPrice + " BidSize: " + bidSize + " AskSize: " + askSize + " Tick Attibs: " + 
+                (tickAttribBidAsk.bidPastLow() ? "bidPastLow " : "") + (tickAttribBidAsk.askPastHigh() ? "askPastHigh " : "");
     }
 
     public static String tickByTickMidPoint(int reqId, long time, double midPoint){

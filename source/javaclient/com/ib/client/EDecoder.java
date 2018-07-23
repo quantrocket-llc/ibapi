@@ -486,13 +486,17 @@ class EDecoder implements ObjectInput {
         
         for (int i = 0; i < tickCount; i++) {
             long time = readLong();
-            int mask = readInt();
+            BitMask mask = new BitMask(readInt());
+            TickAttribLast tickAttribLast = new TickAttribLast();
+            tickAttribLast.pastLimit(mask.get(0));
+            tickAttribLast.unreported(mask.get(1));
+            
             double price = readDouble();
             long size = readLong();
             String exchange = readStr(),
                    specialConditions = readStr();
 
-            ticks.add(new HistoricalTickLast(time, mask, price, size, exchange, specialConditions));
+            ticks.add(new HistoricalTickLast(time, tickAttribLast, price, size, exchange, specialConditions));
         }
 
         boolean done = readBoolean();
@@ -508,13 +512,17 @@ class EDecoder implements ObjectInput {
         
         for (int i = 0; i < tickCount; i++) {
             long time = readLong();
-            int mask = readInt();
+            BitMask mask = new BitMask(readInt());
+            TickAttribBidAsk tickAttribBidAsk = new TickAttribBidAsk();
+            tickAttribBidAsk.askPastHigh(mask.get(0));
+            tickAttribBidAsk.bidPastLow(mask.get(1));
+            
             double priceBid = readDouble(),
                    priceAsk = readDouble();
             long sizeBid = readLong(),
                  sizeAsk = readLong();
 
-            ticks.add(new HistoricalTickBidAsk(time, mask, priceBid, priceAsk, sizeBid, sizeAsk));
+            ticks.add(new HistoricalTickBidAsk(time, tickAttribBidAsk, priceBid, priceAsk, sizeBid, sizeAsk));
         }
 
         boolean done = readBoolean();
@@ -1972,7 +1980,7 @@ class EDecoder implements ObjectInput {
 		int tickType = readInt();
 		double price = readDouble();
 		int size = 0;
-		TickAttr attribs = new TickAttr();
+		TickAttrib attribs = new TickAttrib();
 		
 		if( version >= 2) {
 		    size = readInt();
@@ -2108,7 +2116,6 @@ class EDecoder implements ObjectInput {
         long time = readLong();
 
         BitMask mask;
-        TickAttr attribs;
         switch(tickType){
             case 0: // None
                 break;
@@ -2117,12 +2124,12 @@ class EDecoder implements ObjectInput {
                 double price = readDouble();
                 int size = readInt();
                 mask = new BitMask(readInt());
-                attribs = new TickAttr();
-                attribs.pastLimit(mask.get(0));
-                attribs.unreported(mask.get(1));
+                TickAttribLast tickAttribLast = new TickAttribLast();
+                tickAttribLast.pastLimit(mask.get(0));
+                tickAttribLast.unreported(mask.get(1));
                 String exchange = readStr();
                 String specialConditions = readStr();
-                m_EWrapper.tickByTickAllLast(reqId, tickType, time, price, size, attribs, exchange, specialConditions);
+                m_EWrapper.tickByTickAllLast(reqId, tickType, time, price, size, tickAttribLast, exchange, specialConditions);
                 break;
             case 3: // BidAsk
                 double bidPrice = readDouble();
@@ -2130,10 +2137,10 @@ class EDecoder implements ObjectInput {
                 int bidSize = readInt();
                 int askSize = readInt();
                 mask = new BitMask(readInt());
-                attribs = new TickAttr();
-                attribs.bidPastLow(mask.get(0));
-                attribs.askPastHigh(mask.get(1));
-                m_EWrapper.tickByTickBidAsk(reqId, time, bidPrice, askPrice, bidSize, askSize, attribs);
+                TickAttribBidAsk tickAttribBidAsk = new TickAttribBidAsk();
+                tickAttribBidAsk.bidPastLow(mask.get(0));
+                tickAttribBidAsk.askPastHigh(mask.get(1));
+                m_EWrapper.tickByTickBidAsk(reqId, time, bidPrice, askPrice, bidSize, askSize, tickAttribBidAsk);
                 break;
             case 4: // MidPoint
                 double midPoint = readDouble();

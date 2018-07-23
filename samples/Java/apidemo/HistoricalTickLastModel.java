@@ -33,11 +33,11 @@ class HistoricalTickLastModel extends AbstractTableModel {
         
         switch (columnIndex) {
             case 0: return row.time();
-            case 1: return row.mask();
-            case 2: return row.price();
-            case 3: return row.size();
-            case 4: return row.exchange();
-            case 5: return row.specialConditions();
+            case 1: return row.price();
+            case 2: return row.size();
+            case 3: return row.exchange();
+            case 4: return row.specialConditions();
+            case 5: return row.tickAttribLast().toString();
         }
         return null;
     }
@@ -46,11 +46,11 @@ class HistoricalTickLastModel extends AbstractTableModel {
     public String getColumnName(int column) { 
         switch (column) {
             case 0: return "Time";
-            case 1: return "Mask";
-            case 2: return "Price";
-            case 3: return "Size";
-            case 4: return "Exchange";
-            case 5: return "Special conditions";
+            case 1: return "Price";
+            case 2: return "Size";
+            case 3: return "Exchange";
+            case 4: return "Special conditions";
+            case 5: return "Last Tick Attribs";
         }
         return super.getColumnName(column);
     }

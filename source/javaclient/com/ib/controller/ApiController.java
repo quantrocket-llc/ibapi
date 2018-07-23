@@ -453,7 +453,7 @@ public class ApiController implements EWrapper {
 
 	// ---------------------------------------- Top Market Data handling ----------------------------------------
 	public interface ITopMktDataHandler {
-		void tickPrice(TickType tickType, double price, TickAttr attribs);
+		void tickPrice(TickType tickType, double price, TickAttrib attribs);
 		void tickSize(TickType tickType, int size);
 		void tickString(TickType tickType, String value);
 		void tickSnapshotEnd();
@@ -470,7 +470,7 @@ public class ApiController implements EWrapper {
 	}
 
 	public static class TopMktDataAdapter implements ITopMktDataHandler {
-		@Override public void tickPrice(TickType tickType, double price, TickAttr attribs) {
+		@Override public void tickPrice(TickType tickType, double price, TickAttrib attribs) {
 		}
 		@Override public void tickSize(TickType tickType, int size) {
 		}
@@ -565,7 +565,7 @@ public class ApiController implements EWrapper {
 		}
 	}
 
-	@Override public void tickPrice(int reqId, int tickType, double price, TickAttr attribs) {
+	@Override public void tickPrice(int reqId, int tickType, double price, TickAttrib attribs) {
 		ITopMktDataHandler handler = m_topMktDataMap.get( reqId);
 		if (handler != null) {
 			handler.tickPrice( TickType.get( tickType), price, attribs);
@@ -576,7 +576,7 @@ public class ApiController implements EWrapper {
 	@Override public void tickGeneric(int reqId, int tickType, double value) {
 		ITopMktDataHandler handler = m_topMktDataMap.get( reqId);
 		if (handler != null) {
-			handler.tickPrice( TickType.get( tickType), value, new TickAttr());
+			handler.tickPrice( TickType.get( tickType), value, new TickAttrib());
 		}
 		recEOM();
 	}
@@ -1831,8 +1831,8 @@ public class ApiController implements EWrapper {
     }
 
     public interface ITickByTickDataHandler {
-        void tickByTickAllLast(int reqId, int tickType, long time, double price, int size, TickAttr attribs, String exchange, String specialConditions);
-        void tickByTickBidAsk(int reqId, long time, double bidPrice, double askPrice, int bidSize, int askSize, TickAttr attribs);
+        void tickByTickAllLast(int reqId, int tickType, long time, double price, int size, TickAttribLast tickAttribLast, String exchange, String specialConditions);
+        void tickByTickBidAsk(int reqId, long time, double bidPrice, double askPrice, int bidSize, int askSize, TickAttribBidAsk tickAttribBidAsk);
         void tickByTickMidPoint(int reqId, long time, double midPoint);
         void tickByTickHistoricalTickAllLast(int reqId, List<HistoricalTickLast> ticks);
         void tickByTickHistoricalTickBidAsk(int reqId, List<HistoricalTickBidAsk> ticks);        
@@ -1862,12 +1862,12 @@ public class ApiController implements EWrapper {
     }
 
     @Override
-    public void tickByTickAllLast(int reqId, int tickType, long time, double price, int size, TickAttr attribs,
+    public void tickByTickAllLast(int reqId, int tickType, long time, double price, int size, TickAttribLast tickAttribLast,
             String exchange, String specialConditions) {
         ITickByTickDataHandler handler = m_tickByTickDataMap.get(reqId);
 
         if (handler != null) {
-            handler.tickByTickAllLast(reqId, tickType, time, price, size, attribs, exchange, specialConditions);
+            handler.tickByTickAllLast(reqId, tickType, time, price, size, tickAttribLast, exchange, specialConditions);
         }
 
         recEOM();
@@ -1875,11 +1875,11 @@ public class ApiController implements EWrapper {
 
     @Override
     public void tickByTickBidAsk(int reqId, long time, double bidPrice, double askPrice, int bidSize, int askSize,
-            TickAttr attribs) {
+            TickAttribBidAsk tickAttribBidAsk) {
         ITickByTickDataHandler handler = m_tickByTickDataMap.get(reqId);
 
         if (handler != null) {
-            handler.tickByTickBidAsk(reqId, time, bidPrice, askPrice, bidSize, askSize, attribs);
+            handler.tickByTickBidAsk(reqId, time, bidPrice, askPrice, bidSize, askSize, tickAttribBidAsk);
         }
 
         recEOM();
