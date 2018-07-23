@@ -1,5 +1,6 @@
 var classIBApi_1_1HistoricalTick =
 [
+    [ "HistoricalTick", "classIBApi_1_1HistoricalTick.html#a8a0c994227e159d85402a439718edc80", null ],
     [ "HistoricalTick", "classIBApi_1_1HistoricalTick.html#affb04c5b22801c5533b0f625891e07bb", null ],
     [ "Price", "classIBApi_1_1HistoricalTick.html#aca7cab88f4bd1723a1439cef22aec340", null ],
     [ "Size", "classIBApi_1_1HistoricalTick.html#ae600e44a60983cdf469fe00aa2a490c7", null ],

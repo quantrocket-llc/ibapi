@@ -379,12 +379,12 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="inte
 <tr class="separator:aceda2894391ebddeb4409447fc453a4b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0d0c407b72a8ae93a7b65818eaf63381"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interfaceIBApi_1_1EWrapper.html#a0d0c407b72a8ae93a7b65818eaf63381">historicalTicksLast</a> (int reqId, <a class="el" href="classIBApi_1_1HistoricalTickLast.html">HistoricalTickLast</a>[] ticks, bool done)</td></tr>
 <tr class="separator:a0d0c407b72a8ae93a7b65818eaf63381"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab3a1c4487f9507fba7f6fb333a5c95cd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interfaceIBApi_1_1EWrapper.html#ab3a1c4487f9507fba7f6fb333a5c95cd">tickByTickAllLast</a> (int reqId, int tickType, long time, double price, int size, <a class="el" href="classIBApi_1_1TickAttrib.html">TickAttrib</a> attribs, string exchange, string specialConditions)</td></tr>
-<tr class="memdesc:ab3a1c4487f9507fba7f6fb333a5c95cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">returns "Last" or "AllLast" tick-by-tick real-time tick  <a href="#ab3a1c4487f9507fba7f6fb333a5c95cd">More...</a><br/></td></tr>
-<tr class="separator:ab3a1c4487f9507fba7f6fb333a5c95cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af2dbd8140709c9439fc2731a5ee6f7ab"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interfaceIBApi_1_1EWrapper.html#af2dbd8140709c9439fc2731a5ee6f7ab">tickByTickBidAsk</a> (int reqId, long time, double bidPrice, double askPrice, int bidSize, int askSize, <a class="el" href="classIBApi_1_1TickAttrib.html">TickAttrib</a> attribs)</td></tr>
-<tr class="memdesc:af2dbd8140709c9439fc2731a5ee6f7ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">returns "BidAsk" tick-by-tick real-time tick  <a href="#af2dbd8140709c9439fc2731a5ee6f7ab">More...</a><br/></td></tr>
-<tr class="separator:af2dbd8140709c9439fc2731a5ee6f7ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4eaec8ec47491a49ccc02fbb4f4b9f27"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interfaceIBApi_1_1EWrapper.html#a4eaec8ec47491a49ccc02fbb4f4b9f27">tickByTickAllLast</a> (int reqId, int tickType, long time, double price, int size, TickAttribLast tickAttriblast, string exchange, string specialConditions)</td></tr>
+<tr class="memdesc:a4eaec8ec47491a49ccc02fbb4f4b9f27"><td class="mdescLeft">&#160;</td><td class="mdescRight">returns "Last" or "AllLast" tick-by-tick real-time tick  <a href="#a4eaec8ec47491a49ccc02fbb4f4b9f27">More...</a><br/></td></tr>
+<tr class="separator:a4eaec8ec47491a49ccc02fbb4f4b9f27"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0274607b7ca7505717e66eef2ac29766"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interfaceIBApi_1_1EWrapper.html#a0274607b7ca7505717e66eef2ac29766">tickByTickBidAsk</a> (int reqId, long time, double bidPrice, double askPrice, int bidSize, int askSize, TickAttribBidAsk tickAttribBidAsk)</td></tr>
+<tr class="memdesc:a0274607b7ca7505717e66eef2ac29766"><td class="mdescLeft">&#160;</td><td class="mdescRight">returns "BidAsk" tick-by-tick real-time tick  <a href="#a0274607b7ca7505717e66eef2ac29766">More...</a><br/></td></tr>
+<tr class="separator:a0274607b7ca7505717e66eef2ac29766"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a41674990126f443507366a01662ebb6d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interfaceIBApi_1_1EWrapper.html#a41674990126f443507366a01662ebb6d">tickByTickMidPoint</a> (int reqId, long time, double midPoint)</td></tr>
 <tr class="memdesc:a41674990126f443507366a01662ebb6d"><td class="mdescLeft">&#160;</td><td class="mdescRight">returns "MidPoint" tick-by-tick real-time tick  <a href="#a41674990126f443507366a01662ebb6d">More...</a><br/></td></tr>
 <tr class="separator:a41674990126f443507366a01662ebb6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1448,7 +1448,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="inte
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">reqId</td><td></td></tr>
-    <tr><td class="paramname">ticks</td><td>list of <a class="el" href="classIBApi_1_1HistoricalTickLast.html" title="The historical tick&#39;s description. Used when requesting historical tick data with whatToShow = TRADES...">HistoricalTickLast</a> data </td></tr>
+    <tr><td class="paramname">ticks</td><td>list of <a class="el" href="classIBApi_1_1HistoricalTickLast.html" title="The historical last tick&#39;s description. Used when requesting historical tick data with whatToShow = T...">HistoricalTickLast</a> data </td></tr>
     <tr><td class="paramname">done</td><td>flag to indicate if all historical tick data has been received </td></tr>
   </table>
   </dd>
@@ -2672,7 +2672,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="inte
 
 </div>
 </div>
-<a class="anchor" id="ab3a1c4487f9507fba7f6fb333a5c95cd"></a>
+<a class="anchor" id="a4eaec8ec47491a49ccc02fbb4f4b9f27"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -2709,8 +2709,8 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="inte
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="classIBApi_1_1TickAttrib.html">TickAttrib</a>&#160;</td>
-          <td class="paramname"><em>attribs</em>, </td>
+          <td class="paramtype">TickAttribLast&#160;</td>
+          <td class="paramname"><em>tickAttriblast</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -2740,7 +2740,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="inte
     <tr><td class="paramname">time</td><td>- tick-by-tick real-time tick timestamp </td></tr>
     <tr><td class="paramname">price</td><td>- tick-by-tick real-time tick last price </td></tr>
     <tr><td class="paramname">size</td><td>- tick-by-tick real-time tick last size </td></tr>
-    <tr><td class="paramname">attribs</td><td>- tick-by-tick real-time tick attribs (bit 0 - past limit, bit 1 - unreported) </td></tr>
+    <tr><td class="paramname">tickAttribLast</td><td>- tick-by-tick real-time last tick attribs (bit 0 - past limit, bit 1 - unreported) </td></tr>
     <tr><td class="paramname">exchange</td><td>- tick-by-tick real-time tick exchange </td></tr>
     <tr><td class="paramname">specialConditions</td><td>- tick-by-tick real-time tick special conditions </td></tr>
   </table>
@@ -2750,7 +2750,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="inte
 
 </div>
 </div>
-<a class="anchor" id="af2dbd8140709c9439fc2731a5ee6f7ab"></a>
+<a class="anchor" id="a0274607b7ca7505717e66eef2ac29766"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -2793,8 +2793,8 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="inte
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="classIBApi_1_1TickAttrib.html">TickAttrib</a>&#160;</td>
-          <td class="paramname"><em>attribs</em>&#160;</td>
+          <td class="paramtype">TickAttribBidAsk&#160;</td>
+          <td class="paramname"><em>tickAttribBidAsk</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -2813,7 +2813,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="inte
     <tr><td class="paramname">askPrice</td><td>- tick-by-tick real-time tick ask price </td></tr>
     <tr><td class="paramname">bidSize</td><td>- tick-by-tick real-time tick bid size </td></tr>
     <tr><td class="paramname">askSize</td><td>- tick-by-tick real-time tick ask size </td></tr>
-    <tr><td class="paramname">attribs</td><td>- tick-by-tick real-time tick attribs (bit 0 - bid past low, bit 1 - ask past high) </td></tr>
+    <tr><td class="paramname">tickAttribBidAsk</td><td>- tick-by-tick real-time bid/ask tick attribs (bit 0 - bid past low, bit 1 - ask past high) </td></tr>
   </table>
   </dd>
 </dl>

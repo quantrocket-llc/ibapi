@@ -56,6 +56,7 @@ var classIBApi_1_1Order =
     [ "HedgeParam", "classIBApi_1_1Order.html#a3e6e42d546bd1b5fb96d13762cafeb25", null ],
     [ "HedgeType", "classIBApi_1_1Order.html#acf21737b3a18bb54deed8e4aac4aef8a", null ],
     [ "Hidden", "classIBApi_1_1Order.html#ade4fdefe2079ea5826872b9f52e3444e", null ],
+    [ "IsOmsContainer", "classIBApi_1_1Order.html#a4d76aa586cd8449d7e651c8feeab94fa", null ],
     [ "IsPeggedChangeAmountDecrease", "classIBApi_1_1Order.html#a21f6d5a75fbb289b314722dae3701b56", null ],
     [ "LmtPrice", "classIBApi_1_1Order.html#aef8619178c248a300cf1dd8805f9845e", null ],
     [ "LmtPriceOffset", "classIBApi_1_1Order.html#a408dfd4c09e3fd2e3d935506cee8dd17", null ],
