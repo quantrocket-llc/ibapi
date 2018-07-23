@@ -160,7 +160,7 @@ Receiving Market Data</h1>
 <div class="fragment"><div class="line"><span class="keyword">public</span> <span class="keyword">class </span>EWrapperImpl <span class="keyword">implements</span> EWrapper {</div>
 </div><!-- fragment --><p> ... </p>
 <div class="fragment"><div class="line">    @Override</div>
-<div class="line">    <span class="keyword">public</span> <span class="keywordtype">void</span> tickPrice(<span class="keywordtype">int</span> tickerId, <span class="keywordtype">int</span> field, <span class="keywordtype">double</span> price, TickAttr attribs) {</div>
+<div class="line">    <span class="keyword">public</span> <span class="keywordtype">void</span> tickPrice(<span class="keywordtype">int</span> tickerId, <span class="keywordtype">int</span> field, <span class="keywordtype">double</span> price, TickAttrib attribs) {</div>
 <div class="line">        System.out.println(<span class="stringliteral">&quot;Tick Price. Ticker Id:&quot;</span>+tickerId+<span class="stringliteral">&quot;, Field: &quot;</span>+field+<span class="stringliteral">&quot;, Price: &quot;</span>+price+<span class="stringliteral">&quot;, CanAutoExecute: &quot;</span>+ attribs.canAutoExecute()</div>
 <div class="line">        + <span class="stringliteral">&quot;, pastLimit: &quot;</span> + attribs.pastLimit() + <span class="stringliteral">&quot;, pre-open: &quot;</span> + attribs.preOpen());</div>
 <div class="line">    }</div>

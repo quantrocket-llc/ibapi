@@ -126,14 +126,14 @@ $(document).ready(function(){initNavTree('classIBApi_1_1HistoricalTickLast.html'
 </div><!--header-->
 <div class="contents">
 
-<p>The historical tick's description. Used when requesting historical tick data with whatToShow = TRADES.  
+<p>The historical last tick's description. Used when requesting historical tick data with whatToShow = TRADES.  
  <a href="classIBApi_1_1HistoricalTickLast.html#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:aad0c6f16c125a3061ea35d37184a3b08"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aad0c6f16c125a3061ea35d37184a3b08"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>HistoricalTickLast</b> (long time, int mask, double price, long size, string exchange, string specialConditions)</td></tr>
-<tr class="separator:aad0c6f16c125a3061ea35d37184a3b08"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6beb3d2ec486e1c1b2711dca70bba7b7"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6beb3d2ec486e1c1b2711dca70bba7b7"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>HistoricalTickLast</b> (long time, <a class="el" href="classIBApi_1_1HistoricalTickLast.html#a93660421845097981c6eb66769d2bc98">TickAttribLast</a> tickAttribLast, double price, long size, string exchange, string specialConditions)</td></tr>
+<tr class="separator:a6beb3d2ec486e1c1b2711dca70bba7b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="properties"></a>
 Properties</h2></td></tr>
@@ -141,10 +141,10 @@ Properties</h2></td></tr>
 long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIBApi_1_1HistoricalTickLast.html#a497c7f74ae405bfbf2e7b726bed211c6">Time</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:a497c7f74ae405bfbf2e7b726bed211c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">The UNIX timestamp of the historical tick. <br/></td></tr>
 <tr class="separator:a497c7f74ae405bfbf2e7b726bed211c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1768c051d2dbbcc7abacf7b318bae910"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1768c051d2dbbcc7abacf7b318bae910"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIBApi_1_1HistoricalTickLast.html#a1768c051d2dbbcc7abacf7b318bae910">Mask</a><code> [get, set]</code></td></tr>
-<tr class="memdesc:a1768c051d2dbbcc7abacf7b318bae910"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mask 0: Neither PastLimit nor Unreportable 1: PastLimit and not Unreportable 2: Not PastLimit but Unreportable 3: PastLimit and Unreportable. <br/></td></tr>
-<tr class="separator:a1768c051d2dbbcc7abacf7b318bae910"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a93660421845097981c6eb66769d2bc98"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a93660421845097981c6eb66769d2bc98"></a>
+TickAttribLast&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIBApi_1_1HistoricalTickLast.html#a93660421845097981c6eb66769d2bc98">TickAttribLast</a><code> [get, set]</code></td></tr>
+<tr class="memdesc:a93660421845097981c6eb66769d2bc98"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tick attribs of historical last tick. <br/></td></tr>
+<tr class="separator:a93660421845097981c6eb66769d2bc98"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aca7cab88f4bd1723a1439cef22aec340"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aca7cab88f4bd1723a1439cef22aec340"></a>
 double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIBApi_1_1HistoricalTickLast.html#aca7cab88f4bd1723a1439cef22aec340">Price</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:aca7cab88f4bd1723a1439cef22aec340"><td class="mdescLeft">&#160;</td><td class="mdescRight">The last price of the historical tick. <br/></td></tr>
@@ -163,7 +163,7 @@ string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cl
 <tr class="separator:abfa9dd99e5211801611d632d542336c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>The historical tick's description. Used when requesting historical tick data with whatToShow = TRADES. </p>
+<div class="textblock"><p>The historical last tick's description. Used when requesting historical tick data with whatToShow = TRADES. </p>
 <dl class="section see"><dt>See Also</dt><dd><a class="el" href="classIBApi_1_1EClient.html" title="TWS/Gateway client class This client class contains all the available methods to communicate with IB...">EClient</a>, <a class="el" href="interfaceIBApi_1_1EWrapper.html" title="This interface&#39;s methods are used by the TWS/Gateway to communicate with the API client. Every API client application needs to implement this interface in order to handle all the events generated by the TWS/Gateway. Almost every EClientSocket method call will result in at least one event delivered here. ">EWrapper</a> </dd></dl>
 </div></div><!-- contents -->
 </div><!-- doc-content -->

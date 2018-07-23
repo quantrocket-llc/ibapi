@@ -120,9 +120,9 @@ var NAVTREEINDEX =
 [
 "account_portfolio.html",
 "classIBApi_1_1EClient.html#a7f2915171d0c150723e297be291beabb",
-"classIBApi_1_1Order.html#ad20733800e5dc40758b9d7f07dccb4ab",
-"functions_prop_0x75.html",
-"reuters_fundamentals.html#report_type"
+"classIBApi_1_1Order.html#ac8d2e2d8240ec305f5a02deef3808f0f",
+"functions_prop_0x6f.html",
+"realtime_bars.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
