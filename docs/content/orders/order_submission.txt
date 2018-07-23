@@ -92,6 +92,8 @@
 
 	Immediately after the order was submitted correctly, the TWS will start sending events concerning the order's activity via @ref IBApi::EWrapper::openOrder and @ref IBApi::EWrapper::orderStatus
 	
+	- Advisors executing allocation orders will receive execution details and commissions for the allocation order itself. To receive allocation details and commissions for a specific subaccount @ref IBApi::EClient::reqExecutions can be used.
+	
 	- An order can be sent to TWS but not transmitted to the IB server by setting the IBApi.Order.Transmit flag in the order class to <b>False</b>. Untransmitted orders will only be available within that TWS session (not for other usernames) and will be cleared on restart. Also, they can be cancelled or transmitted from the API but not viewed while they remain in the "untransmitted" state. 
 	
 	\section open_order The openOrder callback

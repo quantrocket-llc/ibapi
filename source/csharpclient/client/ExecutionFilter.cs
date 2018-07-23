@@ -44,7 +44,7 @@ namespace IBApi
         }
 
         /**
-         * @brief Time from which the executions will be brough yyyymmdd hh:mm:ss
+         * @brief Time from which the executions will be returned yyyymmdd hh:mm:ss
          * Only those executions reported after the specified time will be returned.
          */
         public string Time
@@ -81,7 +81,7 @@ namespace IBApi
         }
 
         /**
-        * @brief The Contract's side (Put or Call).
+        * @brief The Contract's side (BUY or SELL)
         */
         public string Side
         {
