@@ -3,6 +3,8 @@
 	When an order is filled either fully or partially, the @ref IBApi::EWrapper::execDetails and @ref IBApi::EWrapper::commissionReport events will deliver @ref IBApi::Execution and
 	@ref IBApi::CommissionReport objects. This allows to obtain the full picture of the order's execution and the resulting commissions.
 
+	- Advisors executing allocation orders will receive execution details and commissions for the allocation order itself. To receive allocation details and commissions for a specific subaccount @ref IBApi::EClient::reqExecutions can be used.
+	
 	<b>Important:</b> To receive commissions reports for all clients it is necessary to connect as the @ref master_client. 
 	
 	<ul id="tab">
@@ -98,7 +100,7 @@
 		</li>
 	</ul>
 	
-	<b>Important:</b> only those executions occurring since the last <a target="_blank" class="linkexternal" href="https://www.interactivebrokers.com/en/?f=%2Fen%2Fsoftware%2FsystemStatus.php">IB server restart</a> for that particular account will be delivered. Older executions will generally not be available via the TWS API.
+	<b>Important:</b> only those executions occurring since midnight for that particular account will be delivered. Older executions will generally not be available via the TWS API with IB Gateway.
 	
 	<br><br>
 	
