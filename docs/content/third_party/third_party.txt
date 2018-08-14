@@ -3,7 +3,7 @@
 	Third party software vendors make use of the TWS' programming interface (API) to integrate their platforms with Interactive Broker's. Thanks to the TWS API, well known platforms
 	such as Ninja Trader or Multicharts can interact with the TWS to fetch market data, place orders and/or manage account and portfolio information.
 
-	- <b>It is important to keep in mind that most third party API platforms are not compatible with all IB account structures</b>. Always check first with the software vendor before opening a specific account type or converting an IB account type. For instance, many third party API platforms such as NinjaTrader and TradeNavigator are <b>not</b> compatible with IB linked account structures, so it is highly recommended to first check with the third party vendor before linking your IB accounts. 
+	- <b>It is important to keep in mind that most third party API platforms are not compatible with all IBKR account structures</b>. Always check first with the software vendor before opening a specific account type or converting an IB account type. For instance, many third party API platforms such as NinjaTrader and TradeNavigator are <b>not</b> compatible with IB linked account structures, so it is highly recommended to first check with the third party vendor before linking your IB accounts. 
 	
 	A non-exhaustive list of third party platforms implementing our interface can be found in our 
 	<a href="https://www.interactivebrokers.com/Universal/servlet/MarketPlace.MarketPlaceServlet" target="_blank" class="linkexternal">Investor's Marketplace</a>. As stated in the
@@ -59,7 +59,7 @@
 
 	\subsection tp_support Where to get support for a third party software connecting to the TWS.
 	
-	Interactive Brokers cannot provide any kind of support or advice for software not developed by IB itself. Depending on the nature of your inquiry, our support staff's advice might
+	Interactive Brokers cannot provide any kind of support or advice for software not developed by IBKR itself. Depending on the nature of your inquiry, our support staff's advice might
 	be quite limited since in most of cases it is not realistic to reverse-engineer a third party program in order to understand how is it using our API. Because of this, the third
 	party vendor's support team should always be the first contact option. 
 	
@@ -71,7 +71,7 @@
 	
 	In case of a malfunction on Interactive Broker's side, clear and concise technical information needs to be provided including evidence of the malfunction in the form of TWS or API message log 
 	files as detailed in @ref tws_logs section of this guide. Collecting all the needed information is not a trivial process and might require a very detailed knowledge of our API. To
-	prevent being caught in between support teams, please request your third party vendor to contact us directly via email to api@interactivebrokers.com with as much information as possible.
+	prevent being caught in between support teams, please request your third party vendor to contact us directly with as much information as possible.
 	
 	\subsection tp_bypass_warning TWS generates warning messages that block my orders being automatically transmitted
 	
@@ -160,11 +160,11 @@
 	
 	\subsection multiple_trading_applications Can I use another trading application (IBKR mobile, WebTrader, TWS) while an API program is connected?
  
-	To connect to the same IB account simultaneously with multiple trading applications it is necessary to have multiple usernames. Additional usernames can be created through Account Management free of charge. Market data subscriptions however only apply to individual usernames so the fees would be charged separately. 
+	To connect to the same IBKR account simultaneously with multiple trading applications it is necessary to have multiple usernames. Additional usernames can be created through Account Management free of charge. Market data subscriptions however only apply to individual usernames so the fees would be charged separately. 
 	
-	\subsection eligible_accounts Can the TWS API be used with any IB account? 
+	\subsection eligible_accounts Can the TWS API be used with any IBKR account? 
 	
-	Most third party API applications do not support all IB account structures, so it is highly recommended to consult with the third party software vendor before opening or converting to a specific IB account type to use with a third party application. 
+	Most third party API applications do not support all IBKR account structures, so it is highly recommended to consult with the third party software vendor before opening or converting to a specific IB account type to use with a third party application. 
 	
 	\subsection untransmitted_orders Why does an order from the API appear as untransmitted in TWS with a 'T' button next to it? 
  
@@ -182,7 +182,7 @@
 	It is possible to adjust the time of auto-logoff, but not disable it. However, IB Gateway can be substituted for TWS for use with an API application and it does not have the daily logoff requirement. 
  
 	\subsection programming_consultants Do you recommend any third party products or programming consultants? 
-	IB does not recommend particular third parties, but a list is maintained on the Investors Marketplace. 
+	IBKR does not recommend particular third parties, but a list is maintained on the Investors Marketplace. 
 	https://gdcdyn.interactivebrokers.com/Universal/servlet/MarketPlace.MarketPlaceServlet
  
 	\subsection tws_vs_ibg What are the differences between using an API application with TWS and IB Gateway? 
@@ -212,7 +212,7 @@
  
 	Since the API cannot provide information not available in TWS, historical portfolio information is not available. It is available from statements and flex queries in Account Management.
  
-	\subsection web_hosting Does IB provide hosting services for custom algorithms?
+	\subsection web_hosting Does IBKR provide hosting services for custom algorithms?
  
 	Unfortunately no, web hosting is not provided.
  

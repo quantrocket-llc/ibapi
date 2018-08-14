@@ -23,9 +23,9 @@
 	
 	TWS and IB Gateway can be configured to create a separate log file which has a record of just communications with API applications. This log is not enabled by default; but needs to be enabled by the Global Configuration setting <b>"Create API Message Log File"</b>(picture below). 
 
-	- API logs contain a record of exchanged messages between API applications and TWS/IB Gateway. Since only API messages are recorded, the API logs are more compact and easier to handle. However they do not contain general diagnostic information about TWS/IBG as the TWS/IBG logs. In TWS/IBG versions above 956, the API message log files will be created within a subdirectory of the TWS settings folder that is specific to that user. The TWS/IBG settings folder is by default <b>C:\\Jts</b> (or IBJts on Mac/Linux). The API logs are named <b>api.[clientId].[day].log</b>, where [clientId] corresponds to the Id the client application used to connect to the TWS and [day] to the week day (i.e. api.123.Thu.log).
+	- API logs contain a record of exchanged messages between API applications and TWS/IB Gateway. Since only API messages are recorded, the API logs are more compact and easier to handle. However they do not contain general diagnostic information about TWS/IBG as the TWS/IBG logs. The TWS/IBG settings folder is by default <b>C:\\Jts</b> (or IBJts on Mac/Linux). The API logs are named <b>api.[clientId].[day].log</b>, where [clientId] corresponds to the Id the client application used to connect to the TWS and [day] to the week day (i.e. api.123.Thu.log).
 	
-	- There is also a setting "Include Market Data in API Log" that will include streaming market data values in the API log file. 
+	- There is also a setting "Include Market Data in API Log" that will include streaming market data values in the API log file. Historical candlestick data is always recorded in the API log.
 	
 	<b>Enabling creation of API logs</b>
 	
@@ -61,9 +61,11 @@
 	 
 	\subsection log_files Local location of logs
 	
-	For TWS and IB Gateway versions above 956 the TWS, IB Gateway, and API logs are stored in a common folder for each username. This folder is within the TWS settings directory, C:\\Jts\\ by default on a Windows computer (the default can be configured differently on the login screen).
+	Logs are stored in the TWS settings directory, C:\\Jts\\ by default on a Windows computer (the default can be configured differently on the login screen).  
 	
 	The path to the log file directory can be found from a TWS or IB Gateway session by using the combination <b>Ctrl-Alt-U</b>. This will reveal path such as C:\\Jts\\detcfsvirl\\ (on Windows).
+	
+	Due to privacy regulations, logs are <b>encrypted</b> before they are saved to disk. They can be decrypted from the associated TWS or IB Gateway session. In TWS: Classic TWS -> Account -> Diagnostics -> TWS Logs. In IB Gateway, File -> Gateway Logs. 
 	
 	\subsection uploading_logs Uploading logs
 	
