@@ -147,7 +147,6 @@
 	<b>(whatToShow)</b>
 	
 	All different kinds of historical data are returned in the form of candlesticks and as such the values return represent the state of the market <b>during the period covered by the candlestick</b>.
-	For instance, it might appear obvious but a TRADES day bar's 'close' value does <b>NOT</b> represent the product's closing price but rather the last traded price registered.
 	
 	<table>
 		<tr><th>Type</th><th>Open</th><th>High</th><th>Low</th><th>Close</th><th>Volume</th></tr>

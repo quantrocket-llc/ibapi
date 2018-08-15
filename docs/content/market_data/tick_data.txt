@@ -4,8 +4,9 @@
 	
 	- The tick type field is case sensitive - it must be BidAsk, Last, AllLast, MidPoint. AllLast has additional trade types such as combos, derivatives, and average price trades which are not included in Last. 
 	- Tick-by-tick data for options is currently only available historically and not in real time.
-	- Tick-by-tick data for indices is only provided for indices on CME. 
+	- Tick-by-tick data for indices is only provided for indices which are on CME. 
 	- Tick-by-tick data is not available for combos. 
+	- No more than 1 tick-by-tick request can be made for the same instrument within 15 seconds.
 	
 	<ul id="tab">
 		<li class="active"> 

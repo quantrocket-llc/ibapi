@@ -1,8 +1,8 @@
 /*! \page market_depth Market Depth (Level II)
 
-	Market depth data, also known as level II, represent's an instrument's order book. Via the TWS API it is possible to obtain this information thanks to the @ref IBApi::EClient::reqMarketDepth function.
+	Market depth data, also known as level II, represents an instrument's order book. Via the TWS API it is possible to obtain this information with the @ref IBApi::EClient::reqMarketDepth function.
 	Unlike @ref top_data, market depth data is sent without sampling nor filtering, however we cannot guarantee that every price quoted for a particular security will be displayed when you
-	invoke @ref IBApi::EClient::reqMarketDepth. Market depth requests must be routed to a particular exchange - it is <b>not</b> possible to request a smart-routed aggregate quote as with level 1 data. 
+	invoke @ref IBApi::EClient::reqMarketDepth. In particular, odd lot orders are not included. Market depth requests must be routed to a particular exchange - it is <b>not</b> possible to request a smart-routed aggregate quote as with level 1 data. 
 	
 	\section request Requesting
 	
