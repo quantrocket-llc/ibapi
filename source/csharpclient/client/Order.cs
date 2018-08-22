@@ -234,7 +234,6 @@ namespace IBApi
 
         /**
          * @brief The order's type.
-         * Available Orders are at https://www.interactivebrokers.com/en/software/api/apiguide/tables/supported_order_types.htm 
          */
         public string OrderType
         {
@@ -1509,6 +1508,14 @@ namespace IBApi
         */
         public SoftDollarTier Tier { get; set; }
 
+		/**
+		* @brief Set to true to create tickets from API orders when TWS is used as an OMS 
+		*/
         public bool IsOmsContainer { get; set; }
+
+        /**
+        * @brief Set to true to convert order of type 'Primary Peg' to 'D-Peg'
+        */
+        public bool DiscretionaryUpToLimitPrice { get; set; }
     }
 }

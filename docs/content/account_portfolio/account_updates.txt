@@ -128,8 +128,10 @@
 	
 	\section acct_updates_multi Account Value Update Subscriptions by Model
 	
-	The @ref IBApi::EClient::reqAccountUpdatesMulti can be used with multiple account structures to subscribe to updates in real time for multiple accounts and/or models. As with @ref IBApi::EClient::reqAccountUpdates this information is the exact same as the one displayed within the TWS' Account Window. Note this function receives a specific account along with a flag indicating whether to start or stop the subscription.
-	*@ref IBApi::EClient::reqAccountUpdatesMulti cannot be used with Account="All" in IBroker accounts with more than 50 subaccounts
+	The @ref IBApi::EClient::reqAccountUpdatesMulti can be used in any account structure to create simultaneous account value subscriptions from one or multiple accounts and/or models. As with @ref IBApi::EClient::reqAccountUpdates the data returned will match that displayed within the TWS Account Window. 
+	- To cancel a specific @ref IBApi::EClient::reqAccountUpdatesMulti subscription, the function @ref IBApi::EClient::cancelAccountUpdatesMulti is invoked with the same request ID used to make the original @ref IBApi::EClient::reqAccountUpdatesMulti subscription request. 
+	<br><br>
+	- *@ref IBApi::EClient::reqAccountUpdatesMulti cannot be used with Account="All" in IBroker accounts with more than 50 subaccounts
 	
 	<ul id="tab">
 		<li class="active">

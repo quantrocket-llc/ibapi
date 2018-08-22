@@ -36,8 +36,8 @@ enum State {
 	ST_CONTRACTOPERATION_ACK,
 	ST_MARKETSCANNERS,
 	ST_MARKETSCANNERS_ACK,
-	ST_REUTERSFUNDAMENTALS,
-	ST_REUTERSFUNDAMENTALS_ACK,
+	ST_FUNDAMENTALS,
+	ST_FUNDAMENTALS_ACK,
 	ST_BULLETINS,
 	ST_BULLETINS_ACK,
 	ST_ACCOUNTOPERATIONS,
@@ -142,7 +142,7 @@ private:
 	void hedgeSample();
 	void contractOperations();
 	void marketScanners();
-	void reutersFundamentals();
+	void fundamentals();
 	void bulletins();
 	void testAlgoSamples();
 	void financialAdvisorOrderSamples();

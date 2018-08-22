@@ -14,7 +14,7 @@ namespace TWSLib
      * @class ScannerSubscription
      * @brief Defines a market scanner request
      */
-    [ComVisible(true)]
+    [ComVisible(true), ClassInterface(ClassInterfaceType.None)]
     public class ComScannerSubscription : ComWrapper<ScannerSubscription>, IScannerSubscription
     {
         public int NumberOfRows

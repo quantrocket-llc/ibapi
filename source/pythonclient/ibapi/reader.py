@@ -7,7 +7,7 @@ and conditions of the IB API Non-Commercial License or the IB API Commercial Lic
 """
 The EReader runs in a separate threads and is responsible for receiving the
 incoming messages.
-It will read the packets from the wire, use the low level IB messaging to 
+It will read the packets from the wire, use the low level IB messaging to
 remove the size prefix and put the rest in a Queue.
 """
 
@@ -15,6 +15,9 @@ import logging
 from threading import Thread
 
 from ibapi import comm
+
+
+logger = logging.getLogger(__name__)
 
 
 class EReader(Thread):
@@ -26,23 +29,23 @@ class EReader(Thread):
     def run(self):
         buf = b""
         while self.conn.isConnected():
-        
+
             data = self.conn.recvMsg()
-            logging.debug("reader loop, recvd size %d", len(data))
+            logger.debug("reader loop, recvd size %d", len(data))
             buf += data
-            
+
             while len(buf) > 0:
                 (size, msg, buf) = comm.read_msg(buf)
-                #logging.debug("resp %s", buf.decode('ascii'))
-                logging.debug("size:%d msg.size:%d msg:|%s| buf:%s|", size,
+                #logger.debug("resp %s", buf.decode('ascii'))
+                logger.debug("size:%d msg.size:%d msg:|%s| buf:%s|", size,
                     len(msg), buf, "|")
 
                 if msg:
                     self.msg_queue.put(msg)
                 else:
-                    logging.debug("more incoming packet(s) are needed ")
+                    logger.debug("more incoming packet(s) are needed ")
                     break
 
-        logging.debug("EReader thread finished")
+        logger.debug("EReader thread finished")
 
 

@@ -158,6 +158,7 @@ Friend Class dlgOrder
     Public WithEvents Label9 As System.Windows.Forms.Label
     Friend WithEvents comboBoxTickByTickType As System.Windows.Forms.ComboBox
     Public WithEvents labelTickByTickType As System.Windows.Forms.Label
+    Friend WithEvents chkSmartDepth As System.Windows.Forms.CheckBox
     Public WithEvents txtIncludeExpired As System.Windows.Forms.TextBox
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.Frame1 = New System.Windows.Forms.GroupBox()
@@ -230,6 +231,7 @@ Friend Class dlgOrder
         Me.GroupBox3 = New System.Windows.Forms.GroupBox()
         Me.Label38 = New System.Windows.Forms.Label()
         Me.GroupBox4 = New System.Windows.Forms.GroupBox()
+        Me.chkSmartDepth = New System.Windows.Forms.CheckBox()
         Me.txtNumRows = New System.Windows.Forms.TextBox()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.Label27 = New System.Windows.Forms.Label()
@@ -1084,7 +1086,7 @@ Friend Class dlgOrder
         Me.GroupBox1.Controls.Add(Me.Label22)
         Me.GroupBox1.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.GroupBox1.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.GroupBox1.Location = New System.Drawing.Point(8, 576)
+        Me.GroupBox1.Location = New System.Drawing.Point(8, 612)
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.GroupBox1.Size = New System.Drawing.Size(216, 64)
@@ -1154,7 +1156,7 @@ Friend Class dlgOrder
         Me.GroupBox2.Controls.Add(Me.Label30)
         Me.GroupBox2.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.GroupBox2.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.GroupBox2.Location = New System.Drawing.Point(8, 646)
+        Me.GroupBox2.Location = New System.Drawing.Point(8, 682)
         Me.GroupBox2.Name = "GroupBox2"
         Me.GroupBox2.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.GroupBox2.Size = New System.Drawing.Size(216, 100)
@@ -1279,6 +1281,7 @@ Friend Class dlgOrder
         'GroupBox4
         '
         Me.GroupBox4.BackColor = System.Drawing.Color.Gainsboro
+        Me.GroupBox4.Controls.Add(Me.chkSmartDepth)
         Me.GroupBox4.Controls.Add(Me.txtNumRows)
         Me.GroupBox4.Controls.Add(Me.Label1)
         Me.GroupBox4.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -1286,10 +1289,22 @@ Friend Class dlgOrder
         Me.GroupBox4.Location = New System.Drawing.Point(8, 515)
         Me.GroupBox4.Name = "GroupBox4"
         Me.GroupBox4.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.GroupBox4.Size = New System.Drawing.Size(216, 55)
+        Me.GroupBox4.Size = New System.Drawing.Size(216, 86)
         Me.GroupBox4.TabIndex = 2
         Me.GroupBox4.TabStop = False
         Me.GroupBox4.Text = "Market Depth"
+        '
+        'chkSmartDepth
+        '
+        Me.chkSmartDepth.AutoSize = True
+        Me.chkSmartDepth.Checked = True
+        Me.chkSmartDepth.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.chkSmartDepth.Location = New System.Drawing.Point(11, 54)
+        Me.chkSmartDepth.Name = "chkSmartDepth"
+        Me.chkSmartDepth.Size = New System.Drawing.Size(93, 18)
+        Me.chkSmartDepth.TabIndex = 17
+        Me.chkSmartDepth.Text = "SMART Depth"
+        Me.chkSmartDepth.UseVisualStyleBackColor = True
         '
         'txtNumRows
         '
@@ -1718,10 +1733,10 @@ Friend Class dlgOrder
         Me.frameMarketDataType.Controls.Add(Me.labelMarketDataType)
         Me.frameMarketDataType.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.frameMarketDataType.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.frameMarketDataType.Location = New System.Drawing.Point(8, 752)
+        Me.frameMarketDataType.Location = New System.Drawing.Point(234, 752)
         Me.frameMarketDataType.Name = "frameMarketDataType"
         Me.frameMarketDataType.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.frameMarketDataType.Size = New System.Drawing.Size(216, 53)
+        Me.frameMarketDataType.Size = New System.Drawing.Size(232, 53)
         Me.frameMarketDataType.TabIndex = 5
         Me.frameMarketDataType.TabStop = False
         Me.frameMarketDataType.Text = "Market Data Type"
@@ -1732,7 +1747,7 @@ Friend Class dlgOrder
         Me.cmbMarketDataType.FormattingEnabled = True
         Me.cmbMarketDataType.Location = New System.Drawing.Point(104, 21)
         Me.cmbMarketDataType.Name = "cmbMarketDataType"
-        Me.cmbMarketDataType.Size = New System.Drawing.Size(104, 22)
+        Me.cmbMarketDataType.Size = New System.Drawing.Size(115, 22)
         Me.cmbMarketDataType.TabIndex = 1
         '
         'dlgOrder
@@ -1853,6 +1868,7 @@ Friend Class dlgOrder
     Private m_regulatorySnapshotMktData As Boolean
 
     Private m_numRows As Integer
+    Private m_isSmartDepth As Boolean
 
     Private m_exerciseAction As Integer
     Private m_exerciseQuantity As Integer
@@ -1987,6 +2003,11 @@ Friend Class dlgOrder
             txtNumRows.Text = CStr(m_numRows)
         End Set
     End Property
+    Public ReadOnly Property isSmartDepth() As Boolean
+        Get
+            isSmartDepth = m_isSmartDepth
+        End Get
+    End Property
 
     Public ReadOnly Property snapshotMktData() As Boolean
         Get
@@ -2116,6 +2137,7 @@ Friend Class dlgOrder
         m_regulatorySnapshotMktData = chkRegulatorySnapshotMktData.Checked
 
         m_numRows = CInt(txtNumRows.Text)
+        m_isSmartDepth = chkSmartDepth.Checked
 
         m_endDateTime = txtEndDateTime.Text
         m_duration = txtDuration.Text

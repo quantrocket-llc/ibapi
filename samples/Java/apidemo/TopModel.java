@@ -22,7 +22,7 @@ import com.ib.controller.Formats;
 class TopModel extends AbstractTableModel {
 	private List<TopRow> m_rows = new ArrayList<>();
 	private MarketDataPanel m_parentPanel;
-	private static final int CANCEL_CHBX_COL_INDEX = 25;
+	private static final int CANCEL_CHBX_COL_INDEX = 26;
 	String m_genericTicks = "";
 
 	TopModel(MarketDataPanel parentPanel) {
@@ -79,7 +79,7 @@ class TopModel extends AbstractTableModel {
 	}
 	
 	@Override public int getColumnCount() {
-		return 26;
+		return 27;
 	}
 	
 	@Override public String getColumnName(int col) {
@@ -109,6 +109,7 @@ class TopModel extends AbstractTableModel {
 			case 22: return "Market Data Type";
 			case 23: return "Futures Open Interest";
 			case 24: return "Avg Opt Volume";
+            case 25: return "Shortable Shares";
 			case CANCEL_CHBX_COL_INDEX: return "Cancel";
 
 			default: return null;
@@ -143,6 +144,7 @@ class TopModel extends AbstractTableModel {
 			case 22: return row.m_marketDataType;
 			case 23: return row.m_futuresOpenInterest;
 			case 24: return row.m_avgOptVolume;
+            case 25: return row.m_shortableShares;
 			case CANCEL_CHBX_COL_INDEX: return row.m_cancel;
 			default: return null;
 		}
@@ -188,6 +190,7 @@ class TopModel extends AbstractTableModel {
 		int m_bidMask, m_askMask;
 		int m_futuresOpenInterest;
 		int m_avgOptVolume;
+		int m_shortableShares;
 		
 		TopRow( AbstractTableModel model, String description, MarketDataPanel parentPanel) {
 			m_model = model;
@@ -268,7 +271,10 @@ class TopModel extends AbstractTableModel {
 				case AVG_OPT_VOLUME:
 					m_avgOptVolume = size;
 					break;
-                default: break; 
+				case SHORTABLE_SHARES:
+				    m_shortableShares = size;
+				    break;
+				default: break; 
 			}
 			m_model.fireTableDataChanged();
 		}

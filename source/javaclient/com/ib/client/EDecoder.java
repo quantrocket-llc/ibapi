@@ -1038,9 +1038,14 @@ class EDecoder implements ObjectInput {
 		int side = readInt();
 		double price = readDouble();
 		int size = readInt();
+		
+		boolean isSmartDepth = false;
+		if (m_serverVersion >= EClient.MIN_SERVER_VER_SMART_DEPTH) {
+			isSmartDepth = readBoolFromInt();
+		}
 
 		m_EWrapper.updateMktDepthL2(id, position, marketMaker,
-		                operation, side, price, size);
+		                operation, side, price, size, isSmartDepth);
 	}
 
 	private void processMarketDepthMsg() throws IOException {
@@ -1704,6 +1709,10 @@ class EDecoder implements ObjectInput {
 		
 		if (m_serverVersion >= EClient.MIN_SERVER_VER_ORDER_CONTAINER) {
 		    order.isOmsContainer(readBoolFromInt());
+		}
+		
+		if (m_serverVersion >= EClient.MIN_SERVER_VER_D_PEG_ORDERS) {
+		    order.discretionaryUpToLimitPrice(readBoolFromInt());
 		}
 		
 		m_EWrapper.openOrder(order.orderId(), contract, order, orderState);

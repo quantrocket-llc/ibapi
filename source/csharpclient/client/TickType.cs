@@ -1,4 +1,4 @@
-﻿/* Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 using System;
@@ -102,6 +102,7 @@ namespace IBApi
         public const int FUTURES_OPEN_INTEREST = 86;
         public const int AVG_OPT_VOLUME = 87;
         public const int DELAYED_LAST_TIMESTAMP = 88;
+        public const int SHORTABLE_SHARES = 89;
 
         public static String getField( int tickType) {
             switch( tickType) {
@@ -194,6 +195,7 @@ namespace IBApi
                 case FUTURES_OPEN_INTEREST:       return "futuresOpenInterest";
                 case AVG_OPT_VOLUME:              return "avgOptVolume";
                 case DELAYED_LAST_TIMESTAMP:      return "delayedLastTimestamp";
+                case SHORTABLE_SHARES:            return "shortableShares";
 
                 default:                          return "unknown";
             }

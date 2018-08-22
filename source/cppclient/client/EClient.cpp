@@ -339,7 +339,7 @@ void EClient::cancelMktData(TickerId tickerId)
     closeAndSend( msg.str());
 }
 
-void EClient::reqMktDepth( TickerId tickerId, const Contract& contract, int numRows, const TagValueListSPtr& mktDepthOptions)
+void EClient::reqMktDepth( TickerId tickerId, const Contract& contract, int numRows, bool isSmartDepth, const TagValueListSPtr& mktDepthOptions)
 {
     // not connected?
     if( !isConnected()) {
@@ -360,6 +360,12 @@ void EClient::reqMktDepth( TickerId tickerId, const Contract& contract, int numR
                 "  It does not support conId and tradingClass parameters in reqMktDepth.");
             return;
         }
+    }
+
+    if (m_serverVersion < MIN_SERVER_VER_SMART_DEPTH && isSmartDepth) {
+        m_pEWrapper->error( tickerId, UPDATE_TWS.code(), UPDATE_TWS.msg() +
+            "  It does not support SMART depth request.");
+        return;
     }
 
     std::stringstream msg;
@@ -391,6 +397,10 @@ void EClient::reqMktDepth( TickerId tickerId, const Contract& contract, int numR
 
     ENCODE_FIELD( numRows); // srv v19 and above
 
+    if( m_serverVersion >= MIN_SERVER_VER_SMART_DEPTH) {
+        ENCODE_FIELD( isSmartDepth);
+    }
+
     // send mktDepthOptions parameter
     if( m_serverVersion >= MIN_SERVER_VER_LINKING) {
         ENCODE_TAGVALUELIST(mktDepthOptions);
@@ -400,11 +410,17 @@ void EClient::reqMktDepth( TickerId tickerId, const Contract& contract, int numR
 }
 
 
-void EClient::cancelMktDepth( TickerId tickerId)
+void EClient::cancelMktDepth( TickerId tickerId, bool isSmartDepth)
 {
     // not connected?
     if( !isConnected()) {
         m_pEWrapper->error( tickerId, NOT_CONNECTED.code(), NOT_CONNECTED.msg());
+        return;
+    }
+
+    if (m_serverVersion < MIN_SERVER_VER_SMART_DEPTH && isSmartDepth) {
+        m_pEWrapper->error( tickerId, UPDATE_TWS.code(), UPDATE_TWS.msg() +
+            "  It does not support SMART depth cancel.");
         return;
     }
 
@@ -424,6 +440,10 @@ void EClient::cancelMktDepth( TickerId tickerId)
     ENCODE_FIELD( CANCEL_MKT_DEPTH);
     ENCODE_FIELD( VERSION);
     ENCODE_FIELD( tickerId);
+
+    if( m_serverVersion >= MIN_SERVER_VER_SMART_DEPTH) {
+        ENCODE_FIELD( isSmartDepth);
+    }
 
     closeAndSend( msg.str());
 }
@@ -1423,6 +1443,13 @@ void EClient::placeOrder( OrderId id, const Contract& contract, const Order& ord
             return;
     }
 
+    if (m_serverVersion < MIN_SERVER_VER_D_PEG_ORDERS 
+        && order.discretionaryUpToLimitPrice) {
+            m_pEWrapper->error(id, UPDATE_TWS.code(), UPDATE_TWS.msg() +
+                " It does not support D-Peg orders");
+            return;
+    }
+
     std::stringstream msg;
     prepareBuffer( msg);
 
@@ -1829,6 +1856,10 @@ void EClient::placeOrder( OrderId id, const Contract& contract, const Order& ord
 
     if (m_serverVersion >= MIN_SERVER_VER_ORDER_CONTAINER) {
         ENCODE_FIELD(order.isOmsContainer);
+    }
+
+    if (m_serverVersion >= MIN_SERVER_VER_D_PEG_ORDERS) {
+        ENCODE_FIELD(order.discretionaryUpToLimitPrice);
     }
 
     closeAndSend( msg.str());

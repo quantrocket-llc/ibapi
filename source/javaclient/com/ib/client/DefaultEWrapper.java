@@ -145,7 +145,7 @@ public class DefaultEWrapper implements EWrapper {
 
 	@Override
 	public void updateMktDepthL2(int tickerId, int position,
-			String marketMaker, int operation, int side, double price, int size) {
+			String marketMaker, int operation, int side, double price, int size, boolean isSmartDepth) {
 		// TODO Auto-generated method stub
 		
 	}

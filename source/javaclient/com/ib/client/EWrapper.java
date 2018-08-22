@@ -40,7 +40,7 @@ public interface EWrapper {
     void execDetailsEnd( int reqId);
     void updateMktDepth( int tickerId, int position, int operation, int side, double price, int size);
     void updateMktDepthL2( int tickerId, int position, String marketMaker, int operation,
-    		int side, double price, int size);
+    		int side, double price, int size, boolean isSmartDepth);
     void updateNewsBulletin( int msgId, int msgType, String message, String origExchange);
     void managedAccounts( String accountsList);
     void receiveFA(int faDataType, String xml);

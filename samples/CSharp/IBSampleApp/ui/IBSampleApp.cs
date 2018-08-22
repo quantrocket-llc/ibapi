@@ -481,7 +481,12 @@ namespace IBSampleApp
             if (message.RequestId > MarketDataManager.TICK_ID_BASE && message.RequestId < DeepBookManager.TICK_ID_BASE)
                 marketDataManager.NotifyError(message.RequestId);
             else if (message.RequestId > DeepBookManager.TICK_ID_BASE && message.RequestId < HistoricalDataManager.HISTORICAL_ID_BASE)
-                deepBookManager.NotifyError(message.RequestId);
+            {
+                if (message.ErrorCode != 2151)
+                {
+                    deepBookManager.NotifyError(message.RequestId);
+                }
+            }
             else if (message.RequestId == ContractManager.CONTRACT_DETAILS_ID)
             {
                 contractManager.HandleRequestError(message.RequestId);
@@ -563,7 +568,7 @@ namespace IBSampleApp
             if (isConnected)
             {
                 Contract contract = GetMDContract();
-                deepBookManager.AddRequest(contract, Int32.Parse(deepBookEntries.Text));
+                deepBookManager.AddRequest(contract, Int32.Parse(deepBookEntries.Text), cbSmartDepth.Checked);
                 deepBookTab_MDT.Text = Utils.ContractToString(contract) + " (Book)";
                 ShowTab(marketData_MDT, deepBookTab_MDT);
             }

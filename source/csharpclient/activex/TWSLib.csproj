@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -250,6 +250,11 @@
     <Compile Include="ComWrappers\ComHistoricalTick.cs" />
     <Compile Include="ComWrappers\ComTickAttribLast.cs" />
     <Compile Include="ComWrappers\ComTickAttribBidAsk.cs" />
+    <Compile Include="ComWrappers\ComSmartComponent.cs" />
+    <Compile Include="ComWrappers\ComSmartComponentList.cs" />
+    <Compile Include="ControlImpl\IComList.cs" />
+    <Compile Include="ControlImpl\ISoftDollarTier.cs" />
+    <Compile Include="ComWrappers\ComSoftDollarTierList.cs" />
     <Compile Include="ControlImpl\ITickAtrribBidAsk.cs" />
     <Compile Include="ControlImpl\ITickAtrribLast.cs" />
     <Compile Include="ControlImpl\IHistoricalTickList.cs" />

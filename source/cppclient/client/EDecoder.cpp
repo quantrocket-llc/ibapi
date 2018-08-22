@@ -716,6 +716,10 @@ const char* EDecoder::processOpenOrderMsg(const char* ptr, const char* endPtr) {
         DECODE_FIELD(order.isOmsContainer);
     }
 
+    if (m_serverVersion >= MIN_SERVER_VER_D_PEG_ORDERS) {
+        DECODE_FIELD(order.discretionaryUpToLimitPrice);
+    }
+
 	m_pEWrapper->openOrder((OrderId)order.orderId, contract, order, orderState);
 
 	return ptr;
@@ -1097,6 +1101,7 @@ const char* EDecoder::processMarketDepthL2Msg(const char* ptr, const char* endPt
 	int side;
 	double price;
 	int size;
+	bool isSmartDepth = false;
 
 	DECODE_FIELD( version);
 	DECODE_FIELD( id);
@@ -1107,8 +1112,12 @@ const char* EDecoder::processMarketDepthL2Msg(const char* ptr, const char* endPt
 	DECODE_FIELD( price);
 	DECODE_FIELD( size);
 
+	if( m_serverVersion >= MIN_SERVER_VER_SMART_DEPTH) {
+		DECODE_FIELD( isSmartDepth);
+	}
+
 	m_pEWrapper->updateMktDepthL2( id, position, marketMaker, operation, side,
-		price, size);
+		price, size, isSmartDepth);
 
 	return ptr;
 }
@@ -1798,7 +1807,7 @@ const char* EDecoder::processSoftDollarTiersMsg(const char* ptr, const char* end
 		DECODE_FIELD(value);
 		DECODE_FIELD(dislplayName);
 
-		tiers[i] = SoftDollarTier(name, value, value); 
+		tiers[i] = SoftDollarTier(name, value, dislplayName); 
 	}
 
 	m_pEWrapper->softDollarTiers(reqId, tiers);

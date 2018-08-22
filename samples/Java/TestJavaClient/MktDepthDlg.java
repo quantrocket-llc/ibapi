@@ -35,9 +35,12 @@ class MktDepthDlg extends JDialog {
     private MktDepthModel 	m_askModel = new MktDepthModel();
     private EClient 	m_client;
     private int			  	m_id;
+    private boolean m_isSmartDepth = false;
 
-    MktDepthDlg(String title, JFrame parent) {
+    MktDepthDlg(String title, JFrame parent, boolean isSmartDepth) {
         super(parent, title, false);
+
+        m_isSmartDepth = isSmartDepth;
 
         JScrollPane bidPane = new JScrollPane(new JTable(m_bidModel));
         JScrollPane askPane = new JScrollPane(new JTable(m_askModel));
@@ -139,7 +142,7 @@ class MktDepthDlg extends JDialog {
     }
 
     void onClose() {
-		m_client.cancelMktDepth( m_id );
+        m_client.cancelMktDepth( m_id, m_isSmartDepth );
         setVisible( false);
     }
 }

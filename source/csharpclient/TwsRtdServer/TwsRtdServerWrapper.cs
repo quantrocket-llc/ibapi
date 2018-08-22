@@ -225,7 +225,7 @@ namespace TwsRtdServer
         public void historicalDataEnd(int reqId, string start, string end) { }
         public void marketDataType(int reqId, int marketDataType) { }
         public void updateMktDepth(int tickerId, int position, int operation, int side, double price, int size) { }
-        public void updateMktDepthL2(int tickerId, int position, string marketMaker, int operation, int side, double price, int size) { }
+        public void updateMktDepthL2(int tickerId, int position, string marketMaker, int operation, int side, double price, int size, bool isSmartDepth) { }
         public void updateNewsBulletin(int msgId, int msgType, String message, String origExchange) { }
         public void position(string account, Contract contract, double pos, double avgCost) { }
         public void positionEnd() { }

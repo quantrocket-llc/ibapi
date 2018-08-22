@@ -65,7 +65,9 @@ namespace IBApi
         public int ClientId { get; set; }
 
         /**
-         * @brief The execution's unique identifier. Each partial fill has a separate ExecId. 
+         * @brief The execution's identifier. Each partial fill has a separate ExecId. 
+		 * A correction is indicated by an ExecId which differs from a previous ExecId in only the digits after the final period,
+		 * e.g. an ExecId ending in ".02" would be a correction of a previous execution with an ExecId ending in ".01"
          */
         public string ExecId { get; set; }
 

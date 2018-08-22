@@ -2,6 +2,7 @@
 Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
 and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable.
 """
+import time
 
 
 """
@@ -20,17 +21,19 @@ import socket
 from ibapi import (decoder, reader, comm)
 from ibapi.connection import Connection
 from ibapi.message import OUT
-from ibapi.common import *
+from ibapi.common import * # @UnusedWildImport
 from ibapi.contract import Contract
 from ibapi.order import Order
 from ibapi.execution import ExecutionFilter
 from ibapi.scanner import ScannerSubscription
 from ibapi.comm import (make_field, make_field_handle_empty)
 from ibapi.utils import (current_fn_name, BadMessage)
-from ibapi.errors import *
-from ibapi.server_versions import *
+from ibapi.errors import * #@UnusedWildImport
+from ibapi.server_versions import * # @UnusedWildImport
 
 #TODO: use pylint
+
+logger = logging.getLogger(__name__)
 
 
 class EClient(object):
@@ -66,23 +69,23 @@ class EClient(object):
     def setConnState(self, connState):
         _connState = self.connState
         self.connState = connState
-        logging.debug("%s connState: %s -> %s" % (id(self), _connState,
+        logger.debug("%s connState: %s -> %s" % (id(self), _connState,
                                                  self.connState))
 
     def sendMsg(self, msg):
         full_msg = comm.make_msg(msg)
-        logging.info("%s %s %s", "SENDING", current_fn_name(1), full_msg)
+        logger.info("%s %s %s", "SENDING", current_fn_name(1), full_msg)
         self.conn.sendMsg(full_msg)
 
 
     def logRequest(self, fnName, fnParams):
-        if logging.getLogger().isEnabledFor(logging.INFO):
+        if logger.isEnabledFor(logging.INFO):
             if 'self' in fnParams:
                 prms = dict(fnParams)
                 del prms['self']
             else:
                 prms = fnParams
-            logging.info("REQUEST %s %s" % (fnName, prms))
+            logger.info("REQUEST %s %s" % (fnName, prms))
 
 
     def startApi(self):
@@ -103,7 +106,7 @@ class EClient(object):
            + make_field(self.clientId)
 
         if self.serverVersion() >= MIN_SERVER_VER_OPTIONAL_CAPABILITIES:
-           msg += make_field(self.optCapab)
+            msg += make_field(self.optCapab)
 
         self.sendMsg(msg)
 
@@ -127,7 +130,7 @@ class EClient(object):
             self.host = host
             self.port = port
             self.clientId = clientId
-            logging.debug("Connecting to %s:%d w/ id:%d", self.host, self.port, self.clientId)
+            logger.debug("Connecting to %s:%d w/ id:%d", self.host, self.port, self.clientId)
 
             self.conn = Connection(self.host, self.port)
 
@@ -140,9 +143,9 @@ class EClient(object):
             v100version = "v%d..%d" % (MIN_CLIENT_VER, MAX_CLIENT_VER)
             #v100version = "v%d..%d" % (MIN_CLIENT_VER, 101)
             msg = comm.make_msg(v100version)
-            logging.debug("msg %s", msg)
+            logger.debug("msg %s", msg)
             msg2 = str.encode(v100prefix, 'ascii') + msg
-            logging.debug("REQUEST %s", msg2)
+            logger.debug("REQUEST %s", msg2)
             self.conn.sendMsg(msg2)
 
             self.decoder = decoder.Decoder(self.wrapper, self.serverVersion())
@@ -152,18 +155,18 @@ class EClient(object):
             while len(fields) != 2:
                 self.decoder.interpret(fields)
                 buf = self.conn.recvMsg()
-                logging.debug("ANSWER %s", buf)
+                logger.debug("ANSWER %s", buf)
                 if len(buf) > 0:
                     (size, msg, rest) = comm.read_msg(buf)
-                    logging.debug("size:%d msg:%s rest:%s|", size, msg, rest)
+                    logger.debug("size:%d msg:%s rest:%s|", size, msg, rest)
                     fields = comm.read_fields(msg)
-                    logging.debug("fields %s", fields)
+                    logger.debug("fields %s", fields)
                 else:
                     fields = []
 
             (server_version, conn_time) = fields
             server_version = int(server_version)
-            logging.debug("ANSWER Version:%d time:%s", server_version, conn_time)
+            logger.debug("ANSWER Version:%d time:%s", server_version, conn_time)
             self.connTime = conn_time
             self.serverVersion_ = server_version
             self.decoder.serverVersion = self.serverVersion()
@@ -172,13 +175,13 @@ class EClient(object):
 
             self.reader = reader.EReader(self.conn, self.msg_queue)
             self.reader.start()   # start thread
-            logging.info("sent startApi")
+            logger.info("sent startApi")
             self.startApi()
             self.wrapper.connectAck()
         except socket.error:
             if self.wrapper:
                 self.wrapper.error(NO_VALID_ID, CONNECT_FAIL.code(), CONNECT_FAIL.msg())
-            logging.info("could not connect")
+            logger.info("could not connect")
             self.disconnect()
             self.done = True
 
@@ -190,7 +193,7 @@ class EClient(object):
 
         self.setConnState(EClient.DISCONNECTED)
         if self.conn is not None:
-            logging.info("disconnecting")
+            logger.info("disconnecting")
             self.conn.disconnect()
             self.wrapper.connectionClosed()
             self.reset()
@@ -199,7 +202,7 @@ class EClient(object):
     def isConnected(self):
         """Call this function to check if there is a connection with TWS"""
 
-        logging.debug("%s isConn: %s" % (id(self), self.connState))
+        logger.debug("%s isConn: %s" % (id(self), self.connState))
         return EClient.CONNECTED == self.connState
 
     def keyboardInterrupt(self):
@@ -214,10 +217,16 @@ class EClient(object):
 
     def run(self):
         """This is the function that has the message loop."""
+        timeStart = time.time()
+        timeOut = 20
 
         try:
             while not self.done and (self.isConnected()
                         or not self.msg_queue.empty()):
+                if time.time() - timeStart > timeOut: # stop application after timeout
+                    self.keyboardInterrupt()
+                    self.keyboardInterruptHard()
+
                 try:
                     try:
                         text = self.msg_queue.get(block=True, timeout=0.2)
@@ -227,20 +236,20 @@ class EClient(object):
                             self.disconnect()
                             break
                     except queue.Empty:
-                        logging.debug("queue.get: empty")
+                        logger.debug("queue.get: empty")
                     else:
                         fields = comm.read_fields(text)
-                        logging.debug("fields %s", fields)
+                        logger.debug("fields %s", fields)
                         self.decoder.interpret(fields)
                 except (KeyboardInterrupt, SystemExit):
-                    logging.info("detected KeyboardInterrupt, SystemExit")
+                    logger.info("detected KeyboardInterrupt, SystemExit")
                     self.keyboardInterrupt()
                     self.keyboardInterruptHard()
                 except BadMessage:
-                    logging.info("BadMessage")
+                    logger.info("BadMessage")
                     self.conn.disconnect()
 
-                logging.debug("conn:%d queue.sz:%d",
+                logger.debug("conn:%d queue.sz:%d",
                              self.isConnected(),
                              self.msg_queue.qsize())
         finally:
@@ -1013,13 +1022,21 @@ class EClient(object):
                         " It does not support dontUseAutoPriceForHedge parameter")
             return
 
+        if self.serverVersion() < MIN_SERVER_VER_ORDER_CONTAINER and order.isOmsContainer:
+            self.wrapper.error(orderId, UPDATE_TWS.code(), UPDATE_TWS.msg() +
+                        " It does not support oms container parameter")
+            return
+
         VERSION = 27 if (self.serverVersion() < MIN_SERVER_VER_NOT_HELD) else 45
 
         # send place order msg
         flds = []
-        flds += [make_field(OUT.PLACE_ORDER),
-           make_field(VERSION),
-           make_field(orderId)]
+        flds += [make_field(OUT.PLACE_ORDER)]
+
+        if self.serverVersion() < MIN_SERVER_VER_ORDER_CONTAINER:
+            flds += [make_field(VERSION)]
+
+        flds += [make_field(orderId)]
 
         # send contract fields
         if self.serverVersion() >= MIN_SERVER_VER_PLACE_ORDER_CONID:
@@ -1325,6 +1342,12 @@ class EClient(object):
         if self.serverVersion() >= MIN_SERVER_VER_AUTO_PRICE_FOR_HEDGE:
             flds.append(make_field(order.dontUseAutoPriceForHedge))
 
+        if self.serverVersion() >= MIN_SERVER_VER_ORDER_CONTAINER:
+            flds.append(make_field(order.isOmsContainer))
+
+        if self.serverVersion() >= MIN_SERVER_VER_D_PEG_ORDERS:
+            flds.append(make_field(order.discretionaryUpToLimitPrice))
+
         msg = "".join(flds)
         self.sendMsg(msg)
 
@@ -1365,7 +1388,7 @@ class EClient(object):
         if not self.isConnected():
             self.wrapper.error(NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg())
             return
-		
+
         VERSION = 1
 
         msg = make_field(OUT.REQ_OPEN_ORDERS) \
@@ -1971,7 +1994,7 @@ class EClient(object):
         self.sendMsg(msg)
 
     def reqMktDepth(self, reqId:TickerId, contract:Contract,
-                    numRows: int, mktDepthOptions: TagValueList):
+                    numRows:int, isSmartDepth:bool, mktDepthOptions:TagValueList):
         """Call this function to request market depth for a specific
         contract. The market depth will be returned by the updateMktDepth() and
         updateMktDepthL2() events.
@@ -1987,6 +2010,7 @@ class EClient(object):
         contract:Contact - This structure contains a description of the contract
             for which market depth data is being requested.
         numRows:int - Specifies the numRowsumber of market depth rows to display.
+        isSmartDepth:bool - specifies SMART depth request
         mktDepthOptions:TagValueList - For internal use only. Use default value
             XYZ."""
 
@@ -2003,9 +2027,14 @@ class EClient(object):
                     "  It does not support conId and tradingClass parameters in reqMktDepth.")
                 return
 
+        if self.serverVersion() < MIN_SERVER_VER_SMART_DEPTH and isSmartDepth:
+            self.wrapper.error( reqId, UPDATE_TWS.code(), UPDATE_TWS.msg() +
+                " It does not support SMART depth request.")
+            return
+
         VERSION = 5
 
-        # send req mkt data msg
+        # send req mkt depth msg
         flds = []
         flds += [make_field(OUT.REQ_MKT_DEPTH),
             make_field(VERSION),
@@ -2028,6 +2057,9 @@ class EClient(object):
 
         flds += [make_field(numRows),] # srv v19 and above
 
+        if self.serverVersion() >= MIN_SERVER_VER_SMART_DEPTH:
+            flds += [make_field(isSmartDepth),]
+
         # send mktDepthOptions parameter
         if self.serverVersion() >= MIN_SERVER_VER_LINKING:
             #current doc says this part if for "internal use only" -> won't support it
@@ -2040,12 +2072,13 @@ class EClient(object):
         self.sendMsg(msg)
 
 
-    def cancelMktDepth(self, reqId:TickerId):
+    def cancelMktDepth(self, reqId:TickerId, isSmartDepth:bool):
         """After calling this function, market depth data for the specified id
         will stop flowing.
 
         reqId:TickerId - The ID that was specified in the call to
-            reqMktDepth()."""
+            reqMktDepth().
+        isSmartDepth:bool - specifies SMART depth request"""
 
         self.logRequest(current_fn_name(), vars())
 
@@ -2053,11 +2086,23 @@ class EClient(object):
             self.wrapper.error(NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg())
             return
 
+        if self.serverVersion() < MIN_SERVER_VER_SMART_DEPTH and isSmartDepth:
+            self.wrapper.error( reqId, UPDATE_TWS.code(), UPDATE_TWS.msg() +
+                " It does not support SMART depth cancel.")
+            return
+
         VERSION = 1
 
-        msg = make_field(OUT.CANCEL_MKT_DEPTH) \
-            + make_field(VERSION) \
-            + make_field(reqId)
+        # send cancel mkt depth msg
+        flds = []
+        flds += [make_field(OUT.CANCEL_MKT_DEPTH),
+            make_field(VERSION),
+            make_field(reqId)]
+
+        if self.serverVersion() >= MIN_SERVER_VER_SMART_DEPTH:
+            flds += [make_field(isSmartDepth)]
+
+        msg = "".join(flds)
 
         self.sendMsg(msg)
 
@@ -2523,7 +2568,8 @@ class EClient(object):
 
     def reqScannerSubscription(self, reqId:int,
                                subscription:ScannerSubscription,
-                               scannerSubscriptionOptions:TagValueList):
+                               scannerSubscriptionOptions:TagValueList,
+                               scannerSubscriptionFilterOptions:TagValueList):
         """reqId:int - The ticker ID. Must be a unique value.
         scannerSubscription:ScannerSubscription - This structure contains
             possible parameters used to filter results.
@@ -2536,12 +2582,20 @@ class EClient(object):
             self.wrapper.error(NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg())
             return
 
+        if self.serverVersion() < MIN_SERVER_VER_SCANNER_GENERIC_OPTS and scannerSubscriptionFilterOptions is not None:
+            self.wrapper.error(NO_VALID_ID, UPDATE_TWS.code(), UPDATE_TWS.msg() +
+                               " It does not support API scanner subscription generic filter options")
+            return
+
         VERSION = 4
 
         flds = []
-        flds += [make_field(OUT.REQ_SCANNER_SUBSCRIPTION),
-            make_field(VERSION),
-            make_field(reqId),
+        flds += [make_field(OUT.REQ_SCANNER_SUBSCRIPTION)]
+
+        if self.serverVersion() < MIN_SERVER_VER_SCANNER_GENERIC_OPTS:
+            flds += [make_field(VERSION)]
+
+        flds +=[make_field(reqId),
             make_field_handle_empty(subscription.numberOfRows),
             make_field(subscription.instrument),
             make_field(subscription.locationCode),
@@ -2559,10 +2613,18 @@ class EClient(object):
             make_field(subscription.maturityDateBelow),
             make_field_handle_empty(subscription.couponRateAbove),
             make_field_handle_empty(subscription.couponRateBelow),
-            make_field_handle_empty(subscription.excludeConvertible),
+            make_field(subscription.excludeConvertible),
             make_field_handle_empty(subscription.averageOptionVolumeAbove), # srv v25 and above
             make_field(subscription.scannerSettingPairs), # srv v25 and above
             make_field(subscription.stockTypeFilter)] # srv v27 and above
+
+        # send scannerSubscriptionFilterOptions parameter
+        if self.serverVersion() >= MIN_SERVER_VER_SCANNER_GENERIC_OPTS:
+            scannerSubscriptionFilterOptionsStr = ""
+            if scannerSubscriptionFilterOptions:
+                for tagValueOpt in scannerSubscriptionFilterOptions:
+                    scannerSubscriptionFilterOptionsStr += str(tagValueOpt)
+            flds += [make_field(scannerSubscriptionFilterOptionsStr)]
 
         # send scannerSubscriptionOptions parameter
         if self.serverVersion() >= MIN_SERVER_VER_LINKING:
@@ -2708,10 +2770,10 @@ class EClient(object):
 
     def reqFundamentalData(self, reqId:TickerId , contract:Contract,
                            reportType:str, fundamentalDataOptions:TagValueList):
-        """Call this function to receive Reuters global fundamental data for
-        stocks. There must be a subscription to Reuters Fundamental set up in
+        """Call this function to receive fundamental data for
+        stocks. The appropriate market data subscription must be set up in
         Account Management before you can receive this data.
-        Reuters fundamental data will be returned at EWrapper.fundamentalData().
+        Fundamental data will be returned at EWrapper.fundamentalData().
 
         reqFundamentalData() can handle conid specified in the Contract object,
         but not tradingClass or multiplier. This is because reqFundamentalData()
@@ -2721,7 +2783,7 @@ class EClient(object):
         reqId:tickerId - The ID of the data request. Ensures that responses are
              matched to requests if several requests are in process.
         contract:Contract - This structure contains a description of the
-            contract for which Reuters Fundamental data is being requested.
+            contract for which fundamental data is being requested.
         reportType:str - One of the following XML reports:
             ReportSnapshot (company overview)
             ReportsFinSummary (financial summary)
@@ -2778,7 +2840,7 @@ class EClient(object):
 
 
     def cancelFundamentalData(self, reqId:TickerId ):
-        """Call this function to stop receiving Reuters global fundamental data.
+        """Call this function to stop receiving fundamental data.
 
         reqId:TickerId - The ID of the data request."""
 

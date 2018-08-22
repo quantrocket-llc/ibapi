@@ -14,7 +14,7 @@ namespace TWSLib
      * @class TickAttribBidAsk
      * @brief Class describing tick attrib bid/ask
      */
-    [ComVisible(true)]
+    [ComVisible(true), ClassInterface(ClassInterfaceType.None)]
     public class ComTickAttribBidAsk : ComWrapper<TickAttribBidAsk>, ITickAttribBidAsk
     {
         /**

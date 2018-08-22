@@ -14,11 +14,13 @@ import socket
 import threading
 import logging
 
-from ibapi.common import *
-from ibapi.errors import *
+from ibapi.common import * # @UnusedWildImport
+from ibapi.errors import * # @UnusedWildImport
 
 
 #TODO: support SSL !!
+
+logger = logging.getLogger(__name__)
 
 
 class Connection:
@@ -27,7 +29,7 @@ class Connection:
         self.port = port
         self.socket = None
         self.wrapper = None
-        self.lock = threading.Lock() 
+        self.lock = threading.Lock()
 
 
     def connect(self):
@@ -43,7 +45,7 @@ class Connection:
         except socket.error:
             if self.wrapper:
                 self.wrapper.error(NO_VALID_ID, CONNECT_FAIL.code(), CONNECT_FAIL.msg())
- 
+
         self.socket.settimeout(1)   #non-blocking
 
 
@@ -54,10 +56,10 @@ class Connection:
 
         self.lock.acquire()
         try:
-            logging.debug("disconnecting")
+            logger.debug("disconnecting")
             self.socket.close()
             self.socket = None
-            logging.debug("disconnected")
+            logger.debug("disconnected")
             if self.wrapper:
                 self.wrapper.connectionClosed()
         finally:
@@ -71,54 +73,54 @@ class Connection:
 
     def sendMsg(self, msg):
 
-        logging.debug("acquiring lock")
+        logger.debug("acquiring lock")
         self.lock.acquire()
-        logging.debug("acquired lock")
+        logger.debug("acquired lock")
         if not self.isConnected():
-            logging.debug("sendMsg attempted while not connected, releasing lock")
+            logger.debug("sendMsg attempted while not connected, releasing lock")
             self.lock.release()
             return 0
         try:
             nSent = self.socket.send(msg)
         except socket.error:
-            logging.debug("exception from sendMsg %s", sys.exc_info())
+            logger.debug("exception from sendMsg %s", sys.exc_info())
             raise
         finally:
-            logging.debug("releasing lock")
+            logger.debug("releasing lock")
             self.lock.release()
-            logging.debug("release lock")
-            
-        logging.debug("sendMsg: sent: %d", nSent)
+            logger.debug("release lock")
+
+        logger.debug("sendMsg: sent: %d", nSent)
 
         return nSent
 
 
     def recvMsg(self):
         if not self.isConnected():
-            logging.debug("recvMsg attempted while not connected, releasing lock")
+            logger.debug("recvMsg attempted while not connected, releasing lock")
             return b""
         try:
             buf = self._recvAllMsg()
         except socket.error:
-            logging.debug("exception from recvMsg %s", sys.exc_info())
+            logger.debug("exception from recvMsg %s", sys.exc_info())
             buf = b""
         else:
             pass
 
-        return buf            
-    
+        return buf
+
 
     def _recvAllMsg(self):
         cont = True
         allbuf = b""
 
-        while cont:
+        while cont and self.socket is not None:
             buf = self.socket.recv(4096)
             allbuf += buf
-            logging.debug("len %d raw:%s|", len(buf), buf)
+            logger.debug("len %d raw:%s|", len(buf), buf)
 
             if len(buf) < 4096:
                 cont = False
 
-        return allbuf  
-             
+        return allbuf
+

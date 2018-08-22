@@ -7,9 +7,6 @@
 
 #include "IExternalizable.h"
 
-#ifndef _MSC_VER
-#include "StdAfx.h"
-#endif
 #include <string>
 
 class TWSAPIDLLEXP OrderCondition : public IExternalizable {

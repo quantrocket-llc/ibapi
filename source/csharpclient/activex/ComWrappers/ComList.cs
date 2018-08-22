@@ -10,28 +10,30 @@ using System.Text;
 
 namespace TWSLib
 {
-    [ComVisible(true)]
-    public class ComList<ComT, T> : ComWrapper<List<T>>, IList<ComT>
-        where ComT : class, new()
-        where T : class, new()
+    public class ComList<ComT, T> : ComWrapper<List<T>>, IList<ComWrapper<T>>
+        where T :  new()
+        where ComT : new()
     {
         public ComList(List<T> data) { this.data = data; }
 
-        public int IndexOf(ComT item)
+        public int IndexOf(ComWrapper<T> item)
         {
-            return data.IndexOf(ChangeType<T, ComT>(item));
+            return data.IndexOf(ChangeType(item));
         }
 
-        static Tr ChangeType<Tr, Ta>(Ta value)
-            where Ta : new()
-            where Tr : class, new()
+        static ComWrapper<T> ChangeType(T value)
         {
-            return value is ComWrapper<Tr> ? (value as ComWrapper<Tr>).ConvertTo() : (new Tr() as ComWrapper<Ta>).ConvertFrom(value) as Tr;
+            return (new ComT() as ComWrapper<T>).ConvertFrom(value);
         }
 
-        public void Insert(int index, ComT item)
+        static T ChangeType(ComWrapper<T> value)
         {
-            data.Insert(index, ChangeType<T, ComT>(item));
+            return (value as ComWrapper<T>).ConvertTo();
+        }
+
+        public void Insert(int index, ComWrapper<T> item)
+        {
+            data.Insert(index, ChangeType(item));
         }
 
         public void RemoveAt(int index)
@@ -39,21 +41,21 @@ namespace TWSLib
             data.RemoveAt(index);
         }
 
-        public ComT this[int index]
+        public ComWrapper<T> this[int index]
         {
             get
             {
-                return ChangeType<ComT, T>(data[index]);
+                return ChangeType(data[index]);
             }
             set
             {
-                data[index] = ChangeType<T, ComT>(value);
+                data[index] = ChangeType(value);
             }
         }
 
-        public void Add(ComT item)
+        public void Add(ComWrapper<T> item)
         {
-            data.Add(ChangeType<T, ComT>(item));
+            data.Add(ChangeType(item));
         }
 
         public void Clear()
@@ -61,12 +63,12 @@ namespace TWSLib
             data.Clear();
         }
 
-        public bool Contains(ComT item)
+        public bool Contains(ComWrapper<T> item)
         {
-            return data.Contains(ChangeType<T, ComT>(item));
+            return data.Contains(ChangeType(item));
         }
 
-        public void CopyTo(ComT[] array, int arrayIndex)
+        public void CopyTo(ComWrapper<T>[] array, int arrayIndex)
         {
             throw new NotImplementedException();
         }
@@ -81,14 +83,14 @@ namespace TWSLib
             get { return false; }
         }
 
-        public bool Remove(ComT item)
+        public bool Remove(ComWrapper<T> item)
         {
-            return data.Remove(ChangeType<T, ComT>(item));
+            return data.Remove(ChangeType(item));
         }
 
-        public IEnumerator<ComT> GetEnumerator()
+        public IEnumerator<ComWrapper<T>> GetEnumerator()
         {
-            return data.Select(x => ChangeType<ComT, T>(x)).GetEnumerator();
+            return data.Select(x => ChangeType(x)).GetEnumerator();
         }
 
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()

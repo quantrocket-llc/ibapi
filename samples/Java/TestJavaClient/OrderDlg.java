@@ -77,6 +77,7 @@ public class OrderDlg extends JDialog {
     private JTextField 	m_goodTillDate = new JTextField();
     private JTextField 	m_cashQty = new JTextField();
     private JTextField 	m_marketDepthRowTextField = new JTextField( "20");
+    private JCheckBox   m_smartDepth = new JCheckBox("SMART Depth", true);
     private JTextField  m_genericTicksTextField = new JTextField(ALL_GENERIC_TICK_TAGS);
     private JCheckBox   m_snapshotMktDataTextField = new JCheckBox("Snapshot", false);
     private JCheckBox   m_regSnapshotMktDataTextField = new JCheckBox("Regulatory Snapshot", false);
@@ -194,6 +195,7 @@ public class OrderDlg extends JDialog {
         pMarketDepth.setBorder( BorderFactory.createTitledBorder( "Market Depth") );
         pMarketDepth.addGBComponent(new JLabel( "Number of Rows"), gbc, COL1_WIDTH, GridBagConstraints.RELATIVE) ;
         pMarketDepth.addGBComponent(m_marketDepthRowTextField, gbc, COL2_WIDTH, GridBagConstraints.REMAINDER) ;
+        pMarketDepth.addGBComponent(m_smartDepth, gbc, COL1_WIDTH, GridBagConstraints.RELATIVE);
 
         // create marketData panel
         IBGridBagPanel pMarketData = new IBGridBagPanel();
@@ -578,6 +580,10 @@ public class OrderDlg extends JDialog {
 
     String tickByTickType() {
         return m_historicalDataDlg.tickByTickType();
+    }
+
+    boolean isSmartDepth() {
+        return m_smartDepth.isSelected();
     }
     
 }

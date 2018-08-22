@@ -160,6 +160,7 @@ struct Order
 		dontUseAutoPriceForHedge = false;
 
         isOmsContainer = false;
+        discretionaryUpToLimitPrice = false;
 	}
 
 	// order identifier
@@ -336,6 +337,8 @@ struct Order
 	bool dontUseAutoPriceForHedge;
 
     bool isOmsContainer;
+
+    bool discretionaryUpToLimitPrice;
 
 public:
 

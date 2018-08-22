@@ -23,8 +23,8 @@ struct ScannerSubscription {
 		marketCapBelow = DBL_MAX;
 		couponRateAbove = DBL_MAX;
 		couponRateBelow = DBL_MAX;
-		excludeConvertible = 0;
-		averageOptionVolumeAbove = 0;
+		excludeConvertible = INT_MAX;
+		averageOptionVolumeAbove = INT_MAX;
 	}
     int numberOfRows;
     std::string instrument;
