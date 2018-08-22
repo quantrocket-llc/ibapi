@@ -48,6 +48,10 @@ class Connection:
 
 
     def disconnect(self):
+
+        if self.socket is None:
+            return
+
         self.lock.acquire()
         try:
             logging.debug("disconnecting")
