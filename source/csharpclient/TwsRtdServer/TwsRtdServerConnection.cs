@@ -49,6 +49,9 @@ namespace TwsRtdServer
 
                 this.m_eClientSocket = new EClientSocket(m_twsRtdServerWrapper, m_eReaderSignal);
 
+                // allow PACEAPI feature
+                this.m_eClientSocket.SetConnectOptions("+PACEAPI");
+
                 // connect to TWS
                 this.m_eClientSocket.eConnect(m_host, m_port, m_clientId, false);
 
