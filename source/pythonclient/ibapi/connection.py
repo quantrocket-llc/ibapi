@@ -51,17 +51,15 @@ class Connection:
 
     def disconnect(self):
 
-        if self.socket is None:
-            return
-
         self.lock.acquire()
         try:
-            logger.debug("disconnecting")
-            self.socket.close()
-            self.socket = None
-            logger.debug("disconnected")
-            if self.wrapper:
-                self.wrapper.connectionClosed()
+            if self.socket is not None:
+                logger.debug("disconnecting")
+                self.socket.close()
+                self.socket = None
+                logger.debug("disconnected")
+                if self.wrapper:
+                    self.wrapper.connectionClosed()
         finally:
             self.lock.release()
 
