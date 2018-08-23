@@ -2044,7 +2044,6 @@ namespace IBSampleApp
             this.peg2benchTab.Controls.Add(this.label6);
             this.peg2benchTab.Controls.Add(this.tbStartingPrice);
             this.peg2benchTab.Controls.Add(this.label4);
-            this.peg2benchTab.Controls.Add(this.contractSearchControl1);
             this.peg2benchTab.Location = new System.Drawing.Point(4, 22);
             this.peg2benchTab.Name = "peg2benchTab";
             this.peg2benchTab.Size = new System.Drawing.Size(620, 337);

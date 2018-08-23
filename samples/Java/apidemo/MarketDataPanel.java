@@ -435,36 +435,52 @@ class MarketDataPanel extends JPanel {
 	
 	private class DeepRequestPanel extends JPanel {
 		final ContractPanel m_contractPanel = new ContractPanel(m_contract);
+		final UpperField m_numOfRows = new UpperField("20");
+		final JCheckBox m_smartDepth = new JCheckBox();
 		
 		DeepRequestPanel() {
+			m_smartDepth.setSelected(true);
 			HtmlButton reqDeep = new HtmlButton( "Request Deep Market Data") {
 				@Override protected void actionPerformed() {
 					onDeep();
 				}
 			};
 			
+			VerticalPanel paramPanel = new VerticalPanel();
+			paramPanel.add("Number of rows", m_numOfRows);
+			paramPanel.add("SMART Depth", m_smartDepth);
+			
 			VerticalPanel butPanel = new VerticalPanel();
 			butPanel.add( reqDeep);
+
+			JPanel rightPanel = new StackPanel();
+			rightPanel.add(paramPanel);
+			rightPanel.add(Box.createVerticalStrut(20));
+			rightPanel.add(butPanel);
 			
 			setLayout( new BoxLayout( this, BoxLayout.X_AXIS) );
 			add( m_contractPanel);
 			add( Box.createHorizontalStrut(20));
-			add( butPanel);
+			add( rightPanel);
 		}
 
 		void onDeep() {
 			m_contractPanel.onOK();
-			DeepResultsPanel resultPanel = new DeepResultsPanel();
-			m_resultsPanel.addTab( "Deep " + m_contract.symbol(), resultPanel, true, true);
-			ApiDemo.INSTANCE.controller().reqDeepMktData(m_contract, 6, resultPanel);
+			boolean isSmartDepth = m_smartDepth.isSelected();
+			int numOfRows = m_numOfRows.getInt();
+			DeepResultsPanel resultPanel = new DeepResultsPanel(isSmartDepth);
+			m_resultsPanel.addTab( (isSmartDepth ? "SMART" : "Market") + " depth " + m_contract.symbol(), resultPanel, true, true);
+			ApiDemo.INSTANCE.controller().reqDeepMktData(m_contract, numOfRows, isSmartDepth, resultPanel);
 		}
 	}
 
 	private static class DeepResultsPanel extends NewTabPanel implements IDeepMktDataHandler {
 		final DeepModel m_buy = new DeepModel();
 		final DeepModel m_sell = new DeepModel();
+		final boolean m_isSmartDepth;
 
-		DeepResultsPanel() {
+		DeepResultsPanel(boolean isSmartDepth) {
+			m_isSmartDepth = isSmartDepth;
 			HtmlButton desub = new HtmlButton( "Desubscribe") {
 				public void actionPerformed() {
 					onDesub();
@@ -487,7 +503,7 @@ class MarketDataPanel extends JPanel {
 		}
 		
 		void onDesub() {
-			ApiDemo.INSTANCE.controller().cancelDeepMktData( this);
+			ApiDemo.INSTANCE.controller().cancelDeepMktData( m_isSmartDepth, this);
 		}
 
 		@Override public void activated() {
@@ -495,7 +511,7 @@ class MarketDataPanel extends JPanel {
 
 		/** Called when the tab is closed by clicking the X. */
 		@Override public void closed() {
-			ApiDemo.INSTANCE.controller().cancelDeepMktData( this);
+			ApiDemo.INSTANCE.controller().cancelDeepMktData( m_isSmartDepth, this);
 		}
 		
 		@Override public void updateMktDepth(int pos, String mm, DeepType operation, DeepSide side, double price, int size) {

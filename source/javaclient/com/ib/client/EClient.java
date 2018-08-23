@@ -282,9 +282,10 @@ public abstract class EClient {
     protected static final int MIN_SERVER_VER_SCANNER_GENERIC_OPTS = 143;
     protected static final int MIN_SERVER_VER_API_BIND_ORDER = 144;
     protected static final int MIN_SERVER_VER_ORDER_CONTAINER = 145;
+    protected static final int MIN_SERVER_VER_SMART_DEPTH = 146;
     
     public static final int MIN_VERSION = 100; // envelope encoding, applicable to useV100Plus mode only
-    public static final int MAX_VERSION = MIN_SERVER_VER_ORDER_CONTAINER; // ditto
+    public static final int MAX_VERSION = MIN_SERVER_VER_SMART_DEPTH; // ditto
 
     protected EReaderSignal m_signal;
     protected EWrapper m_eWrapper;    // msg handler
@@ -1088,7 +1089,7 @@ public abstract class EClient {
         }
     }
 
-    public synchronized void reqMktDepth( int tickerId, Contract contract, int numRows, List<TagValue> mktDepthOptions) {
+    public synchronized void reqMktDepth( int tickerId, Contract contract, int numRows, boolean isSmartDepth, List<TagValue> mktDepthOptions) {
         // not connected?
         if( !isConnected()) {
             notConnected();
@@ -1108,6 +1109,12 @@ public abstract class EClient {
                       "  It does not support conId and tradingClass parameters in reqMktDepth.");
                   return;
             }
+        }
+        
+        if (m_serverVersion < MIN_SERVER_VER_SMART_DEPTH && isSmartDepth) {
+            error(EClientErrors.NO_VALID_ID, EClientErrors.UPDATE_TWS,
+            "  It does not support SMART depth request.");
+            return;
         }
 
         final int VERSION = 5;
@@ -1145,6 +1152,10 @@ public abstract class EClient {
             
             if (m_serverVersion >= 19) {
                 b.send(numRows);
+            }
+
+            if (m_serverVersion >= MIN_SERVER_VER_SMART_DEPTH) {
+                b.send(isSmartDepth);
             }
             
             // send mktDepthOptions parameter
@@ -1185,7 +1196,7 @@ public abstract class EClient {
         }
     }
 
-    public synchronized void cancelMktDepth( int tickerId) {
+    public synchronized void cancelMktDepth( int tickerId, boolean isSmartDepth) {
         // not connected?
         if( !isConnected()) {
             notConnected();
@@ -1198,6 +1209,13 @@ public abstract class EClient {
                     EClientErrors.UPDATE_TWS.msg());
             return;
         }
+        
+        if (m_serverVersion < MIN_SERVER_VER_SMART_DEPTH && isSmartDepth) {
+            error(EClientErrors.NO_VALID_ID, EClientErrors.UPDATE_TWS,
+            "  It does not support SMART depth cancel.");
+            return;
+        }
+        
 
         final int VERSION = 1;
 
@@ -1208,6 +1226,10 @@ public abstract class EClient {
             b.send( CANCEL_MKT_DEPTH);
             b.send( VERSION);
             b.send( tickerId);
+            
+            if (m_serverVersion >= MIN_SERVER_VER_SMART_DEPTH) {
+                b.send( isSmartDepth);
+            }
 
             closeAndSend(b);
         }

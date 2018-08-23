@@ -605,6 +605,7 @@ namespace IBSampleApp
             this.groupBoxMarketDataType_MDT = new System.Windows.Forms.GroupBox();
             this.comboBoxMarketDataType_MDT = new System.Windows.Forms.ComboBox();
             this.deepBookGroupBox = new System.Windows.Forms.GroupBox();
+            this.cbSmartDepth = new System.Windows.Forms.CheckBox();
             this.ReqMktDepthExchanges_Button = new System.Windows.Forms.Button();
             this.deepBookEntries = new System.Windows.Forms.TextBox();
             this.deepBookEntriesLabel = new System.Windows.Forms.Label();
@@ -6093,7 +6094,7 @@ namespace IBSampleApp
             // 
             // histogram_button
             // 
-            this.histogram_button.Location = new System.Drawing.Point(862, 152);
+            this.histogram_button.Location = new System.Drawing.Point(1092, 151);
             this.histogram_button.Name = "histogram_button";
             this.histogram_button.Size = new System.Drawing.Size(75, 23);
             this.histogram_button.TabIndex = 60;
@@ -6144,7 +6145,7 @@ namespace IBSampleApp
             // groupBoxMarketDataType_MDT
             // 
             this.groupBoxMarketDataType_MDT.Controls.Add(this.comboBoxMarketDataType_MDT);
-            this.groupBoxMarketDataType_MDT.Location = new System.Drawing.Point(862, 93);
+            this.groupBoxMarketDataType_MDT.Location = new System.Drawing.Point(864, 135);
             this.groupBoxMarketDataType_MDT.Name = "groupBoxMarketDataType_MDT";
             this.groupBoxMarketDataType_MDT.Size = new System.Drawing.Size(214, 50);
             this.groupBoxMarketDataType_MDT.TabIndex = 59;
@@ -6163,20 +6164,33 @@ namespace IBSampleApp
             // 
             // deepBookGroupBox
             // 
+            this.deepBookGroupBox.Controls.Add(this.cbSmartDepth);
             this.deepBookGroupBox.Controls.Add(this.ReqMktDepthExchanges_Button);
             this.deepBookGroupBox.Controls.Add(this.deepBookEntries);
             this.deepBookGroupBox.Controls.Add(this.deepBookEntriesLabel);
             this.deepBookGroupBox.Controls.Add(this.deepBook_Button);
             this.deepBookGroupBox.Location = new System.Drawing.Point(862, 6);
             this.deepBookGroupBox.Name = "deepBookGroupBox";
-            this.deepBookGroupBox.Size = new System.Drawing.Size(214, 80);
+            this.deepBookGroupBox.Size = new System.Drawing.Size(214, 104);
             this.deepBookGroupBox.TabIndex = 58;
             this.deepBookGroupBox.TabStop = false;
             this.deepBookGroupBox.Text = "Market Depth";
             // 
+            // cbSmartDepth
+            // 
+            this.cbSmartDepth.AutoSize = true;
+            this.cbSmartDepth.Checked = true;
+            this.cbSmartDepth.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbSmartDepth.Location = new System.Drawing.Point(10, 49);
+            this.cbSmartDepth.Name = "cbSmartDepth";
+            this.cbSmartDepth.Size = new System.Drawing.Size(96, 17);
+            this.cbSmartDepth.TabIndex = 63;
+            this.cbSmartDepth.Text = "SMART Depth";
+            this.cbSmartDepth.UseVisualStyleBackColor = true;
+            // 
             // ReqMktDepthExchanges_Button
             // 
-            this.ReqMktDepthExchanges_Button.Location = new System.Drawing.Point(10, 46);
+            this.ReqMktDepthExchanges_Button.Location = new System.Drawing.Point(10, 72);
             this.ReqMktDepthExchanges_Button.Name = "ReqMktDepthExchanges_Button";
             this.ReqMktDepthExchanges_Button.Size = new System.Drawing.Size(82, 23);
             this.ReqMktDepthExchanges_Button.TabIndex = 58;
@@ -6190,7 +6204,7 @@ namespace IBSampleApp
             this.deepBookEntries.Name = "deepBookEntries";
             this.deepBookEntries.Size = new System.Drawing.Size(100, 20);
             this.deepBookEntries.TabIndex = 57;
-            this.deepBookEntries.Text = "3";
+            this.deepBookEntries.Text = "20";
             // 
             // deepBookEntriesLabel
             // 
@@ -6203,7 +6217,7 @@ namespace IBSampleApp
             // 
             // deepBook_Button
             // 
-            this.deepBook_Button.Location = new System.Drawing.Point(122, 46);
+            this.deepBook_Button.Location = new System.Drawing.Point(122, 72);
             this.deepBook_Button.Name = "deepBook_Button";
             this.deepBook_Button.Size = new System.Drawing.Size(82, 23);
             this.deepBook_Button.TabIndex = 16;
@@ -8011,6 +8025,7 @@ namespace IBSampleApp
         private System.Windows.Forms.ListView listViewFilterOptions;
         private System.Windows.Forms.ColumnHeader columnHeader3;
         private System.Windows.Forms.ColumnHeader columnHeader4;
+        private System.Windows.Forms.CheckBox cbSmartDepth;
     }
 }
 

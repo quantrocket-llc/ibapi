@@ -504,9 +504,10 @@ namespace IBApi
          * @param side 0 for ask, 1 for bid
          * @param price the order's price
          * @param size the order's size
+         * @param isSmartDepth flag indicating that this is smart depth response
          * @sa updateMktDepth, EClientSocket::reqMarketDepth
          */
-        void updateMktDepthL2(int tickerId, int position, string marketMaker, int operation, int side, double price, int size);
+        void updateMktDepthL2(int tickerId, int position, string marketMaker, int operation, int side, double price, int size, bool isSmartDepth);
 
         /**
          * @brief provides IB's bulletins

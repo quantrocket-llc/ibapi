@@ -61,7 +61,7 @@ public class Testbed {
 		//historicalDataRequests(wrapper.getClient());
 		//accountOperations(wrapper.getClient());
 		//newsOperations(wrapper.getClient());
-		//marketDepthOperations(wrapper.getClient());
+		marketDepthOperations(wrapper.getClient());
 		//rerouteCFDOperations(wrapper.getClient());
 		//marketRuleOperations(wrapper.getClient());
 		//tickDataOperations(wrapper.getClient());
@@ -70,7 +70,7 @@ public class Testbed {
 		//pnlSingle(wrapper.getClient());
 		//histogram(wrapper.getClient());
 		//whatIfSamples(wrapper.getClient(), wrapper.getCurrentOrderId());
-		historicalTicks(wrapper.getClient());
+		//historicalTicks(wrapper.getClient());
 
 		Thread.sleep(100000);
 		m_client.eDisconnect();
@@ -364,14 +364,21 @@ public class Testbed {
 		//! [reqMktDepthExchanges]
 
         //! [reqmarketdepth]
-        client.reqMktDepth(2001, ContractSamples.EurGbpFx(), 5, null);
+        client.reqMktDepth(2001, ContractSamples.EurGbpFx(), 5, false, null);
         //! [reqmarketdepth]
         Thread.sleep(2000);
         /*** Canceling the Deep Book request ***/
         //! [cancelmktdepth]
-        client.cancelMktDepth(2001);
+        client.cancelMktDepth(2001, false);
         //! [cancelmktdepth]
-		
+
+        //! [reqmarketdepth]
+        client.reqMktDepth(2002, ContractSamples.EuropeanStock(), 5, true, null);
+        //! [reqmarketdepth]
+        Thread.sleep(5000);
+        //! [cancelmktdepth]
+        client.cancelMktDepth(2002, true);
+        //! [cancelmktdepth]
 	}
 	
 	private static void accountOperations(EClientSocket client) throws InterruptedException {
@@ -837,11 +844,11 @@ public class Testbed {
 		//! [reqmktdatacfd]
 
 		//! [reqmktdepthcfd]
-		client.reqMktDepth(16004, ContractSamples.USStockCFD(), 10, null);
+		client.reqMktDepth(16004, ContractSamples.USStockCFD(), 10, false, null);
 		Thread.sleep(1000);
-		client.reqMktDepth(16005, ContractSamples.EuropeanStockCFD(), 10, null);
+		client.reqMktDepth(16005, ContractSamples.EuropeanStockCFD(), 10, false, null);
 		Thread.sleep(1000);
-		client.reqMktDepth(16006, ContractSamples.CashCFD(), 10, null);
+		client.reqMktDepth(16006, ContractSamples.CashCFD(), 10, false, null);
 		Thread.sleep(1000);
 		//! [reqmktdepthcfd]
 	}

@@ -406,7 +406,7 @@ namespace TWSLib
 
         
         void ITws.reqMktDepth(int id, string symbol, string secType, string lastTradeDateOrContractMonth, double strike,
-                   string right, string multiplier, string exchange, string curency, int numRows, ITagValueList options)
+                   string right, string multiplier, string exchange, string curency, int numRows, bool isSmartDepth, ITagValueList options)
         {
             // set contract fields
             Contract contract = new Contract();
@@ -421,11 +421,11 @@ namespace TWSLib
             contract.Currency = curency;
 
             // request market depth
-            this.socket.reqMarketDepth(id, contract, numRows, ITagValueListToListTagValue(options));
+            this.socket.reqMarketDepth(id, contract, numRows, isSmartDepth, ITagValueListToListTagValue(options));
         }
 
         
-        void ITws.reqMktDepth2(int id, string localSymbol, string secType, string exchange, string curency, int numRows, ITagValueList options)
+        void ITws.reqMktDepth2(int id, string localSymbol, string secType, string exchange, string curency, int numRows, bool isSmartDepth, ITagValueList options)
         {
 
             Contract contract = new Contract();
@@ -436,13 +436,13 @@ namespace TWSLib
             contract.Currency = curency;
 
             // request market depth
-            this.socket.reqMarketDepth(id, contract, numRows, ITagValueListToListTagValue(options));
+            this.socket.reqMarketDepth(id, contract, numRows, isSmartDepth, ITagValueListToListTagValue(options));
         }
 
         
-        void ITws.cancelMktDepth(int id)
+        void ITws.cancelMktDepth(int id, bool isSmartDepth)
         {
-            this.socket.cancelMktDepth(id);
+            this.socket.cancelMktDepth(id, isSmartDepth);
         }
 
         
@@ -782,9 +782,9 @@ namespace TWSLib
         }
 
         
-        void ITws.reqMktDepthEx(int tickerId, IContract contract, int numRows, ITagValueList options)
+        void ITws.reqMktDepthEx(int tickerId, IContract contract, int numRows, bool isSmartDepth, ITagValueList options)
         {
-            this.socket.reqMarketDepth(tickerId, (Contract)(contract as ComContract), numRows, ITagValueListToListTagValue(options));
+            this.socket.reqMarketDepth(tickerId, (Contract)(contract as ComContract), numRows, isSmartDepth, ITagValueListToListTagValue(options));
         }
 
         
@@ -1430,13 +1430,13 @@ namespace TWSLib
                 sc.Post(state => t_updateMktDepth(tickerId, position, operation, side, price, size), null);
         }
 
-        public delegate void updateMktDepthL2Delegate(int id, int position, string marketMaker, int operation, int side, double price, int size);
+        public delegate void updateMktDepthL2Delegate(int id, int position, string marketMaker, int operation, int side, double price, int size, bool isSmartDepth);
         public event updateMktDepthL2Delegate updateMktDepthL2;
-        void EWrapper.updateMktDepthL2(int tickerId, int position, string marketMaker, int operation, int side, double price, int size)
+        void EWrapper.updateMktDepthL2(int tickerId, int position, string marketMaker, int operation, int side, double price, int size, bool isSmartDepth)
         {
             var t_updateMktDepthL2 = this.updateMktDepthL2;
             if (t_updateMktDepthL2 != null)
-                sc.Post(state => t_updateMktDepthL2(tickerId, position, marketMaker, operation, side, price, size), null);
+                sc.Post(state => t_updateMktDepthL2(tickerId, position, marketMaker, operation, side, price, size, isSmartDepth), null);
         }
 
         public delegate void updateNewsBulletinDelegate(short msgId, short msgType, string message, string origExchange);

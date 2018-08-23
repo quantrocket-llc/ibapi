@@ -1,4 +1,4 @@
-﻿' Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+' Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
 ' and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable.
 
 
@@ -456,7 +456,7 @@ Friend Class dlgMktDepth
     '--------------------------------------------------------------------------------
     ' Adds the market depth row to the book
     '--------------------------------------------------------------------------------
-    Public Sub updateMktDepth(tickerId As Short, rowId As Integer, marketMaker As String, operation As OperationType, side As Side, price As Double, size As Integer)
+    Public Sub updateMktDepth(tickerId As Short, rowId As Integer, marketMaker As String, operation As OperationType, side As Side, price As Double, size As Integer, isSmartDepth As Boolean)
         Select Case side
             Case Side.Bid
                 updateDepth(m_bids, DataGridViewBid, rowId, marketMaker, operation, side, price, size)
@@ -471,14 +471,18 @@ Friend Class dlgMktDepth
     '--------------------------------------------------------------------------------
     ' Flush the deep book
     '--------------------------------------------------------------------------------
-    Public Sub init(numberOfRows As Integer, contract As IBApi.Contract)
+    Public Sub init(numberOfRows As Integer, contract As IBApi.Contract, isSmartDepth As Boolean)
         m_asks = New List(Of ModelEntry)(numberOfRows)
         m_bids = New List(Of ModelEntry)(numberOfRows)
 
         ' flush the book entries
         clear()
 
-        Me.Text = "Market Depth for: " & getContractString(contract)
+        If isSmartDepth Then
+            Me.Text = "SMART Depth for: " & getContractString(contract)
+        Else
+            Me.Text = "Market Depth for: " & getContractString(contract)
+        End If
     End Sub
 
     Public Sub clear()

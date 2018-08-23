@@ -178,11 +178,11 @@ namespace TWSLib
         void reqContractDetails2(string localSymbol, string secType, string exchange, string curency, int includeExpired);
         [DispId(69)]
         void reqMktDepth(int id, string symbol, string secType, string lastTradeDate, double strike,
-                  string right, string multiplier, string exchange, string curency, int numRows, ITagValueList options);
+                  string right, string multiplier, string exchange, string curency, int numRows, bool isSmartDepth, ITagValueList options);
         [DispId(70)]
-        void reqMktDepth2(int id, string localSymbol, string secType, string exchange, string curency, int numRows, ITagValueList options);
+        void reqMktDepth2(int id, string localSymbol, string secType, string exchange, string curency, int numRows, bool isSmartDepth, ITagValueList options);
         [DispId(71)]
-        void cancelMktDepth(int id);
+        void cancelMktDepth(int id, bool isSmartDepth);
         [DispId(72)]
         void addComboLeg(int conid, string action, int ratio, string exchange, int openClose, int shortSaleSlot, string designatedLocation, int exemptCode);
         [DispId(73)]
@@ -258,7 +258,7 @@ namespace TWSLib
         [DispId(101)]
         void reqMktDataEx(int tickerId, IContract contract, string genericTicks, bool snapshot, bool regulatorySnapshot, ITagValueList options);
         [DispId(102)]
-        void reqMktDepthEx(int tickerId, IContract contract, int numRows, ITagValueList options);
+        void reqMktDepthEx(int tickerId, IContract contract, int numRows, bool isSmartDepth, ITagValueList options);
         [DispId(103)]
         void placeOrderEx(int orderId, IContract contract, IOrder order);
         [DispId(104)]

@@ -424,8 +424,8 @@ public class EWrapperMsgGenerator {
     }
     
     public static String updateMktDepthL2( int tickerId, int position, String marketMaker,
-    									   int operation, int side, double price, int size) {
-    	return "updateMktDepth: " + tickerId + " " + position + " " + marketMaker + " " + operation + " " + side + " " + price + " " + size;
+    									   int operation, int side, double price, int size, boolean isSmartDepth) {
+    	return "updateMktDepth: " + tickerId + " " + position + " " + marketMaker + " " + operation + " " + side + " " + price + " " + size + " " + isSmartDepth;
     }
     
     public static String updateNewsBulletin( int msgId, int msgType, String message, String origExchange) {

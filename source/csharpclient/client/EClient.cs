@@ -494,13 +494,31 @@ namespace IBApi
          * @param tickerId request's identifier.
          * @sa reqMarketDepth
          */
-        public void cancelMktDepth(int tickerId)
+        public void cancelMktDepth(int tickerId, bool isSmartDepth)
         {
             if (!CheckConnection())
                 return;
 
-            SendCancelRequest(OutgoingMessages.CancelMarketDepth, 1, tickerId,
-                EClientErrors.FAIL_SEND_CANMKTDEPTH);
+            if (isSmartDepth)
+            {
+                if (!CheckServerVersion(tickerId, MinServerVer.SMART_DEPTH, " It does not support SMART depth cancel."))
+                    return;
+            }
+
+            const int VERSION = 1;
+            var paramsList = new BinaryWriter(new MemoryStream());
+            var lengthPos = prepareBuffer(paramsList);
+
+            paramsList.AddParameter(OutgoingMessages.CancelMarketDepth);
+            paramsList.AddParameter(VERSION);
+            paramsList.AddParameter(tickerId);
+
+            if (serverVersion >= MinServerVer.SMART_DEPTH)
+            {
+                paramsList.AddParameter(isSmartDepth);
+            }
+
+            CloseAndSend(paramsList, lengthPos, EClientErrors.FAIL_SEND_CANMKTDEPTH);
         }
 
         /**
@@ -1907,9 +1925,10 @@ namespace IBApi
          * @param tickerId the request's identifier
          * @param contract the Contract for which the depth is being requested
          * @param numRows the number of rows on each side of the order book
+         * @param isSmartDepth flag indicates that this is smart depth request
          * @sa cancelMktDepth, EWrapper::updateMktDepth, EWrapper::updateMktDepthL2
          */
-        public void reqMarketDepth(int tickerId, Contract contract, int numRows, List<TagValue> mktDepthOptions)
+        public void reqMarketDepth(int tickerId, Contract contract, int numRows, bool isSmartDepth, List<TagValue> mktDepthOptions)
         {
             if (!CheckConnection())
                 return;
@@ -1917,6 +1936,12 @@ namespace IBApi
             if (!IsEmpty(contract.TradingClass) || contract.ConId > 0)
             {
                 if (!CheckServerVersion(tickerId, MinServerVer.TRADING_CLASS, " It does not support ConId nor TradingClass parameters in reqMktDepth."))
+                    return;
+            }
+
+            if (isSmartDepth)
+            {
+                if (!CheckServerVersion(tickerId, MinServerVer.SMART_DEPTH, " It does not support SMART depth request."))
                     return;
             }
 
@@ -1957,6 +1982,11 @@ namespace IBApi
             if (serverVersion >= 19)
             {
                 paramsList.AddParameter(numRows);
+            }
+
+            if (serverVersion >= MinServerVer.SMART_DEPTH)
+            {
+                paramsList.AddParameter(isSmartDepth);
             }
 
             if (serverVersion >= MinServerVer.LINKING)

@@ -627,24 +627,24 @@ public class ApiController implements EWrapper {
 		void updateMktDepth(int position, String marketMaker, DeepType operation, DeepSide side, double price, int size);
 	}
 
-    public void reqDeepMktData( Contract contract, int numRows, IDeepMktDataHandler handler) {
+    public void reqDeepMktData( Contract contract, int numRows, boolean isSmartDepth, IDeepMktDataHandler handler) {
 		if (!checkConnection())
 			return;
 
     	int reqId = m_reqId++;
     	m_deepMktDataMap.put( reqId, handler);
     	List<TagValue> mktDepthOptions = new ArrayList<>();
-    	m_client.reqMktDepth( reqId, contract, numRows, mktDepthOptions);
+    	m_client.reqMktDepth( reqId, contract, numRows, isSmartDepth, mktDepthOptions);
 		sendEOM();
     }
 
-    public void cancelDeepMktData( IDeepMktDataHandler handler) {
+    public void cancelDeepMktData( boolean isSmartDepth, IDeepMktDataHandler handler) {
 		if (!checkConnection())
 			return;
 
     	Integer reqId = getAndRemoveKey( m_deepMktDataMap, handler);
     	if (reqId != null) {
-    		m_client.cancelMktDepth( reqId);
+    		m_client.cancelMktDepth( reqId, isSmartDepth);
     		sendEOM();
     	}
     }
@@ -657,7 +657,7 @@ public class ApiController implements EWrapper {
 		recEOM();
 	}
 
-	@Override public void updateMktDepthL2(int reqId, int position, String marketMaker, int operation, int side, double price, int size) {
+	@Override public void updateMktDepthL2(int reqId, int position, String marketMaker, int operation, int side, double price, int size, boolean isSmartDepth) {
 		IDeepMktDataHandler handler = m_deepMktDataMap.get( reqId);
 		if (handler != null) {
 			handler.updateMktDepth( position, marketMaker, DeepType.get( operation), DeepSide.get( side), price, size);

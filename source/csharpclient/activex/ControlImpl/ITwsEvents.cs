@@ -46,7 +46,7 @@ namespace TWSLib
         [DispId(16)]
         void updateMktDepth(int id, int position, int operation, int side, double price, int size);
         [DispId(17)]
-        void updateMktDepthL2(int id, int position, string marketMaker, int operation, int side, double price, int size);
+        void updateMktDepthL2(int id, int position, string marketMaker, int operation, int side, double price, int size, bool isSmartDepth);
         [DispId(18)]
         void updateNewsBulletin(short msgId, short msgType, string message, string origExchange);
         [DispId(19)]

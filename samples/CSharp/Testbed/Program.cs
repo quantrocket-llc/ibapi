@@ -65,7 +65,7 @@ namespace Samples
             /********************************************************/
             /*** Real time market data operations  - Market Depth ***/
             /********************************************************/
-            //marketDepthOperations(client);
+            marketDepthOperations(client);
 
             /**********************************************************/
             /*** Real time market data operations  - Real Time Bars ***/
@@ -176,7 +176,7 @@ namespace Samples
             /**************************/
             //continuousFuturesOperations(client);
 
-            historicalTicks(client);
+            //historicalTicks(client);
 
             /**************************/
             /*** Tick-By-Tick       ***/
@@ -278,11 +278,11 @@ namespace Samples
             //! [reqmktdatacfd]
 
             //! [reqmktdepthcfd]
-            client.reqMarketDepth(16004, ContractSamples.USStockCFD(), 10, null);
+            client.reqMarketDepth(16004, ContractSamples.USStockCFD(), 10, false, null);
             Thread.Sleep(1000);
-            client.reqMarketDepth(16005, ContractSamples.EuropeanStockCFD(), 10, null);
+            client.reqMarketDepth(16005, ContractSamples.EuropeanStockCFD(), 10, false, null);
             Thread.Sleep(1000);
-            client.reqMarketDepth(16006, ContractSamples.CashCFD(), 10, null);
+            client.reqMarketDepth(16006, ContractSamples.CashCFD(), 10, false, null);
             Thread.Sleep(1000);
             //! [reqmktdepthcfd]
         }
@@ -413,12 +413,22 @@ namespace Samples
         {
             /*** Requesting the Deep Book ***/
             //! [reqmarketdepth]
-            client.reqMarketDepth(2001, ContractSamples.EurGbpFx(), 5, null);
+            client.reqMarketDepth(2001, ContractSamples.EurGbpFx(), 5, false, null);
             //! [reqmarketdepth]
             Thread.Sleep(2000);
             /*** Canceling the Deep Book request ***/
             //! [cancelmktdepth]
-            client.cancelMktDepth(2001);
+            client.cancelMktDepth(2001, false);
+            //! [cancelmktdepth]
+
+            /*** Requesting the Deep Book ***/
+            //! [reqmarketdepth]
+            client.reqMarketDepth(2002, ContractSamples.EuropeanStock(), 5, true, null);
+            //! [reqmarketdepth]
+            Thread.Sleep(5000);
+            /*** Canceling the Deep Book request ***/
+            //! [cancelmktdepth]
+            client.cancelMktDepth(2002, true);
             //! [cancelmktdepth]
 
             /*** Requesting Market Depth Exchanges ***/

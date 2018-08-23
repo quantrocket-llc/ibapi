@@ -1306,12 +1306,12 @@ Friend Class MainForm
 
         If m_dlgOrder.ok Then
 
-            m_dlgMktDepth.init(m_dlgOrder.numRows, m_contractInfo)
-            m_api.reqMarketDepth(m_dlgOrder.orderId, m_contractInfo, m_dlgOrder.numRows, m_mktDepthOptions)
+            m_dlgMktDepth.init(m_dlgOrder.numRows, m_contractInfo, m_dlgOrder.isSmartDepth)
+            m_api.reqMarketDepth(m_dlgOrder.orderId, m_contractInfo, m_dlgOrder.numRows, m_dlgOrder.isSmartDepth, m_mktDepthOptions)
             m_dlgMktDepth.ShowDialog()
 
             ' unsubscribe to mkt depth when the dialog is closed
-            m_api.cancelMktDepth(m_dlgOrder.orderId)
+            m_api.cancelMktDepth(m_dlgOrder.orderId, m_dlgOrder.isSmartDepth)
 
         End If
 
@@ -1327,7 +1327,7 @@ Friend Class MainForm
 
         m_dlgOrder.ShowDialog()
         If m_dlgOrder.ok Then
-            m_api.cancelMktDepth(m_dlgOrder.orderId)
+            m_api.cancelMktDepth(m_dlgOrder.orderId, m_dlgOrder.isSmartDepth)
         End If
     End Sub
 
@@ -2166,14 +2166,14 @@ Friend Class MainForm
     ' Market depth book entry - triggered by the reqMktDepth() method
     '--------------------------------------------------------------------------------
     Private Sub Api_updateMktDepth(sender As Object, e As UpdateMktDepthEventArgs) Handles m_apiEvents.UpdateMktDepth
-        m_dlgMktDepth.updateMktDepth(e.tickerId, e.position, " ", e.operation, e.side, e.price, e.size)
+        m_dlgMktDepth.updateMktDepth(e.tickerId, e.position, " ", e.operation, e.side, e.price, e.size, False)
     End Sub
 
     '--------------------------------------------------------------------------------
     ' Market depth Level II book entry - triggered by the reqMktDepth() method
     '--------------------------------------------------------------------------------
     Private Sub Api_updateMktDepthL2(sender As Object, e As UpdateMktDepthL2EventArgs) Handles m_apiEvents.UpdateMktDepthL2
-        m_dlgMktDepth.updateMktDepth(e.tickerId, e.position, e.marketMaker, e.operation, e.side, e.price, e.size)
+        m_dlgMktDepth.updateMktDepth(e.tickerId, e.position, e.marketMaker, e.operation, e.side, e.price, e.size, e.isSmartDepth)
     End Sub
 
     '--------------------------------------------------------------------------------

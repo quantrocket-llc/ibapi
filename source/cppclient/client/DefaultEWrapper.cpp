@@ -36,7 +36,7 @@ void DefaultEWrapper::error(int id, int errorCode, const std::string& errorStrin
 void DefaultEWrapper::updateMktDepth(TickerId id, int position, int operation, int side,
       double price, int size) { }
 void DefaultEWrapper::updateMktDepthL2(TickerId id, int position, const std::string& marketMaker, int operation,
-      int side, double price, int size) { }
+      int side, double price, int size, bool isSmartDepth) { }
 void DefaultEWrapper::updateNewsBulletin(int msgId, int msgType, const std::string& newsMessage, const std::string& originExch) { }
 void DefaultEWrapper::managedAccounts( const std::string& accountsList) { }
 void DefaultEWrapper::receiveFA(faDataType pFaDataType, const std::string& cxml) { }

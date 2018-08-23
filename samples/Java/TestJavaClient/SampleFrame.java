@@ -41,6 +41,7 @@ class SampleFrame extends JFrame implements EWrapper {
     private ExtOrdDlg       m_extOrdDlg = new ExtOrdDlg( m_orderDlg);
     private AccountDlg      m_acctDlg = new AccountDlg(this);
     private Map<Integer, MktDepthDlg> m_mapRequestToMktDepthDlg = new HashMap<>();
+    private Map<Integer, MktDepthDlg> m_mapRequestToSmartDepthDlg = new HashMap<>();
     private NewsBulletinDlg m_newsBulletinDlg = new NewsBulletinDlg(this);
     private ScannerDlg      m_scannerDlg = new ScannerDlg(this);
 	private GroupsDlg       m_groupsDlg;
@@ -665,17 +666,32 @@ class SampleFrame extends JFrame implements EWrapper {
             return;
         }
         m_mktDepthOptions = m_orderDlg.options();
+        boolean isSmartDepth = m_orderDlg.isSmartDepth();
 
         final Integer dialogId = m_orderDlg.id();
-        MktDepthDlg depthDialog = m_mapRequestToMktDepthDlg.get(dialogId);
+        MktDepthDlg depthDialog = null;
+        
+        if (isSmartDepth) {
+            depthDialog = m_mapRequestToSmartDepthDlg.get(dialogId);
+        } else {
+        	depthDialog = m_mapRequestToMktDepthDlg.get(dialogId);
+        }
         if ( depthDialog == null ) {
-            depthDialog = new MktDepthDlg("Market Depth ID ["+dialogId+"]", this);
-            m_mapRequestToMktDepthDlg.put(dialogId, depthDialog);
+            depthDialog = new MktDepthDlg((isSmartDepth ? "SMART" : "Market") + " Depth ID ["+dialogId+"]", this, isSmartDepth);
+            if (isSmartDepth){
+                m_mapRequestToSmartDepthDlg.put(dialogId, depthDialog);
+            } else {
+                m_mapRequestToMktDepthDlg.put(dialogId, depthDialog);
+            }
 
             // cleanup the map after depth dialog is closed so it does not linger or leak memory
             depthDialog.addWindowListener(new WindowAdapter() {
-            	@Override public void windowClosed(WindowEvent e) {
-            		m_mapRequestToMktDepthDlg.remove(dialogId);
+                @Override public void windowClosed(WindowEvent e) {
+                    if (isSmartDepth){
+                        m_mapRequestToSmartDepthDlg.remove(dialogId);
+                    } else { 
+                        m_mapRequestToMktDepthDlg.remove(dialogId);
+                    }
             	}
 			});
         }
@@ -683,7 +699,7 @@ class SampleFrame extends JFrame implements EWrapper {
         depthDialog.setParams( m_client, dialogId);
 
         // req mkt data
-        m_client.reqMktDepth( dialogId, m_orderDlg.contract(), m_orderDlg.m_marketDepthRows, m_mktDepthOptions );
+        m_client.reqMktDepth( dialogId, m_orderDlg.contract(), m_orderDlg.m_marketDepthRows, isSmartDepth, m_mktDepthOptions );
         depthDialog.setVisible(true);
     }
 
@@ -708,7 +724,7 @@ class SampleFrame extends JFrame implements EWrapper {
         }
 
         // cancel market data
-        m_client.cancelMktDepth( m_orderDlg.id() );
+        m_client.cancelMktDepth( m_orderDlg.id(), m_orderDlg.isSmartDepth() );
     }
 
     private void onReqOpenOrders() {
@@ -1220,8 +1236,14 @@ class SampleFrame extends JFrame implements EWrapper {
     }
 
     public void updateMktDepthL2( int tickerId, int position, String marketMaker,
-                    int operation, int side, double price, int size) {
-        MktDepthDlg depthDialog = m_mapRequestToMktDepthDlg.get(tickerId);
+                    int operation, int side, double price, int size, boolean isSmartDepth) {
+        MktDepthDlg depthDialog = null;
+        
+        if (isSmartDepth) {
+            depthDialog = m_mapRequestToSmartDepthDlg.get(tickerId);
+        } else {
+            depthDialog = m_mapRequestToMktDepthDlg.get(tickerId);
+        }
         if ( depthDialog != null ) {
             depthDialog.updateMktDepth( tickerId, position, marketMaker, operation, side, price, size);
         } else {

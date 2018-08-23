@@ -74,7 +74,7 @@ Module MainModule
         '*******************************************************
         '** Real time market data operations  - Market Depth ***
         '*******************************************************
-        'marketDepthOperations(client)
+        marketDepthOperations(client)
 
         '*********************************************************
         '** Real time market data operations  - Real Time Bars ***
@@ -181,7 +181,7 @@ Module MainModule
         '**************************
         'continuousFuturesOperations(client)
 
-        historicalTicks(client)
+        'historicalTicks(client)
 
         '***********************
         '*** Tick-By-Tick    ***
@@ -329,13 +329,24 @@ Module MainModule
 
         '** Requesting the Deep Book ***
         '! [reqmarketdepth]
-        client.reqMarketDepth(2001, ContractSamples.EurGbpFx(), 5, Nothing)
+        client.reqMarketDepth(2001, ContractSamples.EurGbpFx(), 5, False, Nothing)
         '! [reqmarketdepth]
         Thread.Sleep(2000)
 
         '** Canceling the Deep Book request ***
         '! [cancelmktdepth]
-        client.cancelMktDepth(2001)
+        client.cancelMktDepth(2001, False)
+        '! [cancelmktdepth]
+
+        '** Requesting the Deep Book ***
+        '! [reqmarketdepth]
+        client.reqMarketDepth(2002, ContractSamples.EuropeanStock(), 5, True, Nothing)
+        '! [reqmarketdepth]
+        Thread.Sleep(5000)
+
+        '** Canceling the Deep Book request ***
+        '! [cancelmktdepth]
+        client.cancelMktDepth(2002, True)
         '! [cancelmktdepth]
 
         '** Requesting Market Depth Exchanges ***
@@ -1000,11 +1011,11 @@ Module MainModule
         ' [reqmktdatacfd]
 
         ' [reqmktdepthcfd]
-        client.reqMarketDepth(16004, ContractSamples.USStockCFD(), 10, Nothing)
+        client.reqMarketDepth(16004, ContractSamples.USStockCFD(), 10, False, Nothing)
         Thread.Sleep(1000)
-        client.reqMarketDepth(16005, ContractSamples.EuropeanStockCFD(), 10, Nothing)
+        client.reqMarketDepth(16005, ContractSamples.EuropeanStockCFD(), 10, False, Nothing)
         Thread.Sleep(1000)
-        client.reqMarketDepth(16006, ContractSamples.CashCFD(), 10, Nothing)
+        client.reqMarketDepth(16006, ContractSamples.CashCFD(), 10, False, Nothing)
         Thread.Sleep(1000)
         ' [reqmktdepthcfd]
 
