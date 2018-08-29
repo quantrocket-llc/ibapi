@@ -105,5 +105,6 @@ namespace IBApi
         public const int API_BIND_ORDER = 144;
         public const int ORDER_CONTAINER = 145;
         public const int SMART_DEPTH = 146;
+        public const int REMOVE_NULL_ALL_CASTING = 147;
     }
 }

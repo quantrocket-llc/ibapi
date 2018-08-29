@@ -283,9 +283,10 @@ public abstract class EClient {
     protected static final int MIN_SERVER_VER_API_BIND_ORDER = 144;
     protected static final int MIN_SERVER_VER_ORDER_CONTAINER = 145;
     protected static final int MIN_SERVER_VER_SMART_DEPTH = 146;
+    protected static final int MIN_SERVER_VER_REMOVE_NULL_ALL_CASTING = 147;
     
     public static final int MIN_VERSION = 100; // envelope encoding, applicable to useV100Plus mode only
-    public static final int MAX_VERSION = MIN_SERVER_VER_SMART_DEPTH; // ditto
+    public static final int MAX_VERSION = MIN_SERVER_VER_REMOVE_NULL_ALL_CASTING; // ditto
 
     protected EReaderSignal m_signal;
     protected EWrapper m_eWrapper;    // msg handler
