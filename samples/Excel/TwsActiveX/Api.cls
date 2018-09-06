@@ -118,15 +118,36 @@ Private Sub m_Tws_errMsg(ByVal id As Long, ByVal errorCode As Long, ByVal errorM
 End Sub
 
 
+Private Sub m_Tws_headTimestamp(ByVal reqId As Long, ByVal timeStamp As String)
+    On Error Resume Next
+    HeadTimestamp.UpdateHeadTimestamp reqId, timeStamp
+End Sub
+
 Private Sub m_Tws_historicalDataEnd(ByVal reqId As Long, ByVal startDate As String, ByVal endDate As String)
     On Error Resume Next
     HistoricalData.FinishUpdateHistoricalData reqId, startDate, endDate
+End Sub
+
+Private Sub m_Tws_historicalNews(ByVal requestId As Long, ByVal time As String, ByVal providerCode As String, ByVal articleId As String, ByVal headline As String)
+    News.HistoricalNews requestId, time, providerCode, articleId, headline
+End Sub
+
+Private Sub m_Tws_historicalNewsEnd(ByVal requestId As Long, ByVal hasMore As Boolean)
+    News.HistoricalNewsEnd requestId, hasMore
 End Sub
 
 ' market data type responce
 Private Sub m_Tws_marketDataType(ByVal reqId As Long, ByVal marketDataType As Long)
     On Error Resume Next
     Tickers.UpdateMarketDataType reqId, marketDataType
+End Sub
+
+Private Sub m_Tws_newsArticle(ByVal requestId As Long, ByVal articleType As Long, ByVal articleText As String)
+    News.newsArticle requestId, articleType, articleText
+End Sub
+
+Private Sub m_Tws_newsProviders(ByVal newsProviders As TWSLib.INewsProviderList)
+    News.newsProviders newsProviders
 End Sub
 
 ' next valid Id
@@ -171,6 +192,17 @@ Private Sub m_Tws_openOrderEx(ByVal orderId As Long, ByVal contract As TWSLib.IC
     End If
 End Sub
 
+
+Private Sub m_Tws_pnl(ByVal reqId As Long, ByVal dailyPnL As Double, ByVal unrealizedPNL As Double, ByVal realizedPNL As Double)
+    On Error Resume Next
+    AcctUpdMulti.UpdatePnL reqId, dailyPnL, unrealizedPNL, realizedPNL
+End Sub
+
+Private Sub m_Tws_pnlSingle(ByVal reqId As Long, ByVal pos As Long, ByVal dailyPnL As Double, ByVal unrealizedPNL As Double, ByVal realizedPNL As Double, ByVal value As Double)
+    On Error Resume Next
+    AcctUpdMulti.UpdatePnLSingle reqId, pos, dailyPnL, unrealizedPNL, realizedPNL, value
+End Sub
+
 '-----------------------------
 ' market data  tickers events
 '-----------------------------
@@ -184,6 +216,10 @@ Private Sub m_Tws_tickGeneric(ByVal id As Long, ByVal tickType As Long, ByVal va
     'update Tickers sheet with tick generic
     On Error Resume Next
     Tickers.UpdateTickersSheetWithTickGeneric id, tickType, value
+End Sub
+
+Private Sub m_Tws_tickNews(ByVal tickerId As Long, ByVal timeStamp As String, ByVal providerCode As String, ByVal articleId As String, ByVal headline As String, ByVal extraData As String)
+    News.TickNews tickerId, timeStamp, providerCode, articleId, headline, extraData
 End Sub
 
 Private Sub m_Tws_tickOptionComputation(ByVal id As Long, ByVal tickType As Long, ByVal impliedVol As Double, ByVal delta As Double, ByVal optPrice As Double, ByVal pvDividend As Double, ByVal gamma As Double, ByVal vega As Double, ByVal theta As Double, ByVal undPrice As Double)

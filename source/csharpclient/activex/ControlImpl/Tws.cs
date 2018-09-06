@@ -1847,14 +1847,14 @@ namespace TWSLib
                 sc.Post(state => t_securityDefinitionOptionParameterEnd(reqId), null);
         }
 
-        public delegate void softDollarTiersDelegate(int reqId, SoftDollarTier[] tiers);
+        public delegate void softDollarTiersDelegate(int reqId, ComSoftDollarTier[] tiers);
         public event softDollarTiersDelegate softDollarTiers;
         void EWrapper.softDollarTiers(int reqId, SoftDollarTier[] tiers)
         {
             var t_softdollarTiers = this.softDollarTiers;
 
             if (t_softdollarTiers != null)
-                sc.Post(state => t_softdollarTiers(reqId, tiers), null);
+                sc.Post(state => t_softdollarTiers(reqId, tiers.Select(tier => new ComSoftDollarTier(tier)).ToArray()), null);
         }
 
         public delegate void familyCodesDelegate(IFamilyCodeList familyCodes);

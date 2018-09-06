@@ -43,7 +43,7 @@ Private newPageTable As Range
 '==============
 ' create ticker
 Private Sub CreateTicker_Click()
-    TickerForm.Show
+    TickerForm.ShowForm contractTable
 End Sub
 
 ' create combo legs

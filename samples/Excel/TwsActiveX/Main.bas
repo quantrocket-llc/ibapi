@@ -38,6 +38,7 @@ Public Sub Initialise()
     SymbolSamples.Initialise
     Tickers.Initialise
     TickByTick.Initialize
+    HeadTimestamp.Initialise
     
     ' clear log
     Log.ClearLog_Click

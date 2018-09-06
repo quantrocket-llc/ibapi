@@ -144,7 +144,7 @@ Public Const STR_ORDER_WHATIF = "WhatIf"
 Public Sub ApplyExtendedTemplate(orderIndex As Long, extendedOrderAttributesTable As Range)
     Dim i As Long
     For i = 1 To ExtendedOrderAttributes.ExtendedAttributesTable.Rows.Count
-        extendedOrderAttributesTable(orderIndex, i).value = ExtendedOrderAttributes(i, Col_ATTRIBUTE_VALUE).value
+        extendedOrderAttributesTable(orderIndex, i).value = ExtendedOrderAttributes.ExtendedAttributesTable(i, Col_ATTRIBUTE_VALUE).value
     Next i
 End Sub
 

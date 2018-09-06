@@ -6,7 +6,6 @@ using System.Runtime.InteropServices;
 namespace TWSLib
 {
     [ComVisible(true), Guid("C080F665-D8AD-4A2A-82CC-3A90C3939A5E")]
-
     public interface IHistoricalTickLast
     {
         [DispId(1)]

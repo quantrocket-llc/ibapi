@@ -150,7 +150,7 @@ namespace TWSLib
         [DispId(124)]
         void securityDefinitionOptionParameterEnd(int reqId);
         [DispId(125)]
-        void softDollarTiers(int reqid, SoftDollarTier[] tiers);
+        void softDollarTiers(int reqid,[MarshalAs(UnmanagedType.SafeArray)] ComSoftDollarTier[] tiers);
         [DispId(126)]
         void familyCodes(IFamilyCodeList familyCodes);
         [DispId(127)]
