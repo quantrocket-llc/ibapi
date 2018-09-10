@@ -1803,7 +1803,7 @@ const char* EDecoder::processSoftDollarTiersMsg(const char* ptr, const char* end
 		DECODE_FIELD(value);
 		DECODE_FIELD(dislplayName);
 
-		tiers[i] = SoftDollarTier(name, value, value); 
+		tiers[i] = SoftDollarTier(name, value, dislplayName); 
 	}
 
 	m_pEWrapper->softDollarTiers(reqId, tiers);
