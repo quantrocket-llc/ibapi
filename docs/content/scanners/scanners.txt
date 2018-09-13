@@ -87,8 +87,8 @@
 	
 	\section scanner_examples Market Scanner Examples
 	
-	Prior to API <b>v973.07</b> and TWS <b>v973</b>, the available API scans are the fields of the ScannerSubscription object, i.e. <i>abovePrice, aboveVolume, belowPrice</i>, etc. 
-	Beginning with API v973.07 and TWS v973, an extra parameter scannerSubscriptionFilterOptions has been added to the API to allow for generic filters. This field is entered as a list of TagValues which have a tag followed by its value, e.g. TagValue("usdMarketCapAbove", "10000") indicates a market cap above 10000 USD. Available filters can be found using the @ref IBApi::EClient::reqScannerParameters function.
+	With API <b>v973.07</b> and TWS <b>v973</b> and lower, the available API scans are the fields of the ScannerSubscription object, i.e. <i>abovePrice, aboveVolume, belowPrice</i>, etc. 
+	Beginning with the next version of the API (expected to be v973.08) and TWS v974, an extra parameter scannerSubscriptionFilterOptions has been added to the API to allow for generic filters. This field is entered as a list of TagValues which have a tag followed by its value, e.g. TagValue("usdMarketCapAbove", "10000") indicates a market cap above 10000 USD. Available filters can be found using the @ref IBApi::EClient::reqScannerParameters function.
 	
 	<ul id="tab">
 		<li class="active"> 

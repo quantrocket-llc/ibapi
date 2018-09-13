@@ -56,7 +56,7 @@ public class Testbed {
 		//testAlgoSamples(wrapper.getClient(), wrapper.getCurrentOrderId());
 		//bracketSample(wrapper.getClient(), wrapper.getCurrentOrderId());
 		//bulletins(wrapper.getClient());
-		//reutersFundamentals(wrapper.getClient());
+		//fundamentals(wrapper.getClient());
 		//marketDataType(wrapper.getClient());
 		//historicalDataRequests(wrapper.getClient());
 		//accountOperations(wrapper.getClient());
@@ -682,7 +682,7 @@ public class Testbed {
 		
 	}
 	
-	private static void reutersFundamentals(EClientSocket client) throws InterruptedException {
+	private static void fundamentals(EClientSocket client) throws InterruptedException {
 		
 		//! [reqfundamentaldata]
 		client.reqFundamentalData(8001, ContractSamples.USStock(), "ReportsFinSummary", null);

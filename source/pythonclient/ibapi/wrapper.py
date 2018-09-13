@@ -401,8 +401,8 @@ class EWrapper:
 
 
     def fundamentalData(self, reqId:TickerId , data:str):
-        """This function is called to receive Reuters global fundamental
-        market data. There must be a subscription to Reuters Fundamental set
+        """This function is called to receive fundamental
+        market data. The appropriate market data subscription must be set
         up in Account Management before you can receive this data."""
 
         self.logAnswer(current_fn_name(), vars())

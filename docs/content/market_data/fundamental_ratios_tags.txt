@@ -1,11 +1,11 @@
 /*! \page fundamental_ratios_tags Fundamental Ratios
 
-	The Fundamental Ratios tick type is delivered as is from Thomson Reuters. IB does not reformat/re-parse Reuters XML Data, and provides a maximum of 105 tags.
+	The Fundamental Ratios tick type is delivered as is from external sources. IB does not reformat/re-parse XML Data, and provides a maximum of 105 tags.
 	
 	- For older data, it is feasible you may receive less tags (refer to LATESTADATE tag).
-	- A tag with the value of -99999.99 is an indicator from Reuter's that data is not available for that security.
+	- A tag with the value of -99999.99 is an indicator that data is not available for that security.
 	
-	<i>Also see \ref reuters_fundamentals for requesting other fundamental data type using @ref IBApi::EClient::reqFundamentalData.</i>
+	<i>Also see \ref fundamentals for requesting other fundamental data type using @ref IBApi::EClient::reqFundamentalData.</i>
 	
 	See below for all available tag values:
 
@@ -35,7 +35,7 @@
 			<tr><td>ASICF</td><td><b>Investing cash flow items - MRY</b><br/>Investing cash flow items for the most recent fiscal year</td></tr>
 			<tr><td>ASINN</td><td><b>Interest exp.(inc.), net-operating - MRY</b><br/>This is the Total Operating and Non-Operating Interest Expense for the most recent fiscal year. <br/><em><b>NOTE:</b><br/>This  item is Not Meaningful for Banks and Insurance companies.</em></td></tr>
 			<tr><td>ASOPI</td><td><b>Operating income - MRY</b><br/>This is the amount of profit realized from a business's operations after taking out operating expenses for the  most recent fiscal year.</td></tr>
-			<tr><td>BETA</td><td><b>Beta</b><br/>Beta is a measure of a company's common stock price volatility relative to the market. Reuters Beta is the slope of the 60 month regression line of the percentage price change of the stock relative to the percentage price change of the local index. Beta values are not calculated if less than 40 months of pricing is available</td></tr>
+			<tr><td>BETA</td><td><b>Beta</b><br/>Beta is a measure of a company's common stock price volatility relative to the market. Beta is the slope of the 60 month regression line of the percentage price change of the stock relative to the percentage price change of the local index. Beta values are not calculated if less than 40 months of pricing is available</td></tr>
 			<tr><td>CURRENCY</td><td><b>Currency</b><br/>The currency in which ratios are denominated.</td></tr>
 			<tr><td>DIVGRPCT</td><td><b>Growth rate % - dividend</b><br/>The Dividend Growth Rate is the compound annual growth rate in dividends per share. DIVGR% is calculated for 3 years whenever 4 years of dividends are available.  </td></tr>
 			<tr><td>EPSCHNGYR</td><td><b>EPS Change Y/Y %</b><br/>This value is calculated as the most recent interim period EPS minus the EPS for the same interim period 1 year ago divided by the EPS for the same interim period one year ago, multiplied by 100.<br/><em><b>NOTE:</b><br/>EPS must be positive for both periods. If either EPS value is negative, the result in Not Meaningful (NM).</em></td></tr>

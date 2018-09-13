@@ -169,10 +169,10 @@ void TestCppClient::processMessages()
 			break;
 		case ST_MARKETSCANNERS_ACK:
 			break;
-		case ST_REUTERSFUNDAMENTALS:
-			reutersFundamentals();
+		case ST_FUNDAMENTALS:
+			Fundamentals();
 			break;
-		case ST_REUTERSFUNDAMENTALS_ACK:
+		case ST_FUNDAMENTALS_ACK:
 			break;
 		case ST_BULLETINS:
 			bulletins();
@@ -647,7 +647,7 @@ void TestCppClient::marketScanners()
 	m_state = ST_MARKETSCANNERS_ACK;
 }
 
-void TestCppClient::reutersFundamentals()
+void TestCppClient::fundamentals()
 {
 	/*** Requesting Fundamentals ***/
 	//! [reqfundamentaldata]
@@ -660,7 +660,7 @@ void TestCppClient::reutersFundamentals()
 	m_pClient->cancelFundamentalData(8001);
 	//! [cancelfundamentaldata]
 
-	m_state = ST_REUTERSFUNDAMENTALS_ACK;
+	m_state = ST_FUNDAMENTALS_ACK;
 }
 
 void TestCppClient::bulletins()
@@ -1361,7 +1361,7 @@ void TestCppClient::nextValidId( OrderId orderId)
 	//m_state = ST_HISTORICALDATAREQUESTS;
 	//m_state = ST_CONTRACTOPERATION;
 	//m_state = ST_MARKETSCANNERS;
-	//m_state = ST_REUTERSFUNDAMENTALS;
+	//m_state = ST_FUNDAMENTALS;
 	//m_state = ST_BULLETINS;
 	//m_state = ST_ACCOUNTOPERATIONS;
 	//m_state = ST_ORDEROPERATIONS;

@@ -441,9 +441,9 @@ namespace IBApi
         void commissionReport(CommissionReport commissionReport);
 
         /**
-         * @brief returns Reuters' Fundamental data
+         * @brief returns fundamental data
          * @param reqId the request's identifier
-         * @param data Reuthers xml-formatted fundamental data
+         * @param data xml-formatted fundamental data
          * @sa EClientSocket::reqFundamentalData
          */
         void fundamentalData(int reqId, string data);
