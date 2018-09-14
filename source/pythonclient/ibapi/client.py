@@ -2708,10 +2708,10 @@ class EClient(object):
 
     def reqFundamentalData(self, reqId:TickerId , contract:Contract,
                            reportType:str, fundamentalDataOptions:TagValueList):
-        """Call this function to receive Reuters global fundamental data for
-        stocks. There must be a subscription to Reuters Fundamental set up in
+        """Call this function to receive fundamental data for
+        stocks. The appropriate market data subscription must be set up in
         Account Management before you can receive this data.
-        Reuters fundamental data will be returned at EWrapper.fundamentalData().
+        Fundamental data will be returned at EWrapper.fundamentalData().
 
         reqFundamentalData() can handle conid specified in the Contract object,
         but not tradingClass or multiplier. This is because reqFundamentalData()
@@ -2721,7 +2721,7 @@ class EClient(object):
         reqId:tickerId - The ID of the data request. Ensures that responses are
              matched to requests if several requests are in process.
         contract:Contract - This structure contains a description of the
-            contract for which Reuters Fundamental data is being requested.
+            contract for which fundamental data is being requested.
         reportType:str - One of the following XML reports:
             ReportSnapshot (company overview)
             ReportsFinSummary (financial summary)
@@ -2778,7 +2778,7 @@ class EClient(object):
 
 
     def cancelFundamentalData(self, reqId:TickerId ):
-        """Call this function to stop receiving Reuters global fundamental data.
+        """Call this function to stop receiving fundamental data.
 
         reqId:TickerId - The ID of the data request."""
 

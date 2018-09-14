@@ -100,7 +100,7 @@ namespace Samples
             /*****************************/
             /*** Reuter's Fundamentals ***/
             /*****************************/
-            //reutersFundamentals(client);
+            //fundamentals(client);
 
             /***********************/
             /*** IB's Bulletins ***/
@@ -549,7 +549,7 @@ namespace Samples
             //! [cancelscannersubscription]
         }
 
-        private static void reutersFundamentals(EClientSocket client)
+        private static void fundamentals(EClientSocket client)
         {
             /*** Requesting Fundamentals ***/
             //! [reqfundamentaldata]

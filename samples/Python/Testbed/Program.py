@@ -257,7 +257,7 @@ class TestApp(TestWrapper, TestClient):
             #self.historicalDataRequests_req()
             #self.optionsOperations_req()
             #self.marketScanners_req()
-            #self.reutersFundamentals_req()
+            #self.fundamentals_req()
             #self.bulletins_req()
             #self.contractOperations_req()
             #self.contractNewsFeed_req()
@@ -290,7 +290,7 @@ class TestApp(TestWrapper, TestClient):
         self.historicalDataRequests_cancel()
         self.optionsOperations_cancel()
         self.marketScanners_cancel()
-        self.reutersFundamentals_cancel()
+        self.fundamentals_cancel()
         self.bulletins_cancel()
         print("Executing cancels ... finished")
 
@@ -1344,7 +1344,7 @@ class TestApp(TestWrapper, TestClient):
     # ! [mktDepthExchanges]
 
     @printWhenExecuting
-    def reutersFundamentals_req(self):
+    def fundamentals_req(self):
         # Requesting Fundamentals
         # ! [reqfundamentaldata]
         self.reqFundamentalData(8001, ContractSamples.USStock(),
@@ -1352,7 +1352,7 @@ class TestApp(TestWrapper, TestClient):
         # ! [reqfundamentaldata]
 
     @printWhenExecuting
-    def reutersFundamentals_cancel(self):
+    def fundamentals_cancel(self):
         # Canceling fundamentals request ***/
         # ! [cancelfundamentaldata]
         self.cancelFundamentalData(8001)

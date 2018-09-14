@@ -109,7 +109,7 @@ Module MainModule
         '****************************
         '** Reuter's Fundamentals ***
         '****************************
-        'reutersFundamentals(client)
+        'fundamentals(client)
 
         '**********************
         '** IB's Bulletins ***
@@ -469,7 +469,7 @@ Module MainModule
 
     End Sub
 
-    Private Sub reutersFundamentals(client As EClientSocket)
+    Private Sub fundamentals(client As EClientSocket)
 
         '** Requesting Fundamentals ***
         '! [reqfundamentaldata]

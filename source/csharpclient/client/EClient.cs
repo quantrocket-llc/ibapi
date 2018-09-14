@@ -1491,8 +1491,8 @@ namespace IBApi
         }
 
         /**
-         * @brief Requests the contract's Reuters or Wall Street Horizons fundamental data.
-         * Fundalmental data is returned at EWrapper::fundamentalData
+         * @brief Requests the contract's fundamental or Wall Street Horizons data.
+         * Fundamental data is returned at EWrapper::fundamentalData
          * @param reqId the request's unique identifier.
          * @param contract the contract's description for which the data will be returned.
          * @param reportType there are three available report types: 
