@@ -1,4 +1,4 @@
-﻿/* Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 using System;
 using System.Collections.Generic;
@@ -29,6 +29,7 @@ namespace IBSampleApp.ui
         private const int LOW_PRICE_INDEX = 14;
         private const int FUTURES_OPEN_INTEREST_INDEX = 15;
         private const int AVG_OPT_VOLUME_INDEX = 16;
+        private const int SHORTABLE_SHARES_INDEX = 17;
 
         private const int BID_SIZE_INDEX = 2;
         private const int ASK_SIZE_INDEX = 7;
@@ -125,65 +126,65 @@ namespace IBSampleApp.ui
             DataGridView grid = (DataGridView)uiControl;
 
             if ((grid[MARKET_DATA_TYPE_INDEX, GetIndex(dataMessage.RequestId)].Value.Equals(MarketDataType.Real_Time.Name)) &&
-                (dataMessage.Field == 66 ||
-                dataMessage.Field == 67 ||
-                dataMessage.Field == 75 ||
-                dataMessage.Field == 76 ||
-                dataMessage.Field == 68 ||
-                dataMessage.Field == 72 ||
-                dataMessage.Field == 73))
+                (dataMessage.Field == TickType.DELAYED_BID ||
+                dataMessage.Field == TickType.DELAYED_ASK ||
+                dataMessage.Field == TickType.DELAYED_CLOSE ||
+                dataMessage.Field == TickType.DELAYED_OPEN ||
+                dataMessage.Field == TickType.DELAYED_LAST ||
+                dataMessage.Field == TickType.DELAYED_HIGH ||
+                dataMessage.Field == TickType.DELAYED_LOW))
             {
                 grid[MARKET_DATA_TYPE_INDEX, GetIndex(dataMessage.RequestId)].Value = MarketDataType.Delayed.Name;
             }
 
             switch (dataMessage.Field)
             {
-                case 1:
-                case 66:
+                case TickType.BID:
+                case TickType.DELAYED_BID:
                     {
                         //BID, DELAYED_BID
                         grid[BID_PRICE_INDEX, GetIndex(dataMessage.RequestId)].Value = dataMessage.Price;
                         grid[PRE_OPEN_BID, GetIndex(dataMessage.RequestId)].Value = dataMessage.Attribs.PreOpen;
                         break;
                     }
-                case 2:
-                case 67:
+                case TickType.ASK:
+                case TickType.DELAYED_ASK:
                     {
                         //ASK, DELAYED_ASK
                         grid[ASK_PRICE_INDEX, GetIndex(dataMessage.RequestId)].Value = dataMessage.Price;
                         grid[PRE_OPEN_ASK, GetIndex(dataMessage.RequestId)].Value = dataMessage.Attribs.PreOpen;
                         break;
                     }
-                case 9:
-                case 75:
+                case TickType.CLOSE:
+                case TickType.DELAYED_CLOSE:
                     {
                         //CLOSE, DELAYED_CLOSE
                         grid[CLOSE_PRICE_INDEX, GetIndex(dataMessage.RequestId)].Value = dataMessage.Price;
                         break;
                     }
-                case 14:
-                case 76:
+                case TickType.OPEN:
+                case TickType.DELAYED_OPEN:
                     {
                         //OPEN, DELAYED_OPEN
                         grid[OPEN_PRICE_INDEX, GetIndex(dataMessage.RequestId)].Value = dataMessage.Price;
                         break;
                     }
-                case 4:
-                case 68:
+                case TickType.LAST:
+                case TickType.DELAYED_LAST:
                     {
                         //LAST, DELAYED_LAST
                         grid[LAST_PRICE_INDEX, GetIndex(dataMessage.RequestId)].Value = dataMessage.Price;
                         break;
                     }
-                case 6:
-                case 72:
+                case TickType.HIGH:
+                case TickType.DELAYED_HIGH:
                     {
                         //HIGH, DELAYED_HIGH
                         grid[HIGH_PRICE_INDEX, GetIndex(dataMessage.RequestId)].Value = dataMessage.Price;
                         break;
                     }
-                case 7:
-                case 73:
+                case TickType.LOW:
+                case TickType.DELAYED_LOW:
                     {
                         //LOW, DELAYED_LOW
                         grid[LOW_PRICE_INDEX, GetIndex(dataMessage.RequestId)].Value = dataMessage.Price;
@@ -197,56 +198,61 @@ namespace IBSampleApp.ui
             DataGridView grid = (DataGridView)uiControl;
 
             if ((grid[MARKET_DATA_TYPE_INDEX, GetIndex(dataMessage.RequestId)].Value.Equals(MarketDataType.Real_Time.Name)) &&
-                (dataMessage.Field == 69 ||
-                dataMessage.Field == 70 ||
-                dataMessage.Field == 71 ||
-                dataMessage.Field == 74))
+                (dataMessage.Field == TickType.DELAYED_BID_SIZE ||
+                dataMessage.Field == TickType.DELAYED_ASK_SIZE ||
+                dataMessage.Field == TickType.DELAYED_LAST_SIZE ||
+                dataMessage.Field == TickType.DELAYED_VOLUME))
             {
                 grid[MARKET_DATA_TYPE_INDEX, GetIndex(dataMessage.RequestId)].Value = MarketDataType.Delayed.Name;
             }
             switch (dataMessage.Field)
             {
-                case 0:
-                case 69:
+                case TickType.BID_SIZE:
+                case TickType.DELAYED_BID_SIZE:
                     {
                         //BID SIZE, DELAYED_BID_SIZE
                         grid[BID_SIZE_INDEX, GetIndex(dataMessage.RequestId)].Value = dataMessage.Size;
                         break;
                     }
-                case 3:
-                case 70:
+                case TickType.ASK_SIZE:
+                case TickType.DELAYED_ASK_SIZE:
                     {
                         //ASK SIZE, DELAYED_ASK_SIZE
                         grid[ASK_SIZE_INDEX, GetIndex(dataMessage.RequestId)].Value = dataMessage.Size;
                         break;
                     }
-                case 5:
-                case 71:
+                case TickType.LAST_SIZE:
+                case TickType.DELAYED_LAST_SIZE:
                     {
                         //LAST_SIZE, DELAYED_LAST_SIZE
                         grid[LAST_SIZE_INDEX, GetIndex(dataMessage.RequestId)].Value = dataMessage.Size;
                         break;
                     }
-                case 8:
-                case 74:
+                case TickType.VOLUME:
+                case TickType.DELAYED_VOLUME:
                     {
                         //VOLUME, DELAYED_VOLUME
                         grid[VOLUME_SIZE_INDEX, GetIndex(dataMessage.RequestId)].Value = dataMessage.Size;
                         break;
                     }
-                case 86:
+                case TickType.FUTURES_OPEN_INTEREST:
                     {
                         //FUTURES_OPEN_INTEREST
                         grid[FUTURES_OPEN_INTEREST_INDEX, GetIndex(dataMessage.RequestId)].Value = dataMessage.Size;
                         break;
                     }
-                case 87:
+                case TickType.AVG_OPT_VOLUME:
                     {
                         //AVG_OPT_VOLUME
                         grid[AVG_OPT_VOLUME_INDEX, GetIndex(dataMessage.RequestId)].Value = dataMessage.Size;
                         break;
                     }
-
+                case TickType.SHORTABLE_SHARES:
+                    {
+                        //SHORTABLE_SHARES
+                        grid[SHORTABLE_SHARES_INDEX, GetIndex(dataMessage.RequestId)].Value = dataMessage.Size;
+                        break;
+                    }
             }
         }
 

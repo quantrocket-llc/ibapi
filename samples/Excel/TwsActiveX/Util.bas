@@ -211,6 +211,7 @@ Public Enum tickType
     FUTURES_OPEN_INTEREST
     AVG_OPT_VOLUME
     DELAYED_LAST_TIMESTAMP
+    SHORTABLE_SHARES
 End Enum
 
 Public Type MktDataAttr

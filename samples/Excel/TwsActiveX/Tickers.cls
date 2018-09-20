@@ -65,6 +65,7 @@ Public Enum TickerColumns
     Col_OPENINTEREST
     Col_INDEXFUTUREPREMIUM
     Col_SHORTABLE
+    Col_SHORTABLESHARES
     Col_RTVOLUME
     Col_HALTED
     Col_TRADECOUNT
@@ -315,6 +316,7 @@ Private Type MktDataRecord
     OptImplVolume As Double
     IndexFuturePremium As Double
     Shortable As Double
+    ShortableShares As Long
     RTVolume As String
     Halted As String
     TradeCount As Double
@@ -500,6 +502,9 @@ Private Sub RepaintMktDataRow(ByVal i As Long)
         End If
         If tickerDataTable(i, Col_SHORTABLE).value <> .Shortable Then
             tickerDataTable(i, Col_SHORTABLE).value = .Shortable
+        End If
+        If tickerDataTable(i, Col_SHORTABLESHARES).value <> .ShortableShares Then
+            tickerDataTable(i, Col_SHORTABLESHARES).value = .ShortableShares
         End If
         If tickerDataTable(i, Col_RTVOLUME).value <> .RTVolume Then
             tickerDataTable(i, Col_RTVOLUME).value = .RTVolume
@@ -1126,6 +1131,7 @@ Private Sub ClearMarketDataCells(ByVal row As Integer)
     tickerDataTable(row, Col_OPENINTEREST).value = STR_EMPTY
     tickerDataTable(row, Col_INDEXFUTUREPREMIUM).value = STR_EMPTY
     tickerDataTable(row, Col_SHORTABLE).value = STR_EMPTY
+    tickerDataTable(row, Col_SHORTABLESHARES).value = STR_EMPTY
     tickerDataTable(row, Col_RTVOLUME).value = STR_EMPTY
     tickerDataTable(row, Col_HALTED).value = STR_EMPTY
     tickerDataTable(row, Col_TRADECOUNT).value = STR_EMPTY
@@ -1508,6 +1514,7 @@ Private Sub CancelMarketDataSubscription(ByVal tickerIndex As Long)
         .OptImplVolume = 0
         .IndexFuturePremium = 0
         .Shortable = 0
+        .ShortableShares = 0
         .RTVolume = STR_EMPTY
         .Halted = STR_EMPTY
         .TradeCount = 0
@@ -1667,6 +1674,8 @@ Public Sub UpdateTickersSheetWithSize(id As Long, tickType As Long, Size As Long
                 .VolumeTick = Size
             Case AVG_OPT_VOLUME
                 .AvgOptVolume = Size
+            Case SHORTABLE_SHARES
+                .ShortableShares = Size
         End Select
     End With
 

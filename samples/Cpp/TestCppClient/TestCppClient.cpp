@@ -170,7 +170,7 @@ void TestCppClient::processMessages()
 		case ST_MARKETSCANNERS_ACK:
 			break;
 		case ST_FUNDAMENTALS:
-			Fundamentals();
+			fundamentals();
 			break;
 		case ST_FUNDAMENTALS_ACK:
 			break;
@@ -398,7 +398,7 @@ void TestCppClient::tickDataOperation()
 	
 	//! [reqmktdata_genticks]
 	//Requesting RTVolume (Time & Sales), shortable and Fundamental Ratios generic ticks
-	m_pClient->reqMktData(1004, ContractSamples::USStock(), "233,236,258", false, false, TagValueListSPtr());
+	m_pClient->reqMktData(1004, ContractSamples::USStockAtSmart(), "233,236,258", false, false, TagValueListSPtr());
 	//! [reqmktdata_genticks]
 
 	//! [reqmktdata_contractnews]
@@ -1348,14 +1348,14 @@ void TestCppClient::nextValidId( OrderId orderId)
 	//! [nextvalidid]
 
     //m_state = ST_TICKOPTIONCOMPUTATIONOPERATION; 
-    //m_state = ST_TICKDATAOPERATION; 
+    m_state = ST_TICKDATAOPERATION; 
     //m_state = ST_REQTICKBYTICKDATA; 
     //m_state = ST_REQHISTORICALTICKS; 
     //m_state = ST_CONTFUT; 
     //m_state = ST_PNLSINGLE; 
     //m_state = ST_PNL; 
 	//m_state = ST_DELAYEDTICKDATAOPERATION; 
-	m_state = ST_MARKETDEPTHOPERATION;
+	//m_state = ST_MARKETDEPTHOPERATION;
 	//m_state = ST_REALTIMEBARS;
 	//m_state = ST_MARKETDATATYPE;
 	//m_state = ST_HISTORICALDATAREQUESTS;

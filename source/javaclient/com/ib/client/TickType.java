@@ -94,6 +94,7 @@ public enum TickType {
     FUTURES_OPEN_INTEREST(86, "futuresOpenInterest"),
     AVG_OPT_VOLUME(87, "avgOptVolume"),
     DELAYED_LAST_TIMESTAMP(88, "delayedLastTimestamp"),
+    SHORTABLE_SHARES(89, "shortableShares"),
 
     UNKNOWN( Integer.MAX_VALUE , "unknown" );
 

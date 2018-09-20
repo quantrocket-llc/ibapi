@@ -55,7 +55,7 @@ namespace Samples
             /***************************************************/
             /*** Real time market data operations  - Tickers ***/
             /***************************************************/
-            //tickDataOperations(client);
+            tickDataOperations(client);
 
             /***************************************************/
             /*** Option computation operations  - Tickers    ***/
@@ -65,7 +65,7 @@ namespace Samples
             /********************************************************/
             /*** Real time market data operations  - Market Depth ***/
             /********************************************************/
-            marketDepthOperations(client);
+            //marketDepthOperations(client);
 
             /**********************************************************/
             /*** Real time market data operations  - Real Time Bars ***/
@@ -345,7 +345,7 @@ namespace Samples
 			
             //! [reqmktdata_genticks]
             //Requesting RTVolume (Time & Sales), shortable and Fundamental Ratios generic ticks
-            client.reqMktData(1004, ContractSamples.USStock(), "233,236,258", false, false, null);
+            client.reqMktData(1004, ContractSamples.USStockAtSmart(), "233,236,258", false, false, null);
             //! [reqmktdata_genticks]
 
             //! [reqmktdata_contractnews]

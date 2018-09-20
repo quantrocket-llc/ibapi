@@ -48,7 +48,7 @@ public class Testbed {
 		Thread.sleep(1000);
 
 		//tickByTickOperations(wrapper.getClient());
-		//tickDataOperations(wrapper.getClient());
+		tickDataOperations(wrapper.getClient());
 		//tickOptionComputations(wrapper.getClient());
 		//orderOperations(wrapper.getClient(), wrapper.getCurrentOrderId());
 		//contractOperations(wrapper.getClient());
@@ -61,7 +61,7 @@ public class Testbed {
 		//historicalDataRequests(wrapper.getClient());
 		//accountOperations(wrapper.getClient());
 		//newsOperations(wrapper.getClient());
-		marketDepthOperations(wrapper.getClient());
+		//marketDepthOperations(wrapper.getClient());
 		//rerouteCFDOperations(wrapper.getClient());
 		//marketRuleOperations(wrapper.getClient());
 		//tickDataOperations(wrapper.getClient());
@@ -246,7 +246,7 @@ public class Testbed {
 		
 		//! [reqmktdata_genticks]
 		//Requesting RTVolume (Time & Sales), shortable and Fundamental Ratios generic ticks
-		client.reqMktData(1004, ContractSamples.USStock(), "233,236,258", false, false, null);
+		client.reqMktData(1004, ContractSamples.USStockAtSmart(), "233,236,258", false, false, null);
 		//! [reqmktdata_genticks]
 		//! [reqmktdata_contractnews]
 		// Without the API news subscription this will generate an "invalid tick type" error

@@ -119,6 +119,7 @@ namespace TwsRtdServer{
         public const string GEN_TICK_INDEX_FUTURE_PREMIUM = "INDEXFUTUREPREMIUM";
         // SHORTABLE (236)
         public const string GEN_TICK_SHORTABLE = "SHORTABLE";
+        public const string GEN_TICK_SHORTABLE_SHARES = "SHORTABLESHARES";
         // FUNDAMENTALS (258)
         public const string GEN_TICK_FUNDAMENTALS = "FUNDAMENTALS";
         // TRADE_COUNT (293)
@@ -255,7 +256,7 @@ namespace TwsRtdServer{
             GEN_TICK_RT_HISTORICAL_VOL, // REALTIME_HISTORICAL_VOLATILITY (411) - FUT only
             GEN_TICK_OPTION_IMPLIED_VOL, // OPTION_IMPLIED_VOLATILITY (106)
             GEN_TICK_INDEX_FUTURE_PREMIUM, // INDEX_FUTURE_PREM (162) - IND only
-            GEN_TICK_SHORTABLE, // SHORTABLE (236)
+            GEN_TICK_SHORTABLE, GEN_TICK_SHORTABLE_SHARES, // SHORTABLE (236)
             GEN_TICK_FUNDAMENTALS, // FUNDAMENTALS (258)
             GEN_TICK_TRADE_COUNT, // TRADE_COUNT (293)
             GEN_TICK_TRADE_RATE, // TRADE_RATE (294)
@@ -284,7 +285,7 @@ namespace TwsRtdServer{
             //221
             GEN_TICK_CREDITMAN_MARK_PRICE,
             //236
-            GEN_TICK_SHORTABLE,
+            GEN_TICK_SHORTABLE, GEN_TICK_SHORTABLE_SHARES,
             //165
             GEN_TICK_AVERAGE_VOLUME, GEN_TICK_WEEK_13_HI, GEN_TICK_WEEK_13_LO, GEN_TICK_WEEK_26_HI, GEN_TICK_WEEK_26_LO, GEN_TICK_WEEK_52_HI, GEN_TICK_WEEK_52_LO,
             // 106
@@ -362,7 +363,8 @@ namespace TwsRtdServer{
             { 79, GEN_TICK_CREDITMAN_SLOW_MARK_PRICE },
             { 84, LASTEXCH },
             { 86, FUTURES_OPEN_INTEREST },
-            { 87, GEN_TICK_AVG_OPT_VOLUME }
+            { 87, GEN_TICK_AVG_OPT_VOLUME },
+            { 89, GEN_TICK_SHORTABLE_SHARES }
         };
 
 
