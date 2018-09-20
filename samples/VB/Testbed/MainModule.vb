@@ -64,7 +64,7 @@ Module MainModule
         '**************************************************
         '** Real time market data operations  - Tickers ***
         '**************************************************
-        'tickDataOperations(client)
+        tickDataOperations(client)
 
         '***************************************************
         '** Tick option computation operations - Tickers ***
@@ -74,7 +74,7 @@ Module MainModule
         '*******************************************************
         '** Real time market data operations  - Market Depth ***
         '*******************************************************
-        marketDepthOperations(client)
+        'marketDepthOperations(client)
 
         '*********************************************************
         '** Real time market data operations  - Real Time Bars ***
@@ -259,7 +259,7 @@ Module MainModule
 
         '! [reqmktdata_genticks]
         'Requesting RTVolume (Time & Sales), shortable And Fundamental Ratios generic ticks
-        client.reqMktData(1004, ContractSamples.USStock(), "233,236,258", False, False, Nothing)
+        client.reqMktData(1004, ContractSamples.USStockAtSmart(), "233,236,258", False, False, Nothing)
         '! [reqmktdata_genticks]
 
         '! [reqmktdata_contractnews]

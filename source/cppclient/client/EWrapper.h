@@ -103,6 +103,7 @@ enum TickType { BID_SIZE, BID, ASK, ASK_SIZE, LAST, LAST_SIZE,
 				FUTURES_OPEN_INTEREST,
 				AVG_OPT_VOLUME,
 				DELAYED_LAST_TIMESTAMP,
+				SHORTABLE_SHARES,
 				NOT_SET };
 
 typedef std::map<int, std::tuple<std::string, char>> SmartComponentsMap;
