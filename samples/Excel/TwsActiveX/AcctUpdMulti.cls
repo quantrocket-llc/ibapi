@@ -15,7 +15,9 @@ Option Explicit
 
 Const CELL_ACCOUNT = "A6"
 Const CELL_MODEL_CODE = "B6"
+Const CELL_CONID = "D6"
 Const CELL_SUBSCRIPTION_STATUS = "A9"
+Const CELL_PNL_STATUS = "G9"
 
 Private Enum AccountTableColumns
     Col_ACCOUNT_KEY = 1
@@ -25,7 +27,39 @@ Private Enum AccountTableColumns
     Col_ACCOUNT_CURRENCY
 End Enum
 
+Private Enum PnlTableColumns
+    Col_DAILY_PNL = 1
+    Col_UNREALIZED_PNL
+    Col_REALIZED_PNL
+    Col_POS
+    Col_VALUE
+End Enum
+
 Private accountUpdatesTable As Range
+Private pnlTable As Range
+
+Private Sub CancelPnL_Click()
+    If Not CheckConnected Then Exit Sub
+    
+    Api.Tws.CancelPnL ID_PNL
+    Range(CELL_PNL_STATUS).value = STR_EMPTY
+End Sub
+
+Private Sub CancelPnLSingle_Click()
+    If Not CheckConnected Then Exit Sub
+    
+    Api.Tws.CancelPnLSingle ID_PNL_SINGLE
+    Range(CELL_PNL_STATUS).value = STR_EMPTY
+End Sub
+
+Private Sub ClearPnL_Click()
+    If CheckConnected Then
+        CancelPnL_Click
+        CancelPnLSingle_Click
+    End If
+    
+    pnlTable.ClearContents
+End Sub
 
 '=================
 ' private methods
@@ -89,11 +123,63 @@ Public Sub AccountUpdateMulti(ByVal requestId As Long, ByVal Account As String, 
     
 End Sub
 
+Public Sub UpdatePnL(ByVal reqId As Long, ByVal dailyPnL As Double, ByVal unrealizedPNL As Double, ByVal realizedPNL As Double)
+    Dim rowId As Long
+    
+    rowId = Util.GetSheetRowId(ActiveSheet)
+    
+    Util.IncrementSheetRowId ActiveSheet
+    
+    pnlTable(rowId, Col_DAILY_PNL).value = dailyPnL
+    pnlTable(rowId, Col_UNREALIZED_PNL).value = unrealizedPNL
+    pnlTable(rowId, Col_REALIZED_PNL).value = realizedPNL
+    
+End Sub
+
+Public Sub UpdatePnLSingle(ByVal reqId As Long, ByVal pos As Long, ByVal dailyPnL As Double, ByVal unrealizedPNL As Double, ByVal realizedPNL As Double, ByVal value As Double)
+    Dim rowId As Long
+    
+    rowId = Util.GetSheetRowId(ActiveSheet)
+    
+    Util.IncrementSheetRowId ActiveSheet
+    
+    pnlTable(rowId, Col_DAILY_PNL).value = dailyPnL
+    pnlTable(rowId, Col_UNREALIZED_PNL).value = unrealizedPNL
+    pnlTable(rowId, Col_REALIZED_PNL).value = realizedPNL
+    pnlTable(rowId, Col_POS).value = pos
+    pnlTable(rowId, Col_VALUE).value = value
+End Sub
+
 Public Sub Initialise()
     Set accountUpdatesTable = Range("$A$13:$E$300")
+    Set pnlTable = Range("$G$13:$K$300")
+End Sub
+
+Private Sub RequestPnL_Click()
+    If Not CheckConnected Then Exit Sub
+    
+    ClearPnL_Click
+    
+    Util.InitialiseSheetRowId ActiveSheet, 13
+    
+    Api.Tws.reqPnL ID_PNL, Range(CELL_ACCOUNT).value, Range(CELL_MODEL_CODE).value
+    
+    Range(CELL_PNL_STATUS).value = STR_SUBSCRIBED
+End Sub
+
+Private Sub RequestPnlSingle_Click()
+    If Not CheckConnected Then Exit Sub
+    
+    ClearPnL_Click
+    
+    Util.InitialiseSheetRowId ActiveSheet, 13
+    
+    Api.Tws.reqPnLSingle ID_PNL_SINGLE, Range(CELL_ACCOUNT).value, Range(CELL_MODEL_CODE).value, Range(CELL_CONID).value
+    
+    Range(CELL_PNL_STATUS).value = STR_SUBSCRIBED
 End Sub
 
 Private Sub Worksheet_Activate()
-Main.Initialise
+    Main.Initialise
 End Sub
 

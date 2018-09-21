@@ -8,7 +8,6 @@ using IBApi;
 namespace TWSLib
 {
     [ComVisible(true), Guid("505BDC19-DA33-4C3B-A905-87F0C8898485")]
-
     public interface IHistoricalTickList
     {
         [DispId(-4)]

@@ -87,7 +87,16 @@ Private Sub reqHistoricalNewsButton_Click()
     historicalNewsRow = 0
     historicalNewsTable.ClearContents
     historicalNewsActiveReqId = historicalNewsActiveReqId + 1
-    Api.Tws.reqHistoricalNews historicalNewsActiveReqId + ID_HISTORICAL_NEWS, Range(CELL_CON_ID).value, Range(CELL_PROVIDER_CODES).value, Range(CELL_START_DATETIME).value, Range(CELL_END_DATETIME).value, Range(CELL_TOTAL_RESULTS).value
+    
+    Dim conId As Long, providerCodes As String, startDateTime As String, endDateTime As String, totalResults As Long
+    
+    conId = Range(CELL_CON_ID).value
+    providerCodes = Range(CELL_PROVIDER_CODES).value
+    startDateTime = Range(CELL_START_DATETIME).value
+    endDateTime = Range(CELL_END_DATETIME).value
+    totalResults = Range(CELL_TOTAL_RESULTS).value
+    
+    Api.Tws.reqHistoricalNews historicalNewsActiveReqId + ID_HISTORICAL_NEWS, conId, providerCodes, startDateTime, endDateTime, totalResults, Nothing
 End Sub
 
 ' clear historical news table
@@ -103,7 +112,7 @@ Private Sub reqNewsArticle_Click()
     ' clear news article table
     Range(CELL_NEWS_ARTICLE).MergeArea.ClearContents
     historicalNewsActiveReqId = historicalNewsActiveReqId + 1
-    Api.Tws.reqNewsArticle historicalNewsActiveReqId + ID_HISTORICAL_NEWS, Range(CELL_PROVIDER_CODE).value, Range(CELL_ARTICLE_ID).value
+    Api.Tws.reqNewsArticle historicalNewsActiveReqId + ID_HISTORICAL_NEWS, Range(CELL_PROVIDER_CODE).value, Range(CELL_ARTICLE_ID).value, Nothing
 End Sub
 
 ' clear news article

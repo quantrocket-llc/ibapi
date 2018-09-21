@@ -55,7 +55,7 @@ Private Sub ComboLegs_Click()
 End Sub
 
 Private Sub CreateTicker_Click()
-    TickerForm.Show
+    TickerForm.ShowForm contractTable
 End Sub
 
 ' place / modify order
