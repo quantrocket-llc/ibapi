@@ -36,6 +36,9 @@ int main(int argc, char** argv)
 
 		TestCppClient client;
 
+		// Run time error will occur (here) if TestCppClient.exe is compiled in debug mode but TwsSocketClient.dll is compiled in Release mode
+		// TwsSocketClient.dll (in Release Mode) is copied by API installer into SysWOW64 folder within Windows directory 
+		
 		if( connectOptions) {
 			client.setConnectOptions( connectOptions);
 		}
