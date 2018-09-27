@@ -3,9 +3,7 @@ Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is su
 and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable.
 """
 
-import sys
-
-from ibapi.contract import *
+from ibapi.contract import * # @UnusedWildImport
 
 
 class ContractSamples:
@@ -52,23 +50,33 @@ class ContractSamples:
     @staticmethod
     def EuropeanStock():
         contract = Contract()
-        contract.symbol = "SIE"
+        contract.symbol = "BMW"
         contract.secType = "STK"
         contract.currency = "EUR"
         contract.exchange = "SMART"
+        contract.primaryExchange = "IBIS"
         return contract
 
+    @staticmethod
+    def EuropeanStock2():
+        contract = Contract()
+        contract.symbol = "NOKIA"
+        contract.secType = "STK"
+        contract.currency = "EUR"
+        contract.exchange = "SMART"
+        contract.primaryExchange = "HEX"
+        return contract
 
     @staticmethod
     def OptionAtIse():
         contract = Contract()
-        contract.symbol = "BPX"
+        contract.symbol = "COF"
         contract.secType = "OPT"
         contract.currency = "USD"
         contract.exchange = "ISE"
-        contract.lastTradeDateOrContractMonth = "20160916"
-        contract.right = "C"
-        contract.strike = 65
+        contract.lastTradeDateOrContractMonth = "20190315"
+        contract.right = "P"
+        contract.strike = 105
         contract.multiplier = "100"
         return contract
 
@@ -142,7 +150,7 @@ class ContractSamples:
         contract.currency = "USD"
         contract.exchange = "SMART"
         #Specify the Primary Exchange attribute to avoid contract ambiguity 
-		#(there is an ambiguity because there is also a MSFT contract with primary exchange = "AEB")
+        #(there is an ambiguity because there is also a MSFT contract with primary exchange = "AEB")
         contract.primaryExchange = "ISLAND"
         #! [stkcontractwithprimary]
         return contract
@@ -151,7 +159,7 @@ class ContractSamples:
     @staticmethod
     def USStockAtSmart():
         contract = Contract()
-        contract.symbol = "IBKR"
+        contract.symbol = "IBM"
         contract.secType = "STK"
         contract.currency = "USD"
         contract.exchange = "SMART"
@@ -166,8 +174,8 @@ class ContractSamples:
         contract.secType = "OPT"
         contract.exchange = "SMART"
         contract.currency = "USD"
-        contract.lastTradeDateOrContractMonth = "20170120"
-        contract.strike = 615
+        contract.lastTradeDateOrContractMonth = "20190315"
+        contract.strike = 1180
         contract.right = "C"
         contract.multiplier = "100"
         #! [optcontract_us]
@@ -182,8 +190,8 @@ class ContractSamples:
         contract.secType = "OPT"
         contract.exchange = "BOX"
         contract.currency = "USD"
-        contract.lastTradeDateOrContractMonth = "20170120"
-        contract.strike = 615
+        contract.lastTradeDateOrContractMonth = "20190315"
+        contract.strike = 1180
         contract.right = "C"
         contract.multiplier = "100"
         #! [optcontract]
@@ -229,7 +237,7 @@ class ContractSamples:
 
     """ Dutch Warrants (IOPTs) can be defined using the local symbol or conid 
     """
-	
+
     @staticmethod
     def DutchWarrant():
         #! [ioptcontract]
@@ -240,7 +248,7 @@ class ContractSamples:
         contract.currency = "EUR"
         #! [ioptcontract]
         return contract
-		
+
     """ Future contracts also require an expiration date but are less
     complicated than options."""
 
@@ -252,7 +260,7 @@ class ContractSamples:
         contract.secType = "FUT"
         contract.exchange = "GLOBEX"
         contract.currency = "USD"
-        contract.lastTradeDateOrContractMonth = "201803"
+        contract.lastTradeDateOrContractMonth = "201903"
         #! [futcontract]
         return contract
 
@@ -280,7 +288,7 @@ class ContractSamples:
         contract.secType = "FUT"
         contract.exchange = "DTB"
         contract.currency = "EUR"
-        contract.lastTradeDateOrContractMonth = "201609"
+        contract.lastTradeDateOrContractMonth = "201903"
         contract.multiplier = "5"
         #! [futcontract_multiplier]
         return contract
@@ -302,14 +310,14 @@ class ContractSamples:
     def FuturesOnOptions():
         #! [fopcontract]
         contract = Contract()
-        contract.symbol = "SPX"
+        contract.symbol = "ES"
         contract.secType = "FOP"
         contract.exchange = "GLOBEX"
         contract.currency = "USD"
-        contract.lastTradeDateOrContractMonth = "20180315"
-        contract.strike = 1025
+        contract.lastTradeDateOrContractMonth = "20190315"
+        contract.strike = 2900
         contract.right = "C"
-        contract.multiplier = "250"
+        contract.multiplier = "50"
         #! [fopcontract]
         return contract
 
@@ -372,13 +380,13 @@ class ContractSamples:
         contract.exchange = "DTB"
 
         leg1 = ComboLeg()
-        leg1.conId = 197397509 #DBK JUN 15 2018 C
+        leg1.conId = 317960956 #DBK JUN 21 2019 C
         leg1.ratio = 1
         leg1.action = "BUY"
         leg1.exchange = "DTB"
 
         leg2 = ComboLeg()
-        leg2.conId = 197397584  #DBK JUN 15 2018 P
+        leg2.conId = 334216780  #DBK MAR 15 2019 C
         leg2.ratio = 1
         leg2.action = "SELL"
         leg2.exchange = "DTB"
@@ -434,13 +442,13 @@ class ContractSamples:
         contract.exchange = "CFE"
 
         leg1 = ComboLeg()
-        leg1.conId = 256038899 # VIX FUT 201708
+        leg1.conId = 326501438 # VIX FUT 201903
         leg1.ratio = 1
         leg1.action = "BUY"
         leg1.exchange = "CFE"
 
         leg2 = ComboLeg()
-        leg2.conId = 260564703 # VIX FUT 201709
+        leg2.conId = 323072528 # VIX FUT 2019049
         leg2.ratio = 1
         leg2.action = "SELL"
         leg2.exchange = "CFE"
@@ -511,51 +519,51 @@ class ContractSamples:
         #! [newsfeedforquery]
         contract = Contract()
         contract.secType = "NEWS"
-        contract.exchange = "BRF" #Briefing Trader
+        contract.exchange = "BRFG" #Briefing Trader
         #! [newsfeedforquery]
         return contract
 
 
     @staticmethod
-    def BTbroadtapeNewsFeed():
+    def BRFGbroadtapeNewsFeed():
         #! [newscontractbt]
         contract = Contract()
-        contract.symbol  = "BRF:BRF_ALL" #BroadTape All News
+        contract.symbol  = "BRFG:BRFG_ALL"
         contract.secType = "NEWS"
-        contract.exchange = "BRF" #Briefing Trader
+        contract.exchange = "BRFG"
         #! [newscontractbt]
         return contract
 
 
     @staticmethod
-    def BZbroadtapeNewsFeed():
+    def DJNLbroadtapeNewsFeed():
         #! [newscontractbz]
         contract = Contract()
-        contract.symbol = "BZ:BZ_ALL" #BroadTape All News
+        contract.symbol = "DJNL:DJNL_ALL"
         contract.secType = "NEWS"
-        contract.exchange = "BZ" #Benzinga Pro
+        contract.exchange = "DJNL"
         #! [newscontractbz]
         return contract
 
 
     @staticmethod
-    def FLYbroadtapeNewsFeed():
+    def DJTOPbroadtapeNewsFeed():
         #! [newscontractfly]
         contract = Contract()
-        contract.symbol  = "FLY:FLY_ALL" #BroadTape All News
+        contract.symbol  = "DJTOP:ASIAPAC"
         contract.secType = "NEWS"
-        contract.exchange = "FLY" #Fly on the Wall
-       #! [newscontractfly]
+        contract.exchange = "DJTOP"
+        #! [newscontractfly]
         return contract
 
 
     @staticmethod
-    def MTbroadtapeNewsFeed():
+    def BRFUPDNbroadtapeNewsFeed():
         #! [newscontractmt]
         contract = Contract()
-        contract.symbol = "MT:MT_ALL" #BroadTape All News
+        contract.symbol = "BRFUPDN:BRF_ALL"
         contract.secType = "NEWS"
-        contract.exchange = "MT" #Midnight Trader
+        contract.exchange = "BRFUPDN"
         #! [newscontractmt]
         return contract
 
@@ -601,6 +609,38 @@ class ContractSamples:
         #! [csfb_contract]
         return contract
 
+    @staticmethod
+    def USStockCFD():
+        # ! [usstockcfd_conract]
+        contract = Contract();
+        contract.symbol = "IBM";
+        contract.secType = "CFD";
+        contract.currency = "USD";
+        contract.exchange = "SMART";
+        # ! [usstockcfd_conract]
+        return contract;
+
+    @staticmethod
+    def EuropeanStockCFD():
+        # ! [europeanstockcfd_contract]
+        contract = Contract();
+        contract.symbol = "BMW";
+        contract.secType = "CFD";
+        contract.currency = "EUR";
+        contract.exchange = "SMART";
+        # ! [europeanstockcfd_contract]
+        return contract;
+
+    @staticmethod
+    def CashCFD():
+        # ! [cashcfd_contract]
+        contract = Contract();
+        contract.symbol = "EUR";
+        contract.secType = "CFD";
+        contract.currency = "USD";
+        contract.exchange = "SMART";
+        # ! [cashcfd_contract]
+        return contract;
 
 def Test():
     from ibapi.utils import ExerciseStaticMethods
@@ -608,5 +648,5 @@ def Test():
 
 
 if "__main__" == __name__:
-   Test()
+    Test()
 

@@ -19,17 +19,20 @@ server and client.
 
 """
 
-from ibapi.common import *
-from ibapi.utils import *
+from ibapi.common import * # @UnusedWildImport
+from ibapi.utils import * # @UnusedWildImport
 from ibapi.contract import (Contract, ContractDetails, DeltaNeutralContract)
 from ibapi.order import Order
 from ibapi.order_state import OrderState
 from ibapi.execution import Execution
-from ibapi.ticktype import *
+from ibapi.ticktype import * # @UnusedWildImport
 from ibapi.commission_report import CommissionReport
 
 
 class EWrapper:
+    def __init__(self):
+        pass
+
     def logAnswer(self, fnName, fnParams):
         if logging.getLogger().isEnabledFor(logging.INFO):
             if 'self' in fnParams:
@@ -270,7 +273,7 @@ class EWrapper:
 
 
     def updateMktDepthL2(self, reqId:TickerId , position:int, marketMaker:str,
-                          operation:int, side:int, price:float, size:int):
+                          operation:int, side:int, price:float, size:int, isSmartDepth:bool):
         """Returns the order book.
 
         tickerId -  the request's identifier
@@ -282,7 +285,8 @@ class EWrapper:
             2 = delete (delete the existing order at the row identified by 'position').
         side -  0 for ask, 1 for bid
         price - the order's price
-        size -  the order's size"""
+        size -  the order's size
+        isSmartDepth - is SMART Depth request"""
 
         self.logAnswer(current_fn_name(), vars())
 
@@ -373,7 +377,7 @@ class EWrapper:
         self.logAnswer(current_fn_name(), vars())
 
 
-    def realtimeBar(self, reqId: TickerId, time:int, open: float, high: float, low: float, close: float,
+    def realtimeBar(self, reqId: TickerId, time:int, open_: float, high: float, low: float, close: float,
                         volume: int, wap: float, count: int):
 
         """ Updates the real time 5 seconds bars
@@ -381,7 +385,7 @@ class EWrapper:
         reqId - the request's identifier
         bar.time  - start of bar in unix (or 'epoch') time
         bar.endTime - for synthetic bars, the end time (requires TWS v964). Otherwise -1.
-        bar.open  - the bar's open value
+        bar.open_  - the bar's open value
         bar.high  - the bar's high value
         bar.low   - the bar's low value
         bar.close - the bar's closing value
@@ -391,7 +395,6 @@ class EWrapper:
             for TRADES)."""
 
         self.logAnswer(current_fn_name(), vars())
-
 
     def currentTime(self, time:int):
         """ Server's current time. This method will receive IB server's system
@@ -605,7 +608,7 @@ class EWrapper:
         """ returns news headlines"""
         self.logAnswer(current_fn_name(), vars())
 
-    def smartComponents(self, reqId:int, map:SmartComponentMap):
+    def smartComponents(self, reqId:int, smartComponentMap:SmartComponentMap):
         """returns exchange component mapping"""
         self.logAnswer(current_fn_name(), vars())
 
@@ -674,16 +677,20 @@ class EWrapper:
         self.logAnswer(current_fn_name(), vars())
 
     def tickByTickAllLast(self, reqId: int, tickType: int, time: int, price: float,
-                          size: int, attribs: TickAttrib, exchange: str,
+                          size: int, tickAttribLast: TickAttribLast, exchange: str,
                           specialConditions: str):
         """returns tick-by-tick data for tickType = "Last" or "AllLast" """
         self.logAnswer(current_fn_name(), vars())
 
     def tickByTickBidAsk(self, reqId: int, time: int, bidPrice: float, askPrice: float,
-                         bidSize: int, askSize: int, attribs: TickAttrib):
+                         bidSize: int, askSize: int, tickAttribBidAsk: TickAttribBidAsk):
         """returns tick-by-tick data for tickType = "BidAsk" """
         self.logAnswer(current_fn_name(), vars())
 
     def tickByTickMidPoint(self, reqId: int, time: int, midPoint: float):
         """returns tick-by-tick data for tickType = "MidPoint" """
+        self.logAnswer(current_fn_name(), vars())
+
+    def orderBound(self, reqId: int, apiClientId: int, apiOrderId: int):
+        """returns orderBound notification"""
         self.logAnswer(current_fn_name(), vars())

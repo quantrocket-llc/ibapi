@@ -96,15 +96,17 @@ def decode(the_type, fields, show_unset = False):
 
 def ExerciseStaticMethods(klass):
     
-    import types, inspect
+    import types
     #import code; code.interact(local=dict(globals(), **locals()))
-    for (name, var) in inspect.getmembers(klass):
+    for (_, var) in inspect.getmembers(klass):
         #print(name, var, type(var))
         if type(var) == types.FunctionType:
             print("Exercising: %s:" % var)
             print(var())
             print()
   
+def floatToStr(val):
+    return str(val) if val != UNSET_DOUBLE else "";
 
 
  

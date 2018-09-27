@@ -3,14 +3,34 @@ Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is su
 and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable.
 """
 
-import sys
-
 from ibapi.object_implem import Object
 from ibapi.tag_value import TagValue
 from ibapi.order import Order
 
 
 class AvailableAlgoParams(Object):
+
+    # ! [scale_params]
+    @staticmethod
+    def FillScaleParams(baseOrder: Order, scaleInitLevelSize: int, scaleSubsLevelSize: int, scaleRandomPercent: bool,
+                        scalePriceIncrement: float, scalePriceAdjustValue: float, scalePriceAdjustInterval: int,
+                        scaleProfitOffset: float, scaleAutoReset: bool, scaleInitPosition: int, scaleInitFillQty: int):
+        baseOrder.scaleInitLevelSize = scaleInitLevelSize # Initial Component Size
+        baseOrder.scaleSubsLevelSize = scaleSubsLevelSize # Subsequent Comp. Size
+        baseOrder.scaleRandomPercent = scaleRandomPercent # Randomize size by +/-55%
+        baseOrder.scalePriceIncrement = scalePriceIncrement # Price Increment
+
+        # Auto Price adjustment
+        baseOrder.scalePriceAdjustValue = scalePriceAdjustValue # starting price by
+        baseOrder.scalePriceAdjustInterval = scalePriceAdjustInterval # in seconds
+
+        # Profit Orders
+        baseOrder.scaleProfitOffset = scaleProfitOffset # Create profit taking order Profit Offset
+        baseOrder.scaleAutoReset = scaleAutoReset # Restore size after taking profit
+        baseOrder.scaleInitPosition = scaleInitPosition # Initial Position
+        baseOrder.scaleInitFillQty = scaleInitFillQty # Filled initial Component Size
+    # ! [scale_params]
+
     # ! [arrivalpx_params]
     @staticmethod
     def FillArrivalPriceParams(baseOrder: Order, maxPctVol: float,
@@ -161,13 +181,13 @@ class AvailableAlgoParams(Object):
     def FillClosePriceParams(baseOrder: Order, maxPctVol: float, riskAversion: str,
                              startTime: str, forceCompletion: bool,
                              monetaryValue: float):
-        baseOrder.AlgoStrategy = "ClosePx"
-        baseOrder.AlgoParams = []
-        baseOrder.AlgoParams.append(TagValue("maxPctVol", maxPctVol))
-        baseOrder.AlgoParams.append(TagValue("riskAversion", riskAversion))
-        baseOrder.AlgoParams.append(TagValue("startTime", startTime))
-        baseOrder.AlgoParams.append(TagValue("forceCompletion", int(forceCompletion)))
-        baseOrder.AlgoParams.append(TagValue("monetaryValue", monetaryValue))
+        baseOrder.algoStrategy = "ClosePx"
+        baseOrder.algoParams = []
+        baseOrder.algoParams.append(TagValue("maxPctVol", maxPctVol))
+        baseOrder.algoParams.append(TagValue("riskAversion", riskAversion))
+        baseOrder.algoParams.append(TagValue("startTime", startTime))
+        baseOrder.algoParams.append(TagValue("forceCompletion", int(forceCompletion)))
+        baseOrder.algoParams.append(TagValue("monetaryValue", monetaryValue))
 
     # ! [closepx_params]
 
@@ -179,16 +199,16 @@ class AvailableAlgoParams(Object):
                                      maxPctVol4Px: float, startTime: str,
                                      endTime: str, noTakeLiq: bool,
                                      monetaryValue: float):
-        baseOrder.AlgoStrategy = "PctVolPx"
-        baseOrder.AlgoParams = []
-        baseOrder.AlgoParams.append(TagValue("pctVol", pctVol))
-        baseOrder.AlgoParams.append(TagValue("deltaPctVol", deltaPctVol))
-        baseOrder.AlgoParams.append(TagValue("minPctVol4Px", minPctVol4Px))
-        baseOrder.AlgoParams.append(TagValue("maxPctVol4Px", maxPctVol4Px))
-        baseOrder.AlgoParams.append(TagValue("startTime", startTime))
-        baseOrder.AlgoParams.append(TagValue("endTime", endTime))
-        baseOrder.AlgoParams.append(TagValue("noTakeLiq", int(noTakeLiq)))
-        baseOrder.AlgoParams.append(TagValue("monetaryValue", monetaryValue))
+        baseOrder.algoStrategy = "PctVolPx"
+        baseOrder.algoParams = []
+        baseOrder.algoParams.append(TagValue("pctVol", pctVol))
+        baseOrder.algoParams.append(TagValue("deltaPctVol", deltaPctVol))
+        baseOrder.algoParams.append(TagValue("minPctVol4Px", minPctVol4Px))
+        baseOrder.algoParams.append(TagValue("maxPctVol4Px", maxPctVol4Px))
+        baseOrder.algoParams.append(TagValue("startTime", startTime))
+        baseOrder.algoParams.append(TagValue("endTime", endTime))
+        baseOrder.algoParams.append(TagValue("noTakeLiq", int(noTakeLiq)))
+        baseOrder.algoParams.append(TagValue("monetaryValue", monetaryValue))
 
     # ! [pctvolpx_params]
 
@@ -199,14 +219,14 @@ class AvailableAlgoParams(Object):
                                     endPctVol: float, startTime: str,
                                     endTime: str, noTakeLiq: bool,
                                     monetaryValue: float):
-        baseOrder.AlgoStrategy = "PctVolSz"
-        baseOrder.AlgoParams = []
-        baseOrder.AlgoParams.append(TagValue("startPctVol", startPctVol))
-        baseOrder.AlgoParams.append(TagValue("endPctVol", endPctVol))
-        baseOrder.AlgoParams.append(TagValue("startTime", startTime))
-        baseOrder.AlgoParams.append(TagValue("endTime", endTime))
-        baseOrder.AlgoParams.append(TagValue("noTakeLiq", int(noTakeLiq)))
-        baseOrder.AlgoParams.append(TagValue("monetaryValue", monetaryValue))
+        baseOrder.algoStrategy = "PctVolSz"
+        baseOrder.algoParams = []
+        baseOrder.algoParams.append(TagValue("startPctVol", startPctVol))
+        baseOrder.algoParams.append(TagValue("endPctVol", endPctVol))
+        baseOrder.algoParams.append(TagValue("startTime", startTime))
+        baseOrder.algoParams.append(TagValue("endTime", endTime))
+        baseOrder.algoParams.append(TagValue("noTakeLiq", int(noTakeLiq)))
+        baseOrder.algoParams.append(TagValue("monetaryValue", monetaryValue))
 
     # ! [pctvolsz_params]
 
@@ -217,14 +237,14 @@ class AvailableAlgoParams(Object):
                                     endPctVol: float, startTime: str,
                                     endTime: str, noTakeLiq: bool,
                                     monetaryValue: float):
-        baseOrder.AlgoStrategy = "PctVolTm"
-        baseOrder.AlgoParams = []
-        baseOrder.AlgoParams.append(TagValue("startPctVol", startPctVol))
-        baseOrder.AlgoParams.append(TagValue("endPctVol", endPctVol))
-        baseOrder.AlgoParams.append(TagValue("startTime", startTime))
-        baseOrder.AlgoParams.append(TagValue("endTime", endTime))
-        baseOrder.AlgoParams.append(TagValue("noTakeLiq", int(noTakeLiq)))
-        baseOrder.AlgoParams.append(TagValue("monetaryValue", monetaryValue))
+        baseOrder.algoStrategy = "PctVolTm"
+        baseOrder.algoParams = []
+        baseOrder.algoParams.append(TagValue("startPctVol", startPctVol))
+        baseOrder.algoParams.append(TagValue("endPctVol", endPctVol))
+        baseOrder.algoParams.append(TagValue("startTime", startTime))
+        baseOrder.algoParams.append(TagValue("endTime", endTime))
+        baseOrder.algoParams.append(TagValue("noTakeLiq", int(noTakeLiq)))
+        baseOrder.algoParams.append(TagValue("monetaryValue", monetaryValue))
     # ! [pctvoltm_params]
 
     # ! [jefferies_vwap_params]
@@ -279,7 +299,7 @@ class AvailableAlgoParams(Object):
 
 
 def Test():
-    av = AvailableAlgoParams()
+    av = AvailableAlgoParams() # @UnusedVariable
 
 
 if "__main__" == __name__:
