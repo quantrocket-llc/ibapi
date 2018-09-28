@@ -266,7 +266,7 @@ Public Function FindOrAddSheet(sheetName As String, ByRef needsInitialising As B
     If ws Is Nothing Then
         ' sheet was not found
         needsInitialising = True
-        Set ws = Sheets.Add(Type:="Worksheet")
+        Set ws = Sheets.Add(Type:=xlWorksheet)
         
         With ws
             .Move after:=Worksheets(Worksheets.Count)
