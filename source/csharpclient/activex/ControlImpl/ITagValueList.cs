@@ -26,15 +26,15 @@ namespace TWSLib
         object Add(string tag, string value);
     }
 
-    [ComVisible(true)]
+    [ComVisible(true), ClassInterface(ClassInterfaceType.None)]
     public class ComTagValueList : ITagValueList
     {
         public static implicit operator KeyValuePair<string, string>[](ComTagValueList list)
         {
-            return list == null ? null : list.Tvl.Select(x => new KeyValuePair<string, string>(x.Tag, x.Value)).ToArray();
+            return list == null ? null : list.Tvl.Select(x => x.ConvertTo()).Select(x => new KeyValuePair<string, string>(x.Tag, x.Value)).ToArray();
         }
 
-        public ComList<ComTagValue, IBApi.TagValue> Tvl { get; private set; }
+        private ComList<ComTagValue, IBApi.TagValue> Tvl;
 
         public ComTagValueList() : this(null) { }
         public ComTagValueList(ComList<ComTagValue, IBApi.TagValue> tvl)
@@ -73,6 +73,11 @@ namespace TWSLib
             Tvl.Add(rval);
 
             return rval;
+        }
+
+        public static implicit operator List<IBApi.TagValue>(ComTagValueList from)
+        {
+            return from.Tvl.ConvertTo();
         }
     }
 }

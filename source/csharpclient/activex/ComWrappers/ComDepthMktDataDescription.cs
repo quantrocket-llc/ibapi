@@ -14,7 +14,7 @@ namespace TWSLib
      * @class DepthMktDataDescription
      * @brief depth market data description
      */
-    [ComVisible(true)]
+    [ComVisible(true), ClassInterface(ClassInterfaceType.None)]
     public class ComDepthMktDataDescription : ComWrapper<DepthMktDataDescription>, IDepthMktDataDescription
     {
         /**

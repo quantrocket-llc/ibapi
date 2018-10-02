@@ -28,10 +28,10 @@ namespace TWSLib
         object Add(ComFamilyCode cfc);
     }
 
-    [ComVisible(true)]
+    [ComVisible(true), ClassInterface(ClassInterfaceType.None)]
     public class ComFamilyCodeList : IFamilyCodeList
     {
-        public ComList<ComFamilyCode, IBApi.FamilyCode> Fcl { get; private set; }
+        private ComList<ComFamilyCode, IBApi.FamilyCode> Fcl;
 
         public ComFamilyCodeList() : this(null) { }
 

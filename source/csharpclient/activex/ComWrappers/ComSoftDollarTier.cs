@@ -9,22 +9,26 @@ using System.Text;
 
 namespace TWSLib
 {
-    [ComVisible(true)]
-    public class ComSoftDollarTier
+    [ComVisible(true), ClassInterface(ClassInterfaceType.None)]
+    public class ComSoftDollarTier : ComWrapper<IBApi.SoftDollarTier>, ISoftDollarTier
     {
-        private IBApi.SoftDollarTier tier;
-
         public ComSoftDollarTier(IBApi.Order order)
         {
-            this.tier = order.Tier;
+            this.data = order.Tier;
         }
 
         public ComSoftDollarTier(IBApi.SoftDollarTier tier)
         {
-            this.tier = tier;
+            this.data = tier;
         }
 
-        public string Name { get { return tier.Name; } set { tier = new IBApi.SoftDollarTier(value, tier.Value, tier.DisplayName); } }
-        public string Value { get { return tier.Value; } set { tier = new IBApi.SoftDollarTier(tier.Name, value, tier.DisplayName); } }
+        public ComSoftDollarTier()
+        {
+            this.data = new IBApi.SoftDollarTier();
+        }
+
+        public string Name { get { return data.Name; } }
+        public string DisplayName { get { return data.DisplayName; } }
+        public string Value { get { return data.Value; } }
     }
 }

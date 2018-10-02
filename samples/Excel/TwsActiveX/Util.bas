@@ -100,6 +100,11 @@ Public Const ID_TICKBYTICKDATA = 2300000
 Public Const ID_HEADTIMESTAMP = 2400000
 Public Const ID_PNL = 2500000
 Public Const ID_PNL_SINGLE = 2600000
+Public Const ID_SOFT_DOLLAR_TIER = 2700000
+Public Const ID_HISTOGRAM_DATA = 2800000
+Public Const ID_SMART_COMPONENTS = 2900000
+Public Const ID_SEC_DEF_OPT_PARAMS = 3000000
+
 
 ' order id base
 Public Const ORDER_ID_BASE = &H70000000
@@ -256,7 +261,7 @@ Public Function FindOrAddSheet(sheetName As String, ByRef needsInitialising As B
     
     Dim ws As Worksheet
     For Each ws In Worksheets
-        If ws.Name = sheetName Then
+        If ws.name = sheetName Then
             ' sheet was found
             needsInitialising = (ws.Cells(1, 1) = 0)
             Exit For
@@ -270,7 +275,7 @@ Public Function FindOrAddSheet(sheetName As String, ByRef needsInitialising As B
         
         With ws
             .Move after:=Worksheets(Worksheets.Count)
-            .Name = sheetName
+            .name = sheetName
         End With
     End If
     
@@ -467,4 +472,20 @@ Public Function DblMaxStr(dblVal As Double) As String
 End Function
 
 
+
+Public Sub FillContractObject(lContractInfo As TWSLib.IContract, contractTable As Range, id As Long)
+    With lContractInfo
+        .symbol = UCase(contractTable(id, Col_SYMBOL).value)
+        .SecType = UCase(contractTable(id, Col_SECTYPE).value)
+        .lastTradeDateOrContractMonth = contractTable(id, Col_LASTTRADEDATE).value
+        .Strike = IIf(contractTable(id, Col_STRIKE).value = "", 0#, contractTable(id, Col_STRIKE).value)
+        .Right = UCase(contractTable(id, Col_RIGHT).value)
+        .multiplier = UCase(contractTable(id, Col_MULTIPLIER).value)
+        .exchange = UCase(contractTable(id, Col_EXCH).value)
+        .primaryExchange = UCase(contractTable(id, Col_PRIMEXCH).value)
+        .currency = UCase(contractTable(id, Col_CURRENCY).value)
+        .localSymbol = UCase(contractTable(id, Col_LOCALSYMBOL).value)
+        .conId = IIf(UCase(contractTable(id, Col_CONID).value) = "", 0, UCase(contractTable(id, Col_CONID).value))
+    End With
+End Sub
 

@@ -14,7 +14,7 @@ namespace TWSLib
      * @class TickAttrib
      * @brief Class describing tick attrib
      */
-    [ComVisible(true)]
+    [ComVisible(true), ClassInterface(ClassInterfaceType.None)]
     public class ComTickAttrib : ComWrapper<TickAttrib>, ITickAttrib
     {
         /**

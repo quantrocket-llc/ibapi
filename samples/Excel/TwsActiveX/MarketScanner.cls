@@ -134,7 +134,7 @@ End Sub
 
 ' update scanner parameters
 Public Sub UpdateScannerParameters(xml As String)
-    ScrollableMsgBox.ShowText xml, STR_SCANNER_PARAMETERS, False, MarketScanner.Name
+    ScrollableMsgBox.ShowText xml, STR_SCANNER_PARAMETERS, False, MarketScanner.name
 End Sub
 
 ' update market scanner data

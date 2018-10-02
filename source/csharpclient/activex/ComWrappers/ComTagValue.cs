@@ -10,7 +10,7 @@ using System.Text;
 
 namespace TWSLib
 {
-    [ComVisible(true)]
+    [ComVisible(true), ClassInterface(ClassInterfaceType.None)]
     public class ComTagValue : ComWrapper<TagValue>, ITagValue
     {
         public ComTagValue() { }

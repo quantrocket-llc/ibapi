@@ -15,7 +15,7 @@ namespace TWSLib
      * @brief when requesting executions, a filter can be specified to receive only a subset of them
      * @sa Contract, Execution, CommissionReport
      */
-    [ComVisible(true)]
+    [ComVisible(true), ClassInterface(ClassInterfaceType.None)]
     public class ComExecutionFilter : ComWrapper<ExecutionFilter>, IExecutionFilter
     {
         /**

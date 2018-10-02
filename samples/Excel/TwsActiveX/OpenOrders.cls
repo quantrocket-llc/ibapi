@@ -190,7 +190,7 @@ Sub UpdateOpenOrder(orderId As Long, contract As TWSLib.IContract, order As TWSL
         ExtendedAttributesTable(rowId, Col_CONDITIONS_CANCEL_ORDER).value = .conditionsCancelOrder
         ExtendedAttributesTable(rowId, Col_MODELCODE).value = .modelCode
         ExtendedAttributesTable(rowId, Col_EXT_OPERATOR).value = .extOperator
-        ExtendedAttributesTable(rowId, Col_SOFT_DOLLAR_TIER).value = .tier.Name & ";" & .tier.value
+        ExtendedAttributesTable(rowId, Col_SOFT_DOLLAR_TIER).value = .tier.name & ";" & .tier.value
     End With
     
     Dim tempStr As String

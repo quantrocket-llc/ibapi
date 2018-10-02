@@ -351,7 +351,7 @@ Private Sub CalculateCumSizeAvgPrice(id As Integer)
 End Sub
 
 ' update market depth table
-Sub UpdateMarketDepth(id As Long, position As Long, marketMaker As String, operation As Long, side As Long, price As Double, Size As Long)
+Sub UpdateMarketDepth(id As Long, position As Long, marketMaker As String, operation As Long, side As Long, price As Double, size As Long)
     
     id = id - ID_MKTDEPTH - 1
 
@@ -370,7 +370,7 @@ Sub UpdateMarketDepth(id As Long, position As Long, marketMaker As String, opera
                     With arMktDepth(id + position)
                         .BidMM = marketMaker
                         .bidPrice = price
-                        .bidSize = Size
+                        .bidSize = size
                     End With
                 
                 ElseIf side = MKT_DEPTH_SIDE_ASK Then
@@ -382,7 +382,7 @@ Sub UpdateMarketDepth(id As Long, position As Long, marketMaker As String, opera
                     With arMktDepth(id + position)
                         .AskMM = marketMaker
                         .askPrice = price
-                        .askSize = Size
+                        .askSize = size
                     End With
                 End If
  
@@ -391,13 +391,13 @@ Sub UpdateMarketDepth(id As Long, position As Long, marketMaker As String, opera
                     With arMktDepth(id + position)
                         .BidMM = marketMaker
                         .bidPrice = price
-                        .bidSize = Size
+                        .bidSize = size
                     End With
                 ElseIf side = MKT_DEPTH_SIDE_ASK Then
                     With arMktDepth(id + position)
                         .AskMM = marketMaker
                         .askPrice = price
-                        .askSize = Size
+                        .askSize = size
                     End With
                 End If
            

@@ -36,6 +36,11 @@ namespace IBApi
             this.DisplayName = displayName;
         }
 
+        public SoftDollarTier()
+            : this(null, null, null)
+        {
+        }
+
         public override bool Equals(object obj)
         {
             SoftDollarTier b = obj as SoftDollarTier;

@@ -16,7 +16,7 @@ namespace TWSLib
      * @brief contract data and list of derivative security types
      * @sa Contract
      */
-    [ComVisible(true)]
+    [ComVisible(true), ClassInterface(ClassInterfaceType.None)]
     public class ComContractDescription : ComWrapper<ContractDescription>, IContractDescription
     {
         /**

@@ -15,7 +15,7 @@ namespace TWSLib
      * @brief Provides an active order's current state
      * @sa Order
      */
-    [ComVisible(true)]
+    [ComVisible(true), ClassInterface(ClassInterfaceType.None)]
     public class ComOrderState : ComWrapper<OrderState>, IOrderState
     {
         /**

@@ -13,7 +13,7 @@ namespace TWSLib
     /**
      * @brief Delta-Neutral Underlying Component.
      */
-    [ComVisible(true)]
+    [ComVisible(true), ClassInterface(ClassInterfaceType.None)]
     public class ComDeltaNeutralContract : ComWrapper<DeltaNeutralContract>, IDeltaNeutralContract
     {
         /**

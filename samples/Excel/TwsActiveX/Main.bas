@@ -39,6 +39,10 @@ Public Sub Initialise()
     Tickers.Initialise
     TickByTick.Initialize
     HeadTimestamp.Initialise
+    SoftDollarTiers.Initialise
+    Histogram.Initialise
+    SmartComponents.Initialise
+    SecDefOptParams.Initialise
     
     ' clear log
     Log.ClearLog_Click
