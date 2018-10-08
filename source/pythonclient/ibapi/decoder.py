@@ -185,7 +185,7 @@ class Decoder(Object):
         order.discretionaryAmt = decode(float, fields) # ver 4 field
         order.goodAfterTime = decode(str, fields) # ver 5 field
 
-        order.sharesAllocation = decode(str, fields) # deprecated ver 6 field
+        _sharesAllocation = decode(str, fields) # deprecated ver 6 field
 
         order.faGroup = decode(str, fields) # ver 7 field
         order.faMethod = decode(str, fields) # ver 7 field
@@ -268,11 +268,11 @@ class Decoder(Object):
         contract.comboLegsDescrip = decode(str, fields) # ver 14 field
 
         if version >= 29:
-            contract.comboLegsCount = decode(int, fields)
+            comboLegsCount = decode(int, fields)
 
-            if contract.comboLegsCount > 0:
+            if comboLegsCount > 0:
                 contract.comboLegs = []
-                for _ in range(contract.comboLegsCount):
+                for _ in range(comboLegsCount):
                     comboLeg = ComboLeg()
                     comboLeg.conId = decode(int, fields)
                     comboLeg.ratio = decode(int, fields)
@@ -284,19 +284,19 @@ class Decoder(Object):
                     comboLeg.exemptCode = decode(int, fields)
                     contract.comboLegs.append(comboLeg)
 
-            order.orderComboLegsCount = decode(int, fields)
-            if order.orderComboLegsCount > 0:
+            orderComboLegsCount = decode(int, fields)
+            if orderComboLegsCount > 0:
                 order.orderComboLegs = []
-                for _ in range(order.orderComboLegsCount):
+                for _ in range(orderComboLegsCount):
                     orderComboLeg = OrderComboLeg()
                     orderComboLeg.price = decode(float, fields, SHOW_UNSET)
                     order.orderComboLegs.append(orderComboLeg)
 
         if version >= 26:
-            order.smartComboRoutingParamsCount = decode(int, fields)
-            if order.smartComboRoutingParamsCount > 0:
+            smartComboRoutingParamsCount = decode(int, fields)
+            if smartComboRoutingParamsCount > 0:
                 order.smartComboRoutingParams = []
-                for _ in range(order.smartComboRoutingParamsCount):
+                for _ in range(smartComboRoutingParamsCount):
                     tagValue = TagValue()
                     tagValue.tag = decode(str, fields)
                     tagValue.value = decode(str, fields)
@@ -337,8 +337,8 @@ class Decoder(Object):
             order.notHeld = decode(bool, fields)
 
         if version >= 20:
-            contract.deltaNeutralContractPresent = decode(bool, fields)
-            if contract.deltaNeutralContractPresent:
+            deltaNeutralContractPresent = decode(bool, fields)
+            if deltaNeutralContractPresent:
                 contract.deltaNeutralContract = DeltaNeutralContract()
                 contract.deltaNeutralContract.conId = decode(int, fields)
                 contract.deltaNeutralContract.delta = decode(float, fields)
@@ -347,10 +347,10 @@ class Decoder(Object):
         if version >= 21:
             order.algoStrategy = decode(str, fields)
             if order.algoStrategy:
-                order.algoParamsCount = decode(int, fields)
-                if order.algoParamsCount > 0:
+                algoParamsCount = decode(int, fields)
+                if algoParamsCount > 0:
                     order.algoParams = []
-                    for _ in range(order.algoParamsCount):
+                    for _ in range(algoParamsCount):
                         tagValue = TagValue()
                         tagValue.tag = decode(str, fields)
                         tagValue.value = decode(str, fields)
@@ -394,12 +394,12 @@ class Decoder(Object):
                 order.referenceChangeAmount = decode(float, fields)
                 order.referenceExchangeId = decode(str, fields)
 
-            order.conditionsSize = decode(int, fields)
-            if order.conditionsSize > 0:
+            conditionsSize = decode(int, fields)
+            if conditionsSize > 0:
                 order.conditions = []
-                for _ in range(order.conditionsSize):
-                    order.conditionType = decode(int, fields)
-                    condition = order_condition.Create(order.conditionType)
+                for _ in range(conditionsSize):
+                    conditionType = decode(int, fields)
+                    condition = order_condition.Create(conditionType)
                     condition.decode(fields)
                     order.conditions.append(condition)
 
@@ -522,10 +522,10 @@ class Decoder(Object):
             contract.evRule = decode(str, fields)
             contract.evMultiplier = decode(int, fields)
         if version >= 7:
-            contract.secIdListCount = decode(int, fields)
-            if contract.secIdListCount > 0:
+            secIdListCount = decode(int, fields)
+            if secIdListCount > 0:
                 contract.secIdList = []
-                for _ in range(contract.secIdListCount):
+                for _ in range(secIdListCount):
                     tagValue = TagValue()
                     tagValue.tag = decode(str, fields)
                     tagValue.value = decode(str, fields)
@@ -590,10 +590,10 @@ class Decoder(Object):
             contract.evRule = decode(str, fields)
             contract.evMultiplier = decode(int, fields)
         if version >= 5:
-            contract.secIdListCount = decode(int, fields)
-            if contract.secIdListCount > 0:
+            secIdListCount = decode(int, fields)
+            if secIdListCount > 0:
                 contract.secIdList = []
-                for _ in range(contract.secIdListCount):
+                for _ in range(secIdListCount):
                     tagValue = TagValue()
                     tagValue.tag = decode(str, fields)
                     tagValue.value = decode(str, fields)
@@ -768,7 +768,7 @@ class Decoder(Object):
         bar.count = decode(int, fields)
 
         self.wrapper.realtimeBar(reqId, bar.time, bar.open, bar.high, bar.low, bar.close, bar.volume, bar.wap, bar.count)
-        
+
     def processTickOptionComputationMsg(self, fields):
         optPrice = None
         pvDividend = None
@@ -1260,7 +1260,7 @@ class Decoder(Object):
             price = decode(float, fields)
             size = decode(int, fields)
             mask = decode(int, fields)
-            
+
             tickAttribLast = TickAttribLast()
             tickAttribLast.pastLimit = mask & 1 != 0
             tickAttribLast.unreported = mask & 2 != 0
