@@ -1097,7 +1097,7 @@ const char* EDecoder::processMarketDepthL2Msg(const char* ptr, const char* endPt
 	int side;
 	double price;
 	int size;
-	bool isSmartDepth;
+	bool isSmartDepth = false;
 
 	DECODE_FIELD( version);
 	DECODE_FIELD( id);
