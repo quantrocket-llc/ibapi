@@ -27,10 +27,10 @@ namespace TWSLib
         object Add(ComContract c, string[] derivativeSecTypes);
     }
 
-    [ComVisible(true)]
+    [ComVisible(true), ClassInterface(ClassInterfaceType.None)]
     public class ComContractDescriptionList : IContractDescriptionList
     {
-        public ComList<ComContractDescription, IBApi.ContractDescription> Cdl { get; private set; }
+        private ComList<ComContractDescription, IBApi.ContractDescription> Cdl;
 
         public ComContractDescriptionList() : this(null) { }
 

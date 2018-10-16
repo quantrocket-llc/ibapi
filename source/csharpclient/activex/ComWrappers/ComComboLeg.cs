@@ -15,7 +15,7 @@ namespace TWSLib
      * @brief Class representing a leg within combo orders.
      * @sa Order
      */
-    [ComVisible(true)]
+    [ComVisible(true), ClassInterface(ClassInterfaceType.None)]
     public class ComComboLeg : ComWrapper<ComboLeg>, IComboLeg
     {
         /**

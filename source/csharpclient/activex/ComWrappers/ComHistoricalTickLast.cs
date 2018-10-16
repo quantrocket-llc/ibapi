@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 
 namespace TWSLib
 {
-    [ComVisible(true)]
+    [ComVisible(true), ClassInterface(ClassInterfaceType.None)]
     public class ComHistoricalTickLast : ComWrapper<IBApi.HistoricalTickLast>, IHistoricalTickLast
     {
         string Time

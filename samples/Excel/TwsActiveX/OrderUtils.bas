@@ -357,8 +357,8 @@ Private Sub PlaceModifyOrder( _
         .modelCode = Util.SetNonEmptyValue(extendedAttributeTable(orderIndex, Col_MODELCODE).value, .modelCode)
         .extOperator = Util.SetNonEmptyValue(extendedAttributeTable(orderIndex, Col_EXT_OPERATOR).value, .extOperator)
         Dim strTier As String
-        strTier = Util.SetNonEmptyValue(extendedAttributeTable(orderIndex, Col_SOFT_DOLLAR_TIER).value, .tier.Name & ";" & .tier.value)
-        .tier.Name = Mid$(strTier, 1, InStr(1, strTier, ";") - 1)
+        strTier = Util.SetNonEmptyValue(extendedAttributeTable(orderIndex, Col_SOFT_DOLLAR_TIER).value, .tier.name & ";" & .tier.value)
+        .tier.name = Mid$(strTier, 1, InStr(1, strTier, ";") - 1)
         .tier.value = Mid$(strTier, InStr(1, strTier, ";") + 1)
     End With
 

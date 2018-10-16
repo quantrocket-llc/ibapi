@@ -159,7 +159,7 @@ Public Sub UpdateFA(ByVal faDataType As Long, ByVal cxml As String)
     
     End Select
     
-    ScrollableMsgBox.ShowText cxml, captionStr, True, Account.Name
+    ScrollableMsgBox.ShowText cxml, captionStr, True, Account.name
 End Sub
 
 ' replace FA

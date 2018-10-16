@@ -15,7 +15,7 @@ namespace TWSLib
      * @brief class describing an instrument's definition
      * @sa ContractDetails
      */
-    [ComVisible(true)]
+    [ComVisible(true), ClassInterface(ClassInterfaceType.None)]
     public class ComContract : ComWrapper<Contract>, IContract
     {
         /**
@@ -231,7 +231,7 @@ namespace TWSLib
             get { return ComboLegs != null ? new ComComboLegList(ComboLegs) : null; }
 
             [param: MarshalAs(UnmanagedType.IDispatch)]
-            set { ComboLegs = value is ComComboLegList ? (value as ComComboLegList).Ocl : null; }
+            set { ComboLegs = value is ComComboLegList ? (value as ComComboLegList) : null; }
         }
 
         object TWSLib.IContract.deltaNeutralContract

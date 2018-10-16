@@ -16,7 +16,7 @@ namespace TWSLib
      * @brief The order's description.
      * @sa Contract, OrderComboLeg, OrderState
      */
-    [ComVisible(true)]
+    [ComVisible(true), ClassInterface(ClassInterfaceType.None)]
     public class ComOrder : ComWrapper<Order>, TWSLib.IOrder
     {        
         /**
@@ -216,7 +216,7 @@ namespace TWSLib
 
             set
             {
-                data.AlgoParams = value != null ? (value as ComTagValueList).Tvl.ConvertTo() : new List<TagValue>();
+                data.AlgoParams = value != null ? (value as ComTagValueList) : new List<TagValue>();
             }
         }
 
@@ -229,7 +229,7 @@ namespace TWSLib
 
             set
             {
-                data.SmartComboRoutingParams = value != null ? (value as ComTagValueList).Tvl.ConvertTo() : new List<TagValue>();
+                data.SmartComboRoutingParams = value != null ? (value as ComTagValueList) : new List<TagValue>();
             }
         }
 
@@ -242,7 +242,7 @@ namespace TWSLib
 
             set
             {
-                data.OrderComboLegs = value != null ? (value as TWSLib.ComOrderComboLegList).Ocl.ConvertTo() : null;
+                data.OrderComboLegs = value != null ? (value as TWSLib.ComOrderComboLegList) : null;
             }
         }
 
@@ -255,7 +255,7 @@ namespace TWSLib
 
             set
             {
-                data.OrderMiscOptions = value != null ? (value as ComTagValueList).Tvl.ConvertTo() : new List<TagValue>();
+                data.OrderMiscOptions = value != null ? (value as ComTagValueList) : new List<TagValue>();
             }
         }
 

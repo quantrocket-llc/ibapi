@@ -12,15 +12,15 @@ namespace TWSLib
     [ComVisible(true)]
     public interface IHistogramEntry
     {
-        double Price { get; set; }
-        long Size { get; set; }
+        double Price { get; }
+        int Size { get; }
     }
 
-    [ComVisible(true)]
+    [ComVisible(true), ClassInterface(ClassInterfaceType.None)]
     public class ComHistogramEntry : ComWrapper<IBApi.HistogramEntry>, IHistogramEntry
     {
-        double IHistogramEntry.Price { get { return data.Price; } set { data.Price = value; } }
-        long IHistogramEntry.Size { get { return data.Size; } set { data.Size = value; } }
+        public double Price { get { return data.Price; } }
+        public int Size { get { return (int)data.Size; } }
 
         public static explicit operator IBApi.HistogramEntry(ComHistogramEntry ctv)
         {

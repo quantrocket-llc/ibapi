@@ -15,7 +15,7 @@ namespace TWSLib
      * @brief Class describing news provider
      * @sa EClient::reqNewsProviders, EWrapper::newsProviders
      */
-    [ComVisible(true)]
+    [ComVisible(true), ClassInterface(ClassInterfaceType.None)]
     public class ComNewsProvider : ComWrapper<NewsProvider>, INewsProvider
     {
         /**

@@ -28,10 +28,10 @@ namespace TWSLib
         object Add(ComPriceIncrement cpi);
     }
 
-    [ComVisible(true)]
+    [ComVisible(true), ClassInterface(ClassInterfaceType.None)]
     public class ComPriceIncrementList : IPriceIncrementList
     {
-        public ComList<ComPriceIncrement, IBApi.PriceIncrement> PriceIncrementList { get; private set; }
+        private ComList<ComPriceIncrement, IBApi.PriceIncrement> PriceIncrementList;
 
         public ComPriceIncrementList() : this(null) { }
 

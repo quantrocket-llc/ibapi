@@ -22,10 +22,10 @@ namespace TWSLib
         object Add();
     }
 
-    [ComVisible(true)]
+    [ComVisible(true), ClassInterface(ClassInterfaceType.None)]
     public class ComOrderComboLegList : IOrderComboLegList
     {
-        public ComList<ComOrderComboLeg, IBApi.OrderComboLeg> Ocl { get; private set; }
+        private ComList<ComOrderComboLeg, IBApi.OrderComboLeg> Ocl;
 
         public ComOrderComboLegList() : this(null) { }
 
@@ -56,6 +56,11 @@ namespace TWSLib
             Ocl.Add(rval);
 
             return rval;
+        }
+
+        public static implicit operator List<IBApi.OrderComboLeg>(ComOrderComboLegList from)
+        {
+            return from.Ocl.ConvertTo();
         }
     }
 }

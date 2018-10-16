@@ -11,7 +11,6 @@ using System.Collections;
 namespace TWSLib
 {
     [ComVisible(true), Guid("66AF0F11-442F-42A2-AF44-016066AD1315")]
-
     public interface INewsProviderList
     {
         [DispId(-4)]
@@ -28,10 +27,10 @@ namespace TWSLib
         object Add(ComNewsProvider cnp);
     }
 
-    [ComVisible(true)]
+    [ComVisible(true), ClassInterface(ClassInterfaceType.None)]
     public class ComNewsProviderList : INewsProviderList
     {
-        public ComList<ComNewsProvider, IBApi.NewsProvider> Npl { get; private set; }
+        private ComList<ComNewsProvider, IBApi.NewsProvider> Npl;
 
         public ComNewsProviderList() : this(null) { }
 

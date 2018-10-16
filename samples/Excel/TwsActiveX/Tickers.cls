@@ -1625,7 +1625,7 @@ Public Sub UpdateTickersSheetWithPrice(id As Long, tickType As Long, price As Do
 End Sub
 
 ' update tickers sheet with size
-Public Sub UpdateTickersSheetWithSize(id As Long, tickType As Long, Size As Long)
+Public Sub UpdateTickersSheetWithSize(id As Long, tickType As Long, size As Long)
     
     id = id - ID_TICKERS
 
@@ -1641,41 +1641,41 @@ Public Sub UpdateTickersSheetWithSize(id As Long, tickType As Long, Size As Long
 
         Select Case tickType
             Case BID_SIZE
-                .bidSize = Size
+                .bidSize = size
             Case ASK_SIZE
-                .askSize = Size
+                .askSize = size
             Case LAST_SIZE
-                .LastSize = Size
+                .LastSize = size
             Case VOLUME_TICK
-                .VolumeTick = Size
+                .VolumeTick = size
             Case AVG_VOLUME
-                .AvgVolume = Size
+                .AvgVolume = size
             Case OPTION_CALL_OPEN_INTEREST
-                .OptCallOpenInterest = Size
+                .OptCallOpenInterest = size
             Case OPTION_PUT_OPEN_INTEREST
-                .OptPutOpenInterest = Size
+                .OptPutOpenInterest = size
             Case OPTION_CALL_VOLUME
-                .OptCallVolume = Size
+                .OptCallVolume = size
             Case OPTION_PUT_VOLUME
-                .OptPutVolume = Size
+                .OptPutVolume = size
             Case OPEN_INTEREST
-                .OpenInterest = Size
+                .OpenInterest = size
             Case AUCTION_VOLUME
-                .AuctionVolume = Size
+                .AuctionVolume = size
             Case AUCTION_IMBALANCE
-                .AuctionImbalance = Size
+                .AuctionImbalance = size
             Case DELAYED_BID_SIZE
-                .bidSize = Size
+                .bidSize = size
             Case DELAYED_ASK_SIZE
-                .askSize = Size
+                .askSize = size
             Case DELAYED_LAST_SIZE
-                .LastSize = Size
+                .LastSize = size
             Case DELAYED_VOLUME
-                .VolumeTick = Size
+                .VolumeTick = size
             Case AVG_OPT_VOLUME
-                .AvgOptVolume = Size
+                .AvgOptVolume = size
             Case SHORTABLE_SHARES
-                .ShortableShares = Size
+                .ShortableShares = size
         End Select
     End With
 

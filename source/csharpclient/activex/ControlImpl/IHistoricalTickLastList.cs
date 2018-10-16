@@ -25,10 +25,10 @@ namespace TWSLib
         object Add(ComHistoricalTickLast comHistoricalTickLast);
     }
 
-    [ComVisible(true)]
+    [ComVisible(true), ClassInterface(ClassInterfaceType.None)]
     public class ComHistoricalTickLastList : IHistoricalTickLastList
     {
-        public ComList<ComHistoricalTickLast, IBApi.HistoricalTickLast> HistoricalTickLastList { get; private set; }
+        private ComList<ComHistoricalTickLast, IBApi.HistoricalTickLast> HistoricalTickLastList;
 
         public ComHistoricalTickLastList() : this(null) { }
 

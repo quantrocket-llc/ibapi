@@ -15,7 +15,7 @@ namespace TWSLib
      * @brief extended contract details.
      * @sa Contract
      */
-    [ComVisible(true)]
+    [ComVisible(true), ClassInterface(ClassInterfaceType.None)]
     public class ComContractDetails : ComWrapper<ContractDetails>, IContractDetails
     {
         /**
