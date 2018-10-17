@@ -60,6 +60,10 @@ def read_msg(buf:bytes) -> tuple:
      
 
 def read_fields(buf:bytes) -> tuple:
+
+    if isinstance(buf, str):
+        buf = buf.encode()
+
     """ msg payload is made of fields terminated/separated by NULL chars """
     fields = buf.split(b"\0")
 
