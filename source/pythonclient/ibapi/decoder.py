@@ -10,6 +10,7 @@ It will call the corresponding method from the EWrapper so that customer's code
 (eg: class derived from EWrapper) can make further use of the data.
 """
 
+import logging
 
 from ibapi import order_condition
 from ibapi.message import IN
@@ -25,6 +26,10 @@ from ibapi.tag_value import TagValue
 from ibapi.scanner import ScanData
 from ibapi.errors import BAD_MESSAGE
 from ibapi.common import * # @UnusedWildImport
+
+
+logger = logging.getLogger(__name__)
+
 
 class HandleInfo(Object):
     def __init__(self, wrap=None, proc=None):
@@ -1342,33 +1347,33 @@ class Decoder(Object):
 
         methods = inspect.getmembers(EWrapper, inspect.isfunction)
         for (_, meth) in methods:
-            #logging.debug("meth %s", name)
+            #logger.debug("meth %s", name)
             sig = inspect.signature(meth)
             handleInfo = meth2handleInfo.get(meth, None)
             if handleInfo is not None:
                 handleInfo.wrapperParams = sig.parameters
 
             #for (pname, param) in sig.parameters.items():
-            #     logging.debug("\tparam %s %s %s", pname, param.name, param.annotation)
+            #     logger.debug("\tparam %s %s %s", pname, param.name, param.annotation)
 
 
     def printParams(self):
         for (_, handleInfo) in self.msgId2handleInfo.items():
             if handleInfo.wrapperMeth is not None:
-                logging.debug("meth %s", handleInfo.wrapperMeth.__name__)
+                logger.debug("meth %s", handleInfo.wrapperMeth.__name__)
                 if handleInfo.wrapperParams is not None:
                     for (pname, param) in handleInfo.wrapperParams.items():
-                        logging.debug("\tparam %s %s %s", pname, param.name, param.annotation)
+                        logger.debug("\tparam %s %s %s", pname, param.name, param.annotation)
 
 
     def interpretWithSignature(self, fields, handleInfo):
         if handleInfo.wrapperParams is None:
-            logging.debug("%s: no param info in", fields, handleInfo)
+            logger.debug("%s: no param info in %s", fields, handleInfo)
             return
 
         nIgnoreFields = 2 #bypass msgId and versionId faster this way
         if len(fields) - nIgnoreFields != len(handleInfo.wrapperParams) - 1:
-            logging.error("diff len fields and params %d %d for fields: %s and handleInfo: %s",
+            logger.error("diff len fields and params %d %d for fields: %s and handleInfo: %s",
                          len(fields), len(handleInfo.wrapperParams), fields,
                          handleInfo)
             return
@@ -1377,12 +1382,12 @@ class Decoder(Object):
         args = []
         for (pname, param) in handleInfo.wrapperParams.items():
             if pname != "self":
-                logging.debug("field %s ", fields[fieldIdx])
+                logger.debug("field %s ", fields[fieldIdx])
                 try:
                     arg = fields[fieldIdx].decode('UTF-8')
                 except UnicodeDecodeError:
                     arg = fields[fieldIdx].decode('latin-1')
-                logging.debug("arg %s type %s", arg, param.annotation)
+                logger.debug("arg %s type %s", arg, param.annotation)
                 if param.annotation is int:
                     arg = int(arg)
                 elif param.annotation is float:
@@ -1392,12 +1397,12 @@ class Decoder(Object):
                 fieldIdx += 1
 
         method = getattr(self.wrapper, handleInfo.wrapperMeth.__name__)
-        logging.debug("calling %s with %s %s", method, self.wrapper, args)
+        logger.debug("calling %s with %s %s", method, self.wrapper, args)
         method(*args)
 
     def interpret(self, fields):
         if len(fields) == 0:
-            logging.debug("no fields")
+            logger.debug("no fields")
             return
 
         sMsgId = fields[0]
@@ -1406,12 +1411,12 @@ class Decoder(Object):
         handleInfo = self.msgId2handleInfo.get(nMsgId, None)
 
         if handleInfo is None:
-            logging.debug("%s: no handleInfo", fields)
+            logger.debug("%s: no handleInfo", fields)
             return
 
         try:
             if handleInfo.wrapperMeth is not None:
-                logging.debug("In interpret(), handleInfo: %s", handleInfo)
+                logger.debug("In interpret(), handleInfo: %s", handleInfo)
                 self.interpretWithSignature(fields, handleInfo)
             elif handleInfo.processMeth is not None:
                 handleInfo.processMeth(self, iter(fields))
