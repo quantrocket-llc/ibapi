@@ -33,6 +33,8 @@ from ibapi.server_versions import * # @UnusedWildImport
 
 #TODO: use pylint
 
+logger = logging.getLogger(__name__)
+
 
 class EClient(object):
     (DISCONNECTED, CONNECTING, CONNECTED, REDIRECT) = range(4)
@@ -67,23 +69,23 @@ class EClient(object):
     def setConnState(self, connState):
         _connState = self.connState
         self.connState = connState
-        logging.debug("%s connState: %s -> %s" % (id(self), _connState,
+        logger.debug("%s connState: %s -> %s" % (id(self), _connState,
                                                  self.connState))
 
     def sendMsg(self, msg):
         full_msg = comm.make_msg(msg)
-        logging.info("%s %s %s", "SENDING", current_fn_name(1), full_msg)
+        logger.info("%s %s %s", "SENDING", current_fn_name(1), full_msg)
         self.conn.sendMsg(full_msg)
 
 
     def logRequest(self, fnName, fnParams):
-        if logging.getLogger().isEnabledFor(logging.INFO):
+        if logger.isEnabledFor(logging.INFO):
             if 'self' in fnParams:
                 prms = dict(fnParams)
                 del prms['self']
             else:
                 prms = fnParams
-            logging.info("REQUEST %s %s" % (fnName, prms))
+            logger.info("REQUEST %s %s" % (fnName, prms))
 
 
     def startApi(self):
@@ -128,7 +130,7 @@ class EClient(object):
             self.host = host
             self.port = port
             self.clientId = clientId
-            logging.debug("Connecting to %s:%d w/ id:%d", self.host, self.port, self.clientId)
+            logger.debug("Connecting to %s:%d w/ id:%d", self.host, self.port, self.clientId)
 
             self.conn = Connection(self.host, self.port)
 
@@ -141,9 +143,9 @@ class EClient(object):
             v100version = "v%d..%d" % (MIN_CLIENT_VER, MAX_CLIENT_VER)
             #v100version = "v%d..%d" % (MIN_CLIENT_VER, 101)
             msg = comm.make_msg(v100version)
-            logging.debug("msg %s", msg)
+            logger.debug("msg %s", msg)
             msg2 = str.encode(v100prefix, 'ascii') + msg
-            logging.debug("REQUEST %s", msg2)
+            logger.debug("REQUEST %s", msg2)
             self.conn.sendMsg(msg2)
 
             self.decoder = decoder.Decoder(self.wrapper, self.serverVersion())
@@ -153,18 +155,18 @@ class EClient(object):
             while len(fields) != 2:
                 self.decoder.interpret(fields)
                 buf = self.conn.recvMsg()
-                logging.debug("ANSWER %s", buf)
+                logger.debug("ANSWER %s", buf)
                 if len(buf) > 0:
                     (size, msg, rest) = comm.read_msg(buf)
-                    logging.debug("size:%d msg:%s rest:%s|", size, msg, rest)
+                    logger.debug("size:%d msg:%s rest:%s|", size, msg, rest)
                     fields = comm.read_fields(msg)
-                    logging.debug("fields %s", fields)
+                    logger.debug("fields %s", fields)
                 else:
                     fields = []
 
             (server_version, conn_time) = fields
             server_version = int(server_version)
-            logging.debug("ANSWER Version:%d time:%s", server_version, conn_time)
+            logger.debug("ANSWER Version:%d time:%s", server_version, conn_time)
             self.connTime = conn_time
             self.serverVersion_ = server_version
             self.decoder.serverVersion = self.serverVersion()
@@ -173,13 +175,13 @@ class EClient(object):
 
             self.reader = reader.EReader(self.conn, self.msg_queue)
             self.reader.start()   # start thread
-            logging.info("sent startApi")
+            logger.info("sent startApi")
             self.startApi()
             self.wrapper.connectAck()
         except socket.error:
             if self.wrapper:
                 self.wrapper.error(NO_VALID_ID, CONNECT_FAIL.code(), CONNECT_FAIL.msg())
-            logging.info("could not connect")
+            logger.info("could not connect")
             self.disconnect()
             self.done = True
 
@@ -191,7 +193,7 @@ class EClient(object):
 
         self.setConnState(EClient.DISCONNECTED)
         if self.conn is not None:
-            logging.info("disconnecting")
+            logger.info("disconnecting")
             self.conn.disconnect()
             self.wrapper.connectionClosed()
             self.reset()
@@ -200,7 +202,7 @@ class EClient(object):
     def isConnected(self):
         """Call this function to check if there is a connection with TWS"""
 
-        logging.debug("%s isConn: %s" % (id(self), self.connState))
+        logger.debug("%s isConn: %s" % (id(self), self.connState))
         return EClient.CONNECTED == self.connState
 
     def keyboardInterrupt(self):
@@ -224,7 +226,7 @@ class EClient(object):
                 if time.time() - timeStart > timeOut: # stop application after timeout
                     self.keyboardInterrupt()
                     self.keyboardInterruptHard()
-                
+
                 try:
                     try:
                         text = self.msg_queue.get(block=True, timeout=0.2)
@@ -234,20 +236,20 @@ class EClient(object):
                             self.disconnect()
                             break
                     except queue.Empty:
-                        logging.debug("queue.get: empty")
+                        logger.debug("queue.get: empty")
                     else:
                         fields = comm.read_fields(text)
-                        logging.debug("fields %s", fields)
+                        logger.debug("fields %s", fields)
                         self.decoder.interpret(fields)
                 except (KeyboardInterrupt, SystemExit):
-                    logging.info("detected KeyboardInterrupt, SystemExit")
+                    logger.info("detected KeyboardInterrupt, SystemExit")
                     self.keyboardInterrupt()
                     self.keyboardInterruptHard()
                 except BadMessage:
-                    logging.info("BadMessage")
+                    logger.info("BadMessage")
                     self.conn.disconnect()
 
-                logging.debug("conn:%d queue.sz:%d",
+                logger.debug("conn:%d queue.sz:%d",
                              self.isConnected(),
                              self.msg_queue.qsize())
         finally:
@@ -1033,7 +1035,7 @@ class EClient(object):
 
         if self.serverVersion() < MIN_SERVER_VER_ORDER_CONTAINER:
             flds += [make_field(VERSION)]
-            
+
         flds += [make_field(orderId)]
 
         # send contract fields
@@ -2586,10 +2588,10 @@ class EClient(object):
 
         flds = []
         flds += [make_field(OUT.REQ_SCANNER_SUBSCRIPTION)]
-        
+
         if self.serverVersion() < MIN_SERVER_VER_SCANNER_GENERIC_OPTS:
             flds += [make_field(VERSION)]
-                 
+
         flds +=[make_field(reqId),
             make_field_handle_empty(subscription.numberOfRows),
             make_field(subscription.instrument),

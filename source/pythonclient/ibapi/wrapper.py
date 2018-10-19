@@ -19,6 +19,8 @@ server and client.
 
 """
 
+import logging
+
 from ibapi.common import * # @UnusedWildImport
 from ibapi.utils import * # @UnusedWildImport
 from ibapi.contract import (Contract, ContractDetails, DeltaNeutralContract)
@@ -29,18 +31,21 @@ from ibapi.ticktype import * # @UnusedWildImport
 from ibapi.commission_report import CommissionReport
 
 
+logger = logging.getLogger(__name__)
+
+
 class EWrapper:
     def __init__(self):
         pass
 
     def logAnswer(self, fnName, fnParams):
-        if logging.getLogger().isEnabledFor(logging.INFO):
+        if logger.isEnabledFor(logging.INFO):
             if 'self' in fnParams:
                 prms = dict(fnParams)
                 del prms['self']
             else:
                 prms = fnParams
-            logging.info("ANSWER %s %s", fnName, prms)
+            logger.info("ANSWER %s %s", fnName, prms)
 
 
     def error(self, reqId:TickerId, errorCode:int, errorString:str):
@@ -48,7 +53,7 @@ class EWrapper:
         communication or when TWS wants to send a message to the client."""
 
         self.logAnswer(current_fn_name(), vars())
-        logging.error("ERROR %s %s %s", reqId, errorCode, errorString)
+        logger.error("ERROR %s %s %s", reqId, errorCode, errorString)
 
 
     def winError(self, text:str, lastError:int):

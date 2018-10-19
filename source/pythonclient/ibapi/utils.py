@@ -13,8 +13,11 @@ import sys
 import logging
 import inspect
 
-
 from ibapi.common import UNSET_INTEGER, UNSET_DOUBLE
+
+
+logger = logging.getLogger(__name__)
+
 
 # I use this just to visually emphasize it's a wrapper overriden method
 def iswrapper(fn):
@@ -33,14 +36,14 @@ class LogFunction(object):
 
     def __call__(self, fn):
         def newFn(origSelf, *args, **kwargs):
-            if logging.getLogger().isEnabledFor(self.logLevel):
+            if logger.getLogger().isEnabledFor(self.logLevel):
                 argNames = [argName for argName in inspect.getfullargspec(fn)[0] if argName != 'self']
-                logging.log(self.logLevel, 
-                    "{} {} {} kw:{}".format(self.text, fn.__name__, 
+                logger.log(self.logLevel,
+                    "{} {} {} kw:{}".format(self.text, fn.__name__,
                         [nameNarg for nameNarg in zip(argNames, args) if nameNarg[1] is not origSelf], kwargs))
             fn(origSelf, *args)
         return newFn
- 
+
 
 def current_fn_name(parent_idx = 0):
     #depth is 1 bc this is already a fn, so we need the caller
@@ -49,7 +52,7 @@ def current_fn_name(parent_idx = 0):
 
 def setattr_log(self, var_name, var_value):
     #import code; code.interact(local=locals())
-    logging.debug("%s %s %s=|%s|", self.__class__, id(self), var_name, var_value)
+    logger.debug("%s %s %s=|%s|", self.__class__, id(self), var_name, var_value)
     super(self.__class__, self).__setattr__(var_name, var_value)
 
 
@@ -60,7 +63,7 @@ def decode(the_type, fields, show_unset = False):
     except StopIteration:
         raise BadMessage("no more fields")
 
-    logging.debug("decode %s %s", the_type, s)
+    logger.debug("decode %s %s", the_type, s)
 
     if the_type is str:
         if type(s) is str:
@@ -69,11 +72,11 @@ def decode(the_type, fields, show_unset = False):
             return s.decode()
         else:
             raise TypeError("unsupported incoming type " + type(s) + " for desired type 'str")
-    
+
     orig_type = the_type
     if the_type is bool:
         the_type = int
-        
+
     if show_unset:
         if s is None or len(s) == 0:
             if the_type is float:
@@ -95,7 +98,7 @@ def decode(the_type, fields, show_unset = False):
 
 
 def ExerciseStaticMethods(klass):
-    
+
     import types
     #import code; code.interact(local=dict(globals(), **locals()))
     for (_, var) in inspect.getmembers(klass):
@@ -104,9 +107,9 @@ def ExerciseStaticMethods(klass):
             print("Exercising: %s:" % var)
             print(var())
             print()
-  
+
 def floatToStr(val):
     return str(val) if val != UNSET_DOUBLE else "";
 
 
- 
+
