@@ -206,6 +206,7 @@ public class Order {
     private boolean m_dontUseAutoPriceForHedge;
     
     private boolean m_isOmsContainer;
+    private boolean m_discretionaryUpToLimitPrice;
 	
 	// getters
     public Action  action()                         { return Action.get(m_action); }
@@ -339,6 +340,7 @@ public class Order {
     public String mifid2ExecutionAlgo()             { return m_mifid2ExecutionAlgo; }
     public boolean dontUseAutoPriceForHedge()       { return m_dontUseAutoPriceForHedge; }
     public boolean isOmsContainer()                 { return m_isOmsContainer; }
+    public boolean discretionaryUpToLimitPrice()    { return m_discretionaryUpToLimitPrice; }
   
 	// setters
 	public void referenceContractId(int m_referenceContractId)          { this.m_referenceContractId = m_referenceContractId; }
@@ -473,6 +475,7 @@ public class Order {
     public void mifid2ExecutionAlgo(String v)                           { m_mifid2ExecutionAlgo = v; }
     public void dontUseAutoPriceForHedge(boolean v)                     { m_dontUseAutoPriceForHedge = v; }
     public void isOmsContainer(boolean v)                               { m_isOmsContainer = v; }
+    public void discretionaryUpToLimitPrice(boolean v)                  { m_discretionaryUpToLimitPrice = v; }
 
 
     public Order() {
@@ -509,6 +512,7 @@ public class Order {
         m_softDollarTier = new SoftDollarTier(EMPTY_STR, EMPTY_STR, EMPTY_STR);
         m_dontUseAutoPriceForHedge = false;
         m_isOmsContainer = false;
+        m_discretionaryUpToLimitPrice = false;
     }
 
     public List<TagValue> algoParams() {
@@ -604,7 +608,8 @@ public class Order {
         	|| !m_softDollarTier.equals(l_theOther.m_softDollarTier)
         	|| m_cashQty != l_theOther.m_cashQty
         	|| m_dontUseAutoPriceForHedge != l_theOther.m_dontUseAutoPriceForHedge
-        	|| m_isOmsContainer != l_theOther.m_isOmsContainer) {
+        	|| m_isOmsContainer != l_theOther.m_isOmsContainer
+        	|| m_discretionaryUpToLimitPrice != l_theOther.m_discretionaryUpToLimitPrice) {
         	return false;
         }
 

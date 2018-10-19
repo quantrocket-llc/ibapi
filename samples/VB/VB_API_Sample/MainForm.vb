@@ -2578,6 +2578,8 @@ Friend Class MainForm
         m_utils.addListItem(Utils.ListType.ServerResponses, "  randomize price=" & order.RandomizePrice)
 
         m_utils.addListItem(Utils.ListType.ServerResponses, "  dontUseAutoPriceForHedge=" & order.DontUseAutoPriceForHedge)
+        m_utils.addListItem(Utils.ListType.ServerResponses, "  isOmsContainer=" & order.IsOmsContainer)
+        m_utils.addListItem(Utils.ListType.ServerResponses, "  discretionaryUpToLimitPrice=" & order.DiscretionaryUpToLimitPrice)
 
         ' ALGO orders only
         Dim algoStrategy = order.AlgoStrategy

@@ -1343,6 +1343,9 @@ class EClient(object):
         if self.serverVersion() >= MIN_SERVER_VER_ORDER_CONTAINER:
             flds.append(make_field(order.isOmsContainer))
 
+        if self.serverVersion() >= MIN_SERVER_VER_D_PEG_ORDERS:
+            flds.append(make_field(order.discretionaryUpToLimitPrice))
+
         msg = "".join(flds)
         self.sendMsg(msg)
 

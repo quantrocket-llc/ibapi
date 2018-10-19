@@ -716,6 +716,10 @@ const char* EDecoder::processOpenOrderMsg(const char* ptr, const char* endPtr) {
         DECODE_FIELD(order.isOmsContainer);
     }
 
+    if (m_serverVersion >= MIN_SERVER_VER_D_PEG_ORDERS) {
+        DECODE_FIELD(order.discretionaryUpToLimitPrice);
+    }
+
 	m_pEWrapper->openOrder((OrderId)order.orderId, contract, order, orderState);
 
 	return ptr;

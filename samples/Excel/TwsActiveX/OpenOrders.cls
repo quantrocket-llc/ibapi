@@ -191,6 +191,8 @@ Sub UpdateOpenOrder(orderId As Long, contract As TWSLib.IContract, order As TWSL
         ExtendedAttributesTable(rowId, Col_MODELCODE).value = .modelCode
         ExtendedAttributesTable(rowId, Col_EXT_OPERATOR).value = .extOperator
         ExtendedAttributesTable(rowId, Col_SOFT_DOLLAR_TIER).value = .tier.name & ";" & .tier.value
+        ExtendedAttributesTable(rowId, Col_IS_OMS_CONTAINER).value = .isOmsContainer
+        ExtendedAttributesTable(rowId, Col_RELATIVE_DISCRETIONARY).value = .discretionaryUpToLimitPrice
     End With
     
     Dim tempStr As String

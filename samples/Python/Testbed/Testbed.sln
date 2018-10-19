@@ -1,0 +1,24 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.16
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "Testbed", "Testbed.pyproj", "{CDE8F229-C826-4FB6-AC32-ECF05A7FC489}"
+EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "ibapi", "..\..\..\source\pythonclient\ibapi\ibapi.pyproj", "{AA7DF1C2-6D30-4556-B6D5-A188F972BBDD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CDE8F229-C826-4FB6-AC32-ECF05A7FC489}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CDE8F229-C826-4FB6-AC32-ECF05A7FC489}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA7DF1C2-6D30-4556-B6D5-A188F972BBDD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA7DF1C2-6D30-4556-B6D5-A188F972BBDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

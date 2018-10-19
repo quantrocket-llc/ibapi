@@ -284,9 +284,10 @@ public abstract class EClient {
     protected static final int MIN_SERVER_VER_ORDER_CONTAINER = 145;
     protected static final int MIN_SERVER_VER_SMART_DEPTH = 146;
     protected static final int MIN_SERVER_VER_REMOVE_NULL_ALL_CASTING = 147;
+    protected static final int MIN_SERVER_VER_D_PEG_ORDERS = 148;
     
     public static final int MIN_VERSION = 100; // envelope encoding, applicable to useV100Plus mode only
-    public static final int MAX_VERSION = MIN_SERVER_VER_REMOVE_NULL_ALL_CASTING; // ditto
+    public static final int MAX_VERSION = MIN_SERVER_VER_D_PEG_ORDERS; // ditto
 
     protected EReaderSignal m_signal;
     protected EWrapper m_eWrapper;    // msg handler
@@ -1566,6 +1567,13 @@ public abstract class EClient {
                     "  It does not support oms container parameter.");
             return;           
         }
+        
+        if (m_serverVersion < MIN_SERVER_VER_D_PEG_ORDERS
+                && order.discretionaryUpToLimitPrice()) {
+            error(id, EClientErrors.UPDATE_TWS,
+                    "  It does not support D-Peg orders.");
+            return;           
+        }
 
 
         int VERSION = (m_serverVersion < MIN_SERVER_VER_NOT_HELD) ? 27 : 45;
@@ -1982,6 +1990,10 @@ public abstract class EClient {
            
            if (m_serverVersion >= MIN_SERVER_VER_ORDER_CONTAINER) {
                b.send(order.isOmsContainer());
+           }
+           
+           if (m_serverVersion >= MIN_SERVER_VER_D_PEG_ORDERS) {
+               b.send(order.discretionaryUpToLimitPrice());
            }
 
            closeAndSend(b);

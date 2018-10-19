@@ -1443,6 +1443,13 @@ void EClient::placeOrder( OrderId id, const Contract& contract, const Order& ord
             return;
     }
 
+    if (m_serverVersion < MIN_SERVER_VER_D_PEG_ORDERS 
+        && order.discretionaryUpToLimitPrice) {
+            m_pEWrapper->error(id, UPDATE_TWS.code(), UPDATE_TWS.msg() +
+                " It does not support D-Peg orders");
+            return;
+    }
+
     std::stringstream msg;
     prepareBuffer( msg);
 
@@ -1849,6 +1856,10 @@ void EClient::placeOrder( OrderId id, const Contract& contract, const Order& ord
 
     if (m_serverVersion >= MIN_SERVER_VER_ORDER_CONTAINER) {
         ENCODE_FIELD(order.isOmsContainer);
+    }
+
+    if (m_serverVersion >= MIN_SERVER_VER_D_PEG_ORDERS) {
+        ENCODE_FIELD(order.discretionaryUpToLimitPrice);
     }
 
     closeAndSend( msg.str());

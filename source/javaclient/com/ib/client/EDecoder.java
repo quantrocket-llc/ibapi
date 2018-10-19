@@ -1711,6 +1711,10 @@ class EDecoder implements ObjectInput {
 		    order.isOmsContainer(readBoolFromInt());
 		}
 		
+		if (m_serverVersion >= EClient.MIN_SERVER_VER_D_PEG_ORDERS) {
+		    order.discretionaryUpToLimitPrice(readBoolFromInt());
+		}
+		
 		m_EWrapper.openOrder(order.orderId(), contract, order, orderState);
 	}
 

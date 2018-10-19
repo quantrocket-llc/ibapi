@@ -357,5 +357,6 @@ namespace TWSLib
         string TWSLib.IOrder.mifid2ExecutionAlgo { get { return data.Mifid2ExecutionAlgo; } set { data.Mifid2ExecutionAlgo = value; } }
         bool TWSLib.IOrder.dontUseAutoPriceForHedge { get { return data.DontUseAutoPriceForHedge; } set { data.DontUseAutoPriceForHedge = value; } }
         bool TWSLib.IOrder.isOmsContainer { get { return data.IsOmsContainer; } set { data.IsOmsContainer = value; } }
+        bool TWSLib.IOrder.discretionaryUpToLimitPrice { get { return data.DiscretionaryUpToLimitPrice; } set { data.DiscretionaryUpToLimitPrice = value; } }
     }
 }

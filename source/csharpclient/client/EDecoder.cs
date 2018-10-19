@@ -1795,6 +1795,11 @@ namespace IBApi
                 order.IsOmsContainer = ReadBoolFromInt();
             }
 
+            if (serverVersion >= MinServerVer.D_PEG_ORDERS)
+            {
+                order.DiscretionaryUpToLimitPrice = ReadBoolFromInt();
+            }
+
             eWrapper.openOrder(order.OrderId, contract, order, orderState);
         }
 

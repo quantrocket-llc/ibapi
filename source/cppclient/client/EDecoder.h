@@ -103,12 +103,13 @@ const int MIN_SERVER_VER_API_BIND_ORDER             = 144;
 const int MIN_SERVER_VER_ORDER_CONTAINER            = 145;
 const int MIN_SERVER_VER_SMART_DEPTH                = 146;
 const int MIN_SERVER_VER_REMOVE_NULL_ALL_CASTING    = 147;
+const int MIN_SERVER_VER_D_PEG_ORDERS               = 148;
 
 /* 100+ messaging */
 // 100 = enhanced handshake, msg length prefixes
 
 const int MIN_CLIENT_VER = 100;
-const int MAX_CLIENT_VER = MIN_SERVER_VER_REMOVE_NULL_ALL_CASTING;
+const int MAX_CLIENT_VER = MIN_SERVER_VER_D_PEG_ORDERS;
 
 
 // incoming msg id's

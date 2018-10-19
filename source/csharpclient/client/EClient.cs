@@ -1163,6 +1163,11 @@ namespace IBApi
                 paramsList.AddParameter(order.IsOmsContainer);
             }
 
+            if (serverVersion >= MinServerVer.D_PEG_ORDERS)
+            {
+                paramsList.AddParameter(order.DiscretionaryUpToLimitPrice);
+            }
+
             CloseAndSend(id, paramsList, lengthPos, EClientErrors.FAIL_SEND_ORDER);
         }
 
@@ -3431,6 +3436,11 @@ namespace IBApi
             if (serverVersion < MinServerVer.ORDER_CONTAINER && order.IsOmsContainer)
             {
                 ReportError(id, EClientErrors.UPDATE_TWS, " It does not support oms container parameter.");
+            }
+
+            if (serverVersion < MinServerVer.D_PEG_ORDERS && order.DiscretionaryUpToLimitPrice)
+            {
+                ReportError(id, EClientErrors.UPDATE_TWS, " It does not support D-Peg orders.");
             }
 
             return true;
