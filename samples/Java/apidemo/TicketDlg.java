@@ -407,6 +407,7 @@ class TicketDlg extends JDialog {
 		final JCheckBox m_optOutSmartRouting = new JCheckBox();
         final JCheckBox m_dontUseAutoPriceForHedge = new JCheckBox();
         final JCheckBox m_omsContainer = new JCheckBox();
+        final JCheckBox m_discretionaryUpToLimitPrice = new JCheckBox();
 		
 		
 
@@ -436,6 +437,7 @@ class TicketDlg extends JDialog {
 			left.add("Hidden", m_hidden);
 			left.add("Fill outside RTH", m_outsideRth);
 			left.add("All-or-none", m_allOrNone);
+            left.add("Relative discretionary", m_discretionaryUpToLimitPrice);
 
 			VerticalPanel right = new VerticalPanel();
 			right.add("Override constraints", m_overrideConstraints);
@@ -487,6 +489,7 @@ class TicketDlg extends JDialog {
 			m_softDollarTiers.removeAllItems();
 			m_dontUseAutoPriceForHedge.setSelected( m_order.dontUseAutoPriceForHedge());
 			m_omsContainer.setSelected(m_order.isOmsContainer());
+			m_discretionaryUpToLimitPrice.setSelected(m_order.discretionaryUpToLimitPrice());
 			
 			ApiDemo.INSTANCE.controller().reqSoftDollarTiers(tiers -> {
                 m_softDollarTiers.invalidate();
@@ -531,6 +534,7 @@ class TicketDlg extends JDialog {
 			m_order.softDollarTier(m_softDollarTiers.getSelectedItem());
 			m_order.dontUseAutoPriceForHedge( m_dontUseAutoPriceForHedge.isSelected() );
 			m_order.isOmsContainer(m_omsContainer.isSelected());
+			m_order.discretionaryUpToLimitPrice(m_discretionaryUpToLimitPrice.isSelected());
 		}
 	}
 	

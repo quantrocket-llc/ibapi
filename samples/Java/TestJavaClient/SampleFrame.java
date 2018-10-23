@@ -1506,6 +1506,7 @@ class SampleFrame extends JFrame implements EWrapper {
         destOrder.mifid2ExecutionAlgo(srcOrder.mifid2ExecutionAlgo());
         destOrder.dontUseAutoPriceForHedge(srcOrder.dontUseAutoPriceForHedge());
         destOrder.isOmsContainer(srcOrder.isOmsContainer());
+        destOrder.discretionaryUpToLimitPrice(srcOrder.discretionaryUpToLimitPrice());
     }
 
     public void position(String account, Contract contract, double pos, double avgCost) {

@@ -78,6 +78,7 @@ namespace IBSampleApp
             this.contractCurrency = new System.Windows.Forms.TextBox();
             this.contractExchange = new System.Windows.Forms.TextBox();
             this.extendedOrderTab = new System.Windows.Forms.TabPage();
+            this.omsContainer = new System.Windows.Forms.CheckBox();
             this.dontUseAutoPriceForHedge = new System.Windows.Forms.CheckBox();
             this.label22 = new System.Windows.Forms.Label();
             this.mifid2ExecutionAlgo = new System.Windows.Forms.TextBox();
@@ -220,7 +221,6 @@ namespace IBSampleApp
             this.label6 = new System.Windows.Forms.Label();
             this.tbStartingPrice = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.contractSearchControl1 = new IBSampleApp.ui.ContractSearchControl();
             this.adjustStopTab = new System.Windows.Forms.TabPage();
             this.label16 = new System.Windows.Forms.Label();
             this.cbAdjustedTrailingAmntUnit = new System.Windows.Forms.ComboBox();
@@ -242,13 +242,14 @@ namespace IBSampleApp
             this.Logic = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.lbAddCondition = new System.Windows.Forms.LinkLabel();
             this.lbRemoveCondition = new System.Windows.Forms.LinkLabel();
+            this.contractSearchControl1 = new IBSampleApp.ui.ContractSearchControl();
             this.sendOrderButton = new System.Windows.Forms.Button();
             this.textBox6 = new System.Windows.Forms.TextBox();
             this.textBox7 = new System.Windows.Forms.TextBox();
             this.textBox8 = new System.Windows.Forms.TextBox();
             this.checkMarginButton = new System.Windows.Forms.Button();
             this.closeOrderDialogButton = new System.Windows.Forms.Button();
-            this.omsContainer = new System.Windows.Forms.CheckBox();
+            this.relativeDiscretionary = new System.Windows.Forms.CheckBox();
             this.conditionsTab.SuspendLayout();
             this.orderContractTab.SuspendLayout();
             this.baseGroup.SuspendLayout();
@@ -289,7 +290,7 @@ namespace IBSampleApp
             this.conditionsTab.Location = new System.Drawing.Point(1, 1);
             this.conditionsTab.Name = "conditionsTab";
             this.conditionsTab.SelectedIndex = 0;
-            this.conditionsTab.Size = new System.Drawing.Size(628, 363);
+            this.conditionsTab.Size = new System.Drawing.Size(633, 363);
             this.conditionsTab.TabIndex = 1;
             // 
             // orderContractTab
@@ -767,6 +768,7 @@ namespace IBSampleApp
             // extendedOrderTab
             // 
             this.extendedOrderTab.BackColor = System.Drawing.Color.LightGray;
+            this.extendedOrderTab.Controls.Add(this.relativeDiscretionary);
             this.extendedOrderTab.Controls.Add(this.omsContainer);
             this.extendedOrderTab.Controls.Add(this.dontUseAutoPriceForHedge);
             this.extendedOrderTab.Controls.Add(this.label22);
@@ -821,15 +823,28 @@ namespace IBSampleApp
             this.extendedOrderTab.Location = new System.Drawing.Point(4, 22);
             this.extendedOrderTab.Name = "extendedOrderTab";
             this.extendedOrderTab.Padding = new System.Windows.Forms.Padding(3);
-            this.extendedOrderTab.Size = new System.Drawing.Size(620, 337);
+            this.extendedOrderTab.Size = new System.Drawing.Size(625, 337);
             this.extendedOrderTab.TabIndex = 1;
             this.extendedOrderTab.Text = "Extended Attributes";
             // 
+            // omsContainer
+            // 
+            this.omsContainer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.omsContainer.AutoSize = true;
+            this.omsContainer.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.omsContainer.Location = new System.Drawing.Point(442, 254);
+            this.omsContainer.Name = "omsContainer";
+            this.omsContainer.Size = new System.Drawing.Size(98, 17);
+            this.omsContainer.TabIndex = 50;
+            this.omsContainer.Text = "OMS Container";
+            this.omsContainer.UseVisualStyleBackColor = true;
+            // 
             // dontUseAutoPriceForHedge
             // 
+            this.dontUseAutoPriceForHedge.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.dontUseAutoPriceForHedge.AutoSize = true;
             this.dontUseAutoPriceForHedge.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.dontUseAutoPriceForHedge.Location = new System.Drawing.Point(366, 231);
+            this.dontUseAutoPriceForHedge.Location = new System.Drawing.Point(371, 231);
             this.dontUseAutoPriceForHedge.Name = "dontUseAutoPriceForHedge";
             this.dontUseAutoPriceForHedge.Size = new System.Drawing.Size(169, 17);
             this.dontUseAutoPriceForHedge.TabIndex = 45;
@@ -919,8 +934,9 @@ namespace IBSampleApp
             // 
             // nbboPriceCapLabel
             // 
+            this.nbboPriceCapLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.nbboPriceCapLabel.AutoSize = true;
-            this.nbboPriceCapLabel.Location = new System.Drawing.Point(308, 93);
+            this.nbboPriceCapLabel.Location = new System.Drawing.Point(313, 93);
             this.nbboPriceCapLabel.Name = "nbboPriceCapLabel";
             this.nbboPriceCapLabel.Size = new System.Drawing.Size(84, 13);
             this.nbboPriceCapLabel.TabIndex = 32;
@@ -937,11 +953,12 @@ namespace IBSampleApp
             // 
             // transmit
             // 
+            this.transmit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.transmit.AutoSize = true;
             this.transmit.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.transmit.Checked = true;
             this.transmit.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.transmit.Location = new System.Drawing.Point(544, 118);
+            this.transmit.Location = new System.Drawing.Point(549, 118);
             this.transmit.Name = "transmit";
             this.transmit.Size = new System.Drawing.Size(66, 17);
             this.transmit.TabIndex = 36;
@@ -950,9 +967,10 @@ namespace IBSampleApp
             // 
             // firmQuote
             // 
+            this.firmQuote.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.firmQuote.AutoSize = true;
             this.firmQuote.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.firmQuote.Location = new System.Drawing.Point(438, 185);
+            this.firmQuote.Location = new System.Drawing.Point(443, 185);
             this.firmQuote.Name = "firmQuote";
             this.firmQuote.Size = new System.Drawing.Size(97, 17);
             this.firmQuote.TabIndex = 42;
@@ -961,9 +979,10 @@ namespace IBSampleApp
             // 
             // overrideConstraints
             // 
+            this.overrideConstraints.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.overrideConstraints.AutoSize = true;
             this.overrideConstraints.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.overrideConstraints.Location = new System.Drawing.Point(415, 141);
+            this.overrideConstraints.Location = new System.Drawing.Point(420, 141);
             this.overrideConstraints.Name = "overrideConstraints";
             this.overrideConstraints.Size = new System.Drawing.Size(120, 17);
             this.overrideConstraints.TabIndex = 38;
@@ -972,8 +991,9 @@ namespace IBSampleApp
             // 
             // label5
             // 
+            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(286, 67);
+            this.label5.Location = new System.Drawing.Point(291, 67);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(106, 13);
             this.label5.TabIndex = 30;
@@ -981,9 +1001,10 @@ namespace IBSampleApp
             // 
             // eTrade
             // 
+            this.eTrade.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.eTrade.AutoSize = true;
             this.eTrade.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.eTrade.Location = new System.Drawing.Point(453, 164);
+            this.eTrade.Location = new System.Drawing.Point(458, 164);
             this.eTrade.Name = "eTrade";
             this.eTrade.Size = new System.Drawing.Size(82, 17);
             this.eTrade.TabIndex = 40;
@@ -992,9 +1013,10 @@ namespace IBSampleApp
             // 
             // optOutSmart
             // 
+            this.optOutSmart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.optOutSmart.AutoSize = true;
             this.optOutSmart.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.optOutSmart.Location = new System.Drawing.Point(398, 208);
+            this.optOutSmart.Location = new System.Drawing.Point(403, 208);
             this.optOutSmart.Name = "optOutSmart";
             this.optOutSmart.Size = new System.Drawing.Size(137, 17);
             this.optOutSmart.TabIndex = 44;
@@ -1003,7 +1025,8 @@ namespace IBSampleApp
             // 
             // nbboPriceCap
             // 
-            this.nbboPriceCap.Location = new System.Drawing.Point(398, 90);
+            this.nbboPriceCap.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.nbboPriceCap.Location = new System.Drawing.Point(403, 90);
             this.nbboPriceCap.Name = "nbboPriceCap";
             this.nbboPriceCap.Size = new System.Drawing.Size(70, 20);
             this.nbboPriceCap.TabIndex = 33;
@@ -1017,16 +1040,18 @@ namespace IBSampleApp
             // 
             // discretionaryAmount
             // 
-            this.discretionaryAmount.Location = new System.Drawing.Point(398, 64);
+            this.discretionaryAmount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.discretionaryAmount.Location = new System.Drawing.Point(403, 64);
             this.discretionaryAmount.Name = "discretionaryAmount";
             this.discretionaryAmount.Size = new System.Drawing.Size(70, 20);
             this.discretionaryAmount.TabIndex = 31;
             // 
             // hidden
             // 
+            this.hidden.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.hidden.AutoSize = true;
             this.hidden.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.hidden.Location = new System.Drawing.Point(332, 185);
+            this.hidden.Location = new System.Drawing.Point(337, 185);
             this.hidden.Name = "hidden";
             this.hidden.Size = new System.Drawing.Size(60, 17);
             this.hidden.TabIndex = 41;
@@ -1035,9 +1060,10 @@ namespace IBSampleApp
             // 
             // outsideRTH
             // 
+            this.outsideRTH.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.outsideRTH.AutoSize = true;
             this.outsideRTH.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.outsideRTH.Location = new System.Drawing.Point(291, 208);
+            this.outsideRTH.Location = new System.Drawing.Point(296, 208);
             this.outsideRTH.Name = "outsideRTH";
             this.outsideRTH.Size = new System.Drawing.Size(101, 17);
             this.outsideRTH.TabIndex = 43;
@@ -1046,8 +1072,9 @@ namespace IBSampleApp
             // 
             // label3
             // 
+            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(277, 42);
+            this.label3.Location = new System.Drawing.Point(282, 42);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(115, 13);
             this.label3.TabIndex = 27;
@@ -1055,9 +1082,10 @@ namespace IBSampleApp
             // 
             // allOrNone
             // 
+            this.allOrNone.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.allOrNone.AutoSize = true;
             this.allOrNone.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.allOrNone.Location = new System.Drawing.Point(459, 118);
+            this.allOrNone.Location = new System.Drawing.Point(464, 118);
             this.allOrNone.Name = "allOrNone";
             this.allOrNone.Size = new System.Drawing.Size(76, 17);
             this.allOrNone.TabIndex = 35;
@@ -1066,8 +1094,9 @@ namespace IBSampleApp
             // 
             // label2
             // 
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(289, 15);
+            this.label2.Location = new System.Drawing.Point(294, 15);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(103, 13);
             this.label2.TabIndex = 24;
@@ -1075,9 +1104,10 @@ namespace IBSampleApp
             // 
             // notHeld
             // 
+            this.notHeld.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.notHeld.AutoSize = true;
             this.notHeld.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.notHeld.Location = new System.Drawing.Point(326, 118);
+            this.notHeld.Location = new System.Drawing.Point(331, 118);
             this.notHeld.Name = "notHeld";
             this.notHeld.Size = new System.Drawing.Size(66, 17);
             this.notHeld.TabIndex = 34;
@@ -1086,9 +1116,10 @@ namespace IBSampleApp
             // 
             // block
             // 
+            this.block.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.block.AutoSize = true;
             this.block.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.block.Location = new System.Drawing.Point(312, 141);
+            this.block.Location = new System.Drawing.Point(317, 141);
             this.block.Name = "block";
             this.block.Size = new System.Drawing.Size(80, 17);
             this.block.TabIndex = 37;
@@ -1106,9 +1137,10 @@ namespace IBSampleApp
             // 
             // sweepToFill
             // 
+            this.sweepToFill.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.sweepToFill.AutoSize = true;
             this.sweepToFill.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.sweepToFill.Location = new System.Drawing.Point(309, 164);
+            this.sweepToFill.Location = new System.Drawing.Point(314, 164);
             this.sweepToFill.Name = "sweepToFill";
             this.sweepToFill.Size = new System.Drawing.Size(83, 17);
             this.sweepToFill.TabIndex = 39;
@@ -1162,30 +1194,34 @@ namespace IBSampleApp
             // 
             // ocaGroup
             // 
-            this.ocaGroup.Location = new System.Drawing.Point(398, 12);
+            this.ocaGroup.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.ocaGroup.Location = new System.Drawing.Point(403, 12);
             this.ocaGroup.Name = "ocaGroup";
             this.ocaGroup.Size = new System.Drawing.Size(70, 20);
             this.ocaGroup.TabIndex = 25;
             // 
             // hedgeParam
             // 
-            this.hedgeParam.Location = new System.Drawing.Point(474, 39);
+            this.hedgeParam.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.hedgeParam.Location = new System.Drawing.Point(479, 39);
             this.hedgeParam.Name = "hedgeParam";
             this.hedgeParam.Size = new System.Drawing.Size(53, 20);
             this.hedgeParam.TabIndex = 29;
             // 
             // ocaType
             // 
+            this.ocaType.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.ocaType.FormattingEnabled = true;
-            this.ocaType.Location = new System.Drawing.Point(474, 12);
+            this.ocaType.Location = new System.Drawing.Point(479, 12);
             this.ocaType.Name = "ocaType";
             this.ocaType.Size = new System.Drawing.Size(140, 21);
             this.ocaType.TabIndex = 26;
             // 
             // hedgeType
             // 
+            this.hedgeType.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.hedgeType.FormattingEnabled = true;
-            this.hedgeType.Location = new System.Drawing.Point(398, 38);
+            this.hedgeType.Location = new System.Drawing.Point(403, 38);
             this.hedgeType.Name = "hedgeType";
             this.hedgeType.Size = new System.Drawing.Size(70, 21);
             this.hedgeType.TabIndex = 28;
@@ -2182,15 +2218,6 @@ namespace IBSampleApp
             this.label4.TabIndex = 0;
             this.label4.Text = "Starting price";
             // 
-            // contractSearchControl1
-            // 
-            this.contractSearchControl1.Contract = null;
-            this.contractSearchControl1.IBClient = null;
-            this.contractSearchControl1.Location = new System.Drawing.Point(149, 32);
-            this.contractSearchControl1.Name = "contractSearchControl1";
-            this.contractSearchControl1.Size = new System.Drawing.Size(206, 13);
-            this.contractSearchControl1.TabIndex = 0;
-            // 
             // adjustStopTab
             // 
             this.adjustStopTab.BackColor = System.Drawing.Color.LightGray;
@@ -2411,10 +2438,19 @@ namespace IBSampleApp
             this.lbRemoveCondition.Text = "remove";
             this.lbRemoveCondition.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lbRemoveCondition_LinkClicked);
             // 
+            // contractSearchControl1
+            // 
+            this.contractSearchControl1.Contract = null;
+            this.contractSearchControl1.IBClient = null;
+            this.contractSearchControl1.Location = new System.Drawing.Point(149, 32);
+            this.contractSearchControl1.Name = "contractSearchControl1";
+            this.contractSearchControl1.Size = new System.Drawing.Size(206, 13);
+            this.contractSearchControl1.TabIndex = 0;
+            // 
             // sendOrderButton
             // 
             this.sendOrderButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.sendOrderButton.Location = new System.Drawing.Point(12, 398);
+            this.sendOrderButton.Location = new System.Drawing.Point(17, 398);
             this.sendOrderButton.Name = "sendOrderButton";
             this.sendOrderButton.Size = new System.Drawing.Size(75, 23);
             this.sendOrderButton.TabIndex = 0;
@@ -2449,7 +2485,7 @@ namespace IBSampleApp
             // checkMarginButton
             // 
             this.checkMarginButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.checkMarginButton.Location = new System.Drawing.Point(93, 398);
+            this.checkMarginButton.Location = new System.Drawing.Point(98, 398);
             this.checkMarginButton.Name = "checkMarginButton";
             this.checkMarginButton.Size = new System.Drawing.Size(87, 23);
             this.checkMarginButton.TabIndex = 1;
@@ -2460,7 +2496,7 @@ namespace IBSampleApp
             // closeOrderDialogButton
             // 
             this.closeOrderDialogButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.closeOrderDialogButton.Location = new System.Drawing.Point(554, 398);
+            this.closeOrderDialogButton.Location = new System.Drawing.Point(559, 398);
             this.closeOrderDialogButton.Name = "closeOrderDialogButton";
             this.closeOrderDialogButton.Size = new System.Drawing.Size(75, 23);
             this.closeOrderDialogButton.TabIndex = 2;
@@ -2468,22 +2504,23 @@ namespace IBSampleApp
             this.closeOrderDialogButton.UseVisualStyleBackColor = true;
             this.closeOrderDialogButton.Click += new System.EventHandler(this.closeOrderDialogButton_Click);
             // 
-            // omsContainer
+            // relativeDiscretionary
             // 
-            this.omsContainer.AutoSize = true;
-            this.omsContainer.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.omsContainer.Location = new System.Drawing.Point(437, 254);
-            this.omsContainer.Name = "omsContainer";
-            this.omsContainer.Size = new System.Drawing.Size(98, 17);
-            this.omsContainer.TabIndex = 50;
-            this.omsContainer.Text = "OMS Container";
-            this.omsContainer.UseVisualStyleBackColor = true;
+            this.relativeDiscretionary.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.relativeDiscretionary.AutoSize = true;
+            this.relativeDiscretionary.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.relativeDiscretionary.Location = new System.Drawing.Point(413, 273);
+            this.relativeDiscretionary.Name = "relativeDiscretionary";
+            this.relativeDiscretionary.Size = new System.Drawing.Size(127, 17);
+            this.relativeDiscretionary.TabIndex = 51;
+            this.relativeDiscretionary.Text = "Relative discretionary";
+            this.relativeDiscretionary.UseVisualStyleBackColor = true;
             // 
             // OrderDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(641, 426);
+            this.ClientSize = new System.Drawing.Size(646, 426);
             this.ControlBox = false;
             this.Controls.Add(this.closeOrderDialogButton);
             this.Controls.Add(this.checkMarginButton);
@@ -2745,6 +2782,7 @@ namespace IBSampleApp
         private System.Windows.Forms.TextBox mifid2ExecutionTrader;
         private System.Windows.Forms.CheckBox dontUseAutoPriceForHedge;
         private System.Windows.Forms.CheckBox omsContainer;
+        private System.Windows.Forms.CheckBox relativeDiscretionary;
         
     }
 }

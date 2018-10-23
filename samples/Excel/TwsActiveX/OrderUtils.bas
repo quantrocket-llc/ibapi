@@ -134,6 +134,8 @@ Public Enum ExtendedOrderAttributesColumns
     Col_MODELCODE
     Col_EXT_OPERATOR
     Col_SOFT_DOLLAR_TIER
+    Col_IS_OMS_CONTAINER
+    Col_RELATIVE_DISCRETIONARY
 End Enum
 
 ' other constants
@@ -360,6 +362,8 @@ Private Sub PlaceModifyOrder( _
         strTier = Util.SetNonEmptyValue(extendedAttributeTable(orderIndex, Col_SOFT_DOLLAR_TIER).value, .tier.name & ";" & .tier.value)
         .tier.name = Mid$(strTier, 1, InStr(1, strTier, ";") - 1)
         .tier.value = Mid$(strTier, InStr(1, strTier, ";") + 1)
+        .isOmsContainer = Util.SetNonEmptyValue(extendedAttributeTable(orderIndex, Col_IS_OMS_CONTAINER).value, .isOmsContainer)
+        .discretionaryUpToLimitPrice = Util.SetNonEmptyValue(extendedAttributeTable(orderIndex, Col_RELATIVE_DISCRETIONARY).value, .discretionaryUpToLimitPrice)
     End With
 
     ' combo legs

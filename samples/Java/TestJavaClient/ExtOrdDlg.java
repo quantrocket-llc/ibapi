@@ -106,6 +106,7 @@ public class ExtOrdDlg extends JDialog {
     private UpperField  m_mifid2ExecutionAlgo = new UpperField();
     private JCheckBox   m_dontUseAutoPriceForHedge = new JCheckBox("Don't use auto price for hedge", false);
     private JCheckBox   m_isOmsConainer = new JCheckBox("OMS Container", false);
+    private JCheckBox   m_discretionaryUpToLimitPrice = new JCheckBox("Relative discretionary", false);
 
     ExtOrdDlg( OrderDlg owner) {
         super( owner, true);
@@ -276,6 +277,7 @@ public class ExtOrdDlg extends JDialog {
         
         extOrderDetailsPanel.add(m_dontUseAutoPriceForHedge);
         extOrderDetailsPanel.add(m_isOmsConainer);
+        extOrderDetailsPanel.add(m_discretionaryUpToLimitPrice);
 
         // create button panel
         JPanel buttonPanel = new JPanel();
@@ -386,6 +388,7 @@ public class ExtOrdDlg extends JDialog {
             m_order.mifid2ExecutionAlgo(m_mifid2ExecutionAlgo.getText());
             m_order.dontUseAutoPriceForHedge(m_dontUseAutoPriceForHedge.isSelected());
             m_order.isOmsContainer(m_isOmsConainer.isSelected());
+            m_order.discretionaryUpToLimitPrice(m_discretionaryUpToLimitPrice.isSelected());
         }
         catch( Exception e) {
             Main.inform( this, "Error - " + e);

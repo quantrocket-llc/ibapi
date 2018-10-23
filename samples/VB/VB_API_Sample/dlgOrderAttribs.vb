@@ -187,6 +187,7 @@ Public Class dlgOrderAttribs
     Public WithEvents Label67 As System.Windows.Forms.Label
     Friend WithEvents checkDontUseAutoPriceForHedge As System.Windows.Forms.CheckBox
     Friend WithEvents checkOmsContainer As System.Windows.Forms.CheckBox
+    Friend WithEvents checkRelativeDiscretionary As System.Windows.Forms.CheckBox
     Public WithEvents Label41 As System.Windows.Forms.Label
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
@@ -340,6 +341,7 @@ Public Class dlgOrderAttribs
         Me.Label67 = New System.Windows.Forms.Label()
         Me.checkDontUseAutoPriceForHedge = New System.Windows.Forms.CheckBox()
         Me.checkOmsContainer = New System.Windows.Forms.CheckBox()
+        Me.checkRelativeDiscretionary = New System.Windows.Forms.CheckBox()
         Me.SuspendLayout()
         '
         'txtHedgeParam
@@ -2402,11 +2404,22 @@ Public Class dlgOrderAttribs
         Me.checkOmsContainer.Text = "OMS Container"
         Me.checkOmsContainer.UseVisualStyleBackColor = True
         '
+        'checkRelativeDiscretionary
+        '
+        Me.checkRelativeDiscretionary.AutoSize = True
+        Me.checkRelativeDiscretionary.Location = New System.Drawing.Point(549, 635)
+        Me.checkRelativeDiscretionary.Name = "checkRelativeDiscretionary"
+        Me.checkRelativeDiscretionary.Size = New System.Drawing.Size(130, 18)
+        Me.checkRelativeDiscretionary.TabIndex = 149
+        Me.checkRelativeDiscretionary.Text = "Relative discretionary"
+        Me.checkRelativeDiscretionary.UseVisualStyleBackColor = True
+        '
         'dlgOrderAttribs
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
         Me.BackColor = System.Drawing.Color.Gainsboro
         Me.ClientSize = New System.Drawing.Size(850, 674)
+        Me.Controls.Add(Me.checkRelativeDiscretionary)
         Me.Controls.Add(Me.checkOmsContainer)
         Me.Controls.Add(Me.checkDontUseAutoPriceForHedge)
         Me.Controls.Add(Me.txtMifid2ExecutionTrader)
@@ -2704,6 +2717,7 @@ Public Class dlgOrderAttribs
 
         checkDontUseAutoPriceForHedge.Checked = m_orderInfo.DontUseAutoPriceForHedge
         checkOmsContainer.Checked = m_orderInfo.IsOmsContainer
+        checkRelativeDiscretionary.Checked = m_orderInfo.DiscretionaryUpToLimitPrice
 
     End Sub
 
@@ -2862,6 +2876,7 @@ Public Class dlgOrderAttribs
 
         m_orderInfo.DontUseAutoPriceForHedge = checkDontUseAutoPriceForHedge.Checked
         m_orderInfo.IsOmsContainer = checkOmsContainer.Checked
+        m_orderInfo.DiscretionaryUpToLimitPrice = checkRelativeDiscretionary.Checked
 
         m_ok = True
         Hide()
