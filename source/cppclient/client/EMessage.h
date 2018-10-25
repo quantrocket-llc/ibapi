@@ -5,6 +5,9 @@
 #ifndef TWS_API_CLIENT_EMESSAGE_H
 #define TWS_API_CLIENT_EMESSAGE_H
 
+#include <vector>
+#include "platformspecific.h"
+
 class TWSAPIDLLEXP EMessage
 {
     std::vector<char> data;

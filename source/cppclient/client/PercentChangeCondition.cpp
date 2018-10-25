@@ -3,7 +3,9 @@
 
 #include "StdAfx.h"
 #include "PercentChangeCondition.h"
+
 #include <sstream>
+
 
 std::string PercentChangeCondition::valueToString() const {
 	std::stringstream tmp;

@@ -6,8 +6,9 @@
 #define TWS_API_CLIENT_ORDERCONDITION_H
 
 #include "IExternalizable.h"
-
 #include <string>
+#include "platformspecific.h"
+
 
 class TWSAPIDLLEXP OrderCondition : public IExternalizable {
 public:

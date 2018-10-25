@@ -5,6 +5,8 @@
 #ifndef TWS_API_CLIENT_NEWSPROVIDER_H
 #define TWS_API_CLIENT_NEWSPROVIDER_H
 
+#include <string>
+
 struct NewsProvider
 {
 	std::string providerCode;

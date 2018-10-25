@@ -6,6 +6,7 @@
 #define TWS_API_CLIENT_ESOCKET_H
 
 #include "ETransport.h"
+#include <vector>
 
 class ESocket :
     public ETransport

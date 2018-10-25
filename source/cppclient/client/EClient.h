@@ -5,11 +5,11 @@
 #ifndef TWS_API_CLIENT_ECLIENT_H
 #define TWS_API_CLIENT_ECLIENT_H
 
-
 #include <memory>
 #include <string>
 #include <vector>
 #include <ostream>
+#include "platformspecific.h"
 #include "CommonDefs.h"
 #include "TagValue.h"
 #include "Contract.h"

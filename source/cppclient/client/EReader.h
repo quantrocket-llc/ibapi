@@ -6,6 +6,8 @@
 #define TWS_API_CLIENT_EREADER_H
 
 #include <atomic>
+#include <deque>
+#include "platformspecific.h"
 #include "EDecoder.h"
 #include "EMutex.h"
 #include "EReaderOSSignal.h"

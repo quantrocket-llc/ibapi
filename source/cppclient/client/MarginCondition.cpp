@@ -3,7 +3,9 @@
 
 #include "StdAfx.h"
 #include "MarginCondition.h"
+
 #include <sstream>
+
 
 std::string MarginCondition::valueToString() const {
 	std::stringstream tmp;

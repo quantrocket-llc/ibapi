@@ -3,9 +3,10 @@
 
 #include "StdAfx.h"
 #include "PriceCondition.h"
-#include <sstream>
 #include "EDecoder.h"
 #include "EClient.h"
+
+#include <sstream>
 
 std::string PriceCondition::valueToString() const {
 	std::stringstream tmp;

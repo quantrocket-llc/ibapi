@@ -2,9 +2,6 @@
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 #include "StdAfx.h"
-#include <assert.h>
-#include <string>
-#include <bitset>
 #include "EWrapper.h"
 #include "Order.h"
 #include "Contract.h"
@@ -16,9 +13,14 @@
 #include "EDecoder.h"
 #include "EClientMsgSink.h"
 #include "PriceIncrement.h"
+
 #include <string.h>
 #include <cstdlib>
 #include <sstream>
+#include <assert.h>
+#include <string>
+#include <bitset>
+
 
 EDecoder::EDecoder(int serverVersion, EWrapper *callback, EClientMsgSink *clientMsgSink) {
 	m_pEWrapper = callback;

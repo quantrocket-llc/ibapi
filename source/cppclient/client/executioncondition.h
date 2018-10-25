@@ -5,7 +5,6 @@
 #ifndef TWS_API_CLIENT_EXECUTIONCONDITION_H
 #define TWS_API_CLIENT_EXECUTIONCONDITION_H
 
-#include <string>
 #include "OrderCondition.h"
 
 class TWSAPIDLLEXP ExecutionCondition : public OrderCondition {

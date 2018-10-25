@@ -6,6 +6,7 @@
 #define TWS_API_CLIENT_HISTORICALTICKLAST_H
 
 #include "TickAttribLast.h"
+#include <string>
 
 struct HistoricalTickLast
 {

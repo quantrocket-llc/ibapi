@@ -3,6 +3,7 @@
 
 #include "StdAfx.h"
 #include "VolumeCondition.h"
+
 #include <sstream>
 
 std::string VolumeCondition::valueToString() const {

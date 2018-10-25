@@ -5,6 +5,8 @@
 #ifndef TWS_API_CLIENT_COMMISSIONREPORT_H
 #define TWS_API_CLIENT_COMMISSIONREPORT_H
 
+#include <string>
+
 struct CommissionReport
 {
 	CommissionReport()

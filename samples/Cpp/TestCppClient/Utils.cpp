@@ -4,6 +4,7 @@
 
 #include "Utils.h"
 #include <iostream>
+#include <platformspecific.h>
 
 static const std::string base64_chars = 
              "ABCDEFGHIJKLMNOPQRSTUVWXYZ"

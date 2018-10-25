@@ -234,5 +234,8 @@
     <ClInclude Include="TickAttribLast.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="platformspecific.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
