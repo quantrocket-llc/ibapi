@@ -403,7 +403,7 @@ namespace IBApi
         void openOrderEnd();
 
         /**
-         * @brief receives the full contract's definitons
+         * @brief receives the full contract's definitions
          * This method will return all contracts matching the requested via EClientSocket::reqContractDetails. For example, one can obtain the whole option chain with it.
          * @param reqId the unique request identifier
          * @param contractDetails the instrument's complete definition.        

@@ -223,7 +223,7 @@ class EWrapper:
 
 
     def contractDetails(self, reqId:int, contractDetails:ContractDetails):
-        """Receives the full contract's definitons. This method will return all
+        """Receives the full contract's definitions. This method will return all
         contracts matching the requested via EEClientSocket::reqContractDetails.
         For example, one can obtain the whole option chain with it."""
 
