@@ -472,7 +472,7 @@ namespace IBApi
          * @brief Returns the market data type (real-time, frozen, delayed, delayed-frozen) of ticker sent by EClientSocket::reqMktData 
          * when TWS switches from real-time to frozen and back and from delayed to delayed-frozen and back
          * @param reqId the id of ticker sent in reqMktData
-         * @param marketDataType means that now API starts to tick with the folloiwng market data: 1 for real-time, 2 for frozen, 3 for delayed, 4 for delayed-frozen
+         * @param marketDataType means that now API starts to tick with the following market data: 1 for real-time, 2 for frozen, 3 for delayed, 4 for delayed-frozen
          * @sa EClientSocket::reqMarketDataType, EClientSocket::reqMktData
          */
         void marketDataType(int reqId, int marketDataType);
