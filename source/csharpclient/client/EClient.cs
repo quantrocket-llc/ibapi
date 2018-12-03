@@ -1901,7 +1901,7 @@ namespace IBApi
 
         /**
          * @brief Switches data type returned from reqMktData request to "frozen", "delayed" or "delayed-frozen" market data. Requires TWS/IBG v963+.\n
-         * The API can receive frozen market data from Trader Workstation. Frozen market data is the last data recorded in our system.\n During normal trading hours, the API receives real-time market data. Invoking this function with argument 2 requests a switch to frozen data immediately or after the close.\n When the market reopens the next data the market data type will automatically switch back to real time if available.
+         * The API can receive frozen market data from Trader Workstation. Frozen market data is the last data recorded in our system.\n During normal trading hours, the API receives real-time market data. Invoking this function with argument 2 requests a switch to frozen data immediately or after the close.\n When the market reopens, the market data type will automatically switch back to real time if available.
          * @param marketDataType:
          *      by default only real-time (1) market data is enabled
          *      sending 1 (real-time) disables frozen, delayed and delayed-frozen market data
