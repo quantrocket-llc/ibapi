@@ -92,7 +92,17 @@ def decode(the_type, fields, show_unset = False):
 
     return n
 
-
+def decode_or_none(*args, **kwargs):
+    """
+    Utility function that calls decode but returns None if decode fails with
+    ValueError: could not convert string to float
+    """
+    try:
+        return decode(*args, **kwargs)
+    except ValueError as e:
+        if "could not convert string to float" not in repr(e):
+            raise
+        return None
 
 def ExerciseStaticMethods(klass):
     

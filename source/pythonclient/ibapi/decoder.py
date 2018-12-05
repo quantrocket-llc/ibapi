@@ -723,12 +723,12 @@ class Decoder(Object):
         for idxBar in range(itemCount):
             bar = BarData()
             bar.date = decode(str, fields)
-            bar.open = decode(float, fields)
-            bar.high = decode(float, fields)
-            bar.low = decode(float, fields)
-            bar.close = decode(float, fields)
+            bar.open = decode_or_none(float, fields)
+            bar.high = decode_or_none(float, fields)
+            bar.low = decode_or_none(float, fields)
+            bar.close = decode_or_none(float, fields)
             bar.volume = decode(int, fields)
-            bar.average = decode(float, fields)
+            bar.average = decode_or_none(float, fields)
 
             if self.serverVersion < MIN_SERVER_VER_SYNT_REALTIME_BARS:
                 hasGaps = decode(str, fields)
