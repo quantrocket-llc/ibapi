@@ -41,14 +41,14 @@
 	</ul>
 	
 	- <i><b>requestId</b></i>, id of the request
-	- <i><b>contract</b></i>, Contract object that is subject of query
+	- <i><b>contract</b></i>, Contract object that is subject of query.
 	- <i><b>startDateTime</b></i>, i.e. "20170701 12:01:00". Uses TWS timezone specified at login.
-	- <i><b>endDateTime</b></i>, i.e. "20170701 13:01:00". In TWS timezone. Exactly one of start time and end time has to be defined.
-	- <i><b>numberOfTicks</b></i>, Number of distinct data points. Max currently 1000 per request.
-	- <i><b>whatToShow</b></i>, (Bid_Ask, Midpoint, Trades) Type of data requested. 
-	- <i><b>useRth</b></i>, Data from regular trading hours (1), or all available hours (0)
-	- <i><b>ignoreSize</b></i>, Specifies to not return changes only in the size of orders source price is Bid_Ask
-	- <i><b>miscOptions</b></i> should be defined as <i>null</i>, reserved for internal use
+	- <i><b>endDateTime</b></i>, i.e. "20170701 13:01:00". In TWS timezone. Exactly one of startDateTime or endDateTime must be defined.
+	- <i><b>numberOfTicks</b></i>, Number of distinct data points. Max is 1000 per request.
+	- <i><b>whatToShow</b></i>, (Bid_Ask, Midpoint, or Trades) Type of data requested. 
+	- <i><b>useRth</b></i>, Data from regular trading hours (1), or all available hours (0).
+	- <i><b>ignoreSize</b></i>, Omit updates that reflect only changes in size, and not price. Applicable to Bid_Ask data requests. 
+	- <i><b>miscOptions</b></i> Should be defined as <i>null</i>; reserved for internal use.
 	
 	Data is returned to the functions @ref IBApi::EWrapper::historicalTicks (for whatToShow=MIDPOINT), @ref IBApi::EWrapper::historicalTicksBidAsk (for whatToShow=BID_ASK), and @ref IBApi::EWrapper::historicalTicksLast for (for whatToShow=TRADES), depending on the type of data requested. 
 	
