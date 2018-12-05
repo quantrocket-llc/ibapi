@@ -93,7 +93,7 @@
 	
 	\section position_multi Position Update Subscription by Model
 	
-	The function @ref IBApi::EClient::reqPositionsMulti can be used with multiple account structures to subscribe to positions updates for multiple accounts and/or models. The account and model parameters are optional.
+	The function @ref IBApi::EClient::reqPositionsMulti can be used with any account structure to subscribe to positions updates for multiple accounts and/or models. The account and model parameters are optional if there are not multiple accounts or models available.
 	<ul id="tab">
 		<li class="active">
 			\snippet Program.cs reqpositionsmulti
@@ -112,7 +112,7 @@
 		</li>
 	</ul>
 	
-	After invoking @ref IBApi::EClient::reqPositionsMulti data will be returned to the @ref IBApi::EWrapper::positionMulti function. After the initial callback of all positions matching the supplied criteria to reqPositionsMulti, the @ref IBApi::EWrapper::positionMultiEnd function will be triggered. Thereafter, there will only be messages sent to positionsMulti when there is a change. 
+	After invoking @ref IBApi::EClient::reqPositionsMulti data will be returned to the @ref IBApi::EWrapper::positionMulti function. After the initial callback of all positions matching the supplied criteria to reqPositionsMulti, the @ref IBApi::EWrapper::positionMultiEnd function will be triggered. Thereafter, there will only be messages sent to positionsMulti when there is a change. To cancel a positionsMulti subscription the function @ref IBApi::EClient::cancelPositionsMulti is invoked with the same request ID used to create the subscription.
 	
 	<ul id="tab">
 		<li class="active"> 

@@ -20,7 +20,7 @@ namespace TWSLib
     [Guid("0A77CCF8-052C-11D6-B0EC-00B0D074179C")]
     [ComVisible(true), ClassInterface(ClassInterfaceType.None)]
     [ComSourceInterfaces(typeof(ITwsEvents))]
-    public class Tws: EWrapper, ITws, IDisposable
+    public class Tws : EWrapper, ITws, IDisposable
     {
         static T GetCustomAtribute<T>(ICustomAttributeProvider t) where T : Attribute
         {
@@ -57,7 +57,7 @@ namespace TWSLib
 
 
         #region properties
-        
+
         string ITws.account { get; set; }
 
         string ITws.tif { get; set; }
@@ -87,98 +87,98 @@ namespace TWSLib
         bool ITws.hidden { get; set; }
 
         int ITws.clientIdFilter { get; set; }
-        
+
         string ITws.acctCodeFilter { get; set; }
-        
+
         string ITws.timeFilter { get; set; }
-        
+
         string ITws.symbolFilter { get; set; }
-        
+
         string ITws.secTypeFilter { get; set; }
-        
+
         string ITws.exchangeFilter { get; set; }
-        
+
         string ITws.sideFilter { get; set; }
-        
+
         double ITws.discretionaryAmt { get; set; }
-        
+
         int ITws.shortSaleSlot { get; set; }
-        
+
         string ITws.designatedLocation { get; set; }
-        
+
         int ITws.ocaType { get; set; }
-        
+
         int ITws.exemptCode { get; set; }
-        
+
         string ITws.rule80A { get; set; }
-        
+
         string ITws.settlingFirm { get; set; }
-        
+
         bool ITws.allOrNone { get; set; }
-        
+
         int ITws.minQty { get; set; }
-        
+
         double ITws.percentOffset { get; set; }
-        
+
         bool ITws.eTradeOnly { get; set; }
-        
+
         bool ITws.firmQuoteOnly { get; set; }
-        
+
         double ITws.nbboPriceCap { get; set; }
-        
+
         int ITws.auctionStrategy { get; set; }
-        
+
         double ITws.startingPrice { get; set; }
-        
+
         double ITws.stockRefPrice { get; set; }
-        
+
         double ITws.delta { get; set; }
-        
+
         double ITws.stockRangeLower { get; set; }
-        
+
         double ITws.stockRangeUpper { get; set; }
-        
+
         string ITws.TwsConnectionTime { get { return socket.ServerTime; } }
-        
+
         int ITws.serverVersion { get; set; }
-        
+
         bool ITws.overridePercentageConstraints { get; set; }
-        
+
         double ITws.volatility { get; set; }
-        
+
         int ITws.volatilityType { get; set; }
-        
+
         string ITws.deltaNeutralOrderType { get; set; }
-        
+
         double ITws.deltaNeutralAuxPrice { get; set; }
-        
+
         int ITws.continuousUpdate { get; set; }
-        
+
         int ITws.referencePriceType { get; set; }
-        
+
         double ITws.trailStopPrice { get; set; }
-        
+
         int ITws.scaleInitLevelSize { get; set; }
-        
+
         int ITws.scaleSubsLevelSize { get; set; }
-        
+
         double ITws.scalePriceIncrement { get; set; }
         #endregion
 
         #region methods
-        
+
         void ITws.cancelMktData(int id)
         {
             socket.cancelMktData(id);
         }
 
-        
+
         void ITws.cancelOrder(int id)
         {
             socket.cancelOrder(id);
         }
 
-        
+
         void ITws.placeOrder(int id, string action, double quantity, string localSymbol, string secType,
                    string lastTradeDateOrContractMonth, double strike, string right, string multiplier,
                    string exchange, string primaryExchange, string curency, string orderType,
@@ -217,13 +217,13 @@ namespace TWSLib
 
             setExtendedOrderAttributes(order);
         }
-        
+
         void ITws.disconnect()
         {
             this.socket.eDisconnect();
         }
 
-        
+
         void ITws.connect(string host, int port, int clientId, bool extraAuth)
         {
             this.socket.eConnect(host, port, clientId, extraAuth);
@@ -245,7 +245,7 @@ namespace TWSLib
             }) { IsBackground = true }.Start();
         }
 
-        
+
         void ITws.reqMktData(int id, string symbol, string secType, string lastTradeDateOrContractMonth, double strike,
                    string right, string multiplier, string exchange, string primaryExchange,
                    string currency, string genericTicks, bool snapshot, bool regulatorySnapshot, ITagValueList options)
@@ -270,19 +270,19 @@ namespace TWSLib
             this.socket.reqMktData(id, contract, genericTicks, snapshot, regulatorySnapshot, ITagValueListToListTagValue(options));
         }
 
-        
+
         void ITws.reqOpenOrders()
         {
             this.socket.reqOpenOrders();
         }
 
-        
+
         void ITws.reqAccountUpdates(bool subscribe, string acctCode)
         {
             this.socket.reqAccountUpdates(subscribe, acctCode);
         }
 
-        
+
         void ITws.reqExecutions()
         {
             ExecutionFilter filter = new ExecutionFilter();
@@ -299,13 +299,13 @@ namespace TWSLib
             this.socket.reqExecutions(-1, filter);
         }
 
-        
+
         void ITws.reqIds(int numIds)
         {
             this.socket.reqIds(numIds);
         }
 
-        
+
         void ITws.reqMktData2(int id, string localSymbol, string secType, string exchange,
                    string primaryExchange, string currency, string genericTicks,
                    bool snapshot, bool regulatorySnapshot, ITagValueList options)
@@ -326,7 +326,7 @@ namespace TWSLib
             this.socket.reqMktData(id, contract, genericTicks, snapshot, regulatorySnapshot, ITagValueListToListTagValue(options));
         }
 
-        
+
         void ITws.placeOrder2(int id, string action, double quantity, string localSymbol,
                    string secType, string exchange, string primaryExchange, string curency,
                    string orderType, double lmtPrice, double auxPrice,
@@ -367,7 +367,7 @@ namespace TWSLib
             this.socket.placeOrder(id, contract, order);
         }
 
-        
+
         void ITws.reqContractDetails(string symbol, string secType, string lastTradeDateOrContractMonth, double strike,
                    string right, string multiplier, string exchange, string curency, int includeExpired)
         {
@@ -388,7 +388,7 @@ namespace TWSLib
             this.socket.reqContractDetails(-1, contract);
         }
 
-        
+
         void ITws.reqContractDetails2(string localSymbol, string secType, string exchange, string curency, int includeExpired)
         {
             // set contract fields
@@ -404,9 +404,9 @@ namespace TWSLib
             this.socket.reqContractDetails(-1, contract);
         }
 
-        
+
         void ITws.reqMktDepth(int id, string symbol, string secType, string lastTradeDateOrContractMonth, double strike,
-                   string right, string multiplier, string exchange, string curency, int numRows, ITagValueList options)
+                   string right, string multiplier, string exchange, string curency, int numRows, bool isSmartDepth, ITagValueList options)
         {
             // set contract fields
             Contract contract = new Contract();
@@ -421,11 +421,11 @@ namespace TWSLib
             contract.Currency = curency;
 
             // request market depth
-            this.socket.reqMarketDepth(id, contract, numRows, ITagValueListToListTagValue(options));
+            this.socket.reqMarketDepth(id, contract, numRows, isSmartDepth, ITagValueListToListTagValue(options));
         }
 
-        
-        void ITws.reqMktDepth2(int id, string localSymbol, string secType, string exchange, string curency, int numRows, ITagValueList options)
+
+        void ITws.reqMktDepth2(int id, string localSymbol, string secType, string exchange, string curency, int numRows, bool isSmartDepth, ITagValueList options)
         {
 
             Contract contract = new Contract();
@@ -436,16 +436,16 @@ namespace TWSLib
             contract.Currency = curency;
 
             // request market depth
-            this.socket.reqMarketDepth(id, contract, numRows, ITagValueListToListTagValue(options));
+            this.socket.reqMarketDepth(id, contract, numRows, isSmartDepth, ITagValueListToListTagValue(options));
         }
 
-        
-        void ITws.cancelMktDepth(int id)
+
+        void ITws.cancelMktDepth(int id, bool isSmartDepth)
         {
-            this.socket.cancelMktDepth(id);
+            this.socket.cancelMktDepth(id, isSmartDepth);
         }
 
-        
+
         void ITws.addComboLeg(int conid, string action, int ratio, string exchange, int openClose, int shortSaleSlot, string designatedLocation, int exemptCode)
         {
             ComboLeg comboLeg = new ComboLeg();
@@ -462,61 +462,61 @@ namespace TWSLib
             this.comboLegs.Add(comboLeg);
         }
 
-        
+
         void ITws.clearComboLegs()
         {
             this.comboLegs.Clear();
         }
 
-        
+
         void ITws.cancelNewsBulletins()
         {
             this.socket.cancelNewsBulletin();
         }
 
-        
+
         void ITws.reqNewsBulletins(bool allDaysMsgs)
         {
             this.socket.reqNewsBulletins(allDaysMsgs);
         }
 
-        
+
         void ITws.setServerLogLevel(int logLevel)
         {
             this.socket.setServerLogLevel(logLevel);
         }
 
-        
+
         void ITws.reqAutoOpenOrders(bool bAutoBind)
         {
             this.socket.reqAutoOpenOrders(bAutoBind);
         }
 
-        
+
         void ITws.reqAllOpenOrders()
         {
             this.socket.reqAllOpenOrders();
         }
 
-        
+
         void ITws.reqManagedAccts()
         {
             this.socket.reqManagedAccts();
         }
 
-        
+
         void ITws.requestFA(int faDataType)
         {
             this.socket.requestFA(faDataType);
         }
 
-        
+
         void ITws.replaceFA(int faDataType, string cxml)
         {
             this.socket.replaceFA(faDataType, cxml);
         }
 
-        
+
         void ITws.reqHistoricalData(int id, string symbol, string secType, string lastTradeDateOrContractMonth, double strike,
                    string right, string multiplier, string exchange, string curency, int isExpired,
                    string endDateTime, string durationStr, string barSizeSetting, string whatToShow,
@@ -541,7 +541,7 @@ namespace TWSLib
             this.socket.reqHistoricalData(id, contract, endDateTime, durationStr, barSizeSetting, whatToShow, useRTH, formatDate, keepUpToDate, ITagValueListToListTagValue(options));
         }
 
-        
+
         void ITws.exerciseOptions(int id, string symbol, string secType, string lastTradeDateOrContractMonth, double strike,
                    string right, string multiplier, string exchange, string curency,
                    int exerciseAction, int exerciseQuantity, int @override)
@@ -560,13 +560,13 @@ namespace TWSLib
             this.socket.exerciseOptions(id, contract, exerciseAction, exerciseQuantity, (this as ITws).account, @override);
         }
 
-        
+
         void ITws.reqScannerParameters()
         {
             this.socket.reqScannerParameters();
         }
 
-        
+
         void ITws.reqScannerSubscription(int tickerId, int numberOfRows, string instrument,
             string locationCode, string scanCode, double abovePrice, double belowPrice,
             int aboveVolume, double marketCapAbove, double marketCapBelow, string moodyRatingAbove,
@@ -602,19 +602,19 @@ namespace TWSLib
             this.socket.reqScannerSubscription(tickerId, subscription, ITagValueListToListTagValue(scannerSubscriptionFilterOptions), ITagValueListToListTagValue(options));
         }
 
-        
+
         void ITws.cancelHistoricalData(int tickerId)
         {
             this.socket.cancelHistoricalData(tickerId);
         }
 
-        
+
         void ITws.cancelScannerSubscription(int tickerId)
         {
             this.socket.cancelScannerSubscription(tickerId);
         }
 
-        
+
         void ITws.resetAllProperties()
         {
             var iThis = this as ITws;
@@ -674,7 +674,7 @@ namespace TWSLib
             iThis.scalePriceIncrement = double.MaxValue;
         }
 
-        
+
         void ITws.reqRealTimeBars(int tickerId, string symbol, string secType, string lastTradeDateOrContractMonth, double strike,
             string right, string multiplier, string exchange, string primaryExchange, string currency,
             int isExpired, int barSize, string whatToShow, int useRTH, ITagValueList options)
@@ -696,19 +696,19 @@ namespace TWSLib
             this.socket.reqRealTimeBars(tickerId, contract, barSize, whatToShow, useRTH != 0, ITagValueListToListTagValue(options));
         }
 
-        
+
         void ITws.cancelRealTimeBars(int tickerId)
         {
             this.socket.cancelRealTimeBars(tickerId);
         }
 
-        
+
         void ITws.reqCurrentTime()
         {
             this.socket.reqCurrentTime();
         }
 
-        
+
         void ITws.reqFundamentalData(int reqId, IContract contract, string reportType)
         {
             if (!(contract is ComContract))
@@ -717,57 +717,57 @@ namespace TWSLib
             this.socket.reqFundamentalData(reqId, (Contract)(contract as ComContract), reportType, null);
         }
 
-        
+
         void ITws.cancelFundamentalData(int reqId)
         {
             this.socket.cancelFundamentalData(reqId);
         }
 
-        
+
         void ITws.calculateImpliedVolatility(int reqId, IContract contract, double optionPrice, double underPrice)
         {
             //X - CHANGED
             this.socket.calculateImpliedVolatility(reqId, (Contract)(contract as ComContract), optionPrice, underPrice, null);
         }
 
-        
+
         void ITws.calculateOptionPrice(int reqId, IContract contract, double volatility, double underPrice)
         {
             //X - CHANGED
             this.socket.calculateOptionPrice(reqId, (Contract)(contract as ComContract), volatility, underPrice, null);
         }
 
-        
+
         void ITws.cancelCalculateImpliedVolatility(int reqId)
         {
             this.socket.cancelCalculateImpliedVolatility(reqId);
         }
 
-        
+
         void ITws.cancelCalculateOptionPrice(int reqId)
         {
             this.socket.cancelCalculateOptionPrice(reqId);
         }
 
-        
+
         void ITws.reqGlobalCancel()
         {
             this.socket.reqGlobalCancel();
         }
 
-        
+
         void ITws.reqMarketDataType(int marketDataType)
         {
             this.socket.reqMarketDataType(marketDataType);
         }
 
-        
+
         void ITws.reqContractDetailsEx(int reqId, IContract contract)
         {
             this.socket.reqContractDetails(reqId, (Contract)(contract as ComContract));
         }
 
-        
+
         void ITws.reqMktDataEx(int tickerId, IContract contract, string genericTicks, bool snapshot, bool regulatorySnapshot, ITagValueList options)
         {
             this.socket.reqMktData(tickerId, (Contract)(contract as ComContract), genericTicks, snapshot, regulatorySnapshot, ITagValueListToListTagValue(options));
@@ -778,42 +778,42 @@ namespace TWSLib
             if (v == null)
                 return null;
 
-            return (v as ComTagValueList).Tvl.Select(x => (TagValue)x).ToList();
+            return (v as ComTagValueList);
         }
 
-        
-        void ITws.reqMktDepthEx(int tickerId, IContract contract, int numRows, ITagValueList options)
+
+        void ITws.reqMktDepthEx(int tickerId, IContract contract, int numRows, bool isSmartDepth, ITagValueList options)
         {
-            this.socket.reqMarketDepth(tickerId, (Contract)(contract as ComContract), numRows, ITagValueListToListTagValue(options));
+            this.socket.reqMarketDepth(tickerId, (Contract)(contract as ComContract), numRows, isSmartDepth, ITagValueListToListTagValue(options));
         }
 
-        
+
         void ITws.placeOrderEx(int orderId, IContract contract, IOrder order)
         {
             this.socket.placeOrder(orderId, (Contract)(contract as ComContract), (Order)(order as ComOrder));
         }
 
-        
+
         void ITws.reqExecutionsEx(int reqId, IExecutionFilter filter)
         {
             this.socket.reqExecutions(reqId, (ExecutionFilter)(filter as ComExecutionFilter));
         }
 
-        
+
         void ITws.exerciseOptionsEx(int tickerId, IContract contract, int exerciseAction,
             int exerciseQuantity, string account, int @override)
         {
             this.socket.exerciseOptions(tickerId, (Contract)(contract as ComContract), exerciseAction, exerciseQuantity, account, @override);
         }
 
-        
+
         void ITws.reqHistoricalDataEx(int tickerId, IContract contract, string endDateTime,
             string duration, string barSize, string whatToShow, bool useRTH, int formatDate, bool keepUpToDate, ITagValueList options)
         {
             this.socket.reqHistoricalData(tickerId, (Contract)(contract as ComContract), endDateTime, duration, barSize, whatToShow, useRTH ? 1 : 0, formatDate, keepUpToDate, ITagValueListToListTagValue(options));
         }
 
-        
+
         void ITws.reqRealTimeBarsEx(int tickerId, IContract contract, int barSize, string whatToShow, bool useRTH, ITagValueList options)
         {
             this.socket.reqRealTimeBars(tickerId, (Contract)(contract as ComContract), barSize, whatToShow, useRTH, ITagValueListToListTagValue(options));
@@ -823,82 +823,82 @@ namespace TWSLib
         void ITws.reqScannerSubscriptionEx(int tickerId, IScannerSubscription subscription, ITagValueList options, ITagValueList scannerSubscriptionFilterOptions)
         {
             this.socket.reqScannerSubscription(tickerId,
-                (ScannerSubscription)(subscription as ComScannerSubscription), 
-                ITagValueListToListTagValue(options), 
+                (ScannerSubscription)(subscription as ComScannerSubscription),
+                ITagValueListToListTagValue(options),
                 ITagValueListToListTagValue(scannerSubscriptionFilterOptions));
         }
 
-        
+
         void ITws.addOrderComboLeg(double price)
         {
             this.orderComboLegs.Add(new OrderComboLeg() { Price = price });
         }
 
-        
+
         void ITws.clearOrderComboLegs()
         {
             this.orderComboLegs.Clear();
         }
 
-        
+
         void ITws.reqPositions()
         {
             this.socket.reqPositions();
         }
 
-        
+
         void ITws.cancelPositions()
         {
             this.socket.cancelPositions();
         }
 
-        
+
         void ITws.reqAccountSummary(int reqId, string groupName, string tags)
         {
             this.socket.reqAccountSummary(reqId, groupName, tags);
         }
 
-        
+
         void ITws.cancelAccountSummary(int reqId)
         {
             this.socket.cancelAccountSummary(reqId);
         }
-        
+
         void ITws.reqPositionsMulti(int requestId, string account, string modelCode)
         {
             this.socket.reqPositionsMulti(requestId, account, modelCode);
         }
-        
+
         void ITws.cancelPositionsMulti(int requestId)
         {
             this.socket.cancelPositionsMulti(requestId);
         }
-        
+
         void ITws.reqAccountUpdatesMulti(int requestId, string account, string modelCode, bool ledgerAndNLV)
         {
             this.socket.reqAccountUpdatesMulti(requestId, account, modelCode, ledgerAndNLV);
         }
-        
+
         void ITws.cancelAccountUpdatesMulti(int requestId)
         {
             this.socket.cancelAccountUpdatesMulti(requestId);
         }
 
-        
+
         IContract ITws.createContract() { return new ComContract(); }
-        
+
         IComboLegList ITws.createComboLegList() { return new ComComboLegList(); }
-        
+
         IOrder ITws.createOrder() { return new ComOrder(); }
-        
+
         IExecutionFilter ITws.createExecutionFilter() { return new ComExecutionFilter(); }
-        
+
         IScannerSubscription ITws.createScannerSubscription() { return new ComScannerSubscription(); }
-        
+
         IDeltaNeutralContract ITws.createDeltaNeutralContract() { return new ComDeltaNeutralContract(); }
-        
+
         ITagValueList ITws.createTagValueList() { return new ComTagValueList(); }
-        
+
         IOrderComboLegList ITws.createOrderComboLegList() { return new ComOrderComboLegList(); }
 
 
@@ -1103,7 +1103,7 @@ namespace TWSLib
 
         public delegate void openOrder3Delegate(int id, string symbol, string secType, string lastTradeDate, double strike, string right, string exchange, string curency, string localSymbol, string action, double quantity, string orderType, double lmtPrice, double auxPrice, string tif, string ocaGroup, string account, string openClose, int origin, string orderRef, int clientId, int permId, string sharesAllocation, string faGroup, string faMethod, string faPercentage, string faProfile, string goodAfterTime, string goodTillDate);
         public event openOrder3Delegate openOrder3;
-    
+
         public delegate void openOrder4Delegate(int id, string symbol, string secType, string lastTradeDate, double strike, string right, string exchange, string curency, string localSymbol, string action, double quantity, string orderType, double lmtPrice, double auxPrice, string tif, string ocaGroup, string account, string openClose, int origin, string orderRef, int clientId, int permId, string sharesAllocation, string faGroup, string faMethod, string faPercentage, string faProfile, string goodAfterTime, string goodTillDate, int ocaType, string rule80A, string settlingFirm, int allOrNone, int minQty, double percentOffset, int eTradeOnly, int firmQuoteOnly, double nbboPriceCap, int auctionStrategy, double startingPrice, double stockRefPrice, double delta, double stockRangeLower, double stockRangeUpper, int blockOrder, int sweepToFill, int ignoreRth, int hidden, double discretionaryAmt, int displaySize, int parentId, int triggerMethod, int shortSaleSlot, string designatedLocation, double volatility, int volatilityType, string deltaNeutralOrderType, double deltaNeutralAuxPrice, int continuousUpdate, int referencePriceType, double trailStopPrice, double basisPoints, int basisPointsType, string legsStr, int scaleInitLevelSize, int scaleSubsLevelSize, double scalePriceIncrement);
         public event openOrder4Delegate openOrder4;
 
@@ -1430,13 +1430,13 @@ namespace TWSLib
                 sc.Post(state => t_updateMktDepth(tickerId, position, operation, side, price, size), null);
         }
 
-        public delegate void updateMktDepthL2Delegate(int id, int position, string marketMaker, int operation, int side, double price, int size);
+        public delegate void updateMktDepthL2Delegate(int id, int position, string marketMaker, int operation, int side, double price, int size, bool isSmartDepth);
         public event updateMktDepthL2Delegate updateMktDepthL2;
-        void EWrapper.updateMktDepthL2(int tickerId, int position, string marketMaker, int operation, int side, double price, int size)
+        void EWrapper.updateMktDepthL2(int tickerId, int position, string marketMaker, int operation, int side, double price, int size, bool isSmartDepth)
         {
             var t_updateMktDepthL2 = this.updateMktDepthL2;
             if (t_updateMktDepthL2 != null)
-                sc.Post(state => t_updateMktDepthL2(tickerId, position, marketMaker, operation, side, price, size), null);
+                sc.Post(state => t_updateMktDepthL2(tickerId, position, marketMaker, operation, side, price, size, isSmartDepth), null);
         }
 
         public delegate void updateNewsBulletinDelegate(short msgId, short msgType, string message, string origExchange);
@@ -1829,13 +1829,13 @@ namespace TWSLib
                 sc.Post(state => t_accountUpdateMultiEnd(requestId), null);
         }
 
-        public delegate void securityDefinitionOptionParameterDelegate(int reqId, string exchange, int underlyingConId, string tradingClass, string multiplier, string[] expirations, double[] strikes);
+        public delegate void securityDefinitionOptionParameterDelegate(int reqId, string exchange, int underlyingConId, string tradingClass, string multiplier, string expirations, string strikes);
         public event securityDefinitionOptionParameterDelegate securityDefinitionOptionParameter;
         void EWrapper.securityDefinitionOptionParameter(int reqId, string exchange, int underlyingConId, string tradingClass, string multiplier, HashSet<string> expirations, HashSet<double> strikes)
         {
             var t_securityDefinitionOptionParameter = this.securityDefinitionOptionParameter;
             if (t_securityDefinitionOptionParameter != null)
-                sc.Post(state => t_securityDefinitionOptionParameter(reqId, exchange, underlyingConId, tradingClass, multiplier, expirations.ToArray(), strikes.ToArray()), null);
+                sc.Post(state => t_securityDefinitionOptionParameter(reqId, exchange, underlyingConId, tradingClass, multiplier, string.Join(";", expirations.ToArray()), string.Join(";", strikes.Select(s => s.ToString()).ToArray())), null);
         }
 
         public delegate void securityDefinitionOptionParameterEndDelegate(int reqId);
@@ -1847,14 +1847,14 @@ namespace TWSLib
                 sc.Post(state => t_securityDefinitionOptionParameterEnd(reqId), null);
         }
 
-        public delegate void softDollarTiersDelegate(int reqId, SoftDollarTier[] tiers);
+        public delegate void softDollarTiersDelegate(int reqId, IComList tiers);
         public event softDollarTiersDelegate softDollarTiers;
         void EWrapper.softDollarTiers(int reqId, SoftDollarTier[] tiers)
         {
             var t_softdollarTiers = this.softDollarTiers;
 
             if (t_softdollarTiers != null)
-                sc.Post(state => t_softdollarTiers(reqId, tiers), null);
+                sc.Post(state => t_softdollarTiers(reqId, new ComSoftDollarTierList(tiers.ToList())), null);
         }
 
         public delegate void familyCodesDelegate(IFamilyCodeList familyCodes);
@@ -1933,14 +1933,14 @@ namespace TWSLib
                 sc.Post(state => t_scannerParameters(xml), null);
         }
 
-        public delegate void smartComponentsDelegate(int reqId, ArrayList[] theMap);
+        public delegate void smartComponentsDelegate(int reqId, IComList theMap);
         public event smartComponentsDelegate smartComponents;
         void EWrapper.smartComponents(int reqId, Dictionary<int, KeyValuePair<string, char>> theMap)
         {
             var tmp = this.smartComponents;
 
             if (tmp != null)
-                sc.Post(state => tmp(reqId, theMap.Select(x => new ArrayList(new object[] { x.Key, x.Value.Key, x.Value.Value })).ToArray()), null);
+                sc.Post(state => tmp(reqId, new ComSmartComponentList(theMap)), null);
         }
 
         public delegate void tickReqParamsDelegate(int tickerId, double minTick, string bboExchange, int snapshotPermissions);
@@ -2003,14 +2003,24 @@ namespace TWSLib
                 sc.Post(state => tmp(reqId, headTimestamp), null);
         }
 
-        public delegate void histogramDataDelegate(int reqId, ComHistogramEntry[] data);
+        public delegate void histogramDataDelegate(int reqId, IHistogramEntry data);
+        public delegate void histogramDataEndDelegate(int reqId);
         public event histogramDataDelegate histogramData;
+        public event histogramDataEndDelegate histogramDataEnd;
         void EWrapper.histogramData(int reqId, HistogramEntry[] data)
         {
+            System.Threading.Tasks.Task task = null;
             var tmp = this.histogramData;
 
             if (tmp != null)
-                sc.Post(state => tmp(reqId, data.Select(x => (ComHistogramEntry)x).ToArray()), null);
+                task = System.Threading.Tasks.Task.Factory.StartNew(() =>
+                    data.ToList().ForEach(entry =>
+                        sc.Post(state => tmp(reqId, (ComHistogramEntry)entry), null)));
+
+            var tmpEnd = this.histogramDataEnd;
+
+            if (tmpEnd != null && task != null)
+                task.ContinueWith(t => sc.Post(state => tmpEnd(reqId), null));
         }
 
         public delegate void rerouteMktDataReqDelegate(int reqId, int conId, string exchange);

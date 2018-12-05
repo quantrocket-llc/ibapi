@@ -175,7 +175,7 @@ namespace Samples
             order.OrderType = "PEG STK";
             order.TotalQuantity = quantity;
             order.Delta = delta;
-            order.LmtPrice = stockReferencePrice;
+            order.StockRefPrice = stockReferencePrice;
             order.StartingPrice = startingPrice;
             //! [pegged_stock]
             return order;

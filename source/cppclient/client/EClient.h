@@ -273,8 +273,8 @@ public:
 	void reqExecutions(int reqId, const ExecutionFilter& filter);
 	void reqIds(int numIds);
 	void reqContractDetails(int reqId, const Contract& contract);
-	void reqMktDepth(TickerId tickerId, const Contract& contract, int numRows, const TagValueListSPtr& mktDepthOptions);
-	void cancelMktDepth(TickerId tickerId);
+	void reqMktDepth(TickerId tickerId, const Contract& contract, int numRows, bool isSmartDepth, const TagValueListSPtr& mktDepthOptions);
+	void cancelMktDepth(TickerId tickerId, bool isSmartDepth);
 	void reqNewsBulletins(bool allMsgs);
 	void cancelNewsBulletins();
 	void setServerLogLevel(int level);

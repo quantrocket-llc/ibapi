@@ -53,7 +53,7 @@
 		<tr><td>Close EFP Computation</td><td>44</td><td>Computed closing EFP price for previous day</td><td>@ref IBApi::EWrapper::tickEFP</td><td>-</td></tr>
 		<tr><td>Last Timestamp</td><td>45</td><td>Time of the last trade (in UNIX time).</td><td>@ref IBApi::EWrapper::tickString</td><td>-</td></tr>
 		<tr><td>Shortable</td><td>46</td><td>Describes the level of difficulty with which the contract can be sold short. See @ref shortable</td><td>@ref IBApi::EWrapper::tickGeneric</td><td>236</td></tr>
-		<tr><td>Fundamental Ratios</td><td>47</td><td>Provides the available Reuter's Fundamental Ratios. See \subpage fundamental_ratios_tags <br><br><i>Note: For some tags the value returned may be -99999.99. This is Reuters' way of indicating data is not available for that tag for the company.</i><br><br>Also see \ref reuters_fundamentals for requesting other fundamental data type using @ref IBApi::EClient::reqFundamentalData.</td><td>@ref IBApi::EWrapper::tickString</td><td>258</td></tr>
+		<tr><td>Fundamental Ratios</td><td>47</td><td>Provides the available Fundamental Ratios. See \subpage fundamental_ratios_tags <br><br><i>Note: For some tags the value returned may be -99999.99. This indicates that data is not available for that tag for the company.</i><br><br>Also see \ref fundamentals for requesting other fundamental data type using @ref IBApi::EClient::reqFundamentalData.</td><td>@ref IBApi::EWrapper::tickString</td><td>258</td></tr>
 		<tr><td>RT Volume (Time & Sales)</td><td>48</td><td>Last trade details (Including both "Last" and "Unreportable Last" trades). See @ref rt_volume</td><td>@ref IBApi::EWrapper::tickString</td><td>233</td></tr>
 		<tr><td>Halted</td><td>49</td><td>Indicates if a contract is halted. See @ref halted</td><td>@ref IBApi::EWrapper::tickGeneric</td><td>-</td></tr>
 		<tr><td>Bid Yield</td><td>50</td><td>Implied yield of the bond if it is purchased at the current bid.</td><td>@ref IBApi::EWrapper::tickPrice</td><td>-</td></tr>
@@ -95,6 +95,7 @@
 		<tr><td>Futures Open Interest</td><td>86</td><td>Total number of outstanding futures contracts (TWS v965+). *HSI@HKFE open interest requested with generic tick 101</td><td>@ref IBApi::EWrapper::tickSize</td><td>588</td></tr>
 		<tr><td>Average Option Volume</td><td>87</td><td>Average volume of the corresponding option contracts(TWS Build 970+ is required)</td><td>@ref IBApi::EWrapper::tickSize</td><td>105</td></tr>
 		<tr><td>Delayed Last Timestamp</td><td>88</td><td>Delayed time of the last trade (in UNIX time) (TWS Build 970+ is required)</td><td>@ref IBApi::EWrapper::tickString</td><td></td></tr>
+		<tr><td>Shortable Shares</td><td>89</td><td>Number of shares available to short (TWS Build 974+ is required)</td><td>@ref IBApi::EWrapper::tickSize</td><td>236</td></tr>
 	</table>
 	
 	\section halted Halted
@@ -120,7 +121,7 @@
 		<tr><td>1.5 or less</td><td>Contract is not available for short selling.</td></tr>
 	</table>
 		
-	The TWS API cannot send the exact number of shortable shares available. For more detailed information about shortability data (shortable shares, fee rate, rebate rate) available outside of TWS, IB provides an FTP site. For more information, see knowledge base article <a href="https://ibkb.interactivebrokers.com/it/article/2024" target="_blank">2024</a>
+	Receiving the actual number of shares available to short requires TWS 974+. For detailed information about shortability data (shortable shares, fee rate, rebate rate) available outside of TWS, IB also provides an FTP site. For more information on the FTP site, see knowledge base article <a href="https://ibkb.interactivebrokers.com/it/article/2024" target="_blank">2024</a>
 
 	\section volume_figures Volume Data
 	

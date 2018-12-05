@@ -46,7 +46,7 @@ namespace TWSLib
         [DispId(16)]
         void updateMktDepth(int id, int position, int operation, int side, double price, int size);
         [DispId(17)]
-        void updateMktDepthL2(int id, int position, string marketMaker, int operation, int side, double price, int size);
+        void updateMktDepthL2(int id, int position, string marketMaker, int operation, int side, double price, int size, bool isSmartDepth);
         [DispId(18)]
         void updateNewsBulletin(short msgId, short msgType, string message, string origExchange);
         [DispId(19)]
@@ -146,11 +146,18 @@ namespace TWSLib
         [DispId(122)]
         void accountUpdateMultiEnd(int requestId);
         [DispId(123)]
-        void securityDefinitionOptionParameter(int reqId, string exchange, int underlyingConId, string tradingClass, string multiplier, string[] expirations, double[] strikes);
+        void securityDefinitionOptionParameter(
+            int reqId, 
+            string exchange, 
+            int underlyingConId, 
+            string tradingClass, 
+            string multiplier,             
+            string expirations,
+            string strikes);
         [DispId(124)]
         void securityDefinitionOptionParameterEnd(int reqId);
         [DispId(125)]
-        void softDollarTiers(int reqid, SoftDollarTier[] tiers);
+        void softDollarTiers(int reqid, IComList tiers);
         [DispId(126)]
         void familyCodes(IFamilyCodeList familyCodes);
         [DispId(127)]
@@ -160,7 +167,7 @@ namespace TWSLib
         [DispId(129)]
         void tickNews(int tickerId, string timeStamp, string providerCode, string articleId, string headline, string extraData);
         [DispId(130)]
-        void smartComponents(int reqId, ArrayList[] theMap);
+        void smartComponents(int reqId, IComList theMap);
         [DispId(131)]
         void tickReqParams(int tickerId, double minTick, string bboExchange, int snapshotPermissions);
         [DispId(132)]
@@ -174,7 +181,7 @@ namespace TWSLib
         [DispId(136)]
         void headTimestamp(int reqId, string timestamp);
         [DispId(137)]
-        void histogramData(int reqId, ComHistogramEntry[] data);
+        void histogramData(int reqId, IHistogramEntry data);
         [DispId(138)]
         void rerouteMktDataReq(int reqId, int conId, string exchange);
         [DispId(139)]
@@ -199,5 +206,7 @@ namespace TWSLib
         void tickByTickMidPoint(int reqId, string time, double midPoint);
         [DispId(149)]
         void orderBound(string orderId, int apiClientId, int apiOrderId);
+        [DispId(150)]
+        void histogramDataEnd(int reqId);
     }
 }

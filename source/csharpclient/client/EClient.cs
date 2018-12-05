@@ -494,13 +494,31 @@ namespace IBApi
          * @param tickerId request's identifier.
          * @sa reqMarketDepth
          */
-        public void cancelMktDepth(int tickerId)
+        public void cancelMktDepth(int tickerId, bool isSmartDepth)
         {
             if (!CheckConnection())
                 return;
 
-            SendCancelRequest(OutgoingMessages.CancelMarketDepth, 1, tickerId,
-                EClientErrors.FAIL_SEND_CANMKTDEPTH);
+            if (isSmartDepth)
+            {
+                if (!CheckServerVersion(tickerId, MinServerVer.SMART_DEPTH, " It does not support SMART depth cancel."))
+                    return;
+            }
+
+            const int VERSION = 1;
+            var paramsList = new BinaryWriter(new MemoryStream());
+            var lengthPos = prepareBuffer(paramsList);
+
+            paramsList.AddParameter(OutgoingMessages.CancelMarketDepth);
+            paramsList.AddParameter(VERSION);
+            paramsList.AddParameter(tickerId);
+
+            if (serverVersion >= MinServerVer.SMART_DEPTH)
+            {
+                paramsList.AddParameter(isSmartDepth);
+            }
+
+            CloseAndSend(paramsList, lengthPos, EClientErrors.FAIL_SEND_CANMKTDEPTH);
         }
 
         /**
@@ -1145,6 +1163,11 @@ namespace IBApi
                 paramsList.AddParameter(order.IsOmsContainer);
             }
 
+            if (serverVersion >= MinServerVer.D_PEG_ORDERS)
+            {
+                paramsList.AddParameter(order.DiscretionaryUpToLimitPrice);
+            }
+
             CloseAndSend(id, paramsList, lengthPos, EClientErrors.FAIL_SEND_ORDER);
         }
 
@@ -1473,8 +1496,8 @@ namespace IBApi
         }
 
         /**
-         * @brief Requests the contract's Reuters or Wall Street Horizons fundamental data.
-         * Fundalmental data is returned at EWrapper::fundamentalData
+         * @brief Requests the contract's fundamental or Wall Street Horizons data.
+         * Fundamental data is returned at EWrapper::fundamentalData
          * @param reqId the request's unique identifier.
          * @param contract the contract's description for which the data will be returned.
          * @param reportType there are three available report types: 
@@ -1878,7 +1901,7 @@ namespace IBApi
 
         /**
          * @brief Switches data type returned from reqMktData request to "frozen", "delayed" or "delayed-frozen" market data. Requires TWS/IBG v963+.\n
-         * The API can receive frozen market data from Trader Workstation. Frozen market data is the last data recorded in our system.\n During normal trading hours, the API receives real-time market data. Invoking this function with argument 2 requests a switch to frozen data immediately or after the close.\n When the market reopens the next data the market data type will automatically switch back to real time if available.
+         * The API can receive frozen market data from Trader Workstation. Frozen market data is the last data recorded in our system.\n During normal trading hours, the API receives real-time market data. Invoking this function with argument 2 requests a switch to frozen data immediately or after the close.\n When the market reopens, the market data type will automatically switch back to real time if available.
          * @param marketDataType:
          *      by default only real-time (1) market data is enabled
          *      sending 1 (real-time) disables frozen, delayed and delayed-frozen market data
@@ -1907,9 +1930,10 @@ namespace IBApi
          * @param tickerId the request's identifier
          * @param contract the Contract for which the depth is being requested
          * @param numRows the number of rows on each side of the order book
+         * @param isSmartDepth flag indicates that this is smart depth request
          * @sa cancelMktDepth, EWrapper::updateMktDepth, EWrapper::updateMktDepthL2
          */
-        public void reqMarketDepth(int tickerId, Contract contract, int numRows, List<TagValue> mktDepthOptions)
+        public void reqMarketDepth(int tickerId, Contract contract, int numRows, bool isSmartDepth, List<TagValue> mktDepthOptions)
         {
             if (!CheckConnection())
                 return;
@@ -1917,6 +1941,12 @@ namespace IBApi
             if (!IsEmpty(contract.TradingClass) || contract.ConId > 0)
             {
                 if (!CheckServerVersion(tickerId, MinServerVer.TRADING_CLASS, " It does not support ConId nor TradingClass parameters in reqMktDepth."))
+                    return;
+            }
+
+            if (isSmartDepth)
+            {
+                if (!CheckServerVersion(tickerId, MinServerVer.SMART_DEPTH, " It does not support SMART depth request."))
                     return;
             }
 
@@ -1957,6 +1987,11 @@ namespace IBApi
             if (serverVersion >= 19)
             {
                 paramsList.AddParameter(numRows);
+            }
+
+            if (serverVersion >= MinServerVer.SMART_DEPTH)
+            {
+                paramsList.AddParameter(isSmartDepth);
             }
 
             if (serverVersion >= MinServerVer.LINKING)
@@ -3401,6 +3436,11 @@ namespace IBApi
             if (serverVersion < MinServerVer.ORDER_CONTAINER && order.IsOmsContainer)
             {
                 ReportError(id, EClientErrors.UPDATE_TWS, " It does not support oms container parameter.");
+            }
+
+            if (serverVersion < MinServerVer.D_PEG_ORDERS && order.DiscretionaryUpToLimitPrice)
+            {
+                ReportError(id, EClientErrors.UPDATE_TWS, " It does not support D-Peg orders.");
             }
 
             return true;

@@ -196,6 +196,10 @@ class Order(Object):
 
         self.dontUseAutoPriceForHedge = False
 
+        self.isOmsContainer = False
+
+        self.discretionaryUpToLimitPrice = False
+
     def __str__(self):
         s = "%s,%d,%s:" % (self.orderId, self.clientId, self.permId)
 

@@ -15,7 +15,7 @@ namespace TWSLib
      * @brief Class describing family code
      * @sa EClient::reqFamilyCodes, EWrapper::familyCodes
      */
-    [ComVisible(true)]
+    [ComVisible(true), ClassInterface(ClassInterfaceType.None)]
     public class ComFamilyCode : ComWrapper<FamilyCode>, IFamilyCode
     {
         /**

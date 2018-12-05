@@ -5,9 +5,6 @@
 #ifndef TWS_API_CLIENT_SOFTDOLLARTIER_H
 #define TWS_API_CLIENT_SOFTDOLLARTIER_H
 
-#ifndef _MSC_VER
-#include "StdAfx.h"
-#endif
 #include <string>
 
 class TWSAPIDLLEXP SoftDollarTier

@@ -171,7 +171,7 @@ Order OrderSamples::PeggedToStock(std::string action, double quantity, double de
 	order.orderType = "PEG STK";
 	order.totalQuantity = quantity;
 	order.delta = delta;
-	order.lmtPrice = stockReferencePrice;
+	order.stockRefPrice = stockReferencePrice;
 	order.startingPrice = startingPrice;
 	//! [pegged_stock]
 	return order;

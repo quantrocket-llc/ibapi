@@ -48,7 +48,7 @@ public class Testbed {
 		Thread.sleep(1000);
 
 		//tickByTickOperations(wrapper.getClient());
-		//tickDataOperations(wrapper.getClient());
+		tickDataOperations(wrapper.getClient());
 		//tickOptionComputations(wrapper.getClient());
 		//orderOperations(wrapper.getClient(), wrapper.getCurrentOrderId());
 		//contractOperations(wrapper.getClient());
@@ -56,7 +56,7 @@ public class Testbed {
 		//testAlgoSamples(wrapper.getClient(), wrapper.getCurrentOrderId());
 		//bracketSample(wrapper.getClient(), wrapper.getCurrentOrderId());
 		//bulletins(wrapper.getClient());
-		//reutersFundamentals(wrapper.getClient());
+		//fundamentals(wrapper.getClient());
 		//marketDataType(wrapper.getClient());
 		//historicalDataRequests(wrapper.getClient());
 		//accountOperations(wrapper.getClient());
@@ -70,7 +70,7 @@ public class Testbed {
 		//pnlSingle(wrapper.getClient());
 		//histogram(wrapper.getClient());
 		//whatIfSamples(wrapper.getClient(), wrapper.getCurrentOrderId());
-		historicalTicks(wrapper.getClient());
+		//historicalTicks(wrapper.getClient());
 
 		Thread.sleep(100000);
 		m_client.eDisconnect();
@@ -246,7 +246,7 @@ public class Testbed {
 		
 		//! [reqmktdata_genticks]
 		//Requesting RTVolume (Time & Sales), shortable and Fundamental Ratios generic ticks
-		client.reqMktData(1004, ContractSamples.USStock(), "233,236,258", false, false, null);
+		client.reqMktData(1004, ContractSamples.USStockAtSmart(), "233,236,258", false, false, null);
 		//! [reqmktdata_genticks]
 		//! [reqmktdata_contractnews]
 		// Without the API news subscription this will generate an "invalid tick type" error
@@ -364,14 +364,21 @@ public class Testbed {
 		//! [reqMktDepthExchanges]
 
         //! [reqmarketdepth]
-        client.reqMktDepth(2001, ContractSamples.EurGbpFx(), 5, null);
+        client.reqMktDepth(2001, ContractSamples.EurGbpFx(), 5, false, null);
         //! [reqmarketdepth]
         Thread.sleep(2000);
         /*** Canceling the Deep Book request ***/
         //! [cancelmktdepth]
-        client.cancelMktDepth(2001);
+        client.cancelMktDepth(2001, false);
         //! [cancelmktdepth]
-		
+
+        //! [reqmarketdepth]
+        client.reqMktDepth(2002, ContractSamples.EuropeanStock(), 5, true, null);
+        //! [reqmarketdepth]
+        Thread.sleep(5000);
+        //! [cancelmktdepth]
+        client.cancelMktDepth(2002, true);
+        //! [cancelmktdepth]
 	}
 	
 	private static void accountOperations(EClientSocket client) throws InterruptedException {
@@ -675,7 +682,7 @@ public class Testbed {
 		
 	}
 	
-	private static void reutersFundamentals(EClientSocket client) throws InterruptedException {
+	private static void fundamentals(EClientSocket client) throws InterruptedException {
 		
 		//! [reqfundamentaldata]
 		client.reqFundamentalData(8001, ContractSamples.USStock(), "ReportsFinSummary", null);
@@ -837,11 +844,11 @@ public class Testbed {
 		//! [reqmktdatacfd]
 
 		//! [reqmktdepthcfd]
-		client.reqMktDepth(16004, ContractSamples.USStockCFD(), 10, null);
+		client.reqMktDepth(16004, ContractSamples.USStockCFD(), 10, false, null);
 		Thread.sleep(1000);
-		client.reqMktDepth(16005, ContractSamples.EuropeanStockCFD(), 10, null);
+		client.reqMktDepth(16005, ContractSamples.EuropeanStockCFD(), 10, false, null);
 		Thread.sleep(1000);
-		client.reqMktDepth(16006, ContractSamples.CashCFD(), 10, null);
+		client.reqMktDepth(16006, ContractSamples.CashCFD(), 10, false, null);
 		Thread.sleep(1000);
 		//! [reqmktdepthcfd]
 	}

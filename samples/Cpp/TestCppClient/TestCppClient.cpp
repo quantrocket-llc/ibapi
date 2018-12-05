@@ -169,10 +169,10 @@ void TestCppClient::processMessages()
 			break;
 		case ST_MARKETSCANNERS_ACK:
 			break;
-		case ST_REUTERSFUNDAMENTALS:
-			reutersFundamentals();
+		case ST_FUNDAMENTALS:
+			fundamentals();
 			break;
-		case ST_REUTERSFUNDAMENTALS_ACK:
+		case ST_FUNDAMENTALS_ACK:
 			break;
 		case ST_BULLETINS:
 			bulletins();
@@ -398,7 +398,7 @@ void TestCppClient::tickDataOperation()
 	
 	//! [reqmktdata_genticks]
 	//Requesting RTVolume (Time & Sales), shortable and Fundamental Ratios generic ticks
-	m_pClient->reqMktData(1004, ContractSamples::USStock(), "233,236,258", false, false, TagValueListSPtr());
+	m_pClient->reqMktData(1004, ContractSamples::USStockAtSmart(), "233,236,258", false, false, TagValueListSPtr());
 	//! [reqmktdata_genticks]
 
 	//! [reqmktdata_contractnews]
@@ -491,12 +491,22 @@ void TestCppClient::marketDepthOperations()
 {
 	/*** Requesting the Deep Book ***/
 	//! [reqmarketdepth]
-	m_pClient->reqMktDepth(2001, ContractSamples::EurGbpFx(), 5, TagValueListSPtr());
+	m_pClient->reqMktDepth(2001, ContractSamples::EurGbpFx(), 5, false, TagValueListSPtr());
 	//! [reqmarketdepth]
 	std::this_thread::sleep_for(std::chrono::seconds(2));
 	/*** Canceling the Deep Book request ***/
 	//! [cancelmktdepth]
-	m_pClient->cancelMktDepth(2001);
+	m_pClient->cancelMktDepth(2001, false);
+	//! [cancelmktdepth]
+
+	/*** Requesting the Deep Book ***/
+	//! [reqmarketdepth]
+	m_pClient->reqMktDepth(2002, ContractSamples::EuropeanStock(), 5, true, TagValueListSPtr());
+	//! [reqmarketdepth]
+	std::this_thread::sleep_for(std::chrono::seconds(5));
+	/*** Canceling the Deep Book request ***/
+	//! [cancelmktdepth]
+	m_pClient->cancelMktDepth(2002, true);
 	//! [cancelmktdepth]
 
 	m_state = ST_MARKETDEPTHOPERATION_ACK;
@@ -637,7 +647,7 @@ void TestCppClient::marketScanners()
 	m_state = ST_MARKETSCANNERS_ACK;
 }
 
-void TestCppClient::reutersFundamentals()
+void TestCppClient::fundamentals()
 {
 	/*** Requesting Fundamentals ***/
 	//! [reqfundamentaldata]
@@ -650,7 +660,7 @@ void TestCppClient::reutersFundamentals()
 	m_pClient->cancelFundamentalData(8001);
 	//! [cancelfundamentaldata]
 
-	m_state = ST_REUTERSFUNDAMENTALS_ACK;
+	m_state = ST_FUNDAMENTALS_ACK;
 }
 
 void TestCppClient::bulletins()
@@ -1224,11 +1234,11 @@ void TestCppClient::rerouteCFDOperations()
 	//! [reqmktdatacfd]
 
     //! [reqmktdepthcfd]
-	m_pClient->reqMktDepth(16004, ContractSamples::USStockCFD(), 10, TagValueListSPtr());
+	m_pClient->reqMktDepth(16004, ContractSamples::USStockCFD(), 10, false, TagValueListSPtr());
     std::this_thread::sleep_for(std::chrono::seconds(1));
-	m_pClient->reqMktDepth(16005, ContractSamples::EuropeanStockCFD(), 10, TagValueListSPtr());
+	m_pClient->reqMktDepth(16005, ContractSamples::EuropeanStockCFD(), 10, false, TagValueListSPtr());
     std::this_thread::sleep_for(std::chrono::seconds(1));
-	m_pClient->reqMktDepth(16006, ContractSamples::CashCFD(), 10, TagValueListSPtr());
+	m_pClient->reqMktDepth(16006, ContractSamples::CashCFD(), 10, false, TagValueListSPtr());
 	std::this_thread::sleep_for(std::chrono::seconds(1));
 	//! [reqmktdepthcfd]
 
@@ -1338,9 +1348,9 @@ void TestCppClient::nextValidId( OrderId orderId)
 	//! [nextvalidid]
 
     //m_state = ST_TICKOPTIONCOMPUTATIONOPERATION; 
-    //m_state = ST_TICKDATAOPERATION; 
+    m_state = ST_TICKDATAOPERATION; 
     //m_state = ST_REQTICKBYTICKDATA; 
-    m_state = ST_REQHISTORICALTICKS; 
+    //m_state = ST_REQHISTORICALTICKS; 
     //m_state = ST_CONTFUT; 
     //m_state = ST_PNLSINGLE; 
     //m_state = ST_PNL; 
@@ -1351,7 +1361,7 @@ void TestCppClient::nextValidId( OrderId orderId)
 	//m_state = ST_HISTORICALDATAREQUESTS;
 	//m_state = ST_CONTRACTOPERATION;
 	//m_state = ST_MARKETSCANNERS;
-	//m_state = ST_REUTERSFUNDAMENTALS;
+	//m_state = ST_FUNDAMENTALS;
 	//m_state = ST_BULLETINS;
 	//m_state = ST_ACCOUNTOPERATIONS;
 	//m_state = ST_ORDEROPERATIONS;
@@ -1632,8 +1642,8 @@ void TestCppClient::updateMktDepth(TickerId id, int position, int operation, int
 
 //! [updatemktdepthl2]
 void TestCppClient::updateMktDepthL2(TickerId id, int position, const std::string& marketMaker, int operation,
-                                     int side, double price, int size) {
-	printf( "UpdateMarketDepthL2. %ld - Position: %d, Operation: %d, Side: %d, Price: %g, Size: %d\n", id, position, operation, side, price, size);
+                                     int side, double price, int size, bool isSmartDepth) {
+	printf( "UpdateMarketDepthL2. %ld - Position: %d, Operation: %d, Side: %d, Price: %g, Size: %d, isSmartDepth: %d\n", id, position, operation, side, price, size, isSmartDepth);
 }
 //! [updatemktdepthl2]
 

@@ -4,7 +4,7 @@ and conditions of the IB API Non-Commercial License or the IB API Commercial Lic
 """
 
 from ibapi.object_implem import Object 
-
+from ibapi import utils
 
 class CommissionReport(Object):
 
@@ -17,8 +17,5 @@ class CommissionReport(Object):
         self.yieldRedemptionDate = 0  # YYYYMMDD format
 
     def __str__(self):
-        s = "%s: %f %s %f %f %d" % (self.execId, self.commission, 
-            self.currency, self.realizedPNL, self.yield_, 
-            self.yieldRedemptionDate)
-        return s
- 
+        return "ExecId: %s, Commission: %f, Currency: %s, RealizedPnL: %s, Yield: %s, YieldRedemptionDate: %d" % (self.execId, self.commission, 
+            self.currency, utils.floatToStr(self.realizedPNL), utils.floatToStr(self.yield_), self.yieldRedemptionDate)

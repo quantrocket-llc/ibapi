@@ -466,17 +466,17 @@ namespace IBSampleApp
             var tmp = UpdateMktDepth;
 
             if (tmp != null)
-                sc.Post((t) => tmp(new DeepBookMessage(tickerId, position, operation, side, price, size, "")), null);
+                sc.Post((t) => tmp(new DeepBookMessage(tickerId, position, operation, side, price, size, "", false)), null);
         }
 
         public event Action<DeepBookMessage> UpdateMktDepthL2;
 
-        void EWrapper.updateMktDepthL2(int tickerId, int position, string marketMaker, int operation, int side, double price, int size)
+        void EWrapper.updateMktDepthL2(int tickerId, int position, string marketMaker, int operation, int side, double price, int size, bool isSmartDepth)
         {
             var tmp = UpdateMktDepthL2;
 
             if (tmp != null)
-                sc.Post((t) => tmp(new DeepBookMessage(tickerId, position, operation, side, price, size, marketMaker)), null);
+                sc.Post((t) => tmp(new DeepBookMessage(tickerId, position, operation, side, price, size, marketMaker, isSmartDepth)), null);
         }
 
         public event Action<int, int, String, String> UpdateNewsBulletin;

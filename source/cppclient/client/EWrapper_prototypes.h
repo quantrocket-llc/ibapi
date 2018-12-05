@@ -39,7 +39,7 @@ virtual void error(int id, int errorCode, const std::string& errorString) EWRAPP
 virtual void updateMktDepth(TickerId id, int position, int operation, int side,
 	double price, int size) EWRAPPER_VIRTUAL_IMPL;
 virtual void updateMktDepthL2(TickerId id, int position, const std::string& marketMaker, int operation,
-	int side, double price, int size) EWRAPPER_VIRTUAL_IMPL;
+	int side, double price, int size, bool isSmartDepth) EWRAPPER_VIRTUAL_IMPL;
 virtual void updateNewsBulletin(int msgId, int msgType, const std::string& newsMessage, const std::string& originExch) EWRAPPER_VIRTUAL_IMPL;
 virtual void managedAccounts( const std::string& accountsList) EWRAPPER_VIRTUAL_IMPL;
 virtual void receiveFA(faDataType pFaDataType, const std::string& cxml) EWRAPPER_VIRTUAL_IMPL;

@@ -1,4 +1,4 @@
-﻿/* Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 using System;
 using System.Collections.Generic;
@@ -16,8 +16,9 @@ namespace IBSampleApp.messages
         private double price;
         private int size;
         private string marketMaker;
+        private bool isSmartDepth;
 
-        public DeepBookMessage(int tickerId, int position, int operation, int side, double price, int size, string marketMaker)
+        public DeepBookMessage(int tickerId, int position, int operation, int side, double price, int size, string marketMaker, bool isSmartDepth)
         {
             RequestId = tickerId;
             Position = position;
@@ -26,6 +27,7 @@ namespace IBSampleApp.messages
             Price = price;
             Size = size;
             MarketMaker = marketMaker;
+            IsSmartDepth = isSmartDepth;
         }
 
         public int RequestId
@@ -68,6 +70,12 @@ namespace IBSampleApp.messages
         {
             get { return marketMaker; }
             set { marketMaker = value; }
+        }
+
+        public bool IsSmartDepth
+        {
+            get { return isSmartDepth; }
+            set { isSmartDepth = value; }
         }
         
     }

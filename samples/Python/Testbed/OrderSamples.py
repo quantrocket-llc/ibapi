@@ -3,14 +3,12 @@ Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is su
 and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable.
 """
 
-import sys
 
-import ibapi.order_condition
 from ibapi.order import (OrderComboLeg, Order)
-from ibapi.common import *
+from ibapi.common import * # @UnusedWildImport
 from ibapi.tag_value import TagValue
 from ibapi import order_condition
-from ibapi.order_condition import *
+from ibapi.order_condition import * # @UnusedWildImport
 
 
 class OrderSamples:
@@ -185,7 +183,7 @@ class OrderSamples:
         order.orderType = "PEG STK"
         order.totalQuantity = quantity
         order.delta = delta
-        order.lmtPrice = stockReferencePrice
+        order.stockRefPrice = stockReferencePrice
         order.startingPrice = startingPrice
         #! [pegged_stock]
         return order
@@ -838,7 +836,7 @@ class OrderSamples:
     #/ of taking on a single position.
     #/ Products: BOND, CASH, FUT, FOP, STK, OPT, WAR
     </summary>"""
-   # ! [oca]
+    # ! [oca]
     @staticmethod
     def OneCancelsAll(ocaGroup:str, ocaOrders:ListOfOrder, ocaType:int):
     
@@ -1102,8 +1100,8 @@ class OrderSamples:
 
 
 def Test():
-    os = OrderSamples()
+    os = OrderSamples() # @UnusedVariable
 
 if "__main__" == __name__:
-   Test()
+    Test()
        

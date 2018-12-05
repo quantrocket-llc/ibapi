@@ -439,14 +439,14 @@ Namespace Samples
         '! [updatemktdepth]
         Public Sub updateMktDepth(tickerId As Integer, position As Integer, operation As Integer, side As Integer, price As Double, size As Integer) Implements IBApi.EWrapper.updateMktDepth
             Console.WriteLine("UpdateMarketDepth. " & CStr(tickerId) & " - Position: " & CStr(position) & ", Operation: " & CStr(operation) & ", Side: " & CStr(side) &
-                          ", Price: " & CStr(price) & ", Size" & CStr(size))
+                          ", Price: " & CStr(price) & ", Size: " & CStr(size))
         End Sub
         '! [updatemktdepth]
 
         '! [updatemktdepthl2]
-        Public Sub updateMktDepthL2(tickerId As Integer, position As Integer, marketMaker As String, operation As Integer, side As Integer, price As Double, size As Integer) Implements IBApi.EWrapper.updateMktDepthL2
-            Console.WriteLine("UpdateMarketDepthL2. " & tickerId & " - Position: " & position & ", Operation: " & operation & ", Side: " & side &
-                          ", Price: " & price & ", Size" & size)
+        Public Sub updateMktDepthL2(tickerId As Integer, position As Integer, marketMaker As String, operation As Integer, side As Integer, price As Double, size As Integer, isSmartDepth As Boolean) Implements IBApi.EWrapper.updateMktDepthL2
+            Console.WriteLine("UpdateMarketDepthL2. " & CStr(tickerId) & " - Position: " & CStr(position) & ", Operation: " & CStr(operation) & ", Side: " & CStr(side) &
+                          ", Price: " & CStr(price) & ", Size: " & CStr(size) & ", isSmartDepth: " & CStr(isSmartDepth))
         End Sub
         '! [updatemktdepthl2]
 

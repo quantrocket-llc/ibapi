@@ -15,7 +15,7 @@ namespace TWSLib
      * @brief Allows to specify a price on an order's leg
      * @sa Order, ComboLeg
      */
-    [ComVisible(true)]
+    [ComVisible(true), ClassInterface(ClassInterfaceType.None)]
     public class ComOrderComboLeg : ComWrapper<OrderComboLeg>, IOrderComboLeg
     {
         /**

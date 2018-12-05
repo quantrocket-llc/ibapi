@@ -26,45 +26,47 @@
 		</li>
 	</ul>
 
-	Depending on the type of data requested, it will be returned to one of the functions IBApi::EWrapper::historicalTicksLast, IBApi::EWrapper::historicalTicksBidAsk, IBApi::EWrapper::tickByTickMidPoint, or IBApi::EWrapper::tickByTickAllLast
-	
+	Depending on the data type chosen in IBApi::EClient::reqTickByTickData, data will be returned to one of the functions IBApi::EWrapper::tickByTickAllLast, IBApi::EWrapper::tickByTickBidAsk, or IBApi::EWrapper::tickByTickMidPoint. Additionally, if a non-zero value is input for the argument <i>numberOfTicks</i>  in IBApi::EClient::reqTickByTickData, historical tick data is first returned to one of the functions IBApi::EWrapper::historicalTicksLast, IBApi::EWrapper::historicalTicksBidAsk, or IBApi::EWrapper::historicalTicks, respectively. 
+
 	<ul id="tab">
 		<li class="active">
-			\snippet EWrapperImpl.cs historicaltickslast
+			\snippet EWrapperImpl.cs tickbytickbidask
 		</li>
 		<li>
-			\snippet EWrapperImpl.java historicaltickslast
+			\snippet EWrapperImpl.java tickbytickbidask
 		</li>
 		<li>
-			\snippet EWrapperImpl.vb historicaltickslast
+			\snippet EWrapperImpl.vb tickbytickbidask
 		</li>
 		<li>
-			\snippet TestCppClient.cpp historicaltickslast
+			\snippet TestCppClient.cpp tickbytickbidask
 		</li>
 		<li>
-			\snippet Program.py historicaltickslast
+			\snippet Program.py tickbytickbidask
 		</li>
 	</ul>
 	
-	<br>
-	
+	<br>	
+			
 	<ul id="tab">
 		<li class="active">
-			\snippet EWrapperImpl.cs historicalticksbidask
+			\snippet EWrapperImpl.cs tickbytickalllast
 		</li>
 		<li>
-			\snippet EWrapperImpl.java historicalticksbidask
+			\snippet EWrapperImpl.java tickbytickalllast
 		</li>
 		<li>
-			\snippet EWrapperImpl.vb historicalticksbidask
+			\snippet EWrapperImpl.vb tickbytickalllast
 		</li>
 		<li>
-			\snippet TestCppClient.cpp historicalticksbidask
+			\snippet TestCppClient.cpp tickbytickalllast
 		</li>
 		<li>
-			\snippet Program.py historicalticksbidask
+			\snippet Program.py tickbytickalllast
 		</li>
 	</ul>
+	
+	- Trade data for non-reportable trades, such as combos and block trades, are included in the 'AllLast' data type available with the real time data feed but are not recorded in the historical database.
 	
 	<br>
 	
@@ -87,24 +89,6 @@
 	</ul>
 	
 	<br>
-	
-	<ul id="tab">
-		<li class="active">
-			\snippet EWrapperImpl.cs tickbytickalllast
-		</li>
-		<li>
-			\snippet EWrapperImpl.java tickbytickalllast
-		</li>
-		<li>
-			\snippet EWrapperImpl.vb tickbytickalllast
-		</li>
-		<li>
-			\snippet TestCppClient.cpp tickbytickalllast
-		</li>
-		<li>
-			\snippet Program.py tickbytickalllast
-		</li>
-	</ul>
 	
 	Tick-by-tick subscriptions can be cancelled using the function IBApi::EClient::cancelTickByTickData
 	<br>

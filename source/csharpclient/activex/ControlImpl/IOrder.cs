@@ -312,5 +312,8 @@ namespace TWSLib
 
         [DispId(174)]
         bool isOmsContainer { get; set; }
+
+        [DispId(175)]
+        bool discretionaryUpToLimitPrice { get; set; }
     }
 }

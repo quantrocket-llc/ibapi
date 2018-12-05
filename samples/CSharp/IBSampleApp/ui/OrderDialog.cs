@@ -331,6 +331,7 @@ namespace IBSampleApp
             order.Mifid2ExecutionAlgo = mifid2ExecutionAlgo.Text;
             order.DontUseAutoPriceForHedge = dontUseAutoPriceForHedge.Checked;
             order.IsOmsContainer = omsContainer.Checked;
+            order.DiscretionaryUpToLimitPrice = relativeDiscretionary.Checked;
         }
 
         private void FillVolatilityAttributes(Order order)

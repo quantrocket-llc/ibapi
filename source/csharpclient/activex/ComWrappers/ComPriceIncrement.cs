@@ -15,7 +15,7 @@ namespace TWSLib
      * @brief Class describing price increment
      * @sa EClient::reqMarketRule, EWrapper::marketRule
      */
-    [ComVisible(true)]
+    [ComVisible(true), ClassInterface(ClassInterfaceType.None)]
     public class ComPriceIncrement : ComWrapper<PriceIncrement>, IPriceIncrement
     {
         /**

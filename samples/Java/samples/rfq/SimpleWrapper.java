@@ -190,7 +190,7 @@ public class SimpleWrapper implements EWrapper {
 	}
 
 	public void updateMktDepthL2(int tickerId, int position, String marketMaker, int operation,
-			int side, double price, int size) {
+			int side, double price, int size, boolean isSmartDepth) {
 		logIn("updateMktDepthL2");
 	}
 

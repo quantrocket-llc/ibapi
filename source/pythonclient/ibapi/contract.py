@@ -25,7 +25,7 @@ class ComboLeg(Object):
         self.action = ""      # BUY/SELL/SSHORT
         self.exchange = ""
         self.openClose = 0   # type: int; LegOpenClose enum values
-         # for stock legs when doing short sale
+        # for stock legs when doing short sale
         self.shortSaleSlot = 0
         self.designatedLocation = ""
         self.exemptCode = -1

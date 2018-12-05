@@ -30,26 +30,11 @@ class Execution(Object):
         self.lastLiquidity = 0
 
     def __str__(self):
-        return ",".join((
-            str(self.execId),
-            str(self.time),
-            str(self.acctNumber),
-            str(self.exchange),
-            str(self.side),
-            str(self.shares),
-            str(self.price),
-            str(self.permId),
-            str(self.clientId),
-            str(self.orderId),
-            str(self.liquidation),
-            str(self.cumQty),
-            str(self.avgPrice),
-            str(self.orderRef),
-            str(self.evRule),
-            str(self.evMultiplier),
-            str(self.modelCode),
-            str(self.lastLiquidity)))
-     
+        return "ExecId: %s, Time: %s, Account: %s, Exchange: %s, Side: %s, Shares: %f, Price: %f, PermId: %d, " \
+                "ClientId: %d, OrderId: %d, Liquidation: %d, CumQty: %f, AvgPrice: %f, OrderRef: %s, EvRule: %s, " \
+                "EvMultiplier: %f, ModelCode: %s, LastLiquidity: %d" % (self.execId, self.time, self.acctNumber, 
+                self.exchange, self.side, self.shares, self.price, self.permId, self.clientId, self.orderId, self.liquidation,
+                self.cumQty, self.avgPrice, self.orderRef, self.evRule, self.evMultiplier, self.modelCode, self.lastLiquidity)
 
 class ExecutionFilter(Object):
 

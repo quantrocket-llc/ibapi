@@ -8,7 +8,6 @@ using IBApi;
 namespace TWSLib
 {
     [ComVisible(true), Guid("505BDC19-DA33-4C3B-A905-87F0C8898485")]
-
     public interface IHistoricalTickList
     {
         [DispId(-4)]
@@ -25,10 +24,10 @@ namespace TWSLib
         object Add(ComHistoricalTick comHistoricalTick);
     }
 
-    [ComVisible(true)]
+    [ComVisible(true), ClassInterface(ClassInterfaceType.None)]
     public class ComHistoricalTickList : IHistoricalTickList
     {
-        public ComList<ComHistoricalTick, IBApi.HistoricalTick> HistoricalTickList { get; private set; }
+        private ComList<ComHistoricalTick, IBApi.HistoricalTick> HistoricalTickList;
 
         public ComHistoricalTickList() : this(null) { }
 

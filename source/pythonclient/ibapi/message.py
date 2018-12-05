@@ -91,6 +91,7 @@ class IN:
     HISTORICAL_TICKS_BID_ASK  = 97
     HISTORICAL_TICKS_LAST     = 98
     TICK_BY_TICK              = 99
+    ORDER_BOUND               = 100
 
 # outgoing msg id's
 class OUT:

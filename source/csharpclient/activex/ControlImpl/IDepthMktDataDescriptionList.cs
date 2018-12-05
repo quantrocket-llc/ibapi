@@ -23,10 +23,10 @@ namespace TWSLib
         object Add();
     }
 
-    [ComVisible(true)]
+    [ComVisible(true), ClassInterface(ClassInterfaceType.None)]
     public class ComDepthMktDataDescriptionList : IDepthMktDataDescriptionList
     {
-        public ComList<ComDepthMktDataDescription, IBApi.DepthMktDataDescription> DepthMktDataDescriptionList { get; private set; }
+        private ComList<ComDepthMktDataDescription, IBApi.DepthMktDataDescription> DepthMktDataDescriptionList;
 
         public ComDepthMktDataDescriptionList() : this(null) { }
 

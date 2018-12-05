@@ -27,6 +27,7 @@ namespace IBSampleApp.ui
         private const int ASK_MAKER_IDX = 5;
 
         private DataGridView mktDepthExchangesGrid;
+        private bool isSmartDepth;
 
         
         public DeepBookManager(IBClient client, DataGridView dataGrid, DataGridView mktDepthExchangesGrid) : base(client, dataGrid)
@@ -34,11 +35,12 @@ namespace IBSampleApp.ui
             MktDepthExchangesGrid = mktDepthExchangesGrid;
         }
         
-        public void AddRequest(Contract contract, int numEntries)
+        public void AddRequest(Contract contract, int numEntries, bool isSmartDepth)
         {
             numRows = numEntries;
+            IsSmartDepth = isSmartDepth;
             StopActiveRequests();
-            ibClient.ClientSocket.reqMarketDepth(currentTicker + TICK_ID_BASE, contract, numRows, new List<TagValue>());
+            ibClient.ClientSocket.reqMarketDepth(currentTicker + TICK_ID_BASE, contract, numRows, IsSmartDepth, new List<TagValue>());
             isSubscribed = true;
         }
 
@@ -50,7 +52,7 @@ namespace IBSampleApp.ui
         {
             if (isSubscribed)
             {
-                ibClient.ClientSocket.cancelMktDepth(currentTicker + TICK_ID_BASE);
+                ibClient.ClientSocket.cancelMktDepth(currentTicker + TICK_ID_BASE, IsSmartDepth);
                 ((DataGridView)uiControl).Rows.Clear();
                 isSubscribed = false;
             }
@@ -67,30 +69,20 @@ namespace IBSampleApp.ui
             DataGridView grid = (DataGridView)uiControl;
 
             if (grid.Rows.Count == 0)
-                grid.Rows.Add(numRows * 2);
+                grid.Rows.Add(numRows);
 
             if (entry.Side == 1)
             {
-                grid[BID_MAKER_IDX, GetBidIndex(entry.Position)].Value = entry.MarketMaker;
-                grid[BID_SIZE_IDX, GetBidIndex(entry.Position)].Value = entry.Size;
-                grid[BID_PRICE_IDX, GetBidIndex(entry.Position)].Value = entry.Price;
+                grid[BID_MAKER_IDX, entry.Position].Value = entry.MarketMaker;
+                grid[BID_SIZE_IDX, entry.Position].Value = entry.Size;
+                grid[BID_PRICE_IDX, entry.Position].Value = entry.Price;
             }
             else
             {
-                grid[ASK_MAKER_IDX, GetAskIndex(entry.Position)].Value = entry.MarketMaker;
-                grid[ASK_SIZE_IDX, GetAskIndex(entry.Position)].Value = entry.Size;
-                grid[ASK_PRICE_IDX, GetAskIndex(entry.Position)].Value = entry.Price;
+                grid[ASK_MAKER_IDX, entry.Position].Value = entry.MarketMaker;
+                grid[ASK_SIZE_IDX, entry.Position].Value = entry.Size;
+                grid[ASK_PRICE_IDX, entry.Position].Value = entry.Price;
             }
-        }
-
-        private int GetAskIndex(int position)
-        {
-            return (numRows - 1) - position;
-        }
-
-        private int GetBidIndex(int position)
-        {
-            return numRows + position;
         }
 
         public void ReqMktDepthExchanges()
@@ -123,6 +115,12 @@ namespace IBSampleApp.ui
         {
             get { return mktDepthExchangesGrid; }
             set { mktDepthExchangesGrid = value; }
+        }
+
+        public bool IsSmartDepth
+        {
+            get { return isSmartDepth; }
+            set { isSmartDepth = value; }
         }
 
     }

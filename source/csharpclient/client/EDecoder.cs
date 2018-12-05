@@ -1795,6 +1795,11 @@ namespace IBApi
                 order.IsOmsContainer = ReadBoolFromInt();
             }
 
+            if (serverVersion >= MinServerVer.D_PEG_ORDERS)
+            {
+                order.DiscretionaryUpToLimitPrice = ReadBoolFromInt();
+            }
+
             eWrapper.openOrder(order.OrderId, contract, order, orderState);
         }
 
@@ -2094,7 +2099,14 @@ namespace IBApi
             int side = ReadInt();
             double price = ReadDouble();
             int size = ReadInt();
-            eWrapper.updateMktDepthL2(requestId, position, marketMaker, operation, side, price, size);
+
+            bool isSmartDepth = false;
+            if (serverVersion >= MinServerVer.SMART_DEPTH)
+            {
+                isSmartDepth = ReadBoolFromInt();
+            }
+
+            eWrapper.updateMktDepthL2(requestId, position, marketMaker, operation, side, price, size, isSmartDepth);
         }
 
         private void NewsBulletinsEvent()

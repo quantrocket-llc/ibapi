@@ -15,7 +15,7 @@ namespace TWSLib
      * @brief Class describing an order's execution.
      * @sa ExecutionFilter, CommissionReport
      */
-    [ComVisible(true)]
+    [ComVisible(true), ClassInterface(ClassInterfaceType.None)]
     public class ComExecution : ComWrapper<Execution>, IExecution
     {
         /**

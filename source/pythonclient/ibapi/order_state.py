@@ -9,20 +9,20 @@ from ibapi.common import UNSET_DOUBLE
 class OrderState:
 
     def __init__(self):
-      self.status= ""
+        self.status= ""
 
-      self.initMarginBefore= ""
-      self.maintMarginBefore= ""
-      self.equityWithLoanBefore= ""
-      self.initMarginChange= ""
-      self.maintMarginChange= ""
-      self.equityWithLoanChange= ""
-      self.initMarginAfter= ""
-      self.maintMarginAfter= ""
-      self.equityWithLoanAfter= ""
+        self.initMarginBefore= ""
+        self.maintMarginBefore= ""
+        self.equityWithLoanBefore= ""
+        self.initMarginChange= ""
+        self.maintMarginChange= ""
+        self.equityWithLoanChange= ""
+        self.initMarginAfter= ""
+        self.maintMarginAfter= ""
+        self.equityWithLoanAfter= ""
 
-      self.commission = UNSET_DOUBLE      # type: float
-      self.minCommission = UNSET_DOUBLE   # type: float
-      self.maxCommission = UNSET_DOUBLE   # type: float
-      self.commissionCurrency = ""
-      self.warningText = ""
+        self.commission = UNSET_DOUBLE      # type: float
+        self.minCommission = UNSET_DOUBLE   # type: float
+        self.maxCommission = UNSET_DOUBLE   # type: float
+        self.commissionCurrency = ""
+        self.warningText = ""

@@ -403,7 +403,7 @@ namespace IBApi
         void openOrderEnd();
 
         /**
-         * @brief receives the full contract's definitons
+         * @brief receives the full contract's definitions
          * This method will return all contracts matching the requested via EClientSocket::reqContractDetails. For example, one can obtain the whole option chain with it.
          * @param reqId the unique request identifier
          * @param contractDetails the instrument's complete definition.        
@@ -441,9 +441,9 @@ namespace IBApi
         void commissionReport(CommissionReport commissionReport);
 
         /**
-         * @brief returns Reuters' Fundamental data
+         * @brief returns fundamental data
          * @param reqId the request's identifier
-         * @param data Reuthers xml-formatted fundamental data
+         * @param data xml-formatted fundamental data
          * @sa EClientSocket::reqFundamentalData
          */
         void fundamentalData(int reqId, string data);
@@ -472,7 +472,7 @@ namespace IBApi
          * @brief Returns the market data type (real-time, frozen, delayed, delayed-frozen) of ticker sent by EClientSocket::reqMktData 
          * when TWS switches from real-time to frozen and back and from delayed to delayed-frozen and back
          * @param reqId the id of ticker sent in reqMktData
-         * @param marketDataType means that now API starts to tick with the folloiwng market data: 1 for real-time, 2 for frozen, 3 for delayed, 4 for delayed-frozen
+         * @param marketDataType means that now API starts to tick with the following market data: 1 for real-time, 2 for frozen, 3 for delayed, 4 for delayed-frozen
          * @sa EClientSocket::reqMarketDataType, EClientSocket::reqMktData
          */
         void marketDataType(int reqId, int marketDataType);
@@ -504,9 +504,10 @@ namespace IBApi
          * @param side 0 for ask, 1 for bid
          * @param price the order's price
          * @param size the order's size
+         * @param isSmartDepth flag indicating that this is smart depth response
          * @sa updateMktDepth, EClientSocket::reqMarketDepth
          */
-        void updateMktDepthL2(int tickerId, int position, string marketMaker, int operation, int side, double price, int size);
+        void updateMktDepthL2(int tickerId, int position, string marketMaker, int operation, int side, double price, int size, bool isSmartDepth);
 
         /**
          * @brief provides IB's bulletins
