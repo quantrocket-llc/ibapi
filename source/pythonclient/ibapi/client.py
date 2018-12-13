@@ -217,16 +217,10 @@ class EClient(object):
 
     def run(self):
         """This is the function that has the message loop."""
-        timeStart = time.time()
-        timeOut = 20
 
         try:
             while not self.done and (self.isConnected()
                         or not self.msg_queue.empty()):
-                if time.time() - timeStart > timeOut: # stop application after timeout
-                    self.keyboardInterrupt()
-                    self.keyboardInterruptHard()
-
                 try:
                     try:
                         text = self.msg_queue.get(block=True, timeout=0.2)
