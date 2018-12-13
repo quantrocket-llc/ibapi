@@ -298,7 +298,7 @@ namespace IBApi
          *      \t\t 1 = Cancel all remaining orders with block.\n
          *      \t\t 2 = Remaining orders are proportionately reduced in size with block.\n
          *      \t\t 3 = Remaining orders are proportionately reduced in size with no block.\n
-         * If you use a value "with block" gives your order has overfill protection. This means that only one order in the group will be routed at a time to remove the possibility of an overfill.
+         * If you use a value "with block" it gives the order overfill protection. This means that only one order in the group will be routed at a time to remove the possibility of an overfill.
          */
         public int OcaType
         {
