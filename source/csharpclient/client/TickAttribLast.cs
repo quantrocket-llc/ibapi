@@ -16,7 +16,7 @@ namespace IBApi
     public class TickAttribLast
     {
         /**
-         * @brief Used with tick-by-tick last data or historical ticks last to indicate if a trade is halted
+         * @brief Not currently used with trade data; only applies to bid/ask data. 
          */
         public bool PastLimit { get; set; }
 
