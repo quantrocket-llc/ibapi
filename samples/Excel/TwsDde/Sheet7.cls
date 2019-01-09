@@ -53,7 +53,7 @@ Sub reqMktDepth()
     
     id = util.getIDpost(genId)
     
-    ActiveCell.offset(0, DDEoffset).Formula = util.composeControlLink(server, topic, id, reqType, req)
+    'ActiveCell.offset(0, DDEoffset).Formula = util.composeControlLink(server, topic, id, reqType, req)
     ' Set the control cell
     Dim startRow As Integer, currRow As Integer, i As Integer
     ActiveCell.offset(0, DDEoffset + 11).Formula = _

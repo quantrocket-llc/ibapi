@@ -51,7 +51,7 @@ Public Const COMBO_LEG_COLUMN = 11
 Public Const GENERICTICKS_CONST = "GENERICTICKS"
 Public Const SERVER_NAME_CHAR = "S"
 Const maxRowsToFormat = 200 ' increase this if your spreadsheets go beyond the 200th row
-Const maxColsToFormat = 50  ' increase this if your spreadsheets go beyond the 50th column
+Const maxColsToFormat = 53  ' increase this if your spreadsheets go beyond the 50th column
 Const doNotColor = -1
 Const doNotDelete = -1
 Public Function safeWorksheetName(ByVal worksheetName As String) As String

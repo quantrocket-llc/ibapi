@@ -28,4 +28,12 @@ public enum OrderConditionType {
 		
 		throw new NumberFormatException();
 	}
+
+	public static OrderConditionType fromString(String s) {
+	    for (OrderConditionType i : OrderConditionType.values())
+	        if (i.name().equalsIgnoreCase(s))
+	            return i;
+
+	    throw new RuntimeException("Invalid order condition type: " + s);
+	}
 }
