@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #ifndef TWS_API_CLIENT_PLATFORMSPECIFIC_H
 #define TWS_API_CLIENT_PLATFORMSPECIFIC_H
 
