@@ -9,6 +9,7 @@
 #include <limits.h>
 #include <string>
 
+
 #define UNSET_DOUBLE DBL_MAX
 #define UNSET_INTEGER INT_MAX
 #define NO_ROW_NUMBER_SPECIFIED -1;

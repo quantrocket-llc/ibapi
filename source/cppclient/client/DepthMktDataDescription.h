@@ -6,6 +6,8 @@
 #define TWS_API_CLIENT_DEPTHMKTDATADESCRIPTION_H
 
 #include <limits.h>
+#include <string>
+
 #define UNSET_INTEGER INT_MAX
 
 struct DepthMktDataDescription

@@ -2,8 +2,8 @@
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 #include "StdAfx.h"
 
-#include "OrderSamples.h"
 #include "Order.h"
+#include "OrderSamples.h"
 #include "PriceCondition.h"
 #include "executioncondition.h"
 #include "MarginCondition.h"

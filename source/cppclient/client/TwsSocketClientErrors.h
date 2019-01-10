@@ -5,6 +5,8 @@
 #ifndef TWS_API_CLIENT_TWSSOCKETCLIENTERRORS_H
 #define TWS_API_CLIENT_TWSSOCKETCLIENTERRORS_H
 
+#include <string>
+
 static const int NO_VALID_ID = -1;
 static const int NO_VALID_ERROR_CODE = 0;
 static const int SYSTEM_ERROR = 600;

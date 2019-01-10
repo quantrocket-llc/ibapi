@@ -9,6 +9,7 @@
 #include <set>
 #include <map>
 #include <tuple>
+#include <vector>
 #include "CommonDefs.h"
 #include "SoftDollarTier.h"
 #include "DepthMktDataDescription.h"

@@ -5,6 +5,8 @@
 #ifndef TWS_API_CLIENT_BAR_H
 #define TWS_API_CLIENT_BAR_H
 
+#include <string>
+
 struct Bar
 {
 	std::string time;

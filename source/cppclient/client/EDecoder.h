@@ -5,6 +5,7 @@
 #ifndef TWS_API_CLIENT_EDECODER_H
 #define TWS_API_CLIENT_EDECODER_H
 
+#include "platformspecific.h"
 #include "Contract.h"
 #include "HistoricalTick.h"
 #include "HistoricalTickBidAsk.h"

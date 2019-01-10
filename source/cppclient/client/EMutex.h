@@ -9,6 +9,11 @@
 # include  <mutex>
 #endif
 
+#include "platformspecific.h"
+#ifdef IB_WIN32
+#include <Windows.h>
+#endif
+
 
 class TWSAPIDLLEXP EMutex
 {
@@ -21,7 +26,7 @@ class TWSAPIDLLEXP EMutex
 #elif defined(IB_WIN32)
     CRITICAL_SECTION cs;
 #else
-#   error "Not implemented on this platform"
+#error "Not implemented on this platform"
 #endif
 
 public:

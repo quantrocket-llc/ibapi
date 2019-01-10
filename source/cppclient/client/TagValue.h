@@ -5,7 +5,6 @@
 #ifndef TWS_API_CLIENT_TAGVALUE_H
 #define TWS_API_CLIENT_TAGVALUE_H
 
-
 #include <string>
 #include <vector>
 #include <memory>

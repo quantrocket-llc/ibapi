@@ -7,6 +7,7 @@
 
 #include "EReaderSignal.h"
 #include <stdexcept>
+#include "platformspecific.h"
 
 #if !defined(INFINITE)
 #define INFINITE ((unsigned long)-1)

@@ -5,6 +5,7 @@
 #ifndef TWS_API_CLIENT_EXECUTION_H
 #define TWS_API_CLIENT_EXECUTION_H
 
+#include <string>
 
 struct Execution
 {

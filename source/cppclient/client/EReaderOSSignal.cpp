@@ -3,6 +3,7 @@
 
 #include "StdAfx.h"
 #include "EReaderOSSignal.h"
+
 #if defined(IB_POSIX)
 #if defined(IBAPI_MONOTONIC_TIME)
 #include <time.h>
@@ -10,6 +11,7 @@
 #include <sys/time.h>
 #endif
 #endif
+
 
 EReaderOSSignal::EReaderOSSignal(unsigned long waitTimeout)
 {

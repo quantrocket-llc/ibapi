@@ -5,6 +5,7 @@
 #ifndef TWS_API_CLIENT_SOFTDOLLARTIER_H
 #define TWS_API_CLIENT_SOFTDOLLARTIER_H
 
+#include "platformspecific.h"
 #include <string>
 
 class TWSAPIDLLEXP SoftDollarTier

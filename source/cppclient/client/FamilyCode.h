@@ -5,6 +5,8 @@
 #ifndef TWS_API_CLIENT_FAMILYCODE_H
 #define TWS_API_CLIENT_FAMILYCODE_H
 
+#include <string>
+
 struct FamilyCode
 {
 	std::string accountID;

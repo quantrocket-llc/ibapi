@@ -8,7 +8,6 @@
 #include "TagValue.h"
 #include "OrderCondition.h"
 #include "SoftDollarTier.h"
-
 #include <float.h>
 #include <limits.h>
 
