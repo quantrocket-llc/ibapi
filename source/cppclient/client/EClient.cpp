@@ -1,4 +1,4 @@
-﻿/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 #include "StdAfx.h"
@@ -369,6 +369,12 @@ void EClient::reqMktDepth( TickerId tickerId, const Contract& contract, int numR
         return;
     }
 
+    if (m_serverVersion < MIN_SERVER_VER_MKT_DEPTH_PRIM_EXCHANGE && !contract.primaryExchange.empty()) {
+        m_pEWrapper->error( tickerId, UPDATE_TWS.code(), UPDATE_TWS.msg() +
+            "  It does not support primaryExchange parameter in reqMktDepth.");
+        return;
+    }
+
     std::stringstream msg;
     prepareBuffer( msg);
 
@@ -390,6 +396,9 @@ void EClient::reqMktDepth( TickerId tickerId, const Contract& contract, int numR
     ENCODE_FIELD( contract.right);
     ENCODE_FIELD( contract.multiplier); // srv v15 and above
     ENCODE_FIELD( contract.exchange);
+    if( m_serverVersion >= MIN_SERVER_VER_MKT_DEPTH_PRIM_EXCHANGE) {
+        ENCODE_FIELD( contract.primaryExchange);
+    }
     ENCODE_FIELD( contract.currency);
     ENCODE_FIELD( contract.localSymbol);
     if( m_serverVersion >= MIN_SERVER_VER_TRADING_CLASS) {
