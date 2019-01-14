@@ -1,4 +1,4 @@
-﻿/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 using System;
 using System.Net;
@@ -1950,6 +1950,12 @@ namespace IBApi
                     return;
             }
 
+            if (!IsEmpty(contract.PrimaryExch))
+            {
+                if (!CheckServerVersion(tickerId, MinServerVer.MKT_DEPTH_PRIM_EXCHANGE, " It does not support PrimaryExch parameter in reqMktDepth."))
+                    return;
+            }
+
             const int VERSION = 5;
             var paramsList = new BinaryWriter(new MemoryStream());
             var lengthPos = prepareBuffer(paramsList);
@@ -1976,6 +1982,12 @@ namespace IBApi
             }
 
             paramsList.AddParameter(contract.Exchange);
+
+            if (serverVersion >= MinServerVer.MKT_DEPTH_PRIM_EXCHANGE)
+            {
+                paramsList.AddParameter(contract.PrimaryExch);
+            }
+
             paramsList.AddParameter(contract.Currency);
             paramsList.AddParameter(contract.LocalSymbol);
 

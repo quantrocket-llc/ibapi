@@ -107,5 +107,6 @@ namespace IBApi
         public const int SMART_DEPTH = 146;
         public const int REMOVE_NULL_ALL_CASTING = 147;
         public const int D_PEG_ORDERS = 148;
+        public const int MKT_DEPTH_PRIM_EXCHANGE = 149;
     }
 }

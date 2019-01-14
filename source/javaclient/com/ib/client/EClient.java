@@ -285,9 +285,10 @@ public abstract class EClient {
     protected static final int MIN_SERVER_VER_SMART_DEPTH = 146;
     protected static final int MIN_SERVER_VER_REMOVE_NULL_ALL_CASTING = 147;
     protected static final int MIN_SERVER_VER_D_PEG_ORDERS = 148;
+    protected static final int MIN_SERVER_VER_MKT_DEPTH_PRIM_EXCHANGE = 149;
     
     public static final int MIN_VERSION = 100; // envelope encoding, applicable to useV100Plus mode only
-    public static final int MAX_VERSION = MIN_SERVER_VER_D_PEG_ORDERS; // ditto
+    public static final int MAX_VERSION = MIN_SERVER_VER_MKT_DEPTH_PRIM_EXCHANGE; // ditto
 
     protected EReaderSignal m_signal;
     protected EWrapper m_eWrapper;    // msg handler
@@ -1119,6 +1120,12 @@ public abstract class EClient {
             return;
         }
 
+        if (m_serverVersion < MIN_SERVER_VER_MKT_DEPTH_PRIM_EXCHANGE && !IsEmpty(contract.primaryExch())) {
+            error(EClientErrors.NO_VALID_ID, EClientErrors.UPDATE_TWS,
+            "  It does not support primaryExch parameter in reqMktDepth.");
+            return;
+        }
+        
         final int VERSION = 5;
 
         try {
@@ -1145,6 +1152,10 @@ public abstract class EClient {
             }
             
             b.send(contract.exchange());
+            if (m_serverVersion >= MIN_SERVER_VER_MKT_DEPTH_PRIM_EXCHANGE) {
+                b.send(contract.primaryExch());
+            }
+            
             b.send(contract.currency());
             b.send(contract.localSymbol());
             

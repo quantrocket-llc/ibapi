@@ -19,7 +19,7 @@ namespace IBApi
         public const int FaProfiles = 2;
         public const int FaAliases = 3;
         public const int MinVersion = 100;
-        public const int MaxVersion = MinServerVer.D_PEG_ORDERS;
+        public const int MaxVersion = MinServerVer.MKT_DEPTH_PRIM_EXCHANGE;
         public const int MaxMsgSize = 0x00FFFFFF;
     }
 }

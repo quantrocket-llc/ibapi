@@ -1,4 +1,4 @@
-﻿"""
+﻿﻿"""
 Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable.
 """
@@ -2026,6 +2026,11 @@ class EClient(object):
                 " It does not support SMART depth request.")
             return
 
+        if self.serverVersion() < MIN_SERVER_VER_MKT_DEPTH_PRIM_EXCHANGE and contract.primaryExchange:
+            self.wrapper.error( reqId, UPDATE_TWS.code(), UPDATE_TWS.msg() +
+                " It does not support primaryExchange parameter in reqMktDepth.")
+            return
+
         VERSION = 5
 
         # send req mkt depth msg
@@ -2043,8 +2048,10 @@ class EClient(object):
             make_field(contract.strike),
             make_field(contract.right),
             make_field(contract.multiplier), # srv v15 and above
-            make_field(contract.exchange),
-            make_field(contract.currency),
+            make_field(contract.exchange),]
+        if self.serverVersion() >= MIN_SERVER_VER_MKT_DEPTH_PRIM_EXCHANGE:
+            flds += [make_field(contract.primaryExchange),]
+        flds += [make_field(contract.currency),
             make_field(contract.localSymbol)]
         if self.serverVersion() >= MIN_SERVER_VER_TRADING_CLASS:
             flds += [make_field(contract.tradingClass),]
