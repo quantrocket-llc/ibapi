@@ -893,7 +893,7 @@
 		</tr>
 		<tr>
 			<td>420</td><td>Invalid real-time query.</td>
-			<td>This error is deprecated. </td>
+			<td><a target="_blank" class="linkexternal" href="http://interactivebrokers.github.io/tws-api/historical_limitations.html#pacing_violations">Information about pacing violations</a></td>
 		</tr>
 		<tr>
 			<td>421</td><td>Invalid route.</td>
