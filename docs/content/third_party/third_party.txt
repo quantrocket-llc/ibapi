@@ -179,7 +179,7 @@
  
 	\subsection autoshutdown_requirement Is it possible to disable the daily auto-logoff requirement of TWS? 
 	
-	It is possible to adjust the time of auto-logoff, but not disable it. However, IB Gateway can be substituted for TWS for use with an API application and it does not have the daily logoff requirement. 
+	Current versions of TWS and IB Gateway (974+) have the ability to automatically restart daily without user authentication at a chosen time from Monday-Saturday. On Sunday, following the Saturday night server reset, it is necessary for the user to re-authenticate any running session of TWS or IB Gateway. With the auto-restart option chosen in the settings, the session is designed to be able to continue until the following Sunday as long as there are no other logins with the same username to Client Portal, TWS, or IBKR mobile. 
  
 	\subsection programming_consultants Do you recommend any third party products or programming consultants? 
 	IBKR does not recommend particular third parties, but a list is maintained on the Investors Marketplace. 
