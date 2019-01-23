@@ -765,8 +765,8 @@ public class TwsService {
     }
     
     /** Called when TWS interrupts the connection */
-    public void disconnected() {
-        m_socketDdeBridge.disconnected();
+    public void disconnect() {
+        m_socketDdeBridge.stop();
     }
 
     

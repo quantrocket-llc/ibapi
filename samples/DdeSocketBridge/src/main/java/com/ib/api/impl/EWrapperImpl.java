@@ -89,7 +89,7 @@ public class EWrapperImpl implements EWrapper {
         System.out.println("Error: Id[" + id + "] ErrorCode [" + errorCode + "] ErrorMsg [" + errorMsg + "]");
         
         if (errorCode == 507) {
-            m_twsService.disconnected();
+            m_twsService.disconnect();
         }
         // error event
         m_twsService.addErrorMessage(new ErrorData(id, errorCode, errorMsg));

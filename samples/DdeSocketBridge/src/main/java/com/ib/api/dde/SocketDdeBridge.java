@@ -21,6 +21,7 @@ public class SocketDdeBridge {
         m_twsService = new TwsService(twsHost, twsPort, twsClientId, this);
     }
 
+    /** Method starts DDE socket bridge: starts TwsDdeServer and tries to connect TwsService */
     public void start(Runnable callback) throws DDEException, InterruptedException {
         m_callback = callback;
         m_twsDdeServer.start();
@@ -33,7 +34,8 @@ public class SocketDdeBridge {
         callback.run();
     }
     
-    public void disconnected() {
+    /** Method stops DDE socket bridge */
+    public void stop() {
         m_isConnected = false;
         if (m_callback != null) {
             m_callback.run();
