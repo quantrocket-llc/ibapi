@@ -97,8 +97,8 @@ namespace Samples
             baseOrder.AlgoParams.Add(new TagValue("giveUp", giveUp.ToString()));
             baseOrder.AlgoParams.Add(new TagValue("catchUp", catchUp ? "1" : "0"));
             baseOrder.AlgoParams.Add(new TagValue("waitForFill", waitForFill ? "1" : "0"));
-            baseOrder.AlgoParams.Add(new TagValue("startTime", startTime));
-            baseOrder.AlgoParams.Add(new TagValue("endTime", endTime));
+            baseOrder.AlgoParams.Add(new TagValue("activeTimeStart", startTime));
+            baseOrder.AlgoParams.Add(new TagValue("activeTimeEnd", endTime));
         }
         //! [ad_params]
 

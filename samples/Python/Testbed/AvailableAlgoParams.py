@@ -137,8 +137,8 @@ class AvailableAlgoParams(Object):
         baseOrder.algoParams.append(TagValue("giveUp", giveUp))
         baseOrder.algoParams.append(TagValue("catchUp", int(catchUp)))
         baseOrder.algoParams.append(TagValue("waitForFill", int(waitForFill)))
-        baseOrder.algoParams.append(TagValue("startTime", startTime))
-        baseOrder.algoParams.append(TagValue("endTime", endTime))
+        baseOrder.algoParams.append(TagValue("activeTimeStart", startTime))
+        baseOrder.algoParams.append(TagValue("activeTimeEnd", endTime))
 
     # ! [ad_params]
 

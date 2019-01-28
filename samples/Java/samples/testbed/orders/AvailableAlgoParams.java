@@ -123,8 +123,8 @@ public class AvailableAlgoParams {
 		baseOrder.algoParams().add(new TagValue("giveUp", String.valueOf(giveUp)));
 		baseOrder.algoParams().add(new TagValue("catchUp", catchUp ? "1" : "0"));
 		baseOrder.algoParams().add(new TagValue("waitForFill", waitForFill ? "1" : "0"));
-		baseOrder.algoParams().add(new TagValue("startTime", startTime));
-		baseOrder.algoParams().add(new TagValue("endTime", endTime));
+		baseOrder.algoParams().add(new TagValue("activeTimeStart", startTime));
+		baseOrder.algoParams().add(new TagValue("activeTimeEnd", endTime));
 		
 	}
 	//! [ad_params]

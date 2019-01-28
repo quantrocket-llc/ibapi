@@ -234,7 +234,8 @@
 	The <a href="https://www.interactivebrokers.com/en/index.php?f=1223" target="_blank" class="linkexternal">Accumulate/Distribute</a> algo can help you to achieve the best price for a 
 	large volume order without being noticed in the market, and can be set up for high frequency trading. By slicing your order into smaller randomly-sized order increments that are released 
 	at random time intervals within a user-defined time period, the algo allows the trading of large blocks of stock and other instruments without being detected in the market. The algo allows 
-	limit, market, and relative order types. It is important to keep in mind the API A/D algo will not have all available parameters of the A/D algos that can be created in TWS.
+	limit, market, and relative order types. It is important to keep in mind the API A/D algo will not have all available parameters of the A/D algos that can be created in TWS. 
+	Note: The new fields activeTimeStart and activeTimeEnd are used in TWS 971+; startTime and endTime were used previously.
 	
 	<table>
 		<tr><th>Parameter</th><th>Description</th><th>Values</th></tr>
@@ -245,8 +246,8 @@
 		<tr><td>giveUp</td><td>Number associated with the clearing</td><td></td></tr>
 		<tr><td>catchUp</td><td>Catch up in time</td><td>1 (true) or 0 (false)</td></tr>
 		<tr><td>waitForFill</td><td>Wait for current order to fill before submitting next order</td><td>1 (true) or 0 (false)</td></tr>
-		<tr><td>startTime</td><td>Algorithm starting time</td><td>YYYYMMDD-hh:mm:ss TMZ</td></tr>
-		<tr><td>endTime</td><td>Algorithm ending time</td><td>YYYYMMDD-hh:mm:ss TMZ</td></tr>
+		<tr><td>activeTimeStart</td><td>Algorithm starting time</td><td>YYYYMMDD-hh:mm:ss TMZ</td></tr>
+		<tr><td>activeTimeEnd</td><td>Algorithm ending time</td><td>YYYYMMDD-hh:mm:ss TMZ</td></tr>
 	</table>
 	
 	<br>

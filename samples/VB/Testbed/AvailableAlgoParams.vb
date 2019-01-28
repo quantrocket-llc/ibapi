@@ -109,8 +109,8 @@ Namespace Samples
             baseOrder.AlgoParams.Add(New TagValue("giveUp", giveUp.ToString()))
             baseOrder.AlgoParams.Add(New TagValue("catchUp", BooleantoString(catchUp)))
             baseOrder.AlgoParams.Add(New TagValue("waitForFill", BooleantoString(waitForFill)))
-            baseOrder.AlgoParams.Add(New TagValue("startTime", startTime))
-            baseOrder.AlgoParams.Add(New TagValue("endTime", endTime))
+            baseOrder.AlgoParams.Add(New TagValue("activeTimeStart", startTime))
+            baseOrder.AlgoParams.Add(New TagValue("activeTimeEnd", endTime))
         End Sub
         '! [ad_params]
 
