@@ -496,7 +496,7 @@ namespace IBApi
          * @brief Returns the order book
          * @param tickerId the request's identifier
          * @param position the order book's row being updated
-         * @param marketMaker the exchange holding the order
+         * @param marketMaker the exchange holding the order if isSmartDepth is True, otherwise the MPID of the market maker
          * @param operation how to refresh the row:
          *      0 - insert (insert this new order into the row identified by 'position')·
          *      1 - update (update the existing order in the row identified by 'position')·
@@ -504,7 +504,7 @@ namespace IBApi
          * @param side 0 for ask, 1 for bid
          * @param price the order's price
          * @param size the order's size
-         * @param isSmartDepth flag indicating that this is smart depth response
+         * @param isSmartDepth flag indicating if this is smart depth response (aggregate data from multiple exchanges, v974+)
          * @sa updateMktDepth, EClientSocket::reqMarketDepth
          */
         void updateMktDepthL2(int tickerId, int position, string marketMaker, int operation, int side, double price, int size, bool isSmartDepth);
