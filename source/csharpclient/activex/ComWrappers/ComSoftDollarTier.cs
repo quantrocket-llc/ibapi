@@ -27,8 +27,8 @@ namespace TWSLib
             this.data = new IBApi.SoftDollarTier();
         }
 
-        public string Name { get { return data.Name; } }
-        public string DisplayName { get { return data.DisplayName; } }
-        public string Value { get { return data.Value; } }
+        public string Name { get { return data.Name; } set { data.Name = value; } }
+        public string DisplayName { get { return data.DisplayName; } set { data.DisplayName = value; } }
+        public string Value { get { return data.Value; } set { data.Value = value; } }
     }
 }

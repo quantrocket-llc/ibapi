@@ -17,17 +17,17 @@ namespace IBApi
         /**
          * @brief The name of the Soft Dollar Tier
          */
-        public string Name { get; private set; }
+        public string Name { get; set; }
 
         /**
          * @brief The value of the Soft Dollar Tier
          */
-        public string Value { get; private set; }
+        public string Value { get; set; }
 
         /**
          * @brief The display name of the Soft Dollar Tier
          */
-        public string DisplayName { get; private set; }
+        public string DisplayName { get; set; }
 
         public SoftDollarTier(string name, string value, string displayName)
         {
