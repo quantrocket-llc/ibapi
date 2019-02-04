@@ -3,10 +3,7 @@
 
 package samples.testbed;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.List;
+import java.util.*;
 
 import com.ib.client.*;
 import samples.testbed.advisor.FAMethodSamples;
@@ -48,7 +45,7 @@ public class Testbed {
 		Thread.sleep(1000);
 
 		//tickByTickOperations(wrapper.getClient());
-		tickDataOperations(wrapper.getClient());
+		//tickDataOperations(wrapper.getClient());
 		//tickOptionComputations(wrapper.getClient());
 		//orderOperations(wrapper.getClient(), wrapper.getCurrentOrderId());
 		//contractOperations(wrapper.getClient());
@@ -57,6 +54,7 @@ public class Testbed {
 		//bracketSample(wrapper.getClient(), wrapper.getCurrentOrderId());
 		//bulletins(wrapper.getClient());
 		//fundamentals(wrapper.getClient());
+		marketScanners(wrapper.getClient());
 		//marketDataType(wrapper.getClient());
 		//historicalDataRequests(wrapper.getClient());
 		//accountOperations(wrapper.getClient());
@@ -723,13 +721,21 @@ public class Testbed {
 		List<TagValue> TagValues = Arrays.asList(t1, t2, t3);
 		client.reqScannerSubscription(7002, ScannerSubscriptionSamples.HotUSStkByVolume(), null, TagValues); // requires TWS v973+
 
-        //! [reqscannersubscription]
+		//! [reqscannersubscription]
 
-        Thread.sleep(2000);
+		//! [reqcomplexscanner]
+		List<TagValue> AAPLConIDTag = Collections.singletonList(new TagValue("underConID", "265598")); // 265598 is the conID for AAPL stock
+		client.reqScannerSubscription(7003, ScannerSubscriptionSamples.ComplexOrdersAndTrades(), null, AAPLConIDTag); // requires TWS v975+
+
+		//! [reqcomplexscanner]
+
+
+        Thread.sleep(4000);
         /*** Canceling the scanner subscription ***/
         //! [cancelscannersubscription]
         client.cancelScannerSubscription(7001);
 		client.cancelScannerSubscription(7002);
+		client.cancelScannerSubscription(7003);
         //! [cancelscannersubscription]
 		
 	}

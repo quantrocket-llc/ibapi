@@ -541,11 +541,21 @@ namespace Samples
 			
             //! [reqscannersubscription]
 
+			//! [reqcomplexscanner]
+			
+			TagValue t = new TagValue("underConID", "265598");
+			List<TagValue> AAPLConIDTag = new List<TagValue>{t};
+			client.reqScannerSubscription(7003, ScannerSubscriptionSamples.ComplexOrdersAndTrades(), null, AAPLConIDTag); // requires TWS v975+
+			
+			//! [reqcomplexscanner]
+			
             Thread.Sleep(2000);
             /*** Canceling the scanner subscription ***/
             //! [cancelscannersubscription]
             client.cancelScannerSubscription(7001);
 			client.cancelScannerSubscription(7002);
+			client.cancelScannerSubscription(7003);
+
             //! [cancelscannersubscription]
         }
 

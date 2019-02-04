@@ -15,6 +15,7 @@ public:
 	static ScannerSubscription TopPercentGainersIbis();
 	static ScannerSubscription MostActiveFutSoffex();
 	static ScannerSubscription HighOptVolumePCRatioUSIndexes();
+	static ScannerSubscription ComplexOrdersAndTrades();
 };
 
 #endif

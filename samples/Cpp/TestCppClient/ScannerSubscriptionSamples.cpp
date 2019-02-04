@@ -52,3 +52,15 @@ ScannerSubscription ScannerSubscriptionSamples::HighOptVolumePCRatioUSIndexes()
 	//! [highoptvolume]
 	return scanSub;
 }
+
+ScannerSubscription ScannerSubscriptionSamples::ComplexOrdersAndTrades()
+{
+	//! [combolatesttrade]
+	//Complex orders and trades scan, latest trades
+	ScannerSubscription scanSub;
+	scanSub.instrument = "NATCOMB";
+    scanSub.locationCode = "NATCOMB.OPT.US";
+    scanSub.scanCode = "COMBO_LATEST_TRADE";
+	//! [combolatesttrade]
+	return scanSub;
+}

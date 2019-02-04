@@ -57,5 +57,17 @@ namespace IBSamples
             //! [highoptvolume]
             return scanSub;
         }
+		
+		public static ScannerSubscription ComplexOrdersAndTrades()
+        {
+            //! [combolatesttrade]
+            //Complex orders and trades scan, latest trades
+            ScannerSubscription scanSub = new ScannerSubscription();
+            scanSub.Instrument = "NATCOMB";
+            scanSub.LocationCode = "NATCOMB.OPT.US";
+            scanSub.ScanCode = "COMBO_LATEST_TRADE";
+            //! [combolatesttrade]
+            return scanSub;
+        }
     }
 }

@@ -54,5 +54,17 @@ Namespace Samples
             '! [highoptvolume]
             Return scanSub
         End Function
+		
+		Public Shared Function ComplexOrdersAndTrades() As ScannerSubscription
+
+            '! [combolatesttrade]
+            'Complex orders and trades scan, latest trades
+            Dim scanSub As ScannerSubscription = New ScannerSubscription()
+            scanSub.Instrument = "NATCOMB"
+            scanSub.LocationCode = "NATCOMB.OPT.US"
+            scanSub.ScanCode = "COMBO_LATEST_TRADE"
+            '! [combolatesttrade]
+            Return scanSub
+        End Function
     End Class
 End Namespace

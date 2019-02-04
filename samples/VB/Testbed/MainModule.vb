@@ -458,13 +458,22 @@ Module MainModule
 
         client.reqScannerSubscription(7002, ScannerSubscriptionSamples.HotUSStkByVolume(), Nothing, TagValues) ' requires TWS v973+
 
-        '! [reqscannersubscription]
+		'! [reqscannersubscription]
+		
+		'! [reqcomplexscanner]
+				
+		Dim AAPLConIDTag As List(Of IBApi.TagValue) = New List(Of TagValue)
+        AAPLConIDTag.Add(New TagValue("underConID", "265598"))
+        client.reqScannerSubscription(7003, ScannerSubscriptionSamples.ComplexOrdersAndTrades(), Nothing, AAPLConIDTag) ' requires TWS v975+
+		
+        '! [reqcomplexscanner]
 
         Thread.Sleep(2000)
         '*** Canceling the scanner subscription ***/
         '! [cancelscannersubscription]
         client.cancelScannerSubscription(7001)
         client.cancelScannerSubscription(7002)
+		client.cancelScannerSubscription(7003)
         '! [cancelscannersubscription]
 
     End Sub

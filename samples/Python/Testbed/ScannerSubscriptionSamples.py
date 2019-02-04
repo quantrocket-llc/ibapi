@@ -54,6 +54,17 @@ class ScannerSubscriptionSamples(Object):
         #! [highoptvolume]
         return scanSub
 
+    @staticmethod
+    def ComplexOrdersAndTrades():
+        #! [combolatesttrade]
+        # High option volume P/C ratio US indexes
+        scanSub = ScannerSubscription()
+        scanSub.instrument = "NATCOMB"
+        scanSub.locationCode = "NATCOMB.OPT.US"
+        scanSub.scanCode = "COMBO_LATEST_TRADE"
+        #! [combolatesttrade]
+        return scanSub
+		
 def Test():
     print(ScannerSubscriptionSamples.HotUSStkByVolume())
     print(ScannerSubscriptionSamples.TopPercentGainersIbis())
