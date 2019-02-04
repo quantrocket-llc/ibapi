@@ -12,8 +12,8 @@ namespace TWSLib
     [ComVisible(true)]
     public interface ISoftDollarTier
     {
-        string Name { get; }
-        string DisplayName { get; }
-        string Value { get; }
+        string Name { get; set; }
+        string DisplayName { get; set; }
+        string Value { get; set; }
     }
 }
