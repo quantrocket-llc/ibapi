@@ -637,6 +637,15 @@ void TestCppClient::marketScanners()
 	
 	//! [reqscannersubscription]
 
+	//! [reqcomplexscanner]
+
+	TagValueSPtr t(new TagValue("underConID", "265598"));
+	TagValueListSPtr AAPLConIDTag(new TagValueList());
+	AAPLConIDTag->push_back(t);
+	m_pClient->reqScannerSubscription(7003, ScannerSubscriptionSamples::ComplexOrdersAndTrades(), TagValueListSPtr(), AAPLConIDTag); // requires TWS v975+
+
+	//! [reqcomplexscanner]
+
 	std::this_thread::sleep_for(std::chrono::seconds(2));
 	/*** Canceling the scanner subscription ***/
 	//! [cancelscannersubscription]

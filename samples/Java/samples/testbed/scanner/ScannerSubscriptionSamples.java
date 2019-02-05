@@ -58,4 +58,18 @@ public class ScannerSubscriptionSamples {
 		
 	}
 
+	public static ScannerSubscription ComplexOrdersAndTrades() {
+
+	    //! [combolatesttrade]
+        //Complex orders and trades scan, latest trades
+        ScannerSubscription scanSub = new ScannerSubscription();
+        scanSub.instrument("NATCOMB");
+        scanSub.locationCode("NATCOMB.OPT.US");
+        scanSub.scanCode("COMBO_LATEST_TRADE");
+        //! [combolatesttrade]
+        return scanSub;
+
+    }
+
+
 }

@@ -140,6 +140,61 @@
 	
 	See also \subpage scanner_parameters
 	
+	\section complex_orders_trades_scanner Complex Orders and Trades Scanner
+	
+	The <a target="_blank" class="linkexternal" href="https://www.interactivebrokers.com/en/software/tws/usersguidebook/mosaic/complexorderstradescanner.htm">TWS Complex and Orders and Trades Scanner</a> is a special scan type available from the API with TWS v975 and API v973.07 or higher. 
+	
+	<ul id="tab">
+		<li class="active"> 
+			\snippet ScannerSubscriptionSamples.cs combolatesttrade
+		</li>
+		<li>
+			\snippet ScannerSubscriptionSamples.java combolatesttrade
+		</li>
+		<li>
+			\snippet ScannerSubscriptionSamples.vb combolatesttrade
+		</li>
+		<li>
+			\snippet ScannerSubscriptionSamples.cpp combolatesttrade
+		</li>
+		<li>
+			\snippet ScannerSubscriptionSamples.py combolatesttrade
+		</li>
+	</ul>
+	
+	
+	<ul id="tab">
+		<li class="active"> 
+			\snippet Program.cs reqcomplexscanner
+		</li>
+		<li>
+			\snippet Testbed.java reqcomplexscanner
+		</li>
+		<li>
+			\snippet MainModule.vb reqcomplexscanner
+		</li>
+		<li>
+			\snippet TestCppClient.cpp reqcomplexscanner
+		</li>
+		<li>
+			\snippet Program.py reqcomplexscanner
+		</li>
+	</ul>
+	
+	Complex Orders and Trades Scanner available scan codes: 
+	
+	- COMBO_LATEST_TRADE
+	- COMBO_QUOTES
+	- COMBO_MOST_ACTIVE
+	- COMBO_ALL_TRADE_TIME_ASC
+	- COMBO_ALL_TRADE_TIME_DESC
+	- COMBO_ALL_QUOTE_TIME_ASC
+	- COMBO_ALL_QUOTE_TIME_DESC
+	- COMBO_ALL_TRADE_QUOTE_TIME_ASC
+	- COMBO_ALL_TRADE_QUOTE_TIME_DESC
+	- COMBO_ALL_VOLUME_ASC
+	- COMBO_ALL_VOLUME_DESC
+	
 	<br><br>
 
 */
