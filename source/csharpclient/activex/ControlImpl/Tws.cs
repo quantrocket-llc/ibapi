@@ -573,7 +573,7 @@ namespace TWSLib
             string moodyRatingBelow, string spRatingAbove, string spRatingBelow,
             string maturityDateAbove, string maturityDateBelow, double couponRateAbove,
             double couponRateBelow, int excludeConvertible, int averageOptionVolumeAbove,
-            string scannerSettingPairs, string stockTypeFilter, ITagValueList scannerSubscriptionFilterOptions, ITagValueList options)
+            string scannerSettingPairs, string stockTypeFilter, string options, string scannerSubscriptionFilterOptions)
         {
             ScannerSubscription subscription = new ScannerSubscription();
 
@@ -599,7 +599,7 @@ namespace TWSLib
             subscription.ScannerSettingPairs = scannerSettingPairs;
             subscription.StockTypeFilter = stockTypeFilter;
 
-            this.socket.reqScannerSubscription(tickerId, subscription, ITagValueListToListTagValue(scannerSubscriptionFilterOptions), ITagValueListToListTagValue(options));
+            this.socket.reqScannerSubscription(tickerId, subscription, options, scannerSubscriptionFilterOptions);
         }
 
 
@@ -820,12 +820,12 @@ namespace TWSLib
         }
 
 
-        void ITws.reqScannerSubscriptionEx(int tickerId, IScannerSubscription subscription, ITagValueList options, ITagValueList scannerSubscriptionFilterOptions)
+        void ITws.reqScannerSubscriptionEx(int tickerId, IScannerSubscription subscription, string options, string scannerSubscriptionFilterOptions)
         {
             this.socket.reqScannerSubscription(tickerId,
                 (ScannerSubscription)(subscription as ComScannerSubscription),
-                ITagValueListToListTagValue(options),
-                ITagValueListToListTagValue(scannerSubscriptionFilterOptions));
+                options,
+                scannerSubscriptionFilterOptions);
         }
 
 

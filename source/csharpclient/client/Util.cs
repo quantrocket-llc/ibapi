@@ -95,5 +95,19 @@ namespace IBApi
         {
             return String.IsNullOrEmpty(str) ? "" : String.Format("{0,0:N2}", Double.Parse(str));
         }
+
+        public static string TagValueListToString(List<TagValue> options)
+        {
+            StringBuilder tagValuesStr = new StringBuilder();
+            int tagValuesCount = options == null ? 0 : options.Count;
+
+            for (int i = 0; i < tagValuesCount; i++)
+            {
+                TagValue tagValue = options[i];
+                tagValuesStr.Append(tagValue.Tag).Append("=").Append(tagValue.Value).Append(";");
+            }
+
+            return tagValuesStr.ToString();
+        }
     }
 }
