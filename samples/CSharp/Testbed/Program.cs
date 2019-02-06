@@ -530,7 +530,7 @@ namespace Samples
 
             /*** Triggering a scanner subscription ***/
             //! [reqscannersubscription]
-            client.reqScannerSubscription(7001, ScannerSubscriptionSamples.HighOptVolumePCRatioUSIndexes(), null, null);
+            client.reqScannerSubscription(7001, ScannerSubscriptionSamples.HighOptVolumePCRatioUSIndexes(), "", null);
 			
 			TagValue t1 = new TagValue("usdMarketCapAbove", "10000");
 			TagValue t2 = new TagValue("optVolumeAbove", "1000");

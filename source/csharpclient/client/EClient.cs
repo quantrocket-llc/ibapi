@@ -2166,6 +2166,11 @@ namespace IBApi
          */
         public void reqScannerSubscription(int reqId, ScannerSubscription subscription, List<TagValue> scannerSubscriptionOptions, List<TagValue> scannerSubscriptionFilterOptions)
         {
+            reqScannerSubscription(reqId, subscription, Util.TagValueListToString(scannerSubscriptionOptions), Util.TagValueListToString(scannerSubscriptionFilterOptions));
+        }
+
+        public void reqScannerSubscription(int reqId, ScannerSubscription subscription, string scannerSubscriptionOptions, string scannerSubscriptionFilterOptions)
+        {
             if (!CheckConnection())
                 return;
 

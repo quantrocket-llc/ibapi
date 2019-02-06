@@ -61,16 +61,7 @@ namespace IBApi
 
         public static void AddParameter(this BinaryWriter source, List<TagValue> options)
         {
-            StringBuilder tagValuesStr = new StringBuilder();
-            int tagValuesCount = options == null ? 0 : options.Count;
-
-            for (int i = 0; i < tagValuesCount; i++)
-            {
-                TagValue tagValue = options[i];
-                tagValuesStr.Append(tagValue.Tag).Append("=").Append(tagValue.Value).Append(";");
-            }
-            
-            source.AddParameter(tagValuesStr.ToString());
+            source.AddParameter(Util.TagValueListToString(options));
         }
 
         public static void AddParameterMax(this BinaryWriter source, double value)

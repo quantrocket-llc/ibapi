@@ -221,7 +221,7 @@ namespace TWSLib
            string moodyRatingBelow, string spRatingAbove, string spRatingBelow,
            string maturityDateAbove, string maturityDateBelow, double couponRateAbove,
            double couponRateBelow, int excludeConvertible, int averageOptionVolumeAbove,
-           string scannerSettingPairs, string stockTypeFilter, ITagValueList scannerSubscriptionFilterOptions, ITagValueList options);
+           string scannerSettingPairs, string stockTypeFilter, string options, string scannerSubscriptionFilterOptions);
         [DispId(86)]
         void cancelHistoricalData(int tickerId);
         [DispId(87)]
@@ -272,7 +272,7 @@ namespace TWSLib
         [DispId(107)]
         void reqRealTimeBarsEx(int tickerId, IContract contract, int barSize, string whatToShow, bool useRTH, ITagValueList options);
         [DispId(108)]
-        void reqScannerSubscriptionEx(int tickerId, IScannerSubscription subscription, ITagValueList options, [Optional] ITagValueList scannerSubscriptionFilterOptions);
+        void reqScannerSubscriptionEx(int tickerId, IScannerSubscription subscription, string options, [Optional] string scannerSubscriptionFilterOptions);
         [DispId(109)]
         void addOrderComboLeg(double price);
         [DispId(110)]
