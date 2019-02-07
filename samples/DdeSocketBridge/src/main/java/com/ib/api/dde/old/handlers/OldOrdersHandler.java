@@ -23,8 +23,8 @@ import com.ib.api.dde.socket2dde.data.OpenOrderData;
 import com.ib.api.dde.socket2dde.data.OrderStatusData;
 import com.ib.api.dde.utils.OrderUtils;
 import com.ib.api.dde.utils.Utils;
-import com.ib.api.impl.EWrapperImpl;
 import com.ib.client.Contract;
+import com.ib.client.EClientSocket;
 import com.ib.client.Order;
 
 /** Class handles orders related requests and messages */
@@ -42,8 +42,8 @@ public class OldOrdersHandler extends OrdersHandler {
     private SortedMap<Integer, OpenOrderData> m_openOrderDataMap = Collections.synchronizedSortedMap(new TreeMap<Integer, OpenOrderData>()); // map orderId->OpenOrderData
     private DdeRequestStatus m_openOrdersSubscriptionStatus = DdeRequestStatus.UNKNOWN;
 
-    public OldOrdersHandler(EWrapperImpl wrapper, TwsService twsService) {
-        super(wrapper, twsService);
+    public OldOrdersHandler(EClientSocket clientSocket, TwsService twsService) {
+        super(clientSocket, twsService);
     }
 
     /* *****************************************************************************************************
@@ -55,7 +55,7 @@ public class OldOrdersHandler extends OrdersHandler {
         if (m_openOrdersSubscriptionStatus == DdeRequestStatus.UNKNOWN) {
             System.out.println("Handling open orders request: " + requestStr);
             m_openOrderDataMap.clear();
-            m_wrapper.clientSocket().reqOpenOrders();
+            clientSocket().reqOpenOrders();
             m_openOrdersSubscriptionStatus = DdeRequestStatus.REQUESTED;
         }
         return m_openOrdersSubscriptionStatus.toString();
@@ -88,7 +88,7 @@ public class OldOrdersHandler extends OrdersHandler {
                 // place order
                 PlaceOrderRequest request = (PlaceOrderRequest)ddeRequest;  
                 System.out.println("Placing order: id=" + request.requestId() + " for contract=" + Utils.shortContractString(request.contract()) + " order=" + Utils.shortOrderString(request.order()));
-                m_wrapper.clientSocket().placeOrder(request.requestId(), request.contract(), request.order()); 
+                clientSocket().placeOrder(request.requestId(), request.contract(), request.order()); 
                 
                 OrderStatusData orderStatus = new OrderStatusData(request.requestId(), "Sent", 0, 
                         request.order().totalQuantity(), 0, request.order().permId(), request.order().parentId(), 
@@ -107,7 +107,7 @@ public class OldOrdersHandler extends OrdersHandler {
             } else {
                 // cancel order
                 System.out.println("Cancelling order: id=" + ddeRequest.requestId());
-                m_wrapper.clientSocket().cancelOrder(ddeRequest.requestId()); 
+                clientSocket().cancelOrder(ddeRequest.requestId()); 
             }
         }
             

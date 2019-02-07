@@ -18,8 +18,8 @@ import com.ib.api.dde.dde2socket.requests.parser.RequestParser;
 import com.ib.api.dde.handlers.base.BaseHandler;
 import com.ib.api.dde.socket2dde.datamap.BaseStringDataMap;
 import com.ib.api.dde.utils.Utils;
-import com.ib.api.impl.EWrapperImpl;
 import com.ib.client.Contract;
+import com.ib.client.EClientSocket;
 
 /** Class handles head timestamp related requests, data and messages */
 public class HeadTimestampHandler extends BaseHandler {
@@ -29,8 +29,8 @@ public class HeadTimestampHandler extends BaseHandler {
     // head timestamp requests
     private Map<Integer, BaseStringDataMap> m_headTimestampDataRequests = Collections.synchronizedMap(new HashMap<Integer, BaseStringDataMap>());
 
-    public HeadTimestampHandler(EWrapperImpl wrapper, TwsService twsService) {
-        super(wrapper, twsService);
+    public HeadTimestampHandler(EClientSocket clientSocket, TwsService twsService) {
+        super(clientSocket, twsService);
     }
 
     /* *****************************************************************************************************
@@ -41,7 +41,7 @@ public class HeadTimestampHandler extends BaseHandler {
     public byte[] handleHeadTimestampRequest(String requestStr, byte[] data) {
         HeadTimestampRequest request = m_requestParser.parseHeadTimestampRequest(requestStr, data);
         System.out.println("Sending head timestamp request: id=" + request.requestId() + " contract=" + Utils.shortContractString(request.contract()));
-        m_wrapper.clientSocket().reqHeadTimestamp(request.requestId(), request.contract(), request.whatToShow(), request.useRth(), 
+        clientSocket().reqHeadTimestamp(request.requestId(), request.contract(), request.whatToShow(), request.useRth(), 
                 request.formatDate());
         BaseStringDataMap dataMap = new BaseStringDataMap(request);
         m_headTimestampDataRequests.put(request.requestId(), dataMap);
@@ -53,7 +53,7 @@ public class HeadTimestampHandler extends BaseHandler {
     public byte[] handleHeadTimestampCancel(String requestStr) {
         DdeRequest request =  m_requestParser.parseRequest(requestStr, DdeRequestType.CANCEL_HEAD_TIMESTAMP);
         System.out.println("Cancelling head timestamp: id=" + request.requestId());
-        m_wrapper.clientSocket().cancelHeadTimestamp(request.requestId());
+        clientSocket().cancelHeadTimestamp(request.requestId());
         BaseStringDataMap dataMap = m_headTimestampDataRequests.get(request.requestId());
         if(dataMap != null) {
             updateHeadTimestampRequestStatus(request.requestId(), dataMap, DdeRequestStatus.CANCELLED);

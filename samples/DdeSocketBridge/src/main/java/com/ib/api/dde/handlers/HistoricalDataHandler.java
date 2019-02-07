@@ -15,17 +15,17 @@ import com.ib.api.dde.dde2socket.requests.parser.RequestParser;
 import com.ib.api.dde.handlers.base.HistoricalDataBaseHandler;
 import com.ib.api.dde.socket2dde.datamap.HistoricalDataMap;
 import com.ib.api.dde.utils.Utils;
-import com.ib.api.impl.EWrapperImpl;
 import com.ib.client.Bar;
 import com.ib.client.Contract;
+import com.ib.client.EClientSocket;
 
 /** Class handles historical data related requests, data and messages */
 public class HistoricalDataHandler extends HistoricalDataBaseHandler {
     // parser
     private HistoricalDataRequestParser m_requestParser = new HistoricalDataRequestParser();
 
-    public HistoricalDataHandler(EWrapperImpl wrapper, TwsService twsService) {
-        super(wrapper, twsService);
+    public HistoricalDataHandler(EClientSocket clientSocket, TwsService twsService) {
+        super(clientSocket, twsService);
     }
 
     /* *****************************************************************************************************
@@ -35,7 +35,7 @@ public class HistoricalDataHandler extends HistoricalDataBaseHandler {
     public byte[] handleHistoricalDataRequest(String requestStr, byte[] data) {
         HistoricalDataRequest request = m_requestParser.parseHistoricalDataRequest(requestStr, data);
         System.out.println("Sending historical data request: id=" + request.requestId() + " contract=" + Utils.shortContractString(request.contract()));
-        m_wrapper.clientSocket().reqHistoricalData(request.requestId(), request.contract(), request.endDateTime(), request.durationStr(), 
+        clientSocket().reqHistoricalData(request.requestId(), request.contract(), request.endDateTime(), request.durationStr(), 
                 request.barSizeSetting(), request.whatToShow(), request.useRth(), request.formatDate(), request.keepUpToDate(), null);
         return handleHistoricalDataBaseRequest(request);
     }

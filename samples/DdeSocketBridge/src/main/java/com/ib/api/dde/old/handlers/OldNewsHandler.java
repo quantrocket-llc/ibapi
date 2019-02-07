@@ -9,7 +9,7 @@ import com.ib.api.dde.dde2socket.requests.parser.RequestParser;
 import com.ib.api.dde.handlers.NewsDataHandler;
 import com.ib.api.dde.socket2dde.data.NewsBulletinData;
 import com.ib.api.dde.socket2dde.notifications.DdeNotificationEvent;
-import com.ib.api.impl.EWrapperImpl;
+import com.ib.client.EClientSocket;
 
 /** Class handles news data and messages */
 public class OldNewsHandler extends NewsDataHandler {
@@ -19,8 +19,8 @@ public class OldNewsHandler extends NewsDataHandler {
     private NewsBulletinData m_newsBulletinData;
     private boolean m_hasNewsBulletinsRequest = false;
     
-    public OldNewsHandler(EWrapperImpl wrapper, TwsService twsService) {
-        super(wrapper, twsService);
+    public OldNewsHandler(EClientSocket clientSocket, TwsService twsService) {
+        super(clientSocket, twsService);
     }
     
     /* *****************************************************************************************************
@@ -35,7 +35,7 @@ public class OldNewsHandler extends NewsDataHandler {
         if (m_newsBulletinData != null) {
             switch (requestType){
                 case NEWS_SUB:
-                    m_wrapper.clientSocket().reqNewsBulletins(true);
+                    clientSocket().reqNewsBulletins(true);
                     break;
                 case NEWS_MSG:
                     ret = String.valueOf(m_newsBulletinData.message());
@@ -51,7 +51,7 @@ public class OldNewsHandler extends NewsDataHandler {
     public void handleNewsBulletinsStopAdvise(String requestStr) {
         System.out.println("Handling news bulletins stop advise: " + requestStr);
         m_hasNewsBulletinsRequest = false;
-        m_wrapper.clientSocket().cancelNewsBulletins();
+        clientSocket().cancelNewsBulletins();
     }
  
     /* *****************************************************************************************************
@@ -73,7 +73,7 @@ public class OldNewsHandler extends NewsDataHandler {
     /** Method sends notification to DDE */
     private void notifyDde(String requestString) {
         DdeNotificationEvent event = RequestParser.createDdeNotificationEvent(DdeRequestType.NEWS.topic(), requestString);
-        m_twsService.notifyDde(event);
+        twsService().notifyDde(event);
     }
 
     /* *****************************************************************************************************

@@ -9,15 +9,15 @@ import com.ib.api.dde.dde2socket.requests.DdeRequestType;
 import com.ib.api.dde.dde2socket.requests.parser.RequestParser;
 import com.ib.api.dde.dde2socket.requests.positions.PositionsRequest;
 import com.ib.api.dde.handlers.base.PositionUpdatesHandler;
-import com.ib.api.impl.EWrapperImpl;
+import com.ib.client.EClientSocket;
 
 /** Class handles positions related requests, data and messages */
 public class PositionsHandler extends PositionUpdatesHandler {
     // parser
     private PositionsRequestParser m_requestParser = new PositionsRequestParser();
 
-    public PositionsHandler(EWrapperImpl wrapper, TwsService twsService) {
-        super(wrapper, twsService);
+    public PositionsHandler(EClientSocket clientSocket, TwsService twsService) {
+        super(clientSocket, twsService);
     }
 
     /* *****************************************************************************************************

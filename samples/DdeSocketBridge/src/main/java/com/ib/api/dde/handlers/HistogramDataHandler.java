@@ -15,8 +15,8 @@ import com.ib.api.dde.dde2socket.requests.parser.RequestParser;
 import com.ib.api.dde.handlers.base.BaseListDataHandler;
 import com.ib.api.dde.socket2dde.datamap.BaseDataMap;
 import com.ib.api.dde.utils.Utils;
-import com.ib.api.impl.EWrapperImpl;
 import com.ib.client.Contract;
+import com.ib.client.EClientSocket;
 import com.ib.client.HistogramEntry;
 
 /** Class handles histogram data related requests, data and messages */
@@ -24,8 +24,8 @@ public class HistogramDataHandler extends BaseListDataHandler<HistogramEntry> {
     // parser
     private HistogramDataRequestParser m_requestParser = new HistogramDataRequestParser();
 
-    public HistogramDataHandler(EWrapperImpl wrapper, TwsService twsService) {
-        super(wrapper, twsService);
+    public HistogramDataHandler(EClientSocket clientSocket, TwsService twsService) {
+        super(clientSocket, twsService);
     }
 
     /* *****************************************************************************************************
@@ -35,7 +35,7 @@ public class HistogramDataHandler extends BaseListDataHandler<HistogramEntry> {
     public byte[] handleHistogramDataRequest(String requestStr, byte[] data) {
         HistogramDataRequest request = m_requestParser.parseHistogramDataRequest(requestStr, data);
         System.out.println("Sending histogram data request: id=" + request.requestId() + " contract=" + Utils.shortContractString(request.contract()));
-        m_wrapper.clientSocket().reqHistogramData(request.requestId(), request.contract(), request.useRth(), request.timePeriod()); 
+        clientSocket().reqHistogramData(request.requestId(), request.contract(), request.useRth(), request.timePeriod()); 
         return handleBaseRequest(request);
     }
 
@@ -44,7 +44,7 @@ public class HistogramDataHandler extends BaseListDataHandler<HistogramEntry> {
         DdeRequest request =  m_requestParser.parseRequest(requestStr, DdeRequestType.CANCEL_HISTOGRAM_DATA);
         System.out.println("Cancelling histogram data: id=" + request.requestId());
         if(m_requests.containsKey(request.requestId())) {
-            m_wrapper.clientSocket().cancelHistogramData(request.requestId()); 
+            clientSocket().cancelHistogramData(request.requestId()); 
         }
         return handleBaseCancel(request);
     }

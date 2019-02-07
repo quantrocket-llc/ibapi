@@ -15,15 +15,15 @@ import com.ib.api.dde.dde2socket.requests.pnl.PnLRequest;
 import com.ib.api.dde.handlers.base.MarketDataBaseHandler;
 import com.ib.api.dde.socket2dde.datamap.MarketDataMap;
 import com.ib.api.dde.utils.Utils;
-import com.ib.api.impl.EWrapperImpl;
+import com.ib.client.EClientSocket;
 
 /** Class handles PnL related requests, data and messages */
 public class PnLHandler extends MarketDataBaseHandler {
     // parser
     private PnLRequestParser m_requestParser = new PnLRequestParser();
 
-    public PnLHandler(EWrapperImpl wrapper, TwsService twsService) {
-        super(wrapper, twsService);
+    public PnLHandler(EClientSocket clientSocket, TwsService twsService) {
+        super(clientSocket, twsService);
     }
 
     /* *****************************************************************************************************
@@ -34,11 +34,11 @@ public class PnLHandler extends MarketDataBaseHandler {
         PnLRequest request = m_requestParser.parsePnLRequest(requestStr, data);
         if (request.conId() == 0) {
             System.out.println("Sending PnL request: id=" + request.requestId() + " account=" + request.account() + " modelCode=" + request.modelCode());
-            m_wrapper.clientSocket().reqPnL(request.requestId(), request.account(), request.modelCode());
+            clientSocket().reqPnL(request.requestId(), request.account(), request.modelCode());
         } else {
             System.out.println("Sending PnL single request: id=" + request.requestId() + " account=" + request.account() + " modelCode=" + request.modelCode() + 
                     " conId=" + request.conId());
-            m_wrapper.clientSocket().reqPnLSingle(request.requestId(), request.account(), request.modelCode(), request.conId());
+            clientSocket().reqPnLSingle(request.requestId(), request.account(), request.modelCode(), request.conId());
         }
         return handleMarketDataBaseRequest(request);
     }
@@ -53,10 +53,10 @@ public class PnLHandler extends MarketDataBaseHandler {
             PnLRequest pnlRequest = (PnLRequest)data.ddeRequest();
             if (pnlRequest.conId() == 0) {
                 System.out.println("Sending PnL cancel: id=" + request.requestId());
-                m_wrapper.clientSocket().cancelPnL(request.requestId());
+                clientSocket().cancelPnL(request.requestId());
             } else {
                 System.out.println("Sending PnL single cancel: id=" + request.requestId());
-                m_wrapper.clientSocket().cancelPnLSingle(request.requestId());
+                clientSocket().cancelPnLSingle(request.requestId());
             }
         }
         return handleMktDataBaseCancel(request);

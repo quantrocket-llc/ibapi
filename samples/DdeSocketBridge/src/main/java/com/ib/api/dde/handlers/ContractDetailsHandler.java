@@ -22,9 +22,9 @@ import com.ib.api.dde.handlers.base.BaseHandler;
 import com.ib.api.dde.socket2dde.datamap.BaseListDataMap;
 import com.ib.api.dde.socket2dde.datamap.ContractDetailsMap;
 import com.ib.api.dde.utils.Utils;
-import com.ib.api.impl.EWrapperImpl;
 import com.ib.client.Contract;
 import com.ib.client.ContractDetails;
+import com.ib.client.EClientSocket;
 import com.ib.client.PriceIncrement;
 
 /** Class handles contract details related requests, data and messages */
@@ -38,8 +38,8 @@ public class ContractDetailsHandler extends BaseHandler {
     // market rule requests
     private Map<Integer, BaseListDataMap<PriceIncrement>> m_marketRuleRequests = Collections.synchronizedMap(new HashMap<Integer, BaseListDataMap<PriceIncrement>>());
     
-    public ContractDetailsHandler(EWrapperImpl wrapper, TwsService twsService) {
-        super(wrapper, twsService);
+    public ContractDetailsHandler(EClientSocket clientSocket, TwsService twsService) {
+        super(clientSocket, twsService);
     }
 
     /* *****************************************************************************************************
@@ -49,7 +49,7 @@ public class ContractDetailsHandler extends BaseHandler {
     public byte[] handleContractDetailsRequest(String requestStr, byte[] data) {
         ContractDetailsRequest request = m_requestParser.parseContractDetailsRequest(requestStr, data);
         System.out.println("Sending contract details request: id=" + request.requestId() + " contract=" + Utils.shortContractString(request.contract()));
-        m_wrapper.clientSocket().reqContractDetails(request.requestId(), request.contract());
+        clientSocket().reqContractDetails(request.requestId(), request.contract());
 
         ContractDetailsMap dataMap = new ContractDetailsMap(request);
         m_contractDetailsRequests.put(request.requestId(), dataMap);
@@ -105,7 +105,7 @@ public class ContractDetailsHandler extends BaseHandler {
         }
         if (dataMap.ddeRequestStatus() == DdeRequestStatus.UNKNOWN) {
             System.out.println("Sending market rule request: marketRuleId=" + request.marketRuleId());
-            m_wrapper.clientSocket().reqMarketRule(request.marketRuleId());
+            clientSocket().reqMarketRule(request.marketRuleId());
             dataMap.ddeRequestStatus(DdeRequestStatus.REQUESTED);
         }
         ret = dataMap.ddeRequestStatus().toString();

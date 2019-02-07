@@ -13,15 +13,15 @@ import com.ib.api.dde.dde2socket.requests.DdeRequestStatus;
 import com.ib.api.dde.dde2socket.requests.TickRequest;
 import com.ib.api.dde.socket2dde.datamap.MarketDataMap;
 import com.ib.api.dde.utils.Utils;
-import com.ib.api.impl.EWrapperImpl;
+import com.ib.client.EClientSocket;
 
 /** Class handles market data related requests, data and messages */
 public abstract class MarketDataBaseHandler extends BaseHandler {
     // market data requests
     protected Map<Integer, MarketDataMap> m_marketDataRequests = Collections.synchronizedMap(new HashMap<Integer, MarketDataMap>());
 
-    public MarketDataBaseHandler(EWrapperImpl wrapper, TwsService twsService) {
-        super(wrapper, twsService);
+    public MarketDataBaseHandler(EClientSocket clientSocket, TwsService twsService) {
+        super(clientSocket, twsService);
     }
 
     /* *****************************************************************************************************

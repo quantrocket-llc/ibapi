@@ -66,6 +66,7 @@ import com.ib.client.ContractDescription;
 import com.ib.client.ContractDetails;
 import com.ib.client.DepthMktDataDescription;
 import com.ib.client.EClientSocket;
+import com.ib.client.EJavaSignal;
 import com.ib.client.EReader;
 import com.ib.client.EReaderSignal;
 import com.ib.client.FamilyCode;
@@ -74,6 +75,7 @@ import com.ib.client.NewsProvider;
 import com.ib.client.PriceIncrement;
 import com.ib.client.SoftDollarTier;
 import com.ib.client.TickType;
+import com.pretty_tools.dde.DDEException;
 
 /** Class represents TwsService. Connection to TWS is performed here. */
 public class TwsService {
@@ -82,6 +84,9 @@ public class TwsService {
     private final int m_port;
     private final int m_clientId;
     private final EWrapperImpl m_wrapper;
+    private final EReaderSignal m_readerSignal;
+    private final EClientSocket m_clientSocket;
+
     private final SocketDdeBridge m_socketDdeBridge;
 
     private final ErrorsHandler m_errorsHandler;
@@ -130,45 +135,48 @@ public class TwsService {
         m_clientId = clientId;
         m_socketDdeBridge = bridge;
         m_wrapper = new EWrapperImpl(this);
+        m_readerSignal = new EJavaSignal();
+        m_clientSocket = new EClientSocket(m_wrapper, m_readerSignal);
+        
         m_errorsHandler = new ErrorsHandler(this);
-        m_marketDataHandler = new MarketDataHandler(m_wrapper, this);
-        m_ordersHandler = new OrdersHandler(m_wrapper, this);
-        m_positionsHandler = new PositionsHandler(m_wrapper, this);
-        m_positionsMultiHandler = new PositionsMultiHandler(m_wrapper, this);
-        m_executionsHandler = new ExecutionsHandler(m_wrapper, this);
-        m_accountUpdatesMultiHandler = new AccountUpdatesMultiHandler(m_wrapper, this);
-        m_accountSummaryHandler = new AccountSummaryHandler(m_wrapper, this);
-        m_accountPortfolioHandler = new AccountPortfolioHandler(m_wrapper, this);
-        m_marketDepthHandler = new MarketDepthHandler(m_wrapper, this);
-        m_scannerDataHandler = new ScannerDataHandler(m_wrapper, this);
-        m_contractDetailsHandler = new ContractDetailsHandler(m_wrapper, this);
-        m_historicalDataHandler = new HistoricalDataHandler(m_wrapper, this);
-        m_realTimeBarsHandler = new RealTimeBarsHandler(m_wrapper, this);
-        m_tickByTickDataHandler = new TickByTickDataHandler(m_wrapper, this);
-        m_fundamentalDataHandler = new FundamentalDataHandler(m_wrapper, this);
-        m_historicalTicksHandler = new HistoricalTicksHandler(m_wrapper, this);
-        m_secDefOptParamsHandler = new SecDefOptParamsHandler(m_wrapper, this);
-        m_headTimestampHandler = new HeadTimestampHandler(m_wrapper, this);
-        m_matchingSymbolsHandler = new MatchingSymbolsHandler(m_wrapper, this);
-        m_newsDataHandler = new NewsDataHandler(m_wrapper, this);
-        m_pnlHandler = new PnLHandler(m_wrapper, this);
-        m_calcImplVolOptPriceHandler = new CalcImplVolOptPriceHandler(m_wrapper, this);
-        m_exerciseOptionsHandler = new ExerciseOptionsHandler(m_wrapper, this);
-        m_miscHandler = new MiscHandler(m_wrapper, this);
-        m_histogramDataHandler = new HistogramDataHandler(m_wrapper, this);
+        m_marketDataHandler = new MarketDataHandler(m_clientSocket, this);
+        m_ordersHandler = new OrdersHandler(m_clientSocket, this);
+        m_positionsHandler = new PositionsHandler(m_clientSocket, this);
+        m_positionsMultiHandler = new PositionsMultiHandler(m_clientSocket, this);
+        m_executionsHandler = new ExecutionsHandler(m_clientSocket, this);
+        m_accountUpdatesMultiHandler = new AccountUpdatesMultiHandler(m_clientSocket, this);
+        m_accountSummaryHandler = new AccountSummaryHandler(m_clientSocket, this);
+        m_accountPortfolioHandler = new AccountPortfolioHandler(m_clientSocket, this);
+        m_marketDepthHandler = new MarketDepthHandler(m_clientSocket, this);
+        m_scannerDataHandler = new ScannerDataHandler(m_clientSocket, this);
+        m_contractDetailsHandler = new ContractDetailsHandler(m_clientSocket, this);
+        m_historicalDataHandler = new HistoricalDataHandler(m_clientSocket, this);
+        m_realTimeBarsHandler = new RealTimeBarsHandler(m_clientSocket, this);
+        m_tickByTickDataHandler = new TickByTickDataHandler(m_clientSocket, this);
+        m_fundamentalDataHandler = new FundamentalDataHandler(m_clientSocket, this);
+        m_historicalTicksHandler = new HistoricalTicksHandler(m_clientSocket, this);
+        m_secDefOptParamsHandler = new SecDefOptParamsHandler(m_clientSocket, this);
+        m_headTimestampHandler = new HeadTimestampHandler(m_clientSocket, this);
+        m_matchingSymbolsHandler = new MatchingSymbolsHandler(m_clientSocket, this);
+        m_newsDataHandler = new NewsDataHandler(m_clientSocket, this);
+        m_pnlHandler = new PnLHandler(m_clientSocket, this);
+        m_calcImplVolOptPriceHandler = new CalcImplVolOptPriceHandler(m_clientSocket, this);
+        m_exerciseOptionsHandler = new ExerciseOptionsHandler(m_clientSocket, this);
+        m_miscHandler = new MiscHandler(m_clientSocket, this);
+        m_histogramDataHandler = new HistogramDataHandler(m_clientSocket, this);
 
         // old-style
-        m_oldMarketDataHandler = new OldMarketDataHandler(m_wrapper, this);
+        m_oldMarketDataHandler = new OldMarketDataHandler(m_clientSocket, this);
         m_oldErrorsHandler = new OldErrorsHandler(this);
-        m_oldNewsHandler = new OldNewsHandler(m_wrapper, this);
-        m_oldOrdersHandler = new OldOrdersHandler(m_wrapper, this);
-        m_oldExecutionsHandler = new OldExecutionsHandler(m_wrapper, this);
-        m_oldAccountPortfolioHandler = new OldAccountPortfolioHandler(m_wrapper, this);
-        m_oldMarketDepthHandler = new OldMarketDepthHandler(m_wrapper, this);
-        m_oldScannerDataHandler = new OldScannerDataHandler(m_wrapper, this);
-        m_oldContractDetailsHandler = new OldContractDetailsHandler(m_wrapper, this);
-        m_oldHistoricalDataHandler = new OldHistoricalDataHandler(m_wrapper, this);
-        m_oldMiscHandler = new OldMiscHandler(m_wrapper, this);
+        m_oldNewsHandler = new OldNewsHandler(m_clientSocket, this);
+        m_oldOrdersHandler = new OldOrdersHandler(m_clientSocket, this);
+        m_oldExecutionsHandler = new OldExecutionsHandler(m_clientSocket, this);
+        m_oldAccountPortfolioHandler = new OldAccountPortfolioHandler(m_clientSocket, this);
+        m_oldMarketDepthHandler = new OldMarketDepthHandler(m_clientSocket, this);
+        m_oldScannerDataHandler = new OldScannerDataHandler(m_clientSocket, this);
+        m_oldContractDetailsHandler = new OldContractDetailsHandler(m_clientSocket, this);
+        m_oldHistoricalDataHandler = new OldHistoricalDataHandler(m_clientSocket, this);
+        m_oldMiscHandler = new OldMiscHandler(m_clientSocket, this);
 
     }
 
@@ -735,24 +743,21 @@ public class TwsService {
     public boolean connect() throws InterruptedException {
         System.out.println("Connecting to host [" + m_host + "] port [" + m_port + "] clientId [" + m_clientId + "]");
 
-        m_wrapper.clientSocket().eConnect(m_host, m_port, m_clientId);
+        m_clientSocket.eConnect(m_host, m_port, m_clientId);
 
-        final EClientSocket client = m_wrapper.clientSocket();
-        final EReaderSignal signal = m_wrapper.readerSignal();
-
-        if (m_wrapper.clientSocket().isConnected()) {
-            System.out.println("Connected to Tws server version " + m_wrapper.clientSocket().serverVersion() + " at " + m_wrapper.clientSocket().getTwsConnectionTime());
+        if (m_clientSocket.isConnected()) {
+            System.out.println("Connected to Tws server version " + m_clientSocket.serverVersion() + " at " + m_clientSocket.getTwsConnectionTime());
         } else {
             return false;
         }
 
-        final EReader reader = new EReader (client, signal);   
+        final EReader reader = new EReader (m_clientSocket, m_readerSignal);   
 
         reader.start();
         //An additional thread is created in this program design to empty the messaging queue
         new Thread(() -> {
-            while (client.isConnected()) {
-                signal.waitForSignal();
+            while (m_clientSocket.isConnected()) {
+                m_readerSignal.waitForSignal();
                 try {
                     reader.processMsgs();
                 } catch (Exception e) {
@@ -766,7 +771,12 @@ public class TwsService {
     
     /** Called when TWS interrupts the connection */
     public void disconnect() {
-        m_socketDdeBridge.stop();
+        try {
+            System.out.println("Stopping SocketDdeBridge ...");
+            m_socketDdeBridge.stop();
+        } catch (DDEException e) {
+            System.out.println("Failed to stop SocketDdeBridge! " + e);
+        }
     }
 
     
@@ -781,7 +791,7 @@ public class TwsService {
             System.out.println("Exception: " + e.getMessage());
         }
         System.out.println("Setting server log level to " + logLevel);
-        m_wrapper.clientSocket().setServerLogLevel(logLevel);
+        m_clientSocket.setServerLogLevel(logLevel);
     }
 
     /* *****************************************************************************************************
@@ -800,7 +810,7 @@ public class TwsService {
     
     /** Method sets market data type to 4 (Delayed-Frozen) */
     public void setMarketDataType() {
-        m_wrapper.clientSocket().reqMarketDataType(4);
+        m_clientSocket.reqMarketDataType(4);
     }
 
     /* *****************************************************************************************************

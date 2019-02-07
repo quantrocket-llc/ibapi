@@ -19,8 +19,8 @@ import com.ib.api.dde.handlers.MarketDataHandler;
 import com.ib.api.dde.old.requests.parser.OldRequestParser;
 import com.ib.api.dde.socket2dde.datamap.MarketDataMap;
 import com.ib.api.dde.utils.Utils;
-import com.ib.api.impl.EWrapperImpl;
 import com.ib.client.Contract;
+import com.ib.client.EClientSocket;
 import com.ib.client.TagValue;
 import com.ib.client.TickType;
 
@@ -38,8 +38,8 @@ public class OldMarketDataHandler extends MarketDataHandler {
     // mapping: newField -> <topic, oldField> (e.g. bidPrice -> <tik, bid>; lastRTHTrade -> <gentik, 318>; etc)
     private final Map<String, TagValue> m_fieldMap = new HashMap<String, TagValue>();
     
-    public OldMarketDataHandler(EWrapperImpl wrapper, TwsService twsService) {
-        super(wrapper, twsService);
+    public OldMarketDataHandler(EClientSocket clientSocket, TwsService twsService) {
+        super(clientSocket, twsService);
         
         // initialize map
         // ticks
@@ -100,7 +100,7 @@ public class OldMarketDataHandler extends MarketDataHandler {
         
         if (ddeRequest instanceof MarketDataRequest) {
             MarketDataRequest request = (MarketDataRequest)ddeRequest;
-            m_wrapper.clientSocket().reqMktData(request.requestId(), request.contract(), 
+            clientSocket().reqMktData(request.requestId(), request.contract(), 
                     request.genericTicks(), request.snapshot(), false, null);
             MarketDataMap marketDataMap = new MarketDataMap(ddeRequest);
             m_marketDataRequests.put(request.requestId(), marketDataMap);
@@ -124,7 +124,7 @@ public class OldMarketDataHandler extends MarketDataHandler {
                 ret = String.valueOf(value);
             }
         } else {
-            m_wrapper.clientSocket().calculateImpliedVolatility(ddeRequest.requestId(), ddeRequest.contract(), 
+            clientSocket().calculateImpliedVolatility(ddeRequest.requestId(), ddeRequest.contract(), 
                     ddeRequest.optionPrice(), ddeRequest.underlyingPrice(), null);
             m_marketDataRequests.put(ddeRequest.requestId(), new MarketDataMap(ddeRequest));
         }
@@ -143,7 +143,7 @@ public class OldMarketDataHandler extends MarketDataHandler {
                 ret = String.valueOf(value);
             }
         } else {
-            m_wrapper.clientSocket().calculateOptionPrice(ddeRequest.requestId(), ddeRequest.contract(), 
+            clientSocket().calculateOptionPrice(ddeRequest.requestId(), ddeRequest.contract(), 
                     ddeRequest.impliedVolatility(), ddeRequest.underlyingPrice(), null);
             m_marketDataRequests.put(ddeRequest.requestId(), new MarketDataMap(ddeRequest));
         }
@@ -155,7 +155,7 @@ public class OldMarketDataHandler extends MarketDataHandler {
         int requestId = m_requestParser.getRequesIdFromString(requestStr);
         if (m_marketDataRequests.containsKey(requestId)) {
             System.out.println("Handling tick stop advise: " + requestStr);
-            m_wrapper.clientSocket().cancelMktData(requestId);
+            clientSocket().cancelMktData(requestId);
             m_marketDataRequests.remove(requestId);
         }
     }    

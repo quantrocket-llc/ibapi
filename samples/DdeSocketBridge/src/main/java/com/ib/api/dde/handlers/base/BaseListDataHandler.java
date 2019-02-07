@@ -16,7 +16,7 @@ import com.ib.api.dde.dde2socket.requests.TickRequest;
 import com.ib.api.dde.socket2dde.datamap.BaseDataMap;
 import com.ib.api.dde.socket2dde.datamap.BaseListDataMap;
 import com.ib.api.dde.utils.Utils;
-import com.ib.api.impl.EWrapperImpl;
+import com.ib.client.EClientSocket;
 
 /** Class handles base list data requests, data and messages */
 abstract public class BaseListDataHandler<T> extends BaseHandler {
@@ -24,8 +24,8 @@ abstract public class BaseListDataHandler<T> extends BaseHandler {
     // requests
     protected Map<Integer, BaseListDataMap<T>> m_requests = Collections.synchronizedMap(new HashMap<Integer, BaseListDataMap<T>>());
     
-    public BaseListDataHandler(EWrapperImpl wrapper, TwsService twsService) {
-        super(wrapper, twsService);
+    public BaseListDataHandler(EClientSocket clientSocket, TwsService twsService) {
+        super(clientSocket, twsService);
     }
 
     /* *****************************************************************************************************

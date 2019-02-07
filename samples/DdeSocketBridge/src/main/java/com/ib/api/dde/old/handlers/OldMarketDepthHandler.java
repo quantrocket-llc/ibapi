@@ -15,16 +15,16 @@ import com.ib.api.dde.handlers.MarketDepthHandler;
 import com.ib.api.dde.old.requests.parser.OldRequestParser;
 import com.ib.api.dde.socket2dde.data.MarketDepthData;
 import com.ib.api.dde.socket2dde.datamap.MarketDepthDataMap;
-import com.ib.api.impl.EWrapperImpl;
 import com.ib.client.Contract;
+import com.ib.client.EClientSocket;
 
 /** Class handles old-style market depth related requests, data and messages */
 public class OldMarketDepthHandler extends MarketDepthHandler {
     // parser
     private OldMarketDepthRequestParser m_requestParser = new OldMarketDepthRequestParser();
 
-    public OldMarketDepthHandler(EWrapperImpl wrapper, TwsService twsService) {
-        super(wrapper, twsService);
+    public OldMarketDepthHandler(EClientSocket clientSocket, TwsService twsService) {
+        super(clientSocket, twsService);
     }
 
     /* *****************************************************************************************************
@@ -42,7 +42,7 @@ public class OldMarketDepthHandler extends MarketDepthHandler {
         
         if (ddeRequest instanceof MarketDepthRequest) {
             MarketDepthRequest request = (MarketDepthRequest)ddeRequest;
-            m_wrapper.clientSocket().reqMktDepth(request.requestId(), request.contract(), request.numRows(), request.isSmartDepth(), null);
+            clientSocket().reqMktDepth(request.requestId(), request.contract(), request.numRows(), request.isSmartDepth(), null);
             MarketDepthDataMap dataMap = new MarketDepthDataMap(request);
             m_marketDepthRequests.put(request.requestId(), dataMap);
         } else if (ddeRequest instanceof TickRequest) {
@@ -61,7 +61,7 @@ public class OldMarketDepthHandler extends MarketDepthHandler {
         int requestId = m_requestParser.getRequesIdFromString(requestStr);
         if (m_marketDepthRequests.containsKey(requestId)) {
             System.out.println("Handling market depth tick stop advise: " + requestStr);
-            m_wrapper.clientSocket().cancelMktDepth(requestId, true);
+            clientSocket().cancelMktDepth(requestId, true);
             m_marketDepthRequests.remove(requestId);
         }
     }    

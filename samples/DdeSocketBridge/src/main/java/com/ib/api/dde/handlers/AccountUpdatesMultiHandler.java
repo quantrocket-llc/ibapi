@@ -19,7 +19,7 @@ import com.ib.api.dde.dde2socket.requests.parser.RequestParser;
 import com.ib.api.dde.handlers.base.AccountUpdatesHandler;
 import com.ib.api.dde.socket2dde.datamap.BaseStringDataMap;
 import com.ib.api.dde.utils.Utils;
-import com.ib.api.impl.EWrapperImpl;
+import com.ib.client.EClientSocket;
 import com.ib.client.FamilyCode;
 
 /** Class handles account updates multi related requests and data */
@@ -35,8 +35,8 @@ public class AccountUpdatesMultiHandler extends AccountUpdatesHandler {
     private BaseStringDataMap m_faRequest;
     private BaseStringDataMap m_faReplace;
 
-    public AccountUpdatesMultiHandler(EWrapperImpl wrapper, TwsService twsService) {
-        super(wrapper, twsService);
+    public AccountUpdatesMultiHandler(EClientSocket clientSocket, TwsService twsService) {
+        super(clientSocket, twsService);
     }
 
     /* *****************************************************************************************************
@@ -71,7 +71,7 @@ public class AccountUpdatesMultiHandler extends AccountUpdatesHandler {
     public String handleFamilyCodesRequest(String requestStr) {
         if (m_familyCodesRequestStatus == DdeRequestStatus.UNKNOWN) {
             System.out.println("Handling family codes request.");
-            m_wrapper.clientSocket().reqFamilyCodes();
+            clientSocket().reqFamilyCodes();
             m_familyCodesRequestStatus = DdeRequestStatus.REQUESTED;
         }
         return m_familyCodesRequestStatus.toString();
@@ -108,7 +108,7 @@ public class AccountUpdatesMultiHandler extends AccountUpdatesHandler {
             FinancialAdvisorRequest request = m_requestParser.parseFARequest(requestStr);
             System.out.println("Handling FA request.");
             m_faRequest = new BaseStringDataMap(request);
-            m_wrapper.clientSocket().requestFA(request.faDataType());
+            clientSocket().requestFA(request.faDataType());
             m_faRequest.ddeRequestStatus(DdeRequestStatus.REQUESTED);
         }
         return m_faRequest != null ? m_faRequest.ddeRequestStatus().toString() : "";
@@ -148,7 +148,7 @@ public class AccountUpdatesMultiHandler extends AccountUpdatesHandler {
             FinancialAdvisorReplace request = m_requestParser.parseFAReplace(requestStr, data);
             System.out.println("Handling FA replace.");
             m_faReplace = new BaseStringDataMap(request);
-            m_wrapper.clientSocket().replaceFA(request.faDataType(), request.xml());
+            clientSocket().replaceFA(request.faDataType(), request.xml());
             m_faReplace.ddeRequestStatus(DdeRequestStatus.FINISHED);
             notifyDde(m_faReplace.ddeRequest().ddeRequestType().topic(), RequestParser.ID_ZERO);
         }

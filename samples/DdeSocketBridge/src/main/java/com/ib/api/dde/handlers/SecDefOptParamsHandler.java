@@ -16,15 +16,15 @@ import com.ib.api.dde.handlers.base.BaseListDataHandler;
 import com.ib.api.dde.socket2dde.data.SecDefOptParamsData;
 import com.ib.api.dde.socket2dde.datamap.BaseDataMap;
 import com.ib.api.dde.utils.Utils;
-import com.ib.api.impl.EWrapperImpl;
+import com.ib.client.EClientSocket;
 
 /** Class handles security definition option parameters related requests, data and messages */
 public class SecDefOptParamsHandler extends BaseListDataHandler<SecDefOptParamsData> {
     // parser
     private SecDefOptParamsRequestParser m_requestParser = new SecDefOptParamsRequestParser();
 
-    public SecDefOptParamsHandler(EWrapperImpl wrapper, TwsService twsService) {
-        super(wrapper, twsService);
+    public SecDefOptParamsHandler(EClientSocket clientSocket, TwsService twsService) {
+        super(clientSocket, twsService);
     }
 
     /* *****************************************************************************************************
@@ -36,7 +36,7 @@ public class SecDefOptParamsHandler extends BaseListDataHandler<SecDefOptParamsD
         System.out.println("Sending sec def opt params request: id=" + request.requestId() + " underlyingSymbol=" + request.underlyingSymbol() + 
                 " futFopExchange=" + request.futFopExchange() + " underlyingSecType=" + request.underlyingSecType() + 
                 " underlyingConId=" + request.underlyingConId());
-        m_wrapper.clientSocket().reqSecDefOptParams(request.requestId(), request.underlyingSymbol(), request.futFopExchange(), 
+        clientSocket().reqSecDefOptParams(request.requestId(), request.underlyingSymbol(), request.futFopExchange(), 
                 request.underlyingSecType(), request.underlyingConId());
         return handleBaseRequest(request);
     }

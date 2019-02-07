@@ -16,7 +16,7 @@ import com.ib.api.dde.socket2dde.data.ScannerData;
 import com.ib.api.dde.socket2dde.datamap.BaseDataMap;
 import com.ib.api.dde.socket2dde.datamap.BaseMapDataMap;
 import com.ib.api.dde.utils.Utils;
-import com.ib.api.impl.EWrapperImpl;
+import com.ib.client.EClientSocket;
 import com.ib.client.ScannerSubscription;
 
 /** Class handles old-style scanner subscription related requests, data and messages */
@@ -24,8 +24,8 @@ public class OldScannerDataHandler extends ScannerDataHandler {
     // parser
     private OldScannerSubscriptionParser m_requestParser = new OldScannerSubscriptionParser();
 
-    public OldScannerDataHandler(EWrapperImpl wrapper, TwsService twsService) {
-        super(wrapper, twsService);
+    public OldScannerDataHandler(EClientSocket clientSocket, TwsService twsService) {
+        super(clientSocket, twsService);
     }
 
     /* *****************************************************************************************************
@@ -39,7 +39,7 @@ public class OldScannerDataHandler extends ScannerDataHandler {
         BaseMapDataMap<Integer, ScannerData> dataMap = m_scannerSubscriptionRequests.get(request.requestId());
         if(dataMap == null) {
             System.out.println("Sending scanner subscription request: id=" + request.requestId() + " scanCode=" + request.scannerSubscription().scanCode());
-            m_wrapper.clientSocket().reqScannerSubscription(request.requestId(), request.scannerSubscription(), null, request.scannerSubscriptionFilterOptions());
+            clientSocket().reqScannerSubscription(request.requestId(), request.scannerSubscription(), null, request.scannerSubscriptionFilterOptions());
             dataMap = new BaseMapDataMap<Integer, ScannerData>(request);
             m_scannerSubscriptionRequests.put(request.requestId(), dataMap);
             updateScannerSubscriptionStatus(request.requestId(), dataMap, DdeRequestStatus.REQUESTED);
@@ -52,7 +52,7 @@ public class OldScannerDataHandler extends ScannerDataHandler {
         DdeRequest request =  m_requestParser.parseRequest(requestStr, DdeRequestType.CANCEL_SCANNER_SUBSCRIPTION);
         System.out.println("Sending scanner subscription cancel: id=" + request.requestId());
         if (m_scannerSubscriptionRequests.containsKey(request.requestId())) {
-            m_wrapper.clientSocket().cancelScannerSubscription(request.requestId());
+            clientSocket().cancelScannerSubscription(request.requestId());
             m_scannerSubscriptionRequests.remove(request.requestId());
         }
     }    

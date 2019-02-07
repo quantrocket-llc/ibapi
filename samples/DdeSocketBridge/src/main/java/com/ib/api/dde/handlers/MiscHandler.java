@@ -24,7 +24,7 @@ import com.ib.api.dde.socket2dde.data.SmartComponentData;
 import com.ib.api.dde.socket2dde.datamap.BaseListDataMap;
 import com.ib.api.dde.socket2dde.notifications.DdeNotificationEvent;
 import com.ib.api.dde.utils.Utils;
-import com.ib.api.impl.EWrapperImpl;
+import com.ib.client.EClientSocket;
 import com.ib.client.SoftDollarTier;
 
 /** Class handles some minor requests */
@@ -42,8 +42,8 @@ public class MiscHandler extends BaseHandler {
     // soft dollar tiers
     private Map<Integer, BaseListDataMap<SoftDollarTier>> m_softDollarTiersRequests = Collections.synchronizedMap(new HashMap<Integer, BaseListDataMap<SoftDollarTier>>());
     
-    public MiscHandler(EWrapperImpl wrapper, TwsService twsService) {
-        super(wrapper, twsService);
+    public MiscHandler(EClientSocket clientSocket, TwsService twsService) {
+        super(clientSocket, twsService);
     }
 
     
@@ -70,7 +70,7 @@ public class MiscHandler extends BaseHandler {
     public void updateManagedAccounts(String accountsList) {
         m_accountsList = accountsList;
         DdeNotificationEvent oldEvent = RequestParser.createDdeNotificationEvent(DdeRequestType.FAACCTS.topic(), "id1?value");
-        m_twsService.notifyDde(oldEvent);
+        twsService().notifyDde(oldEvent);
     }
     
     /* *****************************************************************************************************
@@ -94,7 +94,7 @@ public class MiscHandler extends BaseHandler {
     public void updateAccountTime(String timeStamp) {
         m_accountUpdateTime = timeStamp;
         DdeNotificationEvent event = RequestParser.createDdeNotificationEvent(DdeRequestType.REQ_ACCOUNT_UPDATE_TIME.topic(), RequestParser.ID_ZERO);
-        m_twsService.notifyDde(event);
+        twsService().notifyDde(event);
     }
     
     /* *****************************************************************************************************
@@ -104,7 +104,7 @@ public class MiscHandler extends BaseHandler {
     public String handleCurrentTimeRequest() {
         System.out.println("Handling current time request.");
         if (Utils.isNull(m_currentTime)) {
-            m_wrapper.clientSocket().reqCurrentTime();
+            clientSocket().reqCurrentTime();
         }
         String ret = m_currentTime;
         m_currentTime = "";
@@ -115,7 +115,7 @@ public class MiscHandler extends BaseHandler {
     public void updateCurrentTime(long currentTime) {
         m_currentTime = new SimpleDateFormat("yyyyMMdd HH:mm:ss").format(new Date(currentTime * 1000));
         DdeNotificationEvent event = RequestParser.createDdeNotificationEvent(DdeRequestType.REQ_CURRENT_TIME.topic(), RequestParser.ID_ZERO);
-        m_twsService.notifyDde(event);
+        twsService().notifyDde(event);
     }
     
     
@@ -132,7 +132,7 @@ public class MiscHandler extends BaseHandler {
             m_smartComponentRequests.put(request.requestId(), dataMap);
         }
         if (dataMap.ddeRequestStatus() == DdeRequestStatus.UNKNOWN) {
-            m_wrapper.clientSocket().reqSmartComponents(request.requestId(), request.bboExchange());
+            clientSocket().reqSmartComponents(request.requestId(), request.bboExchange());
             dataMap.ddeRequestStatus(DdeRequestStatus.REQUESTED);
         }
         String ret = dataMap.ddeRequestStatus().toString();
@@ -213,7 +213,7 @@ public class MiscHandler extends BaseHandler {
             m_softDollarTiersRequests.put(request.requestId(), dataMap);
         }
         if (dataMap.ddeRequestStatus() == DdeRequestStatus.UNKNOWN) {
-            m_wrapper.clientSocket().reqSoftDollarTiers(request.requestId());
+            clientSocket().reqSoftDollarTiers(request.requestId());
             dataMap.ddeRequestStatus(DdeRequestStatus.REQUESTED);
         }
         return dataMap.ddeRequestStatus().toString();

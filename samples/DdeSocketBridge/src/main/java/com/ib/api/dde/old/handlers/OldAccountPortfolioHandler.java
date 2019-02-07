@@ -19,7 +19,7 @@ import com.ib.api.dde.socket2dde.data.PositionData;
 import com.ib.api.dde.utils.AccountUpdatesUtils.AccountUpdateKey;
 import com.ib.api.dde.utils.PositionsUtils.PositionKey;
 import com.ib.api.dde.utils.Utils;
-import com.ib.api.impl.EWrapperImpl;
+import com.ib.client.EClientSocket;
 
 /** Class handles account updates multi related requests and data */
 public class OldAccountPortfolioHandler extends AccountUpdatesHandler {
@@ -39,8 +39,8 @@ public class OldAccountPortfolioHandler extends AccountUpdatesHandler {
     // parser
     private AccountPortfolioRequestParser m_requestParser = new AccountPortfolioRequestParser();
 
-    public OldAccountPortfolioHandler(EWrapperImpl wrapper, TwsService twsService) {
-        super(wrapper, twsService);
+    public OldAccountPortfolioHandler(EClientSocket clientSocket, TwsService twsService) {
+        super(clientSocket, twsService);
     }
 
     /* *****************************************************************************************************
@@ -57,7 +57,7 @@ public class OldAccountPortfolioHandler extends AccountUpdatesHandler {
                 m_accountSubscriptionStatus = DdeRequestStatus.RECEIVED;
             } else {
                 // send reqAccountUpdates request
-                m_wrapper.clientSocket().reqAccountUpdates(true, account);
+                clientSocket().reqAccountUpdates(true, account);
                 m_hasActiveRequest = true;
                 m_accountSubscriptionStatus = DdeRequestStatus.REQUESTED;
             }
@@ -77,7 +77,7 @@ public class OldAccountPortfolioHandler extends AccountUpdatesHandler {
                 m_portfolioSubscriptionStatus = DdeRequestStatus.RECEIVED;
             } else {
                 // send reqAccountUpdates request
-                m_wrapper.clientSocket().reqAccountUpdates(true, account);
+                clientSocket().reqAccountUpdates(true, account);
                 m_hasActiveRequest = true;
                 m_portfolioSubscriptionStatus = DdeRequestStatus.REQUESTED;
             }
@@ -109,7 +109,7 @@ public class OldAccountPortfolioHandler extends AccountUpdatesHandler {
         System.out.println("Handling account/portfolio stop advise: " + requestStr);
         m_accountSubscriptionStatus = DdeRequestStatus.UNKNOWN;
         if (m_portfolioSubscriptionStatus != DdeRequestStatus.SUBSCRIBED) {
-            m_wrapper.clientSocket().reqAccountUpdates(false, "");
+            clientSocket().reqAccountUpdates(false, "");
             m_hasActiveRequest = false;
         }
     }    
@@ -119,7 +119,7 @@ public class OldAccountPortfolioHandler extends AccountUpdatesHandler {
         System.out.println("Handling account/portfolio stop advise: " + requestStr);
         m_portfolioSubscriptionStatus = DdeRequestStatus.UNKNOWN;
         if (m_accountSubscriptionStatus != DdeRequestStatus.SUBSCRIBED) {
-            m_wrapper.clientSocket().reqAccountUpdates(false, "");
+            clientSocket().reqAccountUpdates(false, "");
             m_hasActiveRequest = false;
         }
     }    

@@ -15,16 +15,16 @@ import com.ib.api.dde.dde2socket.requests.parser.RequestParser;
 import com.ib.api.dde.handlers.base.MarketDataBaseHandler;
 import com.ib.api.dde.socket2dde.datamap.MarketDataMap;
 import com.ib.api.dde.utils.Utils;
-import com.ib.api.impl.EWrapperImpl;
 import com.ib.client.Contract;
+import com.ib.client.EClientSocket;
 
 /** Class handles market data related requests, data and messages */
 public class MarketDataHandler extends MarketDataBaseHandler {
     // parser
     private MarketDataRequestParser m_requestParser = new MarketDataRequestParser();
 
-    public MarketDataHandler(EWrapperImpl wrapper, TwsService twsService) {
-        super(wrapper, twsService);
+    public MarketDataHandler(EClientSocket clientSocket, TwsService twsService) {
+        super(clientSocket, twsService);
     }
 
     /* *****************************************************************************************************
@@ -34,7 +34,7 @@ public class MarketDataHandler extends MarketDataBaseHandler {
     public byte[] handleMarketDataRequest(String requestStr, byte[] data) {
         MarketDataRequest request = m_requestParser.parseMarketDataRequest(requestStr, data);
         System.out.println("Sending market data request: id=" + request.requestId() + " for contract=" + Utils.shortContractString(request.contract()) + " genTicks=" + request.genericTicks());
-        m_wrapper.clientSocket().reqMktData(request.requestId(), request.contract(), 
+        clientSocket().reqMktData(request.requestId(), request.contract(), 
                 request.genericTicks(), request.snapshot(), false, null);
         return handleMarketDataBaseRequest(request);
     }
@@ -50,7 +50,7 @@ public class MarketDataHandler extends MarketDataBaseHandler {
         DdeRequest request =  m_requestParser.parseRequest(requestStr, DdeRequestType.CANCEL_MARKET_DATA);
         if(m_marketDataRequests.containsKey(request.requestId())) {
             System.out.println("Sending market data cancel: id=" + request.requestId());
-            m_wrapper.clientSocket().cancelMktData(request.requestId());
+            clientSocket().cancelMktData(request.requestId());
         }
         return handleMktDataBaseCancel(request);
     }

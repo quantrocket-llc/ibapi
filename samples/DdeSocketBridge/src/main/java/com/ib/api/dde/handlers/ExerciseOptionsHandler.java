@@ -17,8 +17,8 @@ import com.ib.api.dde.dde2socket.requests.parser.RequestParser;
 import com.ib.api.dde.handlers.base.BaseHandler;
 import com.ib.api.dde.socket2dde.datamap.BaseStringDataMap;
 import com.ib.api.dde.utils.Utils;
-import com.ib.api.impl.EWrapperImpl;
 import com.ib.client.Contract;
+import com.ib.client.EClientSocket;
 
 /** Class handles exercise options related requests */
 public class ExerciseOptionsHandler extends BaseHandler {
@@ -28,8 +28,8 @@ public class ExerciseOptionsHandler extends BaseHandler {
     // exercise options requests
     private Map<Integer, BaseStringDataMap> m_exerciseOptionsRequests = Collections.synchronizedMap(new HashMap<Integer, BaseStringDataMap>());
 
-    public ExerciseOptionsHandler(EWrapperImpl wrapper, TwsService twsService) {
-        super(wrapper, twsService);
+    public ExerciseOptionsHandler(EClientSocket clientSocket, TwsService twsService) {
+        super(clientSocket, twsService);
     }
 
     /* *****************************************************************************************************
@@ -41,7 +41,7 @@ public class ExerciseOptionsHandler extends BaseHandler {
         ExerciseOptionsRequest request = m_requestParser.parseExerciseOptionsRequest(requestStr, data);
         System.out.println("Sending exercise options request: id=" + request.requestId() + " contract=" + Utils.shortContractString(request.contract()) 
                     + " action=" + request.exerciseAction() + " quantity=" + request.exerciseQuantity() + " override=" + request.override());
-        m_wrapper.clientSocket().exerciseOptions(request.requestId(), request.contract(), request.exerciseAction(), 
+        clientSocket().exerciseOptions(request.requestId(), request.contract(), request.exerciseAction(), 
                 request.exerciseQuantity(), request.account(), request.override()); 
         BaseStringDataMap dataMap = new BaseStringDataMap(request);
         m_exerciseOptionsRequests.put(request.requestId(), dataMap);

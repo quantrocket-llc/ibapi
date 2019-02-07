@@ -16,16 +16,16 @@ import com.ib.api.dde.dde2socket.requests.parser.RequestParser;
 import com.ib.api.dde.handlers.base.MarketDataBaseHandler;
 import com.ib.api.dde.socket2dde.datamap.MarketDataMap;
 import com.ib.api.dde.utils.Utils;
-import com.ib.api.impl.EWrapperImpl;
 import com.ib.client.Contract;
+import com.ib.client.EClientSocket;
 
 /** Class handles calculate implied volatility and calculate option price related requests, data and messages */
 public class CalcImplVolOptPriceHandler extends MarketDataBaseHandler {
     // parser
     private CalcImplVolOptPriceRequestParser m_requestParser = new CalcImplVolOptPriceRequestParser();
 
-    public CalcImplVolOptPriceHandler(EWrapperImpl wrapper, TwsService twsService) {
-        super(wrapper, twsService);
+    public CalcImplVolOptPriceHandler(EClientSocket clientSocket, TwsService twsService) {
+        super(clientSocket, twsService);
     }
 
     /* *****************************************************************************************************
@@ -40,14 +40,14 @@ public class CalcImplVolOptPriceHandler extends MarketDataBaseHandler {
                 System.out.println("Sending calculate implied volatility request: id=" + implVolRequest.requestId() + " for contract=" 
                         + Utils.shortContractString(implVolRequest.contract()) + " optionPrice=" + implVolRequest.optionPrice() 
                         + " underlyingPrice=" + implVolRequest.underlyingPrice());
-                m_wrapper.clientSocket().calculateImpliedVolatility(implVolRequest.requestId(), implVolRequest.contract(), 
+                clientSocket().calculateImpliedVolatility(implVolRequest.requestId(), implVolRequest.contract(), 
                         implVolRequest.optionPrice(), implVolRequest.underlyingPrice(), null);
                 break;
             case CALCULATE_OPTION_PRICE:
                 CalculateOptionPriceRequest optPriceRequest = (CalculateOptionPriceRequest)ddeRequest;
                 System.out.println("Sending calculate option price request: id=" + optPriceRequest.requestId() + " for contract=" + Utils.shortContractString(optPriceRequest.contract()) + 
                         " impiedVolatility=" + optPriceRequest.impliedVolatility() + " underlyingPrice=" + optPriceRequest.underlyingPrice());
-                m_wrapper.clientSocket().calculateOptionPrice(optPriceRequest.requestId(), optPriceRequest.contract(), 
+                clientSocket().calculateOptionPrice(optPriceRequest.requestId(), optPriceRequest.contract(), 
                         optPriceRequest.impliedVolatility(), optPriceRequest.underlyingPrice(), null);
                 break;
             default:
@@ -63,11 +63,11 @@ public class CalcImplVolOptPriceHandler extends MarketDataBaseHandler {
             switch(requestType) {
                 case CANCEL_CALCULATE_IMPLIED_VOLATILITY:
                     System.out.println("Sending calculate implied volatility cancel: id=" + request.requestId());
-                    m_wrapper.clientSocket().cancelCalculateImpliedVolatility(request.requestId());
+                    clientSocket().cancelCalculateImpliedVolatility(request.requestId());
                     break;
                 case CANCEL_CALCULATE_OPTION_PRICE:
                     System.out.println("Sending calculate option price cancel: id=" + request.requestId());
-                    m_wrapper.clientSocket().cancelCalculateOptionPrice(request.requestId());
+                    clientSocket().cancelCalculateOptionPrice(request.requestId());
                     break;
                 default:
                     break;

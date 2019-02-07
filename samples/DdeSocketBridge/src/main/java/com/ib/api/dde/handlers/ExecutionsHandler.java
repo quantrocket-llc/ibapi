@@ -19,8 +19,8 @@ import com.ib.api.dde.handlers.base.BaseHandler;
 import com.ib.api.dde.socket2dde.data.ExecutionData;
 import com.ib.api.dde.socket2dde.datamap.BaseListDataMap;
 import com.ib.api.dde.utils.Utils;
-import com.ib.api.impl.EWrapperImpl;
 import com.ib.client.CommissionReport;
+import com.ib.client.EClientSocket;
 import com.ib.client.ExecutionFilter;
 
 /** Class handles executions related requests and data */
@@ -31,8 +31,8 @@ public class ExecutionsHandler extends BaseHandler {
     // executions
     private Map<Integer, BaseListDataMap<ExecutionData>> m_executionDataMap = Collections.synchronizedMap(new HashMap<Integer, BaseListDataMap<ExecutionData>>());
 
-    public ExecutionsHandler(EWrapperImpl wrapper, TwsService twsService) {
-        super(wrapper, twsService);
+    public ExecutionsHandler(EClientSocket clientSocket, TwsService twsService) {
+        super(clientSocket, twsService);
     }
 
     /* *****************************************************************************************************
@@ -50,7 +50,7 @@ public class ExecutionsHandler extends BaseHandler {
         if (executionDataMap.ddeRequestStatus() == DdeRequestStatus.UNKNOWN) {
             // send reqExecutions request
             System.out.println("Handling executions request: id=" + request.requestId());
-            m_wrapper.clientSocket().reqExecutions(request.requestId(), request.executionFilter());
+            clientSocket().reqExecutions(request.requestId(), request.executionFilter());
             executionDataMap.ddeRequestStatus(DdeRequestStatus.REQUESTED);
         }
         

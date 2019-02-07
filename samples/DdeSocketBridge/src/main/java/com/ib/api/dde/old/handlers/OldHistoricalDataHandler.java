@@ -13,16 +13,16 @@ import com.ib.api.dde.handlers.HistoricalDataHandler;
 import com.ib.api.dde.old.requests.parser.OldRequestParser;
 import com.ib.api.dde.socket2dde.datamap.HistoricalDataMap;
 import com.ib.api.dde.utils.Utils;
-import com.ib.api.impl.EWrapperImpl;
 import com.ib.client.Contract;
+import com.ib.client.EClientSocket;
 
 /** Class handles old-style historical data related requests, data and messages */
 public class OldHistoricalDataHandler extends HistoricalDataHandler {
     // parser
     private OldHistoricalDataRequestParser m_requestParser = new OldHistoricalDataRequestParser();
 
-    public OldHistoricalDataHandler(EWrapperImpl wrapper, TwsService twsService) {
-        super(wrapper, twsService);
+    public OldHistoricalDataHandler(EClientSocket clientSocket, TwsService twsService) {
+        super(clientSocket, twsService);
     }
 
     /* *****************************************************************************************************
@@ -35,7 +35,7 @@ public class OldHistoricalDataHandler extends HistoricalDataHandler {
         
         HistoricalDataMap dataMap = m_historicalDataRequests.get(request.requestId());
         if(dataMap == null) {
-            m_wrapper.clientSocket().reqHistoricalData(request.requestId(), request.contract(), request.endDateTime(), request.durationStr(), 
+            clientSocket().reqHistoricalData(request.requestId(), request.contract(), request.endDateTime(), request.durationStr(), 
                     request.barSizeSetting(), request.whatToShow(), request.useRth(), request.formatDate(), request.keepUpToDate(), null);
             dataMap = new HistoricalDataMap(request);
             m_historicalDataRequests.put(request.requestId(), dataMap);
@@ -49,7 +49,7 @@ public class OldHistoricalDataHandler extends HistoricalDataHandler {
         int requestId = m_requestParser.getRequesIdFromString(requestStr);
         if (m_historicalDataRequests.containsKey(requestId)) {
             System.out.println("Handling historical data stop advise: " + requestStr);
-            m_wrapper.clientSocket().cancelHistoricalData(requestId);
+            clientSocket().cancelHistoricalData(requestId);
             m_historicalDataRequests.remove(requestId);
         }
     }    

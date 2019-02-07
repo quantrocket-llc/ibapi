@@ -22,9 +22,9 @@ import com.ib.api.dde.handlers.base.BaseHandler;
 import com.ib.api.dde.socket2dde.data.MarketDepthData;
 import com.ib.api.dde.socket2dde.datamap.MarketDepthDataMap;
 import com.ib.api.dde.utils.Utils;
-import com.ib.api.impl.EWrapperImpl;
 import com.ib.client.Contract;
 import com.ib.client.DepthMktDataDescription;
+import com.ib.client.EClientSocket;
 
 /** Class handles market depth related requests, data and messages */
 public class MarketDepthHandler extends BaseHandler {
@@ -38,8 +38,8 @@ public class MarketDepthHandler extends BaseHandler {
     private List<DepthMktDataDescription> m_mktDepthExchanges = Collections.synchronizedList(new ArrayList<DepthMktDataDescription>());
     private DdeRequestStatus m_mktDepthExchangesRequestStatus = DdeRequestStatus.UNKNOWN;
     
-    public MarketDepthHandler(EWrapperImpl wrapper, TwsService twsService) {
-        super(wrapper, twsService);
+    public MarketDepthHandler(EClientSocket clientSocket, TwsService twsService) {
+        super(clientSocket, twsService);
     }
 
     /* *****************************************************************************************************
@@ -49,7 +49,7 @@ public class MarketDepthHandler extends BaseHandler {
     public byte[] handleMarketDepthRequest(String requestStr, byte[] data) {
         MarketDepthRequest request = m_requestParser.parseMarketDepthRequest(requestStr, data);
         System.out.println("Sending market depth request: id=" + request.requestId() + " for contract=" + Utils.shortContractString(request.contract()) + " isSmartDepth=" + request.isSmartDepth());
-        m_wrapper.clientSocket().reqMktDepth(request.requestId(), request.contract(), request.numRows(), request.isSmartDepth(), null);
+        clientSocket().reqMktDepth(request.requestId(), request.contract(), request.numRows(), request.isSmartDepth(), null);
         MarketDepthDataMap dataMap = new MarketDepthDataMap(request);
         m_marketDepthRequests.put(request.requestId(), dataMap);
         updateMarketDepthStatus(request.requestId(), dataMap, DdeRequestStatus.REQUESTED);
@@ -75,7 +75,7 @@ public class MarketDepthHandler extends BaseHandler {
         if(dataMap != null) {
             MarketDepthRequest request = ((MarketDepthRequest)dataMap.ddeRequest());
             System.out.println("Sending market depth cancel: id=" + request.requestId() + " isSmartDepth=" + request.isSmartDepth());
-            m_wrapper.clientSocket().cancelMktDepth(request.requestId(), request.isSmartDepth());
+            clientSocket().cancelMktDepth(request.requestId(), request.isSmartDepth());
             updateMarketDepthStatus(request.requestId(), dataMap, DdeRequestStatus.CANCELLED);
             m_marketDepthRequests.remove(request.requestId());
         }
@@ -94,7 +94,7 @@ public class MarketDepthHandler extends BaseHandler {
     public String handleMktDepthExchangesRequest(String requestStr) {
         if (m_mktDepthExchangesRequestStatus == DdeRequestStatus.UNKNOWN) {
             System.out.println("Sending mkt depth exchanges request.");
-            m_wrapper.clientSocket().reqMktDepthExchanges();
+            clientSocket().reqMktDepthExchanges();
             m_mktDepthExchangesRequestStatus = DdeRequestStatus.REQUESTED;
         }
         return m_mktDepthExchangesRequestStatus.toString();

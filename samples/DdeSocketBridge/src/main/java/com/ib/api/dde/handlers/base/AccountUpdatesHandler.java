@@ -19,7 +19,7 @@ import com.ib.api.dde.dde2socket.requests.parser.RequestParser;
 import com.ib.api.dde.socket2dde.data.AccountUpdateData;
 import com.ib.api.dde.socket2dde.datamap.AccountUpdateDataMap;
 import com.ib.api.dde.utils.Utils;
-import com.ib.api.impl.EWrapperImpl;
+import com.ib.client.EClientSocket;
 
 /** Base class for account update related requests and data */
 public abstract class AccountUpdatesHandler extends BaseHandler {
@@ -29,8 +29,8 @@ public abstract class AccountUpdatesHandler extends BaseHandler {
     // account updates
     protected Map<Integer, AccountUpdateDataMap> m_accountUpdateDataMap = Collections.synchronizedMap(new HashMap<Integer, AccountUpdateDataMap>());
 
-    public AccountUpdatesHandler(EWrapperImpl wrapper, TwsService twsService) {
-        super(wrapper, twsService);
+    public AccountUpdatesHandler(EClientSocket clientSocket, TwsService twsService) {
+        super(clientSocket, twsService);
     }
 
     /* *****************************************************************************************************
@@ -52,13 +52,13 @@ public abstract class AccountUpdatesHandler extends BaseHandler {
                 case REQ_ACCOUNT_UPDATES_MULTI:
                     // send reqPositionsMulti request
                     AccountUpdatesMultiRequest accountUpdatesMultiRequest = (AccountUpdatesMultiRequest)request;
-                    m_wrapper.clientSocket().reqAccountUpdatesMulti(accountUpdatesMultiRequest.requestId(), accountUpdatesMultiRequest.account(), 
+                    clientSocket().reqAccountUpdatesMulti(accountUpdatesMultiRequest.requestId(), accountUpdatesMultiRequest.account(), 
                             accountUpdatesMultiRequest.modelCode(), accountUpdatesMultiRequest.ledgerAndNLV());
                     break;
                 case REQ_ACCOUNT_PORTFOLIO:
                     AccountPortfolioRequest accountPortfolioRequest = (AccountPortfolioRequest)request;
                     // send reqAccountUpdates request
-                    m_wrapper.clientSocket().reqAccountUpdates(true, accountPortfolioRequest.account());
+                    clientSocket().reqAccountUpdates(true, accountPortfolioRequest.account());
                     
                 default:
                     break;
@@ -94,13 +94,13 @@ public abstract class AccountUpdatesHandler extends BaseHandler {
     public byte[] handleAccountUpdatesCancel(DdeRequest request) {
         switch(request.ddeRequestType()){
             case CANCEL_ACCOUNT_SUMMARY:
-                m_wrapper.clientSocket().cancelAccountSummary(request.requestId());
+                clientSocket().cancelAccountSummary(request.requestId());
                 break;
             case CANCEL_ACCOUNT_UPDATES_MULTI:
-                m_wrapper.clientSocket().cancelAccountUpdatesMulti(request.requestId());
+                clientSocket().cancelAccountUpdatesMulti(request.requestId());
                 break;
             case CANCEL_ACCOUNT_PORTFOLIO:
-                m_wrapper.clientSocket().reqAccountUpdates(false, "");
+                clientSocket().reqAccountUpdates(false, "");
                 break;
             default:
                 break;

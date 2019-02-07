@@ -18,8 +18,8 @@ import com.ib.api.dde.dde2socket.requests.parser.RequestParser;
 import com.ib.api.dde.handlers.base.BaseHandler;
 import com.ib.api.dde.socket2dde.datamap.BaseStringDataMap;
 import com.ib.api.dde.utils.Utils;
-import com.ib.api.impl.EWrapperImpl;
 import com.ib.client.Contract;
+import com.ib.client.EClientSocket;
 
 /** Class handles fundamental data related requests, data and messages */
 public class FundamentalDataHandler extends BaseHandler {
@@ -29,8 +29,8 @@ public class FundamentalDataHandler extends BaseHandler {
     // fundamental data requests
     private Map<Integer, BaseStringDataMap> m_fundamentalDataRequests = Collections.synchronizedMap(new HashMap<Integer, BaseStringDataMap>());
 
-    public FundamentalDataHandler(EWrapperImpl wrapper, TwsService twsService) {
-        super(wrapper, twsService);
+    public FundamentalDataHandler(EClientSocket clientSocket, TwsService twsService) {
+        super(clientSocket, twsService);
     }
 
     /* *****************************************************************************************************
@@ -40,7 +40,7 @@ public class FundamentalDataHandler extends BaseHandler {
     public byte[] handleFundamentalDataRequest(String requestStr, byte[] data) {
         FundamentalDataRequest request = m_requestParser.parseFundamentalDataRequest(requestStr, data);
         System.out.println("Sending fundamental data request: id=" + request.requestId() + " contract=" + Utils.shortContractString(request.contract()));
-        m_wrapper.clientSocket().reqFundamentalData(request.requestId(), request.contract(), request.reportType(), null);
+        clientSocket().reqFundamentalData(request.requestId(), request.contract(), request.reportType(), null);
         BaseStringDataMap dataMap = new BaseStringDataMap(request);
         m_fundamentalDataRequests.put(request.requestId(), dataMap);
         updateRequestStatus(request.requestId(), dataMap, DdeRequestStatus.REQUESTED);
@@ -53,7 +53,7 @@ public class FundamentalDataHandler extends BaseHandler {
         BaseStringDataMap dataMap = m_fundamentalDataRequests.get(request.requestId());
         if(dataMap != null) {
             System.out.println("Cancelling fundamental data: id=" + request.requestId());
-            m_wrapper.clientSocket().cancelFundamentalData(request.requestId());
+            clientSocket().cancelFundamentalData(request.requestId());
             updateRequestStatus(request.requestId(), dataMap, DdeRequestStatus.CANCELLED);
             m_fundamentalDataRequests.remove(request.requestId());
         }

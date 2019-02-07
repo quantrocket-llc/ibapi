@@ -16,16 +16,16 @@ import com.ib.api.dde.handlers.base.BaseListDataHandler;
 import com.ib.api.dde.socket2dde.data.TickByTickData;
 import com.ib.api.dde.socket2dde.datamap.BaseDataMap;
 import com.ib.api.dde.utils.Utils;
-import com.ib.api.impl.EWrapperImpl;
 import com.ib.client.Contract;
+import com.ib.client.EClientSocket;
 
 /** Class handles historical ticks related requests, data and messages */
 public class HistoricalTicksHandler extends BaseListDataHandler<TickByTickData> {
     // parser
     private HistoricalTicksRequestParser m_requestParser = new HistoricalTicksRequestParser();
 
-    public HistoricalTicksHandler(EWrapperImpl wrapper, TwsService twsService) {
-        super(wrapper, twsService);
+    public HistoricalTicksHandler(EClientSocket clientSocket, TwsService twsService) {
+        super(clientSocket, twsService);
     }
 
     /* *****************************************************************************************************
@@ -35,7 +35,7 @@ public class HistoricalTicksHandler extends BaseListDataHandler<TickByTickData> 
     public byte[] handleHistoricalTicksRequest(String requestStr, byte[] data) {
         HistoricalTicksRequest request = m_requestParser.parseHistoricalTicksRequest(requestStr, data);
         System.out.println("Sending historical ticks request: id=" + request.requestId() + " contract=" + Utils.shortContractString(request.contract()));
-        m_wrapper.clientSocket().reqHistoricalTicks(request.requestId(), request.contract(), request.startDateTime(), request.endDateTime(), 
+        clientSocket().reqHistoricalTicks(request.requestId(), request.contract(), request.startDateTime(), request.endDateTime(), 
                 request.numberOfTicks(), request.whatToShow(), request.useRth(), request.ignoreSize(), null);
         return handleBaseRequest(request);
     }

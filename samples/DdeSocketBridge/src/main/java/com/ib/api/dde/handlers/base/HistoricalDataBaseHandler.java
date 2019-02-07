@@ -16,8 +16,8 @@ import com.ib.api.dde.dde2socket.requests.TickRequest;
 import com.ib.api.dde.dde2socket.requests.historicaldata.HistoricalDataRequest;
 import com.ib.api.dde.socket2dde.datamap.HistoricalDataMap;
 import com.ib.api.dde.utils.Utils;
-import com.ib.api.impl.EWrapperImpl;
 import com.ib.client.Bar;
+import com.ib.client.EClientSocket;
 
 /** Class handles base historical data related requests, data and messages */
 public abstract class HistoricalDataBaseHandler extends BaseHandler {
@@ -25,8 +25,8 @@ public abstract class HistoricalDataBaseHandler extends BaseHandler {
     // historical data requests
     protected Map<Integer, HistoricalDataMap> m_historicalDataRequests = Collections.synchronizedMap(new HashMap<Integer, HistoricalDataMap>());
 
-    public HistoricalDataBaseHandler(EWrapperImpl wrapper, TwsService twsService) {
-        super(wrapper, twsService);
+    public HistoricalDataBaseHandler(EClientSocket clientSocket, TwsService twsService) {
+        super(clientSocket, twsService);
     }
 
     /* *****************************************************************************************************
@@ -47,11 +47,11 @@ public abstract class HistoricalDataBaseHandler extends BaseHandler {
             switch(request.ddeRequestType()){
                 case CANCEL_HISTORICAL_DATA:
                     // send cancelHistoricalData
-                    m_wrapper.clientSocket().cancelHistoricalData(request.requestId());
+                    clientSocket().cancelHistoricalData(request.requestId());
                     break;
                 case CANCEL_REAL_TIME_BARS:
                     // send cancelRealTimeBars
-                    m_wrapper.clientSocket().cancelRealTimeBars(request.requestId());
+                    clientSocket().cancelRealTimeBars(request.requestId());
                     break;
                 default:
                     break;

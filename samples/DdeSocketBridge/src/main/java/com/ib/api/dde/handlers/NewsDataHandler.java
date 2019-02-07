@@ -27,8 +27,8 @@ import com.ib.api.dde.socket2dde.datamap.BaseDataMap;
 import com.ib.api.dde.socket2dde.datamap.BaseListDataMap;
 import com.ib.api.dde.socket2dde.datamap.BaseStringDataMap;
 import com.ib.api.dde.utils.Utils;
-import com.ib.api.impl.EWrapperImpl;
 import com.ib.client.Contract;
+import com.ib.client.EClientSocket;
 import com.ib.client.NewsProvider;
 
 /** Class handles news data related requests, data and messages */
@@ -51,8 +51,8 @@ public class NewsDataHandler extends BaseHandler {
     private DdeRequestStatus m_newsBulletinsRequestStatus = DdeRequestStatus.UNKNOWN;
     private List<NewsBulletinData> m_newsBulletins = Collections.synchronizedList(new ArrayList<NewsBulletinData>());
 
-    public NewsDataHandler(EWrapperImpl wrapper, TwsService twsService) {
-        super(wrapper, twsService);
+    public NewsDataHandler(EClientSocket clientSocket, TwsService twsService) {
+        super(clientSocket, twsService);
     }
 
     /* *****************************************************************************************************
@@ -62,7 +62,7 @@ public class NewsDataHandler extends BaseHandler {
     public byte[] handleNewsTicksRequest(String requestStr, byte[] data) {
         NewsTicksRequest request = m_requestParser.parseNewsTicksRequest(requestStr, data);
         System.out.println("Sending news ticks request: id=" + request.requestId() + " contract=" + Utils.shortContractString(request.contract()));
-        m_wrapper.clientSocket().reqMktData(request.requestId(), request.contract(), "mdoff,292", false, false, null);
+        clientSocket().reqMktData(request.requestId(), request.contract(), "mdoff,292", false, false, null);
         handleNewsBaseRequest(request, DdeRequestType.NEWS_TICKS_TICK.topic());
         return null;
     }
@@ -74,7 +74,7 @@ public class NewsDataHandler extends BaseHandler {
             return null;
         }
         System.out.println("Sending historical news request: id=" + request.requestId() + " conId=" + request.conId() + " providerCodes=" + request.providerCodes());
-        m_wrapper.clientSocket().reqHistoricalNews(request.requestId(), request.conId(), request.providerCodes(), 
+        clientSocket().reqHistoricalNews(request.requestId(), request.conId(), request.providerCodes(), 
                 request.startDateTime(), request.endDateTime(), request.totalResults(), null);
         handleNewsBaseRequest(request, DdeRequestType.HISTORICAL_NEWS_TICK.topic());
         return null;
@@ -108,7 +108,7 @@ public class NewsDataHandler extends BaseHandler {
             switch(request.ddeRequestType()){
                 case CANCEL_NEWS_TICKS:
                     // send cancelMktData
-                    m_wrapper.clientSocket().cancelMktData(request.requestId());
+                    clientSocket().cancelMktData(request.requestId());
                     updateNewsRequestStatus(request.requestId(), dataMap, DdeRequestStatus.CANCELLED, DdeRequestType.NEWS_TICKS_TICK.topic());
                     break;
                 case CANCEL_HISTORICAL_NEWS:
@@ -180,7 +180,7 @@ public class NewsDataHandler extends BaseHandler {
     public String handleNewsProvidersRequest(String requestStr) {
         if (m_newsProvidersRequestStatus == DdeRequestStatus.UNKNOWN) {
             System.out.println("Handling news providers request.");
-            m_wrapper.clientSocket().reqNewsProviders();
+            clientSocket().reqNewsProviders();
             m_newsProvidersRequestStatus = DdeRequestStatus.REQUESTED;
         }
         return m_newsProvidersRequestStatus.toString();
@@ -216,7 +216,7 @@ public class NewsDataHandler extends BaseHandler {
         }
         System.out.println("Sending news article request: id=" + request.requestId() + " providerCode=" + request.providerCode() 
             + " articleId=" + request.articleId());
-        m_wrapper.clientSocket().reqNewsArticle(request.requestId(), request.providerCode(), request.articleId(), null); 
+        clientSocket().reqNewsArticle(request.requestId(), request.providerCode(), request.articleId(), null); 
         BaseStringDataMap dataMap = new BaseStringDataMap(request);
         m_newsArticleRequests.put(request.requestId(), dataMap);
         updateNewsArticleRequestStatus(request.requestId(), dataMap, DdeRequestStatus.REQUESTED);
@@ -286,7 +286,7 @@ public class NewsDataHandler extends BaseHandler {
         if (m_newsBulletinsRequestStatus == DdeRequestStatus.UNKNOWN) {
             m_newsBulletinsRequest = m_requestParser.parseNewsBulletinsRequest(requestStr);
             System.out.println("Handling news bulletins request.");
-            m_wrapper.clientSocket().reqNewsBulletins(m_newsBulletinsRequest.allMsgs());
+            clientSocket().reqNewsBulletins(m_newsBulletinsRequest.allMsgs());
             m_newsBulletinsRequestStatus = DdeRequestStatus.REQUESTED;
         }
         return m_newsBulletinsRequestStatus.toString();
@@ -309,7 +309,7 @@ public class NewsDataHandler extends BaseHandler {
     public String handleNewsBulletinsCancel(String requestStr) {
         if (m_newsBulletinsRequestStatus == DdeRequestStatus.SUBSCRIBED) {
             System.out.println("Handling news bulletins cancel.");
-            m_wrapper.clientSocket().cancelNewsBulletins();
+            clientSocket().cancelNewsBulletins();
             m_newsBulletinsRequestStatus = DdeRequestStatus.UNKNOWN;
             m_newsBulletins.clear();
         }

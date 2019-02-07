@@ -11,20 +11,28 @@ import com.ib.api.dde.dde2socket.requests.parser.RequestParser;
 import com.ib.api.dde.socket2dde.datamap.BaseDataMap;
 import com.ib.api.dde.socket2dde.notifications.DdeNotificationEvent;
 import com.ib.api.dde.utils.Utils;
-import com.ib.api.impl.EWrapperImpl;
+import com.ib.client.EClientSocket;
 import com.ib.client.TickType;
 
 /** Class contains common methods and data for handlers */
 public abstract class BaseHandler {
 
-    protected final EWrapperImpl m_wrapper;
-    protected final TwsService m_twsService;
+    private final EClientSocket m_clientSocket;
+    private final TwsService m_twsService;
 
-    public BaseHandler(EWrapperImpl wrapper, TwsService twsService) {
-        m_wrapper = wrapper;
+    public BaseHandler(EClientSocket clientSocket, TwsService twsService) {
+        m_clientSocket = clientSocket;
         m_twsService = twsService;
     }
+    
+    protected EClientSocket clientSocket() {
+        return m_clientSocket;
+    }
 
+    protected TwsService twsService() {
+        return m_twsService;
+    }
+    
     /* *****************************************************************************************************
      *                                          Requests
     /* *****************************************************************************************************/

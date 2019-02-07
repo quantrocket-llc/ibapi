@@ -35,7 +35,8 @@ public class SocketDdeBridge {
     }
     
     /** Method stops DDE socket bridge */
-    public void stop() {
+    public void stop() throws DDEException {
+        m_twsDdeServer.stop();
         m_isConnected = false;
         if (m_callback != null) {
             m_callback.run();

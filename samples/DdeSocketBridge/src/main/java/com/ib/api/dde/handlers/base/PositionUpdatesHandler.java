@@ -19,7 +19,7 @@ import com.ib.api.dde.socket2dde.data.PositionData;
 import com.ib.api.dde.socket2dde.datamap.BaseMapDataMap;
 import com.ib.api.dde.utils.PositionsUtils.PositionKey;
 import com.ib.api.dde.utils.Utils;
-import com.ib.api.impl.EWrapperImpl;
+import com.ib.client.EClientSocket;
 
 /** Base class for position update related requests and data */
 public abstract class PositionUpdatesHandler extends BaseHandler {
@@ -29,8 +29,8 @@ public abstract class PositionUpdatesHandler extends BaseHandler {
     // positions
     protected Map<Integer, BaseMapDataMap<PositionKey, PositionData>> m_positionsDataMap = Collections.synchronizedMap(new HashMap<Integer, BaseMapDataMap<PositionKey, PositionData>>());
 
-    public PositionUpdatesHandler(EWrapperImpl wrapper, TwsService twsService) {
-        super(wrapper, twsService);
+    public PositionUpdatesHandler(EClientSocket clientSocket, TwsService twsService) {
+        super(clientSocket, twsService);
     }
 
     /* *****************************************************************************************************
@@ -48,12 +48,12 @@ public abstract class PositionUpdatesHandler extends BaseHandler {
             switch(request.ddeRequestType()){
                 case REQ_POSITIONS:
                     // send reqPositions request
-                    m_wrapper.clientSocket().reqPositions();
+                    clientSocket().reqPositions();
                     break;
                 case REQ_POSITIONS_MULTI:
                     // send reqPositionsMulti request
                     PositionsMultiRequest positionMultiRequest = (PositionsMultiRequest)request;
-                    m_wrapper.clientSocket().reqPositionsMulti(positionMultiRequest.requestId(), 
+                    clientSocket().reqPositionsMulti(positionMultiRequest.requestId(), 
                             positionMultiRequest.account(), positionMultiRequest.modelCode());
                     break;
                 default:
@@ -74,10 +74,10 @@ public abstract class PositionUpdatesHandler extends BaseHandler {
     public byte[] handlePositionsCancel(DdeRequest request) {
         switch(request.ddeRequestType()){
             case CANCEL_POSITIONS:
-                m_wrapper.clientSocket().cancelPositions();
+                clientSocket().cancelPositions();
                 break;
             case CANCEL_POSITIONS_MULTI:
-                m_wrapper.clientSocket().cancelPositionsMulti(request.requestId());
+                clientSocket().cancelPositionsMulti(request.requestId());
                 break;
             default:
                 break;

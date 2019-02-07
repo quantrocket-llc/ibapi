@@ -15,16 +15,16 @@ import com.ib.api.dde.dde2socket.requests.realtimebars.RealTimeBarsRequest;
 import com.ib.api.dde.handlers.base.HistoricalDataBaseHandler;
 import com.ib.api.dde.socket2dde.datamap.HistoricalDataMap;
 import com.ib.api.dde.utils.Utils;
-import com.ib.api.impl.EWrapperImpl;
 import com.ib.client.Contract;
+import com.ib.client.EClientSocket;
 
 /** Class handle real time bars related requests, data and messages */
 public class RealTimeBarsHandler extends HistoricalDataBaseHandler {
     // parser
     private RealTimeBarsRequestParser m_requestParser = new RealTimeBarsRequestParser();
 
-    public RealTimeBarsHandler(EWrapperImpl wrapper, TwsService twsService) {
-        super(wrapper, twsService);
+    public RealTimeBarsHandler(EClientSocket clientSocket, TwsService twsService) {
+        super(clientSocket, twsService);
     }
 
     /* *****************************************************************************************************
@@ -34,7 +34,7 @@ public class RealTimeBarsHandler extends HistoricalDataBaseHandler {
     public byte[] handleRealTimeBarsRequest(String requestStr, byte[] data) {
         RealTimeBarsRequest request = m_requestParser.parseRealTimeBarsRequest(requestStr, data);
         System.out.println("Sending real time bars request: id=" + request.requestId() + " contract=" + Utils.shortContractString(request.contract()));
-        m_wrapper.clientSocket().reqRealTimeBars(request.requestId(), request.contract(), request.barSize(), request.whatToShow(), request.useRth(), null);
+        clientSocket().reqRealTimeBars(request.requestId(), request.contract(), request.barSize(), request.whatToShow(), request.useRth(), null);
         return handleHistoricalDataBaseRequest(request);
     }
 

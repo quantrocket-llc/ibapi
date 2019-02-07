@@ -37,23 +37,25 @@ public class Main {
     private static boolean parseCommandLineArguments(String[] args) {
         boolean ret = true;
         for (int i = 0; i < args.length; i++) {
-            switch (args[i].charAt(0)) {
-            case '-':
-                if (args[i].length() < 2)
-                    ret = false;
-                if (args[i].charAt(1) == 'h') {
-                    m_host = args[i].substring(2);
-                } else if (args[i].charAt(1) == 'p') {
-                    m_port = Integer.parseInt(args[i].substring(2));
-                } else if (args[i].charAt(1) == 'c') {
-                    m_clientId = Integer.parseInt(args[i].substring(2));
-                } else if (args[i].charAt(1) == 's') {
-                    m_ddeServiceName = "S" + args[i].substring(2);
-                } else {
-                    ret = false;
+            
+            if (args[i].length() > 2 && args[i].charAt(0) == '-') {
+                switch(args[i].charAt(1)) {
+                    case 'h':
+                        m_host = args[i].substring(2);
+                        break;
+                    case 'p':
+                        m_port = Integer.parseInt(args[i].substring(2));
+                        break;
+                    case 'c':
+                        m_clientId = Integer.parseInt(args[i].substring(2));
+                        break;
+                    case 's':
+                        m_ddeServiceName = "S" + args[i].substring(2);
+                        break;
+                    default:
+                        ret = false;
                 }
-                break;
-            default:
+            } else {
                 ret = false;
             }
         }
@@ -63,7 +65,7 @@ public class Main {
         }
         
         return ret;
-    }
+    }    
 
     /** Method shows command line arguments */
     private static void showArgs() {

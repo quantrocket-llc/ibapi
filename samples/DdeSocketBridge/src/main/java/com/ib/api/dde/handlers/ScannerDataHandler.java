@@ -21,7 +21,7 @@ import com.ib.api.dde.socket2dde.data.ScannerData;
 import com.ib.api.dde.socket2dde.datamap.BaseDataMap;
 import com.ib.api.dde.socket2dde.datamap.BaseMapDataMap;
 import com.ib.api.dde.utils.Utils;
-import com.ib.api.impl.EWrapperImpl;
+import com.ib.client.EClientSocket;
 import com.ib.client.ScannerSubscription;
 import com.ib.client.TagValue;
 
@@ -35,8 +35,8 @@ public class ScannerDataHandler extends BaseHandler {
     private String m_scannerParameters = "";
     private DdeRequestStatus m_scannerParametersRequestStatus = DdeRequestStatus.UNKNOWN;
 
-    public ScannerDataHandler(EWrapperImpl wrapper, TwsService twsService) {
-        super(wrapper, twsService);
+    public ScannerDataHandler(EClientSocket clientSocket, TwsService twsService) {
+        super(clientSocket, twsService);
     }
 
     /* *****************************************************************************************************
@@ -48,7 +48,7 @@ public class ScannerDataHandler extends BaseHandler {
         if (m_scannerParametersRequestStatus == DdeRequestStatus.UNKNOWN) {
             DdeRequest request =  m_requestParser.parseRequest(requestStr, DdeRequestType.REQUEST_SCANNER_PARAMETERS);
             System.out.println("Sending scanner parameters request: id=" + request.requestId());
-            m_wrapper.clientSocket().reqScannerParameters();
+            clientSocket().reqScannerParameters();
             m_scannerParametersRequestStatus = DdeRequestStatus.REQUESTED;
         }
         return m_scannerParametersRequestStatus.toString();
@@ -58,7 +58,7 @@ public class ScannerDataHandler extends BaseHandler {
     public byte[] handleScannerSubscriptionRequest(String requestStr, byte[] data) {
         ScannerSubscriptionRequest request = m_requestParser.parseScannerSubscriptionRequest(requestStr, data);
         System.out.println("Sending scanner subscription request: id=" + request.requestId() + " scanCode=" + request.scannerSubscription().scanCode());
-        m_wrapper.clientSocket().reqScannerSubscription(request.requestId(), request.scannerSubscription(), null, request.scannerSubscriptionFilterOptions());
+        clientSocket().reqScannerSubscription(request.requestId(), request.scannerSubscription(), null, request.scannerSubscriptionFilterOptions());
 
         BaseMapDataMap<Integer, ScannerData> dataMap = new BaseMapDataMap<Integer, ScannerData>(request);
         m_scannerSubscriptionRequests.put(request.requestId(), dataMap);
@@ -72,7 +72,7 @@ public class ScannerDataHandler extends BaseHandler {
         System.out.println("Sending scanner subscription cancel: id=" + request.requestId());
         BaseMapDataMap<Integer, ScannerData> dataMap = m_scannerSubscriptionRequests.get(request.requestId());
         if(dataMap != null) {
-            m_wrapper.clientSocket().cancelScannerSubscription(request.requestId());
+            clientSocket().cancelScannerSubscription(request.requestId());
             updateScannerSubscriptionStatus(request.requestId(), dataMap, DdeRequestStatus.CANCELLED);
             m_scannerSubscriptionRequests.remove(request.requestId());
         }

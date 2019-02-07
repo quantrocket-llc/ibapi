@@ -13,7 +13,7 @@ import com.ib.api.dde.dde2socket.requests.DdeRequestType;
 import com.ib.api.dde.handlers.ExecutionsHandler;
 import com.ib.api.dde.socket2dde.data.ExecutionData;
 import com.ib.api.dde.utils.Utils;
-import com.ib.api.impl.EWrapperImpl;
+import com.ib.client.EClientSocket;
 import com.ib.client.ExecutionFilter;
 
 /** Class handles executions related requests and data */
@@ -24,8 +24,8 @@ public class OldExecutionsHandler extends ExecutionsHandler {
     private DdeRequestStatus m_executionsSubscriptionStatus = DdeRequestStatus.UNKNOWN;
     private List<ExecutionData> m_executions = Collections.synchronizedList(new ArrayList<ExecutionData>());
 
-    public OldExecutionsHandler(EWrapperImpl wrapper, TwsService twsService) {
-        super(wrapper, twsService);
+    public OldExecutionsHandler(EClientSocket clientSocket, TwsService twsService) {
+        super(clientSocket, twsService);
     }
 
     /* *****************************************************************************************************
@@ -39,7 +39,7 @@ public class OldExecutionsHandler extends ExecutionsHandler {
             // send reqExecutions request
             System.out.println("Handling executions request: " + requestStr);
             m_executions.clear();
-            m_wrapper.clientSocket().reqExecutions(0, new ExecutionFilter());
+            clientSocket().reqExecutions(0, new ExecutionFilter());
             m_executionsSubscriptionStatus = DdeRequestStatus.REQUESTED;
         }
         

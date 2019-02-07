@@ -13,9 +13,6 @@ import com.ib.client.CommissionReport;
 import com.ib.client.Contract;
 import com.ib.client.ContractDescription;
 import com.ib.client.ContractDetails;
-import com.ib.client.EClientSocket;
-import com.ib.client.EJavaSignal;
-import com.ib.client.EReaderSignal;
 import com.ib.client.EWrapper;
 import com.ib.client.Execution;
 import com.ib.client.FamilyCode;
@@ -55,22 +52,10 @@ import com.ib.api.dde.utils.Utils;
 /** Class implements EWrapper interface. All responses from TWS come here. */
 public class EWrapperImpl implements EWrapper {
 
-    private final EReaderSignal m_readerSignal;
-    private final EClientSocket m_clientSocket;
     private final TwsService m_twsService; 
 
     public EWrapperImpl(TwsService twsService) {
         this.m_twsService = twsService;
-        m_readerSignal = new EJavaSignal();
-        m_clientSocket = new EClientSocket(this, m_readerSignal);
-    }
-
-    public EClientSocket clientSocket() {
-        return m_clientSocket;
-    }
-
-    public EReaderSignal readerSignal() {
-        return m_readerSignal;
     }
 
     @Override

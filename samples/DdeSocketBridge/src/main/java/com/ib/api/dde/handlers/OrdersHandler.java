@@ -26,8 +26,8 @@ import com.ib.api.dde.socket2dde.data.OrderStatusData;
 import com.ib.api.dde.socket2dde.notifications.DdeNotificationEvent;
 import com.ib.api.dde.utils.OrderUtils;
 import com.ib.api.dde.utils.Utils;
-import com.ib.api.impl.EWrapperImpl;
 import com.ib.client.Contract;
+import com.ib.client.EClientSocket;
 import com.ib.client.ExecutionCondition;
 import com.ib.client.MarginCondition;
 import com.ib.client.Order;
@@ -53,8 +53,8 @@ public class OrdersHandler extends BaseHandler {
     private SortedMap<Integer, OpenOrderData> m_allOpenOrderDataMap = Collections.synchronizedSortedMap(new TreeMap<Integer, OpenOrderData>()); // map permId->OpenOrderData (if orderId == 0)
     private DdeRequestStatus m_openOrdersSubscriptionStatus = DdeRequestStatus.UNKNOWN;
 
-    public OrdersHandler(EWrapperImpl wrapper, TwsService twsService) {
-        super(wrapper, twsService);
+    public OrdersHandler(EClientSocket clientSocket, TwsService twsService) {
+        super(clientSocket, twsService);
     }
 
     /* *****************************************************************************************************
@@ -67,10 +67,10 @@ public class OrdersHandler extends BaseHandler {
         if (m_openOrdersSubscriptionStatus == DdeRequestStatus.UNKNOWN) {
             if (allOrders) {
                 System.out.println("Handling all open orders request");
-                m_wrapper.clientSocket().reqAllOpenOrders();
+                clientSocket().reqAllOpenOrders();
             } else {
                 System.out.println("Handling open orders request");
-                m_wrapper.clientSocket().reqOpenOrders();
+                clientSocket().reqOpenOrders();
             }
             m_openOrdersSubscriptionStatus = DdeRequestStatus.REQUESTED;
         }
@@ -81,7 +81,7 @@ public class OrdersHandler extends BaseHandler {
     public byte[] handleAutoOpenOrdersRequest(String requestStr) {
         AutoOpenOrdersRequest request =  m_requestParser.parseAutoOpenOrdersRequest(requestStr);
         System.out.println("Handling auto open orders request: autoBind=" + request.autoBind());
-        m_wrapper.clientSocket().reqAutoOpenOrders(request.autoBind());
+        clientSocket().reqAutoOpenOrders(request.autoBind());
         return null;
     }
 
@@ -135,7 +135,7 @@ public class OrdersHandler extends BaseHandler {
         if (request != null) {
                     
             System.out.println("Placing order: id=" + request.requestId() + " for contract=" + Utils.shortContractString(request.contract()) + " order=" + Utils.shortOrderString(request.order()));
-            m_wrapper.clientSocket().placeOrder(request.requestId(), request.contract(), request.order()); 
+            clientSocket().placeOrder(request.requestId(), request.contract(), request.order()); 
             
             OrderStatusData orderStatus = new OrderStatusData(request.requestId(), "Sent", 0, 
                     request.order().totalQuantity(), 0, request.order().permId(), request.order().parentId(), 
@@ -152,7 +152,7 @@ public class OrdersHandler extends BaseHandler {
     public byte[] handleCancelOrderRequest(String requestStr) {
         DdeRequest request = m_requestParser.parseRequest(requestStr, DdeRequestType.CANCEL_ORDER);
         System.out.println("Cancelling order: id=" + request.requestId());
-        m_wrapper.clientSocket().cancelOrder(request.requestId()); 
+        clientSocket().cancelOrder(request.requestId()); 
         return null;
     }
 
@@ -167,7 +167,7 @@ public class OrdersHandler extends BaseHandler {
     /** Method sends global cancel to TWS */
     public byte[] handleGlobalCancel(String requestStr) {
         System.out.println("Handling global cancel.");
-        m_wrapper.clientSocket().reqGlobalCancel(); 
+        clientSocket().reqGlobalCancel(); 
         return null;
     }
     
@@ -276,7 +276,7 @@ public class OrdersHandler extends BaseHandler {
     private void notifyDde(boolean allOrders, String requestStr) {
         DdeNotificationEvent event = RequestParser.createDdeNotificationEvent(allOrders ? 
                 DdeRequestType.REQ_ALL_OPEN_ORDERS.topic() : DdeRequestType.REQ_OPEN_ORDERS.topic(), requestStr);
-        m_twsService.notifyDde(event);
+        twsService().notifyDde(event);
     }
 
     private List<OpenOrderData> syncCopyOpenOrderDataValues() {

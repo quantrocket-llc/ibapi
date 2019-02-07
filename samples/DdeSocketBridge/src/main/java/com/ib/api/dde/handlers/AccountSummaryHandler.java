@@ -13,15 +13,15 @@ import com.ib.api.dde.dde2socket.requests.parser.RequestParser;
 import com.ib.api.dde.handlers.base.AccountUpdatesHandler;
 import com.ib.api.dde.socket2dde.datamap.AccountUpdateDataMap;
 import com.ib.api.dde.utils.Utils;
-import com.ib.api.impl.EWrapperImpl;
+import com.ib.client.EClientSocket;
 
 /** Class handles account summary related requests and data */
 public class AccountSummaryHandler extends AccountUpdatesHandler {
     // parser
     private AccountSummaryRequestParser m_requestParser = new AccountSummaryRequestParser();
 
-    public AccountSummaryHandler(EWrapperImpl wrapper, TwsService twsService) {
-        super(wrapper, twsService);
+    public AccountSummaryHandler(EClientSocket clientSocket, TwsService twsService) {
+        super(clientSocket, twsService);
     }
 
     /* *****************************************************************************************************
@@ -42,7 +42,7 @@ public class AccountSummaryHandler extends AccountUpdatesHandler {
             m_accountUpdateDataMap.put(request.requestId(), accountUpdateDataMap);
         }
         // send reqAccountSummary request
-        m_wrapper.clientSocket().reqAccountSummary(request.requestId(), request.group(), request.tags());
+        clientSocket().reqAccountSummary(request.requestId(), request.group(), request.tags());
         return null;
     }
         

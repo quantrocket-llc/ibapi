@@ -11,16 +11,16 @@ import com.ib.api.dde.dde2socket.requests.contractdetails.ContractDetailsRequest
 import com.ib.api.dde.handlers.ContractDetailsHandler;
 import com.ib.api.dde.old.requests.parser.OldRequestParser;
 import com.ib.api.dde.socket2dde.datamap.ContractDetailsMap;
-import com.ib.api.impl.EWrapperImpl;
 import com.ib.client.Contract;
+import com.ib.client.EClientSocket;
 
 /** Class handles old-style contract details related requests, data and messages */
 public class OldContractDetailsHandler extends ContractDetailsHandler {
     // parser
     private OldContractDetailsRequestParser m_requestParser = new OldContractDetailsRequestParser();
 
-    public OldContractDetailsHandler(EWrapperImpl wrapper, TwsService twsService) {
-        super(wrapper, twsService);
+    public OldContractDetailsHandler(EClientSocket clientSocket, TwsService twsService) {
+        super(clientSocket, twsService);
     }
 
     /* *****************************************************************************************************
@@ -38,7 +38,7 @@ public class OldContractDetailsHandler extends ContractDetailsHandler {
         
         if (ddeRequest instanceof ContractDetailsRequest) {
             ContractDetailsRequest request = (ContractDetailsRequest)ddeRequest;
-            m_wrapper.clientSocket().reqContractDetails(request.requestId(), request.contract());
+            clientSocket().reqContractDetails(request.requestId(), request.contract());
             ContractDetailsMap dataMap = new ContractDetailsMap(request);
             m_contractDetailsRequests.put(request.requestId(), dataMap);
         } else if (ddeRequest instanceof TickRequest) {

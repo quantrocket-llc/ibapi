@@ -19,8 +19,8 @@ import com.ib.api.dde.dde2socket.requests.parser.RequestParser;
 import com.ib.api.dde.handlers.base.BaseHandler;
 import com.ib.api.dde.socket2dde.datamap.BaseListDataMap;
 import com.ib.api.dde.utils.Utils;
-import com.ib.api.impl.EWrapperImpl;
 import com.ib.client.ContractDescription;
+import com.ib.client.EClientSocket;
 
 /** Class handles matching symbols related requests and data */
 public class MatchingSymbolsHandler extends BaseHandler {
@@ -30,8 +30,8 @@ public class MatchingSymbolsHandler extends BaseHandler {
     // security definition option parameters requests
     private Map<Integer, BaseListDataMap<ContractDescription>> m_matchingSymbolsRequests = Collections.synchronizedMap(new HashMap<Integer, BaseListDataMap<ContractDescription>>());
     
-    public MatchingSymbolsHandler(EWrapperImpl wrapper, TwsService twsService) {
-        super(wrapper, twsService);
+    public MatchingSymbolsHandler(EClientSocket clientSocket, TwsService twsService) {
+        super(clientSocket, twsService);
     }
 
     /* *****************************************************************************************************
@@ -49,7 +49,7 @@ public class MatchingSymbolsHandler extends BaseHandler {
             m_matchingSymbolsRequests.put(request.requestId(), dataMap);
         }
         if (dataMap.ddeRequestStatus() == DdeRequestStatus.UNKNOWN) {
-            m_wrapper.clientSocket().reqMatchingSymbols(request.requestId(), request.pattern());
+            clientSocket().reqMatchingSymbols(request.requestId(), request.pattern());
             dataMap.ddeRequestStatus(DdeRequestStatus.REQUESTED);
         }
 

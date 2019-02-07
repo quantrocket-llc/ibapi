@@ -8,13 +8,13 @@ import com.ib.api.dde.dde2socket.requests.DdeRequestType;
 import com.ib.api.dde.dde2socket.requests.parser.RequestParser;
 import com.ib.api.dde.handlers.MiscHandler;
 import com.ib.api.dde.socket2dde.notifications.DdeNotificationEvent;
-import com.ib.api.impl.EWrapperImpl;
+import com.ib.client.EClientSocket;
 
 /** Class handles some old-style minor requests */
 public class OldMiscHandler extends MiscHandler {
 
-    public OldMiscHandler(EWrapperImpl wrapper, TwsService twsService) {
-        super(wrapper, twsService);
+    public OldMiscHandler(EClientSocket clientSocket, TwsService twsService) {
+        super(clientSocket, twsService);
     }
 
     /* *****************************************************************************************************
@@ -32,6 +32,6 @@ public class OldMiscHandler extends MiscHandler {
     public void updateAccountTime(String timeStamp) {
         m_accountUpdateTime = timeStamp;
         DdeNotificationEvent oldEvent = RequestParser.createDdeNotificationEvent(DdeRequestType.ACCT.topic(), "id1?acctTime");
-        m_twsService.notifyDde(oldEvent);
+        twsService().notifyDde(oldEvent);
     }
 }

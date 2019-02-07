@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.Date;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -111,6 +112,25 @@ public class Utils {
     
     public static final String LONGVALUE = "LONGVALUE";
     
+    @SuppressWarnings("serial")
+    static final Hashtable<Integer, String> delayedToRegularMap = new Hashtable<Integer, String>() {{
+        put(TickType.DELAYED_BID.index(), TickType.BID.field());
+        put(TickType.DELAYED_ASK.index(), TickType.ASK.field());
+        put(TickType.DELAYED_LAST.index(), TickType.LAST.field());
+        put(TickType.DELAYED_BID_SIZE.index(), TickType.BID_SIZE.field());
+        put(TickType.DELAYED_ASK_SIZE.index(), TickType.ASK_SIZE.field());
+        put(TickType.DELAYED_LAST_SIZE.index(), TickType.LAST_SIZE.field());
+        put(TickType.DELAYED_HIGH.index(), TickType.HIGH.field());
+        put(TickType.DELAYED_LOW.index(), TickType.LOW.field());
+        put(TickType.DELAYED_VOLUME.index(), TickType.VOLUME.field());
+        put(TickType.DELAYED_CLOSE.index(), TickType.CLOSE.field());
+        put(TickType.DELAYED_OPEN.index(), TickType.OPEN.field());
+        put(TickType.DELAYED_BID_OPTION.index(), TickType.BID_OPTION.field());
+        put(TickType.DELAYED_ASK_OPTION.index(), TickType.ASK_OPTION.field());
+        put(TickType.DELAYED_LAST_OPTION.index(), TickType.LAST_OPTION.field());
+        put(TickType.DELAYED_MODEL_OPTION.index(), TickType.MODEL_OPTION.field());
+    }};
+
     /** Method decodes string to byte array and saves it to PDF file 
      * Returns error or nul if succeeded */
     public static String saveTextToPDF(String path, String text) {
@@ -718,59 +738,6 @@ public class Utils {
     /** Method converts integer TickType value to TickType string.
      * Also replaces delayed TickType strings with regular */
     public static String getField(int field) {
-        String fieldStr = TickType.getField(field);
-        
-        TickType tickType = TickType.get(field);
-        switch(tickType) {
-            case DELAYED_BID:
-                fieldStr = TickType.BID.field();
-                break;
-            case DELAYED_ASK:
-                fieldStr = TickType.ASK.field();
-                break;
-            case DELAYED_LAST:
-                fieldStr = TickType.LAST.field();
-                break;
-            case DELAYED_BID_SIZE:
-                fieldStr = TickType.BID_SIZE.field();
-                break;
-            case DELAYED_ASK_SIZE:
-                fieldStr = TickType.ASK_SIZE.field();
-                break;
-            case DELAYED_LAST_SIZE:
-                fieldStr = TickType.LAST_SIZE.field();
-                break;
-            case DELAYED_HIGH:
-                fieldStr = TickType.HIGH.field();
-                break;
-            case DELAYED_LOW:
-                fieldStr = TickType.LOW.field();
-                break;
-            case DELAYED_VOLUME:
-                fieldStr = TickType.VOLUME.field();
-                break;
-            case DELAYED_CLOSE:
-                fieldStr = TickType.CLOSE.field();
-                break;
-            case DELAYED_OPEN:
-                fieldStr = TickType.OPEN.field();
-                break;
-            case DELAYED_BID_OPTION:
-                fieldStr = TickType.BID_OPTION.field();
-                break;
-            case DELAYED_ASK_OPTION:
-                fieldStr = TickType.ASK_OPTION.field();
-                break;
-            case DELAYED_LAST_OPTION:
-                fieldStr = TickType.LAST_OPTION.field();
-                break;
-            case DELAYED_MODEL_OPTION:
-                fieldStr = TickType.MODEL_OPTION.field();
-                break;
-            default:
-                break;
-                
-        }
-        return fieldStr;
-    }    
+        return delayedToRegularMap.containsKey(field) ? delayedToRegularMap.get(field) : TickType.getField(field);
+    }
 }

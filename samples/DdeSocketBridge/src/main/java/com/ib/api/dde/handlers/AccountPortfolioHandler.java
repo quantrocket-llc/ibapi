@@ -18,7 +18,7 @@ import com.ib.api.dde.handlers.base.AccountUpdatesHandler;
 import com.ib.api.dde.socket2dde.data.PositionData;
 import com.ib.api.dde.utils.Utils;
 import com.ib.api.dde.utils.PositionsUtils.PositionKey;
-import com.ib.api.impl.EWrapperImpl;
+import com.ib.client.EClientSocket;
 
 /** Class handles account.portfolio updates related requests and data */
 public class AccountPortfolioHandler extends AccountUpdatesHandler {
@@ -28,8 +28,8 @@ public class AccountPortfolioHandler extends AccountUpdatesHandler {
     // parser
     private AccountPortfolioRequestParser m_requestParser = new AccountPortfolioRequestParser();
 
-    public AccountPortfolioHandler(EWrapperImpl wrapper, TwsService twsService) {
-        super(wrapper, twsService);
+    public AccountPortfolioHandler(EClientSocket clientSocket, TwsService twsService) {
+        super(clientSocket, twsService);
     }
 
     /* *****************************************************************************************************

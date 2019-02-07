@@ -20,8 +20,8 @@ import com.ib.api.dde.socket2dde.data.TickByTickData;
 import com.ib.api.dde.socket2dde.datamap.MarketDataMap;
 import com.ib.api.dde.socket2dde.datamap.TickByTickDataMap;
 import com.ib.api.dde.utils.Utils;
-import com.ib.api.impl.EWrapperImpl;
 import com.ib.client.Contract;
+import com.ib.client.EClientSocket;
 import com.ib.client.Types.SecType;
 
 /** Class handles tick-by-tick data related requests, data and messages */
@@ -32,8 +32,8 @@ public class TickByTickDataHandler extends MarketDataBaseHandler {
     // tick-by-tick requests ext
     private Map<Integer, TickByTickDataMap> m_tickByTickDataRequests = Collections.synchronizedMap(new HashMap<Integer, TickByTickDataMap>());
     
-    public TickByTickDataHandler(EWrapperImpl wrapper, TwsService twsService) {
-        super(wrapper, twsService);
+    public TickByTickDataHandler(EClientSocket clientSocket, TwsService twsService) {
+        super(clientSocket, twsService);
     }
 
     /* *****************************************************************************************************
@@ -43,7 +43,7 @@ public class TickByTickDataHandler extends MarketDataBaseHandler {
     public byte[] handleTickByTickDataRequest(String requestStr, byte[] data) {
         TickByTickRequest request = m_requestParser.parseTickByTickRequest(requestStr, data);
         System.out.println("Sending tick-by-tick data request: id=" + request.requestId() + " for contract=" + Utils.shortContractString(request.contract()) + " tickType=" + request.tickType());
-        m_wrapper.clientSocket().reqTickByTickData(request.requestId(), request.contract(), request.tickType(), 0, request.ignoreSize());
+        clientSocket().reqTickByTickData(request.requestId(), request.contract(), request.tickType(), 0, request.ignoreSize());
         return handleMarketDataBaseRequest(request);
     }
     
@@ -51,8 +51,8 @@ public class TickByTickDataHandler extends MarketDataBaseHandler {
     public byte[] handleTickByTickDataRequestExt(String requestStr, byte[] data) {
         TickByTickRequest request = m_requestParser.parseTickByTickRequestExt(requestStr, data);
         System.out.println("Sending tick-by-tick data request: id=" + request.requestId() + " for contract=" + Utils.shortContractString(request.contract()));
-        m_wrapper.clientSocket().reqTickByTickData(request.requestId(), request.contract(), request.tickType(), 0, request.ignoreSize());
-        m_wrapper.clientSocket().reqTickByTickData(request.requestId() + 50000, request.contract(), TickByTickData.BID_ASK, 0, request.ignoreSize());
+        clientSocket().reqTickByTickData(request.requestId(), request.contract(), request.tickType(), 0, request.ignoreSize());
+        clientSocket().reqTickByTickData(request.requestId() + 50000, request.contract(), TickByTickData.BID_ASK, 0, request.ignoreSize());
         
         TickByTickDataMap dataMap = new TickByTickDataMap(request);
         dataMap.numberOfRows(request.numberOfRows());
@@ -66,7 +66,7 @@ public class TickByTickDataHandler extends MarketDataBaseHandler {
         DdeRequest request =  m_requestParser.parseRequest(requestStr, DdeRequestType.CANCEL_TICK_BY_TICK_DATA);
         if(m_marketDataRequests.containsKey(request.requestId())) {
             System.out.println("Sending tick-by-tick data cancel: id=" + request.requestId());
-            m_wrapper.clientSocket().cancelTickByTickData(request.requestId());
+            clientSocket().cancelTickByTickData(request.requestId());
         }
         return handleMktDataBaseCancel(request);
     }
@@ -77,8 +77,8 @@ public class TickByTickDataHandler extends MarketDataBaseHandler {
         System.out.println("Sending tick-by-tick data cancel: id=" + request.requestId());
         TickByTickDataMap dataMap = m_tickByTickDataRequests.get(request.requestId());
         if(dataMap != null) {
-            m_wrapper.clientSocket().cancelTickByTickData(request.requestId());
-            m_wrapper.clientSocket().cancelTickByTickData(request.requestId() + 50000);
+            clientSocket().cancelTickByTickData(request.requestId());
+            clientSocket().cancelTickByTickData(request.requestId() + 50000);
             updateTickByTickDataStatus(request.requestId(), dataMap, DdeRequestStatus.CANCELLED);
             m_tickByTickDataRequests.remove(request.requestId());
         }
