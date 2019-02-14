@@ -69,7 +69,7 @@ def decode(the_type, fields, show_unset = False):
         if type(s) is str:
             return s
         elif type(s) is bytes:
-            return s.decode()
+            return s.decode(errors='backslashreplace')
         else:
             raise TypeError("unsupported incoming type " + type(s) + " for desired type 'str")
 
