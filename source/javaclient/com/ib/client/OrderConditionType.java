@@ -25,7 +25,7 @@ public enum OrderConditionType {
 		for (OrderConditionType i : OrderConditionType.values())
 			if (i.val() == n)
 				return i;
-		
-		throw new NumberFormatException();
+
+		throw new IllegalArgumentException("Error: " + n + " is not a valid value for enum OrderConditionType");
 	}
 }
