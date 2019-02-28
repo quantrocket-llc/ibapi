@@ -99,7 +99,7 @@ namespace IBApi
          * @brief -
          * Upon accepting a Delta-Neutral DN RFQ(request for quote), the server sends a deltaNeutralValidation() message with the 
          * DeltaNeutralContract structure. If the delta and price fields are empty in the original request, the confirmation will contain the current
-         * values from the server. These values are locked when RFQ is processed and remain locked unitl the RFQ is cancelled.
+         * values from the server. These values are locked when RFQ is processed and remain locked until the RFQ is cancelled.
          * @param reqId the request's identifier.
          * @param deltaNeutralContract Delta-Neutral Contract
          */
