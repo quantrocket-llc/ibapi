@@ -14,7 +14,7 @@ import java.util.Optional;
 
 /** This class is used to build messages so the entire message can be
  *  sent to the socket in a single write. */
-public class Builder implements ObjectOutput {
+class Builder implements ObjectOutput {
 	private static final char SEP = 0;
 	private static final byte[] EMPTY_LENGTH_HEADER = new byte[ 4 ];
 
