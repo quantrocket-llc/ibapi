@@ -17,8 +17,14 @@ public class SocketDdeBridge {
     public boolean isConnected() { return m_isConnected; }
     
     public SocketDdeBridge(String ddeServiceName, String twsHost, int twsPort, int twsClientId) {
-        m_twsDdeServer = new TwsDdeServer(ddeServiceName, this);
-        m_twsService = new TwsService(twsHost, twsPort, twsClientId, this);
+        m_twsDdeServer = new TwsDdeServer(ddeServiceName, 
+                (new HandleDdeRequest())::handleDdeRequest, 
+                (new HandleStopAdvise())::handleDdeStopAdvise);
+        
+        m_twsService = new TwsService(twsHost, twsPort, twsClientId, 
+                (new NotifyClients())::notifyDde,
+                (new StopDdeSocketBridge())::stop
+        );
     }
 
     /** Method starts DDE socket bridge: starts TwsDdeServer and tries to connect TwsService */
@@ -34,37 +40,49 @@ public class SocketDdeBridge {
         callback.run();
     }
     
-    /** Method stops DDE socket bridge */
-    public void stop() throws DDEException {
-        m_twsDdeServer.stop();
-        m_isConnected = false;
-        if (m_callback != null) {
-            m_callback.run();
-        }
-    }
-
-    /** Method handles DDE request */
-    public String handleDdeRequest(String topic, String requestStr) {
-        return m_twsService.sendDdeToTws(topic, requestStr);
-    }
-
-    /** Method handles DDE request with binary data */
-    public byte[] handleDdeRequestWithData(String topic, String requestStr, byte[] data) {
-        return m_twsService.sendDdeToTwsWithData(topic, requestStr, data);
-    }
-
-    /** Method handles DDE stop advise */
-    public void handleDdeStopAdvise(String topic, String requestStr) {
-        m_twsService.stopAdviseDde(topic, requestStr);
+    @FunctionalInterface
+    interface FunctionWithFourParams {
+        <T> T function(String s1, String s2, T d, boolean b);
     }
     
-    /** Method notifies Excel that appropriate data was updated */
-    public void notifyDde(DdeNotificationEvent ddeEvent) {
-        try {
-            m_twsDdeServer.notifyClients(ddeEvent.topic(), ddeEvent.requestString());
+    /** Class with single method which handles DDE request */
+    private class HandleDdeRequest {
+        <T> T handleDdeRequest(String topic, String requestStr, T data, boolean withData) {
+            return m_twsService.sendDdeToTws(topic, requestStr, data, withData);
         }
-        catch(DDEException ddeEx) {
-            System.out.println("Failed to send to DDE: " + ddeEx);
+    }
+
+    /** Class with single method which handles DDE stop advise */
+    private class HandleStopAdvise {
+        void handleDdeStopAdvise(String topic, String requestStr) {
+            m_twsService.stopAdviseDde(topic, requestStr);
+        }
+    }
+    
+    /** Class with single method which notifies Excel that appropriate data was updated */
+    private class NotifyClients {
+        void notifyDde(DdeNotificationEvent ddeEvent) {
+            try {
+                m_twsDdeServer.notifyClients(ddeEvent.topic(), ddeEvent.requestString());
+            }
+            catch(DDEException ddeEx) {
+                System.out.println("Failed to send to DDE: " + ddeEx);
+            }
+        }
+    }
+
+    /** Class with single method which stops DDE socket bridge */ 
+    private class StopDdeSocketBridge {
+        void stop() {
+            try {
+                m_twsDdeServer.stop();
+            } catch (DDEException e) {
+                System.out.println("Failed to stop SocketDdeBridge! " + e);
+            }
+            m_isConnected = false;
+            if (m_callback != null) {
+                m_callback.run();
+            }
         }
     }
 }

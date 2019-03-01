@@ -6,6 +6,7 @@ package com.ib.api.dde;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.function.Consumer;
 
 import com.ib.api.dde.dde2socket.requests.DdeRequestStatus;
 import com.ib.api.dde.dde2socket.requests.DdeRequestType;
@@ -75,7 +76,6 @@ import com.ib.client.NewsProvider;
 import com.ib.client.PriceIncrement;
 import com.ib.client.SoftDollarTier;
 import com.ib.client.TickType;
-import com.pretty_tools.dde.DDEException;
 
 /** Class represents TwsService. Connection to TWS is performed here. */
 public class TwsService {
@@ -83,11 +83,11 @@ public class TwsService {
     private final String m_host;
     private final int m_port;
     private final int m_clientId;
-    private final EWrapperImpl m_wrapper;
     private final EReaderSignal m_readerSignal;
     private final EClientSocket m_clientSocket;
 
-    private final SocketDdeBridge m_socketDdeBridge;
+    private final Consumer<DdeNotificationEvent> m_notifyClients;
+    private final Runnable m_stopDdeSocketBridge;
 
     private final ErrorsHandler m_errorsHandler;
     private final MarketDataHandler m_marketDataHandler;
@@ -129,14 +129,16 @@ public class TwsService {
     private final OldHistoricalDataHandler m_oldHistoricalDataHandler;
     private final OldMiscHandler m_oldMiscHandler;
 
-    public TwsService(String host, int port, int clientId, SocketDdeBridge bridge) {
+    public TwsService(String host, int port, int clientId, 
+            Consumer<DdeNotificationEvent> notifyClients,
+            Runnable stopDdeSocketBridge) {
         m_host = host;
         m_port = port;
         m_clientId = clientId;
-        m_socketDdeBridge = bridge;
-        m_wrapper = new EWrapperImpl(this);
+        m_notifyClients = notifyClients;
+        m_stopDdeSocketBridge = stopDdeSocketBridge;
         m_readerSignal = new EJavaSignal();
-        m_clientSocket = new EClientSocket(m_wrapper, m_readerSignal);
+        m_clientSocket = new EClientSocket(new EWrapperImpl(this), m_readerSignal);
         
         m_errorsHandler = new ErrorsHandler(this);
         m_marketDataHandler = new MarketDataHandler(m_clientSocket, this);
@@ -181,395 +183,369 @@ public class TwsService {
     }
 
     /** Method sends DDE message to TWS */
-    public String sendDdeToTws(String topic, String requestStr) {
+    @SuppressWarnings("unchecked") 
+    public <T> T sendDdeToTws(String topic, String requestStr, T data, boolean withData) {
         m_miscHandler.resetAccountTime();
         m_oldMiscHandler.resetAccountTime();
         
         DdeRequestType requestType = DdeRequestType.getRequestType(topic);
         switch(requestType) {
+            // place order
+            case PLACE_ORDER:
+                return (T) m_ordersHandler.handlePlaceOrderRequest(requestStr, (byte[]) data);
+            case CANCEL_ORDER:
+                return (T) m_ordersHandler.handleCancelOrderRequest(requestStr);
+            case CLEAR_ORDER:
+                return (T) m_ordersHandler.handleClearOrderRequest(requestStr);
             case ORDER_STATUS:
-                return m_ordersHandler.handleOrderStatusRequest(requestStr);
+                return (T) m_ordersHandler.handleOrderStatusRequest(requestStr);
+
+            // market data
+            case REQUEST_MARKET_DATA:
+                return (T) m_marketDataHandler.handleMarketDataRequest(requestStr, (byte[]) data);
+            case REQUEST_MARKET_DATA_LONG_VALUE:
+                return (T) m_marketDataHandler.handleTickLongValueRequest(requestStr);
+            case CANCEL_MARKET_DATA:
+                return (T) m_marketDataHandler.handleMktDataCancel(requestStr);
             case TICK:
-                return m_marketDataHandler.handleTickRequest(requestStr);
+                return (T) m_marketDataHandler.handleTickRequest(requestStr);
+
+            // errors
             case REQUEST_ERRORS:
-                return m_errorsHandler.handleErrorRequest(requestStr);
+                return withData ? (T) m_errorsHandler.handleErrorsArrayRequest(requestStr) : (T) m_errorsHandler.handleErrorRequest(requestStr);
+
+            // open orders
             case REQ_OPEN_ORDERS:
-                return m_ordersHandler.handleOpenOrdersRequest(requestStr, false);
+                return withData ? (T) m_ordersHandler.handleOpenOrdersArrayRequest(requestStr) : (T) m_ordersHandler.handleOpenOrdersRequest(requestStr, false);
             case REQ_ALL_OPEN_ORDERS:
-                return m_ordersHandler.handleOpenOrdersRequest(requestStr, true);
+                return withData ? (T) m_ordersHandler.handleAllOpenOrdersArrayRequest(requestStr) : (T) m_ordersHandler.handleOpenOrdersRequest(requestStr, true);
+            case REQ_AUTO_OPEN_ORDERS:
+                return (T) m_ordersHandler.handleAutoOpenOrdersRequest(requestStr);
+            case CANCEL_OPEN_ORDERS:
+                return (T) m_ordersHandler.handleOpenOrdersCancel(requestStr);
+
+            // positions
             case REQ_POSITIONS:
-                return m_positionsHandler.handlePositionsRequest(requestStr);
+                return withData ? (T) m_positionsHandler.handlePositionsArrayRequest(requestStr) : (T) m_positionsHandler.handlePositionsRequest(requestStr);
+            case CANCEL_POSITIONS:
+                return (T) m_positionsHandler.handlePositionsCancel(requestStr);
+
+            // positions multi
             case REQ_POSITIONS_MULTI:
-                return m_positionsMultiHandler.handlePositionsMultiRequest(requestStr);
+                return withData ? (T) m_positionsMultiHandler.handlePositionsMultiArrayRequest(requestStr) : (T) m_positionsMultiHandler.handlePositionsMultiRequest(requestStr);
             case REQ_POSITIONS_MULTI_ERROR:
-                return m_positionsMultiHandler.handlePositionsErrorRequest(requestStr, DdeRequestType.REQ_POSITIONS_MULTI_ERROR);
+                return (T) m_positionsMultiHandler.handlePositionsErrorRequest(requestStr, DdeRequestType.REQ_POSITIONS_MULTI_ERROR);
+            case CANCEL_POSITIONS_MULTI:
+                return (T) m_positionsMultiHandler.handlePositionsMultiCancel(requestStr);
+
+            // executions
             case REQ_EXECUTIONS:
-                return m_executionsHandler.handleExecutionsRequest(requestStr);
+                return withData ? (T) m_executionsHandler.handleExecutionsArrayRequest(requestStr) : (T) m_executionsHandler.handleExecutionsRequest(requestStr);
             case REQ_EXECUTIONS_ERROR:
-                return m_executionsHandler.handleExecutionsErrorRequest(requestStr);
+                return (T) m_executionsHandler.handleExecutionsErrorRequest(requestStr);
+            case CANCEL_EXECUTIONS:
+                return (T) m_executionsHandler.handleExecutionsCancelRequest(requestStr);
+
+            // account updates multi
             case REQ_ACCOUNT_UPDATES_MULTI:
-                return m_accountUpdatesMultiHandler.handleAccountUpdatesMultiRequest(requestStr);
+                return withData ? (T) m_accountUpdatesMultiHandler.handleAccountUpdatesMultiArrayRequest(requestStr) : (T) m_accountUpdatesMultiHandler.handleAccountUpdatesMultiRequest(requestStr);
             case REQ_ACCOUNT_UPDATES_MULTI_ERROR:
-                return m_accountUpdatesMultiHandler.handleAccountUpdatesErrorRequest(requestStr, DdeRequestType.REQ_ACCOUNT_UPDATES_MULTI_ERROR);
+                return (T) m_accountUpdatesMultiHandler.handleAccountUpdatesErrorRequest(requestStr, DdeRequestType.REQ_ACCOUNT_UPDATES_MULTI_ERROR);
+            case CANCEL_ACCOUNT_UPDATES_MULTI:
+                return (T) m_accountUpdatesMultiHandler.handleAccountUpdatesMultiCancel(requestStr);
+
+            // account update time
             case REQ_ACCOUNT_UPDATE_TIME:
-                return m_miscHandler.handleAccountUpdateTimeRequest();
+                return (T) m_miscHandler.handleAccountUpdateTimeRequest();
+
+            // account summary
             case REQ_ACCOUNT_SUMMARY:
-                return m_accountSummaryHandler.handleAccountSummaryRequest(requestStr);
+                return withData ? 
+                       (data == null ? (T) m_accountSummaryHandler.handleAccountSummaryArrayRequest(requestStr) : (T) m_accountSummaryHandler.handleAccountSummaryRequestWithData(requestStr, (byte[]) data))
+                        : (T) m_accountSummaryHandler.handleAccountSummaryRequest(requestStr);
             case REQ_ACCOUNT_SUMMARY_ERROR:
-                return m_accountSummaryHandler.handleAccountUpdatesErrorRequest(requestStr, DdeRequestType.REQ_ACCOUNT_SUMMARY_ERROR);
+                return (T) m_accountSummaryHandler.handleAccountUpdatesErrorRequest(requestStr, DdeRequestType.REQ_ACCOUNT_SUMMARY_ERROR);
+            case CANCEL_ACCOUNT_SUMMARY:
+                return (T) m_accountSummaryHandler.handleAccountSummaryCancel(requestStr);
+
+            // account portfolio
             case REQ_ACCOUNT_PORTFOLIO:
-                return m_accountPortfolioHandler.handleAccountPortfolioRequest(requestStr);
+                return withData ? (T) m_accountPortfolioHandler.handleAccountPortfolioArrayRequest(requestStr) : (T) m_accountPortfolioHandler.handleAccountPortfolioRequest(requestStr);
             case REQ_ACCOUNT_PORTFOLIO_ERROR:
-                return m_accountPortfolioHandler.handleAccountUpdatesErrorRequest(requestStr, DdeRequestType.REQ_ACCOUNT_PORTFOLIO_ERROR);
+                return (T) m_accountPortfolioHandler.handleAccountUpdatesErrorRequest(requestStr, DdeRequestType.REQ_ACCOUNT_PORTFOLIO_ERROR);
+            case CANCEL_ACCOUNT_PORTFOLIO:
+                return (T) m_accountPortfolioHandler.handleAccountPortfolioCancel(requestStr);
+            case REQ_PORTFOLIO:
+                return (T) m_accountPortfolioHandler.handlePortfolioArrayRequest(requestStr);
+
+            // market depth
+            case REQUEST_MARKET_DEPTH:
+                return (T) m_marketDepthHandler.handleMarketDepthRequest(requestStr, (byte[]) data);
+            case CANCEL_MARKET_DEPTH:
+                return (T) m_marketDepthHandler.handleMktDepthCancel(requestStr);
             case MARKET_DEPTH_TICK:
-                return m_marketDepthHandler.handleMktDepthTickRequest(requestStr);
-            case SCANNER_SUBSCRIPTION_TICK:
-                return m_scannerDataHandler.handleScannerSubscriptionTickRequest(requestStr);
-            case CONTRACT_DETAILS_TICK:
-                return m_contractDetailsHandler.handleContractDetailsTickRequest(requestStr);
+                return (T) m_marketDepthHandler.handleMktDepthTickRequest(requestStr);
+
+            // scanner
+            case REQUEST_SCANNER_SUBSCRIPTION:
+                return data == null ? (T) m_scannerDataHandler.handleScannerDataArrayRequest(requestStr) : (T) m_scannerDataHandler.handleScannerSubscriptionRequest(requestStr, (byte[]) data);
+            case CANCEL_SCANNER_SUBSCRIPTION:
+                return (T) m_scannerDataHandler.handleScannerSubscriptionCancel(requestStr);
             case REQUEST_SCANNER_PARAMETERS:
-                return m_scannerDataHandler.handleScannerParametersRequest(requestStr);
+                return withData ? (T) m_scannerDataHandler.handleScannerParametersArrayRequest(requestStr) : (T) m_scannerDataHandler.handleScannerParametersRequest(requestStr);
+            case SCANNER_SUBSCRIPTION_TICK:
+                return (T) m_scannerDataHandler.handleScannerSubscriptionTickRequest(requestStr);
+
+            // contract details
+            case REQUEST_CONTRACT_DETAILS:
+                return data == null ? (T) m_contractDetailsHandler.handleContractDetailsArrayRequest(requestStr) : (T) m_contractDetailsHandler.handleContractDetailsRequest(requestStr, (byte[]) data);
+            case CANCEL_CONTRACT_DETAILS:
+                return (T) m_contractDetailsHandler.handleContractDetailsCancel(requestStr);
+            case CONTRACT_DETAILS_TICK:
+                return (T) m_contractDetailsHandler.handleContractDetailsTickRequest(requestStr);
+
+            // historical data
+            case REQUEST_HISTORICAL_DATA:
+                return data == null ? (T) m_historicalDataHandler.handleHistoricalDataArrayRequest(requestStr) : (T) m_historicalDataHandler.handleHistoricalDataRequest(requestStr, (byte[]) data);
+            case CANCEL_HISTORICAL_DATA:
+                return (T) m_historicalDataHandler.handleHistoricalDataCancel(requestStr);
             case HISTORICAL_DATA_TICK:
-                return m_historicalDataHandler.handleHistoricalDataTickRequest(requestStr);
+                return (T) m_historicalDataHandler.handleHistoricalDataTickRequest(requestStr);
+
+            // real-time bars
+            case REQUEST_REAL_TIME_BARS:
+                return data == null ? (T) m_realTimeBarsHandler.handleRealTimeBarsArrayRequest(requestStr) : (T) m_realTimeBarsHandler.handleRealTimeBarsRequest(requestStr, (byte[]) data);
+            case CANCEL_REAL_TIME_BARS:
+                return (T) m_realTimeBarsHandler.handleRealTimeBarsCancel(requestStr);
             case REAL_TIME_BARS_TICK:
-                return m_realTimeBarsHandler.handleRealTimeBarsTickRequest(requestStr);
+                return (T) m_realTimeBarsHandler.handleRealTimeBarsTickRequest(requestStr);
+
+            // tick-by-tick
+            case REQUEST_TICK_BY_TICK_DATA:
+                return (T) m_tickByTickDataHandler.handleTickByTickDataRequest(requestStr, (byte[]) data);
+            case CANCEL_TICK_BY_TICK_DATA:
+                return (T) m_tickByTickDataHandler.handleTickByTickDataCancel(requestStr);
+            case REQUEST_TICK_BY_TICK_DATA_EXT:
+                return (T) m_tickByTickDataHandler.handleTickByTickDataRequestExt(requestStr, (byte[]) data);
+            case CANCEL_TICK_BY_TICK_DATA_EXT:
+                return (T) m_tickByTickDataHandler.handleTickByTickDataCancelExt(requestStr);
             case TICK_BY_TICK_DATA_TICK:
-                return m_tickByTickDataHandler.handleTickByTickDataTickRequest(requestStr);
+                return (T) m_tickByTickDataHandler.handleTickByTickDataTickRequest(requestStr);
             case TICK_BY_TICK_DATA_TICK_EXT:
-                return m_tickByTickDataHandler.handleTickByTickDataTickRequestExt(requestStr);
+                return (T) m_tickByTickDataHandler.handleTickByTickDataTickRequestExt(requestStr);
+
+            // fundamentals
+            case REQUEST_FUNDAMENTAL_DATA:
+                return data == null ? (T) m_fundamentalDataHandler.handleFundamentalDataArrayRequest(requestStr) : (T) m_fundamentalDataHandler.handleFundamentalDataRequest(requestStr, (byte[]) data);
+            case CANCEL_FUNDAMENTAL_DATA:
+                return (T) m_fundamentalDataHandler.handleFundamentalDataCancel(requestStr);
             case FUNDAMENTAL_DATA_TICK:
-                return m_fundamentalDataHandler.handleFundamentalDataTickRequest(requestStr);
+                return (T) m_fundamentalDataHandler.handleFundamentalDataTickRequest(requestStr);
+
+            // historical ticks
+            case REQUEST_HISTORICAL_TICKS:
+                return data == null ? (T) m_historicalTicksHandler.handleHistoricalTicksArrayRequest(requestStr) : (T) m_historicalTicksHandler.handleHistoricalTicksRequest(requestStr, (byte[]) data);
+            case CANCEL_HISTORICAL_TICKS:
+                return (T) m_historicalTicksHandler.handleHistoricalTicksCancel(requestStr);
             case HISTORICAL_TICKS_TICK:
-                return m_historicalTicksHandler.handleHistoricalTicksTickRequest(requestStr);
+                return (T) m_historicalTicksHandler.handleHistoricalTicksTickRequest(requestStr);
+
+            // sec-def opt params
+            case REQUEST_SEC_DEF_OPT_PARAMS:
+                return data == null ? (T) m_secDefOptParamsHandler.handleSecDefOptParamsArrayRequest(requestStr) : (T) m_secDefOptParamsHandler.handleSecDefOptParamsRequest(requestStr, (byte[]) data);
+            case CANCEL_SEC_DEF_OPT_PARAMS:
+                return (T) m_secDefOptParamsHandler.handleSecDefOptParamsCancel(requestStr);
             case SEC_DEF_OPT_PARAMS_TICK:
-                return m_secDefOptParamsHandler.handleSecDefOptParamsTickRequest(requestStr);
+                return (T) m_secDefOptParamsHandler.handleSecDefOptParamsTickRequest(requestStr);
+
+            // family codes
             case REQUEST_FAMILY_CODES:
-                return m_accountUpdatesMultiHandler.handleFamilyCodesRequest(requestStr);
+                return withData ? (T) m_accountUpdatesMultiHandler.handleFamilyCodesArrayRequest(requestStr) : (T) m_accountUpdatesMultiHandler.handleFamilyCodesRequest(requestStr);
+
+            // managed accounts
             case REQUEST_MANAGED_ACCOUNTS:
-                return m_miscHandler.handleManagedAccountsRequest(requestStr);
+                return withData ? (T) m_miscHandler.handleManagedAccountsLongValueRequest(requestStr) : (T) m_miscHandler.handleManagedAccountsRequest(requestStr);
+
+            // head timestamp
+            case REQUEST_HEAD_TIMESTAMP:
+                return (T) m_headTimestampHandler.handleHeadTimestampRequest(requestStr, (byte[]) data);
+            case CANCEL_HEAD_TIMESTAMP:
+                return (T) m_headTimestampHandler.handleHeadTimestampCancel(requestStr);
             case HEAD_TIMESTAMP_TICK:
-                return m_headTimestampHandler.handleHeadTimestampTickRequest(requestStr);
+                return (T) m_headTimestampHandler.handleHeadTimestampTickRequest(requestStr);
+
+            // matching symbols
             case REQUEST_MATCHING_SYMBOLS:
-                return m_matchingSymbolsHandler.handleMatchingSymbolsRequest(requestStr);
+                return withData ? (T) m_matchingSymbolsHandler.handleMatchingSymbolsArrayRequest(requestStr) : (T) m_matchingSymbolsHandler.handleMatchingSymbolsRequest(requestStr);
             case REQUEST_MATCHING_SYMBOLS_ERROR:
-                return m_matchingSymbolsHandler.handleMatchingSymbolsErrorRequest(requestStr);
+                return (T) m_matchingSymbolsHandler.handleMatchingSymbolsErrorRequest(requestStr);
+            case CANCEL_MATCHING_SYMBOLS:
+                return (T) m_matchingSymbolsHandler.handleMatchingSymbolsCancel(requestStr);
+
+            // market depth exchanges
             case REQUEST_MARKET_DEPTH_EXCHANGES:
-                return m_marketDepthHandler.handleMktDepthExchangesRequest(requestStr);
+                return withData ? (T) m_marketDepthHandler.handleMktDepthExchangesArrayRequest(requestStr) : (T) m_marketDepthHandler.handleMktDepthExchangesRequest(requestStr);
+
+            // news ticks
+            case REQ_NEWS_TICKS:
+                return data == null ? (T) m_newsDataHandler.handleNewsTicksArrayRequest(requestStr) : (T) m_newsDataHandler.handleNewsTicksRequest(requestStr, (byte[]) data);
+            case CANCEL_NEWS_TICKS:
+                return (T) m_newsDataHandler.handleNewsTicksCancel(requestStr);
             case NEWS_TICKS_TICK:
-                return m_newsDataHandler.handleNewsTicksTickRequest(requestStr);
+                return (T) m_newsDataHandler.handleNewsTicksTickRequest(requestStr);
+
+            // news providers
             case REQ_NEWS_PROVIDERS:
-                return m_newsDataHandler.handleNewsProvidersRequest(requestStr);
+                return withData ? (T) m_newsDataHandler.handleNewsProvidersArrayRequest(requestStr) : (T) m_newsDataHandler.handleNewsProvidersRequest(requestStr);
+
+            // historical news
+            case REQUEST_HISTORICAL_NEWS:
+                return data == null ? (T) m_newsDataHandler.handleHistoricalNewsArrayRequest(requestStr) : (T) m_newsDataHandler.handleHistoricalNewsRequest(requestStr, (byte[]) data);
+            case CANCEL_HISTORICAL_NEWS:
+                return (T) m_newsDataHandler.handleHistoricalNewsCancel(requestStr);
             case HISTORICAL_NEWS_TICK:
-                return m_newsDataHandler.handleHistoricalNewsTickRequest(requestStr);
+                return (T) m_newsDataHandler.handleHistoricalNewsTickRequest(requestStr);
+
+            // news article
+            case REQUEST_NEWS_ARTICLE:
+                return (T) m_newsDataHandler.handleNewsArticleRequest(requestStr, (byte[]) data);
+            case CANCEL_NEWS_ARTICLE:
+                return (T) m_newsDataHandler.handleNewsArticleCancel(requestStr);
+            case REQUEST_NEWS_ARTICLE_LONG_VALUE:
+                return (T) m_newsDataHandler.handleNewsArticleLongValueRequest(requestStr);
             case NEWS_ARTICLE_TICK:
-                return m_newsDataHandler.handleNewsArticleTickRequest(requestStr);
+                return (T) m_newsDataHandler.handleNewsArticleTickRequest(requestStr);
+
+            // nes bulletins
             case REQ_NEWS_BULLETINS:
-                return m_newsDataHandler.handleNewsBulletinsRequest(requestStr);
+                return withData ? (T) m_newsDataHandler.handleNewsBulletinsArrayRequest(requestStr) : (T) m_newsDataHandler.handleNewsBulletinsRequest(requestStr);
+
+            // PnL
+            case REQUEST_PNL:
+                return (T) m_pnlHandler.handlePnLRequest(requestStr, (byte[]) data);
+            case CANCEL_PNL:
+                return (T) m_pnlHandler.handlePnLCancel(requestStr);
             case PNL_TICK:
-                return m_pnlHandler.handlePnLTickRequest(requestStr);
+                return (T) m_pnlHandler.handlePnLTickRequest(requestStr);
+
+            // calculate implied volatility
+            case CALCULATE_IMPLIED_VOLATILITY:
+                return (T) m_calcImplVolOptPriceHandler.handleCalculateRequest(requestStr, (byte[]) data, DdeRequestType.CALCULATE_IMPLIED_VOLATILITY);
+            case CANCEL_CALCULATE_IMPLIED_VOLATILITY:
+                return (T) m_calcImplVolOptPriceHandler.handleCalculateCancel(requestStr, DdeRequestType.CANCEL_CALCULATE_IMPLIED_VOLATILITY);
             case CALCULATE_IMPLIED_VOLATILITY_TICK:
-                return m_calcImplVolOptPriceHandler.handleCalculateTickRequest(requestStr, DdeRequestType.CALCULATE_IMPLIED_VOLATILITY_TICK);
+                return (T) m_calcImplVolOptPriceHandler.handleCalculateTickRequest(requestStr, DdeRequestType.CALCULATE_IMPLIED_VOLATILITY_TICK);
+
+            // calculate option price
+            case CALCULATE_OPTION_PRICE:
+                return (T) m_calcImplVolOptPriceHandler.handleCalculateRequest(requestStr, (byte[]) data, DdeRequestType.CALCULATE_OPTION_PRICE);
+            case CANCEL_CALCULATE_OPTION_PRICE:
+                return (T) m_calcImplVolOptPriceHandler.handleCalculateCancel(requestStr, DdeRequestType.CANCEL_CALCULATE_OPTION_PRICE);
             case CALCULATE_OPTION_PRICE_TICK:
-                return m_calcImplVolOptPriceHandler.handleCalculateTickRequest(requestStr, DdeRequestType.CALCULATE_OPTION_PRICE_TICK);
+                return (T) m_calcImplVolOptPriceHandler.handleCalculateTickRequest(requestStr, DdeRequestType.CALCULATE_OPTION_PRICE_TICK);
+
+            // exersice options
+            case EXERCISE_OPTIONS:
+                return (T) m_exerciseOptionsHandler.handleExerciseOptionsRequest(requestStr, (byte[]) data);
             case EXERCISE_OPTIONS_TICK:
-                return m_exerciseOptionsHandler.handleExerciseOptionsTickRequest(requestStr);
+                return (T) m_exerciseOptionsHandler.handleExerciseOptionsTickRequest(requestStr);
+
+            // current time
             case REQ_CURRENT_TIME:
-                return m_miscHandler.handleCurrentTimeRequest();
+                return (T) m_miscHandler.handleCurrentTimeRequest();
+
+            // TODO: ?????
+//            case REQ_CURRENT_TIME:
+  //              m_miscHandler.handleCurrentTimeRequest();
+    //            break;
+
+
+            // market rule
             case REQUEST_MARKET_RULE:
-                return m_contractDetailsHandler.handleMarketRuleRequest(requestStr);
+                return withData ? (T) m_contractDetailsHandler.handleMarketRuleArrayRequest(requestStr) : (T) m_contractDetailsHandler.handleMarketRuleRequest(requestStr);
             case REQUEST_MARKET_RULE_ERROR:
-                return m_contractDetailsHandler.handleMarketRuleErrorRequest(requestStr);
+                return (T) m_contractDetailsHandler.handleMarketRuleErrorRequest(requestStr);
+
+            // smart components
             case REQUEST_SMART_COMPONENTS:
-                return m_miscHandler.handleSmartComponentsRequest(requestStr);
+                return withData ? (T) m_miscHandler.handleSmartComponentsArrayRequest(requestStr) : (T) m_miscHandler.handleSmartComponentsRequest(requestStr);
             case REQUEST_SMART_COMPONENTS_ERROR:
-                return m_miscHandler.handleSmartComponentsErrorRequest(requestStr);
+                return (T) m_miscHandler.handleSmartComponentsErrorRequest(requestStr);
+
+            // soft dollar tiers
             case REQUEST_SOFT_DOLLAR_TIERS:
-                return m_miscHandler.handleSoftDollarTiersRequest(requestStr);
+                return withData ? (T) m_miscHandler.handleSoftDollarTiersArrayRequest(requestStr) : (T) m_miscHandler.handleSoftDollarTiersRequest(requestStr);
+
+            // histogram data
+            case REQUEST_HISTOGRAM_DATA:
+                return data == null ? (T) m_histogramDataHandler.handleHistogramDataArrayRequest(requestStr) : (T) m_histogramDataHandler.handleHistogramDataRequest(requestStr, (byte[]) data);
+            case CANCEL_HISTOGRAM_DATA:
+                return (T) m_histogramDataHandler.handleHistogramDataCancel(requestStr);
             case HISTOGRAM_DATA_TICK:
-                return m_histogramDataHandler.handleHistogramDataTickRequest(requestStr);
+                return (T) m_histogramDataHandler.handleHistogramDataTickRequest(requestStr);
+
+            // FA
             case REQUEST_FA:
-                return m_accountUpdatesMultiHandler.handleFARequest(requestStr);
+                return withData ? (T) m_accountUpdatesMultiHandler.handleFARequestArray(requestStr) : (T) m_accountUpdatesMultiHandler.handleFARequest(requestStr);
             case REQUEST_FA_ERROR:
-                return m_accountUpdatesMultiHandler.handleFARequestError(requestStr);
+                return (T) m_accountUpdatesMultiHandler.handleFARequestError(requestStr);
             case REPLACE_FA:
-                return m_accountUpdatesMultiHandler.handleFAReplaceStatus(requestStr);
+                return withData ? (T) m_accountUpdatesMultiHandler.handleFAReplace(requestStr, (byte[]) data) : (T) m_accountUpdatesMultiHandler.handleFAReplaceStatus(requestStr);
             case REPLACE_FA_ERROR:
-                return m_accountUpdatesMultiHandler.handleFAReplaceError(requestStr);
+                return (T) m_accountUpdatesMultiHandler.handleFAReplaceError(requestStr);
+
+            // global cancel
+            case GLOBAL_CANCEL:
+                return (T) m_ordersHandler.handleGlobalCancel(requestStr);
+                
                 
             // old-style
             case TIK:
-                return m_oldMarketDataHandler.handleTickRequest(requestStr, false);
+                return (T) m_oldMarketDataHandler.handleTickRequest(requestStr, false);
             case ERR:
-                return m_oldErrorsHandler.handleErrorRequest(requestStr);
+                return (T) m_oldErrorsHandler.handleErrorRequest(requestStr);
             case GEN_TIK:
-                return m_oldMarketDataHandler.handleTickRequest(requestStr, true);
+                return (T) m_oldMarketDataHandler.handleTickRequest(requestStr, true);
             case PROCESS_RATE:
-                return "Setting processing rate is not supported";
+                return (T) "Setting processing rate is not supported";
             case REFRESH_RATE:
-                return "Setting refresh rate is not supported";
+                return (T) "Setting refresh rate is not supported";
             case LOG_LEVEL:
                 setServerLogLevel(requestStr);
-                return requestStr;
+                return (T) requestStr;
             case CALC_IMPL_VOL:
-                return m_oldMarketDataHandler.handleCalcImplVolRequest(requestStr);
+                return (T) m_oldMarketDataHandler.handleCalcImplVolRequest(requestStr);
             case CALC_OPTION_PRICE:
-                return m_oldMarketDataHandler.handleCalcOptionPriceRequest(requestStr);
+                return (T) m_oldMarketDataHandler.handleCalcOptionPriceRequest(requestStr);
             case NEWS:
-                return m_oldNewsHandler.handleNewsBulletinsRequest(requestStr);
+                return (T) m_oldNewsHandler.handleNewsBulletinsRequest(requestStr);
             case ORD:
-                return m_oldOrdersHandler.handlePlaceOrderRequest(requestStr);
+                return (T) m_oldOrdersHandler.handlePlaceOrderRequest(requestStr);
             case OPENS:
-                return m_oldOrdersHandler.handleOpenOrdersRequest(requestStr);
+                return withData ? (T) m_oldOrdersHandler.handleOpenOrdersArrayRequest(requestStr) : (T) m_oldOrdersHandler.handleOpenOrdersRequest(requestStr);
             case EXECS:
-                return m_oldExecutionsHandler.handleExecutionsRequest(requestStr);
+                return withData ? (T) m_oldExecutionsHandler.handleExecutionsArrayRequest(requestStr) : (T) m_oldExecutionsHandler.handleExecutionsRequest(requestStr);
             case ACCT:
-                return m_oldMiscHandler.handleAccountUpdateTimeRequest();
+                return (T) m_oldMiscHandler.handleAccountUpdateTimeRequest();
             case ACCTS:
-                return m_oldAccountPortfolioHandler.handleAccountDataRequest(requestStr);
+                return withData ? (T) m_oldAccountPortfolioHandler.handleAccountDataArrayRequest(requestStr) : (T) m_oldAccountPortfolioHandler.handleAccountDataRequest(requestStr);
             case PORTS:
-                return m_oldAccountPortfolioHandler.handlePortfolioRequest(requestStr);
+                return withData ? (T) m_oldAccountPortfolioHandler.handlePortfolioArrayRequest(requestStr) : (T) m_oldAccountPortfolioHandler.handlePortfolioRequest(requestStr);
             case FAACCTS:
-                return m_oldMiscHandler.handleManagedAccountsRequestOld(requestStr);
+                return (T) m_oldMiscHandler.handleManagedAccountsRequestOld(requestStr);
             case MKTDEPTH:
-                return m_oldMarketDepthHandler.handleMktDepthTickRequest(requestStr);
+                return (T) m_oldMarketDepthHandler.handleMktDepthTickRequest(requestStr);
             case SCAN:
-                return m_oldScannerDataHandler.handleScannerSubscriptionRequest(requestStr);
+                return withData ? (T) m_oldScannerDataHandler.handleScannerDataArrayRequest(requestStr) : (T) m_oldScannerDataHandler.handleScannerSubscriptionRequest(requestStr);
             case CONTRACT:
-                return m_oldContractDetailsHandler.handleContractDetailsTickRequest(requestStr);
+                return (T) m_oldContractDetailsHandler.handleContractDetailsTickRequest(requestStr);
             case HIST:
-                return m_oldHistoricalDataHandler.handleHistoricalDataRequest(requestStr);
-                
+                return withData ? (T) m_oldHistoricalDataHandler.handleHistoricalDataArrayRequest(requestStr) : (T) m_oldHistoricalDataHandler.handleHistoricalDataRequest(requestStr);
             default:
                 break;
         }
 
-        return DdeRequestStatus.UNKNOWN.name();
-    }
-
-    /** Method sends DDE message to TWS with binary data */
-    public byte[] sendDdeToTwsWithData(String topic, String requestStr, byte[] data) {
-        DdeRequestType requestType = DdeRequestType.getRequestType(topic);
-        switch(requestType) {
-            case PLACE_ORDER:
-                return m_ordersHandler.handlePlaceOrderRequest(requestStr, data);
-            case CANCEL_ORDER:
-                return m_ordersHandler.handleCancelOrderRequest(requestStr);
-            case CLEAR_ORDER:
-                return m_ordersHandler.handleClearOrderRequest(requestStr);
-            case REQUEST_MARKET_DATA:
-                return m_marketDataHandler.handleMarketDataRequest(requestStr, data);
-            case REQUEST_MARKET_DATA_LONG_VALUE:
-                return m_marketDataHandler.handleTickLongValueRequest(requestStr);
-            case CANCEL_MARKET_DATA:
-                return m_marketDataHandler.handleMktDataCancel(requestStr);
-            case REQUEST_ERRORS:
-                return m_errorsHandler.handleErrorsArrayRequest(requestStr);
-            case REQ_OPEN_ORDERS:
-                return m_ordersHandler.handleOpenOrdersArrayRequest(requestStr);
-            case REQ_ALL_OPEN_ORDERS:
-                return m_ordersHandler.handleAllOpenOrdersArrayRequest(requestStr);
-            case REQ_AUTO_OPEN_ORDERS:
-                return m_ordersHandler.handleAutoOpenOrdersRequest(requestStr);
-            case CANCEL_OPEN_ORDERS:
-                return m_ordersHandler.handleOpenOrdersCancel(requestStr);
-            case REQ_POSITIONS:
-                return m_positionsHandler.handlePositionsArrayRequest(requestStr);
-            case CANCEL_POSITIONS:
-                return m_positionsHandler.handlePositionsCancel(requestStr);
-            case REQ_POSITIONS_MULTI:
-                return m_positionsMultiHandler.handlePositionsMultiArrayRequest(requestStr);
-            case CANCEL_POSITIONS_MULTI:
-                return m_positionsMultiHandler.handlePositionsMultiCancel(requestStr);
-            case REQ_EXECUTIONS:
-                return m_executionsHandler.handleExecutionsArrayRequest(requestStr);
-            case CANCEL_EXECUTIONS:
-                return m_executionsHandler.handleExecutionsCancelRequest(requestStr);
-            case REQ_ACCOUNT_UPDATES_MULTI:
-                return m_accountUpdatesMultiHandler.handleAccountUpdatesMultiArrayRequest(requestStr);
-            case CANCEL_ACCOUNT_UPDATES_MULTI:
-                return m_accountUpdatesMultiHandler.handleAccountUpdatesMultiCancel(requestStr);
-            case REQ_ACCOUNT_SUMMARY:
-                if (data == null) {
-                    return m_accountSummaryHandler.handleAccountSummaryArrayRequest(requestStr);
-                } else {
-                    return m_accountSummaryHandler.handleAccountSummaryRequestWithData(requestStr, data);
-                }
-            case CANCEL_ACCOUNT_SUMMARY:
-                return m_accountSummaryHandler.handleAccountSummaryCancel(requestStr);
-            case REQ_ACCOUNT_PORTFOLIO:
-                return m_accountPortfolioHandler.handleAccountPortfolioArrayRequest(requestStr);
-            case CANCEL_ACCOUNT_PORTFOLIO:
-                return m_accountPortfolioHandler.handleAccountPortfolioCancel(requestStr);
-            case REQ_PORTFOLIO:
-                return m_accountPortfolioHandler.handlePortfolioArrayRequest(requestStr);
-            case REQUEST_MARKET_DEPTH:
-                return m_marketDepthHandler.handleMarketDepthRequest(requestStr, data);
-            case CANCEL_MARKET_DEPTH:
-                return m_marketDepthHandler.handleMktDepthCancel(requestStr);
-            case REQUEST_SCANNER_SUBSCRIPTION:
-                if (data == null) {
-                    return m_scannerDataHandler.handleScannerDataArrayRequest(requestStr);
-                    
-                } else {
-                    return m_scannerDataHandler.handleScannerSubscriptionRequest(requestStr, data);
-                }
-            case CANCEL_SCANNER_SUBSCRIPTION:
-                return m_scannerDataHandler.handleScannerSubscriptionCancel(requestStr);
-            case REQUEST_SCANNER_PARAMETERS:
-                return m_scannerDataHandler.handleScannerParametersArrayRequest(requestStr);
-            case REQUEST_CONTRACT_DETAILS:
-                if (data == null) {
-                    return m_contractDetailsHandler.handleContractDetailsArrayRequest(requestStr);
-                } else {
-                    return m_contractDetailsHandler.handleContractDetailsRequest(requestStr, data);
-                }
-            case CANCEL_CONTRACT_DETAILS:
-                return m_contractDetailsHandler.handleContractDetailsCancel(requestStr);
-            case REQUEST_HISTORICAL_DATA:
-                if (data == null) {
-                    return m_historicalDataHandler.handleHistoricalDataArrayRequest(requestStr);
-                } else {
-                    return m_historicalDataHandler.handleHistoricalDataRequest(requestStr, data);
-                }
-            case CANCEL_HISTORICAL_DATA:
-                return m_historicalDataHandler.handleHistoricalDataCancel(requestStr);
-            case REQUEST_REAL_TIME_BARS:
-                if (data == null) {
-                    return m_realTimeBarsHandler.handleRealTimeBarsArrayRequest(requestStr);
-                } else {
-                    return m_realTimeBarsHandler.handleRealTimeBarsRequest(requestStr, data);
-                }
-            case CANCEL_REAL_TIME_BARS:
-                return m_realTimeBarsHandler.handleRealTimeBarsCancel(requestStr);
-            case REQUEST_TICK_BY_TICK_DATA:
-                return m_tickByTickDataHandler.handleTickByTickDataRequest(requestStr, data);
-            case CANCEL_TICK_BY_TICK_DATA:
-                return m_tickByTickDataHandler.handleTickByTickDataCancel(requestStr);
-            case REQUEST_TICK_BY_TICK_DATA_EXT:
-                return m_tickByTickDataHandler.handleTickByTickDataRequestExt(requestStr, data);
-            case CANCEL_TICK_BY_TICK_DATA_EXT:
-                return m_tickByTickDataHandler.handleTickByTickDataCancelExt(requestStr);
-            case REQUEST_FUNDAMENTAL_DATA:
-                if (data == null) {
-                    return m_fundamentalDataHandler.handleFundamentalDataArrayRequest(requestStr);
-                } else {
-                    return m_fundamentalDataHandler.handleFundamentalDataRequest(requestStr, data);
-                }
-            case CANCEL_FUNDAMENTAL_DATA:
-                return m_fundamentalDataHandler.handleFundamentalDataCancel(requestStr);
-            case REQUEST_HISTORICAL_TICKS:
-                if (data == null) {
-                    return m_historicalTicksHandler.handleHistoricalTicksArrayRequest(requestStr);
-                } else {
-                    return m_historicalTicksHandler.handleHistoricalTicksRequest(requestStr, data);
-                }
-            case CANCEL_HISTORICAL_TICKS:
-                return m_historicalTicksHandler.handleHistoricalTicksCancel(requestStr);
-            case REQUEST_SEC_DEF_OPT_PARAMS:
-                if (data == null) {
-                    return m_secDefOptParamsHandler.handleSecDefOptParamsArrayRequest(requestStr);
-                } else {
-                    return m_secDefOptParamsHandler.handleSecDefOptParamsRequest(requestStr, data);
-                }
-            case CANCEL_SEC_DEF_OPT_PARAMS:
-                return m_secDefOptParamsHandler.handleSecDefOptParamsCancel(requestStr);
-            case REQUEST_FAMILY_CODES:
-                return m_accountUpdatesMultiHandler.handleFamilyCodesArrayRequest(requestStr);
-            case REQUEST_MANAGED_ACCOUNTS:
-                return m_miscHandler.handleManagedAccountsLongValueRequest(requestStr);
-            case REQUEST_HEAD_TIMESTAMP:
-                return m_headTimestampHandler.handleHeadTimestampRequest(requestStr, data);
-            case CANCEL_HEAD_TIMESTAMP:
-                return m_headTimestampHandler.handleHeadTimestampCancel(requestStr);
-            case REQUEST_MATCHING_SYMBOLS:
-                return m_matchingSymbolsHandler.handleMatchingSymbolsArrayRequest(requestStr);
-            case CANCEL_MATCHING_SYMBOLS:
-                return m_matchingSymbolsHandler.handleMatchingSymbolsCancel(requestStr);
-            case REQUEST_MARKET_DEPTH_EXCHANGES:
-                return m_marketDepthHandler.handleMktDepthExchangesArrayRequest(requestStr);
-            case REQ_NEWS_TICKS:
-                if (data == null) {
-                    return m_newsDataHandler.handleNewsTicksArrayRequest(requestStr);
-                } else {
-                    return m_newsDataHandler.handleNewsTicksRequest(requestStr, data);
-                }
-            case CANCEL_NEWS_TICKS:
-                return m_newsDataHandler.handleNewsTicksCancel(requestStr);
-            case REQ_NEWS_PROVIDERS:
-                return m_newsDataHandler.handleNewsProvidersArrayRequest(requestStr);
-            case REQUEST_HISTORICAL_NEWS:
-                if (data == null) {
-                    return m_newsDataHandler.handleHistoricalNewsArrayRequest(requestStr);
-                } else {
-                    return m_newsDataHandler.handleHistoricalNewsRequest(requestStr, data);
-                }
-            case CANCEL_HISTORICAL_NEWS:
-                return m_newsDataHandler.handleHistoricalNewsCancel(requestStr);
-            case REQUEST_NEWS_ARTICLE:
-                return m_newsDataHandler.handleNewsArticleRequest(requestStr, data);
-            case CANCEL_NEWS_ARTICLE:
-                return m_newsDataHandler.handleNewsArticleCancel(requestStr);
-            case REQUEST_NEWS_ARTICLE_LONG_VALUE:
-                return m_newsDataHandler.handleNewsArticleLongValueRequest(requestStr);
-            case REQ_NEWS_BULLETINS:
-                return m_newsDataHandler.handleNewsBulletinsArrayRequest(requestStr);
-            case REQUEST_PNL:
-                return m_pnlHandler.handlePnLRequest(requestStr, data);
-            case CANCEL_PNL:
-                return m_pnlHandler.handlePnLCancel(requestStr);
-            case GLOBAL_CANCEL:
-                return m_ordersHandler.handleGlobalCancel(requestStr);
-            case CALCULATE_IMPLIED_VOLATILITY:
-                return m_calcImplVolOptPriceHandler.handleCalculateRequest(requestStr, data, DdeRequestType.CALCULATE_IMPLIED_VOLATILITY);
-            case CANCEL_CALCULATE_IMPLIED_VOLATILITY:
-                return m_calcImplVolOptPriceHandler.handleCalculateCancel(requestStr, DdeRequestType.CANCEL_CALCULATE_IMPLIED_VOLATILITY);
-            case CALCULATE_OPTION_PRICE:
-                return m_calcImplVolOptPriceHandler.handleCalculateRequest(requestStr, data, DdeRequestType.CALCULATE_OPTION_PRICE);
-            case CANCEL_CALCULATE_OPTION_PRICE:
-                return m_calcImplVolOptPriceHandler.handleCalculateCancel(requestStr, DdeRequestType.CANCEL_CALCULATE_OPTION_PRICE);
-            case EXERCISE_OPTIONS:
-                return m_exerciseOptionsHandler.handleExerciseOptionsRequest(requestStr, data);
-            case REQ_CURRENT_TIME:
-                m_miscHandler.handleCurrentTimeRequest();
-                break;
-            case REQUEST_MARKET_RULE:
-                return m_contractDetailsHandler.handleMarketRuleArrayRequest(requestStr);
-            case REQUEST_SMART_COMPONENTS:
-                return m_miscHandler.handleSmartComponentsArrayRequest(requestStr);
-            case REQUEST_SOFT_DOLLAR_TIERS:
-                return m_miscHandler.handleSoftDollarTiersArrayRequest(requestStr);
-            case REQUEST_HISTOGRAM_DATA:
-                if (data == null) {
-                    return m_histogramDataHandler.handleHistogramDataArrayRequest(requestStr);
-                } else {
-                    return m_histogramDataHandler.handleHistogramDataRequest(requestStr, data);
-                }
-            case CANCEL_HISTOGRAM_DATA:
-                return m_histogramDataHandler.handleHistogramDataCancel(requestStr);
-            case REQUEST_FA:
-                return m_accountUpdatesMultiHandler.handleFARequestArray(requestStr);
-            case REPLACE_FA:
-                return m_accountUpdatesMultiHandler.handleFAReplace(requestStr, data);
-                
-            // old-style
-            case OPENS:
-                return m_oldOrdersHandler.handleOpenOrdersArrayRequest(requestStr);
-            case EXECS:
-                return m_oldExecutionsHandler.handleExecutionsArrayRequest(requestStr);
-            case ACCTS:
-                return m_oldAccountPortfolioHandler.handleAccountDataArrayRequest(requestStr);
-            case PORTS:
-                return m_oldAccountPortfolioHandler.handlePortfolioArrayRequest(requestStr);
-            case SCAN:
-                return m_oldScannerDataHandler.handleScannerDataArrayRequest(requestStr);
-            case HIST:
-                return m_oldHistoricalDataHandler.handleHistoricalDataArrayRequest(requestStr);
-                
-            default:
-                break;
-        }
-
-        return null;
+        return withData ? null : (T) DdeRequestStatus.UNKNOWN.name();
     }
 
     /** Method stops DDE advise loop */
@@ -733,7 +709,7 @@ public class TwsService {
     }
     
     public void notifyDde(DdeNotificationEvent ddeEvent) {
-        m_socketDdeBridge.notifyDde(ddeEvent);
+        m_notifyClients.accept(ddeEvent);
     }
 
     /* *****************************************************************************************************
@@ -771,12 +747,8 @@ public class TwsService {
     
     /** Called when TWS interrupts the connection */
     public void disconnect() {
-        try {
-            System.out.println("Stopping SocketDdeBridge ...");
-            m_socketDdeBridge.stop();
-        } catch (DDEException e) {
-            System.out.println("Failed to stop SocketDdeBridge! " + e);
-        }
+        System.out.println("Stopping SocketDdeBridge ...");
+        m_stopDdeSocketBridge.run();
     }
 
     

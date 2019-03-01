@@ -3,6 +3,9 @@
 
 package com.ib.api.dde;
 
+import java.util.function.BiConsumer;
+
+import com.ib.api.dde.SocketDdeBridge.FunctionWithFourParams;
 import com.ib.api.dde.dde2socket.requests.DdeRequestStatus;
 import com.pretty_tools.dde.ClipboardFormat;
 import com.pretty_tools.dde.server.DDEServer;
@@ -10,11 +13,13 @@ import com.pretty_tools.dde.server.DDEServer;
 /** Class acts as TwsDdeServer */
 public class TwsDdeServer extends DDEServer {
 
-    private final SocketDdeBridge m_socketDdeBridge;
-
-    TwsDdeServer(String serviceName, SocketDdeBridge socketDdeBridge) {
+    private final BiConsumer<String, String> m_handleStopAdvise;
+    private final FunctionWithFourParams m_handleDdeRequest;
+    
+    TwsDdeServer(String serviceName, FunctionWithFourParams handleDdeRequest, BiConsumer<String, String> handleStopAdvise) {
         super(serviceName);
-        m_socketDdeBridge = socketDdeBridge;
+        m_handleDdeRequest = handleDdeRequest;
+        m_handleStopAdvise = handleStopAdvise;
     }
 
      @Override
@@ -53,7 +58,7 @@ public class TwsDdeServer extends DDEServer {
          //System.out.println(str);
          
          try {
-             m_socketDdeBridge.handleDdeRequestWithData(topic, item, data);
+             m_handleDdeRequest.function(topic, item, data, true);
          } catch(Exception ex) {
              System.out.println("Failed to handle request: " + ex);
          }
@@ -67,7 +72,7 @@ public class TwsDdeServer extends DDEServer {
         // topic=tik item=id0?bidSize
         System.out.println("onRequest: Topic: [" + topic + "] Item: [" + item + "].");
         try {
-            return m_socketDdeBridge.handleDdeRequest(topic, item);
+            return m_handleDdeRequest.function(topic, item, (String)null, false);
         } catch(Exception ex) {
             System.out.println("Failed to handle request: " + ex);
         }
@@ -81,9 +86,7 @@ public class TwsDdeServer extends DDEServer {
         // topic=cancelMktData item=id0
         System.out.println("onRequest 2: Topic: [" + topic + "] Item: [" + item + "].");
          try {
-
-             byte[] ret = m_socketDdeBridge.handleDdeRequestWithData(topic, item, null);
-             return ret;
+             return m_handleDdeRequest.function(topic, item, (byte[])null, true);
          } catch(Exception ex) {
              System.out.println("Failed to handle request: " + ex);
          }
@@ -101,7 +104,7 @@ public class TwsDdeServer extends DDEServer {
     protected void onStopAdvise(String topic, String item, int uFmt, long hconv)
     {
         System.out.println("onStopAdvise: Topic: [" + topic + "] Item: [" + item + "].");
-        m_socketDdeBridge.handleDdeStopAdvise(topic, item);
+        m_handleStopAdvise.accept(topic, item);
     }
     
     
