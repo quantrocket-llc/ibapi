@@ -3,4 +3,7 @@
 *.xls -text -eol
 *.png	binary
 *.PNG	binary
-*.dll binary
+*.dll	binary
+*.DLL	binary
+*.jar	binary
+*.JAR	binary
