@@ -87,6 +87,10 @@ public class ApiController implements EWrapper {
 		void show(String string);
 	}
 
+	public ApiController( IConnectionHandler handler) {
+		this(handler, null, null);
+	}
+
 	public ApiController( IConnectionHandler handler, ILogger inLogger, ILogger outLogger) {
 		m_connectionHandler = handler;
 		m_client = new ApiConnection( this, inLogger, outLogger);
@@ -1270,11 +1274,15 @@ public class ApiController implements EWrapper {
 	}
 
 	protected void sendEOM() {
-		m_outLogger.log( "\n");
+		if (m_outLogger != null) {
+			m_outLogger.log( "\n");
+		}
 	}
 
 	private void recEOM() {
-		m_inLogger.log( "\n");
+		if (m_inLogger != null) {
+			m_inLogger.log( "\n");
+		}
 	}
 
 	public void show(String string) {
