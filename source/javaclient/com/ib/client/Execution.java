@@ -76,6 +76,7 @@ public class Execution {
     public double evMultiplier() { return m_evMultiplier; }
     public String modelCode()    { return m_modelCode; }
     public Liquidities lastLiquidity()   { return m_lastLiquidity; }
+    public String lastLiquidityStr()     { return m_lastLiquidity.toString(); }
     
     // Set 
     public void orderId(int orderId)              { m_orderId = orderId; }

@@ -89,7 +89,8 @@ End Function
 Function rowEquals(ByVal rowNum As Integer, ByRef arrayRow() As Variant) As Boolean
     Dim colCtr As Integer
     For colCtr = PORTS_KEY_COLUMN To PORTS_KEY_COLUMN + PORTS_NUM_KEY_COLUMNS
-        If Range(portsDataRange).rows(rowNum).Cells(1, colCtr) <> arrayRow(colCtr) Then
+        
+        If CStr(Range(portsDataRange).rows(rowNum).Cells(1, colCtr).value) <> CStr(arrayRow(colCtr)) Then
             rowEquals = False
             Exit Function
         End If

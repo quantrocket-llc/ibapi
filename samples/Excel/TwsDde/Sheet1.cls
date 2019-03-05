@@ -166,7 +166,7 @@ Attribute requestMarketData.VB_ProcData.VB_Invoke_Func = "R\n14"
     Dim efpTickTypes As Variant
     efpTickTypes = Array("BidEFP", "AskEFP", "LastEFP", "OpenEFP", "HighEFP", "LowEFP", "CloseEFP")
 
-    If setSecType = util.BAG And setExchange = util.IBEFP Then
+    If setSecType = util.BAG Then
         ActiveCell.offset(0, efpOffset).Formula = util.composeLink(server, topic, id, "HoldDays")
         ActiveCell.offset(0, efpOffset + 1).Formula = util.composeLink(server, topic, id, "FuturesExpiry")
         ActiveCell.offset(0, efpOffset + 2).Formula = util.composeLink(server, topic, id, "DividendsToExpiry")
