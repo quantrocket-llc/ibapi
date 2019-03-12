@@ -586,5 +586,16 @@ public class ContractSamples {
 		//! [csfb_contract]
 		return contract;
 	}
-
+	
+	public static Contract QBAlgoContract() {
+		//! [qbalgo_contract]
+		Contract contract = new Contract();
+		contract.symbol("ES");
+		contract.secType("FUT");
+		contract.exchange("QBALGO");
+		contract.currency("USD");
+		contract.lastTradeDateOrContractMonth("202003");
+		//! [qbalgo_contract]
+		return contract;
+	}
 }

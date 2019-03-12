@@ -291,4 +291,22 @@ public class AvailableAlgoParams {
 	}
 	//! [csfb_inline_params]
 	
+	//! [qbalgo_strobe_params]
+	public static void FillQBAlgoInlineParams(Order baseOrder, String startTime, String endTime, double duration, String benchmark,
+											double percentVolume, boolean noCleanUp) {
+		
+		baseOrder.algoStrategy("STROBE");
+
+		baseOrder.algoParams(new ArrayList<>());
+		baseOrder.algoParams().add(new TagValue("StartTime", startTime));
+		baseOrder.algoParams().add(new TagValue("EndTime", endTime));
+		//This example uses endTime instead of duration 
+		//baseOrder.algoParams().add(new TagValue("Duration", String.valueOf(duration)));
+		baseOrder.algoParams().add(new TagValue("Benchmark", benchmark));
+		baseOrder.algoParams().add(new TagValue("PercentVolume", String.valueOf(percentVolume)));
+		baseOrder.algoParams().add(new TagValue("NoCleanUp", noCleanUp ? "1" : "0"));
+
+	}
+	//! [qbalgo_strobe_params]
+	
 }
