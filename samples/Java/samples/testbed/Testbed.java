@@ -652,6 +652,11 @@ public class Testbed {
 		client.placeOrder(nextOrderId++, ContractSamples.CSFBContract(), baseOrder);
 		//! [csfb_inline_algo]
 
+		//! [qbalgo_strobe_algo]
+		AvailableAlgoParams.FillQBAlgoInlineParams(baseOrder, "10:00:00 EST", "16:00:00 EST", -99, "TWAP", 0.25, true );
+		client.placeOrder(nextOrderId++, ContractSamples.QBAlgoContract(), baseOrder);
+		//! [qbalgo_strobe_algo]
+		
 	}
 	
 	private static void bracketSample(EClientSocket client, int nextOrderId) {
