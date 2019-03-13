@@ -98,7 +98,7 @@
 	
 	\section open_order The openOrder callback
 	
-The @ref IBApi::EWrapper::openOrder method delivers an @ref IBApi::Order object representing an open order within the system. In addition, @ref IBApi::EWrapper::openOrder returns an an @ref IBApi::OrderState object that is used to return estimated pre-trade margin and commission information in response to invoking IBApi.EClient.placeOrder with a @ref IBApi::Order object that has the flag @ref IBApi.Order.WhatIf flag set to True. See also: <a href="http://interactivebrokers.github.io/tws-api/margin.html" target="_blank">Checking Margin Changes</a>.
+	The @ref IBApi::EWrapper::openOrder method delivers an @ref IBApi::Order object representing an open order within the system. In addition, @ref IBApi::EWrapper::openOrder returns an an @ref IBApi::OrderState object that is used to return estimated pre-trade margin and commission information in response to invoking IBApi.EClient.placeOrder with a @ref IBApi::Order object that has the flag @ref IBApi.Order.WhatIf flag set to True. See also: <a href="http://interactivebrokers.github.io/tws-api/margin.html" target="_blank">Checking Margin Changes</a>.
 	
 	<ul id="tab">
 		<li class="active">
