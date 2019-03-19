@@ -1127,6 +1127,9 @@
 			<td>10090</td><td>Part of requested market data is not subscribed.</td>
 			<td>Indicates that some tick types requested require additional market data subscriptions not held in the account. This commonly occurs for instance if a user has options subscriptions but not the underlying stock so the system cannot calculate the real time greek values (other default ticks will be returned). Or alternatively, if generic tick types are specified in a market data request without the associated subscriptions.</td>
 		</tr>
+        <tr>
+            <td>10148</td><td>OrderId <OrderId> that needs to be cancelled can not be cancelled, state:</td><td>An attempt was made to cancel an order that had already been filled by the system.</td>
+        </tr>
 		
 	</table>
 	

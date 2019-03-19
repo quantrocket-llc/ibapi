@@ -53,6 +53,10 @@
 			\snippet AvailableAlgoParams.py adaptive_params
 		</li>
 	</ul>
+
+    <br>
+    
+    <b>Note:</b> The Time Zone in "startTime" and "endTime" attributes is only applied when the format "hh:mm:ss TMZ" is used
 	
 	\section arrivalprice ArrivalPrice
 	
