@@ -1529,6 +1529,11 @@ class TestApp(TestWrapper, TestClient):
         self.placeOrder(self.nextOrderId(), ContractSamples.CSFBContract(), baseOrder)
         # ! [csfb_inline_algo]
 
+        # ! [qbalgo_strobe_algo]
+        AvailableAlgoParams.FillQBAlgoInLineParams(baseOrder, "10:00:00 EST", "16:00:00 EST", -99, "TWAP", 0.25, True)
+        self.placeOrder(self.nextOrderId(), ContractSamples.QBAlgoContract(), baseOrder)
+        # ! [qbalgo_strobe_algo]
+
     @printWhenExecuting
     def financialAdvisorOperations(self):
         # Requesting FA information

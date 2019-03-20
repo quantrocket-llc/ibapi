@@ -297,6 +297,24 @@ class AvailableAlgoParams(Object):
         baseOrder.algoParams.append(TagValue("IWouldPrice", iWouldPrice))
     # ! [csfb_inline_params]
 
+    # ! [qbalgo_strobe_params]
+    @staticmethod
+    def FillQBAlgoInLineParams(baseOrder: Order, startTime: str, 
+                               endTime: str, duration: float, 
+                               benchmark: str, percentVolume: float, 
+                               noCleanUp: bool):
+        # must be direct-routed to "QBALGO"
+        baseOrder.algoStrategy = "STROBE"
+        baseOrder.algoParams = []
+        baseOrder.algoParams.append(TagValue("StartTime", startTime))
+        baseOrder.algoParams.append(TagValue("EndTime", endTime))
+        #This example uses endTime instead of duration
+        #baseOrder.algoParams.append(TagValue("Duration", str(duration)))
+        baseOrder.algoParams.append(TagValue("Benchmark", benchmark)) 
+        baseOrder.algoParams.append(TagValue("PercentVolume", str(percentVolume)))
+        baseOrder.algoParams.append(TagValue("NoCleanUp", int(noCleanUp)))
+    # ! [qbalgo_strobe_params]
+
 
 def Test():
     av = AvailableAlgoParams() # @UnusedVariable

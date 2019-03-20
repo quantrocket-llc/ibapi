@@ -642,6 +642,18 @@ class ContractSamples:
         # ! [cashcfd_contract]
         return contract;
 
+    @staticmethod
+    def QBAlgoContract():
+        # ! [qbalgo_contract]
+        contract = Contract()
+        contract.symbol = "ES";
+        contract.secType = "FUT";
+        contract.exchange = "QBALGO";
+        contract.currency = "USD";
+        contract.lastTradeDateOrContractMonth = "202003";
+        # ! [qbalgo_contract]
+        return contract;  
+
 def Test():
     from ibapi.utils import ExerciseStaticMethods
     ExerciseStaticMethods(ContractSamples)
