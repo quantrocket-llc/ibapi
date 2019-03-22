@@ -146,6 +146,22 @@ Namespace Samples
             Return order
         End Function
 
+		''' <summary>
+		''' A Midprice order is designed to split the difference between the bid and ask prices, and fill at the current midpoint of 
+		''' the NBBO or better. Set an optional price cap to define the highest price (for a buy order) or the lowest price (for a sell 
+		''' order) you are willing to accept. Requires TWS 975+. Smart-routing to US stocks only.
+        ''' </summary>
+        Public Shared Function Midprice(action As String, quantity As Double, priceCap As Double) As Order
+            '! [midprice]
+            Dim order As Order = New Order
+            order.Action = action
+            order.OrderType = "MIDPRICE"
+            order.TotalQuantity = quantity
+			order.LmtPrice = priceCap  ''' optional
+            '! [midprice]
+            Return order
+        End Function
+				
         ''' <summary>
         ''' A pegged-to-market order Is designed to maintain a purchase price relative to the national best offer (NBO) Or a sale price 
         ''' relative to the national best bid (NBB). Depending on the width of the quote, this order may be passive Or aggressive. 

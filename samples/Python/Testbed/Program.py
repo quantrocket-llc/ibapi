@@ -1463,6 +1463,10 @@ class TestApp(TestWrapper, TestClient):
         self.placeOrder(self.nextOrderId(), ContractSamples.USStockAtSmart(), baseOrder)
         # ! [darkice]
 
+        # ! [place_midprice]
+        self.placeOrder(self.nextOrderId(), ContractSamples.USStockAtSmart(), OrderSamples.Midprice("BUY", 1, 150))
+        # ! [place_midprice]
+		
         # ! [ad]
         # The Time Zone in "startTime" and "endTime" attributes is ignored and always defaulted to GMT
         AvailableAlgoParams.FillAccumulateDistributeParams(baseOrder, 10, 60, True, True, 1, True, True, "20161010-12:00:00 GMT", "20161010-16:00:00 GMT")

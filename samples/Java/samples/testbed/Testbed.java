@@ -145,6 +145,10 @@ public class Testbed {
         client.placeOrder(nextOrderId++, ContractSamples.USStock(), OrderSamples.LimitOrder("SELL", 1, 50));
         //! [order_submission]
         
+		//! [place_midprice]
+        client.placeOrder(nextOrderId++, ContractSamples.USStockAtSmart(), OrderSamples.Midprice("BUY", 1, 150));
+        //! [place_midprice]
+		
         //! [faorderoneaccount]
         Order faOrderOneAccount = OrderSamples.MarketOrder("BUY", 100);
         // Specify the Account Number directly

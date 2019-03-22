@@ -175,12 +175,42 @@
 		</li>
 	</ul>
 	
+	\section midprice Midprice
+	A <a target="_blank" class="linkexternal" href="https://www.interactivebrokers.com/en/index.php?f=36735">Midprice</a> order is designed to split the difference between the bid and ask prices, and fill at the current midpoint of the NBBO or better. Set an optional price cap to define the highest price (for a buy order) or the lowest price (for a sell order) you are willing to accept. 
+	Requires TWS 975+. Smart-routing to US stocks only.
+	<ul>
+		<li>Products: US STK</li>
+		<li>Exchanges: Smart-routing only</li>
+	</ul> 	
+	<ul id="tab">
+		<li class="active">
+			\snippet OrderSamples.cs midprice
+			\snippet Program.cs place_midprice
+		</li>
+		<li> 
+			\snippet OrderSamples.java midprice
+			\snippet Testbed.java place_midprice
+		</li>
+		<li> 
+			\snippet OrderSamples.vb midprice
+			\snippet MainModule.vb	place_midprice
+		</li>
+		<li> 
+			\snippet OrderSamples.cpp midprice
+			\snippet TestCppClient.cpp place_midprice	
+		</li>
+		<li> 
+			\snippet OrderSamples.py midprice
+			\snippet Program.py place_midprice
+		</li>
+	</ul>
+	
 	\section darkice DarkIce
 	
 	The <a href="https://www.interactivebrokers.com/en/index.php?f=3123" target="_blank" class="linkexternal">Dark Ice</a> order type develops the concept of privacy adopted by orders such 
 	as Iceberg or Reserve, using a proprietary algorithm to further hide the volume displayed to the market by the order. Clients can determine the timeframe an order remains live and have 
 	the option to allow trading past end time in the event it is unfilled by the stated end time. In order to minimize market impact in the event of large orders, users can specify a display 
-	size to be shown to the market different from the actual order size. Additionally, the Dark Ice algo randomizes the display size +/- 50% based upon the probability of the price moving favorably. 
+	size to be shown to the market different from the actual order size. Additionally, the Dark Ice algo randomizes the display size +/- 50% based upon the probability of the price moving favourably. 
 	Further, using calculated probabilities, the algo decides whether to place the order at the limit price or one tick lower than the current offer for buy orders and one tick higher than the 
 	current bid for sell orders.
 	
