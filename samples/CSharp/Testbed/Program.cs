@@ -681,6 +681,10 @@ namespace Samples
             client.placeOrder(nextOrderId++, ContractSamples.USStock(), OrderSamples.TrailingStopLimit("BUY", 1, 5, 5, 110));
             //! [order_submission]
 
+			//! [place_midprice]
+			client.placeOrder(nextOrderId++, ContractSamples.USStockAtSmart(), OrderSamples.Midprice("BUY", 1, 150));
+			//! [place_midprice]
+			
             //! [faorderoneaccount]
             Order faOrderOneAccount = OrderSamples.MarketOrder("BUY", 100);
             // Specify the Account Number directly

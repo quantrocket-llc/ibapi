@@ -96,6 +96,17 @@ public class OrderSamples {
 		return order;
 	}
 
+	public static Order Midprice(String action, double quantity, double priceCap) {
+		//! [midprice]
+		Order order = new Order();
+		order.action(action);
+		order.orderType("MIDPRICE");
+		order.totalQuantity(quantity);
+		order.lmtPrice(priceCap); // optional
+		//! [midprice]
+		return order;
+	}
+	
 	public static Order PeggedToMarket(String action, double quantity, double marketOffset) {
 		//! [pegged_market]
 		Order order = new Order();

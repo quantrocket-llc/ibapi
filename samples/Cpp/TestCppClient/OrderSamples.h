@@ -19,6 +19,7 @@ public:
 	static Order MarketOnClose(std::string action, double quantity);
 	static Order MarketOnOpen(std::string action, double quantity);
 	static Order MidpointMatch(std::string action, double quantity);
+	static Order Midprice(std::string action, double quantity, double priceCap);
 	static Order PeggedToMarket(std::string action, double quantity, double marketOffset);
 	static Order PeggedToStock(std::string action, double quantity, double delta, double stockReferencePrice, double startingPrice);
 	static Order RelativePeggedToPrimary(std::string action, double quantity, double priceCap, double offsetAmount);

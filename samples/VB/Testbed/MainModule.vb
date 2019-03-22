@@ -609,6 +609,10 @@ Module MainModule
         client.placeOrder(increment(nextOrderId), ContractSamples.USStock(), OrderSamples.LimitOrder("SELL", 1, 50))
         '! [order_submission]
 
+		'! [place_midprice]
+        client.placeOrder(increment(nextOrderId), ContractSamples.USStockAtSmart(), OrderSamples.Midprice("BUY", 1, 150))
+        '! [place_midprice]
+		
         '! [faorderoneaccount]
         Dim faOrderOneAccount As Order = OrderSamples.MarketOrder("BUY", 100)
         ' Specify the Account Number directly
