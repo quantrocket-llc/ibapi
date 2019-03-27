@@ -106,12 +106,13 @@ const int MIN_SERVER_VER_SMART_DEPTH                = 146;
 const int MIN_SERVER_VER_REMOVE_NULL_ALL_CASTING    = 147;
 const int MIN_SERVER_VER_D_PEG_ORDERS               = 148;
 const int MIN_SERVER_VER_MKT_DEPTH_PRIM_EXCHANGE    = 149;
+const int MIN_SERVER_VER_PRICE_MGMT_ALGO    = 151;
 
 /* 100+ messaging */
 // 100 = enhanced handshake, msg length prefixes
 
 const int MIN_CLIENT_VER = 100;
-const int MAX_CLIENT_VER = MIN_SERVER_VER_MKT_DEPTH_PRIM_EXCHANGE;
+const int MAX_CLIENT_VER = MIN_SERVER_VER_PRICE_MGMT_ALGO;
 
 
 // incoming msg id's

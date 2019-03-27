@@ -1800,6 +1800,11 @@ namespace IBApi
                 order.DiscretionaryUpToLimitPrice = ReadBoolFromInt();
             }
 
+            if (serverVersion >= MinServerVer.PRICE_MGMT_ALGO)
+            {
+                order.UsePriceMgmtAlgo = ReadBoolFromInt();
+            }
+
             eWrapper.openOrder(order.OrderId, contract, order, orderState);
         }
 

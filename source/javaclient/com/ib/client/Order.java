@@ -207,6 +207,7 @@ public class Order {
     
     private boolean m_isOmsContainer;
     private boolean m_discretionaryUpToLimitPrice;
+    private boolean m_usePriceMgmtAlgo;
 	
 	// getters
     public Action  action()                         { return Action.get(m_action); }
@@ -341,6 +342,7 @@ public class Order {
     public boolean dontUseAutoPriceForHedge()       { return m_dontUseAutoPriceForHedge; }
     public boolean isOmsContainer()                 { return m_isOmsContainer; }
     public boolean discretionaryUpToLimitPrice()    { return m_discretionaryUpToLimitPrice; }
+    public boolean usePriceMgmtAlgo()               { return m_usePriceMgmtAlgo; }
   
 	// setters
 	public void referenceContractId(int m_referenceContractId)          { this.m_referenceContractId = m_referenceContractId; }
@@ -476,6 +478,7 @@ public class Order {
     public void dontUseAutoPriceForHedge(boolean v)                     { m_dontUseAutoPriceForHedge = v; }
     public void isOmsContainer(boolean v)                               { m_isOmsContainer = v; }
     public void discretionaryUpToLimitPrice(boolean v)                  { m_discretionaryUpToLimitPrice = v; }
+    public void usePriceMgmtAlgo(boolean v)                             { m_usePriceMgmtAlgo = v; }
 
 
     public Order() {

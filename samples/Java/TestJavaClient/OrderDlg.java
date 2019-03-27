@@ -85,6 +85,7 @@ public class OrderDlg extends JDialog {
     private JTextField m_exerciseQuantityTextField = new JTextField("1");
     private JTextField m_overrideTextField = new JTextField("0");
     private JComboBox<String> m_marketDataTypeCombo = new JComboBox<>(MarketDataType.getFields());
+    private JCheckBox m_usePriceMgmtAlgo = new JCheckBox("Use Price Management Algo", false);
 
     private JButton	    m_sharesAlloc = new JButton("FA Allocation Info...");
     private JButton 	m_comboLegs = new JButton( "Combo Legs");
@@ -189,6 +190,7 @@ public class OrderDlg extends JDialog {
         pOrderDetails.addGBComponent(m_goodTillDate, gbc, COL2_WIDTH, GridBagConstraints.REMAINDER);
         pOrderDetails.addGBComponent(new JLabel( "Cash Quantity"), gbc, COL1_WIDTH, GridBagConstraints.RELATIVE );
         pOrderDetails.addGBComponent(m_cashQty, gbc, COL2_WIDTH, GridBagConstraints.REMAINDER);
+        pOrderDetails.addGBComponent(m_usePriceMgmtAlgo, gbc, COL1_WIDTH, GridBagConstraints.RELATIVE);
 
         // create marketDepth panel
         IBGridBagPanel pMarketDepth = new IBGridBagPanel();
@@ -440,6 +442,8 @@ public class OrderDlg extends JDialog {
             m_order.faProfile(m_faProfile);
             m_order.faMethod(m_faMethod);
             m_order.faPercentage(m_faPercentage);
+            
+            m_order.usePriceMgmtAlgo(m_usePriceMgmtAlgo.isSelected());
 
             // set historical data fields
             m_exerciseAction = Integer.parseInt( m_exerciseActionTextField.getText() );

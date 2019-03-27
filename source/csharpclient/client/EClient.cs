@@ -1168,6 +1168,11 @@ namespace IBApi
                 paramsList.AddParameter(order.DiscretionaryUpToLimitPrice);
             }
 
+            if (serverVersion >= MinServerVer.PRICE_MGMT_ALGO)
+            {
+                paramsList.AddParameter(order.UsePriceMgmtAlgo);
+            }
+
             CloseAndSend(id, paramsList, lengthPos, EClientErrors.FAIL_SEND_ORDER);
         }
 
@@ -3435,6 +3440,8 @@ namespace IBApi
                     || !IsEmpty(order.Mifid2DecisionAlgo)))
             {
                 ReportError(id, EClientErrors.UPDATE_TWS, " It does not support MIFID II decision maker parameters");
+
+                return false;
             }
 
             if (serverVersion < MinServerVer.DECISION_MAKER
@@ -3442,22 +3449,37 @@ namespace IBApi
                     || !IsEmpty(order.Mifid2ExecutionAlgo)))
             {
                 ReportError(id, EClientErrors.UPDATE_TWS, " It does not support MIFID II execution parameters");
+
+                return false;
             }
 
             if (serverVersion < MinServerVer.AUTO_PRICE_FOR_HEDGE
                 && order.DontUseAutoPriceForHedge)
             {
                 ReportError(id, EClientErrors.UPDATE_TWS, " It does not support don't use auto price for hedge parameter");
+
+                return false;
             }
 
             if (serverVersion < MinServerVer.ORDER_CONTAINER && order.IsOmsContainer)
             {
                 ReportError(id, EClientErrors.UPDATE_TWS, " It does not support oms container parameter.");
+
+                return false;
             }
 
             if (serverVersion < MinServerVer.D_PEG_ORDERS && order.DiscretionaryUpToLimitPrice)
             {
                 ReportError(id, EClientErrors.UPDATE_TWS, " It does not support D-Peg orders.");
+
+                return false;
+            }
+
+            if (serverVersion < MinServerVer.PRICE_MGMT_ALGO && order.UsePriceMgmtAlgo)
+            {
+                ReportError(id, EClientErrors.UPDATE_TWS, " It does not support Use Price Management Algo requests.");
+
+                return false;
             }
 
             return true;

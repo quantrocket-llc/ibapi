@@ -271,6 +271,7 @@ class TicketDlg extends JDialog {
         final UpperField m_mifid2DecisionAlgo = new UpperField();
         final UpperField m_mifid2ExecutionTrader = new UpperField();
         final UpperField m_mifid2ExecutionAlgo = new UpperField();
+        final JCheckBox m_usePriceMgmtAlgo = new JCheckBox();
 
 		OrderPanel() {
 			m_orderType.removeItemAt( 0); // remove None
@@ -292,6 +293,7 @@ class TicketDlg extends JDialog {
 			m_mifid2DecisionAlgo.setText(m_order.mifid2DecisionAlgo());
 			m_mifid2ExecutionTrader.setText(m_order.mifid2ExecutionTrader());
 			m_mifid2ExecutionAlgo.setText(m_order.mifid2ExecutionAlgo());
+			m_usePriceMgmtAlgo.setSelected(m_order.usePriceMgmtAlgo());
 			
 			add("Account", m_account);
 			
@@ -316,6 +318,8 @@ class TicketDlg extends JDialog {
 			if (m_contract.isCombo() ) {
 				add( "Non-guaranteed", m_nonGuaranteed);
 			}
+			
+			add("Use Price Management Algo", m_usePriceMgmtAlgo);
 		}
 		
 		private void onOK() {
@@ -335,6 +339,7 @@ class TicketDlg extends JDialog {
 			m_order.mifid2DecisionAlgo(m_mifid2DecisionAlgo.getText());
 			m_order.mifid2ExecutionTrader(m_mifid2ExecutionTrader.getText());
 			m_order.mifid2ExecutionAlgo(m_mifid2ExecutionAlgo.getText());
+			m_order.usePriceMgmtAlgo(m_usePriceMgmtAlgo.isSelected());
 			
 			if (m_contract.isCombo() ) {
 				TagValue tv = new TagValue( ComboParam.NonGuaranteed.toString(), m_nonGuaranteed.isSelected() ? "1" : "0");

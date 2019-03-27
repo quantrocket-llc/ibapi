@@ -1021,6 +1021,10 @@ class EClient(object):
                         " It does not support oms container parameter")
             return
 
+        if self.serverVersion() < MIN_SERVER_VER_PRICE_MGMT_ALGO and order.usePriceMgmtAlgo:
+            self.wrapper.error(orderId, UPDATE_TWS.code(), UPDATE_TWS.msg() + " It does not support Use price management algo requests")
+            return
+
         VERSION = 27 if (self.serverVersion() < MIN_SERVER_VER_NOT_HELD) else 45
 
         # send place order msg
@@ -1341,6 +1345,9 @@ class EClient(object):
 
         if self.serverVersion() >= MIN_SERVER_VER_D_PEG_ORDERS:
             flds.append(make_field(order.discretionaryUpToLimitPrice))
+
+        if self.serverVersion() >= MIN_SERVER_VER_PRICE_MGMT_ALGO:
+            flds.append(make_field(order.usePriceMgmtAlgo))
 
         msg = "".join(flds)
         self.sendMsg(msg)

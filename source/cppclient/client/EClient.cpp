@@ -1460,6 +1460,13 @@ void EClient::placeOrder( OrderId id, const Contract& contract, const Order& ord
             return;
     }
 
+    if (m_serverVersion < MIN_SERVER_VER_PRICE_MGMT_ALGO
+        && order.usePriceMgmtAlgo) {
+            m_pEWrapper->error(id, UPDATE_TWS.code(), UPDATE_TWS.msg() + " It does not support Use Price Management Algo requests");
+
+            return;
+    }
+
     std::stringstream msg;
     prepareBuffer( msg);
 
@@ -1870,6 +1877,10 @@ void EClient::placeOrder( OrderId id, const Contract& contract, const Order& ord
 
     if (m_serverVersion >= MIN_SERVER_VER_D_PEG_ORDERS) {
         ENCODE_FIELD(order.discretionaryUpToLimitPrice);
+    }
+
+    if (m_serverVersion >= MIN_SERVER_VER_PRICE_MGMT_ALGO) {
+        ENCODE_FIELD(order.usePriceMgmtAlgo);
     }
 
     closeAndSend( msg.str());

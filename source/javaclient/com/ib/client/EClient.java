@@ -286,9 +286,10 @@ public abstract class EClient {
     protected static final int MIN_SERVER_VER_REMOVE_NULL_ALL_CASTING = 147;
     protected static final int MIN_SERVER_VER_D_PEG_ORDERS = 148;
     protected static final int MIN_SERVER_VER_MKT_DEPTH_PRIM_EXCHANGE = 149;
+    protected static final int MIN_SERVER_VER_PRICE_MGMT_ALGO = 151;
     
     public static final int MIN_VERSION = 100; // envelope encoding, applicable to useV100Plus mode only
-    public static final int MAX_VERSION = MIN_SERVER_VER_MKT_DEPTH_PRIM_EXCHANGE; // ditto
+    public static final int MAX_VERSION = MIN_SERVER_VER_PRICE_MGMT_ALGO; // ditto
 
     protected EReaderSignal m_signal;
     protected EWrapper m_eWrapper;    // msg handler
@@ -1585,6 +1586,11 @@ public abstract class EClient {
                     "  It does not support D-Peg orders.");
             return;           
         }
+        
+        if (m_serverVersion < MIN_SERVER_VER_PRICE_MGMT_ALGO 
+                && order.usePriceMgmtAlgo()) {
+            error(id, EClientErrors.UPDATE_TWS, "  It does not support price management algo parameter");
+        }
 
 
         int VERSION = (m_serverVersion < MIN_SERVER_VER_NOT_HELD) ? 27 : 45;
@@ -2005,6 +2011,10 @@ public abstract class EClient {
            
            if (m_serverVersion >= MIN_SERVER_VER_D_PEG_ORDERS) {
                b.send(order.discretionaryUpToLimitPrice());
+           }
+           
+           if (m_serverVersion >= MIN_SERVER_VER_PRICE_MGMT_ALGO) {
+               b.send(order.usePriceMgmtAlgo());
            }
 
            closeAndSend(b);

@@ -315,5 +315,8 @@ namespace TWSLib
 
         [DispId(175)]
         bool discretionaryUpToLimitPrice { get; set; }
+
+        [DispId(176)]
+        bool usePriceMgmtAlgo { get; set; }
     }
 }
