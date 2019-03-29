@@ -1517,5 +1517,7 @@ namespace IBApi
         * @brief Set to true to convert order of type 'Primary Peg' to 'D-Peg'
         */
         public bool DiscretionaryUpToLimitPrice { get; set; }
+
+        public bool UsePriceMgmtAlgo { get; set; }
     }
 }

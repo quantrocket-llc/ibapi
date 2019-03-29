@@ -722,6 +722,10 @@ const char* EDecoder::processOpenOrderMsg(const char* ptr, const char* endPtr) {
         DECODE_FIELD(order.discretionaryUpToLimitPrice);
     }
 
+    if (m_serverVersion >= MIN_SERVER_VER_PRICE_MGMT_ALGO) {
+        DECODE_FIELD(order.usePriceMgmtAlgo);
+    }
+
 	m_pEWrapper->openOrder((OrderId)order.orderId, contract, order, orderState);
 
 	return ptr;

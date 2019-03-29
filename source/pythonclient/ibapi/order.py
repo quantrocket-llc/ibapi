@@ -200,6 +200,8 @@ class Order(Object):
 
         self.discretionaryUpToLimitPrice = False
 
+        self.usePriceMgmtAlgo = False
+
     def __str__(self):
         s = "%s,%d,%s:" % (self.orderId, self.clientId, self.permId)
 

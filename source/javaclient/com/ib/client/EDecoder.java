@@ -1715,6 +1715,10 @@ class EDecoder implements ObjectInput {
 		    order.discretionaryUpToLimitPrice(readBoolFromInt());
 		}
 		
+		if (m_serverVersion >= EClient.MIN_SERVER_VER_PRICE_MGMT_ALGO) {
+		    order.usePriceMgmtAlgo(readBoolFromInt());
+		}
+		
 		m_EWrapper.openOrder(order.orderId(), contract, order, orderState);
 	}
 

@@ -160,6 +160,7 @@ struct Order
 
         isOmsContainer = false;
         discretionaryUpToLimitPrice = false;
+        usePriceMgmtAlgo = false;
 	}
 
 	// order identifier
@@ -338,6 +339,8 @@ struct Order
     bool isOmsContainer;
 
     bool discretionaryUpToLimitPrice;
+
+    bool usePriceMgmtAlgo;
 
 public:
 

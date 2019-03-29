@@ -438,6 +438,9 @@ class Decoder(Object):
         if self.serverVersion >= MIN_SERVER_VER_D_PEG_ORDERS:
             order.discretionaryUpToLimitPrice = decode(bool, fields)
 
+        if self.serverVersion >= MIN_SERVER_VER_PRICE_MGMT_ALGO:
+            order.usePriceMgmtAlgo = decode(bool, fields)
+
         self.wrapper.openOrder(order.orderId, contract, order, orderState)
 
 
