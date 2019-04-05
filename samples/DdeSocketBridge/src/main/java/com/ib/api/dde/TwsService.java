@@ -54,6 +54,7 @@ import com.ib.api.dde.socket2dde.data.MarketDepthData;
 import com.ib.api.dde.socket2dde.data.NewsBulletinData;
 import com.ib.api.dde.socket2dde.data.NewsData;
 import com.ib.api.dde.socket2dde.data.OpenOrderData;
+import com.ib.api.dde.socket2dde.data.OrderData;
 import com.ib.api.dde.socket2dde.data.OrderStatusData;
 import com.ib.api.dde.socket2dde.data.PositionData;
 import com.ib.api.dde.socket2dde.data.ScannerData;
@@ -454,12 +455,6 @@ public class TwsService {
             case REQ_CURRENT_TIME:
                 return (T) m_miscHandler.handleCurrentTimeRequest();
 
-            // TODO: ?????
-//            case REQ_CURRENT_TIME:
-  //              m_miscHandler.handleCurrentTimeRequest();
-    //            break;
-
-
             // market rule
             case REQUEST_MARKET_RULE:
                 return withData ? (T) m_contractDetailsHandler.handleMarketRuleArrayRequest(requestStr) : (T) m_contractDetailsHandler.handleMarketRuleRequest(requestStr);
@@ -497,8 +492,11 @@ public class TwsService {
             // global cancel
             case GLOBAL_CANCEL:
                 return (T) m_ordersHandler.handleGlobalCancel(requestStr);
-                
-                
+
+            // completed orders
+            case REQ_COMPLETED_ORDERS:
+                return withData ? (T) m_ordersHandler.handleCompletedOrdersArrayRequest(requestStr) : (T) m_ordersHandler.handleCompletedOrdersRequest(requestStr);
+
             // old-style
             case TIK:
                 return (T) m_oldMarketDataHandler.handleTickRequest(requestStr, false);
@@ -670,6 +668,10 @@ public class TwsService {
             case REPLACE_FA:
                 m_accountUpdatesMultiHandler.handleFAReplaceStopAdvise(requestStr);
                 break;
+            case REQ_COMPLETED_ORDERS:
+                m_ordersHandler.handleCompletedOrdersCancel();
+                break;
+                
             
             // old-style
             case TIK:
@@ -811,6 +813,16 @@ public class TwsService {
         m_oldOrdersHandler.updateOpenOrderEnd();
     }
 
+    /** Method updates completed order data */
+    public void updateCompletedOrderData(OrderData completedOrderData) {
+        m_ordersHandler.updateCompletedOrderData(completedOrderData);
+    }
+
+    /** Method updates completed orders end */
+    public void updateCompletedOrdersEnd() {
+        m_ordersHandler.updateCompletedOrdersEnd();
+    }
+    
     /* *****************************************************************************************************
      *                                             Errors
     /* *****************************************************************************************************/

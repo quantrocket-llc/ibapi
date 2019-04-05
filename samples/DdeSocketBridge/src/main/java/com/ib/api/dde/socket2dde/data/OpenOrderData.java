@@ -8,26 +8,17 @@ import com.ib.client.Order;
 import com.ib.client.OrderState;
 
 /** Class represents open order data received from TWS */
-public class OpenOrderData {
+public class OpenOrderData extends OrderData {
     private final int m_orderId;
-    private Contract m_contract;
-    private Order m_order;
-    private OrderState m_orderState;
     private OrderStatusData m_orderStatus;
     private boolean m_isUpdated;
 
     // gets
     public int orderId()             { return m_orderId; }
-    public Contract contract()       { return m_contract; }
-    public Order order()             { return m_order; }
-    public OrderState orderState()   { return m_orderState; }
     public OrderStatusData orderStatus() { return m_orderStatus; }
     public boolean isUpdated()       { return m_isUpdated; }
     
     // sets
-    public void contract(Contract contract) { m_contract = contract; }
-    public void order(Order order) { m_order = order; }
-    public void orderState(OrderState orderState) { m_orderState = orderState; }
     public void orderStatus(OrderStatusData orderStatus) { m_orderStatus = orderStatus; }
     public void isUpdated(boolean isUpdated) { m_isUpdated = isUpdated; }
 
@@ -38,10 +29,8 @@ public class OpenOrderData {
     }
     
     public OpenOrderData(int orderId, Contract contract, Order order, OrderState orderState, boolean isUpdated) {
+        super(contract, order, orderState);
         m_orderId = orderId;
-        m_contract = contract;
-        m_order = order;
-        m_orderState = orderState;
         m_isUpdated = isUpdated;
     }
     

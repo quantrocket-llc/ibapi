@@ -13,7 +13,7 @@ import sys
 import logging
 import inspect
 
-from ibapi.common import UNSET_INTEGER, UNSET_DOUBLE
+from ibapi.common import UNSET_INTEGER, UNSET_DOUBLE, UNSET_LONG
 
 
 logger = logging.getLogger(__name__)
@@ -111,5 +111,7 @@ def ExerciseStaticMethods(klass):
 def floatToStr(val):
     return str(val) if val != UNSET_DOUBLE else "";
 
+def longToStr(val):
+    return str(val) if val != UNSET_LONG else "";
 
 

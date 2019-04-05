@@ -3296,6 +3296,27 @@ void EClient::cancelTickByTickData(int reqId) {
     closeAndSend(msg.str());    
 }
 
+void EClient::reqCompletedOrders(boolean apiOnly) {
+    if( !isConnected()) {
+        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg());
+        return;
+    }
+
+    if( m_serverVersion < MIN_SERVER_VER_COMPLETED_ORDERS) {
+        m_pEWrapper->error(NO_VALID_ID, UPDATE_TWS.code(), UPDATE_TWS.msg() +
+            "  It does not support completed orders request.");
+        return;
+    }
+
+    std::stringstream msg;
+    prepareBuffer(msg);
+
+    ENCODE_FIELD(REQ_COMPLETED_ORDERS);
+    ENCODE_FIELD(apiOnly);
+
+    closeAndSend(msg.str());    
+}
+
 bool EClient::extraAuth() {
     return m_extraAuth;
 }

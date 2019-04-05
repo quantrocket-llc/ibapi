@@ -20,6 +20,7 @@ import com.ib.api.dde.handlers.OrdersHandler;
 import com.ib.api.dde.old.requests.parser.OldRequestParser;
 import com.ib.api.dde.old.utils.OldUtils;
 import com.ib.api.dde.socket2dde.data.OpenOrderData;
+import com.ib.api.dde.socket2dde.data.OrderData;
 import com.ib.api.dde.socket2dde.data.OrderStatusData;
 import com.ib.api.dde.utils.OrderUtils;
 import com.ib.api.dde.utils.Utils;
@@ -181,9 +182,9 @@ public class OldOrdersHandler extends OrdersHandler {
     /* *****************************************************************************************************
      *                                          Other methods
     /* *****************************************************************************************************/
-    private List<OpenOrderData> syncCopyOpenOrderDataValues() {
+    private List<OrderData> syncCopyOpenOrderDataValues() {
         synchronized(m_openOrderDataMap) {
-            ArrayList<OpenOrderData> updatedOpenOrderDataList = new ArrayList<OpenOrderData>();
+            ArrayList<OrderData> updatedOpenOrderDataList = new ArrayList<OrderData>();
             for (OpenOrderData openOrderData: m_openOrderDataMap.values()){
                 updatedOpenOrderDataList.add(openOrderData);
             }

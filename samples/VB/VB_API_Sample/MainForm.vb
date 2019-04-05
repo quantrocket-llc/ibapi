@@ -115,6 +115,8 @@ Friend Class MainForm
     Friend WithEvents cmdReqHistoricalTicks As System.Windows.Forms.Button
     Friend WithEvents cmdReqTickByTick As System.Windows.Forms.Button
     Friend WithEvents cmdCancelTickByTick As System.Windows.Forms.Button
+    Friend WithEvents cmdReqCompletedOrders As System.Windows.Forms.Button
+    Friend WithEvents cmdReqAllCompletedOrders As System.Windows.Forms.Button
     Public WithEvents cmdScanner As System.Windows.Forms.Button
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.cmdReqHistoricalData = New System.Windows.Forms.Button()
@@ -188,6 +190,8 @@ Friend Class MainForm
         Me.cmdReqHistoricalTicks = New System.Windows.Forms.Button()
         Me.cmdReqTickByTick = New System.Windows.Forms.Button()
         Me.cmdCancelTickByTick = New System.Windows.Forms.Button()
+        Me.cmdReqCompletedOrders = New System.Windows.Forms.Button()
+        Me.cmdReqAllCompletedOrders = New System.Windows.Forms.Button()
         Me.SuspendLayout()
         '
         'cmdReqHistoricalData
@@ -1021,11 +1025,31 @@ Friend Class MainForm
         Me.cmdCancelTickByTick.Text = "Cancel Tick-By-Tick"
         Me.cmdCancelTickByTick.UseVisualStyleBackColor = True
         '
+        'cmdReqCompletedOrders
+        '
+        Me.cmdReqCompletedOrders.Location = New System.Drawing.Point(543, 467)
+        Me.cmdReqCompletedOrders.Name = "cmdReqCompletedOrders"
+        Me.cmdReqCompletedOrders.Size = New System.Drawing.Size(133, 22)
+        Me.cmdReqCompletedOrders.TabIndex = 71
+        Me.cmdReqCompletedOrders.Text = "Req Completed Orders"
+        Me.cmdReqCompletedOrders.UseVisualStyleBackColor = True
+        '
+        'cmdReqAllCompletedOrders
+        '
+        Me.cmdReqAllCompletedOrders.Location = New System.Drawing.Point(682, 467)
+        Me.cmdReqAllCompletedOrders.Name = "cmdReqAllCompletedOrders"
+        Me.cmdReqAllCompletedOrders.Size = New System.Drawing.Size(133, 22)
+        Me.cmdReqAllCompletedOrders.TabIndex = 72
+        Me.cmdReqAllCompletedOrders.Text = "Req All Completed Orders"
+        Me.cmdReqAllCompletedOrders.UseVisualStyleBackColor = True
+        '
         'MainForm
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
         Me.BackColor = System.Drawing.Color.Gainsboro
         Me.ClientSize = New System.Drawing.Size(1154, 638)
+        Me.Controls.Add(Me.cmdReqAllCompletedOrders)
+        Me.Controls.Add(Me.cmdReqCompletedOrders)
         Me.Controls.Add(Me.cmdCancelTickByTick)
         Me.Controls.Add(Me.cmdReqTickByTick)
         Me.Controls.Add(Me.cmdReqHistoricalTicks)
@@ -1977,6 +2001,76 @@ Friend Class MainForm
 
     End Sub
 
+    Private Sub cmdReqHeadTimestamp_Click(sender As Object, e As EventArgs) Handles cmdReqHeadTimestamp.Click
+        ' Set the dialog state
+        m_dlgOrder.init(dlgOrder.DialogType.RequestHistoricalData,
+            m_contractInfo, m_orderInfo, m_deltaNeutralContract, m_chartOptions, Me)
+
+        m_dlgOrder.ShowDialog()
+
+        m_chartOptions = m_dlgOrder.options
+
+        If m_dlgOrder.ok Then
+
+            m_api.reqHeadTimestamp(m_dlgOrder.orderId, m_contractInfo,
+                m_dlgOrder.whatToShow, m_dlgOrder.useRTH, m_dlgOrder.formatDate)
+        End If
+    End Sub
+
+    Private Sub cmdReqHistogramData_Click(sender As Object, e As EventArgs) Handles cmdReqHistogramData.Click
+        ' Set the dialog state
+        m_dlgOrder.init(dlgOrder.DialogType.RequestHistoricalData,
+            m_contractInfo, m_orderInfo, m_deltaNeutralContract, m_chartOptions, Me)
+
+        m_dlgOrder.ShowDialog()
+
+        m_chartOptions = m_dlgOrder.options
+
+        If m_dlgOrder.ok Then
+
+            m_api.reqHistogramData(m_dlgOrder.orderId, m_contractInfo,
+                m_dlgOrder.useRTH, m_dlgOrder.histDuration)
+        End If
+    End Sub
+
+    Private Sub cmdReqPnl_Click(sender As Object, e As EventArgs) Handles cmdReqPnl.Click
+        If m_dlgPnL.ShowDialog() = Windows.Forms.DialogResult.OK Then
+            m_api.reqPnL(m_dlgPnL.ReqId, m_dlgPnL.Account, m_dlgPnL.ModelCode)
+        End If
+    End Sub
+
+    Private Sub cmdCancelPnl_Click(sender As Object, e As EventArgs) Handles cmdCancelPnl.Click
+        m_api.cancelPnL(m_dlgPnL.ReqId)
+    End Sub
+
+    Private Sub cmdReqPnlSingle_Click(sender As Object, e As EventArgs) Handles cmdReqPnlSingle.Click
+        If m_dlgPnL.ShowDialog() = Windows.Forms.DialogResult.OK Then
+            m_api.reqPnLSingle(m_dlgPnL.ReqId, m_dlgPnL.Account, m_dlgPnL.ModelCode, m_dlgPnL.ConId)
+        End If
+    End Sub
+
+    Private Sub cmdCancelPnlSingle_Click(sender As Object, e As EventArgs) Handles cmdCancelPnlSingle.Click
+        m_api.cancelPnLSingle(m_dlgPnL.ReqId)
+    End Sub
+
+    Private Sub cmdReqHistoricalTicks_Click(sender As Object, e As EventArgs) Handles cmdReqHistoricalTicks.Click
+        m_dlgOrder.init(dlgOrder.DialogType.RequestHistoricalTicks,
+            m_contractInfo, m_orderInfo, m_deltaNeutralContract, m_mktDataOptions, Me)
+
+        If m_dlgOrder.ShowDialog() = Windows.Forms.DialogResult.OK Then
+            m_api.reqHistoricalTicks(m_dlgOrder.orderId, m_contractInfo, m_dlgOrder.histStartDateTime, m_dlgOrder.histEndDateTime, m_dlgOrder.numberOfTicks,
+                                     m_dlgOrder.whatToShow, m_dlgOrder.useRTH, m_dlgOrder.ignoreSize, m_dlgOrder.options)
+        End If
+    End Sub
+
+    Private Sub cmdReqCompletedOrders_Click(sender As Object, e As EventArgs) Handles cmdReqCompletedOrders.Click
+        m_api.reqCompletedOrders(True)
+    End Sub
+
+    Private Sub cmdReqAllCompletedOrders_Click(sender As Object, e As EventArgs) Handles cmdReqAllCompletedOrders.Click
+        m_api.reqCompletedOrders(False)
+    End Sub
+
 #End Region
 
 #Region "API event handlers"
@@ -2400,232 +2494,25 @@ Friend Class MainForm
     '--------------------------------------------------------------------------------
     Private Sub Api_openOrder(sender As Object, e As OpenOrderEventArgs) Handles m_apiEvents.OpenOrder
         m_utils.addListItem(Utils.ListType.ServerResponses, "OpenOrderEx called, orderId=" & e.orderId)
-
-        Dim order = e.order
-        m_utils.addListItem(Utils.ListType.ServerResponses, "Order:")
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  orderId=" & order.OrderId)
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  clientId=" & order.ClientId)
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  permId=" & order.PermId)
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  action=" & order.Action)
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  quantity=" & order.TotalQuantity)
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  orderType=" & order.OrderType)
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  lmtPrice=" & DblMaxStr(order.LmtPrice))
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  auxPrice=" & DblMaxStr(order.AuxPrice))
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  cashQty=" & DblMaxStr(order.CashQty))
-
-        Dim contract = e.contract
-        m_utils.addListItem(Utils.ListType.ServerResponses, "Contract:")
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  conId=" & contract.ConId)
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  symbol=" & contract.Symbol)
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  secType=" & contract.SecType)
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  lastTradeDate=" & contract.LastTradeDateOrContractMonth)
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  strike=" & contract.Strike)
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  right=" & contract.Right)
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  multiplier=" & contract.Multiplier)
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  exchange=" & contract.Exchange)
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  primaryExchange=" & contract.PrimaryExch)
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  currency=" & contract.Currency)
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  localSymbol=" & contract.LocalSymbol)
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  tradingClass=" & contract.TradingClass)
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  comboLegsDescrip=" & contract.ComboLegsDescription)
-
-        ' combo legs
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  comboLegs={")
-
-        If contract.ComboLegs IsNot Nothing Then
-            Dim comboLegsCount = contract.ComboLegs.Count
-
-            Dim orderComboLegsCount = 0
-            If order.OrderComboLegs IsNot Nothing Then
-                orderComboLegsCount = order.OrderComboLegs.Count()
-            End If
-
-            Dim i = 0
-            For Each comboLeg In contract.ComboLegs
-                Dim orderComboLegPriceStr = ""
-
-                If comboLegsCount = orderComboLegsCount Then
-                    Dim orderComboLeg = order.OrderComboLegs.Item(i)
-                    orderComboLegPriceStr = " price=" & DblMaxStr(orderComboLeg.Price)
-                End If
-
-                m_utils.addListItem(Utils.ListType.ServerResponses,
-                                    "    leg " & (i + 1) &
-                                    ": conId=" & comboLeg.ConId & " ratio=" & comboLeg.Ratio & " action=" & comboLeg.Action &
-                                    " exchange = " & comboLeg.Exchange & " openClose=" & comboLeg.OpenClose &
-                                    " shortSaleSlot=" & comboLeg.ShortSaleSlot & " designatedLocation=" & comboLeg.DesignatedLocation &
-                                    " exemptCode=" & comboLeg.ExemptCode & orderComboLegPriceStr)
-                i += 1
-            Next
-        End If
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  }")
-
-        Dim deltaNeutralContract = contract.DeltaNeutralContract
-
-        If (Not deltaNeutralContract Is Nothing) Then
-            With deltaNeutralContract
-                m_utils.addListItem(Utils.ListType.ServerResponses, "  deltaNeutralContract.conId=" & .ConId)
-                m_utils.addListItem(Utils.ListType.ServerResponses, "  deltaNeutralContract.delta=" & .Delta)
-                m_utils.addListItem(Utils.ListType.ServerResponses, "  deltaNeutralContract.delta=" & .Price)
-            End With
-        End If
-
-
-        m_utils.addListItem(Utils.ListType.ServerResponses, "Order (extended):")
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  timeInForce=" & order.Tif)
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  ocaGroup=" & order.OcaGroup)
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  ocaType=" & order.OcaType)
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  orderRef=" & order.OrderRef)
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  transmit=" & order.Transmit)
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  parentId=" & order.ParentId)
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  blockOrder=" & order.BlockOrder)
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  sweepToFill=" & order.SweepToFill)
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  displaySize=" & order.DisplaySize)
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  triggerMethod=" & order.TriggerMethod)
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  outsideRth=" & order.OutsideRth)
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  hidden=" & order.Hidden)
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  goodAfterTime=" & order.GoodAfterTime)
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  goodTillDate=" & order.GoodTillDate)
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  overridePercentageConstraints=" & order.OverridePercentageConstraints)
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  rule80A=" & order.Rule80A)
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  allOrNone=" & order.AllOrNone)
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  minQty=" & IntMaxStr(order.MinQty))
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  percentOffset=" & DblMaxStr(order.PercentOffset))
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  trailStopPrice=" & DblMaxStr(order.TrailStopPrice))
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  trailingPercent=" & DblMaxStr(order.TrailingPercent))
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  whatIf=" & order.WhatIf)
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  notHeld=" & order.NotHeld)
-
-        ' Financial advisors only
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  faGroup=" & order.FaGroup)
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  faProfile=" & order.FaProfile)
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  faMethod=" & order.FaMethod)
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  faPercentage=" & order.FaPercentage)
-
-        ' Clearing info
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  account=" & order.Account)
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  modelCode=" & order.ModelCode)
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  settlingFirm=" & order.SettlingFirm)
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  clearingAccount=" & order.ClearingAccount)
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  clearingIntent=" & order.ClearingIntent)
-
-        ' Institutional orders only
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  openClose=" & order.OpenClose)
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  origin=" & order.Origin)
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  shortSaleSlot=" & order.ShortSaleSlot)
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  designatedLocation=" & order.DesignatedLocation)
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  exemptCode=" & order.ExemptCode)
-
-        ' SMART routing only
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  discretionaryAmt=" & order.DiscretionaryAmt)
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  eTradeOnly=" & order.ETradeOnly)
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  firmQuoteOnly=" & order.FirmQuoteOnly)
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  nbboPriceCap=" & DblMaxStr(order.NbboPriceCap))
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  optOutSmartRouting=" & order.OptOutSmartRouting)
-
-        ' BOX or VOL orders only
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  auctionStrategy=" & order.AuctionStrategy)
-
-        ' BOX order only
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  startingPrice=" & DblMaxStr(order.StartingPrice))
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  stockRefPrice=" & DblMaxStr(order.StockRefPrice))
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  delta=" & DblMaxStr(order.Delta))
-
-        ' pegged to stock or VOL orders
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  stockRangeLower=" & DblMaxStr(order.StockRangeLower))
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  stockRangeUpper=" & DblMaxStr(order.StockRangeUpper))
-
-        ' VOLATILITY orders only
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  volatility=" & DblMaxStr(order.Volatility))
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  volatilityType=" & order.VolatilityType)
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  continuousUpdate=" & order.ContinuousUpdate)
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  referencePriceType=" & order.ReferencePriceType)
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  deltaNeutralOrderType=" & order.DeltaNeutralOrderType)
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  deltaNeutralAuxPrice=" & DblMaxStr(order.DeltaNeutralAuxPrice))
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  deltaNeutralConId=" & order.DeltaNeutralConId)
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  deltaNeutralSettlingFirm=" & order.DeltaNeutralSettlingFirm)
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  deltaNeutralClearingAccount=" & order.DeltaNeutralClearingAccount)
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  deltaNeutralClearingIntent=" & order.DeltaNeutralClearingIntent)
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  deltaNeutralOpenClose=" & order.DeltaNeutralOpenClose)
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  deltaNeutralShortSale=" & order.DeltaNeutralShortSale)
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  deltaNeutralShortSaleSlot=" & order.DeltaNeutralShortSaleSlot)
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  deltaNeutralDesignatedlocation=" & order.DeltaNeutralDesignatedLocation)
-
-        ' COMBO orders only
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  basisPoints=" & DblMaxStr(order.BasisPoints))
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  basisPointsType=" & IntMaxStr(order.BasisPointsType))
-
-        ' SCALE orders only
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  scaleInitLevelSize=" & IntMaxStr(order.ScaleInitLevelSize))
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  scaleSubsLevelSize=" & IntMaxStr(order.ScaleSubsLevelSize))
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  scalePriceIncrement=" & DblMaxStr(order.ScalePriceIncrement))
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  scalePriceAdjustValue=" & DblMaxStr(order.ScalePriceAdjustValue))
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  scalePriceAdjustInterval=" & IntMaxStr(order.ScalePriceAdjustInterval))
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  scaleProfitOffset=" & DblMaxStr(order.ScaleProfitOffset))
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  scaleAutoReset=" & order.ScaleAutoReset)
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  scaleInitPosition=" & IntMaxStr(order.ScaleInitPosition))
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  scaleInitFillQty=" & IntMaxStr(order.ScaleInitFillQty))
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  scaleRandomPercent=" & IntMaxStr(order.ScaleRandomPercent))
-
-        ' HEDGE orders only
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  hedgeType=" & order.HedgeType)
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  hedgeParam=" & order.HedgeParam)
-
-        ' Solicited orders only
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  solicited=" & order.Solicited)
-
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  randomize size=" & order.RandomizeSize)
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  randomize price=" & order.RandomizePrice)
-
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  dontUseAutoPriceForHedge=" & order.DontUseAutoPriceForHedge)
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  isOmsContainer=" & order.IsOmsContainer)
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  discretionaryUpToLimitPrice=" & order.DiscretionaryUpToLimitPrice)
-
-        ' ALGO orders only
-        Dim algoStrategy = order.AlgoStrategy
-        If (algoStrategy <> "") Then
-            m_utils.addListItem(Utils.ListType.ServerResponses, "  algoStrategy=" & algoStrategy)
-            m_utils.addListItem(Utils.ListType.ServerResponses, "  algoParams={")
-            If (order.AlgoParams IsNot Nothing) Then
-                For Each param In order.AlgoParams
-                    m_utils.addListItem(Utils.ListType.ServerResponses, "    " & param.Tag & "=" & param.Value)
-                Next
-            End If
-            m_utils.addListItem(Utils.ListType.ServerResponses, "  }")
-        End If
-
-        ' Smart combo routing params
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  smartComboRoutingParams={")
-        If (order.SmartComboRoutingParams IsNot Nothing) Then
-            For Each param In order.SmartComboRoutingParams
-                m_utils.addListItem(Utils.ListType.ServerResponses, "    " & param.Tag & "=" & param.Value)
-            Next
-        End If
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  }")
-
-        Dim orderState = e.orderState
-        m_utils.addListItem(Utils.ListType.ServerResponses, "OrderState:")
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  status=" & orderState.Status)
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  initMarginBefore=" & Utils.FormatDoubleString(orderState.InitMarginBefore))
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  maintMarginBefore=" & Utils.FormatDoubleString(orderState.MaintMarginBefore))
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  equityWithLoanBefore=" & Utils.FormatDoubleString(orderState.EquityWithLoanBefore))
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  initMarginChange=" & Utils.FormatDoubleString(orderState.InitMarginChange))
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  maintMarginChange=" & Utils.FormatDoubleString(orderState.MaintMarginChange))
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  equityWithLoanChange=" & Utils.FormatDoubleString(orderState.EquityWithLoanChange))
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  initMarginAfter=" & Utils.FormatDoubleString(orderState.InitMarginAfter))
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  maintMarginAfter=" & Utils.FormatDoubleString(orderState.MaintMarginAfter))
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  equityWithLoanAfter=" & Utils.FormatDoubleString(orderState.EquityWithLoanAfter))
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  commission=" & DblMaxStr(orderState.Commission))
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  minCommission=" & DblMaxStr(orderState.MinCommission))
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  maxCommission=" & DblMaxStr(orderState.MaxCommission))
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  comissionCurrency=" & orderState.CommissionCurrency)
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  warningText=" & orderState.WarningText)
-
-        m_utils.addListItem(Utils.ListType.ServerResponses, "===============================")
-
+        appendOrderFields(e.contract, e.order, e.orderState)
     End Sub
 
     Private Sub Api_openOrderEnd(sender As Object, e As EventArgs) Handles m_apiEvents.OpenOrderEnd
+        m_utils.addListItem(Utils.ListType.ServerResponses, "============= end =============")
+
+        ' move into view
+        lstServerResponses.TopIndex = lstServerResponses.Items.Count - 1
+    End Sub
+
+    '--------------------------------------------------------------------------------
+    ' Returns the details for a completed order - triggered by the reqCompletedOrders() method
+    '--------------------------------------------------------------------------------
+    Private Sub Api_completedOrder(sender As Object, e As OpenOrderEventArgs) Handles m_apiEvents.CompletedOrder
+        m_utils.addListItem(Utils.ListType.ServerResponses, "CompletedOrder:")
+        appendOrderFields(e.contract, e.order, e.orderState)
+    End Sub
+
+    Private Sub Api_completedOrdersEnd(sender As Object, e As EventArgs) Handles m_apiEvents.CompletedOrdersEnd
         m_utils.addListItem(Utils.ListType.ServerResponses, "============= end =============")
 
         ' move into view
@@ -3441,68 +3328,298 @@ Friend Class MainForm
         End If
     End Function
 
+    Private Sub appendNonEmptyString(listType As Utils.ListType, name As String, value As String)
+        If Utils.isNotEmpty(value) Then
+            m_utils.addListItem(listType, "  " & name & "=" & value)
+        End If
+    End Sub
+
+    Private Sub appendNonEmptyString(listType As Utils.ListType, name As String, value As String, excludeValue As String)
+        If Utils.isNotEmpty(value) And value <> excludeValue Then
+            m_utils.addListItem(listType, "  " & name & "=" & value)
+        End If
+    End Sub
+
+    Private Sub appendPositiveIntValue(listType As Utils.ListType, name As String, value As Integer)
+        If value <> Integer.MaxValue And value > 0 Then
+            m_utils.addListItem(listType, "  " & name & "=" & value)
+        End If
+    End Sub
+
+    Private Sub appendValidIntValue(listType As Utils.ListType, name As String, value As Integer)
+        If value <> Integer.MaxValue Then
+            m_utils.addListItem(listType, "  " & name & "=" & value)
+        End If
+    End Sub
+
+    Private Sub appendValidLongValue(listType As Utils.ListType, name As String, value As Long)
+        If value <> Int64.MaxValue Then
+            m_utils.addListItem(listType, "  " & name & "=" & value)
+        End If
+    End Sub
+
+    Private Sub appendValidDoubleValue(listType As Utils.ListType, name As String, value As Double)
+        If value <> Double.MaxValue Then
+            m_utils.addListItem(listType, "  " & name & "=" & value)
+        End If
+    End Sub
+
+    Private Sub appendValidDoubleValue(listType As Utils.ListType, name As String, valueStr As String)
+        If Utils.isNotEmpty(valueStr) Then
+            Dim value As Double
+            value = CDbl(valueStr)
+            If value <> Double.MaxValue Then
+                m_utils.addListItem(listType, "  " & name & "=" & value)
+            End If
+        End If
+    End Sub
+
+    Private Sub appendPositiveDoubleValue(listType As Utils.ListType, name As String, value As Double)
+        If value <> Double.MaxValue And value > 0 Then
+            m_utils.addListItem(listType, "  " & name & "=" & value)
+        End If
+    End Sub
+
+    Private Sub appendBooleanFlag(listType As Utils.ListType, name As String, value As Boolean)
+        If value = True Then
+            m_utils.addListItem(listType, "  " & name)
+        End If
+    End Sub
+
+    Private Sub appendOrderFields(contract As Contract, order As Order, orderState As OrderState)
+        appendValidIntValue(Utils.ListType.ServerResponses, "orderId", order.OrderId)
+        appendNonEmptyString(Utils.ListType.ServerResponses, "action", order.Action)
+        appendPositiveDoubleValue(Utils.ListType.ServerResponses, "totalQty", order.TotalQuantity)
+        appendPositiveDoubleValue(Utils.ListType.ServerResponses, "cashQty", order.CashQty)
+
+        appendPositiveIntValue(Utils.ListType.ServerResponses, "conId", contract.ConId)
+        appendNonEmptyString(Utils.ListType.ServerResponses, "symbol", contract.Symbol)
+        appendNonEmptyString(Utils.ListType.ServerResponses, "secType", contract.SecType)
+        appendNonEmptyString(Utils.ListType.ServerResponses, "lastTradeDate", contract.LastTradeDateOrContractMonth)
+        appendPositiveDoubleValue(Utils.ListType.ServerResponses, "strike", contract.Strike)
+        appendNonEmptyString(Utils.ListType.ServerResponses, "right", contract.Right, "?")
+        appendNonEmptyString(Utils.ListType.ServerResponses, "multiplier", contract.Multiplier)
+        appendNonEmptyString(Utils.ListType.ServerResponses, "exchange", contract.Exchange)
+        appendNonEmptyString(Utils.ListType.ServerResponses, "primaryExchange", contract.PrimaryExch)
+        appendNonEmptyString(Utils.ListType.ServerResponses, "currency", contract.Currency)
+        appendNonEmptyString(Utils.ListType.ServerResponses, "localSymbol", contract.LocalSymbol)
+        appendNonEmptyString(Utils.ListType.ServerResponses, "tradingClass", contract.TradingClass)
+
+        appendNonEmptyString(Utils.ListType.ServerResponses, "orderType", order.OrderType)
+        appendValidDoubleValue(Utils.ListType.ServerResponses, "lmtPrice", order.LmtPrice)
+        appendValidDoubleValue(Utils.ListType.ServerResponses, "auxPrice", order.AuxPrice)
+        appendNonEmptyString(Utils.ListType.ServerResponses, "TIF", order.Tif)
+        appendNonEmptyString(Utils.ListType.ServerResponses, "openClose", order.OpenClose)
+        appendValidIntValue(Utils.ListType.ServerResponses, "origin", order.Origin)
+        appendNonEmptyString(Utils.ListType.ServerResponses, "orderRef", order.OrderRef)
+        appendValidIntValue(Utils.ListType.ServerResponses, "clientId", order.ClientId)
+        appendValidIntValue(Utils.ListType.ServerResponses, "parentId", order.ParentId())
+        appendValidIntValue(Utils.ListType.ServerResponses, "permId", order.PermId)
+        appendBooleanFlag(Utils.ListType.ServerResponses, "outsideRth", order.OutsideRth)
+        appendBooleanFlag(Utils.ListType.ServerResponses, "hidden", order.Hidden)
+        appendValidDoubleValue(Utils.ListType.ServerResponses, "discretionaryAmt", order.DiscretionaryAmt)
+        appendPositiveIntValue(Utils.ListType.ServerResponses, "displaySize", order.DisplaySize)
+        appendValidIntValue(Utils.ListType.ServerResponses, "triggerMethod", order.TriggerMethod)
+        appendNonEmptyString(Utils.ListType.ServerResponses, "goodAfterTime", order.GoodAfterTime)
+        appendNonEmptyString(Utils.ListType.ServerResponses, "goodTillDateorderRef", order.GoodTillDate)
+        appendNonEmptyString(Utils.ListType.ServerResponses, "faGroup", order.FaGroup)
+        appendNonEmptyString(Utils.ListType.ServerResponses, "faMethod", order.FaMethod)
+        appendNonEmptyString(Utils.ListType.ServerResponses, "faPercentage", order.FaPercentage)
+        appendNonEmptyString(Utils.ListType.ServerResponses, "faProfile", order.FaProfile)
+        appendPositiveIntValue(Utils.ListType.ServerResponses, "shortSaleSlot", order.ShortSaleSlot)
+        If order.ShortSaleSlot > 0 Then
+            appendNonEmptyString(Utils.ListType.ServerResponses, "designatedLocation", order.DesignatedLocation)
+            appendValidIntValue(Utils.ListType.ServerResponses, "exemptCode", order.ExemptCode)
+        End If
+        appendNonEmptyString(Utils.ListType.ServerResponses, "ocaGroup", order.OcaGroup)
+        appendPositiveIntValue(Utils.ListType.ServerResponses, "ocaType", order.OcaType)
+        appendNonEmptyString(Utils.ListType.ServerResponses, "rule80A", order.Rule80A)
+        appendBooleanFlag(Utils.ListType.ServerResponses, "blockOrder", order.BlockOrder)
+        appendBooleanFlag(Utils.ListType.ServerResponses, "sweepToFil", order.SweepToFill)
+        appendBooleanFlag(Utils.ListType.ServerResponses, "allOrNone", order.AllOrNone)
+        appendValidIntValue(Utils.ListType.ServerResponses, "minQty", order.MinQty)
+        appendValidDoubleValue(Utils.ListType.ServerResponses, "percentOffset", order.PercentOffset)
+        appendBooleanFlag(Utils.ListType.ServerResponses, "eTradeOnly", order.ETradeOnly)
+        appendBooleanFlag(Utils.ListType.ServerResponses, "firmQuoteOnly", order.FirmQuoteOnly)
+        appendValidDoubleValue(Utils.ListType.ServerResponses, "nbboPriceCap", order.NbboPriceCap)
+        appendBooleanFlag(Utils.ListType.ServerResponses, "optOutSmartRouting", order.OptOutSmartRouting)
+        appendValidDoubleValue(Utils.ListType.ServerResponses, "startingPrice", order.StartingPrice)
+        appendValidDoubleValue(Utils.ListType.ServerResponses, "stockRefPrice", order.StockRefPrice)
+        appendValidDoubleValue(Utils.ListType.ServerResponses, "delta", order.Delta)
+        appendValidDoubleValue(Utils.ListType.ServerResponses, "stockRangeLower", order.StockRangeLower)
+        appendValidDoubleValue(Utils.ListType.ServerResponses, "stockRangeUpper", order.StockRangeUpper)
+
+        appendValidDoubleValue(Utils.ListType.ServerResponses, "volatility", order.Volatility)
+        If order.Volatility() <> Double.MaxValue Then
+            appendPositiveIntValue(Utils.ListType.ServerResponses, "volatilityType", order.VolatilityType)
+            appendNonEmptyString(Utils.ListType.ServerResponses, "deltaNeutralOrderType", order.DeltaNeutralOrderType)
+            appendValidDoubleValue(Utils.ListType.ServerResponses, "deltaNeutralAuxPrice", order.DeltaNeutralAuxPrice)
+            appendPositiveIntValue(Utils.ListType.ServerResponses, "deltaNeutralConId", order.DeltaNeutralConId)
+            appendNonEmptyString(Utils.ListType.ServerResponses, "deltaNeutralSettlingFirm", order.DeltaNeutralSettlingFirm)
+            appendNonEmptyString(Utils.ListType.ServerResponses, "deltaNeutralClearingAccount", order.DeltaNeutralClearingAccount)
+            appendNonEmptyString(Utils.ListType.ServerResponses, "deltaNeutralClearingIntent", order.DeltaNeutralClearingIntent)
+            appendNonEmptyString(Utils.ListType.ServerResponses, "deltaNeutralOpenClose", order.DeltaNeutralOpenClose, "?")
+            appendBooleanFlag(Utils.ListType.ServerResponses, "deltaNeutralShortSale", order.DeltaNeutralShortSale)
+            If order.DeltaNeutralShortSale = True Then
+                appendValidIntValue(Utils.ListType.ServerResponses, "deltaNeutralShortSaleSlot", order.DeltaNeutralShortSaleSlot)
+                appendNonEmptyString(Utils.ListType.ServerResponses, "deltaNeutralDesignatedLocation", order.DeltaNeutralDesignatedLocation)
+            End If
+            appendBooleanFlag(Utils.ListType.ServerResponses, "continuousUpdate", order.ContinuousUpdate)
+            appendValidIntValue(Utils.ListType.ServerResponses, "referencePriceType", order.ReferencePriceType)
+        End If
+
+        appendValidDoubleValue(Utils.ListType.ServerResponses, "trailStopPrice", order.TrailStopPrice)
+        appendValidDoubleValue(Utils.ListType.ServerResponses, "trailingPercent", order.TrailingPercent)
+        appendValidDoubleValue(Utils.ListType.ServerResponses, "lmtPriceOffset", order.LmtPriceOffset)
+
+        appendValidIntValue(Utils.ListType.ServerResponses, "scaleInitLevelSize", order.ScaleInitLevelSize)
+        appendValidIntValue(Utils.ListType.ServerResponses, "scaleSubsLevelSize", order.ScaleSubsLevelSize)
+        appendValidDoubleValue(Utils.ListType.ServerResponses, "scalePriceIncrement", order.ScalePriceIncrement)
+        appendValidDoubleValue(Utils.ListType.ServerResponses, "scalePriceAdjustValue", order.ScalePriceAdjustValue)
+        appendValidIntValue(Utils.ListType.ServerResponses, "scalePriceAdjustInterval", order.ScalePriceAdjustInterval)
+        appendValidDoubleValue(Utils.ListType.ServerResponses, "scaleProfitOffset", order.ScaleProfitOffset)
+        appendBooleanFlag(Utils.ListType.ServerResponses, "scaleAutoReset", order.ScaleAutoReset)
+        appendValidIntValue(Utils.ListType.ServerResponses, "scaleInitPosition", order.ScaleInitPosition)
+        appendValidIntValue(Utils.ListType.ServerResponses, "scaleInitFillQty", order.ScaleInitFillQty)
+        appendBooleanFlag(Utils.ListType.ServerResponses, "scaleRandomPercent", order.ScaleRandomPercent)
+
+        appendNonEmptyString(Utils.ListType.ServerResponses, "hedgeType", order.HedgeType)
+        appendNonEmptyString(Utils.ListType.ServerResponses, "hedgeParam", order.HedgeParam)
+
+        appendNonEmptyString(Utils.ListType.ServerResponses, "account", order.Account)
+        appendNonEmptyString(Utils.ListType.ServerResponses, "modelCode", order.ModelCode)
+        appendNonEmptyString(Utils.ListType.ServerResponses, "settlingFirm", order.SettlingFirm)
+        appendNonEmptyString(Utils.ListType.ServerResponses, "clearingAccount", order.ClearingAccount)
+        appendNonEmptyString(Utils.ListType.ServerResponses, "clearingIntent", order.ClearingIntent)
+        appendBooleanFlag(Utils.ListType.ServerResponses, "notHeld", order.NotHeld)
+        appendBooleanFlag(Utils.ListType.ServerResponses, "whatIf", order.WhatIf)
+        appendBooleanFlag(Utils.ListType.ServerResponses, "solicited", order.Solicited)
+        appendBooleanFlag(Utils.ListType.ServerResponses, "randomizeSize", order.RandomizeSize)
+        appendBooleanFlag(Utils.ListType.ServerResponses, "randomizePrice", order.RandomizePrice)
+        appendBooleanFlag(Utils.ListType.ServerResponses, "dontUseAutoPriceForHedge", order.DontUseAutoPriceForHedge)
+        appendBooleanFlag(Utils.ListType.ServerResponses, "isOmsContainer", order.IsOmsContainer)
+        appendBooleanFlag(Utils.ListType.ServerResponses, "discretionaryUpToLimitPrice", order.DiscretionaryUpToLimitPrice)
+        appendBooleanFlag(Utils.ListType.ServerResponses, "usePriceMgmtAlgo", order.UsePriceMgmtAlgo)
+
+        If order.OrderType = "PEG BENCH" Then
+            appendPositiveIntValue(Utils.ListType.ServerResponses, "referenceContractId", order.RefFuturesConId)
+            appendBooleanFlag(Utils.ListType.ServerResponses, "isPeggedChangeAmountDecrease", order.IsPeggedChangeAmountDecrease)
+            appendValidDoubleValue(Utils.ListType.ServerResponses, "peggedChangeAmount", order.PeggedChangeAmount)
+            appendValidDoubleValue(Utils.ListType.ServerResponses, "referenceChangeAmount", order.ReferenceChangeAmount)
+            appendNonEmptyString(Utils.ListType.ServerResponses, "referenceExchangeId", order.ReferenceExchange)
+        End If
+
+        appendNonEmptyString(Utils.ListType.ServerResponses, "comboLegsDescrip", contract.ComboLegsDescription)
+
+
+        If contract.ComboLegs IsNot Nothing Then
+            Dim comboLegsCount = contract.ComboLegs.Count
+
+            If comboLegsCount > 0 Then
+                m_utils.addListItem(Utils.ListType.ServerResponses, "  comboLegs={")
+
+                Dim orderComboLegsCount = 0
+                If order.OrderComboLegs IsNot Nothing Then
+                    orderComboLegsCount = order.OrderComboLegs.Count()
+                End If
+
+                Dim i = 0
+                For Each comboLeg In contract.ComboLegs
+                    Dim orderComboLegPriceStr = ""
+
+                    If comboLegsCount = orderComboLegsCount Then
+                        Dim orderComboLeg = order.OrderComboLegs.Item(i)
+                        orderComboLegPriceStr = " price=" & DblMaxStr(orderComboLeg.Price)
+                    End If
+
+                    m_utils.addListItem(Utils.ListType.ServerResponses,
+                                        "    leg " & (i + 1) &
+                                        ": conId=" & comboLeg.ConId & " ratio=" & comboLeg.Ratio & " action=" & comboLeg.Action &
+                                        " exchange = " & comboLeg.Exchange & " openClose=" & comboLeg.OpenClose &
+                                        " shortSaleSlot=" & comboLeg.ShortSaleSlot & " designatedLocation=" & comboLeg.DesignatedLocation &
+                                        " exemptCode=" & comboLeg.ExemptCode & orderComboLegPriceStr)
+                    i += 1
+                Next
+                m_utils.addListItem(Utils.ListType.ServerResponses, "  }")
+            End If
+        End If
+
+        appendValidDoubleValue(Utils.ListType.ServerResponses, "basisPoints", order.BasisPoints)
+        appendValidIntValue(Utils.ListType.ServerResponses, "basisPointsType", order.BasisPointsType)
+
+        Dim deltaNeutralContract = contract.DeltaNeutralContract
+        If (Not deltaNeutralContract Is Nothing) Then
+            m_utils.addListItem(Utils.ListType.ServerResponses, "  deltaNeutral={")
+            With deltaNeutralContract
+                appendPositiveIntValue(Utils.ListType.ServerResponses, "  conId", .ConId)
+                appendValidDoubleValue(Utils.ListType.ServerResponses, "  delta", .Delta)
+                appendValidDoubleValue(Utils.ListType.ServerResponses, "  price", .Price)
+            End With
+            m_utils.addListItem(Utils.ListType.ServerResponses, "  }")
+        End If
+
+        Dim algoStrategy = order.AlgoStrategy
+        If (algoStrategy <> "") Then
+            appendNonEmptyString(Utils.ListType.ServerResponses, "algoStrategy", algoStrategy)
+
+            m_utils.addListItem(Utils.ListType.ServerResponses, "  algoParams={")
+            If (order.AlgoParams IsNot Nothing) Then
+                For Each param In order.AlgoParams
+                    m_utils.addListItem(Utils.ListType.ServerResponses, "    " & param.Tag & "=" & param.Value)
+                Next
+            End If
+            m_utils.addListItem(Utils.ListType.ServerResponses, "  }")
+        End If
+
+        If (order.SmartComboRoutingParams IsNot Nothing) Then
+            m_utils.addListItem(Utils.ListType.ServerResponses, "  smartComboRoutingParams={")
+            For Each param In order.SmartComboRoutingParams
+                m_utils.addListItem(Utils.ListType.ServerResponses, "    " & param.Tag & "=" & param.Value)
+            Next
+            m_utils.addListItem(Utils.ListType.ServerResponses, "  }")
+        End If
+
+        appendNonEmptyString(Utils.ListType.ServerResponses, "autoCancelDate", order.AutoCancelDate)
+        appendValidDoubleValue(Utils.ListType.ServerResponses, "filledQuantity", order.FilledQuantity)
+        appendPositiveIntValue(Utils.ListType.ServerResponses, "refFuturesConId", order.RefFuturesConId)
+        appendBooleanFlag(Utils.ListType.ServerResponses, "autoCancelParent", order.AutoCancelParent)
+        appendNonEmptyString(Utils.ListType.ServerResponses, "shareholder", order.Shareholder)
+        appendBooleanFlag(Utils.ListType.ServerResponses, "imbalanceOnly", order.ImbalanceOnly)
+        appendBooleanFlag(Utils.ListType.ServerResponses, "routeMarketableToBbo", order.RouteMarketableToBbo)
+        appendValidLongValue(Utils.ListType.ServerResponses, "parentPermId", order.ParentPermId)
+        appendNonEmptyString(Utils.ListType.ServerResponses, "status", orderState.Status)
+        appendNonEmptyString(Utils.ListType.ServerResponses, "completedTime", orderState.CompletedTime)
+        appendNonEmptyString(Utils.ListType.ServerResponses, "completedStatus", orderState.CompletedStatus)
+
+        If order.WhatIf Then
+            appendValidDoubleValue(Utils.ListType.ServerResponses, "initMarginBefore", orderState.InitMarginBefore)
+            appendValidDoubleValue(Utils.ListType.ServerResponses, "maintMarginBefore", orderState.MaintMarginBefore)
+            appendValidDoubleValue(Utils.ListType.ServerResponses, "equityWithLoanBefore", orderState.EquityWithLoanBefore)
+            appendValidDoubleValue(Utils.ListType.ServerResponses, "initMarginChange", orderState.InitMarginChange)
+            appendValidDoubleValue(Utils.ListType.ServerResponses, "maintMarginChange", orderState.MaintMarginChange)
+            appendValidDoubleValue(Utils.ListType.ServerResponses, "equityWithLoanChange", orderState.EquityWithLoanChange)
+            appendValidDoubleValue(Utils.ListType.ServerResponses, "initMarginAfter", orderState.InitMarginAfter)
+            appendValidDoubleValue(Utils.ListType.ServerResponses, "maintMarginAfter", orderState.MaintMarginAfter)
+            appendValidDoubleValue(Utils.ListType.ServerResponses, "equityWithLoanAfter", orderState.EquityWithLoanAfter)
+            appendValidDoubleValue(Utils.ListType.ServerResponses, "commission", orderState.Commission)
+            appendValidDoubleValue(Utils.ListType.ServerResponses, "minCommission", orderState.MinCommission)
+            appendValidDoubleValue(Utils.ListType.ServerResponses, "maxCommission", orderState.MaxCommission)
+            appendNonEmptyString(Utils.ListType.ServerResponses, "commissionCurrency", orderState.CommissionCurrency)
+            appendNonEmptyString(Utils.ListType.ServerResponses, "warningText", orderState.WarningText)
+        End If
+
+        If Not order.Conditions Is Nothing And order.Conditions.Count > 0 Then
+            m_utils.addListItem(Utils.ListType.ServerResponses, "  conditions={")
+            For Each condition In order.Conditions
+                m_utils.addListItem(Utils.ListType.ServerResponses, "    " & condition.ToString() & ";")
+            Next
+
+            m_utils.addListItem(Utils.ListType.ServerResponses, "  }")
+        End If
+
+        m_utils.addListItem(Utils.ListType.ServerResponses, "===============================")
+    End Sub
 #End Region
 
-    Private Sub cmdReqHeadTimestamp_Click(sender As Object, e As EventArgs) Handles cmdReqHeadTimestamp.Click
-        ' Set the dialog state
-        m_dlgOrder.init(dlgOrder.DialogType.RequestHistoricalData,
-            m_contractInfo, m_orderInfo, m_deltaNeutralContract, m_chartOptions, Me)
-
-        m_dlgOrder.ShowDialog()
-
-        m_chartOptions = m_dlgOrder.options
-
-        If m_dlgOrder.ok Then
-
-            m_api.reqHeadTimestamp(m_dlgOrder.orderId, m_contractInfo,
-                m_dlgOrder.whatToShow, m_dlgOrder.useRTH, m_dlgOrder.formatDate)
-        End If
-    End Sub
-
-    Private Sub cmdReqHistogramData_Click(sender As Object, e As EventArgs) Handles cmdReqHistogramData.Click
-        ' Set the dialog state
-        m_dlgOrder.init(dlgOrder.DialogType.RequestHistoricalData,
-            m_contractInfo, m_orderInfo, m_deltaNeutralContract, m_chartOptions, Me)
-
-        m_dlgOrder.ShowDialog()
-
-        m_chartOptions = m_dlgOrder.options
-
-        If m_dlgOrder.ok Then
-
-            m_api.reqHistogramData(m_dlgOrder.orderId, m_contractInfo,
-                m_dlgOrder.useRTH, m_dlgOrder.histDuration)
-        End If
-    End Sub
-
-    Private Sub cmdReqPnl_Click(sender As Object, e As EventArgs) Handles cmdReqPnl.Click
-        If m_dlgPnL.ShowDialog() = Windows.Forms.DialogResult.OK Then
-            m_api.reqPnL(m_dlgPnL.ReqId, m_dlgPnL.Account, m_dlgPnL.ModelCode)
-        End If
-    End Sub
-
-    Private Sub cmdCancelPnl_Click(sender As Object, e As EventArgs) Handles cmdCancelPnl.Click
-        m_api.cancelPnL(m_dlgPnL.ReqId)
-    End Sub
-
-    Private Sub cmdReqPnlSingle_Click(sender As Object, e As EventArgs) Handles cmdReqPnlSingle.Click
-        If m_dlgPnL.ShowDialog() = Windows.Forms.DialogResult.OK Then
-            m_api.reqPnLSingle(m_dlgPnL.ReqId, m_dlgPnL.Account, m_dlgPnL.ModelCode, m_dlgPnL.ConId)
-        End If
-    End Sub
-
-    Private Sub cmdCancelPnlSingle_Click(sender As Object, e As EventArgs) Handles cmdCancelPnlSingle.Click
-        m_api.cancelPnLSingle(m_dlgPnL.ReqId)
-    End Sub
-
-    Private Sub cmdReqHistoricalTicks_Click(sender As Object, e As EventArgs) Handles cmdReqHistoricalTicks.Click
-        m_dlgOrder.init(dlgOrder.DialogType.RequestHistoricalTicks,
-            m_contractInfo, m_orderInfo, m_deltaNeutralContract, m_mktDataOptions, Me)
-
-        If m_dlgOrder.ShowDialog() = Windows.Forms.DialogResult.OK Then
-            m_api.reqHistoricalTicks(m_dlgOrder.orderId, m_contractInfo, m_dlgOrder.histStartDateTime, m_dlgOrder.histEndDateTime, m_dlgOrder.numberOfTicks,
-                                     m_dlgOrder.whatToShow, m_dlgOrder.useRTH, m_dlgOrder.ignoreSize, m_dlgOrder.options)
-        End If
-    End Sub
 
 End Class

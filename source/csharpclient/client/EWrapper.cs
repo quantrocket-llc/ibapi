@@ -1,4 +1,4 @@
-﻿/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 using System;
@@ -911,5 +911,20 @@ namespace IBApi
         * @sa EClient::reqOpenOrders
         */
         void orderBound(long orderId, int apiClientId, int apiOrderId);
+
+        /**
+         * @brief Feeds in completed orders.
+         * @param contract the order's Contract.
+         * @param order the completed Order.
+         * @param orderState the order's OrderState
+         * @sa completedOrdersEnd, EClientSocket::reqCompletedOrders
+         */
+        void completedOrder(Contract contract, Order order, OrderState orderState);
+
+        /**
+         * @brief Notifies the end of the completed orders' reception.
+         * @sa completedOrder, EClientSocket::reqCompletedOrders
+         */
+        void completedOrdersEnd();
     }
 }

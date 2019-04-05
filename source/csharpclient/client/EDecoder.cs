@@ -1,4 +1,4 @@
-﻿/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 using System;
@@ -382,12 +382,101 @@ namespace IBApi
                     OrderBoundEvent();
                     break;
 
+                case IncomingMessage.CompletedOrder:
+                    CompletedOrderEvent();
+                    break;
+
+                case IncomingMessage.CompletedOrdersEnd:
+                    CompletedOrdersEndEvent();
+                    break;
+
+
                 default:
                     eWrapper.error(IncomingMessage.NotValid, EClientErrors.UNKNOWN_ID.Code, EClientErrors.UNKNOWN_ID.Message);
                     return false;
             }
 
             return true;
+        }
+
+        private void CompletedOrderEvent()
+        {
+            Contract contract = new Contract();
+            Order order = new Order();
+            OrderState orderState = new OrderState();
+            EOrderDecoder eOrderDecoder = new EOrderDecoder(this, contract, order, orderState, Int32.MaxValue, serverVersion);
+
+            // read contract fields
+            eOrderDecoder.readContractFields();
+
+            // read order fields
+            eOrderDecoder.readAction();
+            eOrderDecoder.readTotalQuantity();
+            eOrderDecoder.readOrderType();
+            eOrderDecoder.readLmtPrice();
+            eOrderDecoder.readAuxPrice();
+            eOrderDecoder.readTIF();
+            eOrderDecoder.readOcaGroup();
+            eOrderDecoder.readAccount();
+            eOrderDecoder.readOpenClose();
+            eOrderDecoder.readOrigin();
+            eOrderDecoder.readOrderRef();
+            eOrderDecoder.readPermId();
+            eOrderDecoder.readOutsideRth();
+            eOrderDecoder.readHidden();
+            eOrderDecoder.readDiscretionaryAmount();
+            eOrderDecoder.readGoodAfterTime();
+            eOrderDecoder.readFAParams();
+            eOrderDecoder.readModelCode();
+            eOrderDecoder.readGoodTillDate();
+            eOrderDecoder.readRule80A();
+            eOrderDecoder.readPercentOffset();
+            eOrderDecoder.readSettlingFirm();
+            eOrderDecoder.readShortSaleParams();
+            eOrderDecoder.readBoxOrderParams();
+            eOrderDecoder.readPegToStkOrVolOrderParams();
+            eOrderDecoder.readDisplaySize();
+            eOrderDecoder.readSweepToFill();
+            eOrderDecoder.readAllOrNone();
+            eOrderDecoder.readMinQty();
+            eOrderDecoder.readOcaType();
+            eOrderDecoder.readTriggerMethod();
+            eOrderDecoder.readVolOrderParams(false);
+            eOrderDecoder.readTrailParams();
+            eOrderDecoder.readComboLegs();
+            eOrderDecoder.readSmartComboRoutingParams();
+            eOrderDecoder.readScaleOrderParams();
+            eOrderDecoder.readHedgeParams();
+            eOrderDecoder.readClearingParams();
+            eOrderDecoder.readNotHeld();
+            eOrderDecoder.readDeltaNeutral();
+            eOrderDecoder.readAlgoParams();
+            eOrderDecoder.readSolicited();
+            eOrderDecoder.readOrderStatus();
+            eOrderDecoder.readVolRandomizeFlags();
+            eOrderDecoder.readPegToBenchParams();
+            eOrderDecoder.readConditions();
+            eOrderDecoder.readStopPriceAndLmtPriceOffset();
+            eOrderDecoder.readCashQty();
+            eOrderDecoder.readDontUseAutoPriceForHedge();
+            eOrderDecoder.readIsOmsContainer();
+            eOrderDecoder.readAutoCancelDate();
+            eOrderDecoder.readFilledQuantity();
+            eOrderDecoder.readRefFuturesConId();
+            eOrderDecoder.readAutoCancelParent();
+            eOrderDecoder.readShareholder();
+            eOrderDecoder.readImbalanceOnly();
+            eOrderDecoder.readRouteMarketableToBbo();
+            eOrderDecoder.readParentPermId();
+            eOrderDecoder.readCompletedTime();
+            eOrderDecoder.readCompletedStatus();
+
+            eWrapper.completedOrder(contract, order, orderState);
+        }
+
+        private void CompletedOrdersEndEvent()
+        {
+            eWrapper.completedOrdersEnd();
         }
 
         private void OrderBoundEvent()
@@ -1357,453 +1446,83 @@ namespace IBApi
         private void OpenOrderEvent()
         {
             int msgVersion = serverVersion < MinServerVer.ORDER_CONTAINER ? ReadInt() : serverVersion;
-            // read order id
+
+            Contract contract = new Contract();
             Order order = new Order();
-            order.OrderId = ReadInt();
+            OrderState orderState = new OrderState();
+            EOrderDecoder eOrderDecoder = new EOrderDecoder(this, contract, order, orderState, msgVersion, serverVersion);
+
+            // read order id
+            eOrderDecoder.readOrderId();
 
             // read contract fields
-            Contract contract = new Contract();
-            if (msgVersion >= 17)
-            {
-                contract.ConId = ReadInt();
-            }
-            contract.Symbol = ReadString();
-            contract.SecType = ReadString();
-            contract.LastTradeDateOrContractMonth = ReadString();
-            contract.Strike = ReadDouble();
-            contract.Right = ReadString();
-            if (msgVersion >= 32)
-            {
-                contract.Multiplier = ReadString();
-            }
-            contract.Exchange = ReadString();
-            contract.Currency = ReadString();
-            if (msgVersion >= 2)
-            {
-                contract.LocalSymbol = ReadString();
-            }
-            if (msgVersion >= 32)
-            {
-                contract.TradingClass = ReadString();
-            }
+            eOrderDecoder.readContractFields();
 
             // read order fields
-            order.Action = ReadString();
-            order.TotalQuantity = serverVersion >= MinServerVer.FRACTIONAL_POSITIONS ? ReadDouble() : (double)ReadInt();
-            order.OrderType = ReadString();
-            if (msgVersion < 29)
-            {
-                order.LmtPrice = ReadDouble();
-            }
-            else
-            {
-                order.LmtPrice = ReadDoubleMax();
-            }
-            if (msgVersion < 30)
-            {
-                order.AuxPrice = ReadDouble();
-            }
-            else
-            {
-                order.AuxPrice = ReadDoubleMax();
-            }
-            order.Tif = ReadString();
-            order.OcaGroup = ReadString();
-            order.Account = ReadString();
-            order.OpenClose = ReadString();
-            order.Origin = ReadInt();
-            order.OrderRef = ReadString();
-
-            if (msgVersion >= 3)
-            {
-                order.ClientId = ReadInt();
-            }
-
-            if (msgVersion >= 4)
-            {
-                order.PermId = ReadInt();
-                if (msgVersion < 18)
-                {
-                    // will never happen
-                    /* order.ignoreRth = */
-                    ReadBoolFromInt();
-                }
-                else
-                {
-                    order.OutsideRth = ReadBoolFromInt();
-                }
-                order.Hidden = ReadInt() == 1;
-                order.DiscretionaryAmt = ReadDouble();
-            }
-
-            if (msgVersion >= 5)
-            {
-                order.GoodAfterTime = ReadString();
-            }
-
-            if (msgVersion >= 6)
-            {
-                // skip deprecated sharesAllocation field
-                ReadString();
-            }
-
-            if (msgVersion >= 7)
-            {
-                order.FaGroup = ReadString();
-                order.FaMethod = ReadString();
-                order.FaPercentage = ReadString();
-                order.FaProfile = ReadString();
-            }
-
-            if (serverVersion >= MinServerVer.MODELS_SUPPORT)
-            {
-                order.ModelCode = ReadString();
-            }
-
-            if (msgVersion >= 8)
-            {
-                order.GoodTillDate = ReadString();
-            }
-
-            if (msgVersion >= 9)
-            {
-                order.Rule80A = ReadString();
-                order.PercentOffset = ReadDoubleMax();
-                order.SettlingFirm = ReadString();
-                order.ShortSaleSlot = ReadInt();
-                order.DesignatedLocation = ReadString();
-                if (serverVersion == 51)
-                {
-                    ReadInt(); // exemptCode
-                }
-                else if (msgVersion >= 23)
-                {
-                    order.ExemptCode = ReadInt();
-                }
-                order.AuctionStrategy = ReadInt();
-                order.StartingPrice = ReadDoubleMax();
-                order.StockRefPrice = ReadDoubleMax();
-                order.Delta = ReadDoubleMax();
-                order.StockRangeLower = ReadDoubleMax();
-                order.StockRangeUpper = ReadDoubleMax();
-                order.DisplaySize = ReadInt();
-                if (msgVersion < 18)
-                {
-                    // will never happen
-                    /* order.rthOnly = */
-                    ReadBoolFromInt();
-                }
-                order.BlockOrder = ReadBoolFromInt();
-                order.SweepToFill = ReadBoolFromInt();
-                order.AllOrNone = ReadBoolFromInt();
-                order.MinQty = ReadIntMax();
-                order.OcaType = ReadInt();
-                order.ETradeOnly = ReadBoolFromInt();
-                order.FirmQuoteOnly = ReadBoolFromInt();
-                order.NbboPriceCap = ReadDoubleMax();
-            }
-
-            if (msgVersion >= 10)
-            {
-                order.ParentId = ReadInt();
-                order.TriggerMethod = ReadInt();
-            }
-
-            if (msgVersion >= 11)
-            {
-                order.Volatility = ReadDoubleMax();
-                order.VolatilityType = ReadInt();
-                if (msgVersion == 11)
-                {
-                    int receivedInt = ReadInt();
-                    order.DeltaNeutralOrderType = ((receivedInt == 0) ? "NONE" : "MKT");
-                }
-                else
-                { // msgVersion 12 and up
-                    order.DeltaNeutralOrderType = ReadString();
-                    order.DeltaNeutralAuxPrice = ReadDoubleMax();
-
-                    if (msgVersion >= 27 && !Util.StringIsEmpty(order.DeltaNeutralOrderType))
-                    {
-                        order.DeltaNeutralConId = ReadInt();
-                        order.DeltaNeutralSettlingFirm = ReadString();
-                        order.DeltaNeutralClearingAccount = ReadString();
-                        order.DeltaNeutralClearingIntent = ReadString();
-                    }
-
-                    if (msgVersion >= 31 && !Util.StringIsEmpty(order.DeltaNeutralOrderType))
-                    {
-                        order.DeltaNeutralOpenClose = ReadString();
-                        order.DeltaNeutralShortSale = ReadBoolFromInt();
-                        order.DeltaNeutralShortSaleSlot = ReadInt();
-                        order.DeltaNeutralDesignatedLocation = ReadString();
-                    }
-                }
-                order.ContinuousUpdate = ReadInt();
-                if (serverVersion == 26)
-                {
-                    order.StockRangeLower = ReadDouble();
-                    order.StockRangeUpper = ReadDouble();
-                }
-                order.ReferencePriceType = ReadInt();
-            }
-
-            if (msgVersion >= 13)
-            {
-                order.TrailStopPrice = ReadDoubleMax();
-            }
-
-            if (msgVersion >= 30)
-            {
-                order.TrailingPercent = ReadDoubleMax();
-            }
-
-            if (msgVersion >= 14)
-            {
-                order.BasisPoints = ReadDoubleMax();
-                order.BasisPointsType = ReadIntMax();
-                contract.ComboLegsDescription = ReadString();
-            }
-
-            if (msgVersion >= 29)
-            {
-                int comboLegsCount = ReadInt();
-                if (comboLegsCount > 0)
-                {
-                    contract.ComboLegs = new List<ComboLeg>(comboLegsCount);
-                    for (int i = 0; i < comboLegsCount; ++i)
-                    {
-                        int conId = ReadInt();
-                        int ratio = ReadInt();
-                        String action = ReadString();
-                        String exchange = ReadString();
-                        int openClose = ReadInt();
-                        int shortSaleSlot = ReadInt();
-                        String designatedLocation = ReadString();
-                        int exemptCode = ReadInt();
-
-                        ComboLeg comboLeg = new ComboLeg(conId, ratio, action, exchange, openClose,
-                                shortSaleSlot, designatedLocation, exemptCode);
-                        contract.ComboLegs.Add(comboLeg);
-                    }
-                }
-
-                int orderComboLegsCount = ReadInt();
-                if (orderComboLegsCount > 0)
-                {
-                    order.OrderComboLegs = new List<OrderComboLeg>(orderComboLegsCount);
-                    for (int i = 0; i < orderComboLegsCount; ++i)
-                    {
-                        double price = ReadDoubleMax();
-
-                        OrderComboLeg orderComboLeg = new OrderComboLeg(price);
-                        order.OrderComboLegs.Add(orderComboLeg);
-                    }
-                }
-            }
-
-            if (msgVersion >= 26)
-            {
-                int smartComboRoutingParamsCount = ReadInt();
-                if (smartComboRoutingParamsCount > 0)
-                {
-                    order.SmartComboRoutingParams = new List<TagValue>(smartComboRoutingParamsCount);
-                    for (int i = 0; i < smartComboRoutingParamsCount; ++i)
-                    {
-                        TagValue tagValue = new TagValue();
-                        tagValue.Tag = ReadString();
-                        tagValue.Value = ReadString();
-                        order.SmartComboRoutingParams.Add(tagValue);
-                    }
-                }
-            }
-
-            if (msgVersion >= 15)
-            {
-                if (msgVersion >= 20)
-                {
-                    order.ScaleInitLevelSize = ReadIntMax();
-                    order.ScaleSubsLevelSize = ReadIntMax();
-                }
-                else
-                {
-                    /* int notSuppScaleNumComponents = */
-                    ReadIntMax();
-                    order.ScaleInitLevelSize = ReadIntMax();
-                }
-                order.ScalePriceIncrement = ReadDoubleMax();
-            }
-
-            if (msgVersion >= 28 && order.ScalePriceIncrement > 0.0 && order.ScalePriceIncrement != Double.MaxValue)
-            {
-                order.ScalePriceAdjustValue = ReadDoubleMax();
-                order.ScalePriceAdjustInterval = ReadIntMax();
-                order.ScaleProfitOffset = ReadDoubleMax();
-                order.ScaleAutoReset = ReadBoolFromInt();
-                order.ScaleInitPosition = ReadIntMax();
-                order.ScaleInitFillQty = ReadIntMax();
-                order.ScaleRandomPercent = ReadBoolFromInt();
-            }
-
-            if (msgVersion >= 24)
-            {
-                order.HedgeType = ReadString();
-                if (!Util.StringIsEmpty(order.HedgeType))
-                {
-                    order.HedgeParam = ReadString();
-                }
-            }
-
-            if (msgVersion >= 25)
-            {
-                order.OptOutSmartRouting = ReadBoolFromInt();
-            }
-
-            if (msgVersion >= 19)
-            {
-                order.ClearingAccount = ReadString();
-                order.ClearingIntent = ReadString();
-            }
-
-            if (msgVersion >= 22)
-            {
-                order.NotHeld = ReadBoolFromInt();
-            }
-
-            if (msgVersion >= 20)
-            {
-                if (ReadBoolFromInt())
-                {
-                    DeltaNeutralContract deltaNeutralContract = new DeltaNeutralContract();
-                    deltaNeutralContract.ConId = ReadInt();
-                    deltaNeutralContract.Delta = ReadDouble();
-                    deltaNeutralContract.Price = ReadDouble();
-                    contract.DeltaNeutralContract = deltaNeutralContract;
-                }
-            }
-
-            if (msgVersion >= 21)
-            {
-                order.AlgoStrategy = ReadString();
-                if (!Util.StringIsEmpty(order.AlgoStrategy))
-                {
-                    int algoParamsCount = ReadInt();
-                    if (algoParamsCount > 0)
-                    {
-                        order.AlgoParams = new List<TagValue>(algoParamsCount);
-                        for (int i = 0; i < algoParamsCount; ++i)
-                        {
-                            TagValue tagValue = new TagValue();
-                            tagValue.Tag = ReadString();
-                            tagValue.Value = ReadString();
-                            order.AlgoParams.Add(tagValue);
-                        }
-                    }
-                }
-            }
-
-            if (msgVersion >= 33)
-            {
-                order.Solicited = ReadBoolFromInt();
-            }
-
-            OrderState orderState = new OrderState();
-            if (msgVersion >= 16)
-            {
-                order.WhatIf = ReadBoolFromInt();
-                orderState.Status = ReadString();
-                if (serverVersion >= MinServerVer.WHAT_IF_EXT_FIELDS)
-                {
-                    orderState.InitMarginBefore = ReadString();
-                    orderState.MaintMarginBefore = ReadString();
-                    orderState.EquityWithLoanBefore = ReadString();
-                    orderState.InitMarginChange = ReadString();
-                    orderState.MaintMarginChange = ReadString();
-                    orderState.EquityWithLoanChange = ReadString();
-                }
-                orderState.InitMarginAfter = ReadString();
-                orderState.MaintMarginAfter = ReadString();
-                orderState.EquityWithLoanAfter = ReadString();
-                orderState.Commission = ReadDoubleMax();
-                orderState.MinCommission = ReadDoubleMax();
-                orderState.MaxCommission = ReadDoubleMax();
-                orderState.CommissionCurrency = ReadString();
-                orderState.WarningText = ReadString();
-            }
-
-            if (msgVersion >= 34)
-            {
-                order.RandomizeSize = ReadBoolFromInt();
-                order.RandomizePrice = ReadBoolFromInt();
-            }
-
-            if (serverVersion >= MinServerVer.PEGGED_TO_BENCHMARK)
-            {
-                if (order.OrderType == "PEG BENCH")
-                {
-                    order.ReferenceContractId = ReadInt();
-                    order.IsPeggedChangeAmountDecrease = ReadBoolFromInt();
-                    order.PeggedChangeAmount = ReadDoubleMax();
-                    order.ReferenceChangeAmount = ReadDoubleMax();
-                    order.ReferenceExchange = ReadString();
-                }
-
-                int nConditions = ReadInt();
-
-                if (nConditions > 0)
-                {
-                    for (int i = 0; i < nConditions; i++)
-                    {
-                        OrderConditionType orderConditionType = (OrderConditionType)ReadInt();
-                        OrderCondition condition = OrderCondition.Create(orderConditionType);
-
-                        condition.Deserialize(this);
-                        order.Conditions.Add(condition);
-                    }
-
-                    order.ConditionsIgnoreRth = ReadBoolFromInt();
-                    order.ConditionsCancelOrder = ReadBoolFromInt();
-                }
-
-                order.AdjustedOrderType = ReadString();
-                order.TriggerPrice = ReadDoubleMax();
-                order.TrailStopPrice = ReadDoubleMax();
-                order.LmtPriceOffset = ReadDoubleMax();
-                order.AdjustedStopPrice = ReadDoubleMax();
-                order.AdjustedStopLimitPrice = ReadDoubleMax();
-                order.AdjustedTrailingAmount = ReadDoubleMax();
-                order.AdjustableTrailingUnit = ReadInt();
-            }
-
-            if (serverVersion >= MinServerVer.SOFT_DOLLAR_TIER)
-            {
-                order.Tier = new SoftDollarTier(ReadString(), ReadString(), ReadString());
-            }
-
-            if (serverVersion >= MinServerVer.CASH_QTY)
-            {
-                order.CashQty = ReadDoubleMax();
-            }
-
-            if (serverVersion >= MinServerVer.AUTO_PRICE_FOR_HEDGE)
-            {
-                order.DontUseAutoPriceForHedge = ReadBoolFromInt();
-            }
-
-            if (serverVersion >= MinServerVer.ORDER_CONTAINER)
-            {
-                order.IsOmsContainer = ReadBoolFromInt();
-            }
-
-            if (serverVersion >= MinServerVer.D_PEG_ORDERS)
-            {
-                order.DiscretionaryUpToLimitPrice = ReadBoolFromInt();
-            }
-
-            if (serverVersion >= MinServerVer.PRICE_MGMT_ALGO)
-            {
-                order.UsePriceMgmtAlgo = ReadBoolFromInt();
-            }
+            eOrderDecoder.readAction();
+            eOrderDecoder.readTotalQuantity();
+            eOrderDecoder.readOrderType();
+            eOrderDecoder.readLmtPrice();
+            eOrderDecoder.readAuxPrice();
+            eOrderDecoder.readTIF();
+            eOrderDecoder.readOcaGroup();
+            eOrderDecoder.readAccount();
+            eOrderDecoder.readOpenClose();
+            eOrderDecoder.readOrigin();
+            eOrderDecoder.readOrderRef();
+            eOrderDecoder.readClientId();
+            eOrderDecoder.readPermId();
+            eOrderDecoder.readOutsideRth();
+            eOrderDecoder.readHidden();
+            eOrderDecoder.readDiscretionaryAmount();
+            eOrderDecoder.readGoodAfterTime();
+            eOrderDecoder.skipSharesAllocation();
+            eOrderDecoder.readFAParams();
+            eOrderDecoder.readModelCode();
+            eOrderDecoder.readGoodTillDate();
+            eOrderDecoder.readRule80A();
+            eOrderDecoder.readPercentOffset();
+            eOrderDecoder.readSettlingFirm();
+            eOrderDecoder.readShortSaleParams();
+            eOrderDecoder.readAuctionStrategy();
+            eOrderDecoder.readBoxOrderParams();
+            eOrderDecoder.readPegToStkOrVolOrderParams();
+            eOrderDecoder.readDisplaySize();
+            eOrderDecoder.readOldStyleOutsideRth();
+            eOrderDecoder.readBlockOrder();
+            eOrderDecoder.readSweepToFill();
+            eOrderDecoder.readAllOrNone();
+            eOrderDecoder.readMinQty();
+            eOrderDecoder.readOcaType();
+            eOrderDecoder.readETradeOnly();
+            eOrderDecoder.readFirmQuoteOnly();
+            eOrderDecoder.readNbboPriceCap();
+            eOrderDecoder.readParentId();
+            eOrderDecoder.readTriggerMethod();
+            eOrderDecoder.readVolOrderParams(true);
+            eOrderDecoder.readTrailParams();
+            eOrderDecoder.readBasisPoints();
+            eOrderDecoder.readComboLegs();
+            eOrderDecoder.readSmartComboRoutingParams();
+            eOrderDecoder.readScaleOrderParams();
+            eOrderDecoder.readHedgeParams();
+            eOrderDecoder.readOptOutSmartRouting();
+            eOrderDecoder.readClearingParams();
+            eOrderDecoder.readNotHeld();
+            eOrderDecoder.readDeltaNeutral();
+            eOrderDecoder.readAlgoParams();
+            eOrderDecoder.readSolicited();
+            eOrderDecoder.readWhatIfInfoAndCommission();
+            eOrderDecoder.readVolRandomizeFlags();
+            eOrderDecoder.readPegToBenchParams();
+            eOrderDecoder.readConditions();
+            eOrderDecoder.readAdjustedOrderParams();
+            eOrderDecoder.readSoftDollarTier();
+            eOrderDecoder.readCashQty();
+            eOrderDecoder.readDontUseAutoPriceForHedge();
+            eOrderDecoder.readIsOmsContainer();
+            eOrderDecoder.readDiscretionaryUpToLimitPrice();
+            eOrderDecoder.readUsePriceMgmtAlgo();
 
             eWrapper.openOrder(order.OrderId, contract, order, orderState);
         }

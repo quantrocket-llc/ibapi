@@ -26,3 +26,5 @@ class OrderState:
         self.maxCommission = UNSET_DOUBLE   # type: float
         self.commissionCurrency = ""
         self.warningText = ""
+        self.completedTime = ""
+        self.completedStatus = ""

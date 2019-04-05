@@ -81,6 +81,11 @@ namespace IBApi
             return (value == Int32.MaxValue) ? "" : "" + value;
         }
 
+        public static string LongMaxString(long value)
+        {
+            return (value == Int64.MaxValue) ? "" : "" + value;
+        }
+
         public static string DoubleMaxString(double value)
         {
             return (value == Double.MaxValue) ? "" : "" + value;

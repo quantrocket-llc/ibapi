@@ -279,7 +279,7 @@ Private Sub RequestMarketDepth_Click()
         Set lContractInfo = Api.Tws.createContract()
 
         With lContractInfo
-            .symbol = UCase(contractTable(id, Col_SYMBOL).value)
+            .Symbol = UCase(contractTable(id, Col_SYMBOL).value)
             .SecType = UCase(contractTable(id, Col_SECTYPE).value)
             .lastTradeDateOrContractMonth = contractTable(id, Col_LASTTRADEDATE).value
             .Strike = contractTable(id, Col_STRIKE).value

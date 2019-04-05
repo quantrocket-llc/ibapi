@@ -47,14 +47,14 @@ public class Testbed {
 		//tickByTickOperations(wrapper.getClient());
 		//tickDataOperations(wrapper.getClient());
 		//tickOptionComputations(wrapper.getClient());
-		//orderOperations(wrapper.getClient(), wrapper.getCurrentOrderId());
+		orderOperations(wrapper.getClient(), wrapper.getCurrentOrderId());
 		//contractOperations(wrapper.getClient());
 		//hedgeSample(wrapper.getClient(), wrapper.getCurrentOrderId());
 		//testAlgoSamples(wrapper.getClient(), wrapper.getCurrentOrderId());
 		//bracketSample(wrapper.getClient(), wrapper.getCurrentOrderId());
 		//bulletins(wrapper.getClient());
 		//fundamentals(wrapper.getClient());
-		marketScanners(wrapper.getClient());
+		//marketScanners(wrapper.getClient());
 		//marketDataType(wrapper.getClient());
 		//historicalDataRequests(wrapper.getClient());
 		//accountOperations(wrapper.getClient());
@@ -201,6 +201,11 @@ public class Testbed {
 		//! [reqglobalcancel]
 		client.reqGlobalCancel();
 		//! [reqglobalcancel]
+		
+        /*** Completed orders ***/
+        //! [reqcompletedorders]
+        client.reqCompletedOrders(false);
+        //! [reqcompletedorders]
 
         Thread.sleep(10000);
         

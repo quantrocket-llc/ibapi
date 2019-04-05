@@ -214,6 +214,29 @@ namespace IBApi
         }
 
         /**
+         * @brief Requests completed orders.\n
+         * @param apiOnly - request only API orders.\n
+         * @sa EWrapper::completedOrder, EWrapper::completedOrdersEnd
+         */
+        public void reqCompletedOrders(bool apiOnly)
+        {
+            if (!CheckConnection())
+                return;
+
+            if (!CheckServerVersion(MinServerVer.COMPLETED_ORDERS,
+                " It does not support completed orders requests."))
+                return;
+
+            var paramsList = new BinaryWriter(new MemoryStream());
+            var lengthPos = prepareBuffer(paramsList);
+
+            paramsList.AddParameter(OutgoingMessages.ReqCompletedOrders);
+            paramsList.AddParameter(apiOnly);
+
+            CloseAndSend(paramsList, lengthPos, EClientErrors.FAIL_SEND_REQCOMPLETEDORDERS);
+        }
+
+        /**
          * @brief Cancels tick-by-tick data.\n
          * @param reqId - unique identifier of the request.\n
          */

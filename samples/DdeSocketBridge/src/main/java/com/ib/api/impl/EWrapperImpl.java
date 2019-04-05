@@ -42,6 +42,7 @@ import com.ib.api.dde.socket2dde.data.MarketDepthData;
 import com.ib.api.dde.socket2dde.data.NewsBulletinData;
 import com.ib.api.dde.socket2dde.data.NewsData;
 import com.ib.api.dde.socket2dde.data.OpenOrderData;
+import com.ib.api.dde.socket2dde.data.OrderData;
 import com.ib.api.dde.socket2dde.data.OrderStatusData;
 import com.ib.api.dde.socket2dde.data.PositionData;
 import com.ib.api.dde.socket2dde.data.ScannerData;
@@ -901,5 +902,17 @@ public class EWrapperImpl implements EWrapper {
     @Override
     public void orderBound(long orderId, int apiClientId, int apiOrderId) {
         /* not yet supported */
+    }
+
+    @Override
+    public void completedOrder(Contract contract, Order order, OrderState orderState) {
+        System.out.println("completedOrder Contract [" + Utils.shortContractString(contract) + "] Order [" + Utils.shortOrderString(order) + "]");
+        m_twsService.updateCompletedOrderData(new OrderData(contract, order, orderState));
+    }
+
+    @Override
+    public void completedOrdersEnd() {
+        System.out.println("completedOrdersEnd");
+        m_twsService.updateCompletedOrdersEnd();
     }
 }

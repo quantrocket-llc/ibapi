@@ -676,4 +676,18 @@ public class EWrapperImpl implements EWrapper {
         System.out.println(EWrapperMsgGenerator.orderBound(orderId, apiClientId, apiOrderId));
     }
     //! [orderbound]
+
+    //! [completedorder]
+    @Override
+    public void completedOrder(Contract contract, Order order, OrderState orderState) {
+        System.out.println(EWrapperMsgGenerator.completedOrder(contract, order, orderState));
+    }
+    //! [completedorder]
+
+    //! [completedordersend]
+    @Override
+    public void completedOrdersEnd() {
+        System.out.println(EWrapperMsgGenerator.completedOrdersEnd());
+    }
+    //! [completedordersend]
 }

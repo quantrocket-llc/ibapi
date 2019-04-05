@@ -104,5 +104,7 @@ public interface EWrapper {
     void tickByTickBidAsk(int reqId, long time, double bidPrice, double askPrice, int bidSize, int askSize, TickAttribBidAsk tickAttribBidAsk);
     void tickByTickMidPoint(int reqId, long time, double midPoint);
     void orderBound(long orderId, int apiClientId, int apiOrderId);
+    void completedOrder(Contract contract, Order order, OrderState orderState);
+    void completedOrdersEnd();
 }
 

@@ -95,7 +95,8 @@ class EDecoder implements ObjectInput {
     private static final int HISTORICAL_TICKS_LAST = 98;
     private static final int TICK_BY_TICK = 99;
     private static final int ORDER_BOUND = 100;
-    
+    private static final int COMPLETED_ORDER = 101;
+    private static final int COMPLETED_ORDERS_END = 102;
 
     static final int MAX_MSG_LENGTH = 0xffffff;
     private static final int REDIRECT_MSG_ID = -1;
@@ -468,6 +469,14 @@ class EDecoder implements ObjectInput {
                 processOrderBoundMsg();
                 break;
 
+            case COMPLETED_ORDER:
+                processCompletedOrderMsg();
+                break;
+
+            case COMPLETED_ORDERS_END:
+                processCompletedOrdersEndMsg();
+                break;
+                
             default: {
                 m_EWrapper.error( EClientErrors.NO_VALID_ID, EClientErrors.UNKNOWN_ID.code(), EClientErrors.UNKNOWN_ID.msg());
                 return 0;
@@ -1329,398 +1338,90 @@ class EDecoder implements ObjectInput {
 		m_EWrapper.nextValidId( orderId);
 	}
 
-	private void processOpenOrderMsg() throws IOException {
+    private void processOpenOrderMsg() throws IOException {
 
-	    // read version
-	    int version = m_serverVersion < EClient.MIN_SERVER_VER_ORDER_CONTAINER ? readInt() : m_serverVersion;
+        // read version
+        int version = m_serverVersion < EClient.MIN_SERVER_VER_ORDER_CONTAINER ? readInt() : m_serverVersion;
 
+        Contract contract = new Contract();
+        Order order = new Order();
+        OrderState orderState = new OrderState();
+        EOrderDecoder eOrderDecoder = new EOrderDecoder(this, contract, order, orderState, version, m_serverVersion);
 
-	    // read order id
-	    Order order = new Order();
-		order.orderId(readInt());
+        // read order id
+        eOrderDecoder.readOrderId();
 
-		// read contract fields
-		Contract contract = new Contract();
-		if (version >= 17) {
-			contract.conid(readInt());
-		}
-		contract.symbol(readStr());
-		contract.secType(readStr());
-		contract.lastTradeDateOrContractMonth(readStr());
-		contract.strike(readDouble());
-		contract.right(readStr());
-		if ( version >= 32) {
-		   contract.multiplier(readStr());
-		}
-		contract.exchange(readStr());
-		contract.currency(readStr());
-		if ( version >= 2 ) {
-		    contract.localSymbol(readStr());
-		}
-		if (version >= 32) {
-		    contract.tradingClass(readStr());
-		}
+        // read contract fields
+        eOrderDecoder.readContractFields();
 
-		// read order fields
-		order.action(readStr());
-		
-		if (m_serverVersion >= EClient.MIN_SERVER_VER_FRACTIONAL_POSITIONS)		
-			order.totalQuantity(readDouble());
-		else
-			order.totalQuantity(readInt());
-		
-		order.orderType(readStr());
-		if (version < 29) {
-		    order.lmtPrice(readDouble());
-		}
-		else {
-		    order.lmtPrice(readDoubleMax());
-		}
-		if (version < 30) {
-		    order.auxPrice(readDouble());
-		}
-		else {
-		    order.auxPrice(readDoubleMax());
-		}
-		order.tif(readStr());
-		order.ocaGroup(readStr());
-		order.account(readStr());
-		order.openClose(readStr());
-		order.origin(readInt());
-		order.orderRef(readStr());
+        // read order fields
+        eOrderDecoder.readAction();
+        eOrderDecoder.readTotalQuantity();
+        eOrderDecoder.readOrderType();
+        eOrderDecoder.readLmtPrice();
+        eOrderDecoder.readAuxPrice();
+        eOrderDecoder.readTIF();
+        eOrderDecoder.readOcaGroup();
+        eOrderDecoder.readAccount();
+        eOrderDecoder.readOpenClose();
+        eOrderDecoder.readOrigin();
+        eOrderDecoder.readOrderRef();
+        eOrderDecoder.readClientId();
+        eOrderDecoder.readPermId();
+        eOrderDecoder.readOutsideRth();
+        eOrderDecoder.readHidden();
+        eOrderDecoder.readDiscretionaryAmount();
+        eOrderDecoder.readGoodAfterTime();
+        eOrderDecoder.skipSharesAllocation();
+        eOrderDecoder.readFAParams();
+        eOrderDecoder.readModelCode();
+        eOrderDecoder.readGoodTillDate();
+        eOrderDecoder.readRule80A();
+        eOrderDecoder.readPercentOffset();
+        eOrderDecoder.readSettlingFirm();
+        eOrderDecoder.readShortSaleParams();
+        eOrderDecoder.readAuctionStrategy();
+        eOrderDecoder.readBoxOrderParams();
+        eOrderDecoder.readPegToStkOrVolOrderParams();
+        eOrderDecoder.readDisplaySize();
+        eOrderDecoder.readOldStyleOutsideRth();
+        eOrderDecoder.readBlockOrder();
+        eOrderDecoder.readSweepToFill();
+        eOrderDecoder.readAllOrNone();
+        eOrderDecoder.readMinQty();
+        eOrderDecoder.readOcaType();
+        eOrderDecoder.readETradeOnly();
+        eOrderDecoder.readFirmQuoteOnly();
+        eOrderDecoder.readNbboPriceCap();
+        eOrderDecoder.readParentId();
+        eOrderDecoder.readTriggerMethod();
+        eOrderDecoder.readVolOrderParams(true);
+        eOrderDecoder.readTrailParams();
+        eOrderDecoder.readBasisPoints();
+        eOrderDecoder.readComboLegs();
+        eOrderDecoder.readSmartComboRoutingParams();
+        eOrderDecoder.readScaleOrderParams();
+        eOrderDecoder.readHedgeParams();
+        eOrderDecoder.readOptOutSmartRouting();
+        eOrderDecoder.readClearingParams();
+        eOrderDecoder.readNotHeld();
+        eOrderDecoder.readDeltaNeutral();
+        eOrderDecoder.readAlgoParams();
+        eOrderDecoder.readSolicited();
+        eOrderDecoder.readWhatIfInfoAndCommission();
+        eOrderDecoder.readVolRandomizeFlags();
+        eOrderDecoder.readPegToBenchParams();
+        eOrderDecoder.readConditions();
+        eOrderDecoder.readAdjustedOrderParams();
+        eOrderDecoder.readSoftDollarTier();
+        eOrderDecoder.readCashQty();
+        eOrderDecoder.readDontUseAutoPriceForHedge();
+        eOrderDecoder.readIsOmsContainer();
+        eOrderDecoder.readDiscretionaryUpToLimitPrice();
+        eOrderDecoder.readUsePriceMgmtAlgo();
 
-		if(version >= 3) {
-		    order.clientId(readInt());
-		}
-
-		if( version >= 4 ) {
-		    order.permId(readInt());
-		    if ( version < 18) {
-		        // will never happen
-		    	/* order.m_ignoreRth = */ readBoolFromInt();
-		    }
-		    else {
-		    	order.outsideRth(readBoolFromInt());
-		    }
-		    order.hidden(readInt() == 1);
-		    order.discretionaryAmt(readDouble());
-		}
-
-		if ( version >= 5 ) {
-		    order.goodAfterTime(readStr());
-		}
-
-		if ( version >= 6 ) {
-			// skip deprecated sharesAllocation field
-		    readStr();
-		}
-
-		if ( version >= 7 ) {
-		    order.faGroup(readStr());
-		    order.faMethod(readStr());
-		    order.faPercentage(readStr());
-		    order.faProfile(readStr());
-		}
-
-		if ( m_serverVersion >= EClient.MIN_SERVER_VER_MODELS_SUPPORT) {
-			order.modelCode(readStr());
-		}
-
-		if ( version >= 8 ) {
-		    order.goodTillDate(readStr());
-		}
-
-		if ( version >= 9) {
-		    order.rule80A(readStr());
-		    order.percentOffset(readDoubleMax());
-		    order.settlingFirm(readStr());
-		    order.shortSaleSlot(readInt());
-		    order.designatedLocation(readStr());
-		    if ( m_serverVersion == 51){
-		        readInt(); // exemptCode
-		    }
-		    else if ( version >= 23){
-		    	order.exemptCode(readInt());
-		    }
-		    order.auctionStrategy(readInt());
-		    order.startingPrice(readDoubleMax());
-		    order.stockRefPrice(readDoubleMax());
-		    order.delta(readDoubleMax());
-		    order.stockRangeLower(readDoubleMax());
-		    order.stockRangeUpper(readDoubleMax());
-		    order.displaySize(readInt());
-		    if ( version < 18) {
-		        // will never happen
-		    	/* order.m_rthOnly = */ readBoolFromInt();
-		    }
-		    order.blockOrder(readBoolFromInt());
-		    order.sweepToFill(readBoolFromInt());
-		    order.allOrNone(readBoolFromInt());
-		    order.minQty(readIntMax());
-		    order.ocaType(readInt());
-		    order.eTradeOnly(readBoolFromInt());
-		    order.firmQuoteOnly(readBoolFromInt());
-		    order.nbboPriceCap(readDoubleMax());
-		}
-
-		if ( version >= 10) {
-		    order.parentId(readInt());
-		    order.triggerMethod(readInt());
-		}
-
-		if (version >= 11) {
-		    order.volatility(readDoubleMax());
-		    order.volatilityType(readInt());
-		    if (version == 11) {
-		    	int receivedInt = readInt();
-		    	order.deltaNeutralOrderType( (receivedInt == 0) ? "NONE" : "MKT" );
-		    } else { // version 12 and up
-		    	order.deltaNeutralOrderType(readStr());
-		    	order.deltaNeutralAuxPrice(readDoubleMax());
-
-		        if (version >= 27 && !Util.StringIsEmpty(order.getDeltaNeutralOrderType())) {
-		            order.deltaNeutralConId(readInt());
-		            order.deltaNeutralSettlingFirm(readStr());
-		            order.deltaNeutralClearingAccount(readStr());
-		            order.deltaNeutralClearingIntent(readStr());
-		        }
-
-		        if (version >= 31 && !Util.StringIsEmpty(order.getDeltaNeutralOrderType())) {
-		            order.deltaNeutralOpenClose(readStr());
-		            order.deltaNeutralShortSale(readBoolFromInt());
-		            order.deltaNeutralShortSaleSlot(readInt());
-		            order.deltaNeutralDesignatedLocation(readStr());
-		        }
-		    }
-		    order.continuousUpdate(readInt());
-		    if (m_serverVersion == 26) {
-		    	order.stockRangeLower(readDouble());
-		    	order.stockRangeUpper(readDouble());
-		    }
-		    order.referencePriceType(readInt());
-		}
-
-		if (version >= 13) {
-			order.trailStopPrice(readDoubleMax());
-		}
-
-		if (version >= 30) {
-			order.trailingPercent(readDoubleMax());
-		}
-
-		if (version >= 14) {
-			order.basisPoints(readDoubleMax());
-			order.basisPointsType(readIntMax());
-			contract.comboLegsDescrip(readStr());
-		}
-
-		if (version >= 29) {
-			int comboLegsCount = readInt();
-			if (comboLegsCount > 0) {
-				contract.comboLegs(new ArrayList<>(comboLegsCount));
-				for (int i = 0; i < comboLegsCount; ++i) {
-					int conId = readInt();
-					int ratio = readInt();
-					String action = readStr();
-					String exchange = readStr();
-					int openClose = readInt();
-					int shortSaleSlot = readInt();
-					String designatedLocation = readStr();
-					int exemptCode = readInt();
-
-					ComboLeg comboLeg = new ComboLeg(conId, ratio, action, exchange, openClose,
-							shortSaleSlot, designatedLocation, exemptCode);
-					contract.comboLegs().add(comboLeg);
-				}
-			}
-
-			int orderComboLegsCount = readInt();
-			if (orderComboLegsCount > 0) {
-				order.orderComboLegs(new ArrayList<>(orderComboLegsCount));
-				for (int i = 0; i < orderComboLegsCount; ++i) {
-					double price = readDoubleMax();
-
-					OrderComboLeg orderComboLeg = new OrderComboLeg(price);
-					order.orderComboLegs().add(orderComboLeg);
-				}
-			}
-		}
-
-		if (version >= 26) {
-			int smartComboRoutingParamsCount = readInt();
-			if (smartComboRoutingParamsCount > 0) {
-				order.smartComboRoutingParams(new ArrayList<>(smartComboRoutingParamsCount));
-				for (int i = 0; i < smartComboRoutingParamsCount; ++i) {
-					TagValue tagValue = new TagValue();
-					tagValue.m_tag = readStr();
-					tagValue.m_value = readStr();
-					order.smartComboRoutingParams().add(tagValue);
-				}
-			}
-		}
-
-		if (version >= 15) {
-			if (version >= 20) {
-				order.scaleInitLevelSize(readIntMax());
-				order.scaleSubsLevelSize(readIntMax());
-			}
-			else {
-				/* int notSuppScaleNumComponents = */ readIntMax();
-				order.scaleInitLevelSize(readIntMax());
-			}
-			order.scalePriceIncrement(readDoubleMax());
-		}
-
-		if (version >= 28 && order.scalePriceIncrement() > 0.0 && order.scalePriceIncrement() != Double.MAX_VALUE) {
-		    order.scalePriceAdjustValue(readDoubleMax());
-		    order.scalePriceAdjustInterval(readIntMax());
-		    order.scaleProfitOffset(readDoubleMax());
-		    order.scaleAutoReset(readBoolFromInt());
-		    order.scaleInitPosition(readIntMax());
-		    order.scaleInitFillQty(readIntMax());
-		    order.scaleRandomPercent(readBoolFromInt());
-		}
-
-		if (version >= 24) {
-			order.hedgeType(readStr());
-		    if (!Util.StringIsEmpty(order.getHedgeType())) {
-				order.hedgeParam(readStr());
-			}
-		}
-
-		if (version >= 25) {
-			order.optOutSmartRouting(readBoolFromInt());
-		}
-
-		if (version >= 19) {
-			order.clearingAccount(readStr());
-			order.clearingIntent(readStr());
-		}
-
-		if (version >= 22) {
-			order.notHeld(readBoolFromInt());
-		}
-
-		if (version >= 20) {
-		    if (readBoolFromInt()) {
-		        DeltaNeutralContract deltaNeutralContract = new DeltaNeutralContract();
-		        deltaNeutralContract.conid(readInt());
-		        deltaNeutralContract.delta(readDouble());
-		        deltaNeutralContract.price(readDouble());
-		        contract.deltaNeutralContract(deltaNeutralContract);
-		    }
-		}
-
-		if (version >= 21) {
-			order.algoStrategy(readStr());
-		    if (!Util.StringIsEmpty(order.getAlgoStrategy())) {
-				int algoParamsCount = readInt();
-				if (algoParamsCount > 0) {
-					for (int i = 0; i < algoParamsCount; ++i) {
-						TagValue tagValue = new TagValue();
-						tagValue.m_tag = readStr();
-						tagValue.m_value = readStr();
-						order.algoParams().add(tagValue);
-					}
-				}
-			}
-		}
-		
-		if (version >= 33) {
-			order.solicited(readBoolFromInt());
-		}
-
-		OrderState orderState = new OrderState();
-
-		if (version >= 16) {
-			order.whatIf(readBoolFromInt());
-
-			orderState.status(readStr());
-
-			if (m_serverVersion >= EClient.MIN_SERVER_VER_WHAT_IF_EXT_FIELDS) {
-				orderState.initMarginBefore(readStr());
-				orderState.maintMarginBefore(readStr());
-				orderState.equityWithLoanBefore(readStr());
-				orderState.initMarginChange(readStr());
-				orderState.maintMarginChange(readStr());
-				orderState.equityWithLoanChange(readStr());
-			}
-
-			orderState.initMarginAfter(readStr());
-			orderState.maintMarginAfter(readStr());
-			orderState.equityWithLoanAfter(readStr());
-			orderState.commission(readDoubleMax());
-			orderState.minCommission(readDoubleMax());
-			orderState.maxCommission(readDoubleMax());
-			orderState.commissionCurrency(readStr());
-			orderState.warningText(readStr());
-		}
-		
-		if (version >= 34) {
-			order.randomizeSize(readBoolFromInt());
-			order.randomizePrice(readBoolFromInt());
-		}
-		
-		if (m_serverVersion >= EClient.MIN_SERVER_VER_PEGGED_TO_BENCHMARK) {
-			if (order.orderType() == OrderType.PEG_BENCH) {
-				order.referenceContractId(readInt());
-				order.isPeggedChangeAmountDecrease(readBoolFromInt());
-				order.peggedChangeAmount(readDouble());
-				order.referenceChangeAmount(readDouble());
-				order.referenceExchangeId(readStr());
-			}
-			
-			int nConditions = readInt();
-
-			if (nConditions > 0) {			
-				for (int i = 0; i < nConditions; i++) {
-					OrderConditionType orderConditionType = OrderConditionType.fromInt(readInt());				
-					OrderCondition condition = OrderCondition.create(orderConditionType);
-
-					condition.readFrom(this);					
-					order.conditions().add(condition);
-				}
-				
-				order.conditionsIgnoreRth(readBoolFromInt());
-				order.conditionsCancelOrder(readBoolFromInt());
-			}
-						
-			order.adjustedOrderType(OrderType.get(readStr()));
-			order.triggerPrice(readDoubleMax());
-			order.trailStopPrice(readDoubleMax());
-			order.lmtPriceOffset(readDoubleMax());
-			order.adjustedStopPrice(readDoubleMax());
-			order.adjustedStopLimitPrice(readDoubleMax());
-			order.adjustedTrailingAmount(readDoubleMax());
-			order.adjustableTrailingUnit(readInt());
-		}
-		
-		if (m_serverVersion >= EClient.MIN_SERVER_VER_SOFT_DOLLAR_TIER) {
-			order.softDollarTier(new SoftDollarTier(readStr(), readStr(), readStr()));
-		}
-
-		if (m_serverVersion >= EClient.MIN_SERVER_VER_CASH_QTY) {
-			order.cashQty(readDoubleMax());
-		}
-
-		if (m_serverVersion >= EClient.MIN_SERVER_VER_AUTO_PRICE_FOR_HEDGE) {
-			order.dontUseAutoPriceForHedge(readBoolFromInt());
-		}
-		
-		if (m_serverVersion >= EClient.MIN_SERVER_VER_ORDER_CONTAINER) {
-		    order.isOmsContainer(readBoolFromInt());
-		}
-		
-		if (m_serverVersion >= EClient.MIN_SERVER_VER_D_PEG_ORDERS) {
-		    order.discretionaryUpToLimitPrice(readBoolFromInt());
-		}
-		
-		if (m_serverVersion >= EClient.MIN_SERVER_VER_PRICE_MGMT_ALGO) {
-		    order.usePriceMgmtAlgo(readBoolFromInt());
-		}
-		
-		m_EWrapper.openOrder(order.orderId(), contract, order, orderState);
-	}
+        m_EWrapper.openOrder(order.orderId(), contract, order, orderState);
+    }
 
 	private void processErrMsgMsg() throws IOException {
 		int version = readInt();
@@ -2168,7 +1869,86 @@ class EDecoder implements ObjectInput {
         int apiOrderId = readInt();
         m_EWrapper.orderBound(orderId, apiClientId, apiOrderId);
     }
+    
+    private void processCompletedOrderMsg() throws IOException {
+        Contract contract = new Contract();
+        Order order = new Order();
+        OrderState orderState = new OrderState();
 
+        EOrderDecoder eOrderDecoder = new EOrderDecoder(this, contract, order, orderState, Integer.MAX_VALUE, m_serverVersion);
+
+        // read contract fields 
+        eOrderDecoder.readContractFields();
+        
+        // read order fields
+        eOrderDecoder.readAction();
+        eOrderDecoder.readTotalQuantity();
+        eOrderDecoder.readOrderType();
+        eOrderDecoder.readLmtPrice();
+        eOrderDecoder.readAuxPrice();
+        eOrderDecoder.readTIF();
+        eOrderDecoder.readOcaGroup();
+        eOrderDecoder.readAccount();
+        eOrderDecoder.readOpenClose();
+        eOrderDecoder.readOrigin();
+        eOrderDecoder.readOrderRef();
+        eOrderDecoder.readPermId();
+        eOrderDecoder.readOutsideRth();
+        eOrderDecoder.readHidden();
+        eOrderDecoder.readDiscretionaryAmount();
+        eOrderDecoder.readGoodAfterTime();
+        eOrderDecoder.readFAParams();
+        eOrderDecoder.readModelCode();
+        eOrderDecoder.readGoodTillDate();
+        eOrderDecoder.readRule80A();
+        eOrderDecoder.readPercentOffset();
+        eOrderDecoder.readSettlingFirm();
+        eOrderDecoder.readShortSaleParams();
+        eOrderDecoder.readBoxOrderParams();
+        eOrderDecoder.readPegToStkOrVolOrderParams();
+        eOrderDecoder.readDisplaySize();
+        eOrderDecoder.readSweepToFill();
+        eOrderDecoder.readAllOrNone();
+        eOrderDecoder.readMinQty();
+        eOrderDecoder.readOcaType();
+        eOrderDecoder.readTriggerMethod();
+        eOrderDecoder.readVolOrderParams(false);
+        eOrderDecoder.readTrailParams();
+        eOrderDecoder.readComboLegs();
+        eOrderDecoder.readSmartComboRoutingParams();
+        eOrderDecoder.readScaleOrderParams();
+        eOrderDecoder.readHedgeParams();
+        eOrderDecoder.readClearingParams();
+        eOrderDecoder.readNotHeld();
+        eOrderDecoder.readDeltaNeutral();
+        eOrderDecoder.readAlgoParams();
+        eOrderDecoder.readSolicited();
+        eOrderDecoder.readOrderStatus();
+        eOrderDecoder.readVolRandomizeFlags();
+        eOrderDecoder.readPegToBenchParams();
+        eOrderDecoder.readConditions();
+        eOrderDecoder.readStopPriceAndLmtPriceOffset();
+        eOrderDecoder.readCashQty();
+        eOrderDecoder.readDontUseAutoPriceForHedge();
+        eOrderDecoder.readIsOmsContainer();
+        eOrderDecoder.readAutoCancelDate();
+        eOrderDecoder.readFilledQuantity();
+        eOrderDecoder.readRefFuturesConId();
+        eOrderDecoder.readAutoCancelParent();
+        eOrderDecoder.readShareholder();
+        eOrderDecoder.readImbalanceOnly();
+        eOrderDecoder.readRouteMarketableToBbo();
+        eOrderDecoder.readParentPermId();
+        eOrderDecoder.readCompletedTime();
+        eOrderDecoder.readCompletedStatus();
+
+        m_EWrapper.completedOrder(contract, order, orderState);
+    }
+    
+    private void processCompletedOrdersEndMsg() throws IOException {
+        m_EWrapper.completedOrdersEnd();
+    }
+    
     private void readLastTradeDate(ContractDetails contract, boolean isBond) throws IOException {
         String lastTradeDateOrContractMonth = readStr();
         if (lastTradeDateOrContractMonth != null) {
@@ -2189,11 +1969,11 @@ class EDecoder implements ObjectInput {
         }
     }
 
-    private String readStr() throws IOException {
+    public String readStr() throws IOException {
     	return m_messageReader.readStr();
     }
 
-    private boolean readBoolFromInt() throws IOException {
+    public boolean readBoolFromInt() throws IOException {
         String str = readStr();
         return str != null && (Integer.parseInt(str) != 0);
     }
@@ -2203,7 +1983,7 @@ class EDecoder implements ObjectInput {
         return str == null ? 0 : Integer.parseInt( str);
     }
 
-    private int readIntMax() throws IOException {
+    public int readIntMax() throws IOException {
         String str = readStr();
         return (str == null || str.length() == 0) ? Integer.MAX_VALUE
         	                                      : Integer.parseInt( str);
@@ -2219,7 +1999,7 @@ class EDecoder implements ObjectInput {
         return str == null ? 0 : Double.parseDouble( str);
     }
 
-    private double readDoubleMax() throws IOException {
+    public double readDoubleMax() throws IOException {
         String str = readStr();
         return (str == null || str.length() == 0) ? Double.MAX_VALUE
         	                                      : Double.parseDouble( str);

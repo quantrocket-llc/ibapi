@@ -70,185 +70,8 @@ public class EWrapperMsgGenerator {
     
     public static String openOrder( int orderId, Contract contract, Order order, OrderState orderState) {
 		final StringBuilder sb = new StringBuilder(1024);
-        sb.append("open order: orderId=").append(orderId)
-				.append(" action=").append(order.getAction())
-                .append(" quantity=").append(order.totalQuantity())
-                .append(" cashQty=").append(Util.DoubleMaxString(order.cashQty()))
-                .append(" conid=").append(contract.conid())
-                .append(" symbol=").append(contract.symbol())
-                .append(" secType=").append(contract.getSecType())
-                .append(" lastTradeDate=").append(contract.lastTradeDateOrContractMonth())
-                .append(" strike=").append(contract.strike())
-                .append(" right=").append(contract.getRight())
-                .append(" multiplier=").append(contract.multiplier())
-                .append(" exchange=").append(contract.exchange())
-                .append(" primaryExch=").append(contract.primaryExch())
-                .append(" currency=").append(contract.currency())
-                .append(" localSymbol=").append(contract.localSymbol())
-                .append(" tradingClass=").append(contract.tradingClass())
-                .append(" type=").append(order.getOrderType())
-                .append(" lmtPrice=").append(Util.DoubleMaxString(order.lmtPrice()))
-                .append(" auxPrice=").append(Util.DoubleMaxString(order.auxPrice()))
-                .append(" TIF=").append(order.getTif())
-                .append(" localSymbol=").append(contract.localSymbol())
-                .append(" client Id=").append(order.clientId())
-                .append(" parent Id=").append(order.parentId())
-                .append(" permId=").append(order.permId())
-                .append(" outsideRth=").append(order.outsideRth())
-                .append(" hidden=").append(order.hidden())
-                .append(" discretionaryAmt=").append(order.discretionaryAmt())
-                .append(" displaySize=").append(order.displaySize())
-                .append(" triggerMethod=").append(order.getTriggerMethod())
-				.append(" goodAfterTime=").append(order.goodAfterTime())
-				.append(" goodTillDate=").append(order.goodTillDate())
-				.append(" faGroup=").append(order.faGroup())
-				.append(" faMethod=").append(order.getFaMethod())
-				.append(" faPercentage=").append(order.faPercentage())
-				.append(" faProfile=").append(order.faProfile())
-				.append(" shortSaleSlot=").append(order.shortSaleSlot())
-				.append(" designatedLocation=").append(order.designatedLocation())
-				.append(" exemptCode=").append(order.exemptCode())
-				.append(" ocaGroup=").append(order.ocaGroup())
-				.append(" ocaType=").append(order.getOcaType())
-				.append(" rule80A=").append(order.getRule80A())
-				.append(" allOrNone=").append(order.allOrNone())
-				.append(" minQty=").append(Util.IntMaxString(order.minQty()))
-				.append(" percentOffset=").append( Util.DoubleMaxString(order.percentOffset()))
-				.append(" eTradeOnly=").append(order.eTradeOnly())
-				.append(" firmQuoteOnly=").append(order.firmQuoteOnly())
-				.append(" nbboPriceCap=").append(Util.DoubleMaxString(order.nbboPriceCap()))
-				.append(" optOutSmartRouting=").append(order.optOutSmartRouting())
-				.append(" auctionStrategy=").append(order.auctionStrategy())
-				.append(" startingPrice=").append(Util.DoubleMaxString(order.startingPrice()))
-				.append(" stockRefPrice=").append(Util.DoubleMaxString(order.stockRefPrice()))
-				.append(" delta=").append(Util.DoubleMaxString(order.delta()))
-				.append(" stockRangeLower=").append(Util.DoubleMaxString(order.stockRangeLower()))
-				.append(" stockRangeUpper=").append( Util.DoubleMaxString(order.stockRangeUpper()))
-				.append(" volatility=").append(Util.DoubleMaxString(order.volatility()))
-				.append(" volatilityType=").append(order.getVolatilityType())
-				.append(" deltaNeutralOrderType=").append(order.getDeltaNeutralOrderType())
-				.append(" deltaNeutralAuxPrice=").append(Util.DoubleMaxString(order.deltaNeutralAuxPrice()))
-				.append(" deltaNeutralConId=").append(order.deltaNeutralConId())
-				.append(" deltaNeutralSettlingFirm=").append(order.deltaNeutralSettlingFirm())
-				.append(" deltaNeutralClearingAccount=").append(order.deltaNeutralClearingAccount())
-				.append(" deltaNeutralClearingIntent=").append(order.deltaNeutralClearingIntent())
-				.append(" deltaNeutralOpenClose=").append(order.deltaNeutralOpenClose())
-				.append(" deltaNeutralShortSale=").append(order.deltaNeutralShortSale())
-				.append(" deltaNeutralShortSaleSlot=").append(order.deltaNeutralShortSaleSlot())
-				.append(" deltaNeutralDesignatedLocation=").append(order.deltaNeutralDesignatedLocation())
-				.append(" continuousUpdate=").append(order.continuousUpdate())
-				.append(" referencePriceType=").append(order.getReferencePriceType())
-				.append(" trailStopPrice=").append(Util.DoubleMaxString(order.trailStopPrice()))
-				.append(" trailingPercent=").append(Util.DoubleMaxString(order.trailingPercent()))
-				.append(" scaleInitLevelSize=").append(Util.IntMaxString(order.scaleInitLevelSize()))
-				.append(" scaleSubsLevelSize=").append(Util.IntMaxString(order.scaleSubsLevelSize()))
-				.append(" scalePriceIncrement=").append(Util.DoubleMaxString(order.scalePriceIncrement()))
-				.append(" scalePriceAdjustValue=").append(Util.DoubleMaxString(order.scalePriceAdjustValue()))
-				.append(" scalePriceAdjustInterval=").append(Util.IntMaxString(order.scalePriceAdjustInterval()))
-				.append(" scaleProfitOffset=").append(Util.DoubleMaxString(order.scaleProfitOffset()))
-				.append(" scaleAutoReset=").append(order.scaleAutoReset())
-				.append(" scaleInitPosition=").append(Util.IntMaxString(order.scaleInitPosition()))
-				.append(" scaleInitFillQty=").append(Util.IntMaxString(order.scaleInitFillQty()))
-				.append(" scaleRandomPercent=").append(order.scaleRandomPercent())
-				.append(" hedgeType=").append(order.getHedgeType())
-				.append(" hedgeParam=").append(order.hedgeParam())
-				.append(" account=").append(order.account())
-				.append(" modelCode=").append(order.modelCode())
-				.append(" settlingFirm=").append(order.settlingFirm())
-				.append(" clearingAccount=").append(order.clearingAccount())
-				.append(" clearingIntent=").append(order.clearingIntent())
-				.append(" notHeld=").append(order.notHeld())
-				.append(" whatIf=").append(order.whatIf())
-				.append(" solicited=").append(order.solicited())
-				.append(" randomize size=").append(order.randomizeSize())
-				.append(" randomize price=").append(order.randomizePrice())
-				.append(" dontUseAutoPriceForHedge=").append(order.dontUseAutoPriceForHedge())
-				.append(" isOmsContainer=").append(order.isOmsContainer())
-				.append(" discretionaryUpToLimitPrice=").append(order.discretionaryUpToLimitPrice());
-        
-
-        if ("BAG".equals(contract.getSecType())) {
-        	if (contract.comboLegsDescrip() != null) {
-        		sb.append(" comboLegsDescrip=").append(contract.comboLegsDescrip());
-        	}
-        	
-           	sb.append(" comboLegs={");
-            if (contract.comboLegs() != null) {
-            	for (int i = 0; i < contract.comboLegs().size(); ++i) {
-            		ComboLeg comboLeg = contract.comboLegs().get(i);
-            		sb.append(" leg ").append(i+1).append(": ")
-							.append("conId=").append(comboLeg.conid())
-							.append(" ratio=").append(comboLeg.ratio())
-            		        .append(" action=").append(comboLeg.getAction())
-							.append(" exchange=").append(comboLeg.exchange())
-            		        .append(" openClose=").append(comboLeg.getOpenClose())
-            		        .append(" shortSaleSlot=").append(comboLeg.shortSaleSlot())
-            		        .append(" designatedLocation=").append(comboLeg.designatedLocation())
-            		        .append(" exemptCode=").append(comboLeg.exemptCode());
-            		if (order.orderComboLegs() != null && contract.comboLegs().size() == order.orderComboLegs().size()) {
-            			OrderComboLeg orderComboLeg = order.orderComboLegs().get(i);
-            			sb.append(" price=").append(Util.DoubleMaxString(orderComboLeg.price()));
-            		}
-            		sb.append(';');
-            	}
-            }
-           	sb.append('}');
-           	
-        	if (order.basisPoints() != Double.MAX_VALUE) {
-        		sb.append(" basisPoints=").append(Util.DoubleMaxString(order.basisPoints()))
-						.append(" basisPointsType=").append(Util.IntMaxString(order.basisPointsType()));
-        	}
-        }
-        
-    	if (contract.deltaNeutralContract() != null) {
-    		DeltaNeutralContract deltaNeutralContract = contract.deltaNeutralContract();
-    		sb.append(" deltaNeutralContract.conId=").append(deltaNeutralContract.conid())
-					.append(" deltaNeutralContract.delta=").append(deltaNeutralContract.delta())
-					.append(" deltaNeutralContract.price=").append(deltaNeutralContract.price());
-    	}
-    	
-        if (!Util.StringIsEmpty(order.getAlgoStrategy())) {
-    		sb.append(" algoStrategy=").append(order.getAlgoStrategy()).append(" algoParams={");
-    		if (order.algoParams() != null) {
-				for (TagValue param : order.algoParams()) {
-					sb.append(param.m_tag).append('=').append(param.m_value).append(',');
-				}
-				if (!order.algoParams().isEmpty()) {
-					sb.setLength(sb.length() - 1);
-				}
-    		}
-    		sb.append('}');
-    	}
-    	
-        if ("BAG".equals(contract.getSecType())) {
-        	sb.append(" smartComboRoutingParams={");
-        	if (order.smartComboRoutingParams() != null) {
-				for (TagValue param : order.smartComboRoutingParams()) {
-					sb.append(param.m_tag).append('=').append(param.m_value).append(',');
-				}
-				if (!order.smartComboRoutingParams().isEmpty()) {
-					sb.setLength(sb.length() - 1);
-				}
-        	}
-        	sb.append('}');
-        }
-
-		sb.append(" status=").append(orderState.getStatus())
-				.append(" initMarginBefore=").append(orderState.initMarginBefore() != null ? fmt(Double.parseDouble(orderState.initMarginBefore())) : "")
-				.append(" maintMarginBefore=").append(orderState.maintMarginBefore() != null ? fmt(Double.parseDouble(orderState.maintMarginBefore())) : "")
-				.append(" equityWithLoanBefore=").append(orderState.equityWithLoanBefore() != null ? fmt(Double.parseDouble(orderState.equityWithLoanBefore())) : "")
-				.append(" initMarginChange=").append(orderState.initMarginChange() != null ? fmt(Double.parseDouble(orderState.initMarginChange())) : "")
-				.append(" maintMarginChange=").append(orderState.maintMarginChange() != null ? fmt(Double.parseDouble(orderState.maintMarginChange())) : "")
-				.append(" equityWithLoanChange=").append(orderState.equityWithLoanChange() != null ? fmt(Double.parseDouble(orderState.equityWithLoanChange())) : "")
-				.append(" initMarginAfter=").append(fmt(Double.parseDouble(orderState.initMarginAfter())))
-				.append(" maintMarginAfter=").append(fmt(Double.parseDouble(orderState.maintMarginAfter())))
-				.append(" equityWithLoanAfter=").append(fmt(Double.parseDouble(orderState.equityWithLoanAfter())))
-				.append(" commission=").append(Util.DoubleMaxString(orderState.commission()))
-				.append(" minCommission=").append(Util.DoubleMaxString(orderState.minCommission()))
-				.append(" maxCommission=").append(Util.DoubleMaxString(orderState.maxCommission()))
-				.append(" commissionCurrency=").append(orderState.commissionCurrency())
-				.append(" warningText=").append(orderState.warningText());
-
+        sb.append("open order:");
+        appendOrderFields(sb, orderId, contract, order, orderState, true);
         return sb.toString();
     }
     
@@ -838,4 +661,250 @@ public class EWrapperMsgGenerator {
     public static String orderBound(long orderId, int apiClientId, int apiOrderId){
         return "order bound: orderId=" + apiOrderId + " clientId=" + apiClientId + " permId=" + orderId;
     }
+    
+    public static String completedOrder( Contract contract, Order order, OrderState orderState) {
+        final StringBuilder sb = new StringBuilder(1024);
+        sb.append("completed order:");
+        appendOrderFields(sb, Integer.MAX_VALUE, contract, order, orderState, false);
+        return sb.toString();
+    }
+    
+    public static String completedOrdersEnd() {
+        return "=============== end ===============";
+    }
+ 
+    private static void appendOrderFields(StringBuilder sb, int orderId, Contract contract, Order order, OrderState orderState,
+            boolean isOpenOrder) {
+        Util.appendValidIntValue(sb, "orderId", orderId);
+        Util.appendNonEmptyString(sb, "action", order.getAction());
+        Util.appendPositiveDoubleValue(sb, "quantity", order.totalQuantity());
+        Util.appendPositiveDoubleValue(sb, "cashQty", order.cashQty());
+        Util.appendPositiveIntValue(sb, "conid", contract.conid());
+        Util.appendNonEmptyString(sb, "symbol", contract.symbol());
+        Util.appendNonEmptyString(sb, "secType", contract.getSecType());
+        Util.appendNonEmptyString(sb, "lastTradeDate", contract.lastTradeDateOrContractMonth());
+        Util.appendPositiveDoubleValue(sb, "strike", contract.strike());
+        Util.appendNonEmptyString(sb, "right", contract.getRight(), "?");
+        Util.appendNonEmptyString(sb, "multiplier", contract.multiplier());
+        Util.appendNonEmptyString(sb, "exchange", contract.exchange());
+        Util.appendNonEmptyString(sb, "primaryExch", contract.primaryExch());
+        Util.appendNonEmptyString(sb, "currency", contract.currency());
+        Util.appendNonEmptyString(sb, "localSymbol", contract.localSymbol());
+        Util.appendNonEmptyString(sb, "tradingClass", contract.tradingClass());
+        Util.appendNonEmptyString(sb, "type", order.getOrderType());
+        Util.appendValidDoubleValue(sb, "lmtPrice", order.lmtPrice());
+        Util.appendValidDoubleValue(sb, "auxPrice", order.auxPrice());
+        Util.appendNonEmptyString(sb, "TIF", order.getTif());
+        Util.appendNonEmptyString(sb, "openClose", order.openClose());
+        Util.appendValidIntValue(sb, "origin", order.origin());
+        Util.appendNonEmptyString(sb, "orderRef", order.orderRef());
+        Util.appendValidIntValue(sb, "clientId", order.clientId());
+        Util.appendValidIntValue(sb, "parentId", order.parentId());
+        Util.appendValidIntValue(sb, "permId", order.permId());
+        Util.appendBooleanFlag(sb, "outsideRth", order.outsideRth());
+        Util.appendBooleanFlag(sb, "hidden", order.hidden());
+        Util.appendValidDoubleValue(sb, "discretionaryAmt", order.discretionaryAmt());
+        Util.appendPositiveIntValue(sb, "displaySize", order.displaySize());
+        Util.appendValidIntValue(sb, "triggerMethod", order.getTriggerMethod());
+        Util.appendNonEmptyString(sb, "goodAfterTime", order.goodAfterTime());
+        Util.appendNonEmptyString(sb, "goodTillDate", order.goodTillDate());
+        Util.appendNonEmptyString(sb, "faGroup", order.faGroup());
+        Util.appendNonEmptyString(sb, "faMethod", order.getFaMethod());
+        Util.appendNonEmptyString(sb, "faPercentage", order.faPercentage());
+        Util.appendNonEmptyString(sb, "faProfile", order.faProfile());
+        Util.appendPositiveIntValue(sb, "shortSaleSlot", order.shortSaleSlot());
+        if (order.shortSaleSlot() > 0) {
+            Util.appendNonEmptyString(sb, "designatedLocation", order.designatedLocation());
+            Util.appendValidIntValue(sb, "exemptCode", order.exemptCode());
+        }
+        Util.appendNonEmptyString(sb, "ocaGroup", order.ocaGroup());
+        Util.appendPositiveIntValue(sb, "ocaType", order.getOcaType());
+        Util.appendNonEmptyString(sb, "rule80A", order.getRule80A());
+        Util.appendBooleanFlag(sb, "blockOrder", order.blockOrder());
+        Util.appendBooleanFlag(sb, "sweepToFill", order.sweepToFill());
+        Util.appendBooleanFlag(sb, "allOrNone", order.allOrNone());
+        Util.appendValidIntValue(sb, "minQty", order.minQty());
+        Util.appendValidDoubleValue(sb, "percentOffset", order.percentOffset());
+        Util.appendBooleanFlag(sb, "eTradeOnly", order.eTradeOnly());
+        Util.appendBooleanFlag(sb, "firmQuoteOnly", order.firmQuoteOnly());
+        Util.appendValidDoubleValue(sb, "nbboPriceCap", order.nbboPriceCap());
+        Util.appendBooleanFlag(sb, "optOutSmartRouting", order.optOutSmartRouting());
+        Util.appendValidDoubleValue(sb, "startingPrice", order.startingPrice());
+        Util.appendValidDoubleValue(sb, "stockRefPrice", order.stockRefPrice());
+        Util.appendValidDoubleValue(sb, "delta", order.delta());
+        Util.appendValidDoubleValue(sb, "stockRangeLower", order.stockRangeLower());
+        Util.appendValidDoubleValue(sb, "stockRangeUpper", order.stockRangeUpper());
+        
+        Util.appendValidDoubleValue(sb, "volatility", order.volatility());
+        if(order.volatility() != Double.MAX_VALUE) {
+            Util.appendPositiveIntValue(sb, "volatilityType", order.getVolatilityType());
+            Util.appendNonEmptyString(sb, "deltaNeutralOrderType", order.getDeltaNeutralOrderType());
+            Util.appendValidDoubleValue(sb, "deltaNeutralAuxPrice", order.deltaNeutralAuxPrice());
+            Util.appendPositiveIntValue(sb, "deltaNeutralConId", order.deltaNeutralConId());
+            Util.appendNonEmptyString(sb, "deltaNeutralSettlingFirm", order.deltaNeutralSettlingFirm());
+            Util.appendNonEmptyString(sb, "deltaNeutralClearingAccount", order.deltaNeutralClearingAccount());
+            Util.appendNonEmptyString(sb, "deltaNeutralClearingIntent", order.deltaNeutralClearingIntent());
+            Util.appendNonEmptyString(sb, "deltaNeutralOpenClose", order.deltaNeutralOpenClose(), "?");
+            Util.appendBooleanFlag(sb, "deltaNeutralShortSale", order.deltaNeutralShortSale());
+            if (order.deltaNeutralShortSale()) {
+                Util.appendValidIntValue(sb, "deltaNeutralShortSaleSlot", order.deltaNeutralShortSaleSlot());
+                Util.appendNonEmptyString(sb, "deltaNeutralDesignatedLocation", order.deltaNeutralDesignatedLocation());
+            }
+            Util.appendBooleanFlag(sb, "continuousUpdate", order.continuousUpdate());
+            Util.appendValidIntValue(sb, "referencePriceType", order.getReferencePriceType());
+        }
+        Util.appendValidDoubleValue(sb, "trailStopPrice", order.trailStopPrice());
+        Util.appendValidDoubleValue(sb, "trailingPercent", order.trailingPercent());
+        Util.appendValidDoubleValue(sb, "lmtPriceOffset", order.lmtPriceOffset());
+        Util.appendValidIntValue(sb, "scaleInitLevelSize", order.scaleInitLevelSize());
+        Util.appendValidIntValue(sb, "scaleSubsLevelSize", order.scaleSubsLevelSize());
+        Util.appendValidDoubleValue(sb, "scalePriceIncrement", order.scalePriceIncrement());
+        Util.appendValidDoubleValue(sb, "scalePriceAdjustValue", order.scalePriceAdjustValue());
+        Util.appendValidIntValue(sb, "scalePriceAdjustInterval", order.scalePriceAdjustInterval());
+        Util.appendValidDoubleValue(sb, "scaleProfitOffset", order.scaleProfitOffset());
+        Util.appendBooleanFlag(sb, "scaleAutoReset", order.scaleAutoReset());
+        Util.appendValidIntValue(sb, "scaleInitPosition", order.scaleInitPosition());
+        Util.appendValidIntValue(sb, "scaleInitFillQty", order.scaleInitFillQty());
+        Util.appendBooleanFlag(sb, "scaleRandomPercent", order.scaleRandomPercent());
+        Util.appendNonEmptyString(sb, "hedgeType", order.getHedgeType());
+        Util.appendNonEmptyString(sb, "hedgeParam", order.hedgeParam());
+        Util.appendNonEmptyString(sb, "account", order.account());
+        Util.appendNonEmptyString(sb, "modelCode", order.modelCode());
+        Util.appendNonEmptyString(sb, "settlingFirm", order.settlingFirm());
+        Util.appendNonEmptyString(sb, "clearingAccount", order.clearingAccount());
+        Util.appendNonEmptyString(sb, "clearingIntent", order.clearingIntent());
+        Util.appendBooleanFlag(sb, "notHeld", order.notHeld());
+        Util.appendBooleanFlag(sb, "whatIf", order.whatIf());
+        Util.appendBooleanFlag(sb, "solicited", order.solicited());
+        Util.appendBooleanFlag(sb, "randomizeSize", order.randomizeSize());
+        Util.appendBooleanFlag(sb, "randomizePrice", order.randomizePrice());
+        Util.appendBooleanFlag(sb, "dontUseAutoPriceForHedge", order.dontUseAutoPriceForHedge());
+        Util.appendBooleanFlag(sb, "isOmsContainer", order.isOmsContainer());
+        Util.appendBooleanFlag(sb, "discretionaryUpToLimitPrice", order.discretionaryUpToLimitPrice());
+        Util.appendBooleanFlag(sb, "usePriceMgmtAlgo", order.usePriceMgmtAlgo());
+
+        if ("PEG BENCH".equals(order.getOrderType())) {
+            Util.appendPositiveIntValue(sb, "referenceContractId", order.referenceContractId());
+            Util.appendBooleanFlag(sb, "isPeggedChangeAmountDecrease", order.isPeggedChangeAmountDecrease());
+            Util.appendValidDoubleValue(sb, "peggedChangeAmount", order.peggedChangeAmount());
+            Util.appendValidDoubleValue(sb, "referenceChangeAmount", order.referenceChangeAmount());
+            Util.appendNonEmptyString(sb, "referenceExchangeId", order.referenceExchangeId());
+        }
+        
+        if ("BAG".equals(contract.getSecType())) {
+            if (contract.comboLegsDescrip() != null) {
+                Util.appendNonEmptyString(sb, "comboLegsDescrip", contract.comboLegsDescrip());
+            }
+            
+            sb.append(" comboLegs={");
+            if (contract.comboLegs() != null) {
+                for (int i = 0; i < contract.comboLegs().size(); ++i) {
+                    ComboLeg comboLeg = contract.comboLegs().get(i);
+                    sb.append(" leg ").append(i + 1).append(":");
+                    Util.appendPositiveIntValue(sb, "conid", comboLeg.conid());
+                    Util.appendPositiveIntValue(sb, "ratio", comboLeg.ratio());
+                    Util.appendNonEmptyString(sb, "action", comboLeg.getAction());
+                    Util.appendNonEmptyString(sb, "exchange", comboLeg.exchange());
+                    Util.appendValidIntValue(sb, "openClose", comboLeg.getOpenClose());
+                    Util.appendBooleanFlag(sb, "shortSaleSlot", comboLeg.shortSaleSlot());
+                    if (comboLeg.shortSaleSlot() > 0) {
+                        Util.appendNonEmptyString(sb, "designatedLocation", comboLeg.designatedLocation());
+                        Util.appendValidIntValue(sb, "exemptCode", comboLeg.exemptCode());
+                    }
+                    
+                    if (order.orderComboLegs() != null && contract.comboLegs().size() == order.orderComboLegs().size()) {
+                        OrderComboLeg orderComboLeg = order.orderComboLegs().get(i);
+                        Util.appendValidDoubleValue(sb, "price", orderComboLeg.price());
+                    }
+                    sb.append(';');
+                }
+            }
+            sb.append('}');
+            
+            if (order.basisPoints() != Double.MAX_VALUE) {
+                Util.appendValidDoubleValue(sb, "basisPoints", order.basisPoints());
+                Util.appendValidIntValue(sb, "basisPointsType", order.basisPointsType());
+            }
+        }
+        
+        if (contract.deltaNeutralContract() != null) {
+            DeltaNeutralContract deltaNeutralContract = contract.deltaNeutralContract();
+            sb.append(" deltaNeutralContract={");
+            Util.appendPositiveIntValue(sb, "conid", deltaNeutralContract.conid());
+            Util.appendValidDoubleValue(sb, "delta", deltaNeutralContract.delta());
+            Util.appendValidDoubleValue(sb, "price", deltaNeutralContract.price());
+            sb.append("}");
+        }
+
+        if (!Util.StringIsEmpty(order.getAlgoStrategy())) {
+            Util.appendNonEmptyString(sb, "algoStrategy", order.getAlgoStrategy());
+            if (order.algoParams() != null && order.algoParams().size() > 0) {
+                sb.append(" algoParams={");
+                for (TagValue param : order.algoParams()) {
+                    sb.append(param.m_tag).append('=').append(param.m_value).append(',');
+                }
+                if (!order.algoParams().isEmpty()) {
+                    sb.setLength(sb.length() - 1);
+                }
+                sb.append('}');
+            }
+        }
+        
+        if ("BAG".equals(contract.getSecType())) {
+            if (order.smartComboRoutingParams() != null && order.smartComboRoutingParams().size() > 0) {
+                sb.append(" smartComboRoutingParams={");
+                for (TagValue param : order.smartComboRoutingParams()) {
+                    sb.append(param.m_tag).append('=').append(param.m_value).append(',');
+                }
+                if (!order.smartComboRoutingParams().isEmpty()) {
+                    sb.setLength(sb.length() - 1);
+                }
+                sb.append('}');
+            }
+        }
+
+        
+        Util.appendNonEmptyString(sb, "autoCancelDate", order.autoCancelDate());
+        Util.appendValidDoubleValue(sb, "filledQuantity", order.filledQuantity());
+        Util.appendPositiveIntValue(sb, "refFuturesConId", order.refFuturesConId());
+        Util.appendBooleanFlag(sb, "autoCancelParent", order.autoCancelParent());
+        Util.appendNonEmptyString(sb, "shareholder", order.shareholder());
+        Util.appendBooleanFlag(sb, "imbalanceOnly", order.imbalanceOnly());
+        Util.appendBooleanFlag(sb, "routeMarketableToBbo", order.routeMarketableToBbo());
+        Util.appendValidLongValue(sb, "parentPermId", order.parentPermId());
+        
+        Util.appendNonEmptyString(sb, "status", orderState.getStatus());
+        Util.appendNonEmptyString(sb, "completedTime", orderState.completedTime());
+        Util.appendNonEmptyString(sb, "completedStatus", orderState.completedStatus());
+        
+        if (order.whatIf()) {
+            Util.appendValidDoubleValue(sb, "initMarginBefore", orderState.initMarginBefore());
+            Util.appendValidDoubleValue(sb, "maintMarginBefore", orderState.maintMarginBefore());
+            Util.appendValidDoubleValue(sb, "equityWithLoanBefore", orderState.equityWithLoanBefore());
+            Util.appendValidDoubleValue(sb, "initMarginChange", orderState.initMarginChange());
+            Util.appendValidDoubleValue(sb, "maintMarginChange", orderState.maintMarginChange());
+            Util.appendValidDoubleValue(sb, "equityWithLoanChange", orderState.equityWithLoanChange());
+            Util.appendValidDoubleValue(sb, "initMarginAfter", orderState.initMarginAfter());
+            Util.appendValidDoubleValue(sb, "maintMarginAfter", orderState.maintMarginAfter());
+            Util.appendValidDoubleValue(sb, "equityWithLoanAfter", orderState.equityWithLoanAfter());
+            Util.appendValidDoubleValue(sb, "commission", orderState.commission());
+            Util.appendValidDoubleValue(sb, "minCommission", orderState.minCommission());
+            Util.appendValidDoubleValue(sb, "maxCommission", orderState.maxCommission());
+            Util.appendNonEmptyString(sb, "commissionCurrency", orderState.commissionCurrency());
+            Util.appendNonEmptyString(sb, "warningText", orderState.warningText());
+        }
+        
+        if (order.conditions() != null && order.conditions().size() > 0) {
+            sb.append(" conditions={");
+            for (OrderCondition condition : order.conditions()) {
+                sb.append(condition).append(";");
+            }
+            if (!order.conditions().isEmpty()) {
+                sb.setLength(sb.length() - 1);
+            }
+            sb.append('}');
+        }
+    }
+    
+    
 }

@@ -9,26 +9,27 @@ import java.util.List;
 import com.ib.api.dde.dde2socket.requests.DdeRequestType;
 import com.ib.api.dde.dde2socket.requests.orders.OrderStatusRequest;
 import com.ib.api.dde.socket2dde.data.OpenOrderData;
+import com.ib.api.dde.socket2dde.data.OrderData;
 import com.ib.api.dde.socket2dde.data.OrderStatusData;
 
 /** Class contains some utility methods related to order requests */
 public class OrderUtils {
 
     /** Method converts openOrderData list to byte array*/
-   public static byte[] openOrderDataListToByteArray(List<OpenOrderData> openOrderDataList, List<OpenOrderData> allOpenOrderDataList, boolean isNew) {
+   public static byte[] openOrderDataListToByteArray(List<OrderData> openOrderDataList, List<OrderData> allOpenOrderDataList, boolean isNew) {
         ArrayList<ArrayList<String>> list = new ArrayList<ArrayList<String>>();
 
         int index = 1;
         if (allOpenOrderDataList != null) {
             for (int i = 0; i < allOpenOrderDataList.size(); i++) {
-                OpenOrderData msg = allOpenOrderDataList.get(i);
+                OrderData msg = allOpenOrderDataList.get(i);
                 ArrayList<String> item = createTableItem(msg, isNew, index++);
                 list.add(new ArrayList<String>(item));
                 item.clear();
             }
         }
         for (int i = 0; i < openOrderDataList.size(); i++) {
-            OpenOrderData msg = openOrderDataList.get(i);
+            OrderData msg = openOrderDataList.get(i);
             ArrayList<String> item = createTableItem(msg, isNew, index++);
             list.add(new ArrayList<String>(item));
             item.clear();
@@ -37,8 +38,162 @@ public class OrderUtils {
         return bytes;
     }
 
-    /** Method creates single table row (array of strings) from OpenOrderData */
-    private static ArrayList<String> createTableItem(OpenOrderData openOrderData, boolean isNew, int index) {
+    /** Method creates single table row (array of strings) from OrderData */
+    private static ArrayList<String> createTableItem(OrderData orderData, boolean isNew, int index) {
+        if (orderData instanceof OpenOrderData) {
+            return createOpenOrderTableItem((OpenOrderData)orderData, isNew, index);
+        } else {
+            return createCompletedOrderTableItem(orderData);
+        }
+    }
+    
+    /** Method creates single table row (array of strings) from completed order */
+    private static ArrayList<String> createCompletedOrderTableItem(OrderData completedOrderData) {
+        ArrayList<String> item = new ArrayList<String>();
+
+        if (completedOrderData.contract() != null) {
+            item.add(Utils.toString(completedOrderData.contract().symbol()));
+            item.add(Utils.toString(completedOrderData.contract().getSecType()));
+            item.add(Utils.toString(completedOrderData.contract().lastTradeDateOrContractMonth()));
+            item.add(Utils.toString(completedOrderData.contract().strike()));
+            item.add(Utils.toString(completedOrderData.contract().getRight()));
+            item.add(Utils.toString(completedOrderData.contract().multiplier()));
+            item.add(Utils.toString(completedOrderData.contract().tradingClass()));
+            item.add(Utils.toString(completedOrderData.contract().exchange()));
+            item.add(Utils.toString(completedOrderData.contract().primaryExch()));
+            item.add(Utils.toString(completedOrderData.contract().currency()));
+            item.add(Utils.toString(completedOrderData.contract().localSymbol()));
+            item.add(Utils.toString(completedOrderData.contract().conid()));
+            item.add(Utils.comboLegsListToString(completedOrderData.contract().comboLegs()));
+            item.add(Utils.deltaNeutralContractToString(completedOrderData.contract().deltaNeutralContract()));
+        } else {
+            for (int j = 0; j < 14; j++) {
+                item.add(Utils.toString(""));
+            }
+        }
+        
+        if (completedOrderData.order() != null) {
+            item.add(Utils.toString(completedOrderData.order().getAction()));
+            item.add(Utils.toString(completedOrderData.order().totalQuantity()));
+            item.add(Utils.toString(completedOrderData.order().cashQty()));
+            item.add(Utils.toString(completedOrderData.order().filledQuantity()));
+            item.add(Utils.toString(completedOrderData.order().getOrderType()));
+            item.add(Utils.toString(completedOrderData.order().lmtPrice()));
+            item.add(Utils.toString(completedOrderData.order().auxPrice()));
+        } else {
+            for (int j = 0; j < 7; j++) {
+                item.add(Utils.toString(""));
+            }
+        }
+        
+        if (completedOrderData.orderState() != null) {
+            item.add(Utils.toString(completedOrderData.orderState().status().toString()));
+            item.add(Utils.toString(completedOrderData.orderState().completedTime()));
+            item.add(Utils.toString(completedOrderData.orderState().completedStatus()));
+        } else {
+            for (int j = 0; j < 3; j++) {
+                item.add(Utils.toString(""));
+            }
+        }
+
+        if (completedOrderData.order() != null) {
+            item.add(Utils.toString(completedOrderData.order().permId()));
+            item.add(Utils.toString(completedOrderData.order().parentPermId()));
+            item.add(Utils.toString(completedOrderData.order().getTif()));
+            item.add(Utils.toString(completedOrderData.order().displaySize()));
+            item.add(Utils.toString(completedOrderData.order().settlingFirm()));
+            item.add(Utils.toString(completedOrderData.order().clearingAccount()));
+            item.add(Utils.toString(completedOrderData.order().clearingIntent()));
+            item.add(Utils.toString(completedOrderData.order().openClose()));
+            item.add(Utils.toString(completedOrderData.order().origin()));
+            item.add(Utils.toString(completedOrderData.order().shortSaleSlot()));
+            item.add(Utils.toString(completedOrderData.order().designatedLocation()));
+            item.add(Utils.toString(completedOrderData.order().exemptCode()));
+            item.add(Utils.toString(completedOrderData.order().allOrNone()));
+            item.add(Utils.toString(completedOrderData.order().hidden()));
+            item.add(Utils.toString(completedOrderData.order().outsideRth()));
+            item.add(Utils.toString(completedOrderData.order().sweepToFill()));
+            item.add(Utils.toString(completedOrderData.order().percentOffset()));
+            item.add(Utils.toString(completedOrderData.order().trailingPercent()));
+            item.add(Utils.toString(completedOrderData.order().trailStopPrice()));
+            item.add(Utils.toString(completedOrderData.order().minQty()));
+            item.add(Utils.toString(completedOrderData.order().goodAfterTime()));
+            item.add(Utils.toString(completedOrderData.order().goodTillDate()));
+            item.add(Utils.toString(completedOrderData.order().ocaGroup()));
+            item.add(Utils.toString(completedOrderData.order().getOcaType()));
+            item.add(Utils.toString(completedOrderData.order().orderRef()));
+            item.add(Utils.toString(completedOrderData.order().getRule80A()));
+            item.add(Utils.toString(completedOrderData.order().getTriggerMethod()));
+            item.add(Utils.toString(completedOrderData.order().account()));
+            item.add(Utils.toString(completedOrderData.order().faGroup()));
+            item.add(Utils.toString(completedOrderData.order().getFaMethod()));
+            item.add(Utils.toString(completedOrderData.order().faPercentage()));
+            item.add(Utils.toString(completedOrderData.order().faProfile()));
+            item.add(Utils.toString(completedOrderData.order().volatility()));
+            item.add(Utils.toString(completedOrderData.order().getVolatilityType()));
+            item.add(Utils.toString(completedOrderData.order().continuousUpdate()));
+            item.add(Utils.toString(completedOrderData.order().getReferencePriceType()));
+            item.add(Utils.toString(completedOrderData.order().getDeltaNeutralOrderType()));
+            item.add(Utils.toString(completedOrderData.order().deltaNeutralAuxPrice()));
+            item.add(Utils.toString(completedOrderData.order().deltaNeutralConId()));
+            item.add(Utils.toString(completedOrderData.order().deltaNeutralShortSale()));
+            item.add(Utils.toString(completedOrderData.order().deltaNeutralShortSaleSlot()));
+            item.add(Utils.toString(completedOrderData.order().deltaNeutralDesignatedLocation()));
+            item.add(Utils.toString(completedOrderData.order().scaleInitLevelSize()));
+            item.add(Utils.toString(completedOrderData.order().scaleSubsLevelSize()));
+            item.add(Utils.toString(completedOrderData.order().scalePriceIncrement()));
+            item.add(Utils.toString(completedOrderData.order().scalePriceAdjustValue()));
+            item.add(Utils.toString(completedOrderData.order().scalePriceAdjustInterval()));
+            item.add(Utils.toString(completedOrderData.order().scaleProfitOffset()));
+            item.add(Utils.toString(completedOrderData.order().scaleAutoReset()));
+            item.add(Utils.toString(completedOrderData.order().scaleInitPosition()));
+            item.add(Utils.toString(completedOrderData.order().scaleInitFillQty()));
+            item.add(Utils.toString(completedOrderData.order().scaleRandomPercent()));
+            item.add(Utils.toString(completedOrderData.order().getHedgeType()));
+            item.add(Utils.toString(completedOrderData.order().hedgeParam()));
+            item.add(Utils.toString(completedOrderData.order().dontUseAutoPriceForHedge()));
+            item.add(Utils.toString(completedOrderData.order().getAlgoStrategy()));
+            item.add(Utils.tagValueListToString(completedOrderData.order().algoParams()));
+            item.add(Utils.tagValueListToString(completedOrderData.order().smartComboRoutingParams()));
+            item.add(Utils.orderComboLegsListToString(completedOrderData.order().orderComboLegs()));
+            item.add(Utils.toString(completedOrderData.order().discretionaryAmt()));
+            item.add(Utils.toString(completedOrderData.order().startingPrice()));
+            item.add(Utils.toString(completedOrderData.order().stockRefPrice()));
+            item.add(Utils.toString(completedOrderData.order().delta()));
+            item.add(Utils.toString(completedOrderData.order().stockRangeLower()));
+            item.add(Utils.toString(completedOrderData.order().stockRangeUpper()));
+            item.add(Utils.toString(completedOrderData.order().notHeld()));
+            item.add(Utils.toString(completedOrderData.order().solicited()));
+            item.add(Utils.toString(completedOrderData.order().randomizeSize()));
+            item.add(Utils.toString(completedOrderData.order().randomizePrice()));
+            item.add(Utils.toString(completedOrderData.order().referenceContractId()));
+            item.add(Utils.toString(completedOrderData.order().isPeggedChangeAmountDecrease()));
+            item.add(Utils.toString(completedOrderData.order().peggedChangeAmount()));
+            item.add(Utils.toString(completedOrderData.order().referenceChangeAmount()));
+            item.add(Utils.toString(completedOrderData.order().referenceExchangeId()));
+            item.add(Utils.toString(completedOrderData.order().lmtPriceOffset()));
+            item.add(Utils.conditionsToString(completedOrderData.order().conditions()));
+            item.add(Utils.toString(completedOrderData.order().conditionsIgnoreRth()));
+            item.add(Utils.toString(completedOrderData.order().conditionsCancelOrder()));
+            item.add(Utils.toString(completedOrderData.order().modelCode()));
+            item.add(Utils.toString(completedOrderData.order().isOmsContainer()));
+            item.add(Utils.toString(completedOrderData.order().autoCancelDate()));
+            item.add(Utils.toString(completedOrderData.order().refFuturesConId()));
+            item.add(Utils.toString(completedOrderData.order().autoCancelParent()));
+            item.add(Utils.toString(completedOrderData.order().shareholder()));
+            item.add(Utils.toString(completedOrderData.order().imbalanceOnly()));
+            item.add(Utils.toString(completedOrderData.order().routeMarketableToBbo()));
+        } else {
+            for (int j = 0; j < 86; j++) {
+                item.add(Utils.toString(""));
+            }
+        }
+        
+        return item;
+    }
+    
+    /** Method creates single table row (array of strings) from open order */
+    private static ArrayList<String> createOpenOrderTableItem(OpenOrderData openOrderData, boolean isNew, int index) {
         ArrayList<String> item = new ArrayList<String>();
         if (openOrderData.contract() != null) {
             item.add(Utils.toString(openOrderData.contract().symbol()));
@@ -102,10 +257,6 @@ public class OrderUtils {
             }
         }
 
-
-        
-        
-        
         // new
         if (isNew) {
             if (openOrderData.order() != null) {
@@ -207,8 +358,10 @@ public class OrderUtils {
                 item.add(Utils.toString(openOrderData.order().softDollarTier()));
                 item.add(Utils.toString(openOrderData.order().cashQty()));
                 item.add(Utils.toString(openOrderData.order().isOmsContainer()));
+                item.add(Utils.toString(openOrderData.order().discretionaryUpToLimitPrice()));
+                item.add(Utils.toString(openOrderData.order().usePriceMgmtAlgo()));
             } else {
-                for (int j = 0; j < 98; j++) {
+                for (int j = 0; j < 100; j++) {
                     item.add(Utils.toString(""));
                 }
             }

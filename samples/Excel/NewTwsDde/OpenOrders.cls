@@ -30,7 +30,7 @@ Const COLUMN_ORDER_STATUS = 21
 Const COLUMN_PERM_ID = 30
 
 'range
-Const OPEN_ORDERS_TABLE_RANGE = "A" & OPEN_ORDERS_START_ROW & ":DX" & OPEN_ORDERS_END_ROW
+Const OPEN_ORDERS_TABLE_RANGE = "A" & OPEN_ORDERS_START_ROW & ":DZ" & OPEN_ORDERS_END_ROW
 
 
 ' ========================================================

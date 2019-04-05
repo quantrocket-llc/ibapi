@@ -1,4 +1,4 @@
-﻿/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 using System;
@@ -31,6 +31,8 @@ namespace IBApi
         private double maxCommission;
         private string commissionCurrency;
         private string warningText;
+        private string completedTime;
+        private string completedStatus;
 
         /**
          * @brief The order's current status
@@ -168,6 +170,18 @@ namespace IBApi
             set { warningText = value;  }
         }
 
+        public string CompletedTime
+        {
+            get { return completedTime; }
+            set { completedTime = value; }
+        }
+
+        public string CompletedStatus
+        {
+            get { return completedStatus; }
+            set { completedStatus = value; }
+        }
+
         public OrderState()
         {
             Status = null;
@@ -185,6 +199,8 @@ namespace IBApi
             MaxCommission = 0.0;
             CommissionCurrency = null;
             WarningText = null;
+            CompletedTime = null;
+            CompletedStatus = null;
         }
 
         public OrderState(string status,
@@ -192,7 +208,8 @@ namespace IBApi
                 string initMarginChange, string maintMarginChange, string equityWithLoanChange,
                 string initMarginAfter, string maintMarginAfter, string equityWithLoanAfter,
                 double commission, double minCommission,
-                double maxCommission, string commissionCurrency, string warningText)
+                double maxCommission, string commissionCurrency, string warningText,
+                string completedTime, string completedStatus)
         {
             InitMarginBefore = initMarginBefore;
             MaintMarginBefore = maintMarginBefore;
@@ -208,6 +225,8 @@ namespace IBApi
             MaxCommission = maxCommission;
             CommissionCurrency = commissionCurrency;
             WarningText = warningText;
+            CompletedTime = completedTime;
+            CompletedStatus = completedStatus;
         }
 
         public override bool Equals(Object other)
@@ -238,7 +257,9 @@ namespace IBApi
                 Util.StringCompare(initMarginAfter, state.initMarginAfter) != 0 ||
                 Util.StringCompare(maintMarginAfter, state.maintMarginAfter) != 0 ||
                 Util.StringCompare(equityWithLoanAfter, state.equityWithLoanAfter) != 0 ||
-                Util.StringCompare(commissionCurrency, state.commissionCurrency) != 0)
+                Util.StringCompare(commissionCurrency, state.commissionCurrency) != 0 ||
+                Util.StringCompare(completedTime, state.completedTime) != 0 ||
+                Util.StringCompare(completedStatus, state.completedStatus) != 0)
             {
                 return false;
             }

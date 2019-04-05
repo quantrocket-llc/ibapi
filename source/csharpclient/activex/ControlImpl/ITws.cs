@@ -1,4 +1,4 @@
-﻿/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 using System;
@@ -377,6 +377,9 @@ namespace TWSLib
         void cancelTickByTickData(int reqId);
         [DispId(233)]
         void reqHistoricalTicks(int reqId, IContract contract, string startDateTime, string endDateTime, int numberOfTicks, string whatToShow, int useRth, bool ignoreSize, ITagValueList options);
+        [DispId(234)]
+        void reqCompletedOrders(bool apiOnly);
+
         #endregion
     }
 }

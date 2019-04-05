@@ -64,7 +64,7 @@ Module MainModule
         '**************************************************
         '** Real time market data operations  - Tickers ***
         '**************************************************
-        tickDataOperations(client)
+        'tickDataOperations(client)
 
         '***************************************************
         '** Tick option computation operations - Tickers ***
@@ -124,7 +124,7 @@ Module MainModule
         '*********************
         '** Order handling ***
         '*********************
-        'orderOperations(client, nextValidId)
+        orderOperations(client, nextValidId)
 
         '***********************************
         '** Financial Advisor Exclusive Operations ***
@@ -718,6 +718,11 @@ Module MainModule
         '! [reqexecutions]
         client.reqExecutions(10001, New ExecutionFilter())
         '! [reqexecutions]
+
+        '! [reqcompletedorders]
+        client.reqCompletedOrders(False)
+        '! [reqcompletedorders]
+
     End Sub
 
     Private Sub newsOperations(client As EClientSocket)

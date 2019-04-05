@@ -1,4 +1,4 @@
-﻿/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 #pragma once
@@ -13,6 +13,7 @@
 
 #define UNSET_DOUBLE DBL_MAX
 #define UNSET_INTEGER INT_MAX
+#define UNSET_LONG LLONG_MAX
 
 enum Origin { CUSTOMER,
               FIRM,
@@ -160,6 +161,16 @@ struct Order
 
         isOmsContainer = false;
         discretionaryUpToLimitPrice = false;
+
+		autoCancelDate = "";
+		filledQuantity = UNSET_DOUBLE;
+		refFuturesConId = UNSET_INTEGER;
+		autoCancelParent = false;
+		shareholder = "";
+		imbalanceOnly = false;
+		routeMarketableToBbo = false;
+		parentPermId = UNSET_LONG;
+		
         usePriceMgmtAlgo = false;
 	}
 
@@ -339,6 +350,15 @@ struct Order
     bool isOmsContainer;
 
     bool discretionaryUpToLimitPrice;
+
+    std::string autoCancelDate;
+    double filledQuantity;
+    int refFuturesConId;
+    bool autoCancelParent;
+    std::string shareholder;
+    bool imbalanceOnly;
+    bool routeMarketableToBbo;
+    long long parentPermId;
 
     bool usePriceMgmtAlgo;
 

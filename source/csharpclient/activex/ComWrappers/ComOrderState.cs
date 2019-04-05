@@ -1,4 +1,4 @@
-﻿/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 using IBApi;
@@ -154,6 +154,24 @@ namespace TWSLib
             set { if (data != null) data.WarningText = value; }
         }
 
+        /**
+         * @brief Completed time for completed order.
+         */
+        public string CompletedTime
+        {
+            get { return data != null ? data.CompletedTime : default(string); }
+            set { if (data != null) data.CompletedTime = value; }
+        }
+
+        /**
+         * @brief Completed status for completed order.
+         */
+        public string CompletedStatus
+        {
+            get { return data != null ? data.CompletedStatus : default(string); }
+            set { if (data != null) data.CompletedStatus = value; }
+        }
+
         public override bool Equals(Object other)
         {
 
@@ -182,7 +200,9 @@ namespace TWSLib
                 Util.StringCompare(InitMarginAfter, state.InitMarginAfter) != 0 ||
                 Util.StringCompare(MaintMarginAfter, state.MaintMarginAfter) != 0 ||
                 Util.StringCompare(EquityWithLoanAfter, state.EquityWithLoanAfter) != 0 ||
-                Util.StringCompare(CommissionCurrency, state.CommissionCurrency) != 0)
+                Util.StringCompare(CommissionCurrency, state.CommissionCurrency) != 0 ||
+                Util.StringCompare(CompletedTime, state.CompletedTime) != 0 ||
+                Util.StringCompare(CompletedStatus, state.CompletedStatus) != 0)
             {
                 return false;
             }
@@ -263,6 +283,16 @@ namespace TWSLib
         string TWSLib.IOrderState.warningText
         {
             get { return WarningText; }
+        }
+
+        string TWSLib.IOrderState.completedTime
+        {
+            get { return CompletedTime; }
+        }
+
+        string TWSLib.IOrderState.completedStatus
+        {
+            get { return CompletedStatus; }
         }
 
         public static explicit operator OrderState(ComOrderState cos)

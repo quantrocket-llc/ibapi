@@ -228,9 +228,10 @@ public class Contract implements Cloneable {
                 app( sb, m_strike);
             }
 
-            if( !Util.StringIsEmpty(m_right) ) {
+            if( !Util.StringIsEmpty(m_right) && !m_right.equals("?") ) {
                 app( sb, m_right);
             }
+            app( sb, m_currency);
         }
         return sb.toString();
     }

@@ -92,6 +92,8 @@ class IN:
     HISTORICAL_TICKS_LAST     = 98
     TICK_BY_TICK              = 99
     ORDER_BOUND               = 100
+    COMPLETED_ORDER           = 101
+    COMPLETED_ORDERS_END      = 102
 
 # outgoing msg id's
 class OUT:
@@ -169,3 +171,4 @@ class OUT:
     REQ_HISTORICAL_TICKS          = 96
     REQ_TICK_BY_TICK_DATA         = 97
     CANCEL_TICK_BY_TICK_DATA      = 98
+    REQ_COMPLETED_ORDERS          = 99

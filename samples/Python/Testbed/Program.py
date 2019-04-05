@@ -13,6 +13,7 @@ import time
 import os.path
 
 from ibapi import wrapper
+from ibapi import utils
 from ibapi.client import EClient
 from ibapi.utils import iswrapper
 
@@ -256,7 +257,7 @@ class TestApp(TestWrapper, TestClient):
             #self.realTimeBarsOperations_req()
             #self.historicalDataOperations_req()
             #self.optionsOperations_req()
-            self.marketScannersOperations_req()
+            #self.marketScannersOperations_req()
             #self.fundamentalsOperations_req()
             #self.bulletinsOperations_req()
             #self.contractOperations()
@@ -264,7 +265,7 @@ class TestApp(TestWrapper, TestClient):
             #self.miscelaneousOperations()
             #self.linkingOperations()
             #self.financialAdvisorOperations()
-            #self.orderOperations_req()
+            self.orderOperations_req()
             #self.rerouteCFDOperations()
             #self.marketRuleOperations()
             #self.pnlOperations_req()
@@ -326,15 +327,11 @@ class TestApp(TestWrapper, TestClient):
     def openOrder(self, orderId: OrderId, contract: Contract, order: Order,
                   orderState: OrderState):
         super().openOrder(orderId, contract, order, orderState)
-        print("OpenOrder. ID:", orderId, "Symbol:", contract.symbol, "SecType:", contract.secType,
+        print("OpenOrder. PermId: ", order.permId, "ClientId:", order.clientId, " OrderId:", orderId, 
+              "Account:", order.account, "Symbol:", contract.symbol, "SecType:", contract.secType,
               "Exchange:", contract.exchange, "Action:", order.action, "OrderType:", order.orderType,
-              "TotalQuantity:", order.totalQuantity, "Status:", orderState.status)
-
-        if order.whatIf and orderState is not None:
-            print("WhatIf. OrderId: ", orderId, "initMarginBefore:", orderState.initMarginBefore, "maintMarginBefore:", orderState.maintMarginBefore,
-             "equityWithLoanBefore:", orderState.equityWithLoanBefore, "initMarginChange:", orderState.initMarginChange, "maintMarginChange:", orderState.maintMarginChange,
-             "equityWithLoanChange:", orderState.equityWithLoanChange, "initMarginAfter:", orderState.initMarginAfter, "maintMarginAfter:", orderState.maintMarginAfter,
-             "equityWithLoanAfter:", orderState.equityWithLoanAfter)
+              "TotalQty:", order.totalQuantity, "CashQty:", order.cashQty, 
+              "LmtPrice:", order.lmtPrice, "AuxPrice:", order.auxPrice, "Status:", orderState.status)
 
         order.contract = contract
         self.permId2ord[order.permId] = order
@@ -1799,6 +1796,12 @@ class TestApp(TestWrapper, TestClient):
         # ! [reqexecutions]
         self.reqExecutions(10001, ExecutionFilter())
         # ! [reqexecutions]
+        
+        # Requesting completed orders
+        # ! [reqcompletedorders]
+        self.reqCompletedOrders(False)
+        # ! [reqcompletedorders]
+        
 
     def orderOperations_cancel(self):
         if self.simplePlaceOid is not None:
@@ -1860,6 +1863,26 @@ class TestApp(TestWrapper, TestClient):
         super().currentTime(time)
         print("CurrentTime:", datetime.datetime.fromtimestamp(time).strftime("%Y%m%d %H:%M:%S"))
     # ! [currenttime]
+
+    @iswrapper
+    # ! [completedorder]
+    def completedOrder(self, contract: Contract, order: Order,
+                  orderState: OrderState):
+        super().completedOrder(contract, order, orderState)
+        print("CompletedOrder. PermId:", order.permId, "ParentPermId:", utils.longToStr(order.parentPermId), "Account:", order.account, 
+              "Symbol:", contract.symbol, "SecType:", contract.secType, "Exchange:", contract.exchange, 
+              "Action:", order.action, "OrderType:", order.orderType, "TotalQty:", order.totalQuantity, 
+              "CashQty:", order.cashQty, "FilledQty:", order.filledQuantity, 
+              "LmtPrice:", order.lmtPrice, "AuxPrice:", order.auxPrice, "Status:", orderState.status,
+              "Completed time:", orderState.completedTime, "Completed Status:" + orderState.completedStatus)
+    # ! [completedorder]
+
+    @iswrapper
+    # ! [completedordersend]
+    def completedOrdersEnd(self):
+        super().completedOrdersEnd()
+        print("CompletedOrdersEnd")
+    # ! [completedordersend]
 
 def main():
     SetupLogger()

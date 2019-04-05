@@ -1,4 +1,4 @@
-﻿/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 using System;
@@ -72,7 +72,7 @@ namespace IBSampleApp
             historicalDataManager = new HistoricalDataManager(ibClient, historicalChart, barsGrid);
             realTimeBarManager = new RealTimeBarsManager(ibClient, rtBarsChart, rtBarsGrid);
             scannerManager = new ScannerManager(ibClient, scannerGrid, scannerParamsOutput);
-            orderManager = new OrderManager(ibClient, liveOrdersGrid, tradeLogGrid);
+            orderManager = new OrderManager(ibClient, liveOrdersGrid, completedOrdersGrid, tradeLogGrid);
             accountManager = new AccountManager(ibClient, accountSelector, accSummaryGrid, accountValuesGrid, accountPortfolioGrid, positionsGrid, familyCodesGrid);
             contractManager = new ContractManager(ibClient, fundamentalsOutput, contractDetailsGrid, bondContractDetailsGrid, comboBoxMarketRuleId, dataGridViewMarketRule, labelMarketRuleIdRes);
             advisorManager = new AdvisorManager(ibClient, advisorAliasesGrid, advisorGroupsGrid, advisorProfilesGrid);
@@ -235,6 +235,8 @@ namespace IBSampleApp
             ibClient.tickByTickBidAsk += UpdateUI;
             ibClient.tickByTickMidPoint += UpdateUI;
             ibClient.OrderBound += msg => addTextToBox("Order bound. OrderId: " + msg.OrderId + ", ApiClientId: " + msg.ApiClientId + ", ApiOrderId: " + msg.ApiOrderId);
+            ibClient.CompletedOrder += orderManager.handleCompletedOrder;
+            //ibClient.CompletedOrderEnd += (do nothing)
         }
 
         private void UpdateUi(string xml)
@@ -1414,6 +1416,12 @@ namespace IBSampleApp
         private void FilterOptionRemove_button_Click(object sender, EventArgs e)
         {
             listViewFilterOptions.SelectedItems.OfType<ListViewItem>().ToList().ForEach(i => listViewFilterOptions.Items.Remove(i));
+        }
+
+        private void completedOrdersButton_Click(object sender, EventArgs e)
+        {
+            completedOrdersGrid.Rows.Clear();
+            ibClient.ClientSocket.reqCompletedOrders(false);
         }
     }
 }

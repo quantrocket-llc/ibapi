@@ -46,7 +46,7 @@ Public Sub RequestBondContractDetails_Click()
     
     id = ActiveCell.row - contractTable.Rows(1).row + 1
     With lContractInfo
-        .symbol = UCase(contractTable(id, Col_CUSIP).value)
+        .Symbol = UCase(contractTable(id, Col_CUSIP).value)
         .SecType = UCase(contractTable(id, Col_SECTYPE).value)
         .exchange = UCase(contractTable(id, Col_EXCH).value)
         .currency = UCase(contractTable(id, Col_CURRENCY).value)
@@ -87,7 +87,7 @@ Public Sub UpdateBondContractDetails(ByVal reqId As Long, ByVal ContractDetails 
     Dim contract As TWSLib.IContract
     Set contract = ContractDetails.contract
     With sheet.Rows(rowId)
-        .Cells(1).value = contract.symbol
+        .Cells(1).value = contract.Symbol
         .Cells(2).value = contract.SecType
         .Cells(3).value = ContractDetails.cusip
         .Cells(4).value = ContractDetails.coupon
@@ -188,7 +188,7 @@ End Sub
 Private Function GenerateSheetName(contractInfo As TWSLib.IContract)
     Dim s As String
     s = "Details"
-    s = s & IIf(contractInfo.symbol <> "", "_" & contractInfo.symbol, "")
+    s = s & IIf(contractInfo.Symbol <> "", "_" & contractInfo.Symbol, "")
     s = s & IIf(contractInfo.SecType <> "", "_" & contractInfo.SecType, "")
     s = s & IIf(contractInfo.exchange <> "", "_" & contractInfo.exchange, "")
     s = s & IIf(contractInfo.currency <> "", "_" & contractInfo.currency, "")

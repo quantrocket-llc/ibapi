@@ -16,12 +16,14 @@ import com.ib.api.dde.dde2socket.requests.DdeRequest;
 import com.ib.api.dde.dde2socket.requests.DdeRequestStatus;
 import com.ib.api.dde.dde2socket.requests.DdeRequestType;
 import com.ib.api.dde.dde2socket.requests.orders.AutoOpenOrdersRequest;
+import com.ib.api.dde.dde2socket.requests.orders.CompletedOrdersRequest;
 import com.ib.api.dde.dde2socket.requests.orders.OpenOrdersRequest;
 import com.ib.api.dde.dde2socket.requests.orders.OrderStatusRequest;
 import com.ib.api.dde.dde2socket.requests.orders.PlaceOrderRequest;
 import com.ib.api.dde.dde2socket.requests.parser.RequestParser;
 import com.ib.api.dde.handlers.base.BaseHandler;
 import com.ib.api.dde.socket2dde.data.OpenOrderData;
+import com.ib.api.dde.socket2dde.data.OrderData;
 import com.ib.api.dde.socket2dde.data.OrderStatusData;
 import com.ib.api.dde.socket2dde.notifications.DdeNotificationEvent;
 import com.ib.api.dde.utils.OrderUtils;
@@ -53,6 +55,11 @@ public class OrdersHandler extends BaseHandler {
     private SortedMap<Integer, OpenOrderData> m_allOpenOrderDataMap = Collections.synchronizedSortedMap(new TreeMap<Integer, OpenOrderData>()); // map permId->OpenOrderData (if orderId == 0)
     private DdeRequestStatus m_openOrdersSubscriptionStatus = DdeRequestStatus.UNKNOWN;
 
+    // completed orders
+    private CompletedOrdersRequest m_completedOrdersRequest;
+    private List<OrderData> m_completedOrdersList = Collections.synchronizedList(new ArrayList<OrderData>()); // completed orders list
+    private DdeRequestStatus m_completedOrdersRequestStatus = DdeRequestStatus.UNKNOWN;
+    
     public OrdersHandler(EClientSocket clientSocket, TwsService twsService) {
         super(clientSocket, twsService);
     }
@@ -171,6 +178,37 @@ public class OrdersHandler extends BaseHandler {
         return null;
     }
     
+    /** Method requests completed orders and sets completed orders request status */
+    public String handleCompletedOrdersRequest(String requestStr) {
+        m_completedOrdersRequest = m_requestParser.parseCompletedOrdersRequest(requestStr);
+        if (m_completedOrdersRequestStatus == DdeRequestStatus.UNKNOWN) {
+            System.out.println("Handling completed orders request");
+            clientSocket().reqCompletedOrders(m_completedOrdersRequest.apiOnly());
+            m_completedOrdersRequestStatus = DdeRequestStatus.REQUESTED;
+        }
+        return m_completedOrdersRequestStatus.toString();
+    }
+    
+    /** Method handles completed orders array request */
+    public byte[] handleCompletedOrdersArrayRequest(String requestStr) {
+        System.out.println("Handling completed orders array request: id=" + m_completedOrdersRequest.requestId() + " type=" + m_completedOrdersRequest.ddeRequestType().topic());
+        byte[] array = OrderUtils.openOrderDataListToByteArray(syncCopyCompletedOrdersList(), null, true);
+        m_completedOrdersRequestStatus = DdeRequestStatus.RECEIVED;
+        if (m_completedOrdersRequest != null) {
+            notifyDde(false, m_completedOrdersRequest.ddeRequestString());
+        }
+        return array;
+    }
+    
+    /** Method handles cancel completed orders */
+    public byte[] handleCompletedOrdersCancel() {
+        m_completedOrdersRequestStatus = DdeRequestStatus.UNKNOWN;
+        m_completedOrdersRequest = null;
+        m_completedOrdersList.clear();
+        
+        return null;
+    }
+    
     /* *****************************************************************************************************
      *                                          Responses
     /* *****************************************************************************************************/
@@ -260,6 +298,21 @@ public class OrdersHandler extends BaseHandler {
         }
     }
 
+    /** Method saves completed order data */
+    public void updateCompletedOrderData(OrderData completedOrderData) {
+        m_completedOrdersList.add(completedOrderData);
+    }
+
+    /** Method updates completed orders request status after completedOrdersEnd callback is received */
+    public void updateCompletedOrdersEnd() {
+        if (m_completedOrdersRequestStatus == DdeRequestStatus.REQUESTED) {
+            m_completedOrdersRequestStatus = DdeRequestStatus.RECEIVED;
+            if (m_completedOrdersRequest != null) {
+                notifyDde(m_completedOrdersRequest.ddeRequestString());
+            }
+        }
+    }
+    
     /** Method updates order status with error for orderId */
     public void updateOrderStatusError(int orderId, String errorMessage) {
         OpenOrderData openOrderData = m_openOrderDataMap.get(orderId);
@@ -279,9 +332,14 @@ public class OrdersHandler extends BaseHandler {
         twsService().notifyDde(event);
     }
 
-    private List<OpenOrderData> syncCopyOpenOrderDataValues() {
+    private void notifyDde(String requestStr) {
+        DdeNotificationEvent event = RequestParser.createDdeNotificationEvent(DdeRequestType.REQ_COMPLETED_ORDERS.topic(), requestStr);
+        twsService().notifyDde(event);
+    }
+    
+    private List<OrderData> syncCopyOpenOrderDataValues() {
         synchronized(m_openOrderDataMap) {
-            ArrayList<OpenOrderData> updatedOpenOrderDataList = new ArrayList<OpenOrderData>();
+            ArrayList<OrderData> updatedOpenOrderDataList = new ArrayList<OrderData>();
             for (OpenOrderData openOrderData: m_openOrderDataMap.values()){
                 if (openOrderData.isUpdated()) {
                     updatedOpenOrderDataList.add(openOrderData);
@@ -292,9 +350,9 @@ public class OrdersHandler extends BaseHandler {
         }
     }
 
-    private List<OpenOrderData> syncCopyAllOpenOrderDataValues() {
+    private List<OrderData> syncCopyAllOpenOrderDataValues() {
         synchronized(m_allOpenOrderDataMap) {
-            ArrayList<OpenOrderData> updatedAllOpenOrderDataList = new ArrayList<OpenOrderData>();
+            ArrayList<OrderData> updatedAllOpenOrderDataList = new ArrayList<OrderData>();
             for (OpenOrderData openOrderData: m_allOpenOrderDataMap.values()){
                 if (openOrderData.isUpdated()) {
                     updatedAllOpenOrderDataList.add(openOrderData);
@@ -305,6 +363,12 @@ public class OrdersHandler extends BaseHandler {
         }
     }
 
+    private List<OrderData> syncCopyCompletedOrdersList() {
+        synchronized(m_completedOrdersList) {
+            return new ArrayList<OrderData>(m_completedOrdersList);
+        }
+    }
+    
     /* *****************************************************************************************************
      *                                          Parsing
     /* *****************************************************************************************************/
@@ -383,6 +447,20 @@ public class OrdersHandler extends BaseHandler {
             return request;
         }
         
+        /** Method parser DDE request string to CompletedOrdersRequest */
+        private CompletedOrdersRequest parseCompletedOrdersRequest(String requestStr) {
+            int requestId = -1;
+            boolean apiOnly = false;
+            String[] requestTokens = requestStr.split(DDE_REQUEST_SEPARATOR_PARSE);
+            if (requestTokens.length > 0) {
+                requestId = parseRequestId(requestTokens[0]);
+            }
+            if (requestTokens.length > 1) {
+                apiOnly = getBooleanFromString(requestTokens[1]);
+            }
+            return new CompletedOrdersRequest(requestId, apiOnly, requestStr);
+        }
+        
         /** Method parses order fields */
         private Order parseOrder(ArrayList<String> table1, ArrayList<String> table2) {
             Order order = new Order();
@@ -390,7 +468,7 @@ public class OrdersHandler extends BaseHandler {
                 System.out.println("Cannot extract base order fields");
                 return null;
             }
-            if (table2.size() < 111) {
+            if (table2.size() < 113) {
                 System.out.println("Cannot extract extended order attributes");
                 return null;
             }
@@ -744,6 +822,12 @@ public class OrdersHandler extends BaseHandler {
             }
             if (Utils.isNotNull(table2.get(110))) {
                 order.isOmsContainer(getBooleanFromString(table2.get(110)));
+            }
+            if (Utils.isNotNull(table2.get(111))) {
+                order.discretionaryUpToLimitPrice(getBooleanFromString(table2.get(111)));
+            }
+            if (Utils.isNotNull(table2.get(112))) {
+                order.usePriceMgmtAlgo(getBooleanFromString(table2.get(112)));
             }
             
             return order;

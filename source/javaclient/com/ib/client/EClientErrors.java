@@ -84,6 +84,7 @@ public class EClientErrors {
     static final CodeMsgPair FAIL_SEND_HISTORICAL_TICK = new CodeMsgPair(569, "Request Historical Ticks Sending Error - ");
     static final CodeMsgPair FAIL_SEND_REQTICKBYTICK = new CodeMsgPair(570, "Request Tick-By-Tick Sending Error - ");
     static final CodeMsgPair FAIL_SEND_CANTICKBYTICK = new CodeMsgPair(571, "Cancel Tick-By-Tick Sending Error - ");
+    static final CodeMsgPair FAIL_SEND_REQ_COMPLETED_ORDERS = new CodeMsgPair(572, "Request Completed Orders Sending Error - ");
 
     public EClientErrors() {
     }

@@ -1,4 +1,4 @@
-﻿/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 using System;
@@ -283,5 +283,7 @@ namespace TwsRtdServer
         public void tickByTickBidAsk(int reqId, long time, double bidPrice, double askPrice, int bidSize, int askSize, TickAttribBidAsk tickAttribBidAsk) { }
         public void tickByTickMidPoint(int reqId, long time, double midPoint) { }
         public void orderBound(long orderId, int apiClientId, int apiOrderId) { }
+        public void completedOrder(Contract contract, Order order, OrderState orderState) { }
+        public void completedOrdersEnd() { }
     }
 }

@@ -1,4 +1,4 @@
-﻿/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 using System;
 using IBApi;
@@ -55,7 +55,7 @@ namespace Samples
             /***************************************************/
             /*** Real time market data operations  - Tickers ***/
             /***************************************************/
-            tickDataOperations(client);
+            //tickDataOperations(client);
 
             /***************************************************/
             /*** Option computation operations  - Tickers    ***/
@@ -115,7 +115,7 @@ namespace Samples
             /**********************/
             /*** Order handling ***/
             /**********************/
-            //orderOperations(client, nextValidId);
+            orderOperations(client, nextValidId);
 
             /************************************/
             /*** Financial Advisor Exclusive Operations ***/
@@ -786,6 +786,12 @@ namespace Samples
             //! [reqexecutions]
             client.reqExecutions(10001, new ExecutionFilter());
             //! [reqexecutions]
+
+            /*** Requesting completed orders ***/
+            //! [reqcompletedorders]
+            client.reqCompletedOrders(false);
+            //! [reqcompletedorders]
+
         }
 
         private static void newsOperations(EClientSocket client)

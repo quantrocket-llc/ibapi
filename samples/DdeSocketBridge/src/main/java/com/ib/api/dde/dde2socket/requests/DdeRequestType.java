@@ -236,7 +236,10 @@ public enum DdeRequestType {
     REQUEST_FA_ERROR("reqFAError"),
     REPLACE_FA("replaceFA"),
     REPLACE_FA_ERROR("replaceFAError"),
-    
+
+    // completed orders
+    REQ_COMPLETED_ORDERS("reqCompletedOrders"),
+
     // other old-style requests (not supported anymore)
     PROCESS_RATE("processRate"),
     REFRESH_RATE("refreshRate");

@@ -43,7 +43,8 @@ Public Sub Initialise()
     Histogram.Initialise
     SmartComponents.Initialise
     SecDefOptParams.Initialise
-    
+    CompletedOrders.Initialise
+   
     ' clear log
     Log.ClearLog_Click
     

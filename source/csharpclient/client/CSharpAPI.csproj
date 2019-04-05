@@ -59,6 +59,7 @@
     <Compile Include="ContractCondition.cs" />
     <Compile Include="ContractDescription.cs" />
     <Compile Include="ContractDetails.cs" />
+    <Compile Include="EOrderDecoder.cs" />
     <Compile Include="TickAttribBidAsk.cs" />
     <Compile Include="TickAttribLast.cs" />
     <Compile Include="DeltaNeutralContract.cs" />

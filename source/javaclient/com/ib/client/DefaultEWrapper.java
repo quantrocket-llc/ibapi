@@ -528,4 +528,14 @@ public class DefaultEWrapper implements EWrapper {
     public void orderBound(long orderId, int apiClientId, int apiOrderId) {
         // TODO Auto-generated method stub
     }
+
+    @Override
+    public void completedOrder(Contract contract, Order order, OrderState orderState) {
+        // TODO Auto-generated method stub
+    }
+
+    @Override
+    public void completedOrdersEnd() {
+        // TODO Auto-generated method stub
+    }
 }

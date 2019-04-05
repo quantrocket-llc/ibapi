@@ -200,6 +200,15 @@ class Order(Object):
 
         self.discretionaryUpToLimitPrice = False
 
+        self.autoCancelDate = ""
+        self.filledQuantity = UNSET_DOUBLE
+        self.refFuturesConId = 0
+        self.autoCancelParent = False
+        self.shareholder = ""
+        self.imbalanceOnly = False
+        self.routeMarketableToBbo = False
+        self.parentPermId = 0
+
         self.usePriceMgmtAlgo = False
 
     def __str__(self):

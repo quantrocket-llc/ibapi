@@ -176,6 +176,15 @@ namespace IBApi
         // don't use auto price for hedge
         private bool dontUseAutoPriceForHedge;
 
+        private string autoCancelDate;
+        private double filledQuantity;
+        private int refFuturesConId;
+        private bool autoCancelParent;
+        private string shareholder;
+        private bool imbalanceOnly;
+        private bool routeMarketableToBbo;
+        private long parentPermId;
+
         /**
          * @brief The API client's order id.
          */
@@ -1214,6 +1223,55 @@ namespace IBApi
             set { dontUseAutoPriceForHedge = value; }
         }
 
+        public string AutoCancelDate 
+        {
+            get { return autoCancelDate; }
+            set { autoCancelDate = value; } 
+        }
+
+        public double FilledQuantity 
+        {
+            get { return filledQuantity; }
+            set { filledQuantity = value; }
+        }
+
+        public int RefFuturesConId 
+        {
+            get { return refFuturesConId; }
+            set { refFuturesConId = value; }
+        }
+
+        public bool AutoCancelParent 
+        {
+            get { return autoCancelParent; }
+            set { autoCancelParent = value; }
+        }
+
+        public string Shareholder 
+        {
+            get { return shareholder; }
+            set { shareholder = value; }
+        }
+
+        public bool ImbalanceOnly 
+        {
+            get { return imbalanceOnly; }
+            set { imbalanceOnly = value; }
+        }
+
+        public bool RouteMarketableToBbo 
+        {
+            get { return routeMarketableToBbo; }
+            set { routeMarketableToBbo = value; }
+        }
+
+        public long ParentPermId 
+        {
+            get { return parentPermId; }
+            set { parentPermId = value; }
+        }
+
+
         public Order()
         {
             lmtPrice = Double.MaxValue;
@@ -1279,6 +1337,14 @@ namespace IBApi
             Mifid2ExecutionTrader = EMPTY_STR;
             Mifid2ExecutionAlgo = EMPTY_STR;
             dontUseAutoPriceForHedge = false;
+            autoCancelDate = EMPTY_STR;
+            filledQuantity = Double.MaxValue;
+            refFuturesConId = Int32.MaxValue;
+            autoCancelParent = false;
+            shareholder = EMPTY_STR;
+            imbalanceOnly = false;
+            routeMarketableToBbo = false;
+            parentPermId = Int64.MaxValue;
         }
 
 		// Note: Two orders can be 'equivalent' even if all fields do not match. This function is not intended to be used with Order objects returned from TWS.
@@ -1362,7 +1428,13 @@ namespace IBApi
                 Tier != l_theOther.Tier ||
                 CashQty != l_theOther.CashQty ||
                 dontUseAutoPriceForHedge != l_theOther.dontUseAutoPriceForHedge ||
-                IsOmsContainer != l_theOther.IsOmsContainer)
+                IsOmsContainer != l_theOther.IsOmsContainer ||
+                FilledQuantity != l_theOther.FilledQuantity ||
+                RefFuturesConId != l_theOther.RefFuturesConId ||
+                AutoCancelParent != l_theOther.AutoCancelParent ||
+                ImbalanceOnly != l_theOther.ImbalanceOnly ||
+                RouteMarketableToBbo != l_theOther.RouteMarketableToBbo ||
+                ParentPermId != l_theOther.ParentPermId)
             {
                 return false;
             }
@@ -1399,7 +1471,9 @@ namespace IBApi
                 Util.StringCompare(AlgoId, l_theOther.AlgoId) != 0 ||
                 Util.StringCompare(ScaleTable, l_theOther.ScaleTable) != 0 ||
                 Util.StringCompare(ModelCode, l_theOther.ModelCode) != 0 ||
-                Util.StringCompare(ExtOperator, l_theOther.ExtOperator) != 0)
+                Util.StringCompare(ExtOperator, l_theOther.ExtOperator) != 0 ||
+                Util.StringCompare(AutoCancelDate, l_theOther.AutoCancelDate) != 0 ||
+                Util.StringCompare(Shareholder, l_theOther.Shareholder) != 0)
             {
                 return false;
             }

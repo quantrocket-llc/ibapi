@@ -3274,4 +3274,20 @@ class EClient(object):
 
         self.sendMsg(msg)
 
+    def reqCompletedOrders(self, apiOnly:bool):
+        """Call this function to request the completed orders. If apiOnly parameter 
+        is true, then only completed orders placed from API are requested. 
+        Each completed order will be fed back through the
+        completedOrder() function on the EWrapper."""
+
+        self.logRequest(current_fn_name(), vars())
+
+        if not self.isConnected():
+            self.wrapper.error(NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg())
+            return
+
+        msg = make_field(OUT.REQ_COMPLETED_ORDERS) \
+            + make_field(apiOnly)
+
+        self.sendMsg(msg)
 

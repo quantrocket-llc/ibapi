@@ -35,6 +35,7 @@ public class ApiController implements EWrapper {
 
 	private final IConnectionHandler m_connectionHandler;
 	private ITradeReportHandler m_tradeReportHandler;
+    private ICompletedOrdersHandler m_completedOrdersHandler;
 	private IAdvisorHandler m_advisorHandler;
 	private IScannerHandler m_scannerHandler;
 	private ITimeHandler m_timeHandler;
@@ -1907,5 +1908,36 @@ public class ApiController implements EWrapper {
     @Override
     public void orderBound(long orderId, int apiClientId, int apiOrderId) {
         show( "Order bound. OrderId: " + orderId + ", apiClientId: " + apiClientId + ", apiOrderId: " + apiOrderId);
+    }
+
+    // ---------------------------------------- Completed orders ----------------------------------------
+    public interface ICompletedOrdersHandler {
+        void completedOrder(Contract contract, Order order, OrderState orderState);
+        void completedOrdersEnd();
+    }
+
+    public void reqCompletedOrders(ICompletedOrdersHandler handler) {
+        if (!checkConnection())
+            return;
+
+        m_completedOrdersHandler = handler;
+        m_client.reqCompletedOrders(false);
+        sendEOM();
+    }
+
+    @Override
+    public void completedOrder(Contract contract, Order order, OrderState orderState) {
+        if (m_completedOrdersHandler != null) {
+            m_completedOrdersHandler.completedOrder(contract, order, orderState);
+        }
+        recEOM();
+    }
+
+    @Override
+    public void completedOrdersEnd() {
+        if (m_completedOrdersHandler != null) {
+            m_completedOrdersHandler.completedOrdersEnd();
+        }
+        recEOM();
     }
 }

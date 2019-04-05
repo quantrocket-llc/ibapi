@@ -1,4 +1,4 @@
-﻿/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 using IBApi;
@@ -1059,6 +1059,11 @@ namespace TWSLib
         void ITws.reqHistoricalTicks(int reqId, IContract contract, string startDateTime, string endDateTime, int numberOfTicks, string whatToShow, int useRth, bool ignoreSize, ITagValueList options)
         {
             this.socket.reqHistoricalTicks(reqId, (Contract)(contract as ComContract), startDateTime, endDateTime, numberOfTicks, whatToShow, useRth, ignoreSize, ITagValueListToListTagValue(options));
+        }
+
+        void ITws.reqCompletedOrders(bool apiOnly)
+        {
+            this.socket.reqCompletedOrders(apiOnly);
         }
 
         #endregion
@@ -2142,6 +2147,24 @@ namespace TWSLib
 
             if (tmp != null)
                 sc.Post(state => tmp(orderId.ToString(), apiClientId, apiOrderId), null);
+        }
+
+        public delegate void completedOrderDelegate(IContract contract, IOrder order, IOrderState orderState);
+        public event completedOrderDelegate completedOrder;
+        void EWrapper.completedOrder(Contract contract, Order order, OrderState orderState)
+        {
+            var t_completedOrder = this.completedOrder;
+            if (t_completedOrder != null)
+                sc.Post(state => t_completedOrder((ComContract)contract, (ComOrder)order, (ComOrderState)orderState), null);
+        }
+
+        public delegate void completedOrdersEndDelegate();
+        public event completedOrdersEndDelegate completedOrdersEnd;
+        void EWrapper.completedOrdersEnd()
+        {
+            var t_completedOrdersEnd = this.completedOrdersEnd;
+            if (t_completedOrdersEnd != null)
+                sc.Post(state => t_completedOrdersEnd(), null);
         }
 
         #endregion

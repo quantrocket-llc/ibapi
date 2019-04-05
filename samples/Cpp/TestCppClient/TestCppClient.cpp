@@ -819,6 +819,10 @@ void TestCppClient::orderOperations()
 	m_pClient->reqExecutions(10001, ExecutionFilter());
 	//! [reqexecutions]
 
+	//! [reqcompletedorders]
+	m_pClient->reqCompletedOrders(false);
+	//! [reqcompletedorders]
+
 	m_state = ST_ORDEROPERATIONS_ACK;
 }
 
@@ -1361,7 +1365,7 @@ void TestCppClient::nextValidId( OrderId orderId)
 	//! [nextvalidid]
 
     //m_state = ST_TICKOPTIONCOMPUTATIONOPERATION; 
-    m_state = ST_TICKDATAOPERATION; 
+    //m_state = ST_TICKDATAOPERATION; 
     //m_state = ST_REQTICKBYTICKDATA; 
     //m_state = ST_REQHISTORICALTICKS; 
     //m_state = ST_CONTFUT; 
@@ -1377,7 +1381,7 @@ void TestCppClient::nextValidId( OrderId orderId)
 	//m_state = ST_FUNDAMENTALS;
 	//m_state = ST_BULLETINS;
 	//m_state = ST_ACCOUNTOPERATIONS;
-	//m_state = ST_ORDEROPERATIONS;
+	m_state = ST_ORDEROPERATIONS;
 	//m_state = ST_OCASAMPLES;
 	//m_state = ST_CONDITIONSAMPLES;
 	//m_state = ST_BRACKETSAMPLES;
@@ -1471,14 +1475,11 @@ void TestCppClient::orderStatus(OrderId orderId, const std::string& status, doub
 //! [orderstatus]
 
 //! [openorder]
-void TestCppClient::openOrder( OrderId orderId, const Contract& contract, const Order& order, const OrderState& ostate) {
-	printf( "OpenOrder. ID: %ld, %s, %s @ %s: %s, %s, %g, %g, %s, %s\n", orderId, contract.symbol.c_str(), contract.secType.c_str(), contract.exchange.c_str(), order.action.c_str(), order.orderType.c_str(), order.totalQuantity, order.cashQty == UNSET_DOUBLE ? 0 : order.cashQty, ostate.status.c_str(), order.dontUseAutoPriceForHedge ? "true" : "false");
-	if (order.whatIf) {
-		printf( "What-If. ID: %ld, InitMarginBefore: %s, MaintMarginBefore: %s, EquityWithLoanBefore: %s, InitMarginChange: %s, MaintMarginChange: %s, EquityWithLoanChange: %s, InitMarginAfter: %s, MaintMarginAfter: %s, EquityWithLoanAfter: %s\n", 
-			orderId, Utils::formatDoubleString(ostate.initMarginBefore).c_str(), Utils::formatDoubleString(ostate.maintMarginBefore).c_str(), Utils::formatDoubleString(ostate.equityWithLoanBefore).c_str(),
-			Utils::formatDoubleString(ostate.initMarginChange).c_str(), Utils::formatDoubleString(ostate.maintMarginChange).c_str(), Utils::formatDoubleString(ostate.equityWithLoanChange).c_str(),
-			Utils::formatDoubleString(ostate.initMarginAfter).c_str(), Utils::formatDoubleString(ostate.maintMarginAfter).c_str(), Utils::formatDoubleString(ostate.equityWithLoanAfter).c_str());
-	}
+void TestCppClient::openOrder( OrderId orderId, const Contract& contract, const Order& order, const OrderState& orderState) {
+	printf( "OpenOrder. PermId: %ld, ClientId: %ld, OrderId: %ld, Account: %s, Symbol: %s, SecType: %s, Exchange: %s:, Action: %s, OrderType:%s, TotalQty: %g, CashQty: %g, "
+	"LmtPrice: %g, AuxPrice: %g, Status: %s\n", 
+		order.permId, order.clientId, orderId, order.account.c_str(), contract.symbol.c_str(), contract.secType.c_str(), contract.exchange.c_str(), 
+		order.action.c_str(), order.orderType.c_str(), order.totalQuantity, order.cashQty == UNSET_DOUBLE ? 0 : order.cashQty, order.lmtPrice, order.auxPrice, orderState.status.c_str());
 }
 //! [openorder]
 
@@ -2073,3 +2074,19 @@ void TestCppClient::orderBound(long long orderId, int apiClientId, int apiOrderI
     printf("Order bound. OrderId: %lld, ApiClientId: %d, ApiOrderId: %d\n", orderId, apiClientId, apiOrderId);
 }
 //! [orderbound]
+
+//! [completedorder]
+void TestCppClient::completedOrder(const Contract& contract, const Order& order, const OrderState& orderState) {
+	printf( "CompletedOrder. PermId: %ld, ParentPermId: %lld, Account: %s, Symbol: %s, SecType: %s, Exchange: %s:, Action: %s, OrderType: %s, TotalQty: %g, CashQty: %g, FilledQty: %g, "
+		"LmtPrice: %g, AuxPrice: %g, Status: %s, CompletedTime: %s, CompletedStatus: %s\n", 
+		order.permId, order.parentPermId == UNSET_LONG ? 0 : order.parentPermId, order.account.c_str(), contract.symbol.c_str(), contract.secType.c_str(), contract.exchange.c_str(), 
+		order.action.c_str(), order.orderType.c_str(), order.totalQuantity, order.cashQty == UNSET_DOUBLE ? 0 : order.cashQty, order.filledQuantity, 
+		order.lmtPrice, order.auxPrice, orderState.status.c_str(), orderState.completedTime.c_str(), orderState.completedStatus.c_str());
+}
+//! [completedorder]
+
+//! [completedordersend]
+void TestCppClient::completedOrdersEnd() {
+	printf( "CompletedOrdersEnd\n");
+}
+//! [completedordersend]

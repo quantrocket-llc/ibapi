@@ -40,7 +40,7 @@ public class Order {
 
     // primary attributes
     private String      m_action = "BUY";
-    private double         m_totalQuantity;
+    private double      m_totalQuantity;
     private int         m_displaySize;
     private String      m_orderType = "LMT";
     private double      m_lmtPrice = Double.MAX_VALUE;
@@ -207,6 +207,16 @@ public class Order {
     
     private boolean m_isOmsContainer;
     private boolean m_discretionaryUpToLimitPrice;
+    
+    private String  m_autoCancelDate;
+    private double  m_filledQuantity;
+    private int     m_refFuturesConId;
+    private boolean m_autoCancelParent;
+    private String  m_shareholder;
+    private boolean m_imbalanceOnly;
+    private boolean m_routeMarketableToBbo;
+    private long    m_parentPermId;
+
     private boolean m_usePriceMgmtAlgo;
 	
 	// getters
@@ -342,6 +352,14 @@ public class Order {
     public boolean dontUseAutoPriceForHedge()       { return m_dontUseAutoPriceForHedge; }
     public boolean isOmsContainer()                 { return m_isOmsContainer; }
     public boolean discretionaryUpToLimitPrice()    { return m_discretionaryUpToLimitPrice; }
+    public String autoCancelDate()                  { return m_autoCancelDate; }
+    public double filledQuantity()                  { return m_filledQuantity; }
+    public int refFuturesConId()                    { return m_refFuturesConId; }
+    public boolean autoCancelParent()               { return m_autoCancelParent; }
+    public String shareholder()                     { return m_shareholder; }
+    public boolean imbalanceOnly()                  { return m_imbalanceOnly; }
+    public boolean routeMarketableToBbo()           { return m_routeMarketableToBbo; }
+    public long parentPermId()                      { return m_parentPermId; }
     public boolean usePriceMgmtAlgo()               { return m_usePriceMgmtAlgo; }
   
 	// setters
@@ -478,6 +496,14 @@ public class Order {
     public void dontUseAutoPriceForHedge(boolean v)                     { m_dontUseAutoPriceForHedge = v; }
     public void isOmsContainer(boolean v)                               { m_isOmsContainer = v; }
     public void discretionaryUpToLimitPrice(boolean v)                  { m_discretionaryUpToLimitPrice = v; }
+    public void autoCancelDate(String v)                                { m_autoCancelDate = v; }
+    public void filledQuantity(double v)                                { m_filledQuantity = v; }
+    public void refFuturesConId(int v)                                  { m_refFuturesConId = v; }
+    public void autoCancelParent(boolean v)                             { m_autoCancelParent = v; }
+    public void shareholder(String v)                                   { m_shareholder = v; }
+    public void imbalanceOnly(boolean v)                                { m_imbalanceOnly = v; }
+    public void routeMarketableToBbo(boolean v)                         { m_routeMarketableToBbo = v; }
+    public void parentPermId(long v)                                    { m_parentPermId = v; }
     public void usePriceMgmtAlgo(boolean v)                             { m_usePriceMgmtAlgo = v; }
 
 
@@ -516,6 +542,14 @@ public class Order {
         m_dontUseAutoPriceForHedge = false;
         m_isOmsContainer = false;
         m_discretionaryUpToLimitPrice = false;
+        m_autoCancelDate = EMPTY_STR;
+        m_filledQuantity = Double.MAX_VALUE;
+        m_refFuturesConId = 0;
+        m_autoCancelParent = false;
+        m_shareholder = EMPTY_STR;
+        m_imbalanceOnly = false;
+        m_routeMarketableToBbo = false;
+        m_parentPermId = 0;
     }
 
     public List<TagValue> algoParams() {
@@ -612,7 +646,14 @@ public class Order {
         	|| m_cashQty != l_theOther.m_cashQty
         	|| m_dontUseAutoPriceForHedge != l_theOther.m_dontUseAutoPriceForHedge
         	|| m_isOmsContainer != l_theOther.m_isOmsContainer
-        	|| m_discretionaryUpToLimitPrice != l_theOther.m_discretionaryUpToLimitPrice) {
+        	|| m_discretionaryUpToLimitPrice != l_theOther.m_discretionaryUpToLimitPrice
+            || m_filledQuantity != l_theOther.m_filledQuantity
+            || m_refFuturesConId != l_theOther.m_refFuturesConId
+            || m_autoCancelParent != l_theOther.m_autoCancelParent
+            || m_imbalanceOnly != l_theOther.m_imbalanceOnly
+            || m_routeMarketableToBbo != l_theOther.m_routeMarketableToBbo
+            || m_parentPermId != l_theOther.m_parentPermId
+            ) {
         	return false;
         }
 
@@ -653,7 +694,10 @@ public class Order {
         	|| Util.StringCompare(m_mifid2DecisionMaker, l_theOther.m_mifid2DecisionMaker) != 0
             || Util.StringCompare(m_mifid2DecisionAlgo, l_theOther.m_mifid2DecisionAlgo) != 0
             || Util.StringCompare(m_mifid2ExecutionTrader, l_theOther.m_mifid2ExecutionTrader) != 0
-            || Util.StringCompare(m_mifid2ExecutionAlgo, l_theOther.m_mifid2ExecutionAlgo) != 0) {
+            || Util.StringCompare(m_mifid2ExecutionAlgo, l_theOther.m_mifid2ExecutionAlgo) != 0
+            || Util.StringCompare(m_autoCancelDate, l_theOther.m_autoCancelDate) != 0 
+            || Util.StringCompare(m_shareholder, l_theOther.m_shareholder) != 0 
+            ) {
         	return false;
         }
 

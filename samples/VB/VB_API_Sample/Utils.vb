@@ -209,4 +209,8 @@ Friend Class Utils
         Return Format(str, "Standard")
     End Function
 
+    Public Shared Function isNotEmpty(str As String) As Boolean
+        Return str <> ""
+    End Function
+
 End Class

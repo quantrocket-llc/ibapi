@@ -174,14 +174,16 @@ Private Sub m_Tws_orderStatus(ByVal id As Long, ByVal status As String, ByVal fi
     On Error Resume Next
     ' update Orders sheet data
         
-    BasicOrders.UpdateOrderStatus id, status, filled, remaining, avgFillPrice, parentId, lastFillPrice
-    ConditionalOrders.UpdateOrderStatus id, status, filled, remaining, avgFillPrice, parentId, lastFillPrice
-    AdvancedOrders.UpdateOrderStatus id, status, filled, remaining, avgFillPrice, parentId, lastFillPrice
-    Advisors.UpdateOrderStatus id, status, filled, remaining, avgFillPrice, parentId, lastFillPrice
+    If id <> 0 Then
+        BasicOrders.UpdateOrderStatus id, status, filled, remaining, avgFillPrice, parentId, lastFillPrice
+        ConditionalOrders.UpdateOrderStatus id, status, filled, remaining, avgFillPrice, parentId, lastFillPrice
+        AdvancedOrders.UpdateOrderStatus id, status, filled, remaining, avgFillPrice, parentId, lastFillPrice
+        Advisors.UpdateOrderStatus id, status, filled, remaining, avgFillPrice, parentId, lastFillPrice
+    End If
 
     On Error Resume Next
     ' update Open Orders sheet data
-    OpenOrders.UpdateOrderStatus id, status, filled, remaining, avgFillPrice, parentId, lastFillPrice
+    OpenOrders.UpdateOrderStatus id, status, filled, remaining, avgFillPrice, parentId, permId, lastFillPrice
 End Sub
 
 Private Sub m_Tws_openOrderEx(ByVal orderId As Long, ByVal contract As TWSLib.IContract, ByVal order As TWSLib.IOrder, ByVal orderState As TWSLib.IOrderState)
@@ -529,6 +531,14 @@ Private Sub m_Tws_historicalTicks(ByVal reqId As Long, ByVal ticks As TWSLib.IHi
         HistoricalData.UpdateHistoricalTicks reqId, ticks, done
     End If
 
+End Sub
+
+'-----------------------------
+' completed order
+'-----------------------------
+Private Sub m_Tws_completedOrder(ByVal contract As TWSLib.IContract, ByVal order As TWSLib.IOrder, ByVal orderState As TWSLib.IOrderState)
+    On Error Resume Next
+    CompletedOrders.UpdateCompletedOrder contract, order, orderState
 End Sub
 
 
