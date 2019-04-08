@@ -166,6 +166,7 @@
     <ClCompile Include="EMutex.cpp" />
     <ClCompile Include="EDecoder.cpp" />
     <ClCompile Include="EMessage.cpp" />
+    <ClCompile Include="EOrderDecoder.cpp" />
     <ClCompile Include="EReader.cpp" />
     <ClCompile Include="EClientSocket.cpp" />
     <ClCompile Include="EReaderOSSignal.cpp" />
@@ -197,6 +198,7 @@
     <ClInclude Include="DefaultEWrapper.h" />
     <ClInclude Include="EDecoder.h" />
     <ClInclude Include="EMessage.h" />
+    <ClInclude Include="EOrderDecoder.h" />
     <ClInclude Include="EReader.h" />
     <ClInclude Include="EReaderSignal.h" />
     <ClInclude Include="EClientSocket.h" />

@@ -218,7 +218,7 @@ namespace IBSampleApp
             if (!cashQty.Text.Equals(""))
                 order.CashQty = Double.Parse(cashQty.Text);
 
-            order.UsePriceMgmtAlgo = usePriceMgmtAlgo.Checked;
+            order.UsePriceMgmtAlgo = usePriceMgmtAlgo.CheckState == CheckState.Indeterminate ? null : (bool?)usePriceMgmtAlgo.Checked;
 
             FillExtendedOrderAttributes(order);
             FillAdvisorAttributes(order);
@@ -454,7 +454,9 @@ namespace IBSampleApp
             displaySize.Text = order.DisplaySize.ToString();
             cashQty.Text = doubleToStr(order.CashQty);
             dontUseAutoPriceForHedge.Checked = order.DontUseAutoPriceForHedge;
-            usePriceMgmtAlgo.Checked = order.UsePriceMgmtAlgo;
+            usePriceMgmtAlgo.CheckState = order.UsePriceMgmtAlgo.HasValue 
+                ? order.UsePriceMgmtAlgo.Value ? CheckState.Checked : CheckState.Unchecked 
+                : CheckState.Indeterminate;
 
             //order = GetExtendedOrderAttributes(order);
             //order = GetAdvisorAttributes(order);

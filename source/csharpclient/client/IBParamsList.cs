@@ -26,12 +26,16 @@ namespace IBApi
             AddParameter(source, value.ToString(CultureInfo.InvariantCulture));
         }
 
-        public static void AddParameter(this BinaryWriter source, bool value)
+        public static void AddParameter(this BinaryWriter source, bool? value)
         {
-            if (value)
-                AddParameter(source, "1");
+            if (value.HasValue)
+            {
+                AddParameter(source, value.Value ? "1" : "0");
+            }
             else
-                AddParameter(source, "0");
+            {
+                source.Write(Constants.EOL);
+            }
 
         }
 

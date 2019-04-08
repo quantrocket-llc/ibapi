@@ -1590,7 +1590,7 @@ public abstract class EClient {
         }
         
         if (m_serverVersion < MIN_SERVER_VER_PRICE_MGMT_ALGO 
-                && order.usePriceMgmtAlgo()) {
+                && order.usePriceMgmtAlgo() != null) {
             error(id, EClientErrors.UPDATE_TWS, "  It does not support price management algo parameter");
         }
 

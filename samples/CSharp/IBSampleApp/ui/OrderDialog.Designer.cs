@@ -37,6 +37,8 @@ namespace IBSampleApp
             this.conditionsTab = new System.Windows.Forms.TabControl();
             this.orderContractTab = new System.Windows.Forms.TabPage();
             this.baseGroup = new System.Windows.Forms.GroupBox();
+            this.label24 = new System.Windows.Forms.Label();
+            this.usePriceMgmtAlgo = new System.Windows.Forms.CheckBox();
             this.cashQty = new System.Windows.Forms.TextBox();
             this.cashQtyLabel = new System.Windows.Forms.Label();
             this.modelCode = new System.Windows.Forms.TextBox();
@@ -250,8 +252,6 @@ namespace IBSampleApp
             this.textBox8 = new System.Windows.Forms.TextBox();
             this.checkMarginButton = new System.Windows.Forms.Button();
             this.closeOrderDialogButton = new System.Windows.Forms.Button();
-            this.usePriceMgmtAlgo = new System.Windows.Forms.CheckBox();
-            this.label24 = new System.Windows.Forms.Label();
             this.conditionsTab.SuspendLayout();
             this.orderContractTab.SuspendLayout();
             this.baseGroup.SuspendLayout();
@@ -340,6 +340,26 @@ namespace IBSampleApp
             this.baseGroup.TabIndex = 0;
             this.baseGroup.TabStop = false;
             this.baseGroup.Text = "Order Base Attributes";
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Location = new System.Drawing.Point(13, 295);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(142, 13);
+            this.label24.TabIndex = 25;
+            this.label24.Text = "Use Price Management Algo";
+            // 
+            // usePriceMgmtAlgo
+            // 
+            this.usePriceMgmtAlgo.AutoSize = true;
+            this.usePriceMgmtAlgo.Checked = true;
+            this.usePriceMgmtAlgo.CheckState = System.Windows.Forms.CheckState.Indeterminate;
+            this.usePriceMgmtAlgo.Location = new System.Drawing.Point(192, 295);
+            this.usePriceMgmtAlgo.Name = "usePriceMgmtAlgo";
+            this.usePriceMgmtAlgo.Size = new System.Drawing.Size(15, 14);
+            this.usePriceMgmtAlgo.TabIndex = 24;
+            this.usePriceMgmtAlgo.UseVisualStyleBackColor = true;
             // 
             // cashQty
             // 
@@ -2519,24 +2539,6 @@ namespace IBSampleApp
             this.closeOrderDialogButton.Text = "Close";
             this.closeOrderDialogButton.UseVisualStyleBackColor = true;
             this.closeOrderDialogButton.Click += new System.EventHandler(this.closeOrderDialogButton_Click);
-            // 
-            // usePriceMgmtAlgo
-            // 
-            this.usePriceMgmtAlgo.AutoSize = true;
-            this.usePriceMgmtAlgo.Location = new System.Drawing.Point(192, 295);
-            this.usePriceMgmtAlgo.Name = "usePriceMgmtAlgo";
-            this.usePriceMgmtAlgo.Size = new System.Drawing.Size(15, 14);
-            this.usePriceMgmtAlgo.TabIndex = 24;
-            this.usePriceMgmtAlgo.UseVisualStyleBackColor = true;
-            // 
-            // label24
-            // 
-            this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(13, 295);
-            this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(142, 13);
-            this.label24.TabIndex = 25;
-            this.label24.Text = "Use Price Management Algo";
             // 
             // OrderDialog
             // 

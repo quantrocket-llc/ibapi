@@ -1345,6 +1345,7 @@ namespace IBApi
             imbalanceOnly = false;
             routeMarketableToBbo = false;
             parentPermId = Int64.MaxValue;
+            UsePriceMgmtAlgo = null;
         }
 
 		// Note: Two orders can be 'equivalent' even if all fields do not match. This function is not intended to be used with Order objects returned from TWS.
@@ -1429,6 +1430,7 @@ namespace IBApi
                 CashQty != l_theOther.CashQty ||
                 dontUseAutoPriceForHedge != l_theOther.dontUseAutoPriceForHedge ||
                 IsOmsContainer != l_theOther.IsOmsContainer ||
+                UsePriceMgmtAlgo != l_theOther.UsePriceMgmtAlgo ||
                 FilledQuantity != l_theOther.FilledQuantity ||
                 RefFuturesConId != l_theOther.RefFuturesConId ||
                 AutoCancelParent != l_theOther.AutoCancelParent ||
@@ -1592,6 +1594,6 @@ namespace IBApi
         */
         public bool DiscretionaryUpToLimitPrice { get; set; }
 
-        public bool UsePriceMgmtAlgo { get; set; }
+        public bool? UsePriceMgmtAlgo { get; set; }
     }
 }

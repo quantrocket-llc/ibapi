@@ -1347,7 +1347,7 @@ class EClient(object):
             flds.append(make_field(order.discretionaryUpToLimitPrice))
 
         if self.serverVersion() >= MIN_SERVER_VER_PRICE_MGMT_ALGO:
-            flds.append(make_field(order.usePriceMgmtAlgo))
+            flds.append(make_field_handle_empty(UNSET_INTEGER if order.usePriceMgmtAlgo == None else 1 if order.usePriceMgmtAlgo else 0))
 
         msg = "".join(flds)
         self.sendMsg(msg)
