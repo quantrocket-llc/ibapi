@@ -3498,7 +3498,7 @@ namespace IBApi
                 return false;
             }
 
-            if (serverVersion < MinServerVer.PRICE_MGMT_ALGO && order.UsePriceMgmtAlgo)
+            if (serverVersion < MinServerVer.PRICE_MGMT_ALGO && order.UsePriceMgmtAlgo.HasValue)
             {
                 ReportError(id, EClientErrors.UPDATE_TWS, " It does not support Use Price Management Algo requests.");
 

@@ -40,8 +40,8 @@ class Builder implements ObjectOutput {
 		send( a == Double.MAX_VALUE ? "" : String.valueOf( a) );
 	}
 
-	public void send( boolean a) {
-		send( a ? 1 : 0);
+	public void send(Boolean a) {
+		sendMax(a == null ? Integer.MAX_VALUE : a ? 1 : 0);
 	}
 
 	public void send( IApiEnum a) {

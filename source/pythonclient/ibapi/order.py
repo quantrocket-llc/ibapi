@@ -209,7 +209,7 @@ class Order(Object):
         self.routeMarketableToBbo = False
         self.parentPermId = 0
 
-        self.usePriceMgmtAlgo = False
+        self.usePriceMgmtAlgo = None
 
     def __str__(self):
         s = "%s,%d,%s:" % (self.orderId, self.clientId, self.permId)

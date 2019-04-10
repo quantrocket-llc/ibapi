@@ -24,6 +24,10 @@ enum AuctionStrategy { AUCTION_UNSET = 0,
                        AUCTION_IMPROVEMENT = 2,
                        AUCTION_TRANSPARENT = 3 };
 
+enum UsePriceMmgtAlgo { DONT_USE = 0,
+                        USE,
+                        DEFAULT = UNSET_INTEGER };
+
 struct OrderComboLeg
 {
 	OrderComboLeg()
@@ -171,7 +175,7 @@ struct Order
 		routeMarketableToBbo = false;
 		parentPermId = UNSET_LONG;
 		
-        usePriceMgmtAlgo = false;
+        usePriceMgmtAlgo = UsePriceMmgtAlgo::DEFAULT;
 	}
 
 	// order identifier
@@ -360,7 +364,7 @@ struct Order
     bool routeMarketableToBbo;
     long long parentPermId;
 
-    bool usePriceMgmtAlgo;
+    UsePriceMmgtAlgo usePriceMgmtAlgo;
 
 public:
 

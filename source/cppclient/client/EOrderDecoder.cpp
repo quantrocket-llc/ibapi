@@ -591,6 +591,6 @@ char* EOrderDecoder::decodeCompletedStatus(const char*& ptr, const char* endPtr)
 
 char* EOrderDecoder::decodeUsePriceMgmtAlgo(const char*& ptr, const char* endPtr) {
 	if (m_serverVersion >= MIN_SERVER_VER_PRICE_MGMT_ALGO) {
-		DECODE_FIELD(m_order->usePriceMgmtAlgo);
+		DECODE_FIELD((int&)m_order->usePriceMgmtAlgo);
 	}
 }

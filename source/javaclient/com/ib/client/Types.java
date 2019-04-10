@@ -346,6 +346,20 @@ public class Types {
 			return this == None ? "" : super.toString();
 		}
 	}
+	
+	public enum UsePriceMgmtAlgo {
+	    Default(null), NotUse(false), Use(true);
+	    
+	    private Boolean value;
+	    
+	    UsePriceMgmtAlgo(Boolean value) {
+	        this.value = value;
+	    }
+	    
+	    public Boolean toBoolean() {
+	        return value;
+	    }
+	}
 
 	public static <T extends Enum<?> & IApiEnum> T getValueOf( String v, T[] values, T defaultValue ) {
         for( T currentEnum : values ) {

@@ -217,7 +217,7 @@ public class Order {
     private boolean m_routeMarketableToBbo;
     private long    m_parentPermId;
 
-    private boolean m_usePriceMgmtAlgo;
+    private Boolean m_usePriceMgmtAlgo;
 	
 	// getters
     public Action  action()                         { return Action.get(m_action); }
@@ -360,7 +360,7 @@ public class Order {
     public boolean imbalanceOnly()                  { return m_imbalanceOnly; }
     public boolean routeMarketableToBbo()           { return m_routeMarketableToBbo; }
     public long parentPermId()                      { return m_parentPermId; }
-    public boolean usePriceMgmtAlgo()               { return m_usePriceMgmtAlgo; }
+    public Boolean usePriceMgmtAlgo()               { return m_usePriceMgmtAlgo; }
   
 	// setters
 	public void referenceContractId(int m_referenceContractId)          { this.m_referenceContractId = m_referenceContractId; }
@@ -504,7 +504,7 @@ public class Order {
     public void imbalanceOnly(boolean v)                                { m_imbalanceOnly = v; }
     public void routeMarketableToBbo(boolean v)                         { m_routeMarketableToBbo = v; }
     public void parentPermId(long v)                                    { m_parentPermId = v; }
-    public void usePriceMgmtAlgo(boolean v)                             { m_usePriceMgmtAlgo = v; }
+    public void usePriceMgmtAlgo(Boolean v)                             { m_usePriceMgmtAlgo = v; }
 
 
     public Order() {
@@ -550,6 +550,7 @@ public class Order {
         m_imbalanceOnly = false;
         m_routeMarketableToBbo = false;
         m_parentPermId = 0;
+        m_usePriceMgmtAlgo = null;
     }
 
     public List<TagValue> algoParams() {
@@ -646,6 +647,7 @@ public class Order {
         	|| m_cashQty != l_theOther.m_cashQty
         	|| m_dontUseAutoPriceForHedge != l_theOther.m_dontUseAutoPriceForHedge
         	|| m_isOmsContainer != l_theOther.m_isOmsContainer
+        	|| m_usePriceMgmtAlgo != l_theOther.m_usePriceMgmtAlgo
         	|| m_discretionaryUpToLimitPrice != l_theOther.m_discretionaryUpToLimitPrice
             || m_filledQuantity != l_theOther.m_filledQuantity
             || m_refFuturesConId != l_theOther.m_refFuturesConId
