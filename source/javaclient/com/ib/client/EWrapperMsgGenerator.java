@@ -350,12 +350,12 @@ public class EWrapperMsgGenerator {
     
     public static String commissionReport( CommissionReport commissionReport) {
 		return "commission report:" +
-        " execId=" + commissionReport.m_execId +
-        " commission=" + Util.DoubleMaxString(commissionReport.m_commission) +
-        " currency=" + commissionReport.m_currency +
-        " realizedPNL=" + Util.DoubleMaxString(commissionReport.m_realizedPNL) +
-        " yield=" + Util.DoubleMaxString(commissionReport.m_yield) +
-        " yieldRedemptionDate=" + Util.IntMaxString(commissionReport.m_yieldRedemptionDate);
+        " execId=" + commissionReport.execId() +
+        " commission=" + Util.DoubleMaxString(commissionReport.commission()) +
+        " currency=" + commissionReport.currency() +
+        " realizedPNL=" + Util.DoubleMaxString(commissionReport.realizedPNL()) +
+        " yield=" + Util.DoubleMaxString(commissionReport.yield()) +
+        " yieldRedemptionDate=" + Util.IntMaxString(commissionReport.yieldRedemptionDate());
     }
     
     public static String position( String account, Contract contract, double pos, double avgCost) {

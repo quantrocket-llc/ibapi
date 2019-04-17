@@ -882,12 +882,12 @@ class EDecoder implements ObjectInput {
 		/*int version =*/ readInt();
 
 		CommissionReport commissionReport = new CommissionReport();
-		commissionReport.m_execId = readStr();
-		commissionReport.m_commission = readDouble();
-		commissionReport.m_currency = readStr();
-		commissionReport.m_realizedPNL = readDouble();
-		commissionReport.m_yield = readDouble();
-		commissionReport.m_yieldRedemptionDate = readInt();
+		commissionReport.execId(readStr());
+		commissionReport.commission(readDouble());
+		commissionReport.currency(readStr());
+		commissionReport.realizedPNL(readDouble());
+		commissionReport.yield(readDouble());
+		commissionReport.yieldRedemptionDate(readInt());
 
 		m_EWrapper.commissionReport( commissionReport);
 	}

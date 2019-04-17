@@ -748,8 +748,8 @@ public class ApiController implements EWrapper {
 
 	@Override public void commissionReport(CommissionReport commissionReport) {
 		if (m_tradeReportHandler != null) {
-			int i = commissionReport.m_execId.lastIndexOf( '.');
-			String tradeKey = commissionReport.m_execId.substring( 0, i);
+			int i = commissionReport.execId().lastIndexOf( '.');
+			String tradeKey = commissionReport.execId().substring( 0, i);
 			m_tradeReportHandler.commissionReport( tradeKey, commissionReport);
 		}
 		recEOM();
