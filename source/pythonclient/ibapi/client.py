@@ -202,8 +202,10 @@ class EClient(object):
     def isConnected(self):
         """Call this function to check if there is a connection with TWS"""
 
-        logger.debug("%s isConn: %s" % (id(self), self.connState))
-        return EClient.CONNECTED == self.connState
+        connConnected = self.conn and self.conn.isConnected()
+        logger.debug("%s isConn: %s, connConnected: %s" % (id(self),
+            self.connState, str(connConnected)))
+        return EClient.CONNECTED == self.connState and connConnected
 
     def keyboardInterrupt(self):
         #intended to be overloaded
