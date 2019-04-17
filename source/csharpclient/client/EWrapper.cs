@@ -540,7 +540,7 @@ namespace IBApi
         /**
          * @brief updates the real time 5 seconds bars
          * @param reqId the request's identifier
-         * @param date the bar's date and time (either as a yyyymmss hh:mm:ss formatted string or as system time according to the request)
+         * @param date the bar's date and time (Epoch/Unix time)
          * @param open the bar's open point
          * @param high the bar's high point
          * @param low the bar's low point
@@ -550,7 +550,7 @@ namespace IBApi
          * @param count the number of trades during the bar's timespan (only available for TRADES).
          * @sa EClientSocket::reqRealTimeBars
          */
-        void realtimeBar(int reqId, long time, double open, double high, double low, double close, long volume, double WAP, int count);
+        void realtimeBar(int reqId, long date, double open, double high, double low, double close, long volume, double WAP, int count);
 
         /**
          * @brief provides the xml-formatted parameters available from TWS market scanners (not all available in API).
