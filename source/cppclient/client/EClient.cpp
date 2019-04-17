@@ -3296,7 +3296,7 @@ void EClient::cancelTickByTickData(int reqId) {
     closeAndSend(msg.str());    
 }
 
-void EClient::reqCompletedOrders(boolean apiOnly) {
+void EClient::reqCompletedOrders(bool apiOnly) {
     if( !isConnected()) {
         m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg());
         return;

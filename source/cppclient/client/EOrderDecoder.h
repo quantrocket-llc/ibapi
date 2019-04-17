@@ -58,7 +58,7 @@ public:
 	char* decodeNbboPriceCap(const char*& ptr, const char* endPtr);
 	char* decodeParentId(const char*& ptr, const char* endPtr);
 	char* decodeTriggerMethod(const char*& ptr, const char* endPtr);
-	char* decodeVolOrderParams(const char*& ptr, const char* endPtr, boolean decodeOpenOrderAttribs);
+	char* decodeVolOrderParams(const char*& ptr, const char* endPtr, bool decodeOpenOrderAttribs);
 	char* decodeTrailParams(const char*& ptr, const char* endPtr);
 	char* decodeBasisPoints(const char*& ptr, const char* endPtr);
 	char* decodeComboLegs(const char*& ptr, const char* endPtr);

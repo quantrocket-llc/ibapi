@@ -232,7 +232,7 @@ char* EOrderDecoder::decodeTriggerMethod(const char*& ptr, const char* endPtr) {
 	DECODE_FIELD( m_order->triggerMethod);
 }
 
-char* EOrderDecoder::decodeVolOrderParams(const char*& ptr, const char* endPtr, boolean decodeOpenOrderAttribs) {
+char* EOrderDecoder::decodeVolOrderParams(const char*& ptr, const char* endPtr, bool decodeOpenOrderAttribs) {
 	DECODE_FIELD_MAX( m_order->volatility);
 	DECODE_FIELD( m_order->volatilityType);
 	DECODE_FIELD( m_order->deltaNeutralOrderType);

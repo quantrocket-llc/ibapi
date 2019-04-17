@@ -353,7 +353,7 @@ public:
             const std::string& endDateTime, int numberOfTicks, const std::string& whatToShow, int useRth, bool ignoreSize, const TagValueListSPtr& miscOptions);
     void reqTickByTickData(int reqId, const Contract &contract, const std::string& tickType, int numberOfTicks, bool ignoreSize);
     void cancelTickByTickData(int reqId);
-    void reqCompletedOrders(boolean apiOnly);
+    void reqCompletedOrders(bool apiOnly);
 
 private:
 
