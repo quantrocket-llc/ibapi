@@ -301,7 +301,7 @@ public class EWrapperImpl implements EWrapper {
 	//! [commissionreport]
 	@Override
 	public void commissionReport(CommissionReport commissionReport) {
-		System.out.println("CommissionReport. ["+commissionReport.m_execId+"] - ["+commissionReport.m_commission+"] ["+commissionReport.m_currency+"] RPNL ["+commissionReport.m_realizedPNL+"]");
+		System.out.println("CommissionReport. ["+commissionReport.execId()+"] - ["+commissionReport.commission()+"] ["+commissionReport.currency()+"] RPNL ["+commissionReport.realizedPNL()+"]");
 	}
 	//! [commissionreport]
 	
