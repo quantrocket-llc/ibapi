@@ -161,8 +161,8 @@ public class Util {
         }
     }
 
-    public static void appendBooleanFlag(StringBuilder sb, String flag, boolean value) {
-        if (value) {
+    public static void appendBooleanFlag(StringBuilder sb, String flag, Boolean value) {
+        if (value != null && value.booleanValue()) {
             sb.append(SPACE_SYMBOL).append(flag);
         }
     }

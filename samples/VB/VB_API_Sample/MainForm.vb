@@ -3380,8 +3380,8 @@ Friend Class MainForm
         End If
     End Sub
 
-    Private Sub appendBooleanFlag(listType As Utils.ListType, name As String, value As Boolean)
-        If value = True Then
+    Private Sub appendBooleanFlag(listType As Utils.ListType, name As String, value As Boolean?)
+        If Not value Is Nothing And value = True Then
             m_utils.addListItem(listType, "  " & name)
         End If
     End Sub
