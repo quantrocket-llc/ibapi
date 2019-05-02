@@ -138,7 +138,7 @@ public class ExecutionsHandler extends BaseHandler {
 
     /** Method updates commission report */
     public void updateCommissionReport(CommissionReport commissionReport) {
-        ExecutionData executionDataMap = getExecutionDataMapByExecId(commissionReport.m_execId);
+        ExecutionData executionDataMap = getExecutionDataMapByExecId(commissionReport.execId());
         if (executionDataMap != null) {
             executionDataMap.commissionReport(commissionReport);
         }

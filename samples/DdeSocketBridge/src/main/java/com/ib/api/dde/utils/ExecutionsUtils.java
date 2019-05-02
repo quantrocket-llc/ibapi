@@ -69,11 +69,11 @@ public class ExecutionsUtils {
             
         if (isNew) {
             if (executionData.commissionReport() != null) {
-                item.add(Utils.toString(executionData.commissionReport().m_commission));
-                item.add(Utils.toString(executionData.commissionReport().m_currency));
-                item.add(Utils.toString(executionData.commissionReport().m_realizedPNL));
-                item.add(Utils.toString(executionData.commissionReport().m_yield));
-                item.add(Utils.toString(executionData.commissionReport().m_yieldRedemptionDate));
+                item.add(Utils.toString(executionData.commissionReport().commission()));
+                item.add(Utils.toString(executionData.commissionReport().currency()));
+                item.add(Utils.toString(executionData.commissionReport().realizedPNL()));
+                item.add(Utils.toString(executionData.commissionReport().yield()));
+                item.add(Utils.toString(executionData.commissionReport().yieldRedemptionDate()));
             } else {
                 for (int j = 0; j < 5; j++) {
                     item.add(Utils.toString(""));
