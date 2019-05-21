@@ -26,6 +26,8 @@
 	- API logs contain a record of exchanged messages between API applications and TWS/IB Gateway. Since only API messages are recorded, the API logs are more compact and easier to handle. However they do not contain general diagnostic information about TWS/IBG as the TWS/IBG logs. The TWS/IBG settings folder is by default <b>C:\\Jts</b> (or IBJts on Mac/Linux). The API logs are named <b>api.[clientId].[day].log</b>, where [clientId] corresponds to the Id the client application used to connect to the TWS and [day] to the week day (i.e. api.123.Thu.log).
 	
 	- There is also a setting "Include Market Data in API Log" that will include streaming market data values in the API log file. Historical candlestick data is always recorded in the API log.
+    
+    <b>Note:</b> Begginning in TWS Build 977, both the API and TWS logs are encrypted locally. The API logs can be decrypted for review from the associated TWS or IB Gateway session, just like the TWS logs, as shown in the section describing the @ref log_files. 
 	
 	<b>Enabling creation of API logs</b>
 	
