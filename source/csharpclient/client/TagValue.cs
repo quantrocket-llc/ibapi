@@ -43,14 +43,13 @@ namespace IBApi
 
         public override bool Equals(Object other)
         {
-
             if (this == other)
                 return true;
 
-            if (other == null)
-                return false;
+            TagValue l_theOther = other as TagValue;
 
-            TagValue l_theOther = (TagValue)other;
+            if (l_theOther == null)
+                return false;  
 
             if (Util.StringCompare(Tag, l_theOther.Tag) != 0 ||
                 Util.StringCompare(Value, l_theOther.Value) != 0)

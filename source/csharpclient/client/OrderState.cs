@@ -231,14 +231,13 @@ namespace IBApi
 
         public override bool Equals(Object other)
         {
-
             if (this == other)
                 return true;
 
-            if (other == null)
-                return false;
+            OrderState state = other as OrderState;
 
-            OrderState state = (OrderState)other;
+            if (state == null)
+                return false; 
 
             if (commission != state.commission ||
                 minCommission != state.minCommission ||

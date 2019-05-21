@@ -87,9 +87,10 @@ namespace IBApi
 
         public override bool Equals(Object p_other)
         {
-            bool l_bRetVal = false;
+            bool l_bRetVal;
+            CommissionReport l_theOther = p_other as CommissionReport;
 
-            if (p_other == null)
+            if (l_theOther == null)
             {
                 l_bRetVal = false;
             }
@@ -99,7 +100,6 @@ namespace IBApi
             }
             else
             {
-                CommissionReport l_theOther = (CommissionReport)p_other;
                 l_bRetVal = ExecId.Equals(l_theOther.ExecId);
             }
             return l_bRetVal;

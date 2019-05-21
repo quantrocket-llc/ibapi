@@ -109,8 +109,9 @@ namespace IBApi
         public override bool Equals(Object other)
         {
             bool l_bRetVal = false;
+            ExecutionFilter l_theOther = other as ExecutionFilter;
 
-            if (other == null)
+            if (l_theOther == null)
             {
                 l_bRetVal = false;
             }
@@ -120,7 +121,6 @@ namespace IBApi
             }
             else
             {
-                ExecutionFilter l_theOther = (ExecutionFilter)other;
                 l_bRetVal = (clientId == l_theOther.clientId &&
                     String.Compare(AcctCode, l_theOther.acctCode, true) == 0 &&
                     String.Compare(time, l_theOther.Time, true) == 0 &&

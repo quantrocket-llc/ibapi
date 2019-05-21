@@ -16,7 +16,6 @@ namespace IBApi
      */
     public class OrderComboLeg
     {
-        
         double price;
 
         /**
@@ -40,23 +39,18 @@ namespace IBApi
 
         public override bool Equals(Object other)
         {
+            OrderComboLeg theOther = other as OrderComboLeg;
+            if (theOther == null)
+            {
+                return false;
+            }
+            
             if (this == other)
             {
                 return true;
             }
-            else if (other == null)
-            {
-                return false;
-            }
 
-            OrderComboLeg theOther = (OrderComboLeg)other;
-
-            if (price != theOther.Price)
-            {
-                return false;
-            }
-
-            return true;
+            return price == theOther.Price;
         }
     }
 }

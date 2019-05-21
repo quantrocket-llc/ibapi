@@ -1351,14 +1351,13 @@ namespace IBApi
 		// Note: Two orders can be 'equivalent' even if all fields do not match. This function is not intended to be used with Order objects returned from TWS.
         public override bool Equals(Object p_other)
         {
-
             if (this == p_other)
                 return true;
+            
+            Order l_theOther = p_other as Order;
 
-            if (p_other == null)
+            if (l_theOther == null)
                 return false;
-
-            Order l_theOther = (Order)p_other;
 
             if (PermId == l_theOther.PermId)
             {

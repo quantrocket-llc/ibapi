@@ -194,9 +194,10 @@ namespace IBApi
         public override bool Equals(Object p_other)
         {
             bool l_bRetVal = false;
+            Execution l_theOther = p_other as Execution;
 
-            if (p_other == null)
-            {
+            if (l_theOther == null)
+            { 
                 l_bRetVal = false;
             }
             else if (this == p_other)
@@ -205,7 +206,6 @@ namespace IBApi
             }
             else
             {
-                Execution l_theOther = (Execution)p_other;
                 l_bRetVal = String.Compare(ExecId, l_theOther.ExecId, true) == 0;
             }
             return l_bRetVal;
