@@ -28,6 +28,7 @@ class EReader(Thread):
 
     def run(self):
         try:
+            logger.debug("EReader thread started")
             buf = b""
             while self.conn.isConnected():
 
