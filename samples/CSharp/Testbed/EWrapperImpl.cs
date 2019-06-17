@@ -258,6 +258,7 @@ namespace Samples
             Console.WriteLine("\tMarketRuleIds: " + contractDetails.MarketRuleIds);
             Console.WriteLine("\tRealExpirationDate: " + contractDetails.RealExpirationDate);
             Console.WriteLine("\tLastTradeTime: " + contractDetails.LastTradeTime);
+            Console.WriteLine("\tStock Type: " + contractDetails.StockType);
             printContractDetailsSecIdList(contractDetails.SecIdList);
         }
 

@@ -76,6 +76,7 @@ public class ContractDetailsUtils {
         item.add(Utils.toString(contractDetails.underSecType()));
         item.add(Utils.toString(contractDetails.marketRuleIds()));
         item.add(Utils.toString(contractDetails.realExpirationDate()));
+        item.add(Utils.toString(contractDetails.stockType()));
         return item;
     }
     

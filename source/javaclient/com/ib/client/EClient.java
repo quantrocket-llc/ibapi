@@ -287,9 +287,10 @@ public abstract class EClient {
     protected static final int MIN_SERVER_VER_MKT_DEPTH_PRIM_EXCHANGE = 149;
     protected static final int MIN_SERVER_VER_REQ_COMPLETED_ORDERS = 150;
     protected static final int MIN_SERVER_VER_PRICE_MGMT_ALGO = 151;
+    protected static final int MIN_SERVER_VER_STOCK_TYPE = 152;
     
     public static final int MIN_VERSION = 100; // envelope encoding, applicable to useV100Plus mode only
-    public static final int MAX_VERSION = MIN_SERVER_VER_PRICE_MGMT_ALGO; // ditto
+    public static final int MAX_VERSION = MIN_SERVER_VER_STOCK_TYPE; // ditto
 
     protected EReaderSignal m_signal;
     protected EWrapper m_eWrapper;    // msg handler

@@ -96,5 +96,7 @@ namespace TWSLib
         string realExpirationDate { get; }
         [DispId(43)]
         string lastTradeTime { get; }
+        [DispId(44)]
+        string stockType { get; }
     }
 }

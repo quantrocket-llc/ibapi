@@ -240,6 +240,15 @@ namespace TWSLib
         }
 
         /**
+        * @brief stock type
+        */
+        string StockType
+        {
+            get { return data != null ? data.StockType : default(string); }
+            set { if (data != null) data.StockType = value; }
+        }
+
+        /**
         * @brief A list of contract identifiers that the customer is allowed to view.
          * CUSIP/ISIN/etc.
         */
@@ -596,6 +605,11 @@ namespace TWSLib
         string TWSLib.IContractDetails.lastTradeTime
         {
             get { return LastTradeTime; }
+        }
+
+        string TWSLib.IContractDetails.stockType
+        {
+            get { return StockType; }
         }
 
         public static explicit operator ComContractDetails(ContractDetails cd)

@@ -136,6 +136,7 @@ class ContractDetails(Object):
         self.secIdList = None
         self.realExpirationDate = ""
         self.lastTradeTime = ""
+        self.stockType = ""
         # BOND values
         self.cusip = ""
         self.ratings = ""
@@ -179,6 +180,7 @@ class ContractDetails(Object):
             str(self.aggGroup),
             str(self.secIdList),
             str(self.realExpirationDate),
+            str(self.stockType),
             str(self.cusip),
             str(self.ratings),
             str(self.descAppend),

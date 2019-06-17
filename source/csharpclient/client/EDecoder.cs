@@ -1619,6 +1619,10 @@ namespace IBApi
             {
                 contract.RealExpirationDate = ReadString();
             }
+            if (serverVersion >= MinServerVer.STOCK_TYPE)
+            {
+                contract.StockType = ReadString();
+            }
 
             eWrapper.contractDetails(requestId, contract);
         }

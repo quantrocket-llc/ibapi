@@ -1376,12 +1376,12 @@ void TestCppClient::nextValidId( OrderId orderId)
 	//m_state = ST_REALTIMEBARS;
 	//m_state = ST_MARKETDATATYPE;
 	//m_state = ST_HISTORICALDATAREQUESTS;
-	//m_state = ST_CONTRACTOPERATION;
+	m_state = ST_CONTRACTOPERATION;
 	//m_state = ST_MARKETSCANNERS;
 	//m_state = ST_FUNDAMENTALS;
 	//m_state = ST_BULLETINS;
 	//m_state = ST_ACCOUNTOPERATIONS;
-	m_state = ST_ORDEROPERATIONS;
+	//m_state = ST_ORDEROPERATIONS;
 	//m_state = ST_OCASAMPLES;
 	//m_state = ST_CONDITIONSAMPLES;
 	//m_state = ST_BRACKETSAMPLES;
@@ -1577,6 +1577,7 @@ void TestCppClient::printContractDetailsMsg(const ContractDetails& contractDetai
 	printf("\tMarketRuleIds: %s\n", contractDetails.marketRuleIds.c_str());
 	printf("\tRealExpirationDate: %s\n", contractDetails.realExpirationDate.c_str());
 	printf("\tLastTradeTime: %s\n", contractDetails.lastTradeTime.c_str());
+	printf("\tStockType: %s\n", contractDetails.stockType.c_str());
 	printContractDetailsSecIdList(contractDetails.secIdList);
 }
 

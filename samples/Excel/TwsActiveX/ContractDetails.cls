@@ -127,6 +127,7 @@ Public Sub UpdateContractDetails(ByVal reqId As Long, ByVal ContractDetails As T
         .Cells(32).value = ContractDetails.underSecType
         .Cells(33).value = ContractDetails.marketRuleIds
         .Cells(34).value = ContractDetails.realExpirationDate
+        .Cells(35).value = ContractDetails.stockType
     End With
     
     IncrementSheetRowId sheet
@@ -172,6 +173,7 @@ Private Sub InitialiseSheet(sheet As Worksheet)
     sheet.Cells(2, 32).value = "Under SecType"
     sheet.Cells(2, 33).value = "Market Rule Ids"
     sheet.Cells(2, 34).value = "RealExpirationDate"
+    sheet.Cells(2, 35).value = "Stock Type"
 End Sub
 
 

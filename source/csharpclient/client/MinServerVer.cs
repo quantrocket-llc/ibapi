@@ -110,5 +110,6 @@ namespace IBApi
         public const int MKT_DEPTH_PRIM_EXCHANGE = 149;
         public const int COMPLETED_ORDERS = 150;
         public const int PRICE_MGMT_ALGO = 151;
+        public const int STOCK_TYPE = 152;
     }
 }

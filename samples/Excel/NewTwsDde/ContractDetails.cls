@@ -70,7 +70,7 @@ Private Function getHeaderColumns() As Variant()
     getHeaderColumns = Array("Symbol", "SecType", "LastTradeDate", "Strike", "Right", "Exchange", "Currency", "LocalSymbol", "MarketName", "TradingClass", "ConId", "MinTick", _
                             "MdSizeMultiplier", "Multiplier", "OrderTypes", "ValidExchanges", "PriceMagnifier", "UnderConId", "LongName", "PrimExchange", "ContractMonth", _
                             "Industry", "Category", "Subcategory", "TimeZoneId", "TradingHours", "LiquidHours", "EvRule", "EvMultiplier", "SecIdList", "AggGroup", _
-                            "UnderSymbol", "UnderSecType", "MarketRuleIds", "RealExpirationDate")
+                            "UnderSymbol", "UnderSecType", "MarketRuleIds", "RealExpirationDate", "StockType")
 End Function
 
 Private Function getHeaderColumnsFixedIncome() As Variant()

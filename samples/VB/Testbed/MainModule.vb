@@ -99,7 +99,7 @@ Module MainModule
         '***************************
         '** Contract information ***
         '***************************
-        'contractOperations(client)
+        contractOperations(client)
 
         '**********************
         '** Market Scanners ***
@@ -124,7 +124,7 @@ Module MainModule
         '*********************
         '** Order handling ***
         '*********************
-        orderOperations(client, nextValidId)
+        'orderOperations(client, nextValidId)
 
         '***********************************
         '** Financial Advisor Exclusive Operations ***
@@ -427,6 +427,7 @@ Module MainModule
         client.reqContractDetails(211, ContractSamples.Bond())
         client.reqContractDetails(212, ContractSamples.FuturesOnOptions())
         client.reqContractDetails(213, ContractSamples.SimpleFuture())
+        client.reqContractDetails(214, ContractSamples.USStockAtSmart())
         '! [reqcontractdetails]
 
         '! [reqcontractdetailsnews]

@@ -135,6 +135,7 @@ public class EWrapperMsgGenerator {
         + "marketRuleIds = " + contractDetails.marketRuleIds() + "\n"
         + "realExpirationDate = " + contractDetails.realExpirationDate() + "\n"
         + "lastTradeTime = " + contractDetails.lastTradeTime() + "\n"
+        + "stockType = " + contractDetails.stockType() + "\n"
         + contractDetailsSecIdList(contractDetails);
     }
     

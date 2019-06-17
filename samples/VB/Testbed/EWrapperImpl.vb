@@ -143,6 +143,7 @@ Namespace Samples
             Console.WriteLine(vbTab & "MarketRuleIds: " & contractDetails.MarketRuleIds)
             Console.WriteLine(vbTab & "RealExpirationDate: " & contractDetails.RealExpirationDate)
             Console.WriteLine(vbTab & "LastTradeTime: " & contractDetails.LastTradeTime)
+            Console.WriteLine(vbTab & "StockType: " & contractDetails.StockType)
             printContractDetailsSecIdList(contractDetails.SecIdList)
         End Sub
 

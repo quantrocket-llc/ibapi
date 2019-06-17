@@ -1295,6 +1295,9 @@ class EDecoder implements ObjectInput {
 		if (m_serverVersion >= EClient.MIN_SERVER_VER_REAL_EXPIRATION_DATE) {
 			contract.realExpirationDate(readStr());
 		}
+		if (m_serverVersion >= EClient.MIN_SERVER_VER_STOCK_TYPE) {
+		    contract.stockType(readStr());
+		}
 
 		m_EWrapper.contractDetails( reqId, contract);
 	}

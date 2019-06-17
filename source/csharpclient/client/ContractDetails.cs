@@ -41,6 +41,7 @@ namespace IBApi
         private string marketRuleIds;
         private string realExpirationDate;
         private string lastTradeTime;
+        private string stockType;
        
         // BOND values
         private string cusip;
@@ -349,6 +350,17 @@ namespace IBApi
             //! @cond
             get { return lastTradeTime; }
             set { lastTradeTime = value; }
+            //! @endcond
+        }
+
+        /**
+        * @brief Stock type
+        */
+        public string StockType
+        {
+            //! @cond
+            get { return stockType; }
+            set { stockType = value; }
             //! @endcond
         }
 

@@ -124,6 +124,7 @@ namespace IBSampleApp.ui
             ContractDetailsGrid[17, ContractDetailsGrid.Rows.Count - 1].Value = contractDetailsMessage.ContractDetails.ContractMonth;
             ContractDetailsGrid[18, ContractDetailsGrid.Rows.Count - 1].Value = contractDetailsMessage.ContractDetails.LastTradeTime;
             ContractDetailsGrid[19, ContractDetailsGrid.Rows.Count - 1].Value = contractDetailsMessage.ContractDetails.TimeZoneId;
+            ContractDetailsGrid[20, ContractDetailsGrid.Rows.Count - 1].Value = contractDetailsMessage.ContractDetails.StockType;
 
             UpdateMakretRuleIdsComboBox(contractDetailsMessage.ContractDetails.MarketRuleIds);
         }

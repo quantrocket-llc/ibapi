@@ -90,7 +90,7 @@ namespace Samples
             /****************************/
             /*** Contract information ***/
             /****************************/
-            //contractOperations(client);
+            contractOperations(client);
 
             /***********************/
             /*** Market Scanners ***/
@@ -115,7 +115,7 @@ namespace Samples
             /**********************/
             /*** Order handling ***/
             /**********************/
-            orderOperations(client, nextValidId);
+            //orderOperations(client, nextValidId);
 
             /************************************/
             /*** Financial Advisor Exclusive Operations ***/
@@ -505,6 +505,7 @@ namespace Samples
             client.reqContractDetails(211, ContractSamples.Bond());
             client.reqContractDetails(212, ContractSamples.FuturesOnOptions());
             client.reqContractDetails(213, ContractSamples.SimpleFuture());
+            client.reqContractDetails(214, ContractSamples.USStockAtSmart());
             //! [reqcontractdetails]
 
             Thread.Sleep(2000);

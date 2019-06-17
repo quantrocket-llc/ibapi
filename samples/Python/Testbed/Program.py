@@ -260,12 +260,12 @@ class TestApp(TestWrapper, TestClient):
             #self.marketScannersOperations_req()
             #self.fundamentalsOperations_req()
             #self.bulletinsOperations_req()
-            #self.contractOperations()
+            self.contractOperations()
             #self.newsOperations_req()
             #self.miscelaneousOperations()
             #self.linkingOperations()
             #self.financialAdvisorOperations()
-            self.orderOperations_req()
+            #self.orderOperations_req()
             #self.rerouteCFDOperations()
             #self.marketRuleOperations()
             #self.pnlOperations_req()
@@ -1105,6 +1105,7 @@ class TestApp(TestWrapper, TestClient):
         self.reqContractDetails(212, ContractSamples.Bond())
         self.reqContractDetails(213, ContractSamples.FuturesOnOptions())
         self.reqContractDetails(214, ContractSamples.SimpleFuture())
+        self.reqContractDetails(215, ContractSamples.USStockAtSmart())
         # ! [reqcontractdetails]
 
         # ! [reqmatchingsymbols]
