@@ -1312,7 +1312,7 @@ namespace IBApi
         }
 
         /**
-         * @brief Subscribes to an specific account's information and portfolio
+         * @brief Subscribes to a specific account's information and portfolio.
          * Through this method, a single account's subscription can be started/stopped. As a result from the subscription, the account's information, portfolio and last update time will be received at EWrapper::updateAccountValue, EWrapper::updateAccountPortfolio, EWrapper::updateAccountTime respectively. All account values and positions will be returned initially, and then there will only be updates when there is a change in a position, or to an account value every 3 minutes if it has changed. 
          * Only one account can be subscribed at a time. A second subscription request for another account when the previous one is still active will cause the first one to be canceled in favour of the second one. Consider user reqPositions if you want to retrieve all your accounts' portfolios directly.
          * @param subscribe set to true to start the subscription and to false to stop it.
