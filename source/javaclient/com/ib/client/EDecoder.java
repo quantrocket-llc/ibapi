@@ -1254,7 +1254,7 @@ class EDecoder implements ObjectInput {
 			contract.underConid(readInt());
 		}
 		if( version >= 5) {
-		   contract.longName(readStr());
+		   contract.longName(m_serverVersion >= EClient.MIN_SERVER_VER_ENCODE_MSG_ASCII7 ? decodeUnicodeEscapedString(readStr()) : readStr());
 		   contract.contract().primaryExch(readStr());
 		}
 		if( version >= 6) {
@@ -1433,8 +1433,8 @@ class EDecoder implements ObjectInput {
 		    m_EWrapper.error( msg);
 		} else {
 		    int id = readInt();
-		    int errorCode    = readInt();
-		    String errorMsg = readStr();
+		    int errorCode   = readInt();
+		    String errorMsg = m_serverVersion >= EClient.MIN_SERVER_VER_ENCODE_MSG_ASCII7 ? decodeUnicodeEscapedString(readStr()) : readStr();
 		    m_EWrapper.error(id, errorCode, errorMsg);
 		}
 	}
@@ -2050,6 +2050,28 @@ class EDecoder implements ObjectInput {
     	@Override public void close() {
     	    /* noop in pre-v100 */
     	}
+    }
+    
+    static String decodeUnicodeEscapedString(String str) {    
+        String v = new String(str);
+        
+        try {
+            for (;;) {
+                int escapeIndex = v.indexOf("\\u");
+
+                if (escapeIndex == -1
+                 || v.length() - escapeIndex < 6) {
+                    break;
+                }
+
+                String escapeString = v.substring(escapeIndex ,  escapeIndex + 6);
+                int hexVal = Integer.parseInt(escapeString.replace("\\u", ""), 16);
+
+                v = v.replace(escapeString, "" + (char)hexVal);
+            }
+        } catch (NumberFormatException e) { }
+                
+        return v;
     }
 
 	@Override

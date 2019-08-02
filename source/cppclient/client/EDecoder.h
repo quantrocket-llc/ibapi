@@ -109,12 +109,13 @@ const int MIN_SERVER_VER_MKT_DEPTH_PRIM_EXCHANGE    = 149;
 const int MIN_SERVER_VER_COMPLETED_ORDERS           = 150;
 const int MIN_SERVER_VER_PRICE_MGMT_ALGO            = 151;
 const int MIN_SERVER_VER_STOCK_TYPE                 = 152;
+const int MIN_SERVER_VER_ENCODE_MSG_ASCII7          = 153;
 
 /* 100+ messaging */
 // 100 = enhanced handshake, msg length prefixes
 
 const int MIN_CLIENT_VER = 100;
-const int MAX_CLIENT_VER = MIN_SERVER_VER_STOCK_TYPE;
+const int MAX_CLIENT_VER = MIN_SERVER_VER_ENCODE_MSG_ASCII7;
 
 
 // incoming msg id's
