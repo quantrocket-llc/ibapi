@@ -1119,7 +1119,7 @@ namespace IBApi
             {
                 int id = ReadInt();
                 int errorCode = ReadInt();
-                string errorMsg = ReadString();
+                string errorMsg = serverVersion >= MinServerVer.ENCODE_MSG_ASCII7 ? Regex.Unescape(ReadString()) : ReadString();
                 eWrapper.error(id, errorCode, errorMsg);
             }
         }
@@ -1569,7 +1569,7 @@ namespace IBApi
             }
             if (msgVersion >= 5)
             {
-                contract.LongName = ReadString();
+                contract.LongName = serverVersion >= MinServerVer.ENCODE_MSG_ASCII7 ? Regex.Unescape(ReadString()) : ReadString();
                 contract.Contract.PrimaryExch = ReadString();
             }
             if (msgVersion >= 6)

@@ -289,7 +289,7 @@ class Decoder(Object):
         if version >= 4:
             contract.underConId = decode(int, fields)
         if version >= 5:
-            contract.longName = decode(str, fields)
+            contract.longName = decode(str, fields).encode().decode('unicode-escape') if self.serverVersion >= MIN_SERVER_VER_ENCODE_MSG_ASCII7 else decode(str, fields)
             contract.contract.primaryExchange = decode(str, fields)
         if version >= 6:
             contract.contractMonth = decode(str, fields)
@@ -1245,7 +1245,7 @@ class Decoder(Object):
             if pname != "self":
                 logger.debug("field %s ", fields[fieldIdx])
                 try:
-                    arg = fields[fieldIdx].decode('UTF-8')
+                    arg = fields[fieldIdx].decode('unicode-escape' if self.serverVersion >= MIN_SERVER_VER_ENCODE_MSG_ASCII7 else 'UTF-8')
                 except UnicodeDecodeError:
                     arg = fields[fieldIdx].decode('latin-1')
                 logger.debug("arg %s type %s", arg, param.annotation)
