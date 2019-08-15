@@ -68,8 +68,6 @@ namespace IBApi
             {
                 return false;
             }
-
-            return true;
         }
 
         public override void Deserialize(IDecoder inStream)

@@ -59,5 +59,13 @@ namespace IBApi
 
             return true;
         }
+
+        public override int GetHashCode()
+        {
+            var hashCode = 221537429;
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Tag);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Value);
+            return hashCode;
+        }
     }
 }

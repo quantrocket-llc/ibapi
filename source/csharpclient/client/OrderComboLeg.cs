@@ -52,5 +52,10 @@ namespace IBApi
 
             return price == theOther.Price;
         }
+
+        public override int GetHashCode()
+        {
+            return -814345894 + Price.GetHashCode();
+        }
     }
 }

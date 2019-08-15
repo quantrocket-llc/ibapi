@@ -210,5 +210,29 @@ namespace IBApi
             }
             return l_bRetVal;
         }
+
+        public override int GetHashCode()
+        {
+            var hashCode = 926796717;
+            hashCode = hashCode * -1521134295 + OrderId.GetHashCode();
+            hashCode = hashCode * -1521134295 + ClientId.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(ExecId);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Time);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(AcctNumber);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Exchange);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Side);
+            hashCode = hashCode * -1521134295 + Shares.GetHashCode();
+            hashCode = hashCode * -1521134295 + Price.GetHashCode();
+            hashCode = hashCode * -1521134295 + PermId.GetHashCode();
+            hashCode = hashCode * -1521134295 + Liquidation.GetHashCode();
+            hashCode = hashCode * -1521134295 + CumQty.GetHashCode();
+            hashCode = hashCode * -1521134295 + AvgPrice.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(OrderRef);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(EvRule);
+            hashCode = hashCode * -1521134295 + EvMultiplier.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(ModelCode);
+            hashCode = hashCode * -1521134295 + EqualityComparer<Liquidity>.Default.GetHashCode(LastLiquidity);
+            return hashCode;
+        }
     }
 }
