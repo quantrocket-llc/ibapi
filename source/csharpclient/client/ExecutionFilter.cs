@@ -131,5 +131,18 @@ namespace IBApi
             }
             return l_bRetVal;
         }
+
+        public override int GetHashCode()
+        {
+            var hashCode = 82934527;
+            hashCode = hashCode * -1521134295 + ClientId.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(AcctCode);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Time);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Symbol);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(SecType);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Exchange);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Side);
+            return hashCode;
+        }
     }
 }
