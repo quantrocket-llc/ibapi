@@ -83,7 +83,6 @@ const int MIN_SERVER_VER_CANCEL_HEADTIMESTAMP       = 123;
 const int MIN_SERVER_VER_SYNT_REALTIME_BARS         = 124;
 const int MIN_SERVER_VER_CFD_REROUTE                = 125;
 const int MIN_SERVER_VER_MARKET_RULES               = 126;
-const int MIN_SERVER_VER_DAILY_PNL                  = 127;
 const int MIN_SERVER_VER_PNL                        = 127;
 const int MIN_SERVER_VER_NEWS_QUERY_ORIGINS         = 128;
 const int MIN_SERVER_VER_UNREALIZED_PNL             = 129;
