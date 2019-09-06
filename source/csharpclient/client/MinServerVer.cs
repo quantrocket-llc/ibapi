@@ -112,5 +112,6 @@ namespace IBApi
         public const int PRICE_MGMT_ALGO = 151;
         public const int STOCK_TYPE = 152;
         public const int ENCODE_MSG_ASCII7 = 153;
+        public const int SEND_ALL_FAMILY_CODES = 154;
     }
 }
