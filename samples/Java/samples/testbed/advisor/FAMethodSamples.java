@@ -87,7 +87,7 @@ public class FAMethodSamples {
             + "</AllocationProfile>"
             + "<AllocationProfile>"
                 + "<name>Ratios_2_1</name>"
-                + "<type>1</type>"
+                + "<type>2</type>"
                 + "<ListOfAllocations varName=\"listOfAllocations\">"
                     + "<Allocation>"
                         //Replace with your own accountIds

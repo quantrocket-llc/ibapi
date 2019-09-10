@@ -90,7 +90,7 @@ Namespace Samples
              "</AllocationProfile>" &
              "<AllocationProfile>" &
         "<name> Ratios_2_1</name>" &
-                 "<Type>1</Type>" &
+                 "<Type>2</Type>" &
                  "<ListOfAllocations varName = ""listOfAllocations"">" &
                      "<Allocation>" &
                          "<acct> DU119915</acct>" &
