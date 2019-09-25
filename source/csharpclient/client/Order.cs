@@ -1279,7 +1279,7 @@ namespace IBApi
             activeStartTime = EMPTY_STR;
             activeStopTime = EMPTY_STR;
             outsideRth = false;
-            openClose = "O";
+            openClose = EMPTY_STR;
             origin = CUSTOMER;
             transmit = true;
             designatedLocation = EMPTY_STR;

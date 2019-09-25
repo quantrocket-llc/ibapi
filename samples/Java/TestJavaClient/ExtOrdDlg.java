@@ -35,7 +35,7 @@ public class ExtOrdDlg extends JDialog {
     private JTextField  m_clearingAccount = new JTextField();
     private JTextField  m_clearingIntent = new JTextField();
 
-    private JTextField 	m_openClose = new JTextField( "O");
+    private JTextField 	m_openClose = new JTextField();
     private JTextField 	m_origin = new JTextField( "1");
     private JTextField 	m_orderRef = new JTextField();
     private JTextField 	m_parentId = new JTextField( "0");

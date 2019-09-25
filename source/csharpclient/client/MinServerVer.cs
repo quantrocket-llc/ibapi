@@ -113,5 +113,6 @@ namespace IBApi
         public const int STOCK_TYPE = 152;
         public const int ENCODE_MSG_ASCII7 = 153;
         public const int SEND_ALL_FAMILY_CODES = 154;
+        public const int NO_DEFAULT_OPEN_CLOSE = 155;
     }
 }

@@ -72,9 +72,9 @@ class Order(Object):
 
         # institutional (ie non-cleared) only
         self.designatedLocation = "" #used only when shortSaleSlot=2
-        self.openClose     = "O"    # O=Open, C=Close
+        self.openClose     = ""     # O=Open, C=Close
         self.origin        = CUSTOMER  # 0=Customer, 1=Firm
-        self.shortSaleSlot = 0    # type: int; 1 if you hold the shares, 2 if they will be delivered from elsewhere.  Only for Action=SSHORT
+        self.shortSaleSlot = 0         # type: int; 1 if you hold the shares, 2 if they will be delivered from elsewhere.  Only for Action=SSHORT
         self.exemptCode    = -1
 
         # SMART routing only

@@ -839,7 +839,7 @@ Public Class dlgOrderAttribs
         Me.txtOpenClose.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.txtOpenClose.Size = New System.Drawing.Size(85, 13)
         Me.txtOpenClose.TabIndex = 15
-        Me.txtOpenClose.Text = "O"
+        Me.txtOpenClose.Text = ""
         '
         'txtAccount
         '

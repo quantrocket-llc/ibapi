@@ -91,7 +91,7 @@ struct Order
 	std::string faPercentage;
 
 	// institutional (ie non-cleared) only
-	std::string openClose = "O"; // O=Open, C=Close
+	std::string openClose = ""; // O=Open, C=Close
 	Origin   origin = CUSTOMER;    // 0=Customer, 1=Firm
 	int      shortSaleSlot = 0; // 1 if you hold the shares, 2 if they will be delivered from elsewhere.  Only for Action="SSHORT
 	std::string designatedLocation; // set when slot=2 only.

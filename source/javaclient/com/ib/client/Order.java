@@ -126,7 +126,7 @@ public class Order {
     private boolean m_overridePercentageConstraints;
     
     // Institutional orders only
-    private String m_openClose = "O"; // O=Open, C=Close
+    private String m_openClose;       // O=Open, C=Close
     private int    m_origin;          // 0=Customer, 1=Firm
     private int    m_shortSaleSlot;   // 1 if you hold the shares, 2 if they will be delivered from elsewhere.  Only for Action="SSHORT
     private String m_designatedLocation; // set when slot=2 only.
@@ -508,6 +508,7 @@ public class Order {
 
 
     public Order() {
+        m_openClose = EMPTY_STR;
         m_activeStartTime = EMPTY_STR;
         m_activeStopTime = EMPTY_STR;
     	m_outsideRth = false;
