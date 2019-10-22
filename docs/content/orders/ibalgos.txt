@@ -610,9 +610,7 @@
 	IB's best-efforts <a href="https://www.interactivebrokers.com/en/index.php?f=1124" target="_blank" class="linkexternal">VWAP</a> algo seeks to achieve the Volume-Weighted Average price (VWAP), 
 	calculated from the time you submit the order to the close of the market.
 
-	If you require a guaranteed VWAP, please refer to IB's <a href="https://www.interactivebrokers.com/en/index.php?f=603" target="_blank" class="linkexternal">Guaranteed VWAP</a> order type.
-
-	Best-efforts VWAP algo is a lower-cost alternative to the Guaranteed VWAP that enables the user to attempt never to take liquidity while also trading past the end time. Because the order 
+	Best-efforts VWAP algo is a lower-cost alternative to the Guaranteed VWAP (no longer supported) that enables the user to attempt never to take liquidity while also trading past the end time. Because the order 
 	may not be filled on the bid or at the ask prices, there is a trade-off with this algo. The order may not fully fill if the user is attempting to avoid liquidity-taking fees and/or maximize 
 	liquidity-adding rebates, and may miss the benchmark by asking to stay on the bid or ask. The user can determine the maximum percentage of average daily volume (up to 50%) his order will comprise. 
 	The system will generate the VWAP from the time the order is entered through the close of trading, and the order can be limited to trading over a pre-determined period. The user can request 
