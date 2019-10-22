@@ -848,7 +848,7 @@ public class EWrapperImpl implements EWrapper {
     public void histogramData(int reqId, List<HistogramEntry> items) {
         System.out.println("histogramData:");
         for (HistogramEntry item : items) {
-            System.out.println("histogramEntry Price [" + item.price + "] Value [" + item.size + "]");
+            System.out.println("histogramEntry Price [" + item.price() + "] Value [" + item.size() + "]");
         }
         m_twsService.updateHistogramData(reqId,  items);
     }

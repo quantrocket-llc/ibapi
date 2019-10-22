@@ -3,8 +3,6 @@
 
 package com.ib.client;
 
-import static com.ib.controller.Formats.fmt;
-
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.util.Date;
@@ -586,7 +584,7 @@ public class EWrapperMsgGenerator {
 	public static String histogramData(int reqId, List<HistogramEntry> items) {
 		StringBuilder sb = new StringBuilder();		
 		sb.append("Histogram data. Req Id: ").append(reqId).append(", Data (").append(items.size()).append("):\n");		
-		items.forEach(i -> sb.append("\tPrice: ").append(i.price).append(", Size: ").append(i.size).append("\n"));
+		items.forEach(i -> sb.append("\tPrice: ").append(i.price()).append(", Size: ").append(i.size()).append("\n"));
 		return sb.toString();
 	}
 	

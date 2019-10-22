@@ -55,8 +55,8 @@ public class HistoricalDataUtils {
     /** Method creates single table row (array of strings) from HistogramEntry */
     static ArrayList<String> createTableItem(HistogramEntry histogramEntry) {
         ArrayList<String> item = new ArrayList<String>();
-        item.add(Utils.toString(histogramEntry.price));
-        item.add(Utils.toString(histogramEntry.size));
+        item.add(Utils.toString(histogramEntry.price()));
+        item.add(Utils.toString(histogramEntry.size()));
         return item;
     }
     

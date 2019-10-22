@@ -878,8 +878,8 @@ class MarketDataPanel extends JPanel {
 				HistogramEntry row = m_rows.get(rowIn);
 				
 				switch(col) {
-					case 0: return row.price;
-					case 1: return row.size;
+					case 0: return row.price();
+					case 1: return row.size();
 					default: return null;
 				}
 			}
