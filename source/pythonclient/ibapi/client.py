@@ -232,21 +232,20 @@ class EClient(object):
                             self.disconnect()
                             break
                     except queue.Empty:
-                        logging.debug("queue.get: empty")
-                        break # Added this break statement to stop infinite loops from happening 
+                        logger.debug("queue.get: empty")
                     else:
                         fields = comm.read_fields(text)
-                        logging.debug("fields %s", fields)
+                        logger.debug("fields %s", fields)
                         self.decoder.interpret(fields)
                 except (KeyboardInterrupt, SystemExit):
-                    logging.info("detected KeyboardInterrupt, SystemExit")
+                    logger.info("detected KeyboardInterrupt, SystemExit")
                     self.keyboardInterrupt()
                     self.keyboardInterruptHard()
                 except BadMessage:
-                    logging.info("BadMessage")
+                    logger.info("BadMessage")
                     self.conn.disconnect()
 
-                logging.debug("conn:%d queue.sz:%d",
+                logger.debug("conn:%d queue.sz:%d",
                              self.isConnected(),
                              self.msg_queue.qsize())
         finally:
