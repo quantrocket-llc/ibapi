@@ -53,6 +53,10 @@
 			\snippet AvailableAlgoParams.py adaptive_params
 		</li>
 	</ul>
+
+    <br>
+    
+    <b>Note:</b> The Time Zone in "startTime" and "endTime" attributes is only applied when the format "hh:mm:ss TMZ" is used
 	
 	\section arrivalprice ArrivalPrice
 	
@@ -171,12 +175,42 @@
 		</li>
 	</ul>
 	
+	\section midprice Midprice
+	A <a target="_blank" class="linkexternal" href="https://www.interactivebrokers.com/en/index.php?f=36735">Midprice</a> order is designed to split the difference between the bid and ask prices, and fill at the current midpoint of the NBBO or better. Set an optional price cap to define the highest price (for a buy order) or the lowest price (for a sell order) you are willing to accept. 
+	Requires TWS 975+. Smart-routing to US stocks only.
+	<ul>
+		<li>Products: US STK</li>
+		<li>Exchanges: Smart-routing only</li>
+	</ul> 	
+	<ul id="tab">
+		<li class="active">
+			\snippet OrderSamples.cs midprice
+			\snippet Program.cs place_midprice
+		</li>
+		<li> 
+			\snippet OrderSamples.java midprice
+			\snippet Testbed.java place_midprice
+		</li>
+		<li> 
+			\snippet OrderSamples.vb midprice
+			\snippet MainModule.vb	place_midprice
+		</li>
+		<li> 
+			\snippet OrderSamples.cpp midprice
+			\snippet TestCppClient.cpp place_midprice	
+		</li>
+		<li> 
+			\snippet OrderSamples.py midprice
+			\snippet Program.py place_midprice
+		</li>
+	</ul>
+	
 	\section darkice DarkIce
 	
 	The <a href="https://www.interactivebrokers.com/en/index.php?f=3123" target="_blank" class="linkexternal">Dark Ice</a> order type develops the concept of privacy adopted by orders such 
 	as Iceberg or Reserve, using a proprietary algorithm to further hide the volume displayed to the market by the order. Clients can determine the timeframe an order remains live and have 
 	the option to allow trading past end time in the event it is unfilled by the stated end time. In order to minimize market impact in the event of large orders, users can specify a display 
-	size to be shown to the market different from the actual order size. Additionally, the Dark Ice algo randomizes the display size +/- 50% based upon the probability of the price moving favorably. 
+	size to be shown to the market different from the actual order size. Additionally, the Dark Ice algo randomizes the display size +/- 50% based upon the probability of the price moving favourably. 
 	Further, using calculated probabilities, the algo decides whether to place the order at the limit price or one tick lower than the current offer for buy orders and one tick higher than the 
 	current bid for sell orders.
 	
@@ -234,7 +268,8 @@
 	The <a href="https://www.interactivebrokers.com/en/index.php?f=1223" target="_blank" class="linkexternal">Accumulate/Distribute</a> algo can help you to achieve the best price for a 
 	large volume order without being noticed in the market, and can be set up for high frequency trading. By slicing your order into smaller randomly-sized order increments that are released 
 	at random time intervals within a user-defined time period, the algo allows the trading of large blocks of stock and other instruments without being detected in the market. The algo allows 
-	limit, market, and relative order types. It is important to keep in mind the API A/D algo will not have all available parameters of the A/D algos that can be created in TWS.
+	limit, market, and relative order types. It is important to keep in mind the API A/D algo will not have all available parameters of the A/D algos that can be created in TWS. 
+	Note: The new fields activeTimeStart and activeTimeEnd are used in TWS 971+; startTime and endTime were used previously.
 	
 	<table>
 		<tr><th>Parameter</th><th>Description</th><th>Values</th></tr>
@@ -245,8 +280,8 @@
 		<tr><td>giveUp</td><td>Number associated with the clearing</td><td></td></tr>
 		<tr><td>catchUp</td><td>Catch up in time</td><td>1 (true) or 0 (false)</td></tr>
 		<tr><td>waitForFill</td><td>Wait for current order to fill before submitting next order</td><td>1 (true) or 0 (false)</td></tr>
-		<tr><td>startTime</td><td>Algorithm starting time</td><td>YYYYMMDD-hh:mm:ss TMZ</td></tr>
-		<tr><td>endTime</td><td>Algorithm ending time</td><td>YYYYMMDD-hh:mm:ss TMZ</td></tr>
+		<tr><td>activeTimeStart</td><td>Algorithm starting time</td><td>YYYYMMDD-hh:mm:ss TMZ</td></tr>
+		<tr><td>activeTimeEnd</td><td>Algorithm ending time</td><td>YYYYMMDD-hh:mm:ss TMZ</td></tr>
 	</table>
 	
 	<br>
@@ -575,9 +610,7 @@
 	IB's best-efforts <a href="https://www.interactivebrokers.com/en/index.php?f=1124" target="_blank" class="linkexternal">VWAP</a> algo seeks to achieve the Volume-Weighted Average price (VWAP), 
 	calculated from the time you submit the order to the close of the market.
 
-	If you require a guaranteed VWAP, please refer to IB's <a href="https://www.interactivebrokers.com/en/index.php?f=603" target="_blank" class="linkexternal">Guaranteed VWAP</a> order type.
-
-	Best-efforts VWAP algo is a lower-cost alternative to the Guaranteed VWAP that enables the user to attempt never to take liquidity while also trading past the end time. Because the order 
+	Best-efforts VWAP algo is a lower-cost alternative to the Guaranteed VWAP (no longer supported) that enables the user to attempt never to take liquidity while also trading past the end time. Because the order 
 	may not be filled on the bid or at the ask prices, there is a trade-off with this algo. The order may not fully fill if the user is attempting to avoid liquidity-taking fees and/or maximize 
 	liquidity-adding rebates, and may miss the benchmark by asking to stay on the bid or ask. The user can determine the maximum percentage of average daily volume (up to 50%) his order will comprise. 
 	The system will generate the VWAP from the time the order is entered through the close of trading, and the order can be limited to trading over a pre-determined period. The user can request 

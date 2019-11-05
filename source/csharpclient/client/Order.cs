@@ -1,4 +1,4 @@
-/* Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+﻿/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 using System;
@@ -176,6 +176,15 @@ namespace IBApi
         // don't use auto price for hedge
         private bool dontUseAutoPriceForHedge;
 
+        private string autoCancelDate;
+        private double filledQuantity;
+        private int refFuturesConId;
+        private bool autoCancelParent;
+        private string shareholder;
+        private bool imbalanceOnly;
+        private bool routeMarketableToBbo;
+        private long parentPermId;
+
         /**
          * @brief The API client's order id.
          */
@@ -298,7 +307,7 @@ namespace IBApi
          *      \t\t 1 = Cancel all remaining orders with block.\n
          *      \t\t 2 = Remaining orders are proportionately reduced in size with block.\n
          *      \t\t 3 = Remaining orders are proportionately reduced in size with no block.\n
-         * If you use a value "with block" gives your order has overfill protection. This means that only one order in the group will be routed at a time to remove the possibility of an overfill.
+         * If you use a value "with block" it gives the order overfill protection. This means that only one order in the group will be routed at a time to remove the possibility of an overfill.
          */
         public int OcaType
         {
@@ -1214,6 +1223,55 @@ namespace IBApi
             set { dontUseAutoPriceForHedge = value; }
         }
 
+        public string AutoCancelDate 
+        {
+            get { return autoCancelDate; }
+            set { autoCancelDate = value; } 
+        }
+
+        public double FilledQuantity 
+        {
+            get { return filledQuantity; }
+            set { filledQuantity = value; }
+        }
+
+        public int RefFuturesConId 
+        {
+            get { return refFuturesConId; }
+            set { refFuturesConId = value; }
+        }
+
+        public bool AutoCancelParent 
+        {
+            get { return autoCancelParent; }
+            set { autoCancelParent = value; }
+        }
+
+        public string Shareholder 
+        {
+            get { return shareholder; }
+            set { shareholder = value; }
+        }
+
+        public bool ImbalanceOnly 
+        {
+            get { return imbalanceOnly; }
+            set { imbalanceOnly = value; }
+        }
+
+        public bool RouteMarketableToBbo 
+        {
+            get { return routeMarketableToBbo; }
+            set { routeMarketableToBbo = value; }
+        }
+
+        public long ParentPermId 
+        {
+            get { return parentPermId; }
+            set { parentPermId = value; }
+        }
+
+
         public Order()
         {
             lmtPrice = Double.MaxValue;
@@ -1221,7 +1279,7 @@ namespace IBApi
             activeStartTime = EMPTY_STR;
             activeStopTime = EMPTY_STR;
             outsideRth = false;
-            openClose = "O";
+            openClose = EMPTY_STR;
             origin = CUSTOMER;
             transmit = true;
             designatedLocation = EMPTY_STR;
@@ -1279,19 +1337,27 @@ namespace IBApi
             Mifid2ExecutionTrader = EMPTY_STR;
             Mifid2ExecutionAlgo = EMPTY_STR;
             dontUseAutoPriceForHedge = false;
+            autoCancelDate = EMPTY_STR;
+            filledQuantity = Double.MaxValue;
+            refFuturesConId = Int32.MaxValue;
+            autoCancelParent = false;
+            shareholder = EMPTY_STR;
+            imbalanceOnly = false;
+            routeMarketableToBbo = false;
+            parentPermId = Int64.MaxValue;
+            UsePriceMgmtAlgo = null;
         }
 
 		// Note: Two orders can be 'equivalent' even if all fields do not match. This function is not intended to be used with Order objects returned from TWS.
         public override bool Equals(Object p_other)
         {
-
             if (this == p_other)
                 return true;
+            
+            Order l_theOther = p_other as Order;
 
-            if (p_other == null)
+            if (l_theOther == null)
                 return false;
-
-            Order l_theOther = (Order)p_other;
 
             if (PermId == l_theOther.PermId)
             {
@@ -1362,7 +1428,14 @@ namespace IBApi
                 Tier != l_theOther.Tier ||
                 CashQty != l_theOther.CashQty ||
                 dontUseAutoPriceForHedge != l_theOther.dontUseAutoPriceForHedge ||
-                IsOmsContainer != l_theOther.IsOmsContainer)
+                IsOmsContainer != l_theOther.IsOmsContainer ||
+                UsePriceMgmtAlgo != l_theOther.UsePriceMgmtAlgo ||
+                FilledQuantity != l_theOther.FilledQuantity ||
+                RefFuturesConId != l_theOther.RefFuturesConId ||
+                AutoCancelParent != l_theOther.AutoCancelParent ||
+                ImbalanceOnly != l_theOther.ImbalanceOnly ||
+                RouteMarketableToBbo != l_theOther.RouteMarketableToBbo ||
+                ParentPermId != l_theOther.ParentPermId)
             {
                 return false;
             }
@@ -1399,7 +1472,9 @@ namespace IBApi
                 Util.StringCompare(AlgoId, l_theOther.AlgoId) != 0 ||
                 Util.StringCompare(ScaleTable, l_theOther.ScaleTable) != 0 ||
                 Util.StringCompare(ModelCode, l_theOther.ModelCode) != 0 ||
-                Util.StringCompare(ExtOperator, l_theOther.ExtOperator) != 0)
+                Util.StringCompare(ExtOperator, l_theOther.ExtOperator) != 0 ||
+                Util.StringCompare(AutoCancelDate, l_theOther.AutoCancelDate) != 0 ||
+                Util.StringCompare(Shareholder, l_theOther.Shareholder) != 0)
             {
                 return false;
             }
@@ -1421,6 +1496,142 @@ namespace IBApi
             }
 
             return true;
+        }
+
+        public override int GetHashCode()
+        {
+            var hashCode = 1040337091;
+            hashCode = hashCode * -1521134295 + OrderId.GetHashCode();
+            hashCode = hashCode * -1521134295 + Solicited.GetHashCode();
+            hashCode = hashCode * -1521134295 + ClientId.GetHashCode();
+            hashCode = hashCode * -1521134295 + PermId.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Action);
+            hashCode = hashCode * -1521134295 + TotalQuantity.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(OrderType);
+            hashCode = hashCode * -1521134295 + LmtPrice.GetHashCode();
+            hashCode = hashCode * -1521134295 + AuxPrice.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Tif);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(OcaGroup);
+            hashCode = hashCode * -1521134295 + OcaType.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(OrderRef);
+            hashCode = hashCode * -1521134295 + Transmit.GetHashCode();
+            hashCode = hashCode * -1521134295 + ParentId.GetHashCode();
+            hashCode = hashCode * -1521134295 + BlockOrder.GetHashCode();
+            hashCode = hashCode * -1521134295 + SweepToFill.GetHashCode();
+            hashCode = hashCode * -1521134295 + DisplaySize.GetHashCode();
+            hashCode = hashCode * -1521134295 + TriggerMethod.GetHashCode();
+            hashCode = hashCode * -1521134295 + OutsideRth.GetHashCode();
+            hashCode = hashCode * -1521134295 + Hidden.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(GoodAfterTime);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(GoodTillDate);
+            hashCode = hashCode * -1521134295 + OverridePercentageConstraints.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Rule80A);
+            hashCode = hashCode * -1521134295 + AllOrNone.GetHashCode();
+            hashCode = hashCode * -1521134295 + MinQty.GetHashCode();
+            hashCode = hashCode * -1521134295 + PercentOffset.GetHashCode();
+            hashCode = hashCode * -1521134295 + TrailStopPrice.GetHashCode();
+            hashCode = hashCode * -1521134295 + TrailingPercent.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(FaGroup);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(FaProfile);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(FaMethod);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(FaPercentage);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(OpenClose);
+            hashCode = hashCode * -1521134295 + Origin.GetHashCode();
+            hashCode = hashCode * -1521134295 + ShortSaleSlot.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(DesignatedLocation);
+            hashCode = hashCode * -1521134295 + ExemptCode.GetHashCode();
+            hashCode = hashCode * -1521134295 + DiscretionaryAmt.GetHashCode();
+            hashCode = hashCode * -1521134295 + ETradeOnly.GetHashCode();
+            hashCode = hashCode * -1521134295 + FirmQuoteOnly.GetHashCode();
+            hashCode = hashCode * -1521134295 + NbboPriceCap.GetHashCode();
+            hashCode = hashCode * -1521134295 + OptOutSmartRouting.GetHashCode();
+            hashCode = hashCode * -1521134295 + AuctionStrategy.GetHashCode();
+            hashCode = hashCode * -1521134295 + StartingPrice.GetHashCode();
+            hashCode = hashCode * -1521134295 + StockRefPrice.GetHashCode();
+            hashCode = hashCode * -1521134295 + Delta.GetHashCode();
+            hashCode = hashCode * -1521134295 + StockRangeLower.GetHashCode();
+            hashCode = hashCode * -1521134295 + StockRangeUpper.GetHashCode();
+            hashCode = hashCode * -1521134295 + Volatility.GetHashCode();
+            hashCode = hashCode * -1521134295 + VolatilityType.GetHashCode();
+            hashCode = hashCode * -1521134295 + ContinuousUpdate.GetHashCode();
+            hashCode = hashCode * -1521134295 + ReferencePriceType.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(DeltaNeutralOrderType);
+            hashCode = hashCode * -1521134295 + DeltaNeutralAuxPrice.GetHashCode();
+            hashCode = hashCode * -1521134295 + DeltaNeutralConId.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(DeltaNeutralSettlingFirm);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(DeltaNeutralClearingAccount);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(DeltaNeutralClearingIntent);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(DeltaNeutralOpenClose);
+            hashCode = hashCode * -1521134295 + DeltaNeutralShortSale.GetHashCode();
+            hashCode = hashCode * -1521134295 + DeltaNeutralShortSaleSlot.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(DeltaNeutralDesignatedLocation);
+            hashCode = hashCode * -1521134295 + BasisPoints.GetHashCode();
+            hashCode = hashCode * -1521134295 + BasisPointsType.GetHashCode();
+            hashCode = hashCode * -1521134295 + ScaleInitLevelSize.GetHashCode();
+            hashCode = hashCode * -1521134295 + ScaleSubsLevelSize.GetHashCode();
+            hashCode = hashCode * -1521134295 + ScalePriceIncrement.GetHashCode();
+            hashCode = hashCode * -1521134295 + ScalePriceAdjustValue.GetHashCode();
+            hashCode = hashCode * -1521134295 + ScalePriceAdjustInterval.GetHashCode();
+            hashCode = hashCode * -1521134295 + ScaleProfitOffset.GetHashCode();
+            hashCode = hashCode * -1521134295 + ScaleAutoReset.GetHashCode();
+            hashCode = hashCode * -1521134295 + ScaleInitPosition.GetHashCode();
+            hashCode = hashCode * -1521134295 + ScaleInitFillQty.GetHashCode();
+            hashCode = hashCode * -1521134295 + ScaleRandomPercent.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(HedgeType);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(HedgeParam);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Account);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(SettlingFirm);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(ClearingAccount);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(ClearingIntent);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(AlgoStrategy);
+            hashCode = hashCode * -1521134295 + EqualityComparer<List<TagValue>>.Default.GetHashCode(AlgoParams);
+            hashCode = hashCode * -1521134295 + WhatIf.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(AlgoId);
+            hashCode = hashCode * -1521134295 + NotHeld.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<List<TagValue>>.Default.GetHashCode(SmartComboRoutingParams);
+            hashCode = hashCode * -1521134295 + EqualityComparer<List<OrderComboLeg>>.Default.GetHashCode(OrderComboLegs);
+            hashCode = hashCode * -1521134295 + EqualityComparer<List<TagValue>>.Default.GetHashCode(OrderMiscOptions);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(ActiveStartTime);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(ActiveStopTime);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(ScaleTable);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(ModelCode);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(ExtOperator);
+            hashCode = hashCode * -1521134295 + CashQty.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Mifid2DecisionMaker);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Mifid2DecisionAlgo);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Mifid2ExecutionTrader);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Mifid2ExecutionAlgo);
+            hashCode = hashCode * -1521134295 + DontUseAutoPriceForHedge.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(AutoCancelDate);
+            hashCode = hashCode * -1521134295 + FilledQuantity.GetHashCode();
+            hashCode = hashCode * -1521134295 + RefFuturesConId.GetHashCode();
+            hashCode = hashCode * -1521134295 + AutoCancelParent.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Shareholder);
+            hashCode = hashCode * -1521134295 + ImbalanceOnly.GetHashCode();
+            hashCode = hashCode * -1521134295 + RouteMarketableToBbo.GetHashCode();
+            hashCode = hashCode * -1521134295 + ParentPermId.GetHashCode();
+            hashCode = hashCode * -1521134295 + RandomizeSize.GetHashCode();
+            hashCode = hashCode * -1521134295 + RandomizePrice.GetHashCode();
+            hashCode = hashCode * -1521134295 + ReferenceContractId.GetHashCode();
+            hashCode = hashCode * -1521134295 + IsPeggedChangeAmountDecrease.GetHashCode();
+            hashCode = hashCode * -1521134295 + PeggedChangeAmount.GetHashCode();
+            hashCode = hashCode * -1521134295 + ReferenceChangeAmount.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(ReferenceExchange);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(AdjustedOrderType);
+            hashCode = hashCode * -1521134295 + TriggerPrice.GetHashCode();
+            hashCode = hashCode * -1521134295 + LmtPriceOffset.GetHashCode();
+            hashCode = hashCode * -1521134295 + AdjustedStopPrice.GetHashCode();
+            hashCode = hashCode * -1521134295 + AdjustedStopLimitPrice.GetHashCode();
+            hashCode = hashCode * -1521134295 + AdjustedTrailingAmount.GetHashCode();
+            hashCode = hashCode * -1521134295 + AdjustableTrailingUnit.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<List<OrderCondition>>.Default.GetHashCode(Conditions);
+            hashCode = hashCode * -1521134295 + ConditionsIgnoreRth.GetHashCode();
+            hashCode = hashCode * -1521134295 + ConditionsCancelOrder.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<SoftDollarTier>.Default.GetHashCode(Tier);
+            hashCode = hashCode * -1521134295 + IsOmsContainer.GetHashCode();
+            hashCode = hashCode * -1521134295 + DiscretionaryUpToLimitPrice.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<bool?>.Default.GetHashCode(UsePriceMgmtAlgo);
+            return hashCode;
         }
 
         /**
@@ -1517,5 +1728,7 @@ namespace IBApi
         * @brief Set to true to convert order of type 'Primary Peg' to 'D-Peg'
         */
         public bool DiscretionaryUpToLimitPrice { get; set; }
+
+        public bool? UsePriceMgmtAlgo { get; set; }
     }
 }

@@ -1,6 +1,6 @@
 """
-Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
-and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable.
+Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+ and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable.
 """
 import time
 
@@ -202,8 +202,10 @@ class EClient(object):
     def isConnected(self):
         """Call this function to check if there is a connection with TWS"""
 
-        logger.debug("%s isConn: %s" % (id(self), self.connState))
-        return EClient.CONNECTED == self.connState
+        connConnected = self.conn and self.conn.isConnected()
+        logger.debug("%s isConn: %s, connConnected: %s" % (id(self),
+            self.connState, str(connConnected)))
+        return EClient.CONNECTED == self.connState and connConnected
 
     def keyboardInterrupt(self):
         #intended to be overloaded
@@ -217,16 +219,10 @@ class EClient(object):
 
     def run(self):
         """This is the function that has the message loop."""
-        timeStart = time.time()
-        timeOut = 20
 
         try:
             while not self.done and (self.isConnected()
                         or not self.msg_queue.empty()):
-                if time.time() - timeStart > timeOut: # stop application after timeout
-                    self.keyboardInterrupt()
-                    self.keyboardInterruptHard()
-
                 try:
                     try:
                         text = self.msg_queue.get(block=True, timeout=0.2)
@@ -1027,6 +1023,10 @@ class EClient(object):
                         " It does not support oms container parameter")
             return
 
+        if self.serverVersion() < MIN_SERVER_VER_PRICE_MGMT_ALGO and order.usePriceMgmtAlgo:
+            self.wrapper.error(orderId, UPDATE_TWS.code(), UPDATE_TWS.msg() + " It does not support Use price management algo requests")
+            return
+
         VERSION = 27 if (self.serverVersion() < MIN_SERVER_VER_NOT_HELD) else 45
 
         # send place order msg
@@ -1347,6 +1347,9 @@ class EClient(object):
 
         if self.serverVersion() >= MIN_SERVER_VER_D_PEG_ORDERS:
             flds.append(make_field(order.discretionaryUpToLimitPrice))
+
+        if self.serverVersion() >= MIN_SERVER_VER_PRICE_MGMT_ALGO:
+            flds.append(make_field_handle_empty(UNSET_INTEGER if order.usePriceMgmtAlgo == None else 1 if order.usePriceMgmtAlgo else 0))
 
         msg = "".join(flds)
         self.sendMsg(msg)
@@ -2032,6 +2035,11 @@ class EClient(object):
                 " It does not support SMART depth request.")
             return
 
+        if self.serverVersion() < MIN_SERVER_VER_MKT_DEPTH_PRIM_EXCHANGE and contract.primaryExchange:
+            self.wrapper.error( reqId, UPDATE_TWS.code(), UPDATE_TWS.msg() +
+                " It does not support primaryExchange parameter in reqMktDepth.")
+            return
+
         VERSION = 5
 
         # send req mkt depth msg
@@ -2049,8 +2057,10 @@ class EClient(object):
             make_field(contract.strike),
             make_field(contract.right),
             make_field(contract.multiplier), # srv v15 and above
-            make_field(contract.exchange),
-            make_field(contract.currency),
+            make_field(contract.exchange),]
+        if self.serverVersion() >= MIN_SERVER_VER_MKT_DEPTH_PRIM_EXCHANGE:
+            flds += [make_field(contract.primaryExchange),]
+        flds += [make_field(contract.currency),
             make_field(contract.localSymbol)]
         if self.serverVersion() >= MIN_SERVER_VER_TRADING_CLASS:
             flds += [make_field(contract.tradingClass),]
@@ -3266,4 +3276,20 @@ class EClient(object):
 
         self.sendMsg(msg)
 
+    def reqCompletedOrders(self, apiOnly:bool):
+        """Call this function to request the completed orders. If apiOnly parameter 
+        is true, then only completed orders placed from API are requested. 
+        Each completed order will be fed back through the
+        completedOrder() function on the EWrapper."""
+
+        self.logRequest(current_fn_name(), vars())
+
+        if not self.isConnected():
+            self.wrapper.error(NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg())
+            return
+
+        msg = make_field(OUT.REQ_COMPLETED_ORDERS) \
+            + make_field(apiOnly)
+
+        self.sendMsg(msg)
 

@@ -1,4 +1,4 @@
-/* Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 package com.ib.client;
@@ -345,6 +345,20 @@ public class Types {
 	    @Override public String getApiString() {
 			return this == None ? "" : super.toString();
 		}
+	}
+	
+	public enum UsePriceMgmtAlgo {
+	    Default(null), NotUse(false), Use(true);
+	    
+	    private Boolean value;
+	    
+	    UsePriceMgmtAlgo(Boolean value) {
+	        this.value = value;
+	    }
+	    
+	    public Boolean toBoolean() {
+	        return value;
+	    }
 	}
 
 	public static <T extends Enum<?> & IApiEnum> T getValueOf( String v, T[] values, T defaultValue ) {

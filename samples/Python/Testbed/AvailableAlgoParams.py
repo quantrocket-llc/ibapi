@@ -1,6 +1,6 @@
 """
-Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
-and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable.
+Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+ and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable.
 """
 
 from ibapi.object_implem import Object
@@ -137,8 +137,8 @@ class AvailableAlgoParams(Object):
         baseOrder.algoParams.append(TagValue("giveUp", giveUp))
         baseOrder.algoParams.append(TagValue("catchUp", int(catchUp)))
         baseOrder.algoParams.append(TagValue("waitForFill", int(waitForFill)))
-        baseOrder.algoParams.append(TagValue("startTime", startTime))
-        baseOrder.algoParams.append(TagValue("endTime", endTime))
+        baseOrder.algoParams.append(TagValue("activeTimeStart", startTime))
+        baseOrder.algoParams.append(TagValue("activeTimeEnd", endTime))
 
     # ! [ad_params]
 
@@ -296,6 +296,24 @@ class AvailableAlgoParams(Object):
         baseOrder.algoParams.append(TagValue("MaxBlockSize", maxBlockSize))
         baseOrder.algoParams.append(TagValue("IWouldPrice", iWouldPrice))
     # ! [csfb_inline_params]
+
+    # ! [qbalgo_strobe_params]
+    @staticmethod
+    def FillQBAlgoInLineParams(baseOrder: Order, startTime: str, 
+                               endTime: str, duration: float, 
+                               benchmark: str, percentVolume: float, 
+                               noCleanUp: bool):
+        # must be direct-routed to "QBALGO"
+        baseOrder.algoStrategy = "STROBE"
+        baseOrder.algoParams = []
+        baseOrder.algoParams.append(TagValue("StartTime", startTime))
+        baseOrder.algoParams.append(TagValue("EndTime", endTime))
+        #This example uses endTime instead of duration
+        #baseOrder.algoParams.append(TagValue("Duration", str(duration)))
+        baseOrder.algoParams.append(TagValue("Benchmark", benchmark)) 
+        baseOrder.algoParams.append(TagValue("PercentVolume", str(percentVolume)))
+        baseOrder.algoParams.append(TagValue("NoCleanUp", int(noCleanUp)))
+    # ! [qbalgo_strobe_params]
 
 
 def Test():

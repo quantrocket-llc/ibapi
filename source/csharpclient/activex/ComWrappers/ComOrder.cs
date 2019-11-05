@@ -1,4 +1,4 @@
-﻿/* Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 using System;
@@ -358,5 +358,14 @@ namespace TWSLib
         bool TWSLib.IOrder.dontUseAutoPriceForHedge { get { return data.DontUseAutoPriceForHedge; } set { data.DontUseAutoPriceForHedge = value; } }
         bool TWSLib.IOrder.isOmsContainer { get { return data.IsOmsContainer; } set { data.IsOmsContainer = value; } }
         bool TWSLib.IOrder.discretionaryUpToLimitPrice { get { return data.DiscretionaryUpToLimitPrice; } set { data.DiscretionaryUpToLimitPrice = value; } }
+        string TWSLib.IOrder.autoCancelDate { get { return data.AutoCancelDate; } set { data.AutoCancelDate = value; } }
+        double TWSLib.IOrder.filledQuantity { get { return data.FilledQuantity; } set { data.FilledQuantity = value; } }
+        int TWSLib.IOrder.refFuturesConId { get { return data.RefFuturesConId; } set { data.RefFuturesConId = value; } }
+        bool TWSLib.IOrder.autoCancelParent { get { return data.AutoCancelParent; } set { data.AutoCancelParent = value; } }
+        string TWSLib.IOrder.shareholder { get { return data.Shareholder; } set { data.Shareholder = value; } }
+        bool TWSLib.IOrder.imbalanceOnly { get { return data.ImbalanceOnly; } set { data.ImbalanceOnly = value; } }
+        bool TWSLib.IOrder.routeMarketableToBbo { get { return data.RouteMarketableToBbo; } set { data.RouteMarketableToBbo = value; } }
+        long TWSLib.IOrder.parentPermId { get { return data.ParentPermId; } set { data.ParentPermId = value; } }
+        bool TWSLib.IOrder.usePriceMgmtAlgo { get { return data.UsePriceMgmtAlgo ?? false; } set { data.UsePriceMgmtAlgo = value; } }
     }
 }

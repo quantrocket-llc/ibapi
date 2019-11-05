@@ -1,4 +1,4 @@
-/* Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 using System;
@@ -208,5 +208,9 @@ namespace TWSLib
         void orderBound(string orderId, int apiClientId, int apiOrderId);
         [DispId(150)]
         void histogramDataEnd(int reqId);
+        [DispId(151)]
+        void completedOrder(IContract contract, IOrder order, IOrderState orderState);
+        [DispId(152)]
+        void completedOrdersEnd();
     }
 }

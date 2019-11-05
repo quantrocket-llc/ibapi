@@ -1,4 +1,4 @@
-﻿/* Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+﻿/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 using System;
@@ -16,7 +16,6 @@ namespace IBApi
      */
     public class OrderComboLeg
     {
-        
         double price;
 
         /**
@@ -40,23 +39,23 @@ namespace IBApi
 
         public override bool Equals(Object other)
         {
+            OrderComboLeg theOther = other as OrderComboLeg;
+            if (theOther == null)
+            {
+                return false;
+            }
+            
             if (this == other)
             {
                 return true;
             }
-            else if (other == null)
-            {
-                return false;
-            }
 
-            OrderComboLeg theOther = (OrderComboLeg)other;
+            return price == theOther.Price;
+        }
 
-            if (price != theOther.Price)
-            {
-                return false;
-            }
-
-            return true;
+        public override int GetHashCode()
+        {
+            return -814345894 + Price.GetHashCode();
         }
     }
 }

@@ -26,7 +26,10 @@
 /samples/VB/Testbed/obj
 /tests/OrderConditionsParsingTestProject/bin
 /tests/OrderConditionsParsingTestProject/obj
+/tests/TWSLibTestProject/bin
+/tests/TWSLibTestProject/obj
 /bin/
 .idea
 __pycache__
 
+.vs/

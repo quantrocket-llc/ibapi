@@ -1,4 +1,4 @@
-' Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+﻿' Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
 ' and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable.
 
 Imports IBApi
@@ -829,6 +829,23 @@ Friend Class ApiEventSource
                          End Sub)
     End Sub
 
+    Private Sub EWrapper_CompletedOrder(contract As IBApi.Contract, order As IBApi.Order, orderState As IBApi.OrderState) Implements IBApi.EWrapper.completedOrder
+        InvokeIfRequired(Sub()
+                             RaiseEvent CompletedOrder(Me, New OpenOrderEventArgs With {
+                                                                      .contract = contract,
+                                                                      .order = order,
+                                                                      .orderState = orderState
+                                                                     })
+                         End Sub)
+    End Sub
+
+    Private Sub EWrapper_CompletedOrdersEnd() Implements IBApi.EWrapper.completedOrdersEnd
+        InvokeIfRequired(Sub()
+                             RaiseEvent CompletedOrdersEnd(Me, EventArgs.Empty)
+                         End Sub)
+    End Sub
+
+
 #End Region
 
 #Region "Event declarations"
@@ -911,6 +928,9 @@ Friend Class ApiEventSource
     Event TickByTickBidAsk(sender As Object, e As TickByTickBidAskEventArgs)
     Event TickByTickMidPoint(sender As Object, e As TickByTickMidPointEventArgs)
     Event OrderBound(sender As Object, e As OrderBoundEventArgs)
+    Event CompletedOrder(sender As Object, e As OpenOrderEventArgs)
+    Event CompletedOrdersEnd(sender As Object, e As EventArgs)
+
 
 #End Region
 

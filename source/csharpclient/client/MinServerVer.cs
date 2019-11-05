@@ -1,4 +1,4 @@
-/* Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 using System;
@@ -107,5 +107,12 @@ namespace IBApi
         public const int SMART_DEPTH = 146;
         public const int REMOVE_NULL_ALL_CASTING = 147;
         public const int D_PEG_ORDERS = 148;
+        public const int MKT_DEPTH_PRIM_EXCHANGE = 149;
+        public const int COMPLETED_ORDERS = 150;
+        public const int PRICE_MGMT_ALGO = 151;
+        public const int STOCK_TYPE = 152;
+        public const int ENCODE_MSG_ASCII7 = 153;
+        public const int SEND_ALL_FAMILY_CODES = 154;
+        public const int NO_DEFAULT_OPEN_CLOSE = 155;
     }
 }

@@ -1,4 +1,4 @@
-' Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+﻿' Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
 ' and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable.
 
 Imports IBApi
@@ -64,7 +64,7 @@ Module MainModule
         '**************************************************
         '** Real time market data operations  - Tickers ***
         '**************************************************
-        tickDataOperations(client)
+        'tickDataOperations(client)
 
         '***************************************************
         '** Tick option computation operations - Tickers ***
@@ -99,7 +99,7 @@ Module MainModule
         '***************************
         '** Contract information ***
         '***************************
-        'contractOperations(client)
+        contractOperations(client)
 
         '**********************
         '** Market Scanners ***
@@ -427,6 +427,7 @@ Module MainModule
         client.reqContractDetails(211, ContractSamples.Bond())
         client.reqContractDetails(212, ContractSamples.FuturesOnOptions())
         client.reqContractDetails(213, ContractSamples.SimpleFuture())
+        client.reqContractDetails(214, ContractSamples.USStockAtSmart())
         '! [reqcontractdetails]
 
         '! [reqcontractdetailsnews]
@@ -449,7 +450,7 @@ Module MainModule
 
         '*** Triggering a scanner subscription ***/
         '! [reqscannersubscription]
-        client.reqScannerSubscription(7001, ScannerSubscriptionSamples.HighOptVolumePCRatioUSIndexes(), Nothing, Nothing)
+        client.reqScannerSubscription(7001, ScannerSubscriptionSamples.HighOptVolumePCRatioUSIndexes(), "", Nothing)
 
         Dim TagValues As List(Of IBApi.TagValue) = New List(Of TagValue)
         TagValues.Add(New TagValue("usdMarketCapAbove", "10000"))
@@ -458,13 +459,22 @@ Module MainModule
 
         client.reqScannerSubscription(7002, ScannerSubscriptionSamples.HotUSStkByVolume(), Nothing, TagValues) ' requires TWS v973+
 
-        '! [reqscannersubscription]
+		'! [reqscannersubscription]
+		
+		'! [reqcomplexscanner]
+				
+		Dim AAPLConIDTag As List(Of IBApi.TagValue) = New List(Of TagValue)
+        AAPLConIDTag.Add(New TagValue("underConID", "265598"))
+        client.reqScannerSubscription(7003, ScannerSubscriptionSamples.ComplexOrdersAndTrades(), Nothing, AAPLConIDTag) ' requires TWS v975+
+		
+        '! [reqcomplexscanner]
 
         Thread.Sleep(2000)
         '*** Canceling the scanner subscription ***/
         '! [cancelscannersubscription]
         client.cancelScannerSubscription(7001)
         client.cancelScannerSubscription(7002)
+		client.cancelScannerSubscription(7003)
         '! [cancelscannersubscription]
 
     End Sub
@@ -600,6 +610,10 @@ Module MainModule
         client.placeOrder(increment(nextOrderId), ContractSamples.USStock(), OrderSamples.LimitOrder("SELL", 1, 50))
         '! [order_submission]
 
+		'! [place_midprice]
+        client.placeOrder(increment(nextOrderId), ContractSamples.USStockAtSmart(), OrderSamples.Midprice("BUY", 1, 150))
+        '! [place_midprice]
+		
         '! [faorderoneaccount]
         Dim faOrderOneAccount As Order = OrderSamples.MarketOrder("BUY", 100)
         ' Specify the Account Number directly
@@ -705,6 +719,11 @@ Module MainModule
         '! [reqexecutions]
         client.reqExecutions(10001, New ExecutionFilter())
         '! [reqexecutions]
+
+        '! [reqcompletedorders]
+        client.reqCompletedOrders(False)
+        '! [reqcompletedorders]
+
     End Sub
 
     Private Sub newsOperations(client As EClientSocket)

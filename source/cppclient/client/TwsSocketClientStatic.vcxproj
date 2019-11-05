@@ -19,13 +19,13 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
-    <PlatformToolset>v110_xp</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <UseOfMfc>false</UseOfMfc>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
-    <PlatformToolset>v110_xp</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <UseOfMfc>false</UseOfMfc>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
@@ -166,6 +166,7 @@
     <ClCompile Include="EMutex.cpp" />
     <ClCompile Include="EDecoder.cpp" />
     <ClCompile Include="EMessage.cpp" />
+    <ClCompile Include="EOrderDecoder.cpp" />
     <ClCompile Include="EReader.cpp" />
     <ClCompile Include="EClientSocket.cpp" />
     <ClCompile Include="EReaderOSSignal.cpp" />
@@ -197,6 +198,7 @@
     <ClInclude Include="DefaultEWrapper.h" />
     <ClInclude Include="EDecoder.h" />
     <ClInclude Include="EMessage.h" />
+    <ClInclude Include="EOrderDecoder.h" />
     <ClInclude Include="EReader.h" />
     <ClInclude Include="EReaderSignal.h" />
     <ClInclude Include="EClientSocket.h" />
@@ -216,6 +218,7 @@
     <ClInclude Include="OperatorCondition.h" />
     <ClInclude Include="OrderCondition.h" />
     <ClInclude Include="PercentChangeCondition.h" />
+    <ClInclude Include="platformspecific.h" />
     <ClInclude Include="PriceCondition.h" />
     <ClInclude Include="SoftDollarTier.h" />
     <ClInclude Include="StdAfx.h" />

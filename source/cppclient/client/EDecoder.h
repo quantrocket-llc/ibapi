@@ -1,10 +1,11 @@
-/* Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 #pragma once
 #ifndef TWS_API_CLIENT_EDECODER_H
 #define TWS_API_CLIENT_EDECODER_H
 
+#include "platformspecific.h"
 #include "Contract.h"
 #include "HistoricalTick.h"
 #include "HistoricalTickBidAsk.h"
@@ -82,7 +83,6 @@ const int MIN_SERVER_VER_CANCEL_HEADTIMESTAMP       = 123;
 const int MIN_SERVER_VER_SYNT_REALTIME_BARS         = 124;
 const int MIN_SERVER_VER_CFD_REROUTE                = 125;
 const int MIN_SERVER_VER_MARKET_RULES               = 126;
-const int MIN_SERVER_VER_DAILY_PNL                  = 127;
 const int MIN_SERVER_VER_PNL                        = 127;
 const int MIN_SERVER_VER_NEWS_QUERY_ORIGINS         = 128;
 const int MIN_SERVER_VER_UNREALIZED_PNL             = 129;
@@ -104,12 +104,19 @@ const int MIN_SERVER_VER_ORDER_CONTAINER            = 145;
 const int MIN_SERVER_VER_SMART_DEPTH                = 146;
 const int MIN_SERVER_VER_REMOVE_NULL_ALL_CASTING    = 147;
 const int MIN_SERVER_VER_D_PEG_ORDERS               = 148;
+const int MIN_SERVER_VER_MKT_DEPTH_PRIM_EXCHANGE    = 149;
+const int MIN_SERVER_VER_COMPLETED_ORDERS           = 150;
+const int MIN_SERVER_VER_PRICE_MGMT_ALGO            = 151;
+const int MIN_SERVER_VER_STOCK_TYPE                 = 152;
+const int MIN_SERVER_VER_ENCODE_MSG_ASCII7          = 153;
+const int MIN_SERVER_VER_SEND_ALL_FAMILY_CODES		= 154;
+const int MIN_SERVER_VER_NO_DEFAULT_OPEN_CLOSE		= 155;
 
 /* 100+ messaging */
 // 100 = enhanced handshake, msg length prefixes
 
 const int MIN_CLIENT_VER = 100;
-const int MAX_CLIENT_VER = MIN_SERVER_VER_D_PEG_ORDERS;
+const int MAX_CLIENT_VER = MIN_SERVER_VER_NO_DEFAULT_OPEN_CLOSE;
 
 
 // incoming msg id's
@@ -188,6 +195,8 @@ const int HISTORICAL_TICKS_BID_ASK                  = 97;
 const int HISTORICAL_TICKS_LAST                     = 98;
 const int TICK_BY_TICK                              = 99;
 const int ORDER_BOUND                               = 100;
+const int COMPLETED_ORDER                           = 101;
+const int COMPLETED_ORDERS_END                      = 102;
 
 const int HEADER_LEN = 4; // 4 bytes for msg length
 const int MAX_MSG_LEN = 0xFFFFFF; // 16Mb - 1byte
@@ -304,6 +313,8 @@ class TWSAPIDLLEXP EDecoder
     const char* processHistoricalTicksLast(const char* ptr, const char* endPtr);
     const char* processTickByTickDataMsg(const char* ptr, const char* endPtr);
     const char* processOrderBoundMsg(const char* ptr, const char* endPtr);
+    const char* processCompletedOrderMsg(const char* ptr, const char* endPtr);
+    const char* processCompletedOrdersEndMsg(const char* ptr, const char* endPtr);
 
 
     int processConnectAck(const char*& beginPtr, const char* endPtr);

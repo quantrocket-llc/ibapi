@@ -1,0 +1,142 @@
+/*! \page qbalgos Quantitative Brokers Algos
+
+	- It is recommended to first try to create the QBAlgo in TWS to see the most current available field values.
+	- QBAlgos are only available in live accounts.
+	- Some fields have default values and are optional in TWS but must be explicitly specified in the API.
+	
+	\section available_qbalgos Available QBAlgos
+	
+	\ref strobe "Strobe"
+	
+	\ref bolt "Bolt"
+	
+	\ref closer "Closer"
+	
+	\ref octane "Octane"
+	
+	<br>
+	
+	\section strobe Strobe
+
+	<table>
+		<tr>
+			<th>Parameter </th><th> Description</th> <th> Type </th> <th> Syntax/Values </th> 
+		</tr>
+			<tr><td>StartTime</td><td>Start Time</td> <td>Time</td> <td>hh:mm:ss tmz</td> 
+		</tr>
+		<tr>
+			<td>EndTime</td><td>Must be on the same date as Start Time.<br>Takes precedence over Duration.</td> <td>Time</td> <td>hh:mm:ss tmz</td> 
+		</tr>
+		<tr>
+			<td>Duration</td><td>Alternative order end time specifier.<br>This value is a number of minutes that the order should be worked.<br>A value of -99 will specify that the end time should be the exchange close time.</td> <td>Double</td> <td></td> 
+		</tr>
+		<tr>
+			<td>Benchmark</td><td>Benchmark</td> <td>String</td> <td>TWAP, VWAP</td> 
+		</tr>
+		<tr>
+			<td>PercentVolume</td><td>Volume %</td> <td>Double</td> <td> >=0 and <=1</td> 
+			</tr>
+		<tr>
+			<td>NoCleanup</td><td>No Cleanup</td> <td>Boolean</td> <td>"0" (false) or "1" (true)</td> 
+		</tr>
+	</table>
+	
+	\section bolt Bolt
+
+	<table>
+	<tr>
+		<th>Parameter </th><th> Description</th> <th> Type </th> <th> Syntax/Values </th> 
+	</tr>
+	<tr>
+		<td>StartTime</td><td>Start Time</td> <td>Time</td> <td>hh:mm:ss tmz</td> 
+	</tr>
+	<tr>
+		<td>EndTime</td><td>Must be on the same date as Start Time.<br>Takes precedence over Duration.</td> <td>Time</td> <td>hh:mm:ss 	tmz</td> 
+	</tr>
+	<tr>
+		<td>Duration</td><td>Alternative order end time specifier.<br>This value is a number of minutes that the order should be worked.<br>A value of -99 will specify that the end time should be the exchange close time.</td> <td>Double</td> <td></td>
+	</tr>
+	<tr>
+		<td>Mode</td><td>Mode</td> <td>String</td> <td>Passive, Normal, Aggressive</td> 
+	</tr>
+	<tr>
+		<td>PercentVolume</td><td>Volume %</td> <td>Double</td> <td> >=0 and <=1</td> 
+	</tr>
+	<tr>
+		<td>EventPause</td><td>Event Pause</td> <td>String</td> <td>Attempt_To_Complete, Pause_Trading, Trade_Through</td> 
+	</tr>
+	<tr>
+		<td>NoCleanup</td><td>No Cleanup</td> <td>Boolean</td> <td>"0" (false) or "1" (true</td> 
+	</tr>
+	<tr>
+		<td>LiquidityAggressThreshold</td><td>Liquidity Aggressiveness Threshold</td> <td>Double</td> <td>>=0 and <=1</td> 
+	</tr>
+	</table>
+
+	\section closer Closer
+	No Parameters
+
+	\section octane Octane
+
+	<table>
+		<tr>
+			<th>Parameter </th><th> Description</th> <th> Type </th> <th> Syntax/Values </th> 
+		</tr>
+		<tr>
+			<td>StartTime</td><td>Start Time</td> <td>Time</td> <td>hh:mm:ss tmz</td> 
+		</tr>
+		<tr>
+			<td>EndTime</td><td>Must be on the same date as Start Time.<br>Takes precedence over Duration.</td> <td>Time</td> <td>hh:mm:ss tmz</td> 
+		</tr>
+		<tr>
+			<td>Duration</td><td>Alternative order end time specifier.<br>This value is a number of minutes that the order should be 	worked.<br>A value of -99 will specify that the end time should be the exchange close time.</td> <td>Double</td> <td></td> 
+		</tr>
+		<tr>
+			<td>Urgency</td><td>Urgency</td> <td>String</td> <td>High, Ultra_High</td> 
+		</tr>
+	</table>
+	
+	<br>
+	Example Quantitative Brokers Strobe Algo
+	<br>
+	
+	<ul id="tab">
+		<li class="active">
+			\snippet ContractSamples.cs qbalgo_contract
+			...
+			\snippet Program.cs qbalgo_strobe_algo
+			...
+			\snippet AvailableAlgoParams.cs qbalgo_strobe_params
+		</li>
+		<li>
+			\snippet ContractSamples.java qbalgo_contract
+			...
+			\snippet Testbed.java qbalgo_strobe_algo
+			...
+			\snippet AvailableAlgoParams.java qbalgo_strobe_params
+		</li>
+		<li>
+			\snippet ContractSamples.vb qbalgo_contract
+			...
+			\snippet MainModule.vb qbalgo_strobe_algo
+			...
+			\snippet AvailableAlgoParams.vb qbalgo_strobe_params
+		</li>
+		<li>
+			\snippet ContractSamples.cpp qbalgo_contract
+			...
+			\snippet TestCppClient.cpp qbalgo_strobe_algo
+			...
+			\snippet AvailableAlgoParams.cpp qbalgo_strobe_params
+		</li>
+		<li>
+			\snippet ContractSamples.py qbalgo_contract
+			...
+			\snippet Program.py qbalgo_strobe_algo
+			...
+			\snippet AvailableAlgoParams.py qbalgo_strobe_params
+		</li>
+	</ul>
+	
+	<br><br>
+*/

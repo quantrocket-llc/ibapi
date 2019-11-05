@@ -62,17 +62,20 @@ End Sub
 ' update open orders table with new values
 Sub UpdateOpenOrder(orderId As Long, contract As TWSLib.IContract, order As TWSLib.IOrder, orderState As TWSLib.IOrderState)
     
+    Dim tempStr As String
+    Dim i As Integer
+    
     ' find row by orderId
     Dim rowId As Long
-    rowId = OrderUtils.FindOrderRowIndex(orderId, orderStatusTable)
+    rowId = OrderUtils.FindOrderRowIndexByPermId(order.permId, orderStatusTable)
     
     'if row with order was not found then try to find first empty row
     If rowId = 0 Then
-        rowId = OrderUtils.FindFirstEmptyOrderRow(Col_ORDERID, orderStatusTable)
+        rowId = OrderUtils.FindFirstEmptyOrderRow(Col_PERMID, orderStatusTable)
     End If
     
     With contract
-        contractTable(rowId, Col_SYMBOL).value = .symbol
+        contractTable(rowId, Col_SYMBOL).value = .Symbol
         contractTable(rowId, Col_SECTYPE).value = .SecType
         contractTable(rowId, Col_LASTTRADEDATE).value = .lastTradeDateOrContractMonth
         contractTable(rowId, Col_STRIKE).value = .Strike
@@ -83,27 +86,30 @@ Sub UpdateOpenOrder(orderId As Long, contract As TWSLib.IContract, order As TWSL
         contractTable(rowId, Col_CURRENCY).value = .currency
         contractTable(rowId, Col_LOCALSYMBOL).value = .localSymbol
         contractTable(rowId, Col_CONID).value = .conId
+        contractTable(rowId, Col_COMBOLEGS).value = Util.comboLegsToStr(contract)
+        contractTable(rowId, Col_DELTANEUTRALCONTRACT).value = Util.deltaNeutralToStr(contract)
     End With
     
     With order
+        orderStatusTable(rowId, Col_ORDERID).value = orderId
         orderDescriptionTable(rowId, Col_ACTION).value = .action
         orderDescriptionTable(rowId, Col_TOTALQTY).value = .totalQuantity
         orderDescriptionTable(rowId, Col_CASH_QTY).value = Util.DblMaxStr(.cashQty)
         orderDescriptionTable(rowId, Col_ORDERTYPE).value = .orderType
         orderDescriptionTable(rowId, Col_LMTPRICE).value = Util.DblMaxStr(.lmtPrice)
         orderDescriptionTable(rowId, Col_AUXPRICE).value = Util.DblMaxStr(.auxPrice)
-        orderDescriptionTable(rowId, Col_ORDERID).value = .orderId
+        orderStatusTable(rowId, Col_PERMID).value = .permId
 
-        
+
         ' extended order attributes
-        ExtendedAttributesTable(rowId, Columns(Col_TIMEINFORCE).column).value = .timeInForce
+        ExtendedAttributesTable(rowId, Col_TIMEINFORCE).value = .timeInForce
         ExtendedAttributesTable(rowId, Col_OCAGROUP).value = .ocaGroup
         ExtendedAttributesTable(rowId, Col_ACCOUNT).value = .Account
-        
+
         If contract.SecType Like SECTYPE_OPT Or contract.SecType Like SECTYPE_FOP Then
             ExtendedAttributesTable(rowId, Col_OPENCLOSE).value = .openClose
         End If
-        
+
         ExtendedAttributesTable(rowId, Col_ORIGIN).value = .origin
         ExtendedAttributesTable(rowId, Col_ORDERREF).value = .orderRef
         ExtendedAttributesTable(rowId, Col_TRANSMIT).value = .transmit
@@ -193,27 +199,28 @@ Sub UpdateOpenOrder(orderId As Long, contract As TWSLib.IContract, order As TWSL
         ExtendedAttributesTable(rowId, Col_SOFT_DOLLAR_TIER).value = .tier.name & ";" & .tier.value
         ExtendedAttributesTable(rowId, Col_IS_OMS_CONTAINER).value = .isOmsContainer
         ExtendedAttributesTable(rowId, Col_RELATIVE_DISCRETIONARY).value = .discretionaryUpToLimitPrice
+        ExtendedAttributesTable(rowId, Col_USEPRICEMGMTALGO).value = .usePriceMgmtAlgo
     End With
-    
-    Dim tempStr As String
-    Dim i As Integer
-    For i = 0 To order.SmartComboRoutingParams.Count - 1 Step 1
-        tempStr = tempStr & order.SmartComboRoutingParams(i).tag & STR_EQUALSSIGN
-        tempStr = tempStr & order.SmartComboRoutingParams(i).value & STR_SEMICOLON
-    Next i
-    ExtendedAttributesTable(rowId, Col_SMART_COMBO_ROUTING_PARAMS).value = tempStr
-    
+
+    If Not order.SmartComboRoutingParams Is Nothing Then
+        For i = 0 To order.SmartComboRoutingParams.Count - 1 Step 1
+            tempStr = tempStr & order.SmartComboRoutingParams(i).tag & STR_EQUALSSIGN
+            tempStr = tempStr & order.SmartComboRoutingParams(i).value & STR_SEMICOLON
+        Next i
+        ExtendedAttributesTable(rowId, Col_SMART_COMBO_ROUTING_PARAMS).value = tempStr
+    End If
+
     With orderState
         orderStatusTable(rowId, Col_ORDERSTATUS).value = .status
     End With
-    
+
 End Sub
 
 ' update order status
-Public Sub UpdateOrderStatus(orderId As Long, status As String, filled As Double, remaining As Double, avgFillPrice As Double, parentId As Long, lastFillPrice As Double)
+Public Sub UpdateOrderStatus(orderId As Long, status As String, filled As Double, remaining As Double, avgFillPrice As Double, parentId As Long, permId As Long, lastFillPrice As Double)
     ' find row to update by using orderId
     Dim id As Long
-    id = OrderUtils.FindOrderRowIndex(orderId, orderStatusTable)
+    id = OrderUtils.FindOrderRowIndexByPermId(permId, orderStatusTable)
     If id <> 0 Then
         orderStatusTable(id, Col_ORDERSTATUS).value = status
         orderStatusTable(id, Col_FILLED).value = filled
@@ -221,6 +228,7 @@ Public Sub UpdateOrderStatus(orderId As Long, status As String, filled As Double
         orderStatusTable(id, Col_AVGFILLPRICE).value = avgFillPrice
         orderStatusTable(id, Col_LASTFILLPRICE).value = lastFillPrice
         orderStatusTable(id, Col_PARENTID).value = parentId
+        orderStatusTable(id, Col_PERMID).value = permId
     End If
 End Sub
 
@@ -232,10 +240,10 @@ Private Sub Clear()
 End Sub
 
 Public Sub Initialise()
-    Set contractTable = Range("$A$7:$K$100")
-    Set orderDescriptionTable = Range("$L$7:$Q$100")
-    Set orderStatusTable = Range("$R$7:$X$100")
-    Set ExtendedAttributesTable = Range("$Y$7:$DL$100")
+    Set contractTable = Range("$A$7:$M$100")
+    Set orderDescriptionTable = Range("$N$7:$S$100")
+    Set orderStatusTable = Range("$T$7:$AA$100")
+    Set ExtendedAttributesTable = Range("$AB$7:$DR$100")
 End Sub
 
 Private Sub Worksheet_Activate()

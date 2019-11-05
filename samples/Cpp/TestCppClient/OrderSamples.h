@@ -1,4 +1,4 @@
-/* Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+﻿/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 #pragma once
@@ -19,6 +19,7 @@ public:
 	static Order MarketOnClose(std::string action, double quantity);
 	static Order MarketOnOpen(std::string action, double quantity);
 	static Order MidpointMatch(std::string action, double quantity);
+	static Order Midprice(std::string action, double quantity, double priceCap);
 	static Order PeggedToMarket(std::string action, double quantity, double marketOffset);
 	static Order PeggedToStock(std::string action, double quantity, double delta, double stockReferencePrice, double startingPrice);
 	static Order RelativePeggedToPrimary(std::string action, double quantity, double priceCap, double offsetAmount);

@@ -1,6 +1,6 @@
 """
-Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
-and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable.
+Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+ and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable.
 """
 
 import argparse
@@ -13,6 +13,7 @@ import time
 import os.path
 
 from ibapi import wrapper
+from ibapi import utils
 from ibapi.client import EClient
 from ibapi.utils import iswrapper
 
@@ -252,14 +253,14 @@ class TestApp(TestWrapper, TestClient):
             #self.marketDataTypeOperations()
             #self.accountOperations_req()
             #self.tickDataOperations_req()
-            self.marketDepthOperations_req()
+            #self.marketDepthOperations_req()
             #self.realTimeBarsOperations_req()
             #self.historicalDataOperations_req()
             #self.optionsOperations_req()
             #self.marketScannersOperations_req()
             #self.fundamentalsOperations_req()
             #self.bulletinsOperations_req()
-            #self.contractOperations()
+            self.contractOperations()
             #self.newsOperations_req()
             #self.miscelaneousOperations()
             #self.linkingOperations()
@@ -326,15 +327,11 @@ class TestApp(TestWrapper, TestClient):
     def openOrder(self, orderId: OrderId, contract: Contract, order: Order,
                   orderState: OrderState):
         super().openOrder(orderId, contract, order, orderState)
-        print("OpenOrder. ID:", orderId, "Symbol:", contract.symbol, "SecType:", contract.secType,
+        print("OpenOrder. PermId: ", order.permId, "ClientId:", order.clientId, " OrderId:", orderId, 
+              "Account:", order.account, "Symbol:", contract.symbol, "SecType:", contract.secType,
               "Exchange:", contract.exchange, "Action:", order.action, "OrderType:", order.orderType,
-              "TotalQuantity:", order.totalQuantity, "Status:", orderState.status)
-
-        if order.whatIf and orderState is not None:
-            print("WhatIf. OrderId: ", orderId, "initMarginBefore:", orderState.initMarginBefore, "maintMarginBefore:", orderState.maintMarginBefore,
-             "equityWithLoanBefore:", orderState.equityWithLoanBefore, "initMarginChange:", orderState.initMarginChange, "maintMarginChange:", orderState.maintMarginChange,
-             "equityWithLoanChange:", orderState.equityWithLoanChange, "initMarginAfter:", orderState.initMarginAfter, "maintMarginAfter:", orderState.maintMarginAfter,
-             "equityWithLoanAfter:", orderState.equityWithLoanAfter)
+              "TotalQty:", order.totalQuantity, "CashQty:", order.cashQty, 
+              "LmtPrice:", order.lmtPrice, "AuxPrice:", order.auxPrice, "Status:", orderState.status)
 
         order.contract = contract
         self.permId2ord[order.permId] = order
@@ -1108,6 +1105,7 @@ class TestApp(TestWrapper, TestClient):
         self.reqContractDetails(212, ContractSamples.Bond())
         self.reqContractDetails(213, ContractSamples.FuturesOnOptions())
         self.reqContractDetails(214, ContractSamples.SimpleFuture())
+        self.reqContractDetails(215, ContractSamples.USStockAtSmart())
         # ! [reqcontractdetails]
 
         # ! [reqmatchingsymbols]
@@ -1248,12 +1246,20 @@ class TestApp(TestWrapper, TestClient):
         self.reqScannerSubscription(7002, ScannerSubscriptionSamples.HotUSStkByVolume(), [], tagvalues) # requires TWS v973+
         # ! [reqscannersubscription]
 
+        # ! [reqcomplexscanner]
+        AAPLConIDTag = [TagValue("underConID", "265598")]
+        self.reqScannerSubscription(7003, ScannerSubscriptionSamples.ComplexOrdersAndTrades(), [], AAPLConIDTag) # requires TWS v975+
+        
+        # ! [reqcomplexscanner]
+
+
     @printWhenExecuting
     def marketScanners_cancel(self):
         # Canceling the scanner subscription
         # ! [cancelscannersubscription]
         self.cancelScannerSubscription(7001)
         self.cancelScannerSubscription(7002)
+        self.cancelScannerSubscription(7003)
         # ! [cancelscannersubscription]
 
     @iswrapper
@@ -1455,6 +1461,10 @@ class TestApp(TestWrapper, TestClient):
         self.placeOrder(self.nextOrderId(), ContractSamples.USStockAtSmart(), baseOrder)
         # ! [darkice]
 
+        # ! [place_midprice]
+        self.placeOrder(self.nextOrderId(), ContractSamples.USStockAtSmart(), OrderSamples.Midprice("BUY", 1, 150))
+        # ! [place_midprice]
+		
         # ! [ad]
         # The Time Zone in "startTime" and "endTime" attributes is ignored and always defaulted to GMT
         AvailableAlgoParams.FillAccumulateDistributeParams(baseOrder, 10, 60, True, True, 1, True, True, "20161010-12:00:00 GMT", "20161010-16:00:00 GMT")
@@ -1520,6 +1530,11 @@ class TestApp(TestWrapper, TestClient):
         AvailableAlgoParams.FillCSFBInlineParams(baseOrder, "10:00:00 EST", "16:00:00 EST", "Patient", 10, 20, 100, "Default", False, 40, 100, 100, 35)
         self.placeOrder(self.nextOrderId(), ContractSamples.CSFBContract(), baseOrder)
         # ! [csfb_inline_algo]
+
+        # ! [qbalgo_strobe_algo]
+        AvailableAlgoParams.FillQBAlgoInLineParams(baseOrder, "10:00:00 EST", "16:00:00 EST", -99, "TWAP", 0.25, True)
+        self.placeOrder(self.nextOrderId(), ContractSamples.QBAlgoContract(), baseOrder)
+        # ! [qbalgo_strobe_algo]
 
     @printWhenExecuting
     def financialAdvisorOperations(self):
@@ -1782,6 +1797,12 @@ class TestApp(TestWrapper, TestClient):
         # ! [reqexecutions]
         self.reqExecutions(10001, ExecutionFilter())
         # ! [reqexecutions]
+        
+        # Requesting completed orders
+        # ! [reqcompletedorders]
+        self.reqCompletedOrders(False)
+        # ! [reqcompletedorders]
+        
 
     def orderOperations_cancel(self):
         if self.simplePlaceOid is not None:
@@ -1844,6 +1865,26 @@ class TestApp(TestWrapper, TestClient):
         print("CurrentTime:", datetime.datetime.fromtimestamp(time).strftime("%Y%m%d %H:%M:%S"))
     # ! [currenttime]
 
+    @iswrapper
+    # ! [completedorder]
+    def completedOrder(self, contract: Contract, order: Order,
+                  orderState: OrderState):
+        super().completedOrder(contract, order, orderState)
+        print("CompletedOrder. PermId:", order.permId, "ParentPermId:", utils.longToStr(order.parentPermId), "Account:", order.account, 
+              "Symbol:", contract.symbol, "SecType:", contract.secType, "Exchange:", contract.exchange, 
+              "Action:", order.action, "OrderType:", order.orderType, "TotalQty:", order.totalQuantity, 
+              "CashQty:", order.cashQty, "FilledQty:", order.filledQuantity, 
+              "LmtPrice:", order.lmtPrice, "AuxPrice:", order.auxPrice, "Status:", orderState.status,
+              "Completed time:", orderState.completedTime, "Completed Status:" + orderState.completedStatus)
+    # ! [completedorder]
+
+    @iswrapper
+    # ! [completedordersend]
+    def completedOrdersEnd(self):
+        super().completedOrdersEnd()
+        print("CompletedOrdersEnd")
+    # ! [completedordersend]
+
 def main():
     SetupLogger()
     logging.debug("now is %s", datetime.datetime.now())
@@ -1853,7 +1894,7 @@ def main():
     # cmdLineParser.add_option("-c", action="store_True", dest="use_cache", default = False, help = "use the cache")
     # cmdLineParser.add_option("-f", action="store", type="string", dest="file", default="", help="the input file")
     cmdLineParser.add_argument("-p", "--port", action="store", type=int,
-                               dest="port", default=7496, help="The TCP port to use")
+                               dest="port", default=7497, help="The TCP port to use")
     cmdLineParser.add_argument("-C", "--global-cancel", action="store_true",
                                dest="global_cancel", default=False,
                                help="whether to trigger a globalCancel req")

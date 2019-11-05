@@ -1,8 +1,8 @@
 /*! \page market_depth Market Depth (Level II)
 
-	Market depth data, also known as level II, represents an instrument's order book. Via the TWS API it is possible to obtain this information with the @ref IBApi::EClient::reqMarketDepth function.
+	Market depth data, also known as level II, represents an instrument's order book. Via the TWS API it is possible to obtain this information with the @ref IBApi::EClient::reqMarketDepth function (<b>Note:</b> it is named reqMktDepth in Java, C++, and Python).
 	Unlike @ref top_data, market depth data is sent without sampling nor filtering, however we cannot guarantee that every price quoted for a particular security will be displayed when you
-	invoke @ref IBApi::EClient::reqMarketDepth. In particular, odd lot orders are not included. Market depth requests must be routed to a particular exchange - it is <b>not</b> possible to request a smart-routed aggregate quote as with level 1 data. 
+	invoke @ref IBApi::EClient::reqMarketDepth. In particular, odd lot orders are not included. Beginning in <b>API v974</b> and <b>TWS v974</b> it is possible to Smart-route a @ref IBApi::EClient::reqMarketDepth request to receive aggregated data from all available exchanges, similar to the TWS BookTrader display. 
 	
 	\section request Requesting
 	
@@ -27,12 +27,13 @@
 		</li>
 	</ul>
 	
-	\section reqmktdepthexchanges Exchanges supplying Market Makers
+	\section reqmktdepthexchanges Market Maker or Exchange
 	
-	Market depth will be returned via the @ref IBApi::EWrapper::updateMktDepth and @ref IBApi::EWrapper::updateMktDepthL2 callback. The two functions differentiate in that, for exchanges have additional Market Makers than itself, market depth data will be relayed back through @ref IBApi::EWrapper::updateMktDepthL2, otherwise @ref IBApi::EWrapper::updateMktDepth. 
-	For example, ARCA only has ARCA itself as a Market Maker. Therefore when requesting market depth data from ARCA, the data will be relayed back via @ref IBApi::EWrapper::updateMktDepth. On the other hand, exchange like ISLAND (ECN for NASDAQ) has additional Market Makers, so the data will be relayed back via @ref IBApi::EWrapper::updateMktDepthL2, where the Market Maker information is directly available as a parameter of the call back function.
-
-	To check which market depth subscriptions provide market maker information, the function IBApi::EClient::reqMktDepthExchanges can be invoked. It will return a list of exchanges from where market depth is available if the user has the appropriate market data subscription. 
+	Market depth will be returned via the @ref IBApi::EWrapper::updateMktDepth or the @ref IBApi::EWrapper::updateMktDepthL2 callback. The two functions differ in that when there is a market maker or exchange identifier to be returned market depth data will be relayed back through @ref IBApi::EWrapper::updateMktDepthL2. Otherwise it is returned to @ref IBApi::EWrapper::updateMktDepth. 
+	For example, ARCA only has ARCA itself as a Market Maker. Therefore when requesting market depth data from ARCA, the data will be relayed back via @ref IBApi::EWrapper::updateMktDepth. On the other hand, with ISLAND (the ECN for NASDAQ) market maker information is provided, so the market maker MPID will be relayed back via @ref IBApi::EWrapper::updateMktDepthL2. The market maker MPID is reported in the 'marketMaker' string argument of the callback function.
+	If the isSmartDepth boolean (available with API v974+) is True, the marketMaker field will indicate the exchange from which the quote originates. Otherwise it indicates the MPID of a market maker. 
+	
+	To check which exchanges offer deep book data, the function IBApi::EClient::reqMktDepthExchanges can be invoked. It will return a list of exchanges from where market depth is available if the user has the appropriate market data subscription. 
 
 	<ul id="tab">
 		<li class="active"> 

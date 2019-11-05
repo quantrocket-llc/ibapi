@@ -1,6 +1,6 @@
 """
-Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
-and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable.
+Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+ and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable.
 """
 
 
@@ -54,6 +54,17 @@ class ScannerSubscriptionSamples(Object):
         #! [highoptvolume]
         return scanSub
 
+    @staticmethod
+    def ComplexOrdersAndTrades():
+        #! [combolatesttrade]
+        # High option volume P/C ratio US indexes
+        scanSub = ScannerSubscription()
+        scanSub.instrument = "NATCOMB"
+        scanSub.locationCode = "NATCOMB.OPT.US"
+        scanSub.scanCode = "COMBO_LATEST_TRADE"
+        #! [combolatesttrade]
+        return scanSub
+		
 def Test():
     print(ScannerSubscriptionSamples.HotUSStkByVolume())
     print(ScannerSubscriptionSamples.TopPercentGainersIbis())

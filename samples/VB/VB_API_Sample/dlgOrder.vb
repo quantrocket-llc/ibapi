@@ -1,4 +1,4 @@
-' Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+﻿' Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
 ' and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable.
 
 
@@ -159,6 +159,7 @@ Friend Class dlgOrder
     Friend WithEvents comboBoxTickByTickType As System.Windows.Forms.ComboBox
     Public WithEvents labelTickByTickType As System.Windows.Forms.Label
     Friend WithEvents chkSmartDepth As System.Windows.Forms.CheckBox
+    Friend WithEvents chkUsePriceMgmtAlgo As System.Windows.Forms.CheckBox
     Public WithEvents txtIncludeExpired As System.Windows.Forms.TextBox
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.Frame1 = New System.Windows.Forms.GroupBox()
@@ -253,6 +254,7 @@ Friend Class dlgOrder
         Me.cmdDeltaNeutralContract = New System.Windows.Forms.Button()
         Me.cmdAlgoParams = New System.Windows.Forms.Button()
         Me.frameOrderDesc = New System.Windows.Forms.GroupBox()
+        Me.chkUsePriceMgmtAlgo = New System.Windows.Forms.CheckBox()
         Me.txtCashQty = New System.Windows.Forms.TextBox()
         Me.labelCashQty = New System.Windows.Forms.Label()
         Me.cmdPegBench = New System.Windows.Forms.Button()
@@ -1595,6 +1597,7 @@ Friend Class dlgOrder
         'frameOrderDesc
         '
         Me.frameOrderDesc.BackColor = System.Drawing.Color.Gainsboro
+        Me.frameOrderDesc.Controls.Add(Me.chkUsePriceMgmtAlgo)
         Me.frameOrderDesc.Controls.Add(Me.txtCashQty)
         Me.frameOrderDesc.Controls.Add(Me.labelCashQty)
         Me.frameOrderDesc.Controls.Add(Me.cmdPegBench)
@@ -1629,6 +1632,18 @@ Friend Class dlgOrder
         Me.frameOrderDesc.TabIndex = 6
         Me.frameOrderDesc.TabStop = False
         Me.frameOrderDesc.Text = "Order Description"
+        '
+        'chkUsePriceMgmtAlgo
+        '
+        Me.chkUsePriceMgmtAlgo.AutoSize = True
+        Me.chkUsePriceMgmtAlgo.Checked = True
+        Me.chkUsePriceMgmtAlgo.CheckState = System.Windows.Forms.CheckState.Indeterminate
+        Me.chkUsePriceMgmtAlgo.Location = New System.Drawing.Point(17, 238)
+        Me.chkUsePriceMgmtAlgo.Name = "chkUsePriceMgmtAlgo"
+        Me.chkUsePriceMgmtAlgo.Size = New System.Drawing.Size(160, 18)
+        Me.chkUsePriceMgmtAlgo.TabIndex = 10
+        Me.chkUsePriceMgmtAlgo.Text = "Use Price Management Algo"
+        Me.chkUsePriceMgmtAlgo.UseVisualStyleBackColor = True
         '
         'txtCashQty
         '
@@ -2131,6 +2146,8 @@ Friend Class dlgOrder
         m_orderInfo.FaMethod = m_faMethod
         m_orderInfo.FaPercentage = m_faPercentage
         m_orderInfo.FaProfile = m_faProfile
+
+        m_orderInfo.UsePriceMgmtAlgo = If(chkUsePriceMgmtAlgo.CheckState = CheckState.Indeterminate, Nothing, CType(chkUsePriceMgmtAlgo.Checked, Boolean?))
 
         m_genericTickTags = txtGenericTickTags.Text
         m_snapshotMktData = chkSnapshotMktData.Checked

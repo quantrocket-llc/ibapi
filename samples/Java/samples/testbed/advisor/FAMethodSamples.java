@@ -1,4 +1,4 @@
-/* Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 package samples.testbed.advisor;
@@ -87,7 +87,7 @@ public class FAMethodSamples {
             + "</AllocationProfile>"
             + "<AllocationProfile>"
                 + "<name>Ratios_2_1</name>"
-                + "<type>1</type>"
+                + "<type>2</type>"
                 + "<ListOfAllocations varName=\"listOfAllocations\">"
                     + "<Allocation>"
                         //Replace with your own accountIds

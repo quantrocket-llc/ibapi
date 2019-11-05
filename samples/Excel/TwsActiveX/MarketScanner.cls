@@ -41,6 +41,8 @@ Private Enum SubscriptionTableColumns
     Col_COUPONRATEBELOW
     Col_EXCLUDECONVERTIBLE
     Col_SCANNERSETTINGPAIRS
+    Col_SCANNERSUBSCRIPTIONOPTIONS
+    COL_SCANNERSUBSCRIPTIONFILTEROPTIONS
 End Enum
 
 Const STARTING_ROW = 3
@@ -114,8 +116,10 @@ Attribute RequestScannerSubscription_Click.VB_ProcData.VB_Invoke_Func = "S\n14"
     End With
     
     ' scanner subscription options
-    Dim scannerSubscriptionOptions As TWSLib.ITagValueList
-    Set scannerSubscriptionOptions = Api.Tws.createTagValueList()
+    Dim scannerSubscriptionOptions As String, scannerSubscriptionFilterOptions As String
+    
+    scannerSubscriptionOptions = Util.SetNonEmptyValue(subscriptionTable(id, Col_SCANNERSUBSCRIPTIONOPTIONS).value, "")
+    scannerSubscriptionFilterOptions = Util.SetNonEmptyValue(subscriptionTable(id, COL_SCANNERSUBSCRIPTIONFILTEROPTIONS).value, "")
         
     Dim sheetName As String
     sheetName = controlTable(id, Col_SHEETNAME).value
@@ -125,7 +129,7 @@ Attribute RequestScannerSubscription_Click.VB_ProcData.VB_Invoke_Func = "S\n14"
     End If
     
     ' call reqScannerParameters method
-    Api.Tws.reqScannerSubscriptionEx id + ID_MARKETSCANNER, lSubscription, scannerSubscriptionOptions
+    Api.Tws.reqScannerSubscriptionEx id + ID_MARKETSCANNER, lSubscription, scannerSubscriptionOptions, scannerSubscriptionFilterOptions
     
     controlTable(id, Col_STATUS).value = STR_PROCESSING
     
@@ -161,7 +165,7 @@ Public Sub UpdateScannerData(ByVal reqId As Long, ByVal rank As Long, ByVal Cont
     Dim contract As TWSLib.IContract
     Set contract = ContractDetails.contract
     With sheet.Rows(rowId)
-        .Cells(2).value = contract.symbol
+        .Cells(2).value = contract.Symbol
         .Cells(3).value = contract.SecType
         .Cells(4).value = contract.lastTradeDateOrContractMonth
         .Cells(5).value = contract.Strike

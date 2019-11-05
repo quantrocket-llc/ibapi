@@ -103,6 +103,9 @@
     <Compile Include="..\client\EMessage.cs">
       <Link>CSharpAPI\EMessage.cs</Link>
     </Compile>
+    <Compile Include="..\client\EOrderDecoder.cs">
+      <Link>CSharpAPI\EOrderDecoder.cs</Link>
+    </Compile>
     <Compile Include="..\client\EReader.cs">
       <Link>CSharpAPI\EReader.cs</Link>
     </Compile>

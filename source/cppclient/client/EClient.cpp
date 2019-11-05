@@ -1,5 +1,5 @@
-/* Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
-* and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
+/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+ * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 #include "StdAfx.h"
 
@@ -27,6 +27,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <assert.h>
+
 
 using namespace ibapi::client_constants;
 
@@ -368,6 +369,12 @@ void EClient::reqMktDepth( TickerId tickerId, const Contract& contract, int numR
         return;
     }
 
+    if (m_serverVersion < MIN_SERVER_VER_MKT_DEPTH_PRIM_EXCHANGE && !contract.primaryExchange.empty()) {
+        m_pEWrapper->error( tickerId, UPDATE_TWS.code(), UPDATE_TWS.msg() +
+            "  It does not support primaryExchange parameter in reqMktDepth.");
+        return;
+    }
+
     std::stringstream msg;
     prepareBuffer( msg);
 
@@ -389,6 +396,9 @@ void EClient::reqMktDepth( TickerId tickerId, const Contract& contract, int numR
     ENCODE_FIELD( contract.right);
     ENCODE_FIELD( contract.multiplier); // srv v15 and above
     ENCODE_FIELD( contract.exchange);
+    if( m_serverVersion >= MIN_SERVER_VER_MKT_DEPTH_PRIM_EXCHANGE) {
+        ENCODE_FIELD( contract.primaryExchange);
+    }
     ENCODE_FIELD( contract.currency);
     ENCODE_FIELD( contract.localSymbol);
     if( m_serverVersion >= MIN_SERVER_VER_TRADING_CLASS) {
@@ -1450,6 +1460,13 @@ void EClient::placeOrder( OrderId id, const Contract& contract, const Order& ord
             return;
     }
 
+    if (m_serverVersion < MIN_SERVER_VER_PRICE_MGMT_ALGO
+        && order.usePriceMgmtAlgo != UsePriceMmgtAlgo::DEFAULT) {
+            m_pEWrapper->error(id, UPDATE_TWS.code(), UPDATE_TWS.msg() + " It does not support Use Price Management Algo requests");
+
+            return;
+    }
+
     std::stringstream msg;
     prepareBuffer( msg);
 
@@ -1860,6 +1877,10 @@ void EClient::placeOrder( OrderId id, const Contract& contract, const Order& ord
 
     if (m_serverVersion >= MIN_SERVER_VER_D_PEG_ORDERS) {
         ENCODE_FIELD(order.discretionaryUpToLimitPrice);
+    }
+
+    if (m_serverVersion >= MIN_SERVER_VER_PRICE_MGMT_ALGO) {
+        ENCODE_FIELD_MAX(order.usePriceMgmtAlgo);
     }
 
     closeAndSend( msg.str());
@@ -3271,6 +3292,27 @@ void EClient::cancelTickByTickData(int reqId) {
 
     ENCODE_FIELD(CANCEL_TICK_BY_TICK_DATA);
     ENCODE_FIELD(reqId);
+
+    closeAndSend(msg.str());    
+}
+
+void EClient::reqCompletedOrders(bool apiOnly) {
+    if( !isConnected()) {
+        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg());
+        return;
+    }
+
+    if( m_serverVersion < MIN_SERVER_VER_COMPLETED_ORDERS) {
+        m_pEWrapper->error(NO_VALID_ID, UPDATE_TWS.code(), UPDATE_TWS.msg() +
+            "  It does not support completed orders request.");
+        return;
+    }
+
+    std::stringstream msg;
+    prepareBuffer(msg);
+
+    ENCODE_FIELD(REQ_COMPLETED_ORDERS);
+    ENCODE_FIELD(apiOnly);
 
     closeAndSend(msg.str());    
 }

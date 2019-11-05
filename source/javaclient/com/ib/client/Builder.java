@@ -1,4 +1,4 @@
-/* Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 package com.ib.client;
@@ -14,7 +14,7 @@ import java.util.Optional;
 
 /** This class is used to build messages so the entire message can be
  *  sent to the socket in a single write. */
-public class Builder implements ObjectOutput {
+class Builder implements ObjectOutput {
 	private static final char SEP = 0;
 	private static final byte[] EMPTY_LENGTH_HEADER = new byte[ 4 ];
 
@@ -40,8 +40,8 @@ public class Builder implements ObjectOutput {
 		send( a == Double.MAX_VALUE ? "" : String.valueOf( a) );
 	}
 
-	public void send( boolean a) {
-		send( a ? 1 : 0);
+	public void send(Boolean a) {
+		sendMax(a == null ? Integer.MAX_VALUE : a ? 1 : 0);
 	}
 
 	public void send( IApiEnum a) {

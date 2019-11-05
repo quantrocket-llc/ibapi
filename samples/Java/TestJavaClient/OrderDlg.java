@@ -1,4 +1,4 @@
-/* Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 package TestJavaClient;
@@ -24,11 +24,13 @@ import com.ib.client.DeltaNeutralContract;
 import com.ib.client.MarketDataType;
 import com.ib.client.Order;
 import com.ib.client.TagValue;
+import com.ib.client.Types.UsePriceMgmtAlgo;
 
 import apidemo.AdjustedPanel;
 import apidemo.ConditionsPanel;
 import apidemo.OnOKPanel;
 import apidemo.PegBenchPanel;
+import apidemo.util.TCombo;
 
 public class OrderDlg extends JDialog {
     private static final String ALL_GENERIC_TICK_TAGS = "100,101,104,105,106,107,165,221,225,233,236,258,293,294,295,318";
@@ -85,6 +87,7 @@ public class OrderDlg extends JDialog {
     private JTextField m_exerciseQuantityTextField = new JTextField("1");
     private JTextField m_overrideTextField = new JTextField("0");
     private JComboBox<String> m_marketDataTypeCombo = new JComboBox<>(MarketDataType.getFields());
+    private TCombo<UsePriceMgmtAlgo> m_usePriceMgmtAlgo = new TCombo<>(UsePriceMgmtAlgo.values());
 
     private JButton	    m_sharesAlloc = new JButton("FA Allocation Info...");
     private JButton 	m_comboLegs = new JButton( "Combo Legs");
@@ -189,6 +192,8 @@ public class OrderDlg extends JDialog {
         pOrderDetails.addGBComponent(m_goodTillDate, gbc, COL2_WIDTH, GridBagConstraints.REMAINDER);
         pOrderDetails.addGBComponent(new JLabel( "Cash Quantity"), gbc, COL1_WIDTH, GridBagConstraints.RELATIVE );
         pOrderDetails.addGBComponent(m_cashQty, gbc, COL2_WIDTH, GridBagConstraints.REMAINDER);
+        pOrderDetails.addGBComponent(new JLabel("Use Price Management Algo"), gbc, COL1_WIDTH, GridBagConstraints.RELATIVE );
+        pOrderDetails.addGBComponent(m_usePriceMgmtAlgo, gbc, COL2_WIDTH, GridBagConstraints.REMAINDER);
 
         // create marketDepth panel
         IBGridBagPanel pMarketDepth = new IBGridBagPanel();
@@ -440,6 +445,8 @@ public class OrderDlg extends JDialog {
             m_order.faProfile(m_faProfile);
             m_order.faMethod(m_faMethod);
             m_order.faPercentage(m_faPercentage);
+            
+            m_order.usePriceMgmtAlgo(m_usePriceMgmtAlgo.getSelectedItem().toBoolean());
 
             // set historical data fields
             m_exerciseAction = Integer.parseInt( m_exerciseActionTextField.getText() );

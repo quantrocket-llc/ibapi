@@ -1,6 +1,6 @@
 """
-Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
-and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable.
+Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+ and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable.
 """
 
 
@@ -13,7 +13,7 @@ import sys
 import logging
 import inspect
 
-from ibapi.common import UNSET_INTEGER, UNSET_DOUBLE
+from ibapi.common import UNSET_INTEGER, UNSET_DOUBLE, UNSET_LONG
 
 
 logger = logging.getLogger(__name__)
@@ -69,7 +69,7 @@ def decode(the_type, fields, show_unset = False):
         if type(s) is str:
             return s
         elif type(s) is bytes:
-            return s.decode()
+            return s.decode(errors='backslashreplace')
         else:
             raise TypeError("unsupported incoming type " + type(s) + " for desired type 'str")
 
@@ -111,5 +111,7 @@ def ExerciseStaticMethods(klass):
 def floatToStr(val):
     return str(val) if val != UNSET_DOUBLE else "";
 
+def longToStr(val):
+    return str(val) if val != UNSET_LONG else "";
 
 

@@ -2,21 +2,13 @@
 
 	\section dde_what_you_will_need What You Will Need
 	
-	This tutorial has been developed using Excel 2010 around the 9.72 version of the TWS API components. This version needs to be downloaded and installed before proceeding. You can 
-	download this version from http://interactivebrokers.github.io/.  
+	The TWS API for Windows needs to be downloaded and installed before proceeding. Version 975 or higher is recommended in order to use the DDE Socket Bridge API. You can download this version from http://interactivebrokers.github.io/.  
 
-	The TWS must be up and running while using the DDE connection to TWS. DDE client connectivity must also be enabled via Edit -> Global Configuration -> API -> Settings: Enable DDE clients 
-	as indicated in the picture below:
-
-	\image html dde_enabled.png
+	The TWS must be up and running while using any API connection including DDE.<br>
 	
-	\section ddedll_error Ddedll.dll Error
+	- For the DDE Socket Bridge API available in v975, socket connections must be enabled in TWS or IB Gateway. In TWS, this setting is at Global Configuration -> API -> Settings -> "Enable ActiveX and Socket Clients" (in IB Gateway it is enabled by default).
 	
-	TWS users running add-on applications in Excel using DDE on a Windows 64-bit operating systems may receive the following error message upon log in or when enabling the DDE client:
-	
-	\image html ddedll_error.png
-	
-	Please follow the instruction <a href="http://ibkb.interactivebrokers.com/article/2155" target="_blank" class="linkexternal">How to fix the error: "Ddedll.dll file missing or out of date"</a> to resolve the error before going forward to Tutorials.
+	- Additionally to run the DDE Socket Bridge API, the DDE server must be launched by running the file C:\\TWS API\\samples\\DdeSocketBridge\\runDdeSocketBridge.bat as described at @ref dde_intro
 	
 	\section tutorial_topics Tutorial Topics
 
@@ -25,6 +17,21 @@
 	- \subpage dde_historical_tutorial
 	
 	- \subpage dde_reference
+	
+	<hr>
+	<h3> Additional Setup for Legacy DDE API</h3>
+	This section pertains the the legacy DDE API that was the only DDE API provided with API versions 974 and below. <br>
+	DDE client connectivity must be enabled at:  Global Configuration -> API -> Settings: Enable DDE clients as indicated in the picture below:
+
+	\image html dde_enabled.png
+	
+	<h3>Ddedll.dll Error </h3>
+	
+	TWS users running add-on applications in Excel using DDE on a Windows 64-bit operating systems may receive the following error message upon log in or when enabling the DDE client:
+	
+	\image html ddedll_error.png
+	
+	Please follow the instruction <a href="http://ibkb.interactivebrokers.com/article/2155" target="_blank" class="linkexternal">How to fix the error: "Ddedll.dll file missing or out of date"</a> to resolve the error before going forward to Tutorials.
 	
 	<br>
 */

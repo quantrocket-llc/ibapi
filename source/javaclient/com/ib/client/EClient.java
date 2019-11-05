@@ -1,13 +1,11 @@
-/* Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 package com.ib.client;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import com.ib.client.Types.SecType;
 
@@ -194,6 +192,7 @@ public abstract class EClient {
     private static final int REQ_HISTORICAL_TICKS = 96;
     private static final int REQ_TICK_BY_TICK_DATA = 97;
     private static final int CANCEL_TICK_BY_TICK_DATA = 98;
+    private static final int REQ_COMPLETED_ORDERS = 99;
 
 	private static final int MIN_SERVER_VER_REAL_TIME_BARS = 34;
 	private static final int MIN_SERVER_VER_SCALE_ORDERS = 35;
@@ -285,9 +284,16 @@ public abstract class EClient {
     protected static final int MIN_SERVER_VER_SMART_DEPTH = 146;
     protected static final int MIN_SERVER_VER_REMOVE_NULL_ALL_CASTING = 147;
     protected static final int MIN_SERVER_VER_D_PEG_ORDERS = 148;
+    protected static final int MIN_SERVER_VER_MKT_DEPTH_PRIM_EXCHANGE = 149;
+    protected static final int MIN_SERVER_VER_REQ_COMPLETED_ORDERS = 150;
+    protected static final int MIN_SERVER_VER_PRICE_MGMT_ALGO = 151;
+    protected static final int MIN_SERVER_VER_STOCK_TYPE = 152;
+    protected static final int MIN_SERVER_VER_ENCODE_MSG_ASCII7 = 153;
+    protected static final int MIN_SERVER_VER_SEND_ALL_FAMILY_CODES = 154;
+    protected static final int MIN_SERVER_VER_NO_DEFAULT_OPEN_CLOSE = 155;
     
     public static final int MIN_VERSION = 100; // envelope encoding, applicable to useV100Plus mode only
-    public static final int MAX_VERSION = MIN_SERVER_VER_D_PEG_ORDERS; // ditto
+    public static final int MAX_VERSION = MIN_SERVER_VER_NO_DEFAULT_OPEN_CLOSE; // ditto
 
     protected EReaderSignal m_signal;
     protected EWrapper m_eWrapper;    // msg handler
@@ -1119,6 +1125,12 @@ public abstract class EClient {
             return;
         }
 
+        if (m_serverVersion < MIN_SERVER_VER_MKT_DEPTH_PRIM_EXCHANGE && !IsEmpty(contract.primaryExch())) {
+            error(EClientErrors.NO_VALID_ID, EClientErrors.UPDATE_TWS,
+            "  It does not support primaryExch parameter in reqMktDepth.");
+            return;
+        }
+        
         final int VERSION = 5;
 
         try {
@@ -1145,6 +1157,10 @@ public abstract class EClient {
             }
             
             b.send(contract.exchange());
+            if (m_serverVersion >= MIN_SERVER_VER_MKT_DEPTH_PRIM_EXCHANGE) {
+                b.send(contract.primaryExch());
+            }
+            
             b.send(contract.currency());
             b.send(contract.localSymbol());
             
@@ -1574,6 +1590,11 @@ public abstract class EClient {
                     "  It does not support D-Peg orders.");
             return;           
         }
+        
+        if (m_serverVersion < MIN_SERVER_VER_PRICE_MGMT_ALGO 
+                && order.usePriceMgmtAlgo() != null) {
+            error(id, EClientErrors.UPDATE_TWS, "  It does not support price management algo parameter");
+        }
 
 
         int VERSION = (m_serverVersion < MIN_SERVER_VER_NOT_HELD) ? 27 : 45;
@@ -1994,6 +2015,10 @@ public abstract class EClient {
            
            if (m_serverVersion >= MIN_SERVER_VER_D_PEG_ORDERS) {
                b.send(order.discretionaryUpToLimitPrice());
+           }
+           
+           if (m_serverVersion >= MIN_SERVER_VER_PRICE_MGMT_ALGO) {
+               b.send(order.usePriceMgmtAlgo());
            }
 
            closeAndSend(b);
@@ -3777,6 +3802,34 @@ public abstract class EClient {
         catch( Exception e) {
             error( EClientErrors.NO_VALID_ID,
                    EClientErrors.FAIL_SEND_CANTICKBYTICK, e.toString());
+            close();
+        }
+    }
+
+    public synchronized void reqCompletedOrders(boolean apiOnly) {
+        // not connected?
+        if( !isConnected()) {
+            notConnected();
+            return;
+        }
+
+        if (m_serverVersion < MIN_SERVER_VER_REQ_COMPLETED_ORDERS) {
+          error(EClientErrors.NO_VALID_ID, EClientErrors.UPDATE_TWS,
+                "  It does not support completed orders requests.");
+          return;
+        }
+
+        try {
+            Builder b = prepareBuffer(); 
+
+            b.send(REQ_COMPLETED_ORDERS);
+            b.send(apiOnly);
+
+            closeAndSend(b);
+        }
+        catch( Exception e) {
+            error( EClientErrors.NO_VALID_ID,
+                   EClientErrors.FAIL_SEND_REQ_COMPLETED_ORDERS, e.toString());
             close();
         }
     }

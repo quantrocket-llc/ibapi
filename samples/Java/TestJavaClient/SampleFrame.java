@@ -1,4 +1,4 @@
-/* Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 package TestJavaClient;
@@ -258,6 +258,10 @@ class SampleFrame extends JFrame implements EWrapper {
         butReqTickByTickData.addActionListener(e -> onReqTickByTickData());
         JButton butCancelTickByTickData = new JButton("Cancel Tick-By-Tick");
         butCancelTickByTickData.addActionListener(e -> onCancelTickByTickData());
+        JButton butReqCompletedOrders = new JButton("Req Completed Orders");
+        butReqCompletedOrders.addActionListener(e -> onReqCompletedOrders());
+        JButton butReqAllCompletedOrders = new JButton("Req All Completed Orders");
+        butReqAllCompletedOrders.addActionListener(e -> onReqAllCompletedOrders());
 
         JButton butClear = new JButton( "Clear");
         butClear.addActionListener(e -> onClear());
@@ -321,6 +325,7 @@ class SampleFrame extends JFrame implements EWrapper {
         pairSlot.add(butReqPnLSingle, butCancelPnLSingle);
         buttonPanel.add(butReqHistoricalTicks);
         pairSlot.add(butReqTickByTickData, butCancelTickByTickData);
+        pairSlot.add(butReqCompletedOrders, butReqAllCompletedOrders);
 
         buttonPanel.add( new JPanel() );
         pairSlot.add(butClear, butClose);
@@ -346,6 +351,14 @@ class SampleFrame extends JFrame implements EWrapper {
         
     }
     
+    private void onReqCompletedOrders() {
+        m_client.reqCompletedOrders(true);
+    }
+
+    private void onReqAllCompletedOrders() {
+        m_client.reqCompletedOrders(false);
+    }
+    
     private void onReqTickByTickData() {
         m_orderDlg.init("Request Tick-By-Tick Data", true);
         m_orderDlg.setVisible(true);
@@ -363,7 +376,7 @@ class SampleFrame extends JFrame implements EWrapper {
         if (m_orderDlg.m_rc) {
             m_client.cancelTickByTickData(m_orderDlg.id());
         }
-  }
+    }
     
     private void onReqHistoricalTicks() {
         m_orderDlg.init("Misc Options", true);
@@ -1781,4 +1794,16 @@ class SampleFrame extends JFrame implements EWrapper {
 
         m_TWS.add(msg);
 	}
+
+    @Override
+    public void completedOrder(Contract contract, Order order, OrderState orderState) {
+        String msg = EWrapperMsgGenerator.completedOrder(contract, order, orderState);
+        m_TWS.add(msg);
+    }
+
+    @Override
+    public void completedOrdersEnd() {
+        String msg = EWrapperMsgGenerator.completedOrdersEnd();
+        m_TWS.add(msg);
+    }
 }

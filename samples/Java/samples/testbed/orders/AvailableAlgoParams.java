@@ -1,4 +1,4 @@
-/* Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 package samples.testbed.orders;
@@ -123,8 +123,8 @@ public class AvailableAlgoParams {
 		baseOrder.algoParams().add(new TagValue("giveUp", String.valueOf(giveUp)));
 		baseOrder.algoParams().add(new TagValue("catchUp", catchUp ? "1" : "0"));
 		baseOrder.algoParams().add(new TagValue("waitForFill", waitForFill ? "1" : "0"));
-		baseOrder.algoParams().add(new TagValue("startTime", startTime));
-		baseOrder.algoParams().add(new TagValue("endTime", endTime));
+		baseOrder.algoParams().add(new TagValue("activeTimeStart", startTime));
+		baseOrder.algoParams().add(new TagValue("activeTimeEnd", endTime));
 		
 	}
 	//! [ad_params]
@@ -290,5 +290,23 @@ public class AvailableAlgoParams {
 
 	}
 	//! [csfb_inline_params]
+	
+	//! [qbalgo_strobe_params]
+	public static void FillQBAlgoInlineParams(Order baseOrder, String startTime, String endTime, double duration, String benchmark,
+											double percentVolume, boolean noCleanUp) {
+		
+		baseOrder.algoStrategy("STROBE");
+
+		baseOrder.algoParams(new ArrayList<>());
+		baseOrder.algoParams().add(new TagValue("StartTime", startTime));
+		baseOrder.algoParams().add(new TagValue("EndTime", endTime));
+		//This example uses endTime instead of duration 
+		//baseOrder.algoParams().add(new TagValue("Duration", String.valueOf(duration)));
+		baseOrder.algoParams().add(new TagValue("Benchmark", benchmark));
+		baseOrder.algoParams().add(new TagValue("PercentVolume", String.valueOf(percentVolume)));
+		baseOrder.algoParams().add(new TagValue("NoCleanUp", noCleanUp ? "1" : "0"));
+
+	}
+	//! [qbalgo_strobe_params]
 	
 }

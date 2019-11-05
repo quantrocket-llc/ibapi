@@ -1,6 +1,6 @@
 ﻿/*! \page oca One Cancels All
 
-	The <a target="_blank" class="linkexternal" href="https://www.interactivebrokers.com/en/index.php?f=583">One-Cancels All</a> (OCA) order type allows an investor to place multiple and 
+	The <a target="_blank" class="linkexternal" href="https://www.interactivebrokers.com/en/index.php?f=617">One-Cancels All</a> (OCA) order type allows an investor to place multiple and 
 	possibly unrelated orders assigned to a group. The aim is to complete just one of the orders, which in turn will cause TWS to cancel the remaining orders. 
 	The investor may submit several orders aimed at taking advantage of the most desirable price within the group. Completion of one piece of the group order causes cancellation of 
 	the remaining group orders while partial completion causes the group to re-balance. An investor might desire to sell 1000 shares of only ONE of three positions held above 
@@ -48,7 +48,7 @@
 		<tr><td>3</td><td>Remaining orders are proportionately reduced in size with no block.</td></tr>
 	</table>
 		
-	Note*: if you use a value "with block" gives your order has overfill protection. This means that only one order in the group will be routed at a time to remove the possibility of an overfill. 
+	Note*: if you use a value "with block" it gives the order overfill protection. This means that only one order in the group will be routed at a time to remove the possibility of an overfill. Click <a target="_blank" class="linkexternal" href="https://www.interactivebrokers.com/en/index.php?f=617">here</a> for further discussion of OCA orders.
 		
 	<br><br>
 */

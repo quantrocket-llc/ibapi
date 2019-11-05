@@ -1,4 +1,4 @@
-/* Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 package apidemo;
@@ -12,9 +12,6 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import com.ib.client.*;
-import com.ib.client.HistoricalTick;
-import com.ib.client.HistoricalTickBidAsk;
-import com.ib.client.HistoricalTickLast;
 
 import javax.swing.*;
 
@@ -432,5 +429,15 @@ public class Test implements EWrapper {
     @Override
     public void orderBound(long orderId, int apiClientId, int apiOrderId) {
         System.out.println(EWrapperMsgGenerator.orderBound(orderId, apiClientId, apiOrderId));
+    }
+
+    @Override
+    public void completedOrder(Contract contract, Order order, OrderState orderState) {
+        System.out.println(EWrapperMsgGenerator.completedOrder(contract, order, orderState));
+    }
+
+    @Override
+    public void completedOrdersEnd() {
+        System.out.println(EWrapperMsgGenerator.completedOrdersEnd());
     }
 }

@@ -1,4 +1,4 @@
-/* Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 package samples.testbed.contracts;
@@ -586,5 +586,16 @@ public class ContractSamples {
 		//! [csfb_contract]
 		return contract;
 	}
-
+	
+	public static Contract QBAlgoContract() {
+		//! [qbalgo_contract]
+		Contract contract = new Contract();
+		contract.symbol("ES");
+		contract.secType("FUT");
+		contract.exchange("QBALGO");
+		contract.currency("USD");
+		contract.lastTradeDateOrContractMonth("202003");
+		//! [qbalgo_contract]
+		return contract;
+	}
 }

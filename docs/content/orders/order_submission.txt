@@ -98,8 +98,7 @@
 	
 	\section open_order The openOrder callback
 	
-	The @ref IBApi::EWrapper::openOrder method delivers an @ref IBApi::Order object representing the open order within the system. Additionally, an @ref IBApi::OrderState object containing margin
-	and commission information about this particular order.
+	The @ref IBApi::EWrapper::openOrder method delivers an @ref IBApi::Order object representing an open order within the system. In addition, @ref IBApi::EWrapper::openOrder returns an an @ref IBApi::OrderState object that is used to return estimated pre-trade margin and commission information in response to invoking IBApi.EClient.placeOrder with a @ref IBApi::Order object that has the flag @ref IBApi.Order.WhatIf flag set to True. See also: <a href="http://interactivebrokers.github.io/tws-api/margin.html" target="_blank">Checking Margin Changes</a>.
 	
 	<ul id="tab">
 		<li class="active">
@@ -176,7 +175,7 @@
 	- <b>PendingCancel</b> - indicates that a request has been sent to cancel an order but confirmation has not been received of its cancellation.
 	- <b>PreSubmitted</b> - indicates that a simulated order type has been accepted by the IB system and that this order has yet to be elected. The order is held in the IB system until the election criteria are met. At that time the order is transmitted to the order destination as specified. 
 	- <b>Submitted</b> - indicates that your order has been accepted at the order destination and is working. 
-	- <b>ApiCancelled</b> - after an order has been submitted and before it has been acknowledged, an API client client can request its cancellation, producing this state. 
+	- <b>ApiCancelled</b> - after an order has been submitted and before it has been acknowledged, an API client can request its cancellation, producing this state. 
 	- <b>Cancelled</b> - indicates that the balance of your order has been confirmed cancelled by the IB system. This could occur unexpectedly when IB or the destination has rejected your order. 
 	- <b>Filled</b> - indicates that the order has been completely filled. 
 	- <b>Inactive</b> - indicates an order is not working, possible reasons include: 

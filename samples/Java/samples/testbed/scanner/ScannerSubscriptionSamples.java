@@ -1,4 +1,4 @@
-/* Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 package samples.testbed.scanner;
@@ -57,5 +57,19 @@ public class ScannerSubscriptionSamples {
         return scanSub;
 		
 	}
+
+	public static ScannerSubscription ComplexOrdersAndTrades() {
+
+	    //! [combolatesttrade]
+        //Complex orders and trades scan, latest trades
+        ScannerSubscription scanSub = new ScannerSubscription();
+        scanSub.instrument("NATCOMB");
+        scanSub.locationCode("NATCOMB.OPT.US");
+        scanSub.scanCode("COMBO_LATEST_TRADE");
+        //! [combolatesttrade]
+        return scanSub;
+
+    }
+
 
 }

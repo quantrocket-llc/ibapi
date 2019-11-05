@@ -31,6 +31,7 @@ Private Type TIME_ZONE_INFORMATION
 End Type
 
 Public Const MaxLongValue As Long = &H7FFFFFFF
+Public Const MaxLongLongValue As LongLong = 9223372036854775807^
 Public Const MaxDoubleValue As Double = (2 - 2 ^ -52) * 2 ^ 1023
 
 ' error codes
@@ -305,7 +306,7 @@ End Function
 
 Public Function GenerateContractIdentifier(contractInfo As TWSLib.IContract)
     Dim s As String
-    s = IIf(contractInfo.symbol <> "", "_" & contractInfo.symbol, "")
+    s = IIf(contractInfo.Symbol <> "", "_" & contractInfo.Symbol, "")
     s = s & IIf(contractInfo.SecType <> "", "_" & contractInfo.SecType, "")
     s = s & IIf(contractInfo.lastTradeDateOrContractMonth <> "", "_" & contractInfo.lastTradeDateOrContractMonth, "")
     s = s & IIf(contractInfo.Strike <> 0#, "_" & contractInfo.Strike, "")
@@ -319,20 +320,20 @@ Public Function GenerateContractIdentifier(contractInfo As TWSLib.IContract)
 End Function
 
 Public Function ClearSheetRowId(sheet As Worksheet)
-sheet.Cells(1, 1) = ""
+sheet.Cells(1, 200) = ""
 End Function
 
 Public Function GetSheetRowId(sheet As Worksheet)
-GetSheetRowId = sheet.Cells(1, 1)
+GetSheetRowId = sheet.Cells(1, 200)
 End Function
 
 Public Function IncrementSheetRowId(sheet As Worksheet)
-sheet.Cells(1, 1) = sheet.Cells(1, 1) + 1
-IncrementSheetRowId = sheet.Cells(1, 1)
+sheet.Cells(1, 200) = sheet.Cells(1, 200) + 1
+IncrementSheetRowId = sheet.Cells(1, 200)
 End Function
 
 Public Sub InitialiseSheetRowId(sheet As Worksheet, initialRowId As Long)
-sheet.Cells(1, 1) = initialRowId
+sheet.Cells(1, 200) = initialRowId
 End Sub
 
 ' parse combo legs string and fill combolegs list
@@ -471,11 +472,19 @@ Public Function DblMaxStr(dblVal As Double) As String
     End If
 End Function
 
+Public Function LongMaxStr(longVal As LongLong) As String
+    If longVal = MaxLongLongValue Then
+        LongMaxStr = ""
+    Else
+        LongMaxStr = CStr(longVal)
+    End If
+End Function
+
 
 
 Public Sub FillContractObject(lContractInfo As TWSLib.IContract, contractTable As Range, id As Long)
     With lContractInfo
-        .symbol = UCase(contractTable(id, Col_SYMBOL).value)
+        .Symbol = UCase(contractTable(id, Col_SYMBOL).value)
         .SecType = UCase(contractTable(id, Col_SECTYPE).value)
         .lastTradeDateOrContractMonth = contractTable(id, Col_LASTTRADEDATE).value
         .Strike = IIf(contractTable(id, Col_STRIKE).value = "", 0#, contractTable(id, Col_STRIKE).value)
@@ -488,4 +497,40 @@ Public Sub FillContractObject(lContractInfo As TWSLib.IContract, contractTable A
         .conId = IIf(UCase(contractTable(id, Col_CONID).value) = "", 0, UCase(contractTable(id, Col_CONID).value))
     End With
 End Sub
+
+Public Function comboLegsToStr(contract As TWSLib.IContract) As String
+    Dim tempStr
+    Dim i
+    tempStr = ""
+    With contract
+        If Not .ComboLegs Is Nothing Then
+            For i = 0 To .ComboLegs.Count - 1 Step 1
+                tempStr = "leg1: "
+                tempStr = tempStr & "conId=" & .ComboLegs(i).conId
+                tempStr = tempStr & ";action=" & .ComboLegs(i).action
+                tempStr = tempStr & ";ratio=" & .ComboLegs(i).ratio
+                tempStr = tempStr & ";exch=" & .ComboLegs(i).exchange
+                tempStr = tempStr & "; "
+            Next i
+        End If
+    End With
+    comboLegsToStr = tempStr
+End Function
+
+Public Function deltaNeutralToStr(contract As TWSLib.IContract) As String
+    Dim tempStr
+    tempStr = ""
+    With contract
+        If Not .deltaNeutralContract Is Nothing Then
+            With .deltaNeutralContract
+                If .conId > 0 Then
+                    tempStr = "conId=" & .conId
+                    tempStr = tempStr & ";price=" & .price
+                    tempStr = tempStr & ";delta=" & .delta
+                End If
+            End With
+        End If
+    End With
+    deltaNeutralToStr = tempStr
+End Function
 

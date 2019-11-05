@@ -1,4 +1,4 @@
-/* Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 package apidemo;
@@ -36,6 +36,7 @@ import com.ib.client.Types.ReferencePriceType;
 import com.ib.client.Types.Rule80A;
 import com.ib.client.Types.TimeInForce;
 import com.ib.client.Types.TriggerMethod;
+import com.ib.client.Types.UsePriceMgmtAlgo;
 import com.ib.client.Types.VolatilityType;
 import com.ib.controller.ApiController.IOrderHandler;
 
@@ -271,6 +272,7 @@ class TicketDlg extends JDialog {
         final UpperField m_mifid2DecisionAlgo = new UpperField();
         final UpperField m_mifid2ExecutionTrader = new UpperField();
         final UpperField m_mifid2ExecutionAlgo = new UpperField();
+        final TCombo<UsePriceMgmtAlgo> m_usePriceMgmtAlgo = new TCombo<>(UsePriceMgmtAlgo.values());
 
 		OrderPanel() {
 			m_orderType.removeItemAt( 0); // remove None
@@ -292,6 +294,7 @@ class TicketDlg extends JDialog {
 			m_mifid2DecisionAlgo.setText(m_order.mifid2DecisionAlgo());
 			m_mifid2ExecutionTrader.setText(m_order.mifid2ExecutionTrader());
 			m_mifid2ExecutionAlgo.setText(m_order.mifid2ExecutionAlgo());
+			m_usePriceMgmtAlgo.setSelectedIndex(m_order.usePriceMgmtAlgo() == null ? 0 : m_order.usePriceMgmtAlgo() ? 2 : 1);
 			
 			add("Account", m_account);
 			
@@ -316,6 +319,8 @@ class TicketDlg extends JDialog {
 			if (m_contract.isCombo() ) {
 				add( "Non-guaranteed", m_nonGuaranteed);
 			}
+			
+			add("Use Price Management Algo", m_usePriceMgmtAlgo);
 		}
 		
 		private void onOK() {
@@ -335,6 +340,7 @@ class TicketDlg extends JDialog {
 			m_order.mifid2DecisionAlgo(m_mifid2DecisionAlgo.getText());
 			m_order.mifid2ExecutionTrader(m_mifid2ExecutionTrader.getText());
 			m_order.mifid2ExecutionAlgo(m_mifid2ExecutionAlgo.getText());
+			m_order.usePriceMgmtAlgo(m_usePriceMgmtAlgo.getSelectedItem().toBoolean());
 			
 			if (m_contract.isCombo() ) {
 				TagValue tv = new TagValue( ComboParam.NonGuaranteed.toString(), m_nonGuaranteed.isSelected() ? "1" : "0");

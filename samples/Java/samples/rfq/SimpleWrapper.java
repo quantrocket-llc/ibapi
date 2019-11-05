@@ -1,4 +1,4 @@
-/* Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 package samples.rfq;
@@ -536,6 +536,16 @@ public class SimpleWrapper implements EWrapper {
 
     @Override
     public void orderBound(long orderId, int apiClientId, int apiOrderId) {
+        // TODO Auto-generated method stub
+    }
+
+    @Override
+    public void completedOrder(Contract contract, Order order, OrderState orderState) {
+        // TODO Auto-generated method stub
+    }
+
+    @Override
+    public void completedOrdersEnd() {
         // TODO Auto-generated method stub
     }
 }

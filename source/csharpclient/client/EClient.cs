@@ -1,4 +1,4 @@
-/* Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 using System;
 using System.Net;
@@ -211,6 +211,29 @@ namespace IBApi
             {
                 wrapper.connectionClosed();
             }
+        }
+
+        /**
+         * @brief Requests completed orders.\n
+         * @param apiOnly - request only API orders.\n
+         * @sa EWrapper::completedOrder, EWrapper::completedOrdersEnd
+         */
+        public void reqCompletedOrders(bool apiOnly)
+        {
+            if (!CheckConnection())
+                return;
+
+            if (!CheckServerVersion(MinServerVer.COMPLETED_ORDERS,
+                " It does not support completed orders requests."))
+                return;
+
+            var paramsList = new BinaryWriter(new MemoryStream());
+            var lengthPos = prepareBuffer(paramsList);
+
+            paramsList.AddParameter(OutgoingMessages.ReqCompletedOrders);
+            paramsList.AddParameter(apiOnly);
+
+            CloseAndSend(paramsList, lengthPos, EClientErrors.FAIL_SEND_REQCOMPLETEDORDERS);
         }
 
         /**
@@ -1168,6 +1191,11 @@ namespace IBApi
                 paramsList.AddParameter(order.DiscretionaryUpToLimitPrice);
             }
 
+            if (serverVersion >= MinServerVer.PRICE_MGMT_ALGO)
+            {
+                paramsList.AddParameter(order.UsePriceMgmtAlgo);
+            }
+
             CloseAndSend(id, paramsList, lengthPos, EClientErrors.FAIL_SEND_ORDER);
         }
 
@@ -1284,7 +1312,7 @@ namespace IBApi
         }
 
         /**
-         * @brief Subscribes to an specific account's information and portfolio
+         * @brief Subscribes to a specific account's information and portfolio.
          * Through this method, a single account's subscription can be started/stopped. As a result from the subscription, the account's information, portfolio and last update time will be received at EWrapper::updateAccountValue, EWrapper::updateAccountPortfolio, EWrapper::updateAccountTime respectively. All account values and positions will be returned initially, and then there will only be updates when there is a change in a position, or to an account value every 3 minutes if it has changed. 
          * Only one account can be subscribed at a time. A second subscription request for another account when the previous one is still active will cause the first one to be canceled in favour of the second one. Consider user reqPositions if you want to retrieve all your accounts' portfolios directly.
          * @param subscribe set to true to start the subscription and to false to stop it.
@@ -1950,6 +1978,12 @@ namespace IBApi
                     return;
             }
 
+            if (!IsEmpty(contract.PrimaryExch))
+            {
+                if (!CheckServerVersion(tickerId, MinServerVer.MKT_DEPTH_PRIM_EXCHANGE, " It does not support PrimaryExch parameter in reqMktDepth."))
+                    return;
+            }
+
             const int VERSION = 5;
             var paramsList = new BinaryWriter(new MemoryStream());
             var lengthPos = prepareBuffer(paramsList);
@@ -1976,6 +2010,12 @@ namespace IBApi
             }
 
             paramsList.AddParameter(contract.Exchange);
+
+            if (serverVersion >= MinServerVer.MKT_DEPTH_PRIM_EXCHANGE)
+            {
+                paramsList.AddParameter(contract.PrimaryExch);
+            }
+
             paramsList.AddParameter(contract.Currency);
             paramsList.AddParameter(contract.LocalSymbol);
 
@@ -2153,6 +2193,11 @@ namespace IBApi
          * @sa reqScannerParameters, ScannerSubscription, EWrapper::scannerData
          */
         public void reqScannerSubscription(int reqId, ScannerSubscription subscription, List<TagValue> scannerSubscriptionOptions, List<TagValue> scannerSubscriptionFilterOptions)
+        {
+            reqScannerSubscription(reqId, subscription, Util.TagValueListToString(scannerSubscriptionOptions), Util.TagValueListToString(scannerSubscriptionFilterOptions));
+        }
+
+        public void reqScannerSubscription(int reqId, ScannerSubscription subscription, string scannerSubscriptionOptions, string scannerSubscriptionFilterOptions)
         {
             if (!CheckConnection())
                 return;
@@ -3418,6 +3463,8 @@ namespace IBApi
                     || !IsEmpty(order.Mifid2DecisionAlgo)))
             {
                 ReportError(id, EClientErrors.UPDATE_TWS, " It does not support MIFID II decision maker parameters");
+
+                return false;
             }
 
             if (serverVersion < MinServerVer.DECISION_MAKER
@@ -3425,22 +3472,37 @@ namespace IBApi
                     || !IsEmpty(order.Mifid2ExecutionAlgo)))
             {
                 ReportError(id, EClientErrors.UPDATE_TWS, " It does not support MIFID II execution parameters");
+
+                return false;
             }
 
             if (serverVersion < MinServerVer.AUTO_PRICE_FOR_HEDGE
                 && order.DontUseAutoPriceForHedge)
             {
                 ReportError(id, EClientErrors.UPDATE_TWS, " It does not support don't use auto price for hedge parameter");
+
+                return false;
             }
 
             if (serverVersion < MinServerVer.ORDER_CONTAINER && order.IsOmsContainer)
             {
                 ReportError(id, EClientErrors.UPDATE_TWS, " It does not support oms container parameter.");
+
+                return false;
             }
 
             if (serverVersion < MinServerVer.D_PEG_ORDERS && order.DiscretionaryUpToLimitPrice)
             {
                 ReportError(id, EClientErrors.UPDATE_TWS, " It does not support D-Peg orders.");
+
+                return false;
+            }
+
+            if (serverVersion < MinServerVer.PRICE_MGMT_ALGO && order.UsePriceMgmtAlgo.HasValue)
+            {
+                ReportError(id, EClientErrors.UPDATE_TWS, " It does not support Use Price Management Algo requests.");
+
+                return false;
             }
 
             return true;

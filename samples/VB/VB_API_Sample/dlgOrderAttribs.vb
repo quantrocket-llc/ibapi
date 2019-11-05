@@ -1,4 +1,4 @@
-﻿' Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+﻿' Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
 ' and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable.
 
 
@@ -839,7 +839,7 @@ Public Class dlgOrderAttribs
         Me.txtOpenClose.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.txtOpenClose.Size = New System.Drawing.Size(85, 13)
         Me.txtOpenClose.TabIndex = 15
-        Me.txtOpenClose.Text = "O"
+        Me.txtOpenClose.Text = ""
         '
         'txtAccount
         '

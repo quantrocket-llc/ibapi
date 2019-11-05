@@ -1,4 +1,4 @@
-/* Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 using IBSampleApp.types;
@@ -276,26 +276,6 @@ namespace IBSampleApp
             this.contractInfoTab = new System.Windows.Forms.TabControl();
             this.contractDetailsPage = new System.Windows.Forms.TabPage();
             this.contractDetailsGrid = new System.Windows.Forms.DataGridView();
-            this.conResSymbol = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.conResLocalSymbol = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.conResSecType = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.conResCurrency = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.conResExchange = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.conResPrimaryExch = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.conResLastTradeDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.conResMultiplier = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.conResStrike = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.conResRight = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.conResConId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.conResMdSizeMultiplier = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.conResAggGroup = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.conResUnderSymbol = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.conResUnderSecType = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.conResMarketRuleIds = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.conResRealExpirationDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.conResContractMonth = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.conResLastTradeTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.conResTimeZoneId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.fundamentalsPage = new System.Windows.Forms.TabPage();
             this.fundamentalsOutput = new System.Windows.Forms.TextBox();
             this.optionChainPage = new System.Windows.Forms.TabPage();
@@ -424,6 +404,22 @@ namespace IBSampleApp
             this.accountSelectorLabel = new System.Windows.Forms.Label();
             this.accountSelector = new System.Windows.Forms.ComboBox();
             this.tradingTab = new System.Windows.Forms.TabPage();
+            this.completedOrdersButton = new System.Windows.Forms.Button();
+            this.completedOrdersGroup = new System.Windows.Forms.GroupBox();
+            this.completedOrdersGrid = new System.Windows.Forms.DataGridView();
+            this.completedOrdersBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.completedOrdersBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.completedOrdersBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.completedOrdersBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.completedOrdersBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.completedOrdersBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.completedOrdersBoxColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.completedOrdersBoxColumn8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.completedOrdersBoxColumn9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.completedOrdersBoxColumn10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.completedOrdersBoxColumn11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.completedOrdersBoxColumn12 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.completedOrdersBoxColumn13 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.buttonAttachOrder = new System.Windows.Forms.Button();
             this.execFilterGroup = new System.Windows.Forms.GroupBox();
             this.execFilterExchange = new System.Windows.Forms.TextBox();
@@ -477,6 +473,24 @@ namespace IBSampleApp
             this.topMarketDataTab_MDT = new System.Windows.Forms.TabPage();
             this.closeMketDataTab = new System.Windows.Forms.LinkLabel();
             this.marketDataGrid_MDT = new System.Windows.Forms.DataGridView();
+            this.marketDataContract = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.marketDataTypeTickerColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.bidSize = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.bidPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.preOpenBid = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.preOpenAsk = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.askPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.askSize = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.lastTickerColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.lastPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.volume = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.closeTickerColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.openTickerColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.highTickerColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.lowTickerColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.futuresOpenInterestTickerColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.avgOptVolumeTickerColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.shortableSharesTickerColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.deepBookTab_MDT = new System.Windows.Forms.TabPage();
             this.closeDeepBookLink = new System.Windows.Forms.LinkLabel();
             this.deepBookGrid = new System.Windows.Forms.DataGridView();
@@ -674,24 +688,27 @@ namespace IBSampleApp
             this.tbNumOfTicks = new System.Windows.Forms.TextBox();
             this.tbStartDate = new System.Windows.Forms.TextBox();
             this.TabControl = new System.Windows.Forms.TabControl();
-            this.marketDataContract = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.marketDataTypeTickerColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.bidSize = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.bidPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.preOpenBid = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.preOpenAsk = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.askPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.askSize = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.lastTickerColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.lastPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.volume = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.closeTickerColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.openTickerColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.highTickerColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.lowTickerColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.futuresOpenInterestTickerColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.avgOptVolumeTickerColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.shortableSharesTickerColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.conResSymbol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.conResLocalSymbol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.conResSecType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.conResCurrency = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.conResExchange = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.conResPrimaryExch = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.conResLastTradeDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.conResMultiplier = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.conResStrike = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.conResRight = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.conResConId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.conResMdSizeMultiplier = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.conResAggGroup = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.conResUnderSymbol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.conResUnderSecType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.conResMarketRuleIds = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.conResRealExpirationDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.conResContractMonth = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.conResLastTradeTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.conResTimeZoneId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.conResStockType = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.comboTab.SuspendLayout();
             this.comboDeltaNeutralBox.SuspendLayout();
             this.comboLegsBox.SuspendLayout();
@@ -771,6 +788,8 @@ namespace IBSampleApp
             this.pnlTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPnL)).BeginInit();
             this.tradingTab.SuspendLayout();
+            this.completedOrdersGroup.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.completedOrdersGrid)).BeginInit();
             this.execFilterGroup.SuspendLayout();
             this.executionsGroup.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tradeLogGrid)).BeginInit();
@@ -3213,126 +3232,13 @@ namespace IBSampleApp
             this.conResRealExpirationDate,
             this.conResContractMonth,
             this.conResLastTradeTime,
-            this.conResTimeZoneId});
+            this.conResTimeZoneId,
+            this.conResStockType});
             this.contractDetailsGrid.Location = new System.Drawing.Point(6, 6);
             this.contractDetailsGrid.Name = "contractDetailsGrid";
             this.contractDetailsGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.contractDetailsGrid.Size = new System.Drawing.Size(1216, 231);
             this.contractDetailsGrid.TabIndex = 0;
-            // 
-            // conResSymbol
-            // 
-            this.conResSymbol.HeaderText = "Symbol";
-            this.conResSymbol.Name = "conResSymbol";
-            this.conResSymbol.ReadOnly = true;
-            // 
-            // conResLocalSymbol
-            // 
-            this.conResLocalSymbol.HeaderText = "Local Symbol";
-            this.conResLocalSymbol.Name = "conResLocalSymbol";
-            this.conResLocalSymbol.ReadOnly = true;
-            // 
-            // conResSecType
-            // 
-            this.conResSecType.HeaderText = "Type";
-            this.conResSecType.Name = "conResSecType";
-            this.conResSecType.ReadOnly = true;
-            // 
-            // conResCurrency
-            // 
-            this.conResCurrency.HeaderText = "Currency";
-            this.conResCurrency.Name = "conResCurrency";
-            this.conResCurrency.ReadOnly = true;
-            // 
-            // conResExchange
-            // 
-            this.conResExchange.HeaderText = "Exchange";
-            this.conResExchange.Name = "conResExchange";
-            this.conResExchange.ReadOnly = true;
-            // 
-            // conResPrimaryExch
-            // 
-            this.conResPrimaryExch.HeaderText = "Primary Exch.";
-            this.conResPrimaryExch.Name = "conResPrimaryExch";
-            this.conResPrimaryExch.ReadOnly = true;
-            // 
-            // conResLastTradeDate
-            // 
-            this.conResLastTradeDate.HeaderText = "LastTradeDate";
-            this.conResLastTradeDate.Name = "conResLastTradeDate";
-            this.conResLastTradeDate.ReadOnly = true;
-            this.conResLastTradeDate.Width = 150;
-            // 
-            // conResMultiplier
-            // 
-            this.conResMultiplier.HeaderText = "Multiplier";
-            this.conResMultiplier.Name = "conResMultiplier";
-            this.conResMultiplier.ReadOnly = true;
-            // 
-            // conResStrike
-            // 
-            this.conResStrike.HeaderText = "Strike";
-            this.conResStrike.Name = "conResStrike";
-            this.conResStrike.ReadOnly = true;
-            // 
-            // conResRight
-            // 
-            this.conResRight.HeaderText = "P/C";
-            this.conResRight.Name = "conResRight";
-            this.conResRight.ReadOnly = true;
-            // 
-            // conResConId
-            // 
-            this.conResConId.HeaderText = "ConId";
-            this.conResConId.Name = "conResConId";
-            this.conResConId.ReadOnly = true;
-            // 
-            // conResMdSizeMultiplier
-            // 
-            this.conResMdSizeMultiplier.HeaderText = "MD Size Mult";
-            this.conResMdSizeMultiplier.Name = "conResMdSizeMultiplier";
-            // 
-            // conResAggGroup
-            // 
-            this.conResAggGroup.HeaderText = "Agg Group";
-            this.conResAggGroup.Name = "conResAggGroup";
-            // 
-            // conResUnderSymbol
-            // 
-            this.conResUnderSymbol.HeaderText = "Under Symb";
-            this.conResUnderSymbol.Name = "conResUnderSymbol";
-            // 
-            // conResUnderSecType
-            // 
-            this.conResUnderSecType.HeaderText = "Under SecType";
-            this.conResUnderSecType.Name = "conResUnderSecType";
-            this.conResUnderSecType.Width = 120;
-            // 
-            // conResMarketRuleIds
-            // 
-            this.conResMarketRuleIds.HeaderText = "Market Rule Ids";
-            this.conResMarketRuleIds.Name = "conResMarketRuleIds";
-            this.conResMarketRuleIds.Width = 300;
-            // 
-            // conResRealExpirationDate
-            // 
-            this.conResRealExpirationDate.HeaderText = "Real Exp Date";
-            this.conResRealExpirationDate.Name = "conResRealExpirationDate";
-            // 
-            // conResContractMonth
-            // 
-            this.conResContractMonth.HeaderText = "Contract Month";
-            this.conResContractMonth.Name = "conResContractMonth";
-            // 
-            // conResLastTradeTime
-            // 
-            this.conResLastTradeTime.HeaderText = "Last Trade Time";
-            this.conResLastTradeTime.Name = "conResLastTradeTime";
-            // 
-            // conResTimeZoneId
-            // 
-            this.conResTimeZoneId.HeaderText = "Time Zone";
-            this.conResTimeZoneId.Name = "conResTimeZoneId";
             // 
             // fundamentalsPage
             // 
@@ -4430,6 +4336,8 @@ namespace IBSampleApp
             // tradingTab
             // 
             this.tradingTab.BackColor = System.Drawing.Color.LightGray;
+            this.tradingTab.Controls.Add(this.completedOrdersButton);
+            this.tradingTab.Controls.Add(this.completedOrdersGroup);
             this.tradingTab.Controls.Add(this.buttonAttachOrder);
             this.tradingTab.Controls.Add(this.execFilterGroup);
             this.tradingTab.Controls.Add(this.globalCancelButton);
@@ -4447,9 +4355,133 @@ namespace IBSampleApp
             this.tradingTab.TabIndex = 2;
             this.tradingTab.Text = "Trading";
             // 
+            // completedOrdersButton
+            // 
+            this.completedOrdersButton.Location = new System.Drawing.Point(975, 166);
+            this.completedOrdersButton.Name = "completedOrdersButton";
+            this.completedOrdersButton.Size = new System.Drawing.Size(142, 23);
+            this.completedOrdersButton.TabIndex = 12;
+            this.completedOrdersButton.Text = "Get completed orders";
+            this.completedOrdersButton.UseVisualStyleBackColor = true;
+            this.completedOrdersButton.Click += new System.EventHandler(this.completedOrdersButton_Click);
+            // 
+            // completedOrdersGroup
+            // 
+            this.completedOrdersGroup.Controls.Add(this.completedOrdersGrid);
+            this.completedOrdersGroup.Location = new System.Drawing.Point(9, 149);
+            this.completedOrdersGroup.Name = "completedOrdersGroup";
+            this.completedOrdersGroup.Size = new System.Drawing.Size(960, 138);
+            this.completedOrdersGroup.TabIndex = 2;
+            this.completedOrdersGroup.TabStop = false;
+            this.completedOrdersGroup.Text = "Completed Orders";
+            // 
+            // completedOrdersGrid
+            // 
+            this.completedOrdersGrid.AllowUserToAddRows = false;
+            this.completedOrdersGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.completedOrdersGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.completedOrdersBoxColumn1,
+            this.completedOrdersBoxColumn2,
+            this.completedOrdersBoxColumn3,
+            this.completedOrdersBoxColumn4,
+            this.completedOrdersBoxColumn5,
+            this.completedOrdersBoxColumn6,
+            this.completedOrdersBoxColumn7,
+            this.completedOrdersBoxColumn8,
+            this.completedOrdersBoxColumn9,
+            this.completedOrdersBoxColumn10,
+            this.completedOrdersBoxColumn11,
+            this.completedOrdersBoxColumn12,
+            this.completedOrdersBoxColumn13});
+            this.completedOrdersGrid.Location = new System.Drawing.Point(8, 19);
+            this.completedOrdersGrid.Name = "completedOrdersGrid";
+            this.completedOrdersGrid.ReadOnly = true;
+            this.completedOrdersGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.completedOrdersGrid.Size = new System.Drawing.Size(946, 118);
+            this.completedOrdersGrid.TabIndex = 1;
+            // 
+            // completedOrdersBoxColumn1
+            // 
+            this.completedOrdersBoxColumn1.HeaderText = "Perm ID";
+            this.completedOrdersBoxColumn1.Name = "completedOrdersBoxColumn1";
+            this.completedOrdersBoxColumn1.ReadOnly = true;
+            // 
+            // completedOrdersBoxColumn2
+            // 
+            this.completedOrdersBoxColumn2.HeaderText = "Parent Perm ID";
+            this.completedOrdersBoxColumn2.Name = "completedOrdersBoxColumn2";
+            this.completedOrdersBoxColumn2.ReadOnly = true;
+            // 
+            // completedOrdersBoxColumn3
+            // 
+            this.completedOrdersBoxColumn3.HeaderText = "Account";
+            this.completedOrdersBoxColumn3.Name = "completedOrdersBoxColumn3";
+            this.completedOrdersBoxColumn3.ReadOnly = true;
+            // 
+            // completedOrdersBoxColumn4
+            // 
+            this.completedOrdersBoxColumn4.HeaderText = "Action";
+            this.completedOrdersBoxColumn4.Name = "completedOrdersBoxColumn4";
+            this.completedOrdersBoxColumn4.ReadOnly = true;
+            // 
+            // completedOrdersBoxColumn5
+            // 
+            this.completedOrdersBoxColumn5.HeaderText = "Qty";
+            this.completedOrdersBoxColumn5.Name = "completedOrdersBoxColumn5";
+            this.completedOrdersBoxColumn5.ReadOnly = true;
+            // 
+            // completedOrdersBoxColumn6
+            // 
+            this.completedOrdersBoxColumn6.HeaderText = "Cash Qty";
+            this.completedOrdersBoxColumn6.Name = "completedOrdersBoxColumn6";
+            this.completedOrdersBoxColumn6.ReadOnly = true;
+            // 
+            // completedOrdersBoxColumn7
+            // 
+            this.completedOrdersBoxColumn7.HeaderText = "Filled Qty";
+            this.completedOrdersBoxColumn7.Name = "completedOrdersBoxColumn7";
+            this.completedOrdersBoxColumn7.ReadOnly = true;
+            // 
+            // completedOrdersBoxColumn8
+            // 
+            this.completedOrdersBoxColumn8.HeaderText = "Lmt Price";
+            this.completedOrdersBoxColumn8.Name = "completedOrdersBoxColumn8";
+            this.completedOrdersBoxColumn8.ReadOnly = true;
+            // 
+            // completedOrdersBoxColumn9
+            // 
+            this.completedOrdersBoxColumn9.HeaderText = "Aux Price";
+            this.completedOrdersBoxColumn9.Name = "completedOrdersBoxColumn9";
+            this.completedOrdersBoxColumn9.ReadOnly = true;
+            this.completedOrdersBoxColumn9.Width = 120;
+            // 
+            // completedOrdersBoxColumn10
+            // 
+            this.completedOrdersBoxColumn10.HeaderText = "Contract";
+            this.completedOrdersBoxColumn10.Name = "completedOrdersBoxColumn10";
+            this.completedOrdersBoxColumn10.ReadOnly = true;
+            // 
+            // completedOrdersBoxColumn11
+            // 
+            this.completedOrdersBoxColumn11.HeaderText = "Status";
+            this.completedOrdersBoxColumn11.Name = "completedOrdersBoxColumn11";
+            this.completedOrdersBoxColumn11.ReadOnly = true;
+            // 
+            // completedOrdersBoxColumn12
+            // 
+            this.completedOrdersBoxColumn12.HeaderText = "Comp Time";
+            this.completedOrdersBoxColumn12.Name = "completedOrdersBoxColumn12";
+            this.completedOrdersBoxColumn12.ReadOnly = true;
+            // 
+            // completedOrdersBoxColumn13
+            // 
+            this.completedOrdersBoxColumn13.HeaderText = "Comp Status";
+            this.completedOrdersBoxColumn13.Name = "completedOrdersBoxColumn13";
+            this.completedOrdersBoxColumn13.ReadOnly = true;
+            // 
             // buttonAttachOrder
             // 
-            this.buttonAttachOrder.Location = new System.Drawing.Point(1088, 51);
+            this.buttonAttachOrder.Location = new System.Drawing.Point(1088, 25);
             this.buttonAttachOrder.Name = "buttonAttachOrder";
             this.buttonAttachOrder.Size = new System.Drawing.Size(105, 23);
             this.buttonAttachOrder.TabIndex = 11;
@@ -4474,23 +4506,23 @@ namespace IBSampleApp
             this.execFilterGroup.Controls.Add(this.execFilterAccount);
             this.execFilterGroup.Controls.Add(this.execFilterClientId);
             this.execFilterGroup.Controls.Add(this.refreshExecutionsButton);
-            this.execFilterGroup.Location = new System.Drawing.Point(975, 218);
+            this.execFilterGroup.Location = new System.Drawing.Point(975, 247);
             this.execFilterGroup.Name = "execFilterGroup";
-            this.execFilterGroup.Size = new System.Drawing.Size(230, 206);
+            this.execFilterGroup.Size = new System.Drawing.Size(230, 195);
             this.execFilterGroup.TabIndex = 10;
             this.execFilterGroup.TabStop = false;
             this.execFilterGroup.Text = "Execution Filter";
             // 
             // execFilterExchange
             // 
-            this.execFilterExchange.Location = new System.Drawing.Point(65, 70);
+            this.execFilterExchange.Location = new System.Drawing.Point(65, 68);
             this.execFilterExchange.Name = "execFilterExchange";
             this.execFilterExchange.Size = new System.Drawing.Size(77, 20);
             this.execFilterExchange.TabIndex = 15;
             // 
             // execFilterSide
             // 
-            this.execFilterSide.Location = new System.Drawing.Point(65, 96);
+            this.execFilterSide.Location = new System.Drawing.Point(65, 94);
             this.execFilterSide.Name = "execFilterSide";
             this.execFilterSide.Size = new System.Drawing.Size(77, 20);
             this.execFilterSide.TabIndex = 14;
@@ -4499,7 +4531,7 @@ namespace IBSampleApp
             // execFilterSideLabel
             // 
             this.execFilterSideLabel.AutoSize = true;
-            this.execFilterSideLabel.Location = new System.Drawing.Point(6, 103);
+            this.execFilterSideLabel.Location = new System.Drawing.Point(6, 101);
             this.execFilterSideLabel.Name = "execFilterSideLabel";
             this.execFilterSideLabel.Size = new System.Drawing.Size(28, 13);
             this.execFilterSideLabel.TabIndex = 13;
@@ -4508,7 +4540,7 @@ namespace IBSampleApp
             // execFilterExchangeLabel
             // 
             this.execFilterExchangeLabel.AutoSize = true;
-            this.execFilterExchangeLabel.Location = new System.Drawing.Point(6, 78);
+            this.execFilterExchangeLabel.Location = new System.Drawing.Point(6, 76);
             this.execFilterExchangeLabel.Name = "execFilterExchangeLabel";
             this.execFilterExchangeLabel.Size = new System.Drawing.Size(55, 13);
             this.execFilterExchangeLabel.TabIndex = 12;
@@ -4517,7 +4549,7 @@ namespace IBSampleApp
             // execFilterSecTypeLabel
             // 
             this.execFilterSecTypeLabel.AutoSize = true;
-            this.execFilterSecTypeLabel.Location = new System.Drawing.Point(6, 154);
+            this.execFilterSecTypeLabel.Location = new System.Drawing.Point(6, 151);
             this.execFilterSecTypeLabel.Name = "execFilterSecTypeLabel";
             this.execFilterSecTypeLabel.Size = new System.Drawing.Size(50, 13);
             this.execFilterSecTypeLabel.TabIndex = 11;
@@ -4526,7 +4558,7 @@ namespace IBSampleApp
             // execFilterSymbolLabel
             // 
             this.execFilterSymbolLabel.AutoSize = true;
-            this.execFilterSymbolLabel.Location = new System.Drawing.Point(6, 129);
+            this.execFilterSymbolLabel.Location = new System.Drawing.Point(6, 126);
             this.execFilterSymbolLabel.Name = "execFilterSymbolLabel";
             this.execFilterSymbolLabel.Size = new System.Drawing.Size(41, 13);
             this.execFilterSymbolLabel.TabIndex = 10;
@@ -4535,7 +4567,7 @@ namespace IBSampleApp
             // execFilterTimeLabel
             // 
             this.execFilterTimeLabel.AutoSize = true;
-            this.execFilterTimeLabel.Location = new System.Drawing.Point(6, 180);
+            this.execFilterTimeLabel.Location = new System.Drawing.Point(6, 176);
             this.execFilterTimeLabel.Name = "execFilterTimeLabel";
             this.execFilterTimeLabel.Size = new System.Drawing.Size(30, 13);
             this.execFilterTimeLabel.TabIndex = 9;
@@ -4544,7 +4576,7 @@ namespace IBSampleApp
             // execFilterAcctLabel
             // 
             this.execFilterAcctLabel.AutoSize = true;
-            this.execFilterAcctLabel.Location = new System.Drawing.Point(6, 51);
+            this.execFilterAcctLabel.Location = new System.Drawing.Point(6, 50);
             this.execFilterAcctLabel.Name = "execFilterAcctLabel";
             this.execFilterAcctLabel.Size = new System.Drawing.Size(47, 13);
             this.execFilterAcctLabel.TabIndex = 8;
@@ -4553,7 +4585,7 @@ namespace IBSampleApp
             // execFilterClientLabel
             // 
             this.execFilterClientLabel.AutoSize = true;
-            this.execFilterClientLabel.Location = new System.Drawing.Point(6, 26);
+            this.execFilterClientLabel.Location = new System.Drawing.Point(6, 24);
             this.execFilterClientLabel.Name = "execFilterClientLabel";
             this.execFilterClientLabel.Size = new System.Drawing.Size(42, 13);
             this.execFilterClientLabel.TabIndex = 7;
@@ -4561,42 +4593,42 @@ namespace IBSampleApp
             // 
             // execFilterSecType
             // 
-            this.execFilterSecType.Location = new System.Drawing.Point(65, 147);
+            this.execFilterSecType.Location = new System.Drawing.Point(65, 144);
             this.execFilterSecType.Name = "execFilterSecType";
             this.execFilterSecType.Size = new System.Drawing.Size(77, 20);
             this.execFilterSecType.TabIndex = 6;
             // 
             // execFilterSymbol
             // 
-            this.execFilterSymbol.Location = new System.Drawing.Point(65, 122);
+            this.execFilterSymbol.Location = new System.Drawing.Point(65, 119);
             this.execFilterSymbol.Name = "execFilterSymbol";
             this.execFilterSymbol.Size = new System.Drawing.Size(77, 20);
             this.execFilterSymbol.TabIndex = 5;
             // 
             // execFilterTime
             // 
-            this.execFilterTime.Location = new System.Drawing.Point(65, 173);
+            this.execFilterTime.Location = new System.Drawing.Point(65, 169);
             this.execFilterTime.Name = "execFilterTime";
             this.execFilterTime.Size = new System.Drawing.Size(101, 20);
             this.execFilterTime.TabIndex = 4;
             // 
             // execFilterAccount
             // 
-            this.execFilterAccount.Location = new System.Drawing.Point(65, 44);
+            this.execFilterAccount.Location = new System.Drawing.Point(65, 43);
             this.execFilterAccount.Name = "execFilterAccount";
             this.execFilterAccount.Size = new System.Drawing.Size(77, 20);
             this.execFilterAccount.TabIndex = 3;
             // 
             // execFilterClientId
             // 
-            this.execFilterClientId.Location = new System.Drawing.Point(65, 19);
+            this.execFilterClientId.Location = new System.Drawing.Point(65, 17);
             this.execFilterClientId.Name = "execFilterClientId";
             this.execFilterClientId.Size = new System.Drawing.Size(77, 20);
             this.execFilterClientId.TabIndex = 2;
             // 
             // refreshExecutionsButton
             // 
-            this.refreshExecutionsButton.Location = new System.Drawing.Point(149, 19);
+            this.refreshExecutionsButton.Location = new System.Drawing.Point(149, 17);
             this.refreshExecutionsButton.Name = "refreshExecutionsButton";
             this.refreshExecutionsButton.Size = new System.Drawing.Size(75, 23);
             this.refreshExecutionsButton.TabIndex = 1;
@@ -4606,7 +4638,7 @@ namespace IBSampleApp
             // 
             // globalCancelButton
             // 
-            this.globalCancelButton.Location = new System.Drawing.Point(977, 168);
+            this.globalCancelButton.Location = new System.Drawing.Point(977, 130);
             this.globalCancelButton.Name = "globalCancelButton";
             this.globalCancelButton.Size = new System.Drawing.Size(105, 23);
             this.globalCancelButton.TabIndex = 9;
@@ -4616,7 +4648,7 @@ namespace IBSampleApp
             // 
             // clientOrdersButton
             // 
-            this.clientOrdersButton.Location = new System.Drawing.Point(977, 51);
+            this.clientOrdersButton.Location = new System.Drawing.Point(977, 25);
             this.clientOrdersButton.Name = "clientOrdersButton";
             this.clientOrdersButton.Size = new System.Drawing.Size(105, 23);
             this.clientOrdersButton.TabIndex = 8;
@@ -4626,7 +4658,7 @@ namespace IBSampleApp
             // 
             // refreshOrdersButton
             // 
-            this.refreshOrdersButton.Location = new System.Drawing.Point(977, 80);
+            this.refreshOrdersButton.Location = new System.Drawing.Point(977, 51);
             this.refreshOrdersButton.Name = "refreshOrdersButton";
             this.refreshOrdersButton.Size = new System.Drawing.Size(105, 23);
             this.refreshOrdersButton.TabIndex = 1;
@@ -4636,7 +4668,7 @@ namespace IBSampleApp
             // 
             // cancelOrdersButton
             // 
-            this.cancelOrdersButton.Location = new System.Drawing.Point(977, 139);
+            this.cancelOrdersButton.Location = new System.Drawing.Point(977, 104);
             this.cancelOrdersButton.Name = "cancelOrdersButton";
             this.cancelOrdersButton.Size = new System.Drawing.Size(105, 23);
             this.cancelOrdersButton.TabIndex = 7;
@@ -4646,7 +4678,7 @@ namespace IBSampleApp
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(977, 110);
+            this.button1.Location = new System.Drawing.Point(977, 77);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(105, 23);
             this.button1.TabIndex = 6;
@@ -4657,7 +4689,7 @@ namespace IBSampleApp
             // newOrderLink
             // 
             this.newOrderLink.AutoSize = true;
-            this.newOrderLink.Location = new System.Drawing.Point(974, 26);
+            this.newOrderLink.Location = new System.Drawing.Point(974, 6);
             this.newOrderLink.Name = "newOrderLink";
             this.newOrderLink.Size = new System.Drawing.Size(58, 13);
             this.newOrderLink.TabIndex = 3;
@@ -4668,9 +4700,9 @@ namespace IBSampleApp
             // executionsGroup
             // 
             this.executionsGroup.Controls.Add(this.tradeLogGrid);
-            this.executionsGroup.Location = new System.Drawing.Point(9, 218);
+            this.executionsGroup.Location = new System.Drawing.Point(9, 297);
             this.executionsGroup.Name = "executionsGroup";
-            this.executionsGroup.Size = new System.Drawing.Size(960, 206);
+            this.executionsGroup.Size = new System.Drawing.Size(960, 145);
             this.executionsGroup.TabIndex = 2;
             this.executionsGroup.TabStop = false;
             this.executionsGroup.Text = "Trade Log (Executions)";
@@ -4694,7 +4726,7 @@ namespace IBSampleApp
             this.tradeLogGrid.Location = new System.Drawing.Point(6, 19);
             this.tradeLogGrid.Name = "tradeLogGrid";
             this.tradeLogGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.tradeLogGrid.Size = new System.Drawing.Size(946, 182);
+            this.tradeLogGrid.Size = new System.Drawing.Size(946, 118);
             this.tradeLogGrid.TabIndex = 0;
             // 
             // ExecutionId
@@ -4767,7 +4799,7 @@ namespace IBSampleApp
             this.liveOrdersGroup.Controls.Add(this.liveOrdersGrid);
             this.liveOrdersGroup.Location = new System.Drawing.Point(9, 6);
             this.liveOrdersGroup.Name = "liveOrdersGroup";
-            this.liveOrdersGroup.Size = new System.Drawing.Size(960, 206);
+            this.liveOrdersGroup.Size = new System.Drawing.Size(960, 137);
             this.liveOrdersGroup.TabIndex = 1;
             this.liveOrdersGroup.TabStop = false;
             this.liveOrdersGroup.Text = "Live Orders - double click to modify.";
@@ -4791,7 +4823,7 @@ namespace IBSampleApp
             this.liveOrdersGrid.Name = "liveOrdersGrid";
             this.liveOrdersGrid.ReadOnly = true;
             this.liveOrdersGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.liveOrdersGrid.Size = new System.Drawing.Size(946, 181);
+            this.liveOrdersGrid.Size = new System.Drawing.Size(946, 118);
             this.liveOrdersGrid.TabIndex = 0;
             this.liveOrdersGrid.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.liveOrdersGrid_CellCoubleClick);
             // 
@@ -4951,6 +4983,118 @@ namespace IBSampleApp
             this.marketDataGrid_MDT.Size = new System.Drawing.Size(1225, 184);
             this.marketDataGrid_MDT.TabIndex = 0;
             this.marketDataGrid_MDT.Visible = false;
+            // 
+            // marketDataContract
+            // 
+            this.marketDataContract.HeaderText = "Description";
+            this.marketDataContract.Name = "marketDataContract";
+            this.marketDataContract.ReadOnly = true;
+            this.marketDataContract.Width = 200;
+            // 
+            // marketDataTypeTickerColumn
+            // 
+            this.marketDataTypeTickerColumn.HeaderText = "Mkt Data Type";
+            this.marketDataTypeTickerColumn.Name = "marketDataTypeTickerColumn";
+            this.marketDataTypeTickerColumn.ReadOnly = true;
+            this.marketDataTypeTickerColumn.Width = 150;
+            // 
+            // bidSize
+            // 
+            this.bidSize.HeaderText = "Bid Size";
+            this.bidSize.Name = "bidSize";
+            this.bidSize.ReadOnly = true;
+            // 
+            // bidPrice
+            // 
+            this.bidPrice.HeaderText = "Bid";
+            this.bidPrice.Name = "bidPrice";
+            this.bidPrice.ReadOnly = true;
+            // 
+            // preOpenBid
+            // 
+            this.preOpenBid.HeaderText = "Pre-Open Bid";
+            this.preOpenBid.Name = "preOpenBid";
+            this.preOpenBid.ReadOnly = true;
+            // 
+            // preOpenAsk
+            // 
+            this.preOpenAsk.HeaderText = "Pre-Open Ask";
+            this.preOpenAsk.Name = "preOpenAsk";
+            this.preOpenAsk.ReadOnly = true;
+            // 
+            // askPrice
+            // 
+            this.askPrice.HeaderText = "Ask";
+            this.askPrice.Name = "askPrice";
+            this.askPrice.ReadOnly = true;
+            // 
+            // askSize
+            // 
+            this.askSize.HeaderText = "Ask Size";
+            this.askSize.Name = "askSize";
+            this.askSize.ReadOnly = true;
+            // 
+            // lastTickerColumn
+            // 
+            this.lastTickerColumn.HeaderText = "Last";
+            this.lastTickerColumn.Name = "lastTickerColumn";
+            this.lastTickerColumn.ReadOnly = true;
+            // 
+            // lastPrice
+            // 
+            this.lastPrice.HeaderText = "Last Size";
+            this.lastPrice.Name = "lastPrice";
+            this.lastPrice.ReadOnly = true;
+            // 
+            // volume
+            // 
+            this.volume.HeaderText = "Volume";
+            this.volume.Name = "volume";
+            this.volume.ReadOnly = true;
+            // 
+            // closeTickerColumn
+            // 
+            this.closeTickerColumn.HeaderText = "Close";
+            this.closeTickerColumn.Name = "closeTickerColumn";
+            this.closeTickerColumn.ReadOnly = true;
+            this.closeTickerColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.closeTickerColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // openTickerColumn
+            // 
+            this.openTickerColumn.HeaderText = "Open";
+            this.openTickerColumn.Name = "openTickerColumn";
+            this.openTickerColumn.ReadOnly = true;
+            // 
+            // highTickerColumn
+            // 
+            this.highTickerColumn.HeaderText = "High";
+            this.highTickerColumn.Name = "highTickerColumn";
+            this.highTickerColumn.ReadOnly = true;
+            // 
+            // lowTickerColumn
+            // 
+            this.lowTickerColumn.HeaderText = "Low";
+            this.lowTickerColumn.Name = "lowTickerColumn";
+            this.lowTickerColumn.ReadOnly = true;
+            // 
+            // futuresOpenInterestTickerColumn
+            // 
+            this.futuresOpenInterestTickerColumn.HeaderText = "Fut Open Int";
+            this.futuresOpenInterestTickerColumn.Name = "futuresOpenInterestTickerColumn";
+            this.futuresOpenInterestTickerColumn.ReadOnly = true;
+            // 
+            // avgOptVolumeTickerColumn
+            // 
+            this.avgOptVolumeTickerColumn.HeaderText = "Avg Opt Vol";
+            this.avgOptVolumeTickerColumn.Name = "avgOptVolumeTickerColumn";
+            this.avgOptVolumeTickerColumn.ReadOnly = true;
+            // 
+            // shortableSharesTickerColumn
+            // 
+            this.shortableSharesTickerColumn.HeaderText = "Shortable Shares";
+            this.shortableSharesTickerColumn.Name = "shortableSharesTickerColumn";
+            this.shortableSharesTickerColumn.ReadOnly = true;
             // 
             // deepBookTab_MDT
             // 
@@ -7072,117 +7216,124 @@ namespace IBSampleApp
             this.TabControl.Size = new System.Drawing.Size(1256, 474);
             this.TabControl.TabIndex = 7;
             // 
-            // marketDataContract
+            // conResSymbol
             // 
-            this.marketDataContract.HeaderText = "Description";
-            this.marketDataContract.Name = "marketDataContract";
-            this.marketDataContract.ReadOnly = true;
-            this.marketDataContract.Width = 200;
+            this.conResSymbol.HeaderText = "Symbol";
+            this.conResSymbol.Name = "conResSymbol";
+            this.conResSymbol.ReadOnly = true;
             // 
-            // marketDataTypeTickerColumn
+            // conResLocalSymbol
             // 
-            this.marketDataTypeTickerColumn.HeaderText = "Mkt Data Type";
-            this.marketDataTypeTickerColumn.Name = "marketDataTypeTickerColumn";
-            this.marketDataTypeTickerColumn.ReadOnly = true;
-            this.marketDataTypeTickerColumn.Width = 150;
+            this.conResLocalSymbol.HeaderText = "Local Symbol";
+            this.conResLocalSymbol.Name = "conResLocalSymbol";
+            this.conResLocalSymbol.ReadOnly = true;
             // 
-            // bidSize
+            // conResSecType
             // 
-            this.bidSize.HeaderText = "Bid Size";
-            this.bidSize.Name = "bidSize";
-            this.bidSize.ReadOnly = true;
+            this.conResSecType.HeaderText = "Type";
+            this.conResSecType.Name = "conResSecType";
+            this.conResSecType.ReadOnly = true;
             // 
-            // bidPrice
+            // conResCurrency
             // 
-            this.bidPrice.HeaderText = "Bid";
-            this.bidPrice.Name = "bidPrice";
-            this.bidPrice.ReadOnly = true;
+            this.conResCurrency.HeaderText = "Currency";
+            this.conResCurrency.Name = "conResCurrency";
+            this.conResCurrency.ReadOnly = true;
             // 
-            // preOpenBid
+            // conResExchange
             // 
-            this.preOpenBid.HeaderText = "Pre-Open Bid";
-            this.preOpenBid.Name = "preOpenBid";
-            this.preOpenBid.ReadOnly = true;
+            this.conResExchange.HeaderText = "Exchange";
+            this.conResExchange.Name = "conResExchange";
+            this.conResExchange.ReadOnly = true;
             // 
-            // preOpenAsk
+            // conResPrimaryExch
             // 
-            this.preOpenAsk.HeaderText = "Pre-Open Ask";
-            this.preOpenAsk.Name = "preOpenAsk";
-            this.preOpenAsk.ReadOnly = true;
+            this.conResPrimaryExch.HeaderText = "Primary Exch.";
+            this.conResPrimaryExch.Name = "conResPrimaryExch";
+            this.conResPrimaryExch.ReadOnly = true;
             // 
-            // askPrice
+            // conResLastTradeDate
             // 
-            this.askPrice.HeaderText = "Ask";
-            this.askPrice.Name = "askPrice";
-            this.askPrice.ReadOnly = true;
+            this.conResLastTradeDate.HeaderText = "LastTradeDate";
+            this.conResLastTradeDate.Name = "conResLastTradeDate";
+            this.conResLastTradeDate.ReadOnly = true;
+            this.conResLastTradeDate.Width = 150;
             // 
-            // askSize
+            // conResMultiplier
             // 
-            this.askSize.HeaderText = "Ask Size";
-            this.askSize.Name = "askSize";
-            this.askSize.ReadOnly = true;
+            this.conResMultiplier.HeaderText = "Multiplier";
+            this.conResMultiplier.Name = "conResMultiplier";
+            this.conResMultiplier.ReadOnly = true;
             // 
-            // lastTickerColumn
+            // conResStrike
             // 
-            this.lastTickerColumn.HeaderText = "Last";
-            this.lastTickerColumn.Name = "lastTickerColumn";
-            this.lastTickerColumn.ReadOnly = true;
+            this.conResStrike.HeaderText = "Strike";
+            this.conResStrike.Name = "conResStrike";
+            this.conResStrike.ReadOnly = true;
             // 
-            // lastPrice
+            // conResRight
             // 
-            this.lastPrice.HeaderText = "Last Size";
-            this.lastPrice.Name = "lastPrice";
-            this.lastPrice.ReadOnly = true;
+            this.conResRight.HeaderText = "P/C";
+            this.conResRight.Name = "conResRight";
+            this.conResRight.ReadOnly = true;
             // 
-            // volume
+            // conResConId
             // 
-            this.volume.HeaderText = "Volume";
-            this.volume.Name = "volume";
-            this.volume.ReadOnly = true;
+            this.conResConId.HeaderText = "ConId";
+            this.conResConId.Name = "conResConId";
+            this.conResConId.ReadOnly = true;
             // 
-            // closeTickerColumn
+            // conResMdSizeMultiplier
             // 
-            this.closeTickerColumn.HeaderText = "Close";
-            this.closeTickerColumn.Name = "closeTickerColumn";
-            this.closeTickerColumn.ReadOnly = true;
-            this.closeTickerColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.closeTickerColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.conResMdSizeMultiplier.HeaderText = "MD Size Mult";
+            this.conResMdSizeMultiplier.Name = "conResMdSizeMultiplier";
             // 
-            // openTickerColumn
+            // conResAggGroup
             // 
-            this.openTickerColumn.HeaderText = "Open";
-            this.openTickerColumn.Name = "openTickerColumn";
-            this.openTickerColumn.ReadOnly = true;
+            this.conResAggGroup.HeaderText = "Agg Group";
+            this.conResAggGroup.Name = "conResAggGroup";
             // 
-            // highTickerColumn
+            // conResUnderSymbol
             // 
-            this.highTickerColumn.HeaderText = "High";
-            this.highTickerColumn.Name = "highTickerColumn";
-            this.highTickerColumn.ReadOnly = true;
+            this.conResUnderSymbol.HeaderText = "Under Symb";
+            this.conResUnderSymbol.Name = "conResUnderSymbol";
             // 
-            // lowTickerColumn
+            // conResUnderSecType
             // 
-            this.lowTickerColumn.HeaderText = "Low";
-            this.lowTickerColumn.Name = "lowTickerColumn";
-            this.lowTickerColumn.ReadOnly = true;
+            this.conResUnderSecType.HeaderText = "Under SecType";
+            this.conResUnderSecType.Name = "conResUnderSecType";
+            this.conResUnderSecType.Width = 120;
             // 
-            // futuresOpenInterestTickerColumn
+            // conResMarketRuleIds
             // 
-            this.futuresOpenInterestTickerColumn.HeaderText = "Fut Open Int";
-            this.futuresOpenInterestTickerColumn.Name = "futuresOpenInterestTickerColumn";
-            this.futuresOpenInterestTickerColumn.ReadOnly = true;
+            this.conResMarketRuleIds.HeaderText = "Market Rule Ids";
+            this.conResMarketRuleIds.Name = "conResMarketRuleIds";
+            this.conResMarketRuleIds.Width = 300;
             // 
-            // avgOptVolumeTickerColumn
+            // conResRealExpirationDate
             // 
-            this.avgOptVolumeTickerColumn.HeaderText = "Avg Opt Vol";
-            this.avgOptVolumeTickerColumn.Name = "avgOptVolumeTickerColumn";
-            this.avgOptVolumeTickerColumn.ReadOnly = true;
+            this.conResRealExpirationDate.HeaderText = "Real Exp Date";
+            this.conResRealExpirationDate.Name = "conResRealExpirationDate";
             // 
-            // shortableSharesTickerColumn
+            // conResContractMonth
             // 
-            this.shortableSharesTickerColumn.HeaderText = "Shortable Shares";
-            this.shortableSharesTickerColumn.Name = "shortableSharesTickerColumn";
-            this.shortableSharesTickerColumn.ReadOnly = true;
+            this.conResContractMonth.HeaderText = "Contract Month";
+            this.conResContractMonth.Name = "conResContractMonth";
+            // 
+            // conResLastTradeTime
+            // 
+            this.conResLastTradeTime.HeaderText = "Last Trade Time";
+            this.conResLastTradeTime.Name = "conResLastTradeTime";
+            // 
+            // conResTimeZoneId
+            // 
+            this.conResTimeZoneId.HeaderText = "Time Zone";
+            this.conResTimeZoneId.Name = "conResTimeZoneId";
+            // 
+            // conResStockType
+            // 
+            this.conResStockType.HeaderText = "Stock Type";
+            this.conResStockType.Name = "conResStockType";
             // 
             // IBSampleAppDialog
             // 
@@ -7310,6 +7461,8 @@ namespace IBSampleApp
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPnL)).EndInit();
             this.tradingTab.ResumeLayout(false);
             this.tradingTab.PerformLayout();
+            this.completedOrdersGroup.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.completedOrdersGrid)).EndInit();
             this.execFilterGroup.ResumeLayout(false);
             this.execFilterGroup.PerformLayout();
             this.executionsGroup.ResumeLayout(false);
@@ -7952,26 +8105,6 @@ namespace IBSampleApp
         private System.Windows.Forms.Button buttonCancelTickByTick;
         private System.Windows.Forms.Button buttonRequestTickByTick;
         private System.Windows.Forms.ComboBox comboBoxTickByTickType;
-        private System.Windows.Forms.DataGridViewTextBoxColumn conResSymbol;
-        private System.Windows.Forms.DataGridViewTextBoxColumn conResLocalSymbol;
-        private System.Windows.Forms.DataGridViewTextBoxColumn conResSecType;
-        private System.Windows.Forms.DataGridViewTextBoxColumn conResCurrency;
-        private System.Windows.Forms.DataGridViewTextBoxColumn conResExchange;
-        private System.Windows.Forms.DataGridViewTextBoxColumn conResPrimaryExch;
-        private System.Windows.Forms.DataGridViewTextBoxColumn conResLastTradeDate;
-        private System.Windows.Forms.DataGridViewTextBoxColumn conResMultiplier;
-        private System.Windows.Forms.DataGridViewTextBoxColumn conResStrike;
-        private System.Windows.Forms.DataGridViewTextBoxColumn conResRight;
-        private System.Windows.Forms.DataGridViewTextBoxColumn conResConId;
-        private System.Windows.Forms.DataGridViewTextBoxColumn conResMdSizeMultiplier;
-        private System.Windows.Forms.DataGridViewTextBoxColumn conResAggGroup;
-        private System.Windows.Forms.DataGridViewTextBoxColumn conResUnderSymbol;
-        private System.Windows.Forms.DataGridViewTextBoxColumn conResUnderSecType;
-        private System.Windows.Forms.DataGridViewTextBoxColumn conResMarketRuleIds;
-        private System.Windows.Forms.DataGridViewTextBoxColumn conResRealExpirationDate;
-        private System.Windows.Forms.DataGridViewTextBoxColumn conResContractMonth;
-        private System.Windows.Forms.DataGridViewTextBoxColumn conResLastTradeTime;
-        private System.Windows.Forms.DataGridViewTextBoxColumn conResTimeZoneId;
         private System.Windows.Forms.DataGridViewTextBoxColumn bondContractDetailsConId;
         private System.Windows.Forms.DataGridViewTextBoxColumn bondContractDetailsSymbol;
         private System.Windows.Forms.DataGridViewTextBoxColumn bondContractDetailsExchange;
@@ -8035,6 +8168,43 @@ namespace IBSampleApp
         private System.Windows.Forms.DataGridViewTextBoxColumn futuresOpenInterestTickerColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn avgOptVolumeTickerColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn shortableSharesTickerColumn;
+        private System.Windows.Forms.GroupBox completedOrdersGroup;
+        private System.Windows.Forms.Button completedOrdersButton;
+        private System.Windows.Forms.DataGridView completedOrdersGrid;
+        private System.Windows.Forms.DataGridViewTextBoxColumn completedOrdersBoxColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn completedOrdersBoxColumn2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn completedOrdersBoxColumn3;
+        private System.Windows.Forms.DataGridViewTextBoxColumn completedOrdersBoxColumn4;
+        private System.Windows.Forms.DataGridViewTextBoxColumn completedOrdersBoxColumn5;
+        private System.Windows.Forms.DataGridViewTextBoxColumn completedOrdersBoxColumn6;
+        private System.Windows.Forms.DataGridViewTextBoxColumn completedOrdersBoxColumn7;
+        private System.Windows.Forms.DataGridViewTextBoxColumn completedOrdersBoxColumn8;
+        private System.Windows.Forms.DataGridViewTextBoxColumn completedOrdersBoxColumn9;
+        private System.Windows.Forms.DataGridViewTextBoxColumn completedOrdersBoxColumn10;
+        private System.Windows.Forms.DataGridViewTextBoxColumn completedOrdersBoxColumn11;
+        private System.Windows.Forms.DataGridViewTextBoxColumn completedOrdersBoxColumn12;
+        private System.Windows.Forms.DataGridViewTextBoxColumn completedOrdersBoxColumn13;
+        private System.Windows.Forms.DataGridViewTextBoxColumn conResSymbol;
+        private System.Windows.Forms.DataGridViewTextBoxColumn conResLocalSymbol;
+        private System.Windows.Forms.DataGridViewTextBoxColumn conResSecType;
+        private System.Windows.Forms.DataGridViewTextBoxColumn conResCurrency;
+        private System.Windows.Forms.DataGridViewTextBoxColumn conResExchange;
+        private System.Windows.Forms.DataGridViewTextBoxColumn conResPrimaryExch;
+        private System.Windows.Forms.DataGridViewTextBoxColumn conResLastTradeDate;
+        private System.Windows.Forms.DataGridViewTextBoxColumn conResMultiplier;
+        private System.Windows.Forms.DataGridViewTextBoxColumn conResStrike;
+        private System.Windows.Forms.DataGridViewTextBoxColumn conResRight;
+        private System.Windows.Forms.DataGridViewTextBoxColumn conResConId;
+        private System.Windows.Forms.DataGridViewTextBoxColumn conResMdSizeMultiplier;
+        private System.Windows.Forms.DataGridViewTextBoxColumn conResAggGroup;
+        private System.Windows.Forms.DataGridViewTextBoxColumn conResUnderSymbol;
+        private System.Windows.Forms.DataGridViewTextBoxColumn conResUnderSecType;
+        private System.Windows.Forms.DataGridViewTextBoxColumn conResMarketRuleIds;
+        private System.Windows.Forms.DataGridViewTextBoxColumn conResRealExpirationDate;
+        private System.Windows.Forms.DataGridViewTextBoxColumn conResContractMonth;
+        private System.Windows.Forms.DataGridViewTextBoxColumn conResLastTradeTime;
+        private System.Windows.Forms.DataGridViewTextBoxColumn conResTimeZoneId;
+        private System.Windows.Forms.DataGridViewTextBoxColumn conResStockType;
     }
 }
 

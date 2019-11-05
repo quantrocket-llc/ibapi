@@ -1,4 +1,4 @@
-/* Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 using System;
 using System.Collections.Generic;
@@ -19,7 +19,7 @@ namespace IBApi
 		// can create a class that inherits from it and then override just the methods
 		// needed (ie Adapter pattern), rather than implementing EWrapper directly.
 		//
-		
+
         public virtual void error(Exception e)
         {
         }
@@ -221,7 +221,7 @@ namespace IBApi
         }
 
         public virtual void connectAck()
-        {            
+        {
         }
 
         public virtual void positionMulti(int requestId, string account, string modelCode, Contract contract, double pos, double avgCost)
@@ -329,31 +329,39 @@ namespace IBApi
 
         }
 
-        public void historicalTicks(int reqId, HistoricalTick[] ticks, bool done)
+        public virtual void historicalTicks(int reqId, HistoricalTick[] ticks, bool done)
         {
         }
 
-        public void historicalTicksBidAsk(int reqId, HistoricalTickBidAsk[] ticks, bool done)
+        public virtual void historicalTicksBidAsk(int reqId, HistoricalTickBidAsk[] ticks, bool done)
         {
         }
 
-        public void historicalTicksLast(int reqId, HistoricalTickLast[] ticks, bool done)
+        public virtual void historicalTicksLast(int reqId, HistoricalTickLast[] ticks, bool done)
         {
         }
 
-        public void tickByTickAllLast(int reqId, int tickType, long time, double price, int size, TickAttribLast tickAttribLast, string exchange, string specialConditions)
+        public virtual void tickByTickAllLast(int reqId, int tickType, long time, double price, int size, TickAttribLast tickAttribLast, string exchange, string specialConditions)
         {
         }
 
-        public void tickByTickBidAsk(int reqId, long time, double bidPrice, double askPrice, int bidSize, int askSize, TickAttribBidAsk tickAttribBidAsk)
+        public virtual void tickByTickBidAsk(int reqId, long time, double bidPrice, double askPrice, int bidSize, int askSize, TickAttribBidAsk tickAttribBidAsk)
         {
         }
 
-        public void tickByTickMidPoint(int reqId, long time, double midPoint)
+        public virtual void tickByTickMidPoint(int reqId, long time, double midPoint)
         {
         }
 
-        public void orderBound(long orderId, int apiClientId, int apiOrderId)
+        public virtual void orderBound(long orderId, int apiClientId, int apiOrderId)
+        {
+        }
+
+        public virtual void completedOrder(Contract contract, Order order, OrderState orderState)
+        {
+        }
+
+        public virtual void completedOrdersEnd()
         {
         }
     }

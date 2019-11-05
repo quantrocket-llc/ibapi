@@ -1,4 +1,4 @@
-﻿/* Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+﻿/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 using System;
@@ -109,8 +109,9 @@ namespace IBApi
         public override bool Equals(Object other)
         {
             bool l_bRetVal = false;
+            ExecutionFilter l_theOther = other as ExecutionFilter;
 
-            if (other == null)
+            if (l_theOther == null)
             {
                 l_bRetVal = false;
             }
@@ -120,7 +121,6 @@ namespace IBApi
             }
             else
             {
-                ExecutionFilter l_theOther = (ExecutionFilter)other;
                 l_bRetVal = (clientId == l_theOther.clientId &&
                     String.Compare(AcctCode, l_theOther.acctCode, true) == 0 &&
                     String.Compare(time, l_theOther.Time, true) == 0 &&
@@ -130,6 +130,19 @@ namespace IBApi
                     String.Compare(side, l_theOther.Side, true) == 0);
             }
             return l_bRetVal;
+        }
+
+        public override int GetHashCode()
+        {
+            var hashCode = 82934527;
+            hashCode = hashCode * -1521134295 + ClientId.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(AcctCode);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Time);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Symbol);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(SecType);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Exchange);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Side);
+            return hashCode;
         }
     }
 }

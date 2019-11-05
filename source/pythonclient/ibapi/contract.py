@@ -1,6 +1,6 @@
 """
-Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
-and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable.
+Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+ and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable.
 """
 
 
@@ -136,6 +136,7 @@ class ContractDetails(Object):
         self.secIdList = None
         self.realExpirationDate = ""
         self.lastTradeTime = ""
+        self.stockType = ""
         # BOND values
         self.cusip = ""
         self.ratings = ""
@@ -179,6 +180,7 @@ class ContractDetails(Object):
             str(self.aggGroup),
             str(self.secIdList),
             str(self.realExpirationDate),
+            str(self.stockType),
             str(self.cusip),
             str(self.ratings),
             str(self.descAppend),

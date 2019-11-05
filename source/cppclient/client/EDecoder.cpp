@@ -1,10 +1,7 @@
-/* Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 #include "StdAfx.h"
-#include <assert.h>
-#include <string>
-#include <bitset>
 #include "EWrapper.h"
 #include "Order.h"
 #include "Contract.h"
@@ -16,9 +13,15 @@
 #include "EDecoder.h"
 #include "EClientMsgSink.h"
 #include "PriceIncrement.h"
+#include "EOrderDecoder.h"
+
 #include <string.h>
 #include <cstdlib>
 #include <sstream>
+#include <assert.h>
+#include <string>
+#include <bitset>
+
 
 EDecoder::EDecoder(int serverVersion, EWrapper *callback, EClientMsgSink *clientMsgSink) {
 	m_pEWrapper = callback;
@@ -330,395 +333,81 @@ const char* EDecoder::processOpenOrderMsg(const char* ptr, const char* endPtr) {
 	    DECODE_FIELD(version);
     }
 
-	// read order id
 	Order order;
-	DECODE_FIELD( order.orderId);
+	Contract contract;
+	OrderState orderState;
+	EOrderDecoder eOrderDecoder(&contract, &order, &orderState, version, m_serverVersion);
+
+	// read order id
+	eOrderDecoder.decodeOrderId(ptr, endPtr);
 
 	// read contract fields
-	Contract contract;
-	DECODE_FIELD( contract.conId); // ver 17 field
-	DECODE_FIELD( contract.symbol);
-	DECODE_FIELD( contract.secType);
-	DECODE_FIELD( contract.lastTradeDateOrContractMonth);
-	DECODE_FIELD( contract.strike);
-	DECODE_FIELD( contract.right);
-	if (version >= 32) {
-		DECODE_FIELD( contract.multiplier);
-	}
-	DECODE_FIELD( contract.exchange);
-	DECODE_FIELD( contract.currency);
-	DECODE_FIELD( contract.localSymbol); // ver 2 field
-	if (version >= 32) {
-		DECODE_FIELD( contract.tradingClass);
-	}
+	eOrderDecoder.decodeContract(ptr, endPtr);
 
 	// read order fields
-	DECODE_FIELD( order.action);
-
-	if (m_serverVersion >= MIN_SERVER_VER_FRACTIONAL_POSITIONS)
-	{
-		DECODE_FIELD( order.totalQuantity);
-	}
-	else
-	{
-		long lTotalQuantity;
-
-		DECODE_FIELD(lTotalQuantity);
-
-		order.totalQuantity = lTotalQuantity;
-	}
-
-	DECODE_FIELD( order.orderType);
-	if (version < 29) { 
-		DECODE_FIELD( order.lmtPrice);
-	}
-	else {
-		DECODE_FIELD_MAX( order.lmtPrice);
-	}
-	if (version < 30) { 
-		DECODE_FIELD( order.auxPrice);
-	}
-	else {
-		DECODE_FIELD_MAX( order.auxPrice);
-	}
-	DECODE_FIELD( order.tif);
-	DECODE_FIELD( order.ocaGroup);
-	DECODE_FIELD( order.account);
-	DECODE_FIELD( order.openClose);
-
-	int orderOriginInt;
-	DECODE_FIELD( orderOriginInt);
-	order.origin = (Origin)orderOriginInt;
-
-	DECODE_FIELD( order.orderRef);
-	DECODE_FIELD( order.clientId); // ver 3 field
-	DECODE_FIELD( order.permId); // ver 4 field
-
-	//if( version < 18) {
-	//	// will never happen
-	//	/* order.ignoreRth = */ readBoolFromInt();
-	//}
-
-	DECODE_FIELD( order.outsideRth); // ver 18 field
-	DECODE_FIELD( order.hidden); // ver 4 field
-	DECODE_FIELD( order.discretionaryAmt); // ver 4 field
-	DECODE_FIELD( order.goodAfterTime); // ver 5 field
-
-	{
-		std::string sharesAllocation;
-		DECODE_FIELD( sharesAllocation); // deprecated ver 6 field
-	}
-
-	DECODE_FIELD( order.faGroup); // ver 7 field
-	DECODE_FIELD( order.faMethod); // ver 7 field
-	DECODE_FIELD( order.faPercentage); // ver 7 field
-	DECODE_FIELD( order.faProfile); // ver 7 field
-
-	if( m_serverVersion >= MIN_SERVER_VER_MODELS_SUPPORT ) {
-		DECODE_FIELD( order.modelCode);
-	}
-
-	DECODE_FIELD( order.goodTillDate); // ver 8 field
-
-	DECODE_FIELD( order.rule80A); // ver 9 field
-	DECODE_FIELD_MAX( order.percentOffset); // ver 9 field
-	DECODE_FIELD( order.settlingFirm); // ver 9 field
-	DECODE_FIELD( order.shortSaleSlot); // ver 9 field
-	DECODE_FIELD( order.designatedLocation); // ver 9 field
-	if( m_serverVersion == MIN_SERVER_VER_SSHORTX_OLD){
-		int exemptCode;
-		DECODE_FIELD( exemptCode);
-	}
-	else if( version >= 23){
-		DECODE_FIELD( order.exemptCode);
-	}
-	DECODE_FIELD( order.auctionStrategy); // ver 9 field
-	DECODE_FIELD_MAX( order.startingPrice); // ver 9 field
-	DECODE_FIELD_MAX( order.stockRefPrice); // ver 9 field
-	DECODE_FIELD_MAX( order.delta); // ver 9 field
-	DECODE_FIELD_MAX( order.stockRangeLower); // ver 9 field
-	DECODE_FIELD_MAX( order.stockRangeUpper); // ver 9 field
-	DECODE_FIELD( order.displaySize); // ver 9 field
-
-	//if( version < 18) {
-	//		// will never happen
-	//		/* order.rthOnly = */ readBoolFromInt();
-	//}
-
-	DECODE_FIELD( order.blockOrder); // ver 9 field
-	DECODE_FIELD( order.sweepToFill); // ver 9 field
-	DECODE_FIELD( order.allOrNone); // ver 9 field
-	DECODE_FIELD_MAX( order.minQty); // ver 9 field
-	DECODE_FIELD( order.ocaType); // ver 9 field
-	DECODE_FIELD( order.eTradeOnly); // ver 9 field
-	DECODE_FIELD( order.firmQuoteOnly); // ver 9 field
-	DECODE_FIELD_MAX( order.nbboPriceCap); // ver 9 field
-
-	DECODE_FIELD( order.parentId); // ver 10 field
-	DECODE_FIELD( order.triggerMethod); // ver 10 field
-
-	DECODE_FIELD_MAX( order.volatility); // ver 11 field
-	DECODE_FIELD( order.volatilityType); // ver 11 field
-	DECODE_FIELD( order.deltaNeutralOrderType); // ver 11 field (had a hack for ver 11)
-	DECODE_FIELD_MAX( order.deltaNeutralAuxPrice); // ver 12 field
-
-	if (version >= 27 && !order.deltaNeutralOrderType.empty()) {
-		DECODE_FIELD( order.deltaNeutralConId);
-		DECODE_FIELD( order.deltaNeutralSettlingFirm);
-		DECODE_FIELD( order.deltaNeutralClearingAccount);
-		DECODE_FIELD( order.deltaNeutralClearingIntent);
-	}
-
-	if (version >= 31 && !order.deltaNeutralOrderType.empty()) {
-		DECODE_FIELD( order.deltaNeutralOpenClose);
-		DECODE_FIELD( order.deltaNeutralShortSale);
-		DECODE_FIELD( order.deltaNeutralShortSaleSlot);
-		DECODE_FIELD( order.deltaNeutralDesignatedLocation);
-	}
-
-	DECODE_FIELD( order.continuousUpdate); // ver 11 field
-
-	// will never happen
-	//if( m_serverVersion == 26) {
-	//	order.stockRangeLower = readDouble();
-	//	order.stockRangeUpper = readDouble();
-	//}
-
-	DECODE_FIELD( order.referencePriceType); // ver 11 field
-
-	DECODE_FIELD_MAX( order.trailStopPrice); // ver 13 field
-
-	if (version >= 30) {
-		DECODE_FIELD_MAX( order.trailingPercent);
-	}
-
-	DECODE_FIELD_MAX( order.basisPoints); // ver 14 field
-	DECODE_FIELD_MAX( order.basisPointsType); // ver 14 field
-	DECODE_FIELD( contract.comboLegsDescrip); // ver 14 field
-
-	if (version >= 29) {
-		int comboLegsCount = 0;
-		DECODE_FIELD( comboLegsCount);
-
-		if (comboLegsCount > 0) {
-			Contract::ComboLegListSPtr comboLegs( new Contract::ComboLegList);
-			comboLegs->reserve( comboLegsCount);
-			for (int i = 0; i < comboLegsCount; ++i) {
-				ComboLegSPtr comboLeg( new ComboLeg());
-				DECODE_FIELD( comboLeg->conId);
-				DECODE_FIELD( comboLeg->ratio);
-				DECODE_FIELD( comboLeg->action);
-				DECODE_FIELD( comboLeg->exchange);
-				DECODE_FIELD( comboLeg->openClose);
-				DECODE_FIELD( comboLeg->shortSaleSlot);
-				DECODE_FIELD( comboLeg->designatedLocation);
-				DECODE_FIELD( comboLeg->exemptCode);
-
-				comboLegs->push_back( comboLeg);
-			}
-			contract.comboLegs = comboLegs;
-		}
-
-		int orderComboLegsCount = 0;
-		DECODE_FIELD( orderComboLegsCount);
-		if (orderComboLegsCount > 0) {
-			Order::OrderComboLegListSPtr orderComboLegs( new Order::OrderComboLegList);
-			orderComboLegs->reserve( orderComboLegsCount);
-			for (int i = 0; i < orderComboLegsCount; ++i) {
-				OrderComboLegSPtr orderComboLeg( new OrderComboLeg());
-				DECODE_FIELD_MAX( orderComboLeg->price);
-
-				orderComboLegs->push_back( orderComboLeg);
-			}
-			order.orderComboLegs = orderComboLegs;
-		}
-	}
-
-	if (version >= 26) {
-		int smartComboRoutingParamsCount = 0;
-		DECODE_FIELD( smartComboRoutingParamsCount);
-		if( smartComboRoutingParamsCount > 0) {
-			TagValueListSPtr smartComboRoutingParams( new TagValueList);
-			smartComboRoutingParams->reserve( smartComboRoutingParamsCount);
-			for( int i = 0; i < smartComboRoutingParamsCount; ++i) {
-				TagValueSPtr tagValue( new TagValue());
-				DECODE_FIELD( tagValue->tag);
-				DECODE_FIELD( tagValue->value);
-				smartComboRoutingParams->push_back( tagValue);
-			}
-			order.smartComboRoutingParams = smartComboRoutingParams;
-		}
-	}
-
-	if( version >= 20) {
-		DECODE_FIELD_MAX( order.scaleInitLevelSize);
-		DECODE_FIELD_MAX( order.scaleSubsLevelSize);
-	}
-	else {
-		// ver 15 fields
-		int notSuppScaleNumComponents = 0;
-		DECODE_FIELD_MAX( notSuppScaleNumComponents);
-		DECODE_FIELD_MAX( order.scaleInitLevelSize); // scaleComponectSize
-	}
-	DECODE_FIELD_MAX( order.scalePriceIncrement); // ver 15 field
-
-	if (version >= 28 && order.scalePriceIncrement > 0.0 && order.scalePriceIncrement != UNSET_DOUBLE) {
-		DECODE_FIELD_MAX( order.scalePriceAdjustValue);
-		DECODE_FIELD_MAX( order.scalePriceAdjustInterval);
-		DECODE_FIELD_MAX( order.scaleProfitOffset);
-		DECODE_FIELD( order.scaleAutoReset);
-		DECODE_FIELD_MAX( order.scaleInitPosition);
-		DECODE_FIELD_MAX( order.scaleInitFillQty);
-		DECODE_FIELD( order.scaleRandomPercent);
-	}
-
-	if( version >= 24) {
-		DECODE_FIELD( order.hedgeType);
-		if( !order.hedgeType.empty()) {
-			DECODE_FIELD( order.hedgeParam);
-		}
-	}
-
-	if( version >= 25) {
-		DECODE_FIELD( order.optOutSmartRouting);
-	}
-
-	DECODE_FIELD( order.clearingAccount); // ver 19 field
-	DECODE_FIELD( order.clearingIntent); // ver 19 field
-
-	if( version >= 22) {
-		DECODE_FIELD( order.notHeld);
-	}
-
-	DeltaNeutralContract deltaNeutralContract;
-	if( version >= 20) {
-		bool deltaNeutralContractPresent = false;
-		DECODE_FIELD(deltaNeutralContractPresent);
-		if( deltaNeutralContractPresent){
-			DECODE_FIELD(deltaNeutralContract.conId);
-			DECODE_FIELD(deltaNeutralContract.delta);
-			DECODE_FIELD(deltaNeutralContract.price);
-			contract.deltaNeutralContract = &deltaNeutralContract;
-		}
-	}
-
-
-	if( version >= 21) {
-		DECODE_FIELD( order.algoStrategy);
-		if( !order.algoStrategy.empty()) {
-			int algoParamsCount = 0;
-			DECODE_FIELD( algoParamsCount);
-			if( algoParamsCount > 0) {
-				TagValueListSPtr algoParams( new TagValueList);
-				algoParams->reserve( algoParamsCount);
-				for( int i = 0; i < algoParamsCount; ++i) {
-					TagValueSPtr tagValue( new TagValue());
-					DECODE_FIELD( tagValue->tag);
-					DECODE_FIELD( tagValue->value);
-					algoParams->push_back( tagValue);
-				}
-				order.algoParams = algoParams;
-			}
-		}
-	}
-
-	if (version >= 33) {
-		DECODE_FIELD(order.solicited);
-	}
-
-	OrderState orderState;
-
-	DECODE_FIELD( order.whatIf); // ver 16 field
-
-	DECODE_FIELD( orderState.status); // ver 16 field
-	if (m_serverVersion >= MIN_SERVER_VER_WHAT_IF_EXT_FIELDS) {
-		DECODE_FIELD( orderState.initMarginBefore);
-		DECODE_FIELD( orderState.maintMarginBefore);
-		DECODE_FIELD( orderState.equityWithLoanBefore);
-		DECODE_FIELD( orderState.initMarginChange);
-		DECODE_FIELD( orderState.maintMarginChange);
-		DECODE_FIELD( orderState.equityWithLoanChange);
-	}
-	DECODE_FIELD( orderState.initMarginAfter); // ver 16 field
-	DECODE_FIELD( orderState.maintMarginAfter); // ver 16 field
-	DECODE_FIELD( orderState.equityWithLoanAfter); // ver 16 field
-	DECODE_FIELD_MAX( orderState.commission); // ver 16 field
-	DECODE_FIELD_MAX( orderState.minCommission); // ver 16 field
-	DECODE_FIELD_MAX( orderState.maxCommission); // ver 16 field
-	DECODE_FIELD( orderState.commissionCurrency); // ver 16 field
-	DECODE_FIELD( orderState.warningText); // ver 16 field
-
-	if (version >= 34) {
-		DECODE_FIELD(order.randomizeSize);
-		DECODE_FIELD(order.randomizePrice);
-	}
-
-	if (m_serverVersion >= MIN_SERVER_VER_PEGGED_TO_BENCHMARK) {
-		if (order.orderType == "PEG BENCH") {
-			DECODE_FIELD(order.referenceContractId);
-			DECODE_FIELD(order.isPeggedChangeAmountDecrease);
-			DECODE_FIELD(order.peggedChangeAmount);
-			DECODE_FIELD(order.referenceChangeAmount);
-			DECODE_FIELD(order.referenceExchangeId);
-		}
-
-		int conditionsSize;
-
-		DECODE_FIELD(conditionsSize);
-
-		if (conditionsSize > 0) {
-			for (; conditionsSize; conditionsSize--) {
-				int conditionType;
-
-				DECODE_FIELD(conditionType);
-
-				std::shared_ptr<OrderCondition> item = std::shared_ptr<OrderCondition>(OrderCondition::create((OrderCondition::OrderConditionType)conditionType));
-
-				if (!(ptr = item->readExternal(ptr, endPtr)))
-					return 0;
-
-				order.conditions.push_back(item);
-			}
-
-			DECODE_FIELD(order.conditionsIgnoreRth);
-			DECODE_FIELD(order.conditionsCancelOrder);
-		}
-
-		DECODE_FIELD(order.adjustedOrderType);
-		DECODE_FIELD(order.triggerPrice);
-		DECODE_FIELD(order.trailStopPrice);
-		DECODE_FIELD(order.lmtPriceOffset);
-		DECODE_FIELD(order.adjustedStopPrice);
-		DECODE_FIELD(order.adjustedStopLimitPrice);
-		DECODE_FIELD(order.adjustedTrailingAmount);
-		DECODE_FIELD(order.adjustableTrailingUnit);
-	}
-
-	if (m_serverVersion >= MIN_SERVER_VER_SOFT_DOLLAR_TIER) {
-		std::string name, value, displayName;
-
-		DECODE_FIELD(name);
-		DECODE_FIELD(value);
-		DECODE_FIELD(displayName);
-
-		order.softDollarTier = SoftDollarTier(name, value, displayName);
-	}
-
-	if (m_serverVersion >= MIN_SERVER_VER_CASH_QTY) {
-		DECODE_FIELD_MAX(order.cashQty);
-	}
-
-	if (m_serverVersion >= MIN_SERVER_VER_AUTO_PRICE_FOR_HEDGE) {
-		DECODE_FIELD(order.dontUseAutoPriceForHedge);
-	}
-
-    if (m_serverVersion >= MIN_SERVER_VER_ORDER_CONTAINER) {
-        DECODE_FIELD(order.isOmsContainer);
-    }
-
-    if (m_serverVersion >= MIN_SERVER_VER_D_PEG_ORDERS) {
-        DECODE_FIELD(order.discretionaryUpToLimitPrice);
-    }
+	eOrderDecoder.decodeAction(ptr, endPtr);
+	eOrderDecoder.decodeTotalQuantity(ptr, endPtr);
+	eOrderDecoder.decodeOrderType(ptr, endPtr);
+	eOrderDecoder.decodeLmtPrice(ptr, endPtr);
+	eOrderDecoder.decodeAuxPrice(ptr, endPtr);
+	eOrderDecoder.decodeTIF(ptr, endPtr);
+	eOrderDecoder.decodeOcaGroup(ptr, endPtr);
+	eOrderDecoder.decodeAccount(ptr, endPtr);
+	eOrderDecoder.decodeOpenClose(ptr, endPtr);
+	eOrderDecoder.decodeOrigin(ptr, endPtr);
+	eOrderDecoder.decodeOrderRef(ptr, endPtr);
+	eOrderDecoder.decodeClientId(ptr, endPtr);
+	eOrderDecoder.decodePermId(ptr, endPtr);
+	eOrderDecoder.decodeOutsideRth(ptr, endPtr);
+	eOrderDecoder.decodeHidden(ptr, endPtr);
+	eOrderDecoder.decodeDiscretionaryAmount(ptr, endPtr);
+	eOrderDecoder.decodeGoodAfterTime(ptr, endPtr);
+	eOrderDecoder.skipSharesAllocation(ptr, endPtr);
+	eOrderDecoder.decodeFAParams(ptr, endPtr);
+	eOrderDecoder.decodeModelCode(ptr, endPtr);
+	eOrderDecoder.decodeGoodTillDate(ptr, endPtr);
+	eOrderDecoder.decodeRule80A(ptr, endPtr);
+	eOrderDecoder.decodePercentOffset(ptr, endPtr);
+	eOrderDecoder.decodeSettlingFirm(ptr, endPtr);
+	eOrderDecoder.decodeShortSaleParams(ptr, endPtr);
+	eOrderDecoder.decodeAuctionStrategy(ptr, endPtr);
+	eOrderDecoder.decodeBoxOrderParams(ptr, endPtr);
+	eOrderDecoder.decodePegToStkOrVolOrderParams(ptr, endPtr);
+	eOrderDecoder.decodeDisplaySize(ptr, endPtr);
+	eOrderDecoder.decodeBlockOrder(ptr, endPtr);
+	eOrderDecoder.decodeSweepToFill(ptr, endPtr);
+	eOrderDecoder.decodeAllOrNone(ptr, endPtr);
+	eOrderDecoder.decodeMinQty(ptr, endPtr);
+	eOrderDecoder.decodeOcaType(ptr, endPtr);
+	eOrderDecoder.decodeETradeOnly(ptr, endPtr);
+	eOrderDecoder.decodeFirmQuoteOnly(ptr, endPtr);
+	eOrderDecoder.decodeNbboPriceCap(ptr, endPtr);
+	eOrderDecoder.decodeParentId(ptr, endPtr);
+	eOrderDecoder.decodeTriggerMethod(ptr, endPtr);
+	eOrderDecoder.decodeVolOrderParams(ptr, endPtr, true);
+	eOrderDecoder.decodeTrailParams(ptr, endPtr);
+	eOrderDecoder.decodeBasisPoints(ptr, endPtr);
+	eOrderDecoder.decodeComboLegs(ptr, endPtr);
+	eOrderDecoder.decodeSmartComboRoutingParams(ptr, endPtr);
+	eOrderDecoder.decodeScaleOrderParams(ptr, endPtr);
+	eOrderDecoder.decodeHedgeParams(ptr, endPtr);
+	eOrderDecoder.decodeOptOutSmartRouting(ptr, endPtr);
+	eOrderDecoder.decodeClearingParams(ptr, endPtr);
+	eOrderDecoder.decodeNotHeld(ptr, endPtr);
+	eOrderDecoder.decodeDeltaNeutral(ptr, endPtr);
+	eOrderDecoder.decodeAlgoParams(ptr, endPtr);
+	eOrderDecoder.decodeSolicited(ptr, endPtr);
+	eOrderDecoder.decodeWhatIfInfoAndCommission(ptr, endPtr);
+	eOrderDecoder.decodeVolRandomizeFlags(ptr, endPtr);
+	eOrderDecoder.decodePegBenchParams(ptr, endPtr);
+	eOrderDecoder.decodeConditions(ptr, endPtr);
+	eOrderDecoder.decodeAdjustedOrderParams(ptr, endPtr);
+	eOrderDecoder.decodeSoftDollarTier(ptr, endPtr);
+	eOrderDecoder.decodeCashQty(ptr, endPtr);
+	eOrderDecoder.decodeDontUseAutoPriceForHedge(ptr, endPtr);
+	eOrderDecoder.decodeIsOmsContainer(ptr, endPtr);
+	eOrderDecoder.decodeDiscretionaryUpToLimitPrice(ptr, endPtr);
+	eOrderDecoder.decodeUsePriceMgmtAlgo(ptr, endPtr);
 
 	m_pEWrapper->openOrder((OrderId)order.orderId, contract, order, orderState);
 
@@ -907,6 +596,9 @@ const char* EDecoder::processContractDataMsg(const char* ptr, const char* endPtr
 	}
 	if (m_serverVersion >= MIN_SERVER_VER_REAL_EXPIRATION_DATE) {
 		DECODE_FIELD( contract.realExpirationDate);
+	}
+	if (m_serverVersion >= MIN_SERVER_VER_STOCK_TYPE) {
+		DECODE_FIELD( contract.stockType);
 	}
 
 	m_pEWrapper->contractDetails( reqId, contract);
@@ -2386,6 +2078,90 @@ const char* EDecoder::processOrderBoundMsg(const char* ptr, const char* endPtr) 
 	return ptr;
 }
 
+const char* EDecoder::processCompletedOrderMsg(const char* ptr, const char* endPtr) 
+{
+	Order order;
+	Contract contract;
+	OrderState orderState;
+	EOrderDecoder eOrderDecoder(&contract, &order, &orderState, UNSET_INTEGER, m_serverVersion);
+
+	// read contract fields
+	eOrderDecoder.decodeContract(ptr, endPtr);
+
+	// read order fields
+	eOrderDecoder.decodeAction(ptr, endPtr);
+	eOrderDecoder.decodeTotalQuantity(ptr, endPtr);
+	eOrderDecoder.decodeOrderType(ptr, endPtr);
+	eOrderDecoder.decodeLmtPrice(ptr, endPtr);
+	eOrderDecoder.decodeAuxPrice(ptr, endPtr);
+	eOrderDecoder.decodeTIF(ptr, endPtr);
+	eOrderDecoder.decodeOcaGroup(ptr, endPtr);
+	eOrderDecoder.decodeAccount(ptr, endPtr);
+	eOrderDecoder.decodeOpenClose(ptr, endPtr);
+	eOrderDecoder.decodeOrigin(ptr, endPtr);
+	eOrderDecoder.decodeOrderRef(ptr, endPtr);
+	eOrderDecoder.decodePermId(ptr, endPtr);
+	eOrderDecoder.decodeOutsideRth(ptr, endPtr);
+	eOrderDecoder.decodeHidden(ptr, endPtr);
+	eOrderDecoder.decodeDiscretionaryAmount(ptr, endPtr);
+	eOrderDecoder.decodeGoodAfterTime(ptr, endPtr);
+	eOrderDecoder.decodeFAParams(ptr, endPtr);
+	eOrderDecoder.decodeModelCode(ptr, endPtr);
+	eOrderDecoder.decodeGoodTillDate(ptr, endPtr);
+	eOrderDecoder.decodeRule80A(ptr, endPtr);
+	eOrderDecoder.decodePercentOffset(ptr, endPtr);
+	eOrderDecoder.decodeSettlingFirm(ptr, endPtr);
+	eOrderDecoder.decodeShortSaleParams(ptr, endPtr);
+	eOrderDecoder.decodeBoxOrderParams(ptr, endPtr);
+	eOrderDecoder.decodePegToStkOrVolOrderParams(ptr, endPtr);
+	eOrderDecoder.decodeDisplaySize(ptr, endPtr);
+	eOrderDecoder.decodeSweepToFill(ptr, endPtr);
+	eOrderDecoder.decodeAllOrNone(ptr, endPtr);
+	eOrderDecoder.decodeMinQty(ptr, endPtr);
+	eOrderDecoder.decodeOcaType(ptr, endPtr);
+	eOrderDecoder.decodeTriggerMethod(ptr, endPtr);
+	eOrderDecoder.decodeVolOrderParams(ptr, endPtr, false);
+	eOrderDecoder.decodeTrailParams(ptr, endPtr);
+	eOrderDecoder.decodeComboLegs(ptr, endPtr);
+	eOrderDecoder.decodeSmartComboRoutingParams(ptr, endPtr);
+	eOrderDecoder.decodeScaleOrderParams(ptr, endPtr);
+	eOrderDecoder.decodeHedgeParams(ptr, endPtr);
+	eOrderDecoder.decodeClearingParams(ptr, endPtr);
+	eOrderDecoder.decodeNotHeld(ptr, endPtr);
+	eOrderDecoder.decodeDeltaNeutral(ptr, endPtr);
+	eOrderDecoder.decodeAlgoParams(ptr, endPtr);
+	eOrderDecoder.decodeSolicited(ptr, endPtr);
+	eOrderDecoder.decodeOrderStatus(ptr, endPtr);
+	eOrderDecoder.decodeVolRandomizeFlags(ptr, endPtr);
+	eOrderDecoder.decodePegBenchParams(ptr, endPtr);
+	eOrderDecoder.decodeConditions(ptr, endPtr);
+	eOrderDecoder.decodeStopPriceAndLmtPriceOffset(ptr, endPtr);
+	eOrderDecoder.decodeCashQty(ptr, endPtr);
+	eOrderDecoder.decodeDontUseAutoPriceForHedge(ptr, endPtr);
+	eOrderDecoder.decodeIsOmsContainer(ptr, endPtr);
+	eOrderDecoder.decodeAutoCancelDate(ptr, endPtr);
+	eOrderDecoder.decodeFilledQuantity(ptr, endPtr);
+	eOrderDecoder.decodeRefFuturesConId(ptr, endPtr);
+	eOrderDecoder.decodeAutoCancelParent(ptr, endPtr);
+	eOrderDecoder.decodeShareholder(ptr, endPtr);
+	eOrderDecoder.decodeImbalanceOnly(ptr, endPtr);
+	eOrderDecoder.decodeRouteMarketableToBbo(ptr, endPtr);
+	eOrderDecoder.decodeParentPermId(ptr, endPtr);
+	eOrderDecoder.decodeCompletedTime(ptr, endPtr);
+	eOrderDecoder.decodeCompletedStatus(ptr, endPtr);
+
+	m_pEWrapper->completedOrder(contract, order, orderState);
+
+	return ptr;
+}
+
+const char* EDecoder::processCompletedOrdersEndMsg(const char* ptr, const char* endPtr) 
+{
+	m_pEWrapper->completedOrdersEnd();
+	return ptr;
+}
+
+
 int EDecoder::parseAndProcessMsg(const char*& beginPtr, const char* endPtr) {
 	// process a single message from the buffer;
 	// return number of bytes consumed
@@ -2701,6 +2477,14 @@ int EDecoder::parseAndProcessMsg(const char*& beginPtr, const char* endPtr) {
 
         case ORDER_BOUND:
             ptr = processOrderBoundMsg(ptr, endPtr);
+            break;
+
+        case COMPLETED_ORDER:
+            ptr = processCompletedOrderMsg(ptr, endPtr);
+            break;
+
+        case COMPLETED_ORDERS_END:
+            ptr = processCompletedOrdersEndMsg(ptr, endPtr);
             break;
 
 		default:

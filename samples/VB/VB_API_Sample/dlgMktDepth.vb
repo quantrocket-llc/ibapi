@@ -1,4 +1,4 @@
-' Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+﻿' Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
 ' and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable.
 
 
@@ -456,11 +456,11 @@ Friend Class dlgMktDepth
     '--------------------------------------------------------------------------------
     ' Adds the market depth row to the book
     '--------------------------------------------------------------------------------
-    Public Sub updateMktDepth(tickerId As Short, rowId As Integer, marketMaker As String, operation As OperationType, side As Side, price As Double, size As Integer, isSmartDepth As Boolean)
+    Public Sub updateMktDepth(tickerId As Integer, rowId As Integer, marketMaker As String, operation As OperationType, side As Side, price As Double, size As Integer, isSmartDepth As Boolean)
         Select Case side
-            Case Side.Bid
+            Case side.Bid
                 updateDepth(m_bids, DataGridViewBid, rowId, marketMaker, operation, side, price, size)
-            Case Side.Ask
+            Case side.Ask
                 updateDepth(m_asks, DataGridViewAsk, rowId, marketMaker, operation, side, price, size)
             Case Else
                 Throw New InvalidOperationException

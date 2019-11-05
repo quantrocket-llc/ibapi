@@ -1,4 +1,4 @@
-﻿/* Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+﻿/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 using System;
@@ -17,17 +17,17 @@ namespace IBApi
         /**
          * @brief The name of the Soft Dollar Tier
          */
-        public string Name { get; private set; }
+        public string Name { get; set; }
 
         /**
          * @brief The value of the Soft Dollar Tier
          */
-        public string Value { get; private set; }
+        public string Value { get; set; }
 
         /**
          * @brief The display name of the Soft Dollar Tier
          */
-        public string DisplayName { get; private set; }
+        public string DisplayName { get; set; }
 
         public SoftDollarTier(string name, string value, string displayName)
         {

@@ -1,4 +1,4 @@
-/* Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+﻿/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 using System;
@@ -41,6 +41,7 @@ namespace IBApi
         private string marketRuleIds;
         private string realExpirationDate;
         private string lastTradeTime;
+        private string stockType;
        
         // BOND values
         private string cusip;
@@ -349,6 +350,17 @@ namespace IBApi
             //! @cond
             get { return lastTradeTime; }
             set { lastTradeTime = value; }
+            //! @endcond
+        }
+
+        /**
+        * @brief Stock type
+        */
+        public string StockType
+        {
+            //! @cond
+            get { return stockType; }
+            set { stockType = value; }
             //! @endcond
         }
 

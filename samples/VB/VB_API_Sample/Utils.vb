@@ -1,4 +1,4 @@
-' Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+﻿' Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
 ' and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable.
 
 
@@ -207,6 +207,10 @@ Friend Class Utils
 
     Public Shared Function FormatDoubleString(str As String) As String
         Return Format(str, "Standard")
+    End Function
+
+    Public Shared Function isNotEmpty(str As String) As Boolean
+        Return str <> ""
     End Function
 
 End Class

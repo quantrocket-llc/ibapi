@@ -1,8 +1,6 @@
-﻿' Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+﻿' Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
 ' and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable.
 
-'! Copyright (C) 2013 Interactive Brokers LLC. All rights reserved.  This code Is subject to the terms
-'! And conditions of the IB API Non-Commercial License Or the IB API Commercial License, as applicable. */
 Imports IBApi
 
 Namespace Samples
@@ -54,6 +52,18 @@ Namespace Samples
             scanSub.LocationCode = "IND.US"
             scanSub.ScanCode = "HIGH_OPT_VOLUME_PUT_CALL_RATIO"
             '! [highoptvolume]
+            Return scanSub
+        End Function
+		
+		Public Shared Function ComplexOrdersAndTrades() As ScannerSubscription
+
+            '! [combolatesttrade]
+            'Complex orders and trades scan, latest trades
+            Dim scanSub As ScannerSubscription = New ScannerSubscription()
+            scanSub.Instrument = "NATCOMB"
+            scanSub.LocationCode = "NATCOMB.OPT.US"
+            scanSub.ScanCode = "COMBO_LATEST_TRADE"
+            '! [combolatesttrade]
             Return scanSub
         End Function
     End Class

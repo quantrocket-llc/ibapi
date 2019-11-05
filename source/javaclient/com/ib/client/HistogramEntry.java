@@ -1,14 +1,30 @@
-/* Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 package com.ib.client;
 
 public class HistogramEntry implements Comparable<HistogramEntry> {
 
-    public double price;
-    public long size;
+    private double price;
+    private long size;
 
-    public HistogramEntry(double price, long size) {
+    public double price() {
+		return price;
+	}
+
+	public void price(double price) {
+		this.price = price;
+	}
+
+	public long size() {
+		return size;
+	}
+
+	public void size(long size) {
+		this.size = size;
+	}
+
+	public HistogramEntry(double price, long size) {
         this.price = price;
         this.size = size;
     }

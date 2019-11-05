@@ -1,4 +1,4 @@
-' Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+﻿' Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
 ' and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable.
 
 Imports IBApi
@@ -143,6 +143,7 @@ Namespace Samples
             Console.WriteLine(vbTab & "MarketRuleIds: " & contractDetails.MarketRuleIds)
             Console.WriteLine(vbTab & "RealExpirationDate: " & contractDetails.RealExpirationDate)
             Console.WriteLine(vbTab & "LastTradeTime: " & contractDetails.LastTradeTime)
+            Console.WriteLine(vbTab & "StockType: " & contractDetails.StockType)
             printContractDetailsSecIdList(contractDetails.SecIdList)
         End Sub
 
@@ -295,14 +296,9 @@ Namespace Samples
 
         '! [openorder]
         Public Sub openOrder(orderId As Integer, contract As IBApi.Contract, order As IBApi.Order, orderState As IBApi.OrderState) Implements IBApi.EWrapper.openOrder
-            Console.WriteLine("OpenOrder. ID: " & orderId & ", " & contract.Symbol & ", " & contract.SecType & " @ " & contract.Exchange &
-                          ": " & order.Action & ", " & order.OrderType & " " & order.TotalQuantity & ", " & orderState.Status)
-            If order.WhatIf = True Then
-                Console.WriteLine("What-If. ID: " & orderId &
-                    ", InitMarginBefore: " & Util.formatDoubleString(orderState.InitMarginBefore) & ", MaintMarginBefore: " & Util.formatDoubleString(orderState.MaintMarginBefore) & " EquityWithLoanBefore: " & Util.formatDoubleString(orderState.EquityWithLoanBefore) &
-                    ", InitMarginChange: " & Util.formatDoubleString(orderState.InitMarginChange) & ", MaintMarginChange: " & Util.formatDoubleString(orderState.MaintMarginChange) & " EquityWithLoanChange: " & Util.formatDoubleString(orderState.EquityWithLoanChange) &
-                    ", InitMarginAfter: " & Util.formatDoubleString(orderState.InitMarginAfter) & ", MaintMarginAfter: " & Util.formatDoubleString(orderState.MaintMarginAfter) & " EquityWithLoanAfter: " & Util.formatDoubleString(orderState.EquityWithLoanAfter))
-            End If
+            Console.WriteLine("OpenOrder. PermID: " & order.PermId & ", ClientId: " & order.ClientId & ", OrderId: " & orderId & ", Account: " & order.Account &
+                ", Symbol: " & contract.Symbol & ", SecType: " & contract.SecType & " , Exchange: " & contract.Exchange & ", Action: " & order.Action & ", OrderType: " & order.OrderType &
+                ", TotalQty: " & order.TotalQuantity & ", CashQty: " & order.CashQty & ", LmtPrice: " & order.LmtPrice & ", AuxPrice: " & order.AuxPrice & ", Status: " & orderState.Status)
         End Sub
         '! [openorder]
 
@@ -314,7 +310,7 @@ Namespace Samples
 
         '! [orderstatus]
         Public Sub orderStatus(orderId As Integer, status As String, filled As Double, remaining As Double, avgFillPrice As Double, permId As Integer, parentId As Integer, lastFillPrice As Double, clientId As Integer, whyHeld As String, mktCapPrice As Double) Implements IBApi.EWrapper.orderStatus
-            Console.WriteLine("OrderStatus. Id: " & orderId & ", Status: " & status & ", Filled" & filled & ", Remaining: " & remaining &
+            Console.WriteLine("OrderStatus. Id: " & orderId & ", Status: " & status & ", Filled: " & filled & ", Remaining: " & remaining &
                 ", AvgFillPrice: " & avgFillPrice & ", PermId: " & permId & ", ParentId: " & parentId & ", LastFillPrice: " & lastFillPrice &
                 ", ClientId: " & clientId & ", WhyHeld: " & whyHeld & ", mktCapPrice: " & mktCapPrice)
         End Sub
@@ -722,6 +718,20 @@ Namespace Samples
             Console.WriteLine("Order bound. Order Id: {0}, Api Client Id: {1}, Api Order Id: {2}", orderId, apiClientId, apiOrderId)
         End Sub
         '! [orderbound]
+
+        '! [completedorder]
+        Public Sub completedOrder(contract As IBApi.Contract, order As IBApi.Order, orderState As IBApi.OrderState) Implements IBApi.EWrapper.completedOrder
+            Console.WriteLine("CompletedOrder. PermID: " & order.PermId & ", ParentPermID: " & Util.LongMaxString(order.ParentPermId) & ", Account: " & order.Account & ", Symbol: " & contract.Symbol & ", SecType: " & contract.SecType & " , Exchange: " & contract.Exchange & ", Action: " & order.Action & ", OrderType: " & order.OrderType & ", TotalQty: " & order.TotalQuantity &
+                ", CashQty: " & order.CashQty & ", FilledQty: " & order.FilledQuantity & ", LmtPrice: " & order.LmtPrice & ", AuxPrice: " & order.AuxPrice & ", Status: " & orderState.Status &
+                ", CompletedTime: " & orderState.CompletedTime & ", CompletedStatus: " & orderState.CompletedStatus)
+        End Sub
+        '! [completedorder]
+
+        '! [completedordersend]
+        Public Sub completedOrdersEnd() Implements IBApi.EWrapper.completedOrdersEnd
+            Console.WriteLine("CompletedOrdersEnd")
+        End Sub
+        '! [completedordersend]
 
     End Class
 

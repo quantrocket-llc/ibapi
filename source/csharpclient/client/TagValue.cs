@@ -1,4 +1,4 @@
-﻿/* Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+﻿/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 using System;
@@ -43,14 +43,13 @@ namespace IBApi
 
         public override bool Equals(Object other)
         {
-
             if (this == other)
                 return true;
 
-            if (other == null)
-                return false;
+            TagValue l_theOther = other as TagValue;
 
-            TagValue l_theOther = (TagValue)other;
+            if (l_theOther == null)
+                return false;  
 
             if (Util.StringCompare(Tag, l_theOther.Tag) != 0 ||
                 Util.StringCompare(Value, l_theOther.Value) != 0)
@@ -59,6 +58,14 @@ namespace IBApi
             }
 
             return true;
+        }
+
+        public override int GetHashCode()
+        {
+            var hashCode = 221537429;
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Tag);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Value);
+            return hashCode;
         }
     }
 }

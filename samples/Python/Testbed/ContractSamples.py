@@ -1,6 +1,6 @@
 """
-Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
-and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable.
+Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+ and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable.
 """
 
 from ibapi.contract import * # @UnusedWildImport
@@ -641,6 +641,18 @@ class ContractSamples:
         contract.exchange = "SMART";
         # ! [cashcfd_contract]
         return contract;
+
+    @staticmethod
+    def QBAlgoContract():
+        # ! [qbalgo_contract]
+        contract = Contract()
+        contract.symbol = "ES";
+        contract.secType = "FUT";
+        contract.exchange = "QBALGO";
+        contract.currency = "USD";
+        contract.lastTradeDateOrContractMonth = "202003";
+        # ! [qbalgo_contract]
+        return contract;  
 
 def Test():
     from ibapi.utils import ExerciseStaticMethods

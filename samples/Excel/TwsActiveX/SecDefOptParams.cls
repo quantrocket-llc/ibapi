@@ -90,7 +90,7 @@ Sub UpdateSecDefOptParams(msgId As Long, _
 End Sub
 
 Public Sub Initialise()
-    Set SecDefOptParamsTable = SecDefOptParams.Range("$A$8:$G$40")
+    Set SecDefOptParamsTable = SecDefOptParams.Range("$A$8:$J$40")
     Set SecDefOptParamsReqTable = SecDefOptParams.Range("$F$3:$I$3")
     Util.InitialiseSheetRowId ActiveSheet, ID_SEC_DEF_OPT_PARAMS
 End Sub

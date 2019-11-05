@@ -1,4 +1,4 @@
-/* Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 using System;
 using IBApi;
@@ -55,7 +55,7 @@ namespace Samples
             /***************************************************/
             /*** Real time market data operations  - Tickers ***/
             /***************************************************/
-            tickDataOperations(client);
+            //tickDataOperations(client);
 
             /***************************************************/
             /*** Option computation operations  - Tickers    ***/
@@ -90,7 +90,7 @@ namespace Samples
             /****************************/
             /*** Contract information ***/
             /****************************/
-            //contractOperations(client);
+            contractOperations(client);
 
             /***********************/
             /*** Market Scanners ***/
@@ -505,6 +505,7 @@ namespace Samples
             client.reqContractDetails(211, ContractSamples.Bond());
             client.reqContractDetails(212, ContractSamples.FuturesOnOptions());
             client.reqContractDetails(213, ContractSamples.SimpleFuture());
+            client.reqContractDetails(214, ContractSamples.USStockAtSmart());
             //! [reqcontractdetails]
 
             Thread.Sleep(2000);
@@ -530,7 +531,7 @@ namespace Samples
 
             /*** Triggering a scanner subscription ***/
             //! [reqscannersubscription]
-            client.reqScannerSubscription(7001, ScannerSubscriptionSamples.HighOptVolumePCRatioUSIndexes(), null, null);
+            client.reqScannerSubscription(7001, ScannerSubscriptionSamples.HighOptVolumePCRatioUSIndexes(), "", null);
 			
 			TagValue t1 = new TagValue("usdMarketCapAbove", "10000");
 			TagValue t2 = new TagValue("optVolumeAbove", "1000");
@@ -541,11 +542,21 @@ namespace Samples
 			
             //! [reqscannersubscription]
 
+			//! [reqcomplexscanner]
+			
+			TagValue t = new TagValue("underConID", "265598");
+			List<TagValue> AAPLConIDTag = new List<TagValue>{t};
+			client.reqScannerSubscription(7003, ScannerSubscriptionSamples.ComplexOrdersAndTrades(), null, AAPLConIDTag); // requires TWS v975+
+			
+			//! [reqcomplexscanner]
+			
             Thread.Sleep(2000);
             /*** Canceling the scanner subscription ***/
             //! [cancelscannersubscription]
             client.cancelScannerSubscription(7001);
 			client.cancelScannerSubscription(7002);
+			client.cancelScannerSubscription(7003);
+
             //! [cancelscannersubscription]
         }
 
@@ -671,6 +682,10 @@ namespace Samples
             client.placeOrder(nextOrderId++, ContractSamples.USStock(), OrderSamples.TrailingStopLimit("BUY", 1, 5, 5, 110));
             //! [order_submission]
 
+			//! [place_midprice]
+			client.placeOrder(nextOrderId++, ContractSamples.USStockAtSmart(), OrderSamples.Midprice("BUY", 1, 150));
+			//! [place_midprice]
+			
             //! [faorderoneaccount]
             Order faOrderOneAccount = OrderSamples.MarketOrder("BUY", 100);
             // Specify the Account Number directly
@@ -772,6 +787,12 @@ namespace Samples
             //! [reqexecutions]
             client.reqExecutions(10001, new ExecutionFilter());
             //! [reqexecutions]
+
+            /*** Requesting completed orders ***/
+            //! [reqcompletedorders]
+            client.reqCompletedOrders(false);
+            //! [reqcompletedorders]
+
         }
 
         private static void newsOperations(EClientSocket client)

@@ -1,6 +1,6 @@
 """
-Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
-and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable.
+Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+ and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable.
 """
 
 """
@@ -10,14 +10,9 @@ It will call the corresponding method from the EWrapper so that customer's code
 (eg: class derived from EWrapper) can make further use of the data.
 """
 
-import logging
-
-from ibapi import order_condition
 from ibapi.message import IN
 from ibapi.wrapper import * # @UnusedWildImport
-from ibapi.order import OrderComboLeg
 from ibapi.contract import ContractDescription
-from ibapi.contract import ComboLeg
 from ibapi.server_versions import * # @UnusedWildImport
 from ibapi.utils import * # @UnusedWildImport
 from ibapi.softdollartier import SoftDollarTier
@@ -26,7 +21,7 @@ from ibapi.tag_value import TagValue
 from ibapi.scanner import ScanData
 from ibapi.errors import BAD_MESSAGE
 from ibapi.common import * # @UnusedWildImport
-
+from ibapi.orderdecoder import OrderDecoder
 
 logger = logging.getLogger(__name__)
 
@@ -132,311 +127,89 @@ class Decoder(Object):
     def processOpenOrder(self, fields):
 
         next(fields)
+        
+        order = Order()
+        contract = Contract()
+        orderState = OrderState()
 
         if self.serverVersion < MIN_SERVER_VER_ORDER_CONTAINER:
             version = decode(int, fields)
         else:
             version = self.serverVersion
 
-        order = Order()
-        order.orderId = decode(int, fields)
+        
+        OrderDecoder.__init__(self, contract, order, orderState, version, self.serverVersion)
 
-        contract = Contract()
+        # read orderId
+        OrderDecoder.decodeOrderId(self, fields)
 
-        contract.conId = decode(int, fields) # ver 17 field
-        contract.symbol = decode(str, fields)
-        contract.secType = decode(str, fields)
-        contract.lastTradeDateOrContractMonth = decode(str, fields)
-        contract.strike = decode(float, fields)
-        contract.right = decode(str, fields)
-        if version >= 32:
-            contract.multiplier = decode(str, fields)
-        contract.exchange = decode(str, fields)
-        contract.currency = decode(str, fields)
-        contract.localSymbol = decode(str, fields)  # ver 2 field
-        if version >= 32:
-            contract.tradingClass = decode(str, fields)
+        # read contract fields
+        OrderDecoder.decodeContractFields(self, fields)
 
         # read order fields
-        order.action = decode(str, fields)
-
-        if self.serverVersion >= MIN_SERVER_VER_FRACTIONAL_POSITIONS:
-            order.totalQuantity = decode(float, fields)
-        else:
-            order.totalQuantity = decode(int, fields)
-
-        order.orderType = decode(str, fields)
-        if version < 29:
-            order.lmtPrice = decode(float, fields)
-        else:
-            order.lmtPrice = decode(float, fields, SHOW_UNSET)
-        if version < 30:
-            order.auxPrice = decode(float, fields)
-        else:
-            order.auxPrice = decode(float, fields, SHOW_UNSET)
-        order.tif = decode(str, fields)
-        order.ocaGroup = decode(str, fields)
-        order.account = decode(str, fields)
-        order.openClose = decode(str, fields)
-
-        order.origin = decode(int, fields)
-
-        order.orderRef = decode(str, fields)
-        order.clientId = decode(int, fields) # ver 3 field
-        order.permId = decode(int, fields)   # ver 4 field
-
-        order.outsideRth = decode(bool, fields) # ver 18 field
-        order.hidden = decode(bool, fields) # ver 4 field
-        order.discretionaryAmt = decode(float, fields) # ver 4 field
-        order.goodAfterTime = decode(str, fields) # ver 5 field
-
-        _sharesAllocation = decode(str, fields) # deprecated ver 6 field
-
-        order.faGroup = decode(str, fields) # ver 7 field
-        order.faMethod = decode(str, fields) # ver 7 field
-        order.faPercentage = decode(str, fields) # ver 7 field
-        order.faProfile = decode(str, fields) # ver 7 field
-
-        if self.serverVersion >= MIN_SERVER_VER_MODELS_SUPPORT:
-            order.modelCode = decode(str, fields)
-
-        order.goodTillDate = decode(str, fields) # ver 8 field
-
-        order.rule80A = decode(str, fields) # ver 9 field
-        order.percentOffset = decode(float, fields, SHOW_UNSET) # ver 9 field
-        order.settlingFirm = decode(str, fields) # ver 9 field
-        order.shortSaleSlot = decode(int, fields) # ver 9 field
-        order.designatedLocation = decode(str, fields) # ver 9 field
-        if self.serverVersion == MIN_SERVER_VER_SSHORTX_OLD:
-            decode(int, fields)
-        elif version >= 23:
-            order.exemptCode = decode(int, fields)
-        order.auctionStrategy = decode(int, fields) # ver 9 field
-        order.startingPrice = decode(float, fields, SHOW_UNSET) # ver 9 field
-        order.stockRefPrice = decode(float, fields, SHOW_UNSET) # ver 9 field
-        order.delta = decode(float, fields, SHOW_UNSET) # ver 9 field
-        order.stockRangeLower = decode(float, fields, SHOW_UNSET) # ver 9 field
-        order.stockRangeUpper = decode(float, fields, SHOW_UNSET) # ver 9 field
-        order.displaySize = decode(int, fields) # ver 9 field
-
-        #if( version < 18) {
-        #		# will never happen
-        #		/* order.rthOnly = */ readBoolFromInt()
-        #}
-
-        order.blockOrder = decode(bool, fields) # ver 9 field
-        order.sweepToFill = decode(bool, fields) # ver 9 field
-        order.allOrNone = decode(bool, fields) # ver 9 field
-        order.minQty = decode(int, fields, SHOW_UNSET) # ver 9 field
-        order.ocaType = decode(int, fields) # ver 9 field
-        order.eTradeOnly = decode(bool, fields) # ver 9 field
-        order.firmQuoteOnly = decode(bool, fields) # ver 9 field
-        order.nbboPriceCap = decode(float, fields, SHOW_UNSET) # ver 9 field
-
-        order.parentId = decode(int, fields) # ver 10 field
-        order.triggerMethod = decode(int, fields) # ver 10 field
-
-        order.volatility = decode(float, fields, SHOW_UNSET) # ver 11 field
-        order.volatilityType = decode(int, fields) # ver 11 field
-        order.deltaNeutralOrderType = decode(str, fields) # ver 11 field (had a hack for ver 11)
-        order.deltaNeutralAuxPrice = decode(float, fields, SHOW_UNSET) # ver 12 field
-
-        if version >= 27 and order.deltaNeutralOrderType:
-            order.deltaNeutralConId = decode(int, fields)
-            order.deltaNeutralSettlingFirm = decode(str, fields)
-            order.deltaNeutralClearingAccount = decode(str, fields)
-            order.deltaNeutralClearingIntent = decode(str, fields)
-
-        if version >= 31 and order.deltaNeutralOrderType:
-            order.deltaNeutralOpenClose = decode(str, fields)
-            order.deltaNeutralShortSale = decode(bool, fields)
-            order.deltaNeutralShortSaleSlot = decode(int, fields)
-            order.deltaNeutralDesignatedLocation = decode(str, fields)
-
-        order.continuousUpdate = decode(bool, fields) # ver 11 field
-
-        # will never happen
-        #if( self.serverVersion == 26) {
-        #	order.stockRangeLower = readDouble()
-        #	order.stockRangeUpper = readDouble()
-        #}
-
-        order.referencePriceType = decode(int, fields) # ver 11 field
-
-        order.trailStopPrice = decode(float, fields, SHOW_UNSET) # ver 13 field
-
-        if version >= 30:
-            order.trailingPercent = decode(float, fields, SHOW_UNSET)
-
-        order.basisPoints = decode(float, fields, SHOW_UNSET) # ver 14 field
-        order.basisPointsType = decode(int, fields, SHOW_UNSET) # ver 14 field
-        contract.comboLegsDescrip = decode(str, fields) # ver 14 field
-
-        if version >= 29:
-            comboLegsCount = decode(int, fields)
-
-            if comboLegsCount > 0:
-                contract.comboLegs = []
-                for _ in range(comboLegsCount):
-                    comboLeg = ComboLeg()
-                    comboLeg.conId = decode(int, fields)
-                    comboLeg.ratio = decode(int, fields)
-                    comboLeg.action = decode(str, fields)
-                    comboLeg.exchange = decode(str, fields)
-                    comboLeg.openClose = decode(int, fields)
-                    comboLeg.shortSaleSlot = decode(int, fields)
-                    comboLeg.designatedLocation = decode(str, fields)
-                    comboLeg.exemptCode = decode(int, fields)
-                    contract.comboLegs.append(comboLeg)
-
-            orderComboLegsCount = decode(int, fields)
-            if orderComboLegsCount > 0:
-                order.orderComboLegs = []
-                for _ in range(orderComboLegsCount):
-                    orderComboLeg = OrderComboLeg()
-                    orderComboLeg.price = decode(float, fields, SHOW_UNSET)
-                    order.orderComboLegs.append(orderComboLeg)
-
-        if version >= 26:
-            smartComboRoutingParamsCount = decode(int, fields)
-            if smartComboRoutingParamsCount > 0:
-                order.smartComboRoutingParams = []
-                for _ in range(smartComboRoutingParamsCount):
-                    tagValue = TagValue()
-                    tagValue.tag = decode(str, fields)
-                    tagValue.value = decode(str, fields)
-                    order.smartComboRoutingParams.append(tagValue)
-
-        if version >= 20:
-            order.scaleInitLevelSize = decode(int, fields, SHOW_UNSET)
-            order.scaleSubsLevelSize = decode(int, fields, SHOW_UNSET)
-        else:
-            # ver 15 fields
-            order.notSuppScaleNumComponents = decode(int, fields, SHOW_UNSET)
-            order.scaleInitLevelSize = decode(int, fields, SHOW_UNSET) # scaleComponectSize
-
-        order.scalePriceIncrement = decode(float, fields, SHOW_UNSET) # ver 15 field
-
-        if version >= 28 and order.scalePriceIncrement != UNSET_DOUBLE \
-                and order.scalePriceIncrement > 0.0:
-            order.scalePriceAdjustValue = decode(float, fields, SHOW_UNSET)
-            order.scalePriceAdjustInterval = decode(int, fields, SHOW_UNSET)
-            order.scaleProfitOffset = decode(float, fields, SHOW_UNSET)
-            order.scaleAutoReset = decode(bool, fields)
-            order.scaleInitPosition = decode(int, fields, SHOW_UNSET)
-            order.scaleInitFillQty = decode(int, fields, SHOW_UNSET)
-            order.scaleRandomPercent = decode(bool, fields)
-
-        if version >= 24:
-            order.hedgeType = decode(str, fields)
-            if order.hedgeType:
-                order.hedgeParam = decode(str, fields)
-
-        if version >= 25:
-            order.optOutSmartRouting = decode(bool, fields)
-
-        order.clearingAccount = decode(str, fields) # ver 19 field
-        order.clearingIntent = decode(str, fields) # ver 19 field
-
-        if version >= 22:
-            order.notHeld = decode(bool, fields)
-
-        if version >= 20:
-            deltaNeutralContractPresent = decode(bool, fields)
-            if deltaNeutralContractPresent:
-                contract.deltaNeutralContract = DeltaNeutralContract()
-                contract.deltaNeutralContract.conId = decode(int, fields)
-                contract.deltaNeutralContract.delta = decode(float, fields)
-                contract.deltaNeutralContract.price = decode(float, fields)
-
-        if version >= 21:
-            order.algoStrategy = decode(str, fields)
-            if order.algoStrategy:
-                algoParamsCount = decode(int, fields)
-                if algoParamsCount > 0:
-                    order.algoParams = []
-                    for _ in range(algoParamsCount):
-                        tagValue = TagValue()
-                        tagValue.tag = decode(str, fields)
-                        tagValue.value = decode(str, fields)
-                        order.algoParams.append(tagValue)
-
-        if version >= 33:
-            order.solicited = decode(bool, fields)
-
-        orderState = OrderState()
-
-        order.whatIf = decode(bool, fields) # ver 16 field
-
-        orderState.status = decode(str, fields) # ver 16 field
-        if self.serverVersion >= MIN_SERVER_VER_WHAT_IF_EXT_FIELDS:
-            orderState.initMarginBefore = decode(str, fields)
-            orderState.maintMarginBefore = decode(str, fields)
-            orderState.equityWithLoanBefore = decode(str, fields)
-            orderState.initMarginChange = decode(str, fields)
-            orderState.maintMarginChange = decode(str, fields)
-            orderState.equityWithLoanChange = decode(str, fields)
-
-        orderState.initMarginAfter = decode(str, fields) # ver 16 field
-        orderState.maintMarginAfter = decode(str, fields) # ver 16 field
-        orderState.equityWithLoanAfter = decode(str, fields) # ver 16 field
-
-        orderState.commission = decode(float, fields, SHOW_UNSET) # ver 16 field
-        orderState.minCommission = decode(float, fields, SHOW_UNSET) # ver 16 field
-        orderState.maxCommission = decode(float, fields, SHOW_UNSET) # ver 16 field
-        orderState.commissionCurrency = decode(str, fields) # ver 16 field
-        orderState.warningText = decode(str, fields) # ver 16 field
-
-        if version >= 34:
-            order.randomizeSize = decode(bool, fields)
-            order.randomizePrice = decode(bool, fields)
-
-        if self.serverVersion >= MIN_SERVER_VER_PEGGED_TO_BENCHMARK:
-            if order.orderType == "PEG BENCH":
-                order.referenceContractId = decode(int, fields)
-                order.isPeggedChangeAmountDecrease = decode(bool, fields)
-                order.peggedChangeAmount = decode(float, fields)
-                order.referenceChangeAmount = decode(float, fields)
-                order.referenceExchangeId = decode(str, fields)
-
-            conditionsSize = decode(int, fields)
-            if conditionsSize > 0:
-                order.conditions = []
-                for _ in range(conditionsSize):
-                    conditionType = decode(int, fields)
-                    condition = order_condition.Create(conditionType)
-                    condition.decode(fields)
-                    order.conditions.append(condition)
-
-                order.conditionsIgnoreRth = decode(bool, fields)
-                order.conditionsCancelOrder = decode(bool, fields)
-
-            order.adjustedOrderType = decode(str, fields)
-            order.triggerPrice = decode(float, fields)
-            order.trailStopPrice = decode(float, fields)
-            order.lmtPriceOffset = decode(float, fields)
-            order.adjustedStopPrice = decode(float, fields)
-            order.adjustedStopLimitPrice = decode(float, fields)
-            order.adjustedTrailingAmount = decode(float, fields)
-            order.adjustableTrailingUnit = decode(int, fields)
-
-        if self.serverVersion >= MIN_SERVER_VER_SOFT_DOLLAR_TIER:
-            name = decode(str, fields)
-            value = decode(str, fields)
-            displayName = decode(str, fields)
-            order.softDollarTier = SoftDollarTier(name, value, displayName)
-
-        if self.serverVersion >= MIN_SERVER_VER_CASH_QTY:
-            order.cashQty = decode(float,fields)
-
-        if self.serverVersion >= MIN_SERVER_VER_AUTO_PRICE_FOR_HEDGE:
-            order.dontUseAutoPriceForHedge = decode(bool,fields)
-
-        if self.serverVersion >= MIN_SERVER_VER_ORDER_CONTAINER:
-            order.isOmsContainer = decode(bool, fields)
-
-        if self.serverVersion >= MIN_SERVER_VER_D_PEG_ORDERS:
-            order.discretionaryUpToLimitPrice = decode(bool, fields)
+        OrderDecoder.decodeAction(self, fields)
+        OrderDecoder.decodeTotalQuantity(self, fields)
+        OrderDecoder.decodeOrderType(self, fields)
+        OrderDecoder.decodeLmtPrice(self, fields)
+        OrderDecoder.decodeAuxPrice(self, fields)
+        OrderDecoder.decodeTIF(self, fields)
+        OrderDecoder.decodeOcaGroup(self, fields)
+        OrderDecoder.decodeAccount(self, fields)
+        OrderDecoder.decodeOpenClose(self, fields)
+        OrderDecoder.decodeOrigin(self, fields)
+        OrderDecoder.decodeOrderRef(self, fields)
+        OrderDecoder.decodeClientId(self, fields)
+        OrderDecoder.decodePermId(self, fields)
+        OrderDecoder.decodeOutsideRth(self, fields)
+        OrderDecoder.decodeHidden(self, fields)
+        OrderDecoder.decodeDiscretionaryAmt(self, fields)
+        OrderDecoder.decodeGoodAfterTime(self, fields)
+        OrderDecoder.skipSharesAllocation(self, fields)
+        OrderDecoder.decodeFAParams(self, fields)
+        OrderDecoder.decodeModelCode(self, fields)
+        OrderDecoder.decodeGoodTillDate(self, fields)
+        OrderDecoder.decodeRule80A(self, fields)
+        OrderDecoder.decodePercentOffset(self, fields)
+        OrderDecoder.decodeSettlingFirm(self, fields)
+        OrderDecoder.decodeShortSaleParams(self, fields)
+        OrderDecoder.decodeAuctionStrategy(self, fields)
+        OrderDecoder.decodeBoxOrderParams(self, fields)
+        OrderDecoder.decodePegToStkOrVolOrderParams(self, fields)
+        OrderDecoder.decodeDisplaySize(self, fields)
+        OrderDecoder.decodeBlockOrder(self, fields)
+        OrderDecoder.decodeSweepToFill(self, fields)
+        OrderDecoder.decodeAllOrNone(self, fields)
+        OrderDecoder.decodeMinQty(self, fields)
+        OrderDecoder.decodeOcaType(self, fields)
+        OrderDecoder.decodeETradeOnly(self, fields)
+        OrderDecoder.decodeFirmQuoteOnly(self, fields)
+        OrderDecoder.decodeNbboPriceCap(self, fields)
+        OrderDecoder.decodeParentId(self, fields)
+        OrderDecoder.decodeTriggerMethod(self, fields)
+        OrderDecoder.decodeVolOrderParams(self, fields, True)
+        OrderDecoder.decodeTrailParams(self, fields)
+        OrderDecoder.decodeBasisPoints(self, fields)
+        OrderDecoder.decodeComboLegs(self, fields)
+        OrderDecoder.decodeSmartComboRoutingParams(self, fields)
+        OrderDecoder.decodeScaleOrderParams(self, fields)
+        OrderDecoder.decodeHedgeParams(self, fields)
+        OrderDecoder.decodeOptOutSmartRouting(self, fields)
+        OrderDecoder.decodeClearingParams(self, fields)
+        OrderDecoder.decodeNotHeld(self, fields)
+        OrderDecoder.decodeDeltaNeutral(self, fields)
+        OrderDecoder.decodeAlgoParams(self, fields)
+        OrderDecoder.decodeSolicited(self, fields)
+        OrderDecoder.decodeWhatIfInfoAndCommission(self, fields)
+        OrderDecoder.decodeVolRandomizeFlags(self, fields)
+        OrderDecoder.decodePegToBenchParams(self, fields)
+        OrderDecoder.decodeConditions(self, fields)
+        OrderDecoder.decodeAdjustedOrderParams(self, fields)
+        OrderDecoder.decodeSoftDollarTier(self, fields)
+        OrderDecoder.decodeCashQty(self, fields)
+        OrderDecoder.decodeDontUseAutoPriceForHedge(self, fields)
+        OrderDecoder.decodeIsOmsContainers(self, fields)
+        OrderDecoder.decodeDiscretionaryUpToLimitPrice(self, fields)
+        OrderDecoder.decodeUsePriceMgmtAlgo(self, fields)
 
         self.wrapper.openOrder(order.orderId, contract, order, orderState)
 
@@ -516,7 +289,7 @@ class Decoder(Object):
         if version >= 4:
             contract.underConId = decode(int, fields)
         if version >= 5:
-            contract.longName = decode(str, fields)
+            contract.longName = decode(str, fields).encode().decode('unicode-escape') if self.serverVersion >= MIN_SERVER_VER_ENCODE_MSG_ASCII7 else decode(str, fields)
             contract.contract.primaryExchange = decode(str, fields)
         if version >= 6:
             contract.contractMonth = decode(str, fields)
@@ -551,6 +324,9 @@ class Decoder(Object):
 
         if self.serverVersion >= MIN_SERVER_VER_REAL_EXPIRATION_DATE:
             contract.realExpirationDate = decode(str, fields)
+
+        if self.serverVersion >= MIN_SERVER_VER_STOCK_TYPE:
+            contract.stockType = decode(str, fields)
 
         self.wrapper.contractDetails(reqId, contract)
 
@@ -1323,6 +1099,88 @@ class Decoder(Object):
         self.wrapper.updateMktDepthL2(reqId, position, marketMaker,
                         operation, side, price, size, isSmartDepth)
 
+
+    def processCompletedOrderMsg(self, fields):
+        next(fields)
+        
+        order = Order()
+        contract = Contract()
+        orderState = OrderState()
+
+        OrderDecoder.__init__(self, contract, order, orderState, UNSET_INTEGER, self.serverVersion)
+
+        # read contract fields
+        OrderDecoder.decodeContractFields(self, fields)
+
+        # read order fields
+        OrderDecoder.decodeAction(self, fields)
+        OrderDecoder.decodeTotalQuantity(self, fields)
+        OrderDecoder.decodeOrderType(self, fields)
+        OrderDecoder.decodeLmtPrice(self, fields)
+        OrderDecoder.decodeAuxPrice(self, fields)
+        OrderDecoder.decodeTIF(self, fields)
+        OrderDecoder.decodeOcaGroup(self, fields)
+        OrderDecoder.decodeAccount(self, fields)
+        OrderDecoder.decodeOpenClose(self, fields)
+        OrderDecoder.decodeOrigin(self, fields)
+        OrderDecoder.decodeOrderRef(self, fields)
+        OrderDecoder.decodePermId(self, fields)
+        OrderDecoder.decodeOutsideRth(self, fields)
+        OrderDecoder.decodeHidden(self, fields)
+        OrderDecoder.decodeDiscretionaryAmt(self, fields)
+        OrderDecoder.decodeGoodAfterTime(self, fields)
+        OrderDecoder.decodeFAParams(self, fields)
+        OrderDecoder.decodeModelCode(self, fields)
+        OrderDecoder.decodeGoodTillDate(self, fields)
+        OrderDecoder.decodeRule80A(self, fields)
+        OrderDecoder.decodePercentOffset(self, fields)
+        OrderDecoder.decodeSettlingFirm(self, fields)
+        OrderDecoder.decodeShortSaleParams(self, fields)
+        OrderDecoder.decodeBoxOrderParams(self, fields)
+        OrderDecoder.decodePegToStkOrVolOrderParams(self, fields)
+        OrderDecoder.decodeDisplaySize(self, fields)
+        OrderDecoder.decodeSweepToFill(self, fields)
+        OrderDecoder.decodeAllOrNone(self, fields)
+        OrderDecoder.decodeMinQty(self, fields)
+        OrderDecoder.decodeOcaType(self, fields)
+        OrderDecoder.decodeTriggerMethod(self, fields)
+        OrderDecoder.decodeVolOrderParams(self, fields, False)
+        OrderDecoder.decodeTrailParams(self, fields)
+        OrderDecoder.decodeComboLegs(self, fields)
+        OrderDecoder.decodeSmartComboRoutingParams(self, fields)
+        OrderDecoder.decodeScaleOrderParams(self, fields)
+        OrderDecoder.decodeHedgeParams(self, fields)
+        OrderDecoder.decodeClearingParams(self, fields)
+        OrderDecoder.decodeNotHeld(self, fields)
+        OrderDecoder.decodeDeltaNeutral(self, fields)
+        OrderDecoder.decodeAlgoParams(self, fields)
+        OrderDecoder.decodeSolicited(self, fields)
+        OrderDecoder.decodeOrderStatus(self, fields)
+        OrderDecoder.decodeVolRandomizeFlags(self, fields)
+        OrderDecoder.decodePegToBenchParams(self, fields)
+        OrderDecoder.decodeConditions(self, fields)
+        OrderDecoder.decodeStopPriceAndLmtPriceOffset(self, fields)
+        OrderDecoder.decodeCashQty(self, fields)
+        OrderDecoder.decodeDontUseAutoPriceForHedge(self, fields)
+        OrderDecoder.decodeIsOmsContainers(self, fields)
+        OrderDecoder.decodeAutoCancelDate(self, fields)
+        OrderDecoder.decodeFilledQuantity(self, fields)
+        OrderDecoder.decodeRefFuturesConId(self, fields)
+        OrderDecoder.decodeAutoCancelParent(self, fields)
+        OrderDecoder.decodeShareholder(self, fields)
+        OrderDecoder.decodeImbalanceOnly(self, fields)
+        OrderDecoder.decodeRouteMarketableToBbo(self, fields)
+        OrderDecoder.decodeParentPermId(self, fields)
+        OrderDecoder.decodeCompletedTime(self, fields)
+        OrderDecoder.decodeCompletedStatus(self, fields)
+
+        self.wrapper.completedOrder(contract, order, orderState)
+
+    def processCompletedOrdersEndMsg(self, fields):
+        next(fields)
+
+        self.wrapper.completedOrdersEnd()
+
     ######################################################################
 
     def readLastTradeDate(self, fields, contract: ContractDetails, isBond: bool):
@@ -1387,7 +1245,7 @@ class Decoder(Object):
             if pname != "self":
                 logger.debug("field %s ", fields[fieldIdx])
                 try:
-                    arg = fields[fieldIdx].decode('UTF-8')
+                    arg = fields[fieldIdx].decode('unicode-escape' if self.serverVersion >= MIN_SERVER_VER_ENCODE_MSG_ASCII7 else 'UTF-8')
                 except UnicodeDecodeError:
                     arg = fields[fieldIdx].decode('latin-1')
                 logger.debug("arg %s type %s", arg, param.annotation)
@@ -1505,8 +1363,10 @@ class Decoder(Object):
         IN.HISTORICAL_TICKS_BID_ASK: HandleInfo(proc=processHistoricalTicksBidAsk),
         IN.HISTORICAL_TICKS_LAST: HandleInfo(proc=processHistoricalTicksLast),
         IN.TICK_BY_TICK: HandleInfo(proc=processTickByTickMsg),
-        IN.ORDER_BOUND: HandleInfo(proc=processOrderBoundMsg)
-   }
+        IN.ORDER_BOUND: HandleInfo(proc=processOrderBoundMsg),
+        IN.COMPLETED_ORDER: HandleInfo(proc=processCompletedOrderMsg),
+        IN.COMPLETED_ORDERS_END: HandleInfo(proc=processCompletedOrdersEndMsg)
+}
 
 
 
