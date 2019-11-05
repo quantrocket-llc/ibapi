@@ -1,4 +1,4 @@
-﻿/* Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+﻿/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 using IBSampleApp.types;
 using IBSampleApp.ui;
@@ -37,6 +37,8 @@ namespace IBSampleApp
             this.conditionsTab = new System.Windows.Forms.TabControl();
             this.orderContractTab = new System.Windows.Forms.TabPage();
             this.baseGroup = new System.Windows.Forms.GroupBox();
+            this.label24 = new System.Windows.Forms.Label();
+            this.usePriceMgmtAlgo = new System.Windows.Forms.CheckBox();
             this.cashQty = new System.Windows.Forms.TextBox();
             this.cashQtyLabel = new System.Windows.Forms.Label();
             this.modelCode = new System.Windows.Forms.TextBox();
@@ -78,6 +80,7 @@ namespace IBSampleApp
             this.contractCurrency = new System.Windows.Forms.TextBox();
             this.contractExchange = new System.Windows.Forms.TextBox();
             this.extendedOrderTab = new System.Windows.Forms.TabPage();
+            this.relativeDiscretionary = new System.Windows.Forms.CheckBox();
             this.omsContainer = new System.Windows.Forms.CheckBox();
             this.dontUseAutoPriceForHedge = new System.Windows.Forms.CheckBox();
             this.label22 = new System.Windows.Forms.Label();
@@ -249,7 +252,6 @@ namespace IBSampleApp
             this.textBox8 = new System.Windows.Forms.TextBox();
             this.checkMarginButton = new System.Windows.Forms.Button();
             this.closeOrderDialogButton = new System.Windows.Forms.Button();
-            this.relativeDiscretionary = new System.Windows.Forms.CheckBox();
             this.conditionsTab.SuspendLayout();
             this.orderContractTab.SuspendLayout();
             this.baseGroup.SuspendLayout();
@@ -301,7 +303,7 @@ namespace IBSampleApp
             this.orderContractTab.Location = new System.Drawing.Point(4, 22);
             this.orderContractTab.Name = "orderContractTab";
             this.orderContractTab.Padding = new System.Windows.Forms.Padding(3);
-            this.orderContractTab.Size = new System.Drawing.Size(620, 337);
+            this.orderContractTab.Size = new System.Drawing.Size(625, 337);
             this.orderContractTab.TabIndex = 0;
             this.orderContractTab.Text = "Basic Order";
             // 
@@ -310,6 +312,8 @@ namespace IBSampleApp
             this.baseGroup.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.baseGroup.Controls.Add(this.label24);
+            this.baseGroup.Controls.Add(this.usePriceMgmtAlgo);
             this.baseGroup.Controls.Add(this.cashQty);
             this.baseGroup.Controls.Add(this.cashQtyLabel);
             this.baseGroup.Controls.Add(this.modelCode);
@@ -332,10 +336,30 @@ namespace IBSampleApp
             this.baseGroup.Controls.Add(this.accountLabel);
             this.baseGroup.Location = new System.Drawing.Point(362, 6);
             this.baseGroup.Name = "baseGroup";
-            this.baseGroup.Size = new System.Drawing.Size(242, 302);
+            this.baseGroup.Size = new System.Drawing.Size(242, 325);
             this.baseGroup.TabIndex = 0;
             this.baseGroup.TabStop = false;
             this.baseGroup.Text = "Order Base Attributes";
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Location = new System.Drawing.Point(13, 295);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(142, 13);
+            this.label24.TabIndex = 25;
+            this.label24.Text = "Use Price Management Algo";
+            // 
+            // usePriceMgmtAlgo
+            // 
+            this.usePriceMgmtAlgo.AutoSize = true;
+            this.usePriceMgmtAlgo.Checked = true;
+            this.usePriceMgmtAlgo.CheckState = System.Windows.Forms.CheckState.Indeterminate;
+            this.usePriceMgmtAlgo.Location = new System.Drawing.Point(192, 295);
+            this.usePriceMgmtAlgo.Name = "usePriceMgmtAlgo";
+            this.usePriceMgmtAlgo.Size = new System.Drawing.Size(15, 14);
+            this.usePriceMgmtAlgo.TabIndex = 24;
+            this.usePriceMgmtAlgo.UseVisualStyleBackColor = true;
             // 
             // cashQty
             // 
@@ -827,6 +851,18 @@ namespace IBSampleApp
             this.extendedOrderTab.TabIndex = 1;
             this.extendedOrderTab.Text = "Extended Attributes";
             // 
+            // relativeDiscretionary
+            // 
+            this.relativeDiscretionary.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.relativeDiscretionary.AutoSize = true;
+            this.relativeDiscretionary.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.relativeDiscretionary.Location = new System.Drawing.Point(413, 273);
+            this.relativeDiscretionary.Name = "relativeDiscretionary";
+            this.relativeDiscretionary.Size = new System.Drawing.Size(127, 17);
+            this.relativeDiscretionary.TabIndex = 51;
+            this.relativeDiscretionary.Text = "Relative discretionary";
+            this.relativeDiscretionary.UseVisualStyleBackColor = true;
+            // 
             // omsContainer
             // 
             this.omsContainer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -1317,7 +1353,7 @@ namespace IBSampleApp
             this.advisorTab.Location = new System.Drawing.Point(4, 22);
             this.advisorTab.Name = "advisorTab";
             this.advisorTab.Padding = new System.Windows.Forms.Padding(3);
-            this.advisorTab.Size = new System.Drawing.Size(620, 337);
+            this.advisorTab.Size = new System.Drawing.Size(625, 337);
             this.advisorTab.TabIndex = 2;
             this.advisorTab.Text = "Advisor";
             // 
@@ -1417,7 +1453,7 @@ namespace IBSampleApp
             this.volatilityTab.Location = new System.Drawing.Point(4, 22);
             this.volatilityTab.Name = "volatilityTab";
             this.volatilityTab.Padding = new System.Windows.Forms.Padding(3);
-            this.volatilityTab.Size = new System.Drawing.Size(620, 337);
+            this.volatilityTab.Size = new System.Drawing.Size(625, 337);
             this.volatilityTab.TabIndex = 3;
             this.volatilityTab.Text = "Volatility";
             // 
@@ -1614,7 +1650,7 @@ namespace IBSampleApp
             this.scaleTab.Location = new System.Drawing.Point(4, 22);
             this.scaleTab.Name = "scaleTab";
             this.scaleTab.Padding = new System.Windows.Forms.Padding(3);
-            this.scaleTab.Size = new System.Drawing.Size(620, 337);
+            this.scaleTab.Size = new System.Drawing.Size(625, 337);
             this.scaleTab.TabIndex = 4;
             this.scaleTab.Text = "Scale";
             // 
@@ -1811,7 +1847,7 @@ namespace IBSampleApp
             this.algoTab.Location = new System.Drawing.Point(4, 22);
             this.algoTab.Name = "algoTab";
             this.algoTab.Padding = new System.Windows.Forms.Padding(3);
-            this.algoTab.Size = new System.Drawing.Size(620, 337);
+            this.algoTab.Size = new System.Drawing.Size(625, 337);
             this.algoTab.TabIndex = 5;
             this.algoTab.Text = "IB Algo";
             // 
@@ -2082,7 +2118,7 @@ namespace IBSampleApp
             this.peg2benchTab.Controls.Add(this.label4);
             this.peg2benchTab.Location = new System.Drawing.Point(4, 22);
             this.peg2benchTab.Name = "peg2benchTab";
-            this.peg2benchTab.Size = new System.Drawing.Size(620, 337);
+            this.peg2benchTab.Size = new System.Drawing.Size(625, 337);
             this.peg2benchTab.TabIndex = 6;
             this.peg2benchTab.Text = "Pegged to Benchmark";
             // 
@@ -2235,7 +2271,7 @@ namespace IBSampleApp
             this.adjustStopTab.Controls.Add(this.label11);
             this.adjustStopTab.Location = new System.Drawing.Point(4, 22);
             this.adjustStopTab.Name = "adjustStopTab";
-            this.adjustStopTab.Size = new System.Drawing.Size(620, 337);
+            this.adjustStopTab.Size = new System.Drawing.Size(625, 337);
             this.adjustStopTab.TabIndex = 7;
             this.adjustStopTab.Text = "Adjustable stops";
             // 
@@ -2358,7 +2394,7 @@ namespace IBSampleApp
             this.tabPage1.Controls.Add(this.lbRemoveCondition);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Size = new System.Drawing.Size(620, 337);
+            this.tabPage1.Size = new System.Drawing.Size(625, 337);
             this.tabPage1.TabIndex = 8;
             this.tabPage1.Text = "Conditions";
             // 
@@ -2396,7 +2432,7 @@ namespace IBSampleApp
             this.conditionList.Dock = System.Windows.Forms.DockStyle.Top;
             this.conditionList.Location = new System.Drawing.Point(0, 0);
             this.conditionList.Name = "conditionList";
-            this.conditionList.Size = new System.Drawing.Size(620, 283);
+            this.conditionList.Size = new System.Drawing.Size(625, 283);
             this.conditionList.TabIndex = 3;
             this.conditionList.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.conditionList_CellDoubleClick);
             // 
@@ -2503,18 +2539,6 @@ namespace IBSampleApp
             this.closeOrderDialogButton.Text = "Close";
             this.closeOrderDialogButton.UseVisualStyleBackColor = true;
             this.closeOrderDialogButton.Click += new System.EventHandler(this.closeOrderDialogButton_Click);
-            // 
-            // relativeDiscretionary
-            // 
-            this.relativeDiscretionary.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.relativeDiscretionary.AutoSize = true;
-            this.relativeDiscretionary.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.relativeDiscretionary.Location = new System.Drawing.Point(413, 273);
-            this.relativeDiscretionary.Name = "relativeDiscretionary";
-            this.relativeDiscretionary.Size = new System.Drawing.Size(127, 17);
-            this.relativeDiscretionary.TabIndex = 51;
-            this.relativeDiscretionary.Text = "Relative discretionary";
-            this.relativeDiscretionary.UseVisualStyleBackColor = true;
             // 
             // OrderDialog
             // 
@@ -2783,6 +2807,8 @@ namespace IBSampleApp
         private System.Windows.Forms.CheckBox dontUseAutoPriceForHedge;
         private System.Windows.Forms.CheckBox omsContainer;
         private System.Windows.Forms.CheckBox relativeDiscretionary;
+        private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.CheckBox usePriceMgmtAlgo;
         
     }
 }

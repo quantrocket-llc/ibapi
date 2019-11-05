@@ -1,15 +1,15 @@
-/* Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 #pragma once
 #ifndef TWS_API_CLIENT_ECLIENT_H
 #define TWS_API_CLIENT_ECLIENT_H
 
-
 #include <memory>
 #include <string>
 #include <vector>
 #include <ostream>
+#include "platformspecific.h"
 #include "CommonDefs.h"
 #include "TagValue.h"
 #include "Contract.h"
@@ -183,6 +183,7 @@ const int CANCEL_PNL_SINGLE             = 95;
 const int REQ_HISTORICAL_TICKS          = 96;
 const int REQ_TICK_BY_TICK_DATA         = 97;
 const int CANCEL_TICK_BY_TICK_DATA      = 98;
+const int REQ_COMPLETED_ORDERS          = 99;
 
 // TWS New Bulletins constants
 const int NEWS_MSG              = 1;    // standard IB news bulleting message
@@ -352,6 +353,7 @@ public:
             const std::string& endDateTime, int numberOfTicks, const std::string& whatToShow, int useRth, bool ignoreSize, const TagValueListSPtr& miscOptions);
     void reqTickByTickData(int reqId, const Contract &contract, const std::string& tickType, int numberOfTicks, bool ignoreSize);
     void cancelTickByTickData(int reqId);
+    void reqCompletedOrders(bool apiOnly);
 
 private:
 

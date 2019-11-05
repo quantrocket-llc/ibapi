@@ -1,6 +1,6 @@
 """
-Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
-and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable.
+Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+ and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable.
 """
 
 
@@ -698,4 +698,18 @@ class EWrapper:
 
     def orderBound(self, reqId: int, apiClientId: int, apiOrderId: int):
         """returns orderBound notification"""
+        self.logAnswer(current_fn_name(), vars())
+        
+    def completedOrder(self, contract:Contract, order:Order, orderState:OrderState):
+        """This function is called to feed in completed orders.
+
+        contract: Contract - The Contract class attributes describe the contract.
+        order: Order - The Order class gives the details of the completed order.
+        orderState: OrderState - The orderState class includes completed order status details."""
+
+        self.logAnswer(current_fn_name(), vars())
+
+    def completedOrdersEnd(self):
+        """This is called at the end of a given request for completed orders."""
+
         self.logAnswer(current_fn_name(), vars())

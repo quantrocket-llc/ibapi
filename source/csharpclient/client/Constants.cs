@@ -1,4 +1,4 @@
-/* Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+﻿/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 using System;
@@ -19,7 +19,7 @@ namespace IBApi
         public const int FaProfiles = 2;
         public const int FaAliases = 3;
         public const int MinVersion = 100;
-        public const int MaxVersion = MinServerVer.D_PEG_ORDERS;
+        public const int MaxVersion = MinServerVer.NO_DEFAULT_OPEN_CLOSE;
         public const int MaxMsgSize = 0x00FFFFFF;
     }
 }

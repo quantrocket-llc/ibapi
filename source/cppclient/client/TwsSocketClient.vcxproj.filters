@@ -75,6 +75,9 @@
     <ClCompile Include="SoftDollarTier.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="EOrderDecoder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="TwsSocketClient.def">
@@ -232,6 +235,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="TickAttribLast.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="platformspecific.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EOrderDecoder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

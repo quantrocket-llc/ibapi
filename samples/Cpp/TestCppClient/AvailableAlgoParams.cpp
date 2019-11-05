@@ -1,4 +1,4 @@
-/* Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+﻿/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 #include "StdAfx.h"
 
@@ -111,8 +111,8 @@ void AvailableAlgoParams::FillAccumulateDistributeParams(Order& baseOrder, int c
 	TagValueSPtr tag5(new TagValue("giveUp", std::to_string(giveUp)));
 	TagValueSPtr tag6(new TagValue("catchUp", catchUp ? "1" : "0"));
 	TagValueSPtr tag7(new TagValue("waitForFill", waitForFill ? "1" : "0"));
-	TagValueSPtr tag8(new TagValue("startTime", startTime));
-	TagValueSPtr tag9(new TagValue("endTime", endTime));
+	TagValueSPtr tag8(new TagValue("activeTimeStart", startTime));
+	TagValueSPtr tag9(new TagValue("activeTimeEnd", endTime));
 	baseOrder.algoParams->push_back(tag1);
 	baseOrder.algoParams->push_back(tag2);
 	baseOrder.algoParams->push_back(tag3);

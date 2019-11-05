@@ -1,4 +1,4 @@
-﻿/* Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+﻿/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 using System;
@@ -81,6 +81,11 @@ namespace IBApi
             return (value == Int32.MaxValue) ? "" : "" + value;
         }
 
+        public static string LongMaxString(long value)
+        {
+            return (value == Int64.MaxValue) ? "" : "" + value;
+        }
+
         public static string DoubleMaxString(double value)
         {
             return (value == Double.MaxValue) ? "" : "" + value;
@@ -94,6 +99,20 @@ namespace IBApi
         public static string formatDoubleString(String str)
         {
             return String.IsNullOrEmpty(str) ? "" : String.Format("{0,0:N2}", Double.Parse(str));
+        }
+
+        public static string TagValueListToString(List<TagValue> options)
+        {
+            StringBuilder tagValuesStr = new StringBuilder();
+            int tagValuesCount = options == null ? 0 : options.Count;
+
+            for (int i = 0; i < tagValuesCount; i++)
+            {
+                TagValue tagValue = options[i];
+                tagValuesStr.Append(tagValue.Tag).Append("=").Append(tagValue.Value).Append(";");
+            }
+
+            return tagValuesStr.ToString();
         }
     }
 }

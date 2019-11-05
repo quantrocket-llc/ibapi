@@ -1,4 +1,4 @@
-﻿/* Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+﻿/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 using System;
@@ -217,6 +217,8 @@ namespace IBSampleApp
                 order.DisplaySize = Int32.Parse(displaySize.Text);
             if (!cashQty.Text.Equals(""))
                 order.CashQty = Double.Parse(cashQty.Text);
+
+            order.UsePriceMgmtAlgo = usePriceMgmtAlgo.CheckState == CheckState.Indeterminate ? null : (bool?)usePriceMgmtAlgo.Checked;
 
             FillExtendedOrderAttributes(order);
             FillAdvisorAttributes(order);
@@ -452,6 +454,9 @@ namespace IBSampleApp
             displaySize.Text = order.DisplaySize.ToString();
             cashQty.Text = doubleToStr(order.CashQty);
             dontUseAutoPriceForHedge.Checked = order.DontUseAutoPriceForHedge;
+            usePriceMgmtAlgo.CheckState = order.UsePriceMgmtAlgo.HasValue 
+                ? order.UsePriceMgmtAlgo.Value ? CheckState.Checked : CheckState.Unchecked 
+                : CheckState.Indeterminate;
 
             //order = GetExtendedOrderAttributes(order);
             //order = GetAdvisorAttributes(order);

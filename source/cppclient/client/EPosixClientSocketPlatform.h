@@ -1,4 +1,4 @@
-﻿/* Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+﻿/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 #pragma once
@@ -25,14 +25,14 @@
 	inline bool SocketsInit( void) {
 		WSADATA data;
 		return ( !WSAStartup( MAKEWORD(2, 2), &data));
-	};
-	inline bool SocketsDestroy() { return ( !WSACleanup()); };
-	inline int SocketClose(int sockfd) { return closesocket( sockfd); };
+	}
+	inline bool SocketsDestroy() { return ( !WSACleanup()); }
+	inline int SocketClose(int sockfd) { return closesocket( sockfd); }
 
-	inline bool SetSocketNonBlocking(int sockfd) { 
+	inline bool SetSocketNonBlocking(int sockfd) {
 		unsigned long mode = 1;
 		return ( ioctlsocket( sockfd, FIONBIO, &mode) == 0);
-	};
+	}
 
 #else
 	// LINUX
@@ -46,11 +46,11 @@
 	#include <unistd.h>
 
 	// helpers
-	inline bool SocketsInit() { return true; };
-	inline bool SocketsDestroy() { return true; };
-	inline int SocketClose(int sockfd) { return close( sockfd); };
+	inline bool SocketsInit() { return true; }
+	inline bool SocketsDestroy() { return true; }
+	inline int SocketClose(int sockfd) { return close( sockfd); }
 
-	inline bool SetSocketNonBlocking(int sockfd) { 
+	inline bool SetSocketNonBlocking(int sockfd) {
 		// get socket flags
 		int flags = fcntl(sockfd, F_GETFL);
 		if (flags == -1)
@@ -58,7 +58,7 @@
 
 		// set non-blocking mode
 		return ( fcntl(sockfd, F_SETFL, flags | O_NONBLOCK) == 0);
-	};
+	}
 
 #endif
 

@@ -1,4 +1,4 @@
-/* Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 package com.ib.controller;
@@ -35,6 +35,7 @@ public class ApiController implements EWrapper {
 
 	private final IConnectionHandler m_connectionHandler;
 	private ITradeReportHandler m_tradeReportHandler;
+    private ICompletedOrdersHandler m_completedOrdersHandler;
 	private IAdvisorHandler m_advisorHandler;
 	private IScannerHandler m_scannerHandler;
 	private ITimeHandler m_timeHandler;
@@ -85,6 +86,10 @@ public class ApiController implements EWrapper {
 		void error(Exception e);
 		void message(int id, int errorCode, String errorMsg);
 		void show(String string);
+	}
+
+	public ApiController( IConnectionHandler handler) {
+		this(handler, null, null);
 	}
 
 	public ApiController( IConnectionHandler handler, ILogger inLogger, ILogger outLogger) {
@@ -743,8 +748,8 @@ public class ApiController implements EWrapper {
 
 	@Override public void commissionReport(CommissionReport commissionReport) {
 		if (m_tradeReportHandler != null) {
-			int i = commissionReport.m_execId.lastIndexOf( '.');
-			String tradeKey = commissionReport.m_execId.substring( 0, i);
+			int i = commissionReport.execId().lastIndexOf( '.');
+			String tradeKey = commissionReport.execId().substring( 0, i);
 			m_tradeReportHandler.commissionReport( tradeKey, commissionReport);
 		}
 		recEOM();
@@ -1270,11 +1275,15 @@ public class ApiController implements EWrapper {
 	}
 
 	protected void sendEOM() {
-		m_outLogger.log( "\n");
+		if (m_outLogger != null) {
+			m_outLogger.log( "\n");
+		}
 	}
 
 	private void recEOM() {
-		m_inLogger.log( "\n");
+		if (m_inLogger != null) {
+			m_inLogger.log( "\n");
+		}
 	}
 
 	public void show(String string) {
@@ -1899,5 +1908,36 @@ public class ApiController implements EWrapper {
     @Override
     public void orderBound(long orderId, int apiClientId, int apiOrderId) {
         show( "Order bound. OrderId: " + orderId + ", apiClientId: " + apiClientId + ", apiOrderId: " + apiOrderId);
+    }
+
+    // ---------------------------------------- Completed orders ----------------------------------------
+    public interface ICompletedOrdersHandler {
+        void completedOrder(Contract contract, Order order, OrderState orderState);
+        void completedOrdersEnd();
+    }
+
+    public void reqCompletedOrders(ICompletedOrdersHandler handler) {
+        if (!checkConnection())
+            return;
+
+        m_completedOrdersHandler = handler;
+        m_client.reqCompletedOrders(false);
+        sendEOM();
+    }
+
+    @Override
+    public void completedOrder(Contract contract, Order order, OrderState orderState) {
+        if (m_completedOrdersHandler != null) {
+            m_completedOrdersHandler.completedOrder(contract, order, orderState);
+        }
+        recEOM();
+    }
+
+    @Override
+    public void completedOrdersEnd() {
+        if (m_completedOrdersHandler != null) {
+            m_completedOrdersHandler.completedOrdersEnd();
+        }
+        recEOM();
     }
 }

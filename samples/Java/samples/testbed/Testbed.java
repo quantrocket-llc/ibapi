@@ -1,12 +1,9 @@
-/* Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 package samples.testbed;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.List;
+import java.util.*;
 
 import com.ib.client.*;
 import samples.testbed.advisor.FAMethodSamples;
@@ -48,15 +45,16 @@ public class Testbed {
 		Thread.sleep(1000);
 
 		//tickByTickOperations(wrapper.getClient());
-		tickDataOperations(wrapper.getClient());
+		//tickDataOperations(wrapper.getClient());
 		//tickOptionComputations(wrapper.getClient());
 		//orderOperations(wrapper.getClient(), wrapper.getCurrentOrderId());
-		//contractOperations(wrapper.getClient());
+		contractOperations(wrapper.getClient());
 		//hedgeSample(wrapper.getClient(), wrapper.getCurrentOrderId());
 		//testAlgoSamples(wrapper.getClient(), wrapper.getCurrentOrderId());
 		//bracketSample(wrapper.getClient(), wrapper.getCurrentOrderId());
 		//bulletins(wrapper.getClient());
 		//fundamentals(wrapper.getClient());
+		//marketScanners(wrapper.getClient());
 		//marketDataType(wrapper.getClient());
 		//historicalDataRequests(wrapper.getClient());
 		//accountOperations(wrapper.getClient());
@@ -147,6 +145,10 @@ public class Testbed {
         client.placeOrder(nextOrderId++, ContractSamples.USStock(), OrderSamples.LimitOrder("SELL", 1, 50));
         //! [order_submission]
         
+		//! [place_midprice]
+        client.placeOrder(nextOrderId++, ContractSamples.USStockAtSmart(), OrderSamples.Midprice("BUY", 1, 150));
+        //! [place_midprice]
+		
         //! [faorderoneaccount]
         Order faOrderOneAccount = OrderSamples.MarketOrder("BUY", 100);
         // Specify the Account Number directly
@@ -199,6 +201,11 @@ public class Testbed {
 		//! [reqglobalcancel]
 		client.reqGlobalCancel();
 		//! [reqglobalcancel]
+		
+        /*** Completed orders ***/
+        //! [reqcompletedorders]
+        client.reqCompletedOrders(false);
+        //! [reqcompletedorders]
 
         Thread.sleep(10000);
         
@@ -518,6 +525,7 @@ public class Testbed {
 		client.reqContractDetails(212, ContractSamples.Bond());
 		client.reqContractDetails(213, ContractSamples.FuturesOnOptions());
 		client.reqContractDetails(214, ContractSamples.SimpleFuture());
+		client.reqContractDetails(215, ContractSamples.USStockAtSmart());
 		//! [reqcontractdetails]
 
 		//! [reqmatchingsymbols]
@@ -654,6 +662,11 @@ public class Testbed {
 		client.placeOrder(nextOrderId++, ContractSamples.CSFBContract(), baseOrder);
 		//! [csfb_inline_algo]
 
+		//! [qbalgo_strobe_algo]
+		AvailableAlgoParams.FillQBAlgoInlineParams(baseOrder, "10:00:00 EST", "16:00:00 EST", -99, "TWAP", 0.25, true );
+		client.placeOrder(nextOrderId++, ContractSamples.QBAlgoContract(), baseOrder);
+		//! [qbalgo_strobe_algo]
+		
 	}
 	
 	private static void bracketSample(EClientSocket client, int nextOrderId) {
@@ -723,13 +736,21 @@ public class Testbed {
 		List<TagValue> TagValues = Arrays.asList(t1, t2, t3);
 		client.reqScannerSubscription(7002, ScannerSubscriptionSamples.HotUSStkByVolume(), null, TagValues); // requires TWS v973+
 
-        //! [reqscannersubscription]
+		//! [reqscannersubscription]
 
-        Thread.sleep(2000);
+		//! [reqcomplexscanner]
+		List<TagValue> AAPLConIDTag = Collections.singletonList(new TagValue("underConID", "265598")); // 265598 is the conID for AAPL stock
+		client.reqScannerSubscription(7003, ScannerSubscriptionSamples.ComplexOrdersAndTrades(), null, AAPLConIDTag); // requires TWS v975+
+
+		//! [reqcomplexscanner]
+
+
+        Thread.sleep(4000);
         /*** Canceling the scanner subscription ***/
         //! [cancelscannersubscription]
         client.cancelScannerSubscription(7001);
 		client.cancelScannerSubscription(7002);
+		client.cancelScannerSubscription(7003);
         //! [cancelscannersubscription]
 		
 	}

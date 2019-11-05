@@ -1,4 +1,4 @@
-/* Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 package apidemo;
@@ -878,8 +878,8 @@ class MarketDataPanel extends JPanel {
 				HistogramEntry row = m_rows.get(rowIn);
 				
 				switch(col) {
-					case 0: return row.price;
-					case 1: return row.size;
+					case 0: return row.price();
+					case 1: return row.size();
 					default: return null;
 				}
 			}

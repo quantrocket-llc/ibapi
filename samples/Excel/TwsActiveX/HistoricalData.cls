@@ -87,7 +87,7 @@ Private Sub ReqHistoricalData(reqType As Integer)
     
     ' fill contract structure
     With lContractInfo
-        .symbol = UCase(contractTable(id, Col_SYMBOL).value)
+        .Symbol = UCase(contractTable(id, Col_SYMBOL).value)
         .SecType = UCase(contractTable(id, Col_SECTYPE).value)
         .lastTradeDateOrContractMonth = contractTable(id, Col_LASTTRADEDATE).value
         .Strike = IIf(contractTable(id, Col_STRIKE).value = "", 0#, contractTable(id, Col_STRIKE).value)

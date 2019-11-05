@@ -1,6 +1,6 @@
 """
-Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
-and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable.
+Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+ and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable.
 """
 
 
@@ -27,25 +27,28 @@ class EReader(Thread):
         self.msg_queue = msg_queue
 
     def run(self):
-        buf = b""
-        while self.conn.isConnected():
+        try:
+            logger.debug("EReader thread started")
+            buf = b""
+            while self.conn.isConnected():
 
-            data = self.conn.recvMsg()
-            logger.debug("reader loop, recvd size %d", len(data))
-            buf += data
+                data = self.conn.recvMsg()
+                logger.debug("reader loop, recvd size %d", len(data))
+                buf += data
 
-            while len(buf) > 0:
-                (size, msg, buf) = comm.read_msg(buf)
-                #logger.debug("resp %s", buf.decode('ascii'))
-                logger.debug("size:%d msg.size:%d msg:|%s| buf:%s|", size,
-                    len(msg), buf, "|")
+                while len(buf) > 0:
+                    (size, msg, buf) = comm.read_msg(buf)
+                    #logger.debug("resp %s", buf.decode('ascii'))
+                    logger.debug("size:%d msg.size:%d msg:|%s| buf:%s|", size,
+                        len(msg), buf, "|")
 
-                if msg:
-                    self.msg_queue.put(msg)
-                else:
-                    logger.debug("more incoming packet(s) are needed ")
-                    break
+                    if msg:
+                        self.msg_queue.put(msg)
+                    else:
+                        logger.debug("more incoming packet(s) are needed ")
+                        break
 
-        logger.debug("EReader thread finished")
-
+            logger.debug("EReader thread finished")
+        except:
+            logger.exception('unhandled exception in EReader thread')
 

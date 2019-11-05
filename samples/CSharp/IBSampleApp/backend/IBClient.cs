@@ -1,4 +1,4 @@
-/* Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 using System;
 using System.Collections.Generic;
@@ -958,5 +958,24 @@ namespace IBSampleApp
                 sc.Post((t) => tmp(new OrderBoundMessage(orderId, apiClientId, apiOrderId)), null);
         }
 
+        public event Action<CompletedOrderMessage> CompletedOrder;
+
+        void EWrapper.completedOrder(Contract contract, Order order, OrderState orderState)
+        {
+            var tmp = CompletedOrder;
+
+            if (tmp != null)
+                sc.Post((t) => tmp(new CompletedOrderMessage(contract, order, orderState)), null);
+        }
+
+        public event Action CompletedOrdersEnd;
+
+        void EWrapper.completedOrdersEnd()
+        {
+            var tmp = CompletedOrdersEnd;
+
+            if (tmp != null)
+                sc.Post((t) => tmp(), null);
+        }
     }
 }

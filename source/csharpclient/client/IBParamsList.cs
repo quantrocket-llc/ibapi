@@ -1,4 +1,4 @@
-﻿/* Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+﻿/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 using System;
 using System.Collections.Generic;
@@ -26,12 +26,16 @@ namespace IBApi
             AddParameter(source, value.ToString(CultureInfo.InvariantCulture));
         }
 
-        public static void AddParameter(this BinaryWriter source, bool value)
+        public static void AddParameter(this BinaryWriter source, bool? value)
         {
-            if (value)
-                AddParameter(source, "1");
+            if (value.HasValue)
+            {
+                AddParameter(source, value.Value ? "1" : "0");
+            }
             else
-                AddParameter(source, "0");
+            {
+                source.Write(Constants.EOL);
+            }
 
         }
 
@@ -61,16 +65,7 @@ namespace IBApi
 
         public static void AddParameter(this BinaryWriter source, List<TagValue> options)
         {
-            StringBuilder tagValuesStr = new StringBuilder();
-            int tagValuesCount = options == null ? 0 : options.Count;
-
-            for (int i = 0; i < tagValuesCount; i++)
-            {
-                TagValue tagValue = options[i];
-                tagValuesStr.Append(tagValue.Tag).Append("=").Append(tagValue.Value).Append(";");
-            }
-            
-            source.AddParameter(tagValuesStr.ToString());
+            source.AddParameter(Util.TagValueListToString(options));
         }
 
         public static void AddParameterMax(this BinaryWriter source, double value)

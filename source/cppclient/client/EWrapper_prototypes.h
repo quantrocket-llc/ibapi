@@ -1,4 +1,4 @@
-/* Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 /* not using "#pragma once" on purpose! */
@@ -102,5 +102,7 @@ virtual void tickByTickAllLast(int reqId, int tickType, time_t time, double pric
 virtual void tickByTickBidAsk(int reqId, time_t time, double bidPrice, double askPrice, int bidSize, int askSize, const TickAttribBidAsk& tickAttribBidAsk) EWRAPPER_VIRTUAL_IMPL;
 virtual void tickByTickMidPoint(int reqId, time_t time, double midPoint) EWRAPPER_VIRTUAL_IMPL;
 virtual void orderBound(long long orderId, int apiClientId, int apiOrderId) EWRAPPER_VIRTUAL_IMPL;
+virtual void completedOrder(const Contract& contract, const Order& order, const OrderState& orderState) EWRAPPER_VIRTUAL_IMPL;
+virtual void completedOrdersEnd() EWRAPPER_VIRTUAL_IMPL;
 
 #undef EWRAPPER_VIRTUAL_IMPL

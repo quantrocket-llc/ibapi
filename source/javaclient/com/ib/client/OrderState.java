@@ -1,4 +1,4 @@
-/* Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 package com.ib.client;
@@ -20,6 +20,8 @@ public class OrderState {
     private double m_maxCommission;
     private String m_commissionCurrency;
     private String m_warningText;
+    private String m_completedTime;
+    private String m_completedStatus;
 
     // Get
     public double commission()           { return m_commission; }
@@ -38,6 +40,8 @@ public class OrderState {
     public String maintMarginAfter()     { return m_maintMarginAfter; }
     public String equityWithLoanAfter()  { return m_equityWithLoanAfter; }
     public String warningText()          { return m_warningText; }
+    public String completedTime()        { return m_completedTime; }
+    public String completedStatus()      { return m_completedStatus; }
 
     // Set
     public void commission(double v)           { m_commission = v; }
@@ -56,9 +60,11 @@ public class OrderState {
     public void status(OrderStatus v)          { m_status = ( v == null ) ? null : v.name(); }
     public void status(String v)               { m_status = v; }
     public void warningText(String v)          { m_warningText = v; }
-
+    public void completedTime(String v)        { m_completedTime = v; }
+    public void completedStatus(String v)      { m_completedStatus = v; }
+    
 	OrderState() {
-		this (null, null, null, null, null, null, null, null, null, null, 0.0, 0.0, 0.0, null, null);
+		this (null, null, null, null, null, null, null, null, null, null, 0.0, 0.0, 0.0, null, null, null, null);
 	}
 
 	OrderState(String status, 
@@ -66,7 +72,8 @@ public class OrderState {
 			String initMarginChange, String maintMarginChange, String equityWithLoanChange, 
 			String initMarginAfter, String maintMarginAfter, String equityWithLoanAfter, 
 			double commission, double minCommission,
-			double maxCommission, String commissionCurrency, String warningText) {
+			double maxCommission, String commissionCurrency, String warningText, 
+			String completedTime, String completedStatus) {
 		m_status = status;
 		m_initMarginBefore = initMarginBefore;
 		m_maintMarginBefore = maintMarginBefore;
@@ -82,6 +89,8 @@ public class OrderState {
 		m_maxCommission = maxCommission;
 		m_commissionCurrency = commissionCurrency;
 		m_warningText = warningText;
+		m_completedTime = completedTime;
+		m_completedStatus = completedStatus;
 	}
 
 	@Override
@@ -110,7 +119,9 @@ public class OrderState {
             Util.StringCompare(m_initMarginAfter, state.m_initMarginAfter) != 0 ||
             Util.StringCompare(m_maintMarginAfter, state.m_maintMarginAfter) != 0 ||
             Util.StringCompare(m_equityWithLoanAfter, state.m_equityWithLoanAfter) != 0 ||
-        	Util.StringCompare(m_commissionCurrency, state.m_commissionCurrency) != 0) {
+        	Util.StringCompare(m_commissionCurrency, state.m_commissionCurrency) != 0 ||
+            Util.StringCompare(m_completedTime, state.m_completedTime) != 0
+        	) {
         	return false;
         }
         return true;

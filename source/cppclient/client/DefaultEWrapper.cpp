@@ -1,4 +1,4 @@
-/* Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 #include "StdAfx.h"
@@ -99,3 +99,5 @@ void DefaultEWrapper::tickByTickAllLast(int reqId, int tickType, time_t time, do
 void DefaultEWrapper::tickByTickBidAsk(int reqId, time_t time, double bidPrice, double askPrice, int bidSize, int askSize, const TickAttribBidAsk& tickAttribBidAsk) { }
 void DefaultEWrapper::tickByTickMidPoint(int reqId, time_t time, double midPoint) { }
 void DefaultEWrapper::orderBound(long long orderId, int apiClientId, int apiOrderId) { }
+void DefaultEWrapper::completedOrder(const Contract& contract, const Order& order, const OrderState& orderState) { }
+void DefaultEWrapper::completedOrdersEnd() { }

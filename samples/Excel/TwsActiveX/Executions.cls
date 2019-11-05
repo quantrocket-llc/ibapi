@@ -69,7 +69,7 @@ Private Sub RequestExecutions_Click()
         .clientId = Range(CELL_EXECFILTER_CLIENTID).value
         .acctCode = Range(CELL_EXECFILTER_ACCTCODE).value
         .time = Range(CELL_EXECFILTER_TIME).value
-        .symbol = Range(CELL_EXECFILTER_SYMBOL).value
+        .Symbol = Range(CELL_EXECFILTER_SYMBOL).value
         .SecType = Range(CELL_EXECFILTER_SECTYPE).value
         .exchange = Range(CELL_EXECFILTER_EXCH).value
         .side = Range(CELL_EXECFILTER_SIDE).value
@@ -98,7 +98,7 @@ Public Sub UpdateExecution(ByVal orderId As Long, ByVal contract As TWSLib.ICont
     If rowId <= contractTable.Rows.Count Then
         ' contract details
         With contract
-            contractTable(rowId, Col_SYMBOL).value = .symbol
+            contractTable(rowId, Col_SYMBOL).value = .Symbol
             contractTable(rowId, Col_SECTYPE).value = .SecType
             contractTable(rowId, Col_LASTTRADEDATE).value = .lastTradeDateOrContractMonth
             contractTable(rowId, Col_STRIKE).value = .Strike

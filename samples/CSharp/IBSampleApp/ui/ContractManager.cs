@@ -1,4 +1,4 @@
-﻿/* Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+﻿/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 using System;
 using System.Collections.Generic;
@@ -124,6 +124,7 @@ namespace IBSampleApp.ui
             ContractDetailsGrid[17, ContractDetailsGrid.Rows.Count - 1].Value = contractDetailsMessage.ContractDetails.ContractMonth;
             ContractDetailsGrid[18, ContractDetailsGrid.Rows.Count - 1].Value = contractDetailsMessage.ContractDetails.LastTradeTime;
             ContractDetailsGrid[19, ContractDetailsGrid.Rows.Count - 1].Value = contractDetailsMessage.ContractDetails.TimeZoneId;
+            ContractDetailsGrid[20, ContractDetailsGrid.Rows.Count - 1].Value = contractDetailsMessage.ContractDetails.StockType;
 
             UpdateMakretRuleIdsComboBox(contractDetailsMessage.ContractDetails.MarketRuleIds);
         }

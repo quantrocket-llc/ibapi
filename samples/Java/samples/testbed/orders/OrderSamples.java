@@ -1,4 +1,4 @@
-/* Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 package samples.testbed.orders;
@@ -96,6 +96,17 @@ public class OrderSamples {
 		return order;
 	}
 
+	public static Order Midprice(String action, double quantity, double priceCap) {
+		//! [midprice]
+		Order order = new Order();
+		order.action(action);
+		order.orderType("MIDPRICE");
+		order.totalQuantity(quantity);
+		order.lmtPrice(priceCap); // optional
+		//! [midprice]
+		return order;
+	}
+	
 	public static Order PeggedToMarket(String action, double quantity, double marketOffset) {
 		//! [pegged_market]
 		Order order = new Order();

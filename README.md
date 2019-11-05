@@ -3,7 +3,7 @@
 </a>
 
 ### Downloads
-[API Stable (v972) and API Latest (v974) Downloads](http://interactivebrokers.github.io/)    
+[API Stable (v972) and API Latest (v975) Downloads](http://interactivebrokers.github.io/)    
  - [Release Notes](https://www.interactivebrokers.com/en/index.php?f=24356)
 
 Notes for Windows download: 

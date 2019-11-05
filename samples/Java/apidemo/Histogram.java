@@ -1,4 +1,4 @@
-/* Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 package apidemo;
@@ -32,9 +32,9 @@ public class Histogram extends JComponent {
 		int width = getWidth() - m_x0;
 		
 		for (HistogramEntry bar : m_rows) {
-			int x1 = (int)((bar.size * width) / max);
+			int x1 = (int)((bar.size() * width) / max);
 
-			String label = bar.price + "";
+			String label = bar.price() + "";
 			
 			g.setColor(Color.red);
 			g.fillRect(m_x0, y, x1, m_barHeight);
@@ -47,7 +47,7 @@ public class Histogram extends JComponent {
 	}
 
 	long getMax() {
-		return m_rows.stream().map(entry -> entry.size).max(Long::compare).orElse((long) -1);
+		return m_rows.stream().map(entry -> entry.size()).max(Long::compare).orElse((long) -1);
 	}
 		
 	@Override public Dimension getPreferredSize() {// why on main screen 1 is okay but not here?

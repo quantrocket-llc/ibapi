@@ -24,6 +24,7 @@ Public Enum OrderStatusColumns
     Col_AVGFILLPRICE
     Col_LASTFILLPRICE
     Col_PARENTID
+    Col_PERMID
 End Enum
 
 Public Enum CommissionMarginColumns
@@ -136,6 +137,7 @@ Public Enum ExtendedOrderAttributesColumns
     Col_SOFT_DOLLAR_TIER
     Col_IS_OMS_CONTAINER
     Col_RELATIVE_DISCRETIONARY
+    Col_USEPRICEMGMTALGO
 End Enum
 
 ' other constants
@@ -189,6 +191,19 @@ Public Function FindOrderRowIndex(orderId As Long, orderStatusTable As Range) As
     
     FindOrderRowIndex = 0
 End Function
+
+Public Function FindOrderRowIndexByPermId(permId As Long, orderStatusTable As Range) As Long
+    Dim i As Long
+    For i = 1 To orderStatusTable.Rows.Count
+        If CLng(orderStatusTable(i, OrderStatusColumns.Col_PERMID)) = permId Then
+            FindOrderRowIndexByPermId = i
+            Exit Function
+        End If
+    Next
+    
+    FindOrderRowIndexByPermId = 0
+End Function
+
 Public Sub PlaceModifyOrders( _
                 ByVal contractDescriptionTable As Range, _
                 ByVal orderDescriptionTable As Range, _
@@ -244,7 +259,7 @@ Private Sub PlaceModifyOrder( _
     
     ' contract info
     With lContractInfo
-        .symbol = UCase(contractDescriptionTable(orderIndex, Col_SYMBOL).value)
+        .Symbol = UCase(contractDescriptionTable(orderIndex, Col_SYMBOL).value)
         .SecType = UCase(contractDescriptionTable(orderIndex, Col_SECTYPE).value)
         .lastTradeDateOrContractMonth = contractDescriptionTable(orderIndex, Col_LASTTRADEDATE).value
         .Strike = contractDescriptionTable(orderIndex, Col_STRIKE).value
@@ -364,6 +379,7 @@ Private Sub PlaceModifyOrder( _
         .tier.value = Mid$(strTier, InStr(1, strTier, ";") + 1)
         .isOmsContainer = Util.SetNonEmptyValue(extendedAttributeTable(orderIndex, Col_IS_OMS_CONTAINER).value, .isOmsContainer)
         .discretionaryUpToLimitPrice = Util.SetNonEmptyValue(extendedAttributeTable(orderIndex, Col_RELATIVE_DISCRETIONARY).value, .discretionaryUpToLimitPrice)
+        .usePriceMgmtAlgo = Util.SetNonEmptyValue(extendedAttributeTable(orderIndex, Col_USEPRICEMGMTALGO).value, .usePriceMgmtAlgo)
     End With
 
     ' combo legs

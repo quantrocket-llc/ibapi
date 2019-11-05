@@ -1,6 +1,6 @@
 """
-Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
-and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable.
+Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+ and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable.
 """
 
 
@@ -65,7 +65,6 @@ class Connection:
 
 
     def isConnected(self):
-        #TODO: also handle when socket gets interrupted/error
         return self.socket is not None
 
 
@@ -99,8 +98,17 @@ class Connection:
             return b""
         try:
             buf = self._recvAllMsg()
+            # receiving 0 bytes outside a timeout means the connection is either
+            # closed or broken
+            if len(buf) == 0:
+                logger.debug("socket either closed or broken, disconnecting")
+                self.disconnect()
+        except socket.timeout:
+            logger.debug("socket timeout from recvMsg %s", sys.exc_info())
+            buf = b""
         except socket.error:
-            logger.debug("exception from recvMsg %s", sys.exc_info())
+            logger.debug("socket broken, disconnecting")
+            self.disconnect()
             buf = b""
         else:
             pass

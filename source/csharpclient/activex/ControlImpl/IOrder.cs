@@ -1,4 +1,4 @@
-﻿/* Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 using System;
@@ -315,5 +315,32 @@ namespace TWSLib
 
         [DispId(175)]
         bool discretionaryUpToLimitPrice { get; set; }
+
+        [DispId(176)]
+        string autoCancelDate { get; set; }
+
+        [DispId(177)]
+        double filledQuantity { get; set; }
+
+        [DispId(178)]
+        int refFuturesConId { get; set; }
+
+        [DispId(179)]
+        bool autoCancelParent { get; set; }
+
+        [DispId(180)]
+        string shareholder { get; set; }
+
+        [DispId(181)]
+        bool imbalanceOnly { get; set; }
+
+        [DispId(182)]
+        bool routeMarketableToBbo { get; set; }
+
+        [DispId(183)]
+        long parentPermId { get; set; }
+
+        [DispId(184)]
+        bool usePriceMgmtAlgo { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿/* Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 using System;
 using System.Collections.Generic;
@@ -18,17 +18,20 @@ namespace IBSampleApp.ui
         private List<string> managedAccounts;
 
         private List<OpenOrderMessage> openOrders = new List<OpenOrderMessage>();
+        private List<CompletedOrderMessage> completedOrders = new List<CompletedOrderMessage>();
 
         private DataGridView liveOrdersGrid;
+        private DataGridView completedOrdersGrid;
         private DataGridView tradeLogGrid;
 
         public IBClient IBClient { get { return ibClient; } }
 
-        public OrderManager(IBClient ibClient, DataGridView liveOrdersGrid, DataGridView tradeLogGrid)
+        public OrderManager(IBClient ibClient, DataGridView liveOrdersGrid, DataGridView completedOrdersGrid, DataGridView tradeLogGrid)
         {
             this.ibClient = ibClient;
             this.orderDialog = new OrderDialog(this);
             this.liveOrdersGrid = liveOrdersGrid;
+            this.completedOrdersGrid = completedOrdersGrid;
             this.tradeLogGrid = tradeLogGrid;
         }
 
@@ -158,6 +161,11 @@ namespace IBSampleApp.ui
             }
         }
 
+        public void handleCompletedOrder(CompletedOrderMessage completedOrder)
+        {
+            UpdateCompletedOrdersGrid(completedOrder);
+        }
+
         public void HandleExecutionMessage(ExecutionMessage message)
         {
             for (int i = 0; i < tradeLogGrid.Rows.Count; i++)
@@ -201,6 +209,12 @@ namespace IBSampleApp.ui
             orderDialog.HandleSoftDollarTiers(msg);
         }
 
+        private void UpdateCompletedOrdersGrid(CompletedOrderMessage completedOrderMessage)
+        {
+            completedOrdersGrid.Rows.Add(1);
+            PopulateCompletedOrderRow(completedOrdersGrid.Rows.Count - 1, completedOrderMessage);
+        }
+
         private void UpdateLiveOrders(OpenOrderMessage orderMesage)
         {
             for (int i = 0; i < openOrders.Count; i++ )
@@ -241,5 +255,23 @@ namespace IBSampleApp.ui
             liveOrdersGrid[8, rowIndex].Value = orderMessage.OrderState.Status;
             liveOrdersGrid[9, rowIndex].Value = (orderMessage.Order.CashQty != Double.MaxValue ? orderMessage.Order.CashQty.ToString() : "");
         }
+
+        private void PopulateCompletedOrderRow(int rowIndex, CompletedOrderMessage completedOrderMessage)
+        {
+            completedOrdersGrid[0, rowIndex].Value = completedOrderMessage.Order.PermId;
+            completedOrdersGrid[1, rowIndex].Value = Util.LongMaxString(completedOrderMessage.Order.ParentPermId);
+            completedOrdersGrid[2, rowIndex].Value = completedOrderMessage.Order.Account;
+            completedOrdersGrid[3, rowIndex].Value = completedOrderMessage.Order.Action;
+            completedOrdersGrid[4, rowIndex].Value = completedOrderMessage.Order.TotalQuantity;
+            completedOrdersGrid[5, rowIndex].Value = completedOrderMessage.Order.CashQty;
+            completedOrdersGrid[6, rowIndex].Value = completedOrderMessage.Order.FilledQuantity;
+            completedOrdersGrid[7, rowIndex].Value = completedOrderMessage.Order.LmtPrice;
+            completedOrdersGrid[8, rowIndex].Value = completedOrderMessage.Order.AuxPrice;
+            completedOrdersGrid[9, rowIndex].Value = completedOrderMessage.Contract.Symbol + " " + completedOrderMessage.Contract.SecType + " " + completedOrderMessage.Contract.Exchange;
+            completedOrdersGrid[10, rowIndex].Value = completedOrderMessage.OrderState.Status;
+            completedOrdersGrid[11, rowIndex].Value = completedOrderMessage.OrderState.CompletedTime;
+            completedOrdersGrid[12, rowIndex].Value = completedOrderMessage.OrderState.CompletedStatus;
+        }
+
     }
 }

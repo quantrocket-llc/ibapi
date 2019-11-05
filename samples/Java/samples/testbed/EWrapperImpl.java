@@ -1,4 +1,4 @@
-/* Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 package samples.testbed;
@@ -301,7 +301,7 @@ public class EWrapperImpl implements EWrapper {
 	//! [commissionreport]
 	@Override
 	public void commissionReport(CommissionReport commissionReport) {
-		System.out.println("CommissionReport. ["+commissionReport.m_execId+"] - ["+commissionReport.m_commission+"] ["+commissionReport.m_currency+"] RPNL ["+commissionReport.m_realizedPNL+"]");
+		System.out.println("CommissionReport. ["+commissionReport.execId()+"] - ["+commissionReport.commission()+"] ["+commissionReport.currency()+"] RPNL ["+commissionReport.realizedPNL()+"]");
 	}
 	//! [commissionreport]
 	
@@ -676,4 +676,18 @@ public class EWrapperImpl implements EWrapper {
         System.out.println(EWrapperMsgGenerator.orderBound(orderId, apiClientId, apiOrderId));
     }
     //! [orderbound]
+
+    //! [completedorder]
+    @Override
+    public void completedOrder(Contract contract, Order order, OrderState orderState) {
+        System.out.println(EWrapperMsgGenerator.completedOrder(contract, order, orderState));
+    }
+    //! [completedorder]
+
+    //! [completedordersend]
+    @Override
+    public void completedOrdersEnd() {
+        System.out.println(EWrapperMsgGenerator.completedOrdersEnd());
+    }
+    //! [completedordersend]
 }

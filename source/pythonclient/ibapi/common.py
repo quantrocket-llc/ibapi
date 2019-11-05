@@ -1,6 +1,6 @@
 """
-Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
-and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable.
+Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+ and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable.
 """
 
 import sys
@@ -14,6 +14,7 @@ MAX_MSG_LEN = 0xFFFFFF # 16Mb - 1byte
 
 UNSET_INTEGER = 2 ** 31 - 1
 UNSET_DOUBLE = sys.float_info.max
+UNSET_LONG = 2 ** 63 - 1
 
 TickerId = int
 OrderId  = int

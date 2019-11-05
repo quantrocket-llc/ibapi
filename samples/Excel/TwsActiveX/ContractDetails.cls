@@ -42,7 +42,7 @@ Public Sub RequestContractDetails_Click()
     
     id = ActiveCell.row - contractTable.Rows(1).row + 1
     With lContractInfo
-        .symbol = UCase(contractTable(id, Col_SYMBOL).value)
+        .Symbol = UCase(contractTable(id, Col_SYMBOL).value)
         .SecType = UCase(contractTable(id, Col_SECTYPE).value)
         .lastTradeDateOrContractMonth = contractTable(id, Col_LASTTRADEDATE).value
         .Strike = contractTable(id, Col_STRIKE).value
@@ -94,7 +94,7 @@ Public Sub UpdateContractDetails(ByVal reqId As Long, ByVal ContractDetails As T
     Set contract = ContractDetails.contract
     With sheet.Rows(rowId)
         .Cells(1).value = contract.conId
-        .Cells(2).value = contract.symbol
+        .Cells(2).value = contract.Symbol
         .Cells(3).value = contract.SecType
         .Cells(4).value = contract.lastTradeDateOrContractMonth
         .Cells(5).value = contract.Strike
@@ -127,6 +127,7 @@ Public Sub UpdateContractDetails(ByVal reqId As Long, ByVal ContractDetails As T
         .Cells(32).value = ContractDetails.underSecType
         .Cells(33).value = ContractDetails.marketRuleIds
         .Cells(34).value = ContractDetails.realExpirationDate
+        .Cells(35).value = ContractDetails.stockType
     End With
     
     IncrementSheetRowId sheet
@@ -172,6 +173,7 @@ Private Sub InitialiseSheet(sheet As Worksheet)
     sheet.Cells(2, 32).value = "Under SecType"
     sheet.Cells(2, 33).value = "Market Rule Ids"
     sheet.Cells(2, 34).value = "RealExpirationDate"
+    sheet.Cells(2, 35).value = "Stock Type"
 End Sub
 
 

@@ -1,4 +1,4 @@
-﻿/* Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+﻿/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 using IBApi;
@@ -97,8 +97,8 @@ namespace Samples
             baseOrder.AlgoParams.Add(new TagValue("giveUp", giveUp.ToString()));
             baseOrder.AlgoParams.Add(new TagValue("catchUp", catchUp ? "1" : "0"));
             baseOrder.AlgoParams.Add(new TagValue("waitForFill", waitForFill ? "1" : "0"));
-            baseOrder.AlgoParams.Add(new TagValue("startTime", startTime));
-            baseOrder.AlgoParams.Add(new TagValue("endTime", endTime));
+            baseOrder.AlgoParams.Add(new TagValue("activeTimeStart", startTime));
+            baseOrder.AlgoParams.Add(new TagValue("activeTimeEnd", endTime));
         }
         //! [ad_params]
 

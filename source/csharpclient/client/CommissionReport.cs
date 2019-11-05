@@ -1,4 +1,4 @@
-﻿/* Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+﻿/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 using System;
@@ -87,9 +87,10 @@ namespace IBApi
 
         public override bool Equals(Object p_other)
         {
-            bool l_bRetVal = false;
+            bool l_bRetVal;
+            CommissionReport l_theOther = p_other as CommissionReport;
 
-            if (p_other == null)
+            if (l_theOther == null)
             {
                 l_bRetVal = false;
             }
@@ -99,10 +100,21 @@ namespace IBApi
             }
             else
             {
-                CommissionReport l_theOther = (CommissionReport)p_other;
                 l_bRetVal = ExecId.Equals(l_theOther.ExecId);
             }
             return l_bRetVal;
+        }
+
+        public override int GetHashCode()
+        {
+            var hashCode = 662669467;
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(ExecId);
+            hashCode = hashCode * -1521134295 + Commission.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Currency);
+            hashCode = hashCode * -1521134295 + RealizedPNL.GetHashCode();
+            hashCode = hashCode * -1521134295 + Yield.GetHashCode();
+            hashCode = hashCode * -1521134295 + YieldRedemptionDate.GetHashCode();
+            return hashCode;
         }
     }
 }

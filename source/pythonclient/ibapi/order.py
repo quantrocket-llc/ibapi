@@ -1,6 +1,6 @@
 """
-Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
-and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable.
+Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+ and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable.
 """
 
 
@@ -72,9 +72,9 @@ class Order(Object):
 
         # institutional (ie non-cleared) only
         self.designatedLocation = "" #used only when shortSaleSlot=2
-        self.openClose     = "O"    # O=Open, C=Close
+        self.openClose     = ""     # O=Open, C=Close
         self.origin        = CUSTOMER  # 0=Customer, 1=Firm
-        self.shortSaleSlot = 0    # type: int; 1 if you hold the shares, 2 if they will be delivered from elsewhere.  Only for Action=SSHORT
+        self.shortSaleSlot = 0         # type: int; 1 if you hold the shares, 2 if they will be delivered from elsewhere.  Only for Action=SSHORT
         self.exemptCode    = -1
 
         # SMART routing only
@@ -199,6 +199,17 @@ class Order(Object):
         self.isOmsContainer = False
 
         self.discretionaryUpToLimitPrice = False
+
+        self.autoCancelDate = ""
+        self.filledQuantity = UNSET_DOUBLE
+        self.refFuturesConId = 0
+        self.autoCancelParent = False
+        self.shareholder = ""
+        self.imbalanceOnly = False
+        self.routeMarketableToBbo = False
+        self.parentPermId = 0
+
+        self.usePriceMgmtAlgo = None
 
     def __str__(self):
         s = "%s,%d,%s:" % (self.orderId, self.clientId, self.permId)

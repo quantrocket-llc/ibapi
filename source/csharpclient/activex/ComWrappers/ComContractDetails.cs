@@ -1,4 +1,4 @@
-﻿/* Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+﻿/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 using IBApi;
@@ -237,6 +237,15 @@ namespace TWSLib
         {
             get { return data != null ? data.LastTradeTime : default(string); }
             set { if (data != null) data.LastTradeTime = value; }
+        }
+
+        /**
+        * @brief stock type
+        */
+        string StockType
+        {
+            get { return data != null ? data.StockType : default(string); }
+            set { if (data != null) data.StockType = value; }
         }
 
         /**
@@ -596,6 +605,11 @@ namespace TWSLib
         string TWSLib.IContractDetails.lastTradeTime
         {
             get { return LastTradeTime; }
+        }
+
+        string TWSLib.IContractDetails.stockType
+        {
+            get { return StockType; }
         }
 
         public static explicit operator ComContractDetails(ContractDetails cd)

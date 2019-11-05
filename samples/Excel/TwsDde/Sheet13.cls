@@ -108,7 +108,7 @@ Sub onShowError()
     Call showLastError(serverCell, errorRange)
 End Sub
 Sub cancelScannerData()
-    Cells(ActiveCell.row, controlCol).Formula = "" 'To cancel scanner subscription simply remove the control cell
+    Cells(ActiveCell.row, controlCol).ClearContents 'To cancel scanner subscription simply remove the control cell
 End Sub
 Sub clearLinks()
     Call clearErrorDisplay(errorRange)

@@ -1,6 +1,6 @@
 """
-Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
-and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable.
+Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+ and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable.
 """
 
 
@@ -142,6 +142,23 @@ class OrderSamples:
         return order
     
 
+    """ <summary>
+	#/ A Midprice order is designed to split the difference between the bid and ask prices, and fill at the current midpoint of 
+	#/ the NBBO or better. Set an optional price cap to define the highest price (for a buy order) or the lowest price (for a sell 
+	#/ order) you are willing to accept. Requires TWS 975+. Smart-routing to US stocks only.
+    </summary>"""
+    @staticmethod
+    def Midprice(action:str, quantity:float, priceCap:float):
+    
+        #! [midprice]
+        order = Order()
+        order.action = action
+        order.orderType = "MIDPRICE"
+        order.totalQuantity = quantity
+        order.lmtPrice = priceCap # optional
+        #! [midprice]
+        return order
+	
     """ <summary>
     #/ A pegged-to-market order is designed to maintain a purchase price relative to the national best offer (NBO) or a sale price 
     #/ relative to the national best bid (NBB). Depending on the width of the quote, this order may be passive or aggressive. 

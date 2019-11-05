@@ -1,4 +1,4 @@
-/* Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 using System;
 using System.Collections.Generic;
@@ -186,7 +186,7 @@ namespace Samples
         //! [orderstatus]
         public virtual void orderStatus(int orderId, string status, double filled, double remaining, double avgFillPrice, int permId, int parentId, double lastFillPrice, int clientId, string whyHeld, double mktCapPrice)
         {
-            Console.WriteLine("OrderStatus. Id: "+orderId+", Status: "+status+", Filled"+filled+", Remaining: "+remaining
+            Console.WriteLine("OrderStatus. Id: " + orderId + ", Status: " + status + ", Filled: " + filled + ", Remaining: " + remaining
                 + ", AvgFillPrice: " + avgFillPrice + ", PermId: " + permId + ", ParentId: " + parentId + ", LastFillPrice: " + lastFillPrice + ", ClientId: " + clientId + ", WhyHeld: " + whyHeld + ", MktCapPrice: " + mktCapPrice);
         }
         //! [orderstatus]
@@ -194,14 +194,9 @@ namespace Samples
         //! [openorder]
         public virtual void openOrder(int orderId, Contract contract, Order order, OrderState orderState)
         {
-            Console.WriteLine("OpenOrder. ID: "+orderId+", "+contract.Symbol+", "+contract.SecType+" @ "+contract.Exchange+": "+order.Action+", "+order.OrderType+" "+order.TotalQuantity+", "+orderState.Status);
-            if (order.WhatIf)
-            {
-                Console.WriteLine("What-If. ID: " + orderId + 
-                    ", InitMarginBefore: " + Util.formatDoubleString(orderState.InitMarginBefore) + ", MaintMarginBefore: " + Util.formatDoubleString(orderState.MaintMarginBefore) + " EquityWithLoanBefore: " + Util.formatDoubleString(orderState.EquityWithLoanBefore) +
-                    ", InitMarginChange: " + Util.formatDoubleString(orderState.InitMarginChange) + ", MaintMarginChange: " + Util.formatDoubleString(orderState.MaintMarginChange) + " EquityWithLoanChange: " + Util.formatDoubleString(orderState.EquityWithLoanChange) +
-                    ", InitMarginAfter: " + Util.formatDoubleString(orderState.InitMarginAfter) + ", MaintMarginAfter: " + Util.formatDoubleString(orderState.MaintMarginAfter) + " EquityWithLoanAfter: " + Util.formatDoubleString(orderState.EquityWithLoanAfter));
-            }
+            Console.WriteLine("OpenOrder. PermID: " + order.PermId + ", ClientId: " + order.ClientId + ", OrderId: " + orderId + ", Account: " + order.Account + 
+                ", Symbol: " + contract.Symbol + ", SecType: " + contract.SecType + " , Exchange: " + contract.Exchange + ", Action: " + order.Action + ", OrderType: " + order.OrderType + 
+                ", TotalQty: " + order.TotalQuantity + ", CashQty: " + order.CashQty + ", LmtPrice: " + order.LmtPrice + ", AuxPrice: " + order.AuxPrice + ", Status: " + orderState.Status);
         }
         //! [openorder]
 
@@ -263,6 +258,7 @@ namespace Samples
             Console.WriteLine("\tMarketRuleIds: " + contractDetails.MarketRuleIds);
             Console.WriteLine("\tRealExpirationDate: " + contractDetails.RealExpirationDate);
             Console.WriteLine("\tLastTradeTime: " + contractDetails.LastTradeTime);
+            Console.WriteLine("\tStock Type: " + contractDetails.StockType);
             printContractDetailsSecIdList(contractDetails.SecIdList);
         }
 
@@ -791,5 +787,21 @@ namespace Samples
         }
         //! [orderbound]
 
+        //! [completedorder]
+        public virtual void completedOrder(Contract contract, Order order, OrderState orderState)
+        {
+            Console.WriteLine("CompletedOrder. PermID: " + order.PermId + ", ParentPermId: " + Util.LongMaxString(order.ParentPermId) + ", Account: " + order.Account + ", Symbol: " + contract.Symbol + ", SecType: " + contract.SecType + 
+                " , Exchange: " + contract.Exchange + ", Action: " + order.Action + ", OrderType: " + order.OrderType + ", TotalQty: " + order.TotalQuantity + 
+                ", CashQty: " + order.CashQty + ", FilledQty: " + order.FilledQuantity + ", LmtPrice: " + order.LmtPrice + ", AuxPrice: " + order.AuxPrice + ", Status: " + orderState.Status +
+                ", CompletedTime: " + orderState.CompletedTime + ", CompletedStatus: " + orderState.CompletedStatus);
+        }
+        //! [completedorder]
+
+        //! [completedordersend]
+        public virtual void completedOrdersEnd()
+        {
+            Console.WriteLine("CompletedOrdersEnd");
+        }
+        //! [completedordersend]
     }
 }

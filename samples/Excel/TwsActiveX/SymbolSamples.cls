@@ -69,7 +69,7 @@ Public Sub SymbolSamples(ByVal reqId As Long, ByVal contractDescriptions As TWSL
         For i = 1 To contractDescriptions.Count
             Set cd = contractDescriptions.Item(i)
             symbolSamplesTable(i, Col_SYMBOL_SAMPLES_CONID).value = cd.contract.conId
-            symbolSamplesTable(i, Col_SYMBOL_SAMPLES_SYMBOL).value = cd.contract.symbol
+            symbolSamplesTable(i, Col_SYMBOL_SAMPLES_SYMBOL).value = cd.contract.Symbol
             symbolSamplesTable(i, Col_SYMBOL_SAMPLES_SECTYPE).value = cd.contract.SecType
             symbolSamplesTable(i, Col_SYMBOL_SAMPLES_PRIMARYEXCHANGE).value = cd.contract.primaryExchange
             symbolSamplesTable(i, Col_SYMBOL_SAMPLES_CURRENCY).value = cd.contract.currency
