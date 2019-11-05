@@ -91,7 +91,7 @@ namespace IBApi
         }
 
         /**
-         * @brief Indicates whether the API-TWS connection has been closed. 
+         * @brief Indicates whether the API-TWS connection has been closed.
          * Note: This function is not automatically invoked and must be by the API client.
          * @returns true if connection has been established, false if it has not.
          */
@@ -669,7 +669,7 @@ namespace IBApi
 
         /**
          * @brief Places or modifies an order
-         * @param id the order's unique identifier. Use a sequential id starting with the id received at the nextValidId method. If a new order is placed with an order ID less than or equal to the order ID of a previous order an error will occur. 
+         * @param id the order's unique identifier. Use a sequential id starting with the id received at the nextValidId method. If a new order is placed with an order ID less than or equal to the order ID of a previous order an error will occur.
          * @param contract the order's contract
          * @param order the order
          * @sa EWrapper::nextValidId, reqAllOpenOrders, reqAutoOpenOrders, reqOpenOrders, cancelOrder, reqGlobalCancel, EWrapper::openOrder, EWrapper::orderStatus, Order, Contract
@@ -690,7 +690,7 @@ namespace IBApi
 
 
             paramsList.AddParameter(OutgoingMessages.PlaceOrder);
-            
+
             if (serverVersion < MinServerVer.ORDER_CONTAINER)
             {
                 paramsList.AddParameter(MsgVersion);
@@ -1201,14 +1201,14 @@ namespace IBApi
 
         /**
          * @brief Replaces Financial Advisor's settings
-         * A Financial Advisor can define three different configurations: 
+         * A Financial Advisor can define three different configurations:
          *    1. Groups: offer traders a way to create a group of accounts and apply a single allocation method to all accounts in the group.
          *    2. Profiles: let you allocate shares on an account-by-account basis using a predefined calculation value.
          *    3. Account Aliases: let you easily identify the accounts by meaningful names rather than account numbers.
          * More information at https://www.interactivebrokers.com/en/?f=%2Fen%2Fsoftware%2Fpdfhighlights%2FPDF-AdvisorAllocations.php%3Fib_entity%3Dllc
          * @param faDataType the configuration to change. Set to 1, 2 or 3 as defined above.
          * @param xml the xml-formatted configuration string
-         * @sa requestFA 
+         * @sa requestFA
          */
         public void replaceFA(int faDataType, string xml)
         {
@@ -1227,13 +1227,13 @@ namespace IBApi
 
         /**
          * @brief Requests the FA configuration
-         * A Financial Advisor can define three different configurations: 
+         * A Financial Advisor can define three different configurations:
          *      1. Groups: offer traders a way to create a group of accounts and apply a single allocation method to all accounts in the group.
          *      2. Profiles: let you allocate shares on an account-by-account basis using a predefined calculation value.
          *      3. Account Aliases: let you easily identify the accounts by meaningful names rather than account numbers.
          * More information at https://www.interactivebrokers.com/en/?f=%2Fen%2Fsoftware%2Fpdfhighlights%2FPDF-AdvisorAllocations.php%3Fib_entity%3Dllc
          * @param faDataType the configuration to change. Set to 1, 2 or 3 as defined above.
-         * @sa replaceFA 
+         * @sa replaceFA
          */
         public void requestFA(int faDataType)
         {
@@ -1354,7 +1354,7 @@ namespace IBApi
         }
 
         /**
-         * @brief Requests status updates about future orders placed from TWS. Can only be used with client ID 0. 
+         * @brief Requests status updates about future orders placed from TWS. Can only be used with client ID 0.
          * @param autoBind if set to true, the newly created orders will be assigned an API order ID and implicitly associated with this client. If set to false, future orders will not be.
          * @sa reqAllOpenOrders, reqOpenOrders, cancelOrder, reqGlobalCancel, EWrapper::openOrder, EWrapper::orderStatus
          */
@@ -1528,7 +1528,7 @@ namespace IBApi
          * Fundamental data is returned at EWrapper::fundamentalData
          * @param reqId the request's unique identifier.
          * @param contract the contract's description for which the data will be returned.
-         * @param reportType there are three available report types: 
+         * @param reportType there are three available report types:
          *      - ReportSnapshot: Company overview
          *      - ReportsFinSummary: Financial summary
                 - ReportRatios:	Financial ratios
@@ -1606,7 +1606,7 @@ namespace IBApi
 
         /**
          * @brief Requests contracts' historical data.
-         * When requesting historical data, a finishing time and date is required along with a duration string. For example, having: 
+         * When requesting historical data, a finishing time and date is required along with a duration string. For example, having:
          *      - endDateTime: 20130701 23:59:59 GMT
          *      - durationStr: 3 D
          * will return three days of data counting backwards from July 1st 2013 at 23:59:59 GMT resulting in all the available bars of the last three days until the date and time specified. It is possible to specify a timezone optionally. The resulting bars will be returned in EWrapper::historicalData
@@ -1787,22 +1787,22 @@ namespace IBApi
          * @param contract the Contract for which the data is being requested
          * @param genericTickList comma separated ids of the available generic ticks:
          *      - 100 	Option Volume (currently for stocks)
-         *      - 101 	Option Open Interest (currently for stocks) 
+         *      - 101 	Option Open Interest (currently for stocks)
          *      - 104 	Historical Volatility (currently for stocks)
          *      - 105 	Average Option Volume (currently for stocks)
          *      - 106 	Option Implied Volatility (currently for stocks)
-         *      - 162 	Index Future Premium 
-         *      - 165 	Miscellaneous Stats 
-         *      - 221 	Mark Price (used in TWS P&L computations) 
-         *      - 225 	Auction values (volume, price and imbalance) 
+         *      - 162 	Index Future Premium
+         *      - 165 	Miscellaneous Stats
+         *      - 221 	Mark Price (used in TWS P&L computations)
+         *      - 225 	Auction values (volume, price and imbalance)
          *      - 233 	RTVolume - contains the last trade price, last trade size, last trade time, total volume, VWAP, and single trade flag.
          *      - 236 	Shortable
-         *      - 256 	Inventory 	 
-         *      - 258 	Fundamental Ratios 
-         *      - 411 	Realtime Historical Volatility 
+         *      - 256 	Inventory
+         *      - 258 	Fundamental Ratios
+         *      - 411 	Realtime Historical Volatility
          *      - 456 	IBDividends
-         * @param snapshot for users with corresponding real time market data subscriptions. A true value will return a one-time snapshot, while a false value will provide streaming data. 
-     * @param regulatory snapshot for US stocks requests NBBO snapshots for users which have "US Securities Snapshot Bundle" subscription but not corresponding Network A, B, or C subscription necessary for streaming 		 * market data. One-time snapshot of current market price that will incur a fee of 1 cent to the account per snapshot. 
+         * @param snapshot for users with corresponding real time market data subscriptions. A true value will return a one-time snapshot, while a false value will provide streaming data.
+     * @param regulatory snapshot for US stocks requests NBBO snapshots for users which have "US Securities Snapshot Bundle" subscription but not corresponding Network A, B, or C subscription necessary for streaming 		 * market data. One-time snapshot of current market price that will incur a fee of 1 cent to the account per snapshot.
          * @sa cancelMktData, EWrapper::tickPrice, EWrapper::tickSize, EWrapper::tickString, EWrapper::tickEFP, EWrapper::tickGeneric, EWrapper::tickOptionComputation, EWrapper::tickSnapshotEnd
          */
         public void reqMktData(int tickerId, Contract contract, string genericTickList, bool snapshot, bool regulatorySnaphsot, List<TagValue> mktDataOptions)
@@ -1954,7 +1954,7 @@ namespace IBApi
         }
 
         /**
-         * @brief Requests the contract's market depth (order book).\n This request must be direct-routed to an exchange and not smart-routed. The number of simultaneous market depth requests allowed in an account is calculated based on a formula that looks at an accounts equity, commissions, and quote booster packs.  
+         * @brief Requests the contract's market depth (order book).\n This request must be direct-routed to an exchange and not smart-routed. The number of simultaneous market depth requests allowed in an account is calculated based on a formula that looks at an accounts equity, commissions, and quote booster packs.
          * @param tickerId the request's identifier
          * @param contract the Contract for which the depth is being requested
          * @param numRows the number of rows on each side of the order book
@@ -2080,7 +2080,7 @@ namespace IBApi
         }
 
         /**
-         * @brief Subscribes to position updates for all accessible accounts. All positions sent initially, and then only updates as positions change. 
+         * @brief Subscribes to position updates for all accessible accounts. All positions sent initially, and then only updates as positions change.
          * @sa cancelPositions, EWrapper::position, EWrapper::positionEnd
          */
         public void reqPositions()
@@ -2101,7 +2101,7 @@ namespace IBApi
 
         /**
          * @brief Requests real time bars\n
-         * Currently, only 5 seconds bars are provided. This request is subject to the same pacing as any historical data request: no more than 60 API queries in more than 600 seconds.\n Real time bars subscriptions are also included in the calculation of the number of Level 1 market data subscriptions allowed in an account. 
+         * Currently, only 5 seconds bars are provided. This request is subject to the same pacing as any historical data request: no more than 60 API queries in more than 600 seconds.\n Real time bars subscriptions are also included in the calculation of the number of Level 1 market data subscriptions allowed in an account.
          * @param tickerId the request's unique identifier.
          * @param contract the Contract for which the depth is being requested
          * @param barSize currently being ignored
@@ -2401,7 +2401,7 @@ namespace IBApi
         }
 
         /**
-         * @brief Integrates API client and TWS window grouping. 
+         * @brief Integrates API client and TWS window grouping.
          *@param requestId is the Id chosen for this subscription request
          * @param groupId is the display group for integration
          */
@@ -2429,7 +2429,7 @@ namespace IBApi
          * 1. none = empty selection
          * 2. contractID@exchange - any non-combination contract. Examples 8314@SMART for IBM SMART; 8314@ARCA for IBM ARCA
          * 3. combo= if any combo is selected
-         * Note: This request from the API does not get a TWS response unless an error occurs. 
+         * Note: This request from the API does not get a TWS response unless an error occurs.
          */
         public void updateDisplayGroup(int requestId, string contractInfo)
         {
@@ -2520,7 +2520,7 @@ namespace IBApi
 
         /**
          * @brief Requests account updates for account and/or model
-         * @param reqId identifier to label the request 
+         * @param reqId identifier to label the request
          * @param account account values can be requested for a particular account
          * @param modelCode values can also be requested for a model
 		 * @param ledgerAndNLV returns light-weight request; only currency positions as opposed to account values and currency positions
@@ -2548,7 +2548,7 @@ namespace IBApi
 
         /**
          * @brief Cancels account updates request for account and/or model
-         * @param requestId account subscription to cancel  
+         * @param requestId account subscription to cancel
          * @sa reqAccountUpdatesMulti
          */
         public void cancelAccountUpdatesMulti(int requestId)
@@ -2573,7 +2573,7 @@ namespace IBApi
         /**
          * @brief Requests security definition option parameters for viewing a contract's option chain
          * @param reqId the ID chosen for the request
-         * @param underlyingSymbol 
+         * @param underlyingSymbol
          * @param futFopExchange The exchange on which the returned options are trading. Can be set to the empty string "" for all exchanges.
          * @param underlyingSecType The type of the underlying security, i.e. STK
          * @param underlyingConId the contract ID of the underlying security
@@ -2710,7 +2710,7 @@ namespace IBApi
         }
 
         /**
-        * @brief Requests news providers which the user has subscribed to. 
+        * @brief Requests news providers which the user has subscribed to.
         * @sa EWrapper::newsProviders
         */
         public void reqNewsProviders()
@@ -2735,7 +2735,7 @@ namespace IBApi
          * @param providerCode short code indicating news provider, e.g. FLY
          * @param articleId id of the specific article
          * @param newsArticleOptions reserved for internal use. Should be defined as null.
-         * @sa EWrapper::newsArticle, 
+         * @sa EWrapper::newsArticle,
          */
         public void reqNewsArticle(int requestId, string providerCode, string articleId, List<TagValue> newsArticleOptions)
         {
@@ -2959,7 +2959,7 @@ namespace IBApi
             CloseAndSend(paramsList, lengthPos, EClientErrors.FAIL_SEND_REQPNL);
         }
 
-        /** 
+        /**
         * @brief cancels subscription for real time updated daily PnL
         * params reqId
         */
@@ -2987,7 +2987,7 @@ namespace IBApi
         * @param reqId
         * @param account account in which position exists
         * @param modelCode model in which position exists
-        * @param conId contract ID (conId) of contract to receive daily PnL updates for.  
+        * @param conId contract ID (conId) of contract to receive daily PnL updates for.
         * Note: does not return message if invalid conId is entered
         */
 
@@ -3012,7 +3012,7 @@ namespace IBApi
             CloseAndSend(paramsList, lengthPos, EClientErrors.FAIL_SEND_REQPNLSINGLE);
         }
 
-        /** 
+        /**
         * @brief Cancels real time subscription for a positions daily PnL information
         * @param reqId
         */
@@ -3042,7 +3042,7 @@ namespace IBApi
         * @param startDateTime ,i.e. "20170701 12:01:00". Uses TWS timezone specified at login.
         * @param endDateTime ,i.e. "20170701 13:01:00". In TWS timezone. Exactly one of start time and end time has to be defined.
         * @param numberOfTicks Number of distinct data points. Max currently 1000 per request.
-        * @param whatToShow (Bid_Ask, Midpoint, Trades) Type of data requested. 
+        * @param whatToShow (Bid_Ask, Midpoint, Trades) Type of data requested.
         * @param useRth Data from regular trading hours (1), or all available hours (0)
         * @param ignoreSize A filter only used when the source price is Bid_Ask
         * @param miscOptions should be defined as <i>null</i>, reserved for internal use
@@ -3516,6 +3516,15 @@ namespace IBApi
         private bool StringsAreEqual(string a, string b)
         {
             return String.Compare(a, b, true) == 0;
+        }
+
+        public bool IsDataAvailable()
+        {
+            if (!isConnected) return false;
+
+            var networkStream = tcpStream as NetworkStream;
+
+            return networkStream == null || networkStream.DataAvailable;
         }
 
         public int ReadInt()

@@ -45,8 +45,16 @@ namespace IBApi
                 try
                 {
                     while (eClientSocket.IsConnected())
+                    {
+                        if (!eClientSocket.IsDataAvailable())
+                        {
+                            Thread.Sleep(1);
+                            continue;
+                        }
+
                         if (!putMessageToQueue())
                             break;
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -91,7 +99,7 @@ namespace IBApi
             catch (Exception ex)
             {
                 if (eClientSocket.IsConnected())
-                    eClientSocket.Wrapper.error(ex.Message);
+                    eClientSocket.Wrapper.error(ex);
 
                 return false;
             }
@@ -131,12 +139,12 @@ namespace IBApi
 
                     AppendInBuf();
                 }
-            
+
             var msgBuf = new byte[msgSize];
 
             inBuf.CopyTo(0, msgBuf, 0, msgSize);
             inBuf.RemoveRange(0, msgSize);
-          
+
             if (inBuf.Count < defaultInBufSize && inBuf.Capacity > defaultInBufSize)
                 inBuf.Capacity = defaultInBufSize;
 
