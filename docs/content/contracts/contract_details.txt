@@ -1,6 +1,6 @@
 /*! \page contract_details Requesting Contract Details
 
-	Complete details about a contract in IB's database can be retrieved using the function @ref IBApi::EClient::reqContractDetails. This includes information about a contracts conID, symbol, local symbol, currency, etc. which is returned in a @ref IBApi::ContractDetails object IBApi.EWrapper.contractDetail. reqContractDetails takes as an argument a Contract object which may uniquely match an argument, and unlike other API functions it can also take a Contract object which matches multiple contracts in IB's database. When there are multiple matches, they will each be returned individually to the function IBApi::EWrapper::contractDetails. 
+	Complete details about a contract in IB's database can be retrieved using the function @ref IBApi::EClient::reqContractDetails. This includes information about a contract's conID, symbol, local symbol, currency, etc. which is returned in a @ref IBApi::ContractDetails object. reqContractDetails takes as an argument a Contract object which may uniquely match one contract, and unlike other API functions it can also take a Contract object which matches multiple contracts in IB's database. When there are multiple matches, they will each be returned individually to the function IBApi::EWrapper::contractDetails. 
 	
 	<b>Note</b>: Invoking reqContractDetails with a Contract object which has currency = USD will only return US contracts, even if there are non-US instruments which have the USD currency. 
 	
@@ -84,7 +84,7 @@
 	</ul>
 	
 	<b>Important:</b> due to the potentially high amount of data resulting from such queries this request is subject to pacing. Although a request such as the above one will be answered immediately,
-	a similar subsequent one will be kept on hold for one minute. This amount of time will increase if more such requests are performed. To prevent this narrow down the amount of eligible contracts
+	a similar subsequent one will be kept on hold for one minute. This amount of time will increase if more such requests are performed. To prevent this, narrow down the amount of eligible contracts
 	by providing an expiration date specifying at least the year (i.e. 2016) or the year and the month (i.e. 201603 for March 2016).
 	
 	<br><br>
