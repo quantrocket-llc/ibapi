@@ -71,6 +71,17 @@ Public Const ID_EXERCISE_OPTIONS = 2400001
 Public Const ID_REQ_SMART_COMPONENTS = 2500001
 Public Const ID_REQ_HISTOGRAM_DATA = 2600001
 
+Public Function sheetExists(sheetToFind As String) As Boolean
+    Dim sheet As Worksheet
+    sheetExists = False
+    For Each sheet In Worksheets
+        If sheetToFind = sheet.name Then
+            sheetExists = True
+            Exit Function
+        End If
+    Next sheet
+End Function
+
 Public Function createLongValue(theArray As Variant) As String
     Dim longValue As String
     Dim j As Integer

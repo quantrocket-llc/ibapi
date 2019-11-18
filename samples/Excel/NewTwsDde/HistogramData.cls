@@ -150,6 +150,7 @@ End Sub
 ' Called when value in CELL_STATUS changes
 ' ========================================================
 Private Sub Worksheet_Calculate()
+    If Not util.sheetExists(STR_SHEET_NAME) Then Exit Sub
 
     Dim server As String, id As String
     Dim j As Integer

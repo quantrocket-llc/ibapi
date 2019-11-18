@@ -136,6 +136,7 @@ End Sub
 ' CELL_SOFT_DOLLAR_TIERS_REQUEST_CONTROL changes
 ' ========================================================
 Private Sub Worksheet_Calculate()
+    If Not util.sheetExists(STR_SHEET_NAME) Then Exit Sub
 
     Dim server As String, id As String
     Dim dimension As Integer

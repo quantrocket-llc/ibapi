@@ -561,6 +561,8 @@ End Sub
 ' Called when some value changes
 ' ========================================================
 Private Sub Worksheet_Calculate()
+    If Not util.sheetExists(STR_SHEET_NAME) Then Exit Sub
+
     Dim i As Integer
     
     With Worksheets(STR_SHEET_NAME)
