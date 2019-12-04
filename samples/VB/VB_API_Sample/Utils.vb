@@ -96,6 +96,7 @@ Friend Class Utils
         AvgOptVolume
         DelayedLastTimestamp
         ShortableShares
+        DelayedHalted
         Unknown
     End Enum
 

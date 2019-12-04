@@ -221,6 +221,7 @@ Public Enum tickType
     AVG_OPT_VOLUME
     DELAYED_LAST_TIMESTAMP
     SHORTABLE_SHARES
+    DELAYED_HALTED
 End Enum
 
 Public Type MktDataAttr

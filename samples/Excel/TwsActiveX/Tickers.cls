@@ -1982,6 +1982,8 @@ Public Sub UpdateTickersSheetWithTickGeneric(ByVal id As Long, ByVal tickType As
                 .TradeRate = value
             Case VOLUME_RATE
                 .VolumeRate = value
+            Case DELAYED_HALTED
+                .Halted = value
         End Select
     End With
 

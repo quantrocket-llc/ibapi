@@ -103,6 +103,7 @@ namespace IBApi
         public const int AVG_OPT_VOLUME = 87;
         public const int DELAYED_LAST_TIMESTAMP = 88;
         public const int SHORTABLE_SHARES = 89;
+        public const int DELAYED_HALTED = 90;
 
         public static String getField( int tickType) {
             switch( tickType) {
@@ -196,6 +197,7 @@ namespace IBApi
                 case AVG_OPT_VOLUME:              return "avgOptVolume";
                 case DELAYED_LAST_TIMESTAMP:      return "delayedLastTimestamp";
                 case SHORTABLE_SHARES:            return "shortableShares";
+                case DELAYED_HALTED:              return "delayedHalted";
 
                 default:                          return "unknown";
             }

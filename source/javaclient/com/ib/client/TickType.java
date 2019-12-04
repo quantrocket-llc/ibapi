@@ -95,6 +95,7 @@ public enum TickType {
     AVG_OPT_VOLUME(87, "avgOptVolume"),
     DELAYED_LAST_TIMESTAMP(88, "delayedLastTimestamp"),
     SHORTABLE_SHARES(89, "shortableShares"),
+    DELAYED_HALTED(90, "delayedHalted"),
 
     UNKNOWN( Integer.MAX_VALUE , "unknown" );
 
