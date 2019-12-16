@@ -11,7 +11,7 @@ class AccountSummaryTags:
     AccruedCash = "AccruedCash"
     BuyingPower = "BuyingPower"
     EquityWithLoanValue = "EquityWithLoanValue"
-    PreviousEquityWithLoanValue = "PreviousEquityWithLoanValue"
+    PreviousDayEquityWithLoanValue = "PreviousDayEquityWithLoanValue"
     GrossPositionValue = "GrossPositionValue"
     ReqTEquity = "ReqTEquity"
     ReqTMargin = "ReqTMargin"
