@@ -36,7 +36,7 @@ class AccountSummaryTags:
 
     AllTags = ",".join((AccountType, NetLiquidation, TotalCashValue,
         SettledCash, AccruedCash, BuyingPower, EquityWithLoanValue,
-        PreviousEquityWithLoanValue, GrossPositionValue, ReqTEquity,
+        PreviousDayEquityWithLoanValue, GrossPositionValue, ReqTEquity,
         ReqTMargin, SMA, InitMarginReq, MaintMarginReq, AvailableFunds, 
         ExcessLiquidity , Cushion, FullInitMarginReq, FullMaintMarginReq, 
         FullAvailableFunds, FullExcessLiquidity,
