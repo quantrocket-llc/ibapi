@@ -338,7 +338,7 @@ namespace TWSLib
         bool routeMarketableToBbo { get; set; }
 
         [DispId(183)]
-        long parentPermId { get; set; }
+        int parentPermId { get; set; }
 
         [DispId(184)]
         bool usePriceMgmtAlgo { get; set; }

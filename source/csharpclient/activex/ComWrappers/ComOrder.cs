@@ -365,7 +365,7 @@ namespace TWSLib
         string TWSLib.IOrder.shareholder { get { return data.Shareholder; } set { data.Shareholder = value; } }
         bool TWSLib.IOrder.imbalanceOnly { get { return data.ImbalanceOnly; } set { data.ImbalanceOnly = value; } }
         bool TWSLib.IOrder.routeMarketableToBbo { get { return data.RouteMarketableToBbo; } set { data.RouteMarketableToBbo = value; } }
-        long TWSLib.IOrder.parentPermId { get { return data.ParentPermId; } set { data.ParentPermId = value; } }
+        int TWSLib.IOrder.parentPermId { get { return (int)data.ParentPermId; } set { data.ParentPermId = value; } }
         bool TWSLib.IOrder.usePriceMgmtAlgo { get { return data.UsePriceMgmtAlgo ?? false; } set { data.UsePriceMgmtAlgo = value; } }
     }
 }

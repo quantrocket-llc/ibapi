@@ -31,7 +31,6 @@ Private Type TIME_ZONE_INFORMATION
 End Type
 
 Public Const MaxLongValue As Long = &H7FFFFFFF
-Public Const MaxLongLongValue As LongLong = 9223372036854775807^
 Public Const MaxDoubleValue As Double = (2 - 2 ^ -52) * 2 ^ 1023
 
 ' error codes
@@ -472,16 +471,6 @@ Public Function DblMaxStr(dblVal As Double) As String
         DblMaxStr = CStr(dblVal)
     End If
 End Function
-
-Public Function LongMaxStr(longVal As LongLong) As String
-    If longVal = MaxLongLongValue Then
-        LongMaxStr = ""
-    Else
-        LongMaxStr = CStr(longVal)
-    End If
-End Function
-
-
 
 Public Sub FillContractObject(lContractInfo As TWSLib.IContract, contractTable As Range, id As Long)
     With lContractInfo
