@@ -1613,7 +1613,7 @@ namespace IBApi
          * @param tickerId the request's unique identifier.
          * @param contract the contract for which we want to retrieve the data.
          * @param endDateTime request's ending time with format yyyyMMdd HH:mm:ss {TMZ}
-         * @param durationString the amount of time for which the data needs to be retrieved:
+         * @param durationStr the amount of time for which the data needs to be retrieved:
          *      - " S (seconds)
          *      - " D (days)
          *      - " W (weeks)
@@ -1648,7 +1648,7 @@ namespace IBApi
          * @sa EWrapper::historicalData
          */
         public void reqHistoricalData(int tickerId, Contract contract, string endDateTime,
-            string durationString, string barSizeSetting, string whatToShow, int useRTH, int formatDate, bool keepUpToDate, List<TagValue> chartOptions)
+            string durationStr, string barSizeSetting, string whatToShow, int useRTH, int formatDate, bool keepUpToDate, List<TagValue> chartOptions)
         {
             if (!CheckConnection())
                 return;
@@ -1702,7 +1702,7 @@ namespace IBApi
             paramsList.AddParameter(endDateTime);
             paramsList.AddParameter(barSizeSetting);
 
-            paramsList.AddParameter(durationString);
+            paramsList.AddParameter(durationStr);
             paramsList.AddParameter(useRTH);
             paramsList.AddParameter(whatToShow);
 
