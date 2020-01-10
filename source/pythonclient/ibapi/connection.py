@@ -110,7 +110,7 @@ class Connection:
         cont = True
         allbuf = b""
 
-        while cont and self.socket is not None:
+        while cont and self.isConnected():
             buf = self.socket.recv(4096)
             allbuf += buf
             logger.debug("len %d raw:%s|", len(buf), buf)
