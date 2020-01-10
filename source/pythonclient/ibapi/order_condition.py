@@ -42,9 +42,7 @@ class OrderCondition(Object):
         self.isConjunctionConnection = connector == "a"
 
     def make_fields(self):
-        flds = []
-        flds.append(comm.make_field("a" if self.isConjunctionConnection else "o"))
-        return flds
+        return [comm.make_field("a" if self.isConjunctionConnection else "o")]
  
     def __str__(self):
         return "<AND>" if self.isConjunctionConnection else "<OR>"
