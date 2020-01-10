@@ -4,11 +4,10 @@ Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is su
 """
 
 
-
 from ibapi.object_implem import Object
 
-class Execution(Object):
 
+class Execution(Object):
     def __init__(self):
         self.execId = ""
         self.time =  ""
@@ -36,8 +35,8 @@ class Execution(Object):
                 self.exchange, self.side, self.shares, self.price, self.permId, self.clientId, self.orderId, self.liquidation,
                 self.cumQty, self.avgPrice, self.orderRef, self.evRule, self.evMultiplier, self.modelCode, self.lastLiquidity)
 
-class ExecutionFilter(Object):
 
+class ExecutionFilter(Object):
     # Filter fields
     def __init__(self):
         self.clientId = 0

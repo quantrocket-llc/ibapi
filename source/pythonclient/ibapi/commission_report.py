@@ -6,8 +6,8 @@ Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is su
 from ibapi.object_implem import Object 
 from ibapi import utils
 
-class CommissionReport(Object):
 
+class CommissionReport(Object):
     def __init__(self):
         self.execId = ""
         self.commission = 0. 

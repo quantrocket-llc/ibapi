@@ -116,5 +116,3 @@ def floatToStr(val):
  
 def longToStr(val):
     return str(val) if val != UNSET_LONG else ""
-
-

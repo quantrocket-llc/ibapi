@@ -13,7 +13,6 @@ from ibapi.utils import decode
 #TODO: add support for Rebate, P/L, ShortableShares conditions 
 
 
- 
 class OrderCondition(Object):
     Price = 1
     Time = 3
@@ -49,7 +48,6 @@ class OrderCondition(Object):
 
 
 class ExecutionCondition(OrderCondition):
-
     def __init__(self, secType=None, exch=None, symbol=None):
         OrderCondition.__init__(self, OrderCondition.Execution)
         self.secType = secType
@@ -275,6 +273,3 @@ def Create(condType):
         cond = VolumeCondition()
 
     return cond
-
-
-
