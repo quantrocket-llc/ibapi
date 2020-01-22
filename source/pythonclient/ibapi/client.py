@@ -153,6 +153,12 @@ class EClient(object):
             while len(fields) != 2:
                 self.decoder.interpret(fields)
                 buf = self.conn.recvMsg()
+                if not self.conn.isConnected():
+                    # recvMsg() triggers disconnect() where there's a socket.error or 0 length buffer
+                    # if we don't then drop out of the while loop it infinitely loops
+                    logger.warning('Disconnected; resetting connection')
+                    self.reset()
+                    return
                 logger.debug("ANSWER %s", buf)
                 if len(buf) > 0:
                     (size, msg, rest) = comm.read_msg(buf)
