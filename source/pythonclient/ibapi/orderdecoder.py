@@ -23,7 +23,6 @@ class OrderDecoder(Object):
         self.orderState = orderState
         self.version = version
         self.serverVersion = serverVersion
-        self.discoverParams()
 
     def decodeOrderId(self, fields):
         self.order.orderId = decode(int, fields)
