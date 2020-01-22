@@ -48,7 +48,6 @@ class EClient(object):
 
 
     def reset(self):
-        self.done = False
         self.nKeybIntHard = 0
         self.conn = None
         self.host = None
@@ -182,7 +181,6 @@ class EClient(object):
                 self.wrapper.error(NO_VALID_ID, CONNECT_FAIL.code(), CONNECT_FAIL.msg())
             logger.info("could not connect")
             self.disconnect()
-            self.done = True
 
 
     def disconnect(self):
@@ -220,8 +218,7 @@ class EClient(object):
         """This is the function that has the message loop."""
 
         try:
-            while not self.done and (self.isConnected()
-                        or not self.msg_queue.empty()):
+            while self.isConnected() or not self.msg_queue.empty():
                 try:
                     try:
                         text = self.msg_queue.get(block=True, timeout=0.2)
