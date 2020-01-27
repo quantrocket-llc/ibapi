@@ -19,7 +19,7 @@ from ibapi.common import UNSET_INTEGER, UNSET_DOUBLE, UNSET_LONG
 logger = logging.getLogger(__name__)
 
 
-# I use this just to visually emphasize it's a wrapper overriden method
+# I use this just to visually emphasize it's a wrapper overridden method
 def iswrapper(fn):
     return fn
 
@@ -108,7 +108,7 @@ def ExerciseStaticMethods(klass):
             print("Exercising: %s:" % var)
             print(var())
             print()
-
+            
            
 def floatToStr(val):
     return str(val) if val != UNSET_DOUBLE else ""
