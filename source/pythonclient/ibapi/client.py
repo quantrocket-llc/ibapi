@@ -62,6 +62,7 @@ class EClient(object):
         self.reader = None
         self.decode = None
         self.setConnState(EClient.DISCONNECTED)
+        self.connectionOptions = None
 
 
     def setConnState(self, connState):
@@ -139,6 +140,10 @@ class EClient(object):
 
             v100prefix = "API\0"
             v100version = "v%d..%d" % (MIN_CLIENT_VER, MAX_CLIENT_VER)
+
+            if self.connectionOptions:
+                v100version = v100version + " " + self.connectionOptions
+
             #v100version = "v%d..%d" % (MIN_CLIENT_VER, 101)
             msg = comm.make_msg(v100version)
             logger.debug("msg %s", msg)
@@ -219,6 +224,8 @@ class EClient(object):
         if self.nKeybIntHard > 5:
             raise SystemExit()
 
+    def setConnectionOptions(self, opts):
+        self.connectionOptions = opts
 
     def run(self):
         """This is the function that has the message loop."""
