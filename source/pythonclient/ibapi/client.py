@@ -238,7 +238,6 @@ class EClient(object):
                         if len(text) > MAX_MSG_LEN:
                             self.wrapper.error(NO_VALID_ID, BAD_LENGTH.code(),
                                 "%s:%d:%s" % (BAD_LENGTH.msg(), len(text), text))
-                            self.disconnect()
                             break
                     except queue.Empty:
                         logger.debug("queue.get: empty")
@@ -252,7 +251,6 @@ class EClient(object):
                     self.keyboardInterruptHard()
                 except BadMessage:
                     logger.info("BadMessage")
-                    self.conn.disconnect()
 
                 logger.debug("conn:%d queue.sz:%d",
                              self.isConnected(),
