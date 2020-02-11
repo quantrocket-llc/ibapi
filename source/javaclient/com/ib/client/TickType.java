@@ -96,6 +96,15 @@ public enum TickType {
     DELAYED_LAST_TIMESTAMP(88, "delayedLastTimestamp"),
     SHORTABLE_SHARES(89, "shortableShares"),
     DELAYED_HALTED(90, "delayedHalted"),
+    REUTERS_2_MUTUAL_FUNDS(91, "reuters2MutualFunds"),
+    ETF_NAV_CLOSE(92, "etfNavClose"),
+    ETF_NAV_PRIOR_CLOSE(93, "etfNavPriorClose"),
+    ETF_NAV_BID(94, "etfNavBid"),
+    ETF_NAV_ASK(95, "etfNavAsk"),
+    ETF_NAV_LAST(96, "etfNavLast"),
+    ETF_FROZEN_NAV_LAST(97, "etfFrozenNavLast"),
+    ETF_NAV_HIGH(98, "etfNavHigh"),
+    ETF_NAV_LOW(99, "etfNavLow"),
 
     UNKNOWN( Integer.MAX_VALUE , "unknown" );
 

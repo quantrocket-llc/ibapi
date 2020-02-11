@@ -69,6 +69,14 @@ namespace TwsRtdServer
         private int m_futuresOpenInterest = 0;
         private int m_genTickAvgOptVolume = 0;
         private int m_genTickShortableShares = 0;
+        private double m_genTickEtfNavClose = 0;
+        private double m_genTickEtfNavPriorClose = 0;
+        private double m_genTickEtfNavBid = 0;
+        private double m_genTickEtfNavAsk = 0;
+        private double m_genTickEtfNavLast = 0;
+        private double m_genTickEtfFrozenNavLast = 0;
+        private double m_genTickEtfNavHigh = 0;
+        private double m_genTickEtfNavLow = 0;
 
         // delayed ticks
         private double m_delayed_lastPrice = 0.0;
@@ -260,7 +268,31 @@ namespace TwsRtdServer
                 case TwsRtdServerData.GEN_TICK_SHORTABLE_SHARES:
                     m_genTickShortableShares = (int)value;
                     break;
-                
+                case TwsRtdServerData.GEN_TICK_ETF_NAV_CLOSE:
+                    m_genTickEtfNavClose = (double)value;
+                    break;
+                case TwsRtdServerData.GEN_TICK_ETF_NAV_PRIOR_CLOSE:
+                    m_genTickEtfNavPriorClose = (double)value;
+                    break;
+                case TwsRtdServerData.GEN_TICK_ETF_NAV_BID:
+                    m_genTickEtfNavBid = (double)value;
+                    break;
+                case TwsRtdServerData.GEN_TICK_ETF_NAV_ASK:
+                    m_genTickEtfNavAsk = (double)value;
+                    break;
+                case TwsRtdServerData.GEN_TICK_ETF_NAV_LAST:
+                    m_genTickEtfNavLast = (double)value;
+                    break;
+                case TwsRtdServerData.GEN_TICK_ETF_FROZEN_NAV_LAST:
+                    m_genTickEtfFrozenNavLast = (double)value;
+                    break;
+                case TwsRtdServerData.GEN_TICK_ETF_NAV_HIGH:
+                    m_genTickEtfNavHigh = (double)value;
+                    break;
+                case TwsRtdServerData.GEN_TICK_ETF_NAV_LOW:
+                    m_genTickEtfNavLow = (double)value;
+                    break;
+
                 // delayed ticks
                 case TwsRtdServerData.DELAYED_LAST:
                     m_delayed_lastPrice = (double)value;
@@ -559,6 +591,30 @@ namespace TwsRtdServer
                     break;
                 case TwsRtdServerData.GEN_TICK_SHORTABLE_SHARES:
                     value = m_genTickShortableShares;
+                    break;
+                case TwsRtdServerData.GEN_TICK_ETF_NAV_CLOSE:
+                    value = m_genTickEtfNavClose;
+                    break;
+                case TwsRtdServerData.GEN_TICK_ETF_NAV_PRIOR_CLOSE:
+                    value = m_genTickEtfNavPriorClose;
+                    break;
+                case TwsRtdServerData.GEN_TICK_ETF_NAV_BID:
+                    value = m_genTickEtfNavBid;
+                    break;
+                case TwsRtdServerData.GEN_TICK_ETF_NAV_ASK:
+                    value = m_genTickEtfNavAsk;
+                    break;
+                case TwsRtdServerData.GEN_TICK_ETF_NAV_LAST:
+                    value = m_genTickEtfNavLast;
+                    break;
+                case TwsRtdServerData.GEN_TICK_ETF_FROZEN_NAV_LAST:
+                    value = m_genTickEtfFrozenNavLast;
+                    break;
+                case TwsRtdServerData.GEN_TICK_ETF_NAV_HIGH:
+                    value = m_genTickEtfNavHigh;
+                    break;
+                case TwsRtdServerData.GEN_TICK_ETF_NAV_LOW:
+                    value = m_genTickEtfNavLow;
                     break;
 
                 // delayed ticks

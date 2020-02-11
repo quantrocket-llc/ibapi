@@ -121,6 +121,17 @@ Namespace Samples
             Return contract
         End Function
 
+        Public Shared Function etf() As Contract
+            '! [etfcontract]
+            Dim contract As Contract = New Contract
+            contract.Symbol = "QQQ"
+            contract.SecType = "STK"
+            contract.Currency = "USD"
+            contract.Exchange = "SMART"
+            '! [etfcontract]
+            Return contract
+        End Function
+
         Public Shared Function USStockAtSmart() As Contract
 
             Dim Contract As Contract = New Contract

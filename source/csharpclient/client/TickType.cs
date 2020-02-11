@@ -104,6 +104,15 @@ namespace IBApi
         public const int DELAYED_LAST_TIMESTAMP = 88;
         public const int SHORTABLE_SHARES = 89;
         public const int DELAYED_HALTED = 90;
+        public const int REUTERS_2_MUTUAL_FUNDS = 91;
+        public const int ETF_NAV_CLOSE = 92;
+        public const int ETF_NAV_PRIOR_CLOSE = 93;
+        public const int ETF_NAV_BID = 94;
+        public const int ETF_NAV_ASK = 95;
+        public const int ETF_NAV_LAST = 96;
+        public const int ETF_FROZEN_NAV_LAST = 97;
+        public const int ETF_NAV_HIGH = 98;
+        public const int ETF_NAV_LOW = 99;
 
         public static String getField( int tickType) {
             switch( tickType) {
@@ -198,7 +207,15 @@ namespace IBApi
                 case DELAYED_LAST_TIMESTAMP:      return "delayedLastTimestamp";
                 case SHORTABLE_SHARES:            return "shortableShares";
                 case DELAYED_HALTED:              return "delayedHalted";
-
+                case REUTERS_2_MUTUAL_FUNDS:      return "reuters2MutualFunds";
+                case ETF_NAV_CLOSE:               return "etfNavClose";
+                case ETF_NAV_PRIOR_CLOSE:         return "etfNavPriorClose";
+                case ETF_NAV_BID:                 return "etfNavBid";
+                case ETF_NAV_ASK:                 return "etfNavAsk";
+                case ETF_NAV_LAST:                return "etfNavLast";
+                case ETF_FROZEN_NAV_LAST:         return "etfFrozenNavLast";
+                case ETF_NAV_HIGH:                return "etfNavHigh";
+                case ETF_NAV_LOW:                 return "etfNavLow";
                 default:                          return "unknown";
             }
         }

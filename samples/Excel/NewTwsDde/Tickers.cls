@@ -52,9 +52,9 @@ Const idColumnIndex = 19 ' index of "id" column
 Const startOfMarketDataColumns = 20 ' market data first column index
 Const startOfTickReqParamsColumns = 41 ' tick req params first column index
 Const startOfGenericTicksColumns = 44 ' generic ticks first column index
-Const startOfOptCompColumns = 81 ' option computations first column index
-Const startOfEFPCompColumns = 113 ' efp first column index
-Const fundamentalsColumnIndex = 61
+Const startOfOptCompColumns = 89 ' option computations first column index
+Const startOfEFPCompColumns = 121 ' efp first column index
+Const fundamentalsColumnIndex = 69
 
 ' rows
 Const dataStartRowIndex = 10 ' starting row of data
@@ -90,7 +90,7 @@ Private Function getGenTicksColumns() As GenTickCol()
         GoTo getGenTicksColumnsEnd
     End If
     
-    ReDim genTicksColumnsArray(23)
+    ReDim genTicksColumnsArray(28)
     
     ' genTick=105 (avgOptVolume), response=87
     genTicksColumnsArray(0).genTick = 105
@@ -187,6 +187,26 @@ Private Function getGenTicksColumns() As GenTickCol()
     ' genTick=375 (rtTrdVolume), response=77
     genTicksColumnsArray(23).genTick = 375
     genTicksColumnsArray(23).names = Array("rtTrdVolume")
+
+    ' genTick=578 (etfNavClose), response=92,93
+    genTicksColumnsArray(24).genTick = 578
+    genTicksColumnsArray(24).names = Array("etfNavClose", "etfNavPriorClose")
+
+    ' genTick=576 (etfNavBidAsk), response=94,95
+    genTicksColumnsArray(25).genTick = 576
+    genTicksColumnsArray(25).names = Array("etfNavBid", "etfNavAsk")
+
+    ' genTick=577 (etfNavLast), response=96
+    genTicksColumnsArray(26).genTick = 577
+    genTicksColumnsArray(26).names = Array("etfNavLast")
+
+    ' genTick=623 (etfFrozenNavLast), response=97
+    genTicksColumnsArray(27).genTick = 623
+    genTicksColumnsArray(27).names = Array("etfFrozenNavLast")
+
+    ' genTick=614 (etfNavMisc), response=98,99
+    genTicksColumnsArray(28).genTick = 614
+    genTicksColumnsArray(28).names = Array("etfNavHigh", "etfNavLow")
 
     ' TODO: add generic ticks here
     

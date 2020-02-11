@@ -64,7 +64,7 @@ Module MainModule
         '**************************************************
         '** Real time market data operations  - Tickers ***
         '**************************************************
-        'tickDataOperations(client)
+        tickDataOperations(client)
 
         '***************************************************
         '** Tick option computation operations - Tickers ***
@@ -99,7 +99,7 @@ Module MainModule
         '***************************
         '** Contract information ***
         '***************************
-        contractOperations(client)
+        'contractOperations(client)
 
         '**********************
         '** Market Scanners ***
@@ -296,6 +296,11 @@ Module MainModule
         client.reqMktData(1016, ContractSamples.USStockAtSmart(), "mdoff,105", False, False, Nothing)
         '! [reqavgoptvolume]
 
+        '! [reqetfticks]
+        'Requesting data for an ETF will return the ETF ticks
+        client.reqMktData(1017, ContractSamples.etf(), "mdoff,576,577,578,614,623", False, False, Nothing)
+        '! [reqetfticks]
+
         Thread.Sleep(10000)
         ' Canceling the market data subscription 
         ' [cancelmktdata]
@@ -307,6 +312,7 @@ Module MainModule
         client.cancelMktData(1014)
         client.cancelMktData(1015)
         client.cancelMktData(1016)
+        client.cancelMktData(1017)
         ' [cancelmktdata]
     End Sub
 

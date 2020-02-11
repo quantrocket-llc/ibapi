@@ -45,10 +45,10 @@ public class Testbed {
 		Thread.sleep(1000);
 
 		//tickByTickOperations(wrapper.getClient());
-		//tickDataOperations(wrapper.getClient());
+		tickDataOperations(wrapper.getClient());
 		//tickOptionComputations(wrapper.getClient());
 		//orderOperations(wrapper.getClient(), wrapper.getCurrentOrderId());
-		contractOperations(wrapper.getClient());
+		//contractOperations(wrapper.getClient());
 		//hedgeSample(wrapper.getClient(), wrapper.getCurrentOrderId());
 		//testAlgoSamples(wrapper.getClient(), wrapper.getCurrentOrderId());
 		//bracketSample(wrapper.getClient(), wrapper.getCurrentOrderId());
@@ -287,6 +287,10 @@ public class Testbed {
         client.reqMktData(1016, ContractSamples.USStockAtSmart(), "mdoff,105", false, false, null);
         //! [reqavgoptvolume]
         
+        //! [reqetfticks]
+        client.reqMktData(1017, ContractSamples.etf(), "mdoff,576,577,578,614,623", false, false, null);
+        //! [reqetfticks]
+        
 		Thread.sleep(10000);
 		//! [cancelmktdata]
 		client.cancelMktData(1001);
@@ -295,6 +299,7 @@ public class Testbed {
 		client.cancelMktData(1014);
 		client.cancelMktData(1015);
 		client.cancelMktData(1016);
+		client.cancelMktData(1017);
 		//! [cancelmktdata]
 		
 	}

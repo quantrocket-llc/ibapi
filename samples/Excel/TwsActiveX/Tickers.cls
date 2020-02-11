@@ -98,6 +98,16 @@ Public Enum TickerColumns
     Col_OPTHISTVOLUME
     Col_OPTIMPLVOLUME
 
+' ETF
+    Col_ETFNAVCLOSE
+    Col_ETFNAVPRIORCLOSE
+    Col_ETFNAVBID
+    Col_ETFNAVASK
+    Col_ETFNAVLAST
+    Col_ETFFROZENNAVLAST
+    Col_ETFNAVHIGH
+    Col_ETFNAVLOW
+
 ' yields
     Col_BIDYIELD
     Col_ASKYIELD
@@ -324,6 +334,16 @@ Private Type MktDataRecord
     VolumeRate As Double
     LastRTHTrade As Double
     
+    ' ETF
+    etfNavClose As Double
+    etfNavPriorClose As Double
+    etfNavBid As Double
+    etfNavAsk As Double
+    etfNavLast As Double
+    etfFrozenNavLast As Double
+    etfNavHigh As Double
+    etfNavLow As Double
+    
     ' yields
     BidYield As Double
     AskYield As Double
@@ -544,6 +564,32 @@ Private Sub RepaintMktDataRow(ByVal i As Long)
         End If
         If tickerDataTable(i, Col_AVGOPTVOLUME).value <> .AvgOptVolume Then
             tickerDataTable(i, Col_AVGOPTVOLUME).value = .AvgOptVolume
+        End If
+        
+        ' ETF
+        If tickerDataTable(i, Col_ETFNAVCLOSE).value <> .etfNavClose Then
+            tickerDataTable(i, Col_ETFNAVCLOSE).value = .etfNavClose
+        End If
+        If tickerDataTable(i, Col_ETFNAVPRIORCLOSE).value <> .etfNavPriorClose Then
+            tickerDataTable(i, Col_ETFNAVPRIORCLOSE).value = .etfNavPriorClose
+        End If
+        If tickerDataTable(i, Col_ETFNAVBID).value <> .etfNavBid Then
+            tickerDataTable(i, Col_ETFNAVBID).value = .etfNavBid
+        End If
+        If tickerDataTable(i, Col_ETFNAVASK).value <> .etfNavAsk Then
+            tickerDataTable(i, Col_ETFNAVASK).value = .etfNavAsk
+        End If
+        If tickerDataTable(i, Col_ETFNAVLAST).value <> .etfNavLast Then
+            tickerDataTable(i, Col_ETFNAVLAST).value = .etfNavLast
+        End If
+        If tickerDataTable(i, Col_ETFFROZENNAVLAST).value <> .etfFrozenNavLast Then
+            tickerDataTable(i, Col_ETFFROZENNAVLAST).value = .etfFrozenNavLast
+        End If
+        If tickerDataTable(i, Col_ETFNAVHIGH).value <> .etfNavHigh Then
+            tickerDataTable(i, Col_ETFNAVHIGH).value = .etfNavHigh
+        End If
+        If tickerDataTable(i, Col_ETFNAVLOW).value <> .etfNavLow Then
+            tickerDataTable(i, Col_ETFNAVLOW).value = .etfNavLow
         End If
         
         
@@ -1219,6 +1265,14 @@ Private Sub ClearMarketDataCells(ByVal row As Integer)
     tickerDataTable(row, Col_EFPCLOSEFORMATTEDBASISPOINTS).value = STR_EMPTY
     tickerDataTable(row, Col_EFPCLOSETOTALDIVIDENDS).value = STR_EMPTY
     tickerDataTable(row, Col_EFPCLOSEDIVIDENDIMPACT).value = STR_EMPTY
+    tickerDataTable(row, Col_ETFNAVCLOSE).value = STR_EMPTY
+    tickerDataTable(row, Col_ETFNAVPRIORCLOSE).value = STR_EMPTY
+    tickerDataTable(row, Col_ETFNAVBID).value = STR_EMPTY
+    tickerDataTable(row, Col_ETFNAVASK).value = STR_EMPTY
+    tickerDataTable(row, Col_ETFNAVLAST).value = STR_EMPTY
+    tickerDataTable(row, Col_ETFFROZENNAVLAST).value = STR_EMPTY
+    tickerDataTable(row, Col_ETFNAVHIGH).value = STR_EMPTY
+    tickerDataTable(row, Col_ETFNAVLOW).value = STR_EMPTY
 End Sub
 
 ' cancel calculate option price click
@@ -1435,6 +1489,15 @@ Private Sub CancelMarketDataSubscription(ByVal tickerIndex As Long)
         .AskExch = STR_EMPTY
         .OptBidExch = STR_EMPTY
         .OptAskExch = STR_EMPTY
+        
+        .etfNavClose = 0
+        .etfNavPriorClose = 0
+        .etfNavBid = 0
+        .etfNavAsk = 0
+        .etfNavLast = 0
+        .etfFrozenNavLast = 0
+        .etfNavHigh = 0
+        .etfNavLast = 0
 
         .BidYield = 0
         .AskYield = 0
@@ -1547,7 +1610,6 @@ Public Sub UpdateTickersSheetWithPrice(id As Long, tickType As Long, price As Do
         End If
     End If
    
-    
     With arMktData(id)
 
         Select Case tickType
@@ -1615,6 +1677,22 @@ Public Sub UpdateTickersSheetWithPrice(id As Long, tickType As Long, price As Do
                 .ClosePrice = price
             Case DELAYED_OPEN
                 .OpenPrice = price
+            Case ETF_NAV_CLOSE
+                .etfNavClose = price
+            Case ETF_NAV_PRIOR_CLOSE
+                .etfNavPriorClose = price
+            Case ETF_NAV_BID
+                .etfNavBid = price
+            Case ETF_NAV_ASK
+                .etfNavAsk = price
+            Case ETF_NAV_LAST
+                .etfNavLast = price
+            Case ETF_FROZEN_NAV_LAST
+                .etfFrozenNavLast = price
+            Case ETF_NAV_HIGH
+                .etfNavHigh = price
+            Case ETF_NAV_LOW
+                .etfNavLow = price
         End Select
     End With
 
