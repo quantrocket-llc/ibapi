@@ -178,6 +178,15 @@ public class ContractSamples {
 		contract.exchange("SMART");
 		return contract;
 	}
+
+    public static Contract etf() {
+        Contract contract = new Contract();
+        contract.symbol("QQQ");
+        contract.secType("STK");
+        contract.currency("USD");
+        contract.exchange("SMART");
+        return contract;
+    }
 	
 	public static Contract USOptionContract() {
 		Contract contract = new Contract();

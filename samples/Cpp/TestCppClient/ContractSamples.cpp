@@ -156,6 +156,17 @@ Contract ContractSamples::USStock(){
 	return contract;
 }
 
+Contract ContractSamples::etf() {
+	//! [etfcontract]
+	Contract contract;
+	contract.symbol = "QQQ";
+	contract.secType = "STK";
+	contract.currency = "USD";
+	contract.exchange = "SMART";
+	//! [etfcontract]
+	return contract;
+}
+
 Contract ContractSamples::USStockAtSmart(){
 	Contract contract;
 	contract.symbol = "IBM";

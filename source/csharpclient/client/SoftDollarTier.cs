@@ -53,7 +53,7 @@ namespace IBApi
 
         public override int GetHashCode()
         {
-            return Name.GetHashCode() + Value.GetHashCode();
+            return (Name ?? "").GetHashCode() + (Value ?? "").GetHashCode();
         }
 
         public static bool operator ==(SoftDollarTier left, SoftDollarTier right)

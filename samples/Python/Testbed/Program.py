@@ -252,7 +252,7 @@ class TestApp(TestWrapper, TestClient):
             #self.reqGlobalCancel()
             #self.marketDataTypeOperations()
             #self.accountOperations_req()
-            #self.tickDataOperations_req()
+            self.tickDataOperations_req()
             #self.marketDepthOperations_req()
             #self.realTimeBarsOperations_req()
             #self.historicalDataOperations_req()
@@ -260,7 +260,7 @@ class TestApp(TestWrapper, TestClient):
             #self.marketScannersOperations_req()
             #self.fundamentalsOperations_req()
             #self.bulletinsOperations_req()
-            self.contractOperations()
+            #self.contractOperations()
             #self.newsOperations_req()
             #self.miscelaneousOperations()
             #self.linkingOperations()
@@ -699,6 +699,10 @@ class TestApp(TestWrapper, TestClient):
         self.reqSmartComponents(1018, "a6")
         # ! [reqsmartcomponents]
         
+        # ! [reqetfticks]
+        self.reqMktData(1019, ContractSamples.etf(), "mdoff,576,577,578,623,614", False, False, [])
+        # ! [reqetfticks]
+        
 
     @printWhenExecuting
     def tickDataOperations_cancel(self):
@@ -728,6 +732,8 @@ class TestApp(TestWrapper, TestClient):
         self.cancelMktData(1016)
         
         self.cancelMktData(1017)
+
+        self.cancelMktData(1019)
 
     @iswrapper
     # ! [tickprice]

@@ -71,7 +71,7 @@ namespace TwsRtdServer{
         // TODO:
         // generic ticks
 
-        // STK  100,101,104,105,106,165,221,225,232,236,258,293,294,295,318,411,456,460,595,619
+        // STK  100,101,104,105,106,165,221,225,232,236,258,293,294,295,318,411,456,460,595,619,576,577,578,614,623
         // OPT  100,101,104,106,    165,221,225,232,236,258,293,294,295,318,411,456,460,595,619
         // FUT  100,101,104,106,    165,221,225,232,236,258,293,294,295,318,411,    460,    619,588
         // FOP  100,101,104,106,    165,221,225,232,236,258,293,294,295,318,411,    460,    619
@@ -85,7 +85,7 @@ namespace TwsRtdServer{
 
         public const string GENERIC_TICKS_BASE = "100,101,106,165,221,225,232,236,258,293,294,295,318,460,619"; // BAG
         public const string GENERIC_TICKS_FUT = GENERIC_TICKS_BASE + ",104,411,588"; // FUT, FOP, WAR, CFD, BOND, CASH
-        public const string GENERIC_TICKS_STK = GENERIC_TICKS_OPT  + ",105"; // STK
+        public const string GENERIC_TICKS_STK = GENERIC_TICKS_OPT  + ",105,576,577,578,614,623"; // STK
         public const string GENERIC_TICKS_OPT = GENERIC_TICKS_BASE + ",104,411,456,595"; // OPT
         public const string GENERIC_TICKS_IND = GENERIC_TICKS_BASE + ",104,162,411"; // IND
 
@@ -150,7 +150,20 @@ namespace TwsRtdServer{
         public const string FUTURES_OPEN_INTEREST = "FUTURESOPENINTEREST";
         // AVG_OPT_VOLUME (105)
         public const string GEN_TICK_AVG_OPT_VOLUME = "AVGOPTVOLUME";
-        
+        // ETF_NAV_CLOSE (578)
+        public const string GEN_TICK_ETF_NAV_CLOSE = "ETFNAVCLOSE";
+        public const string GEN_TICK_ETF_NAV_PRIOR_CLOSE = "ETFNAVPRIORCLOSE";
+        // ETF_NAV_BIDASK (576)
+        public const string GEN_TICK_ETF_NAV_BID = "ETFNAVBID";
+        public const string GEN_TICK_ETF_NAV_ASK = "ETFNAVASK";
+        // ETF_NAV_LAST (577)
+        public const string GEN_TICK_ETF_NAV_LAST = "ETFNAVLAST";
+        // ETF_FROZEN_NAV_LAST (623)
+        public const string GEN_TICK_ETF_FROZEN_NAV_LAST = "ETFFROZENNAVLAST";
+        // ETF_NAV_MISC (614)
+        public const string GEN_TICK_ETF_NAV_HIGH = "ETFNAVHIGH";
+        public const string GEN_TICK_ETF_NAV_LOW = "ETFNAVLOW";
+
         // DELAYED_TICKS
         public const string DELAYED_BID = "DELAYEDBID";
         public const string DELAYED_ASK = "DELAYEDASK";
@@ -164,6 +177,7 @@ namespace TwsRtdServer{
         public const string DELAYED_CLOSE = "DELAYEDCLOSE";
         public const string DELAYED_OPEN = "DELAYEDOPEN";
         public const string DELAYED_LAST_TIMESTAMP = "DELAYEDLASTTIMESTAMP";
+        public const string DELAYED_HALTED = "DELAYEDHALTED";
 
         // Option Topics
         public const string BID_IMPLIED_VOL = "BIDIMPLIEDVOL";
@@ -268,16 +282,22 @@ namespace TwsRtdServer{
             GEN_TICK_SHORT_TERM_VOLUME_3_MIN, GEN_TICK_SHORT_TERM_VOLUME_5_MIN, GEN_TICK_SHORT_TERM_VOLUME_10_MIN, // SHORT_TERM_VOLUME (595)
             FUTURES_OPEN_INTEREST, // FUTURES_OPEN_INTEREST (588)
             GEN_TICK_AVG_OPT_VOLUME, // AVG_OPT_VOLUME (105)
+            GEN_TICK_ETF_NAV_CLOSE, GEN_TICK_ETF_NAV_PRIOR_CLOSE, // ETF_NAV_CLOSE (578)
+            GEN_TICK_ETF_NAV_BID, GEN_TICK_ETF_NAV_ASK, // ETF_NAV_BIDASK (576)
+            GEN_TICK_ETF_NAV_LAST, // ETF_NAV_LAST (577)
+            GEN_TICK_ETF_FROZEN_NAV_LAST, // ETF_FROZEN_NAV_LAST (623)
+            GEN_TICK_ETF_NAV_HIGH, GEN_TICK_ETF_NAV_LOW, // ETF_NAV_MISC (614)
 
             // delayed topics
             DELAYED_BID, DELAYED_ASK, DELAYED_LAST, DELAYED_BID_SIZE, DELAYED_ASK_SIZE, DELAYED_LAST_SIZE, 
-            DELAYED_HIGH, DELAYED_LOW, DELAYED_VOLUME, DELAYED_CLOSE, DELAYED_OPEN, DELAYED_LAST_TIMESTAMP
+            DELAYED_HIGH, DELAYED_LOW, DELAYED_VOLUME, DELAYED_CLOSE, DELAYED_OPEN, DELAYED_LAST_TIMESTAMP,
+            DELAYED_HALTED
         };
 
         private static string[] m_allowedDelayedTopics = new string[]{ 
             // delayed topics
             DELAYED_BID, DELAYED_ASK, DELAYED_LAST, DELAYED_BID_SIZE, DELAYED_ASK_SIZE, DELAYED_LAST_SIZE, 
-            DELAYED_HIGH, DELAYED_LOW, DELAYED_VOLUME, DELAYED_CLOSE, DELAYED_OPEN,
+            DELAYED_HIGH, DELAYED_LOW, DELAYED_VOLUME, DELAYED_CLOSE, DELAYED_OPEN, DELAYED_LAST_TIMESTAMP, DELAYED_HALTED,
 
             // generic tick types that are provided when delayed data is enabled
             // 232
@@ -358,13 +378,22 @@ namespace TwsRtdServer{
             { 75, DELAYED_CLOSE },
             { 76, DELAYED_OPEN },
             { 88, DELAYED_LAST_TIMESTAMP },
+            { 90, DELAYED_HALTED },
        
             { 78, GEN_TICK_CREDITMAN_MARK_PRICE },
             { 79, GEN_TICK_CREDITMAN_SLOW_MARK_PRICE },
             { 84, LASTEXCH },
             { 86, FUTURES_OPEN_INTEREST },
             { 87, GEN_TICK_AVG_OPT_VOLUME },
-            { 89, GEN_TICK_SHORTABLE_SHARES }
+            { 89, GEN_TICK_SHORTABLE_SHARES },
+            { 92, GEN_TICK_ETF_NAV_CLOSE },
+            { 93, GEN_TICK_ETF_NAV_PRIOR_CLOSE },
+            { 94, GEN_TICK_ETF_NAV_BID },
+            { 95, GEN_TICK_ETF_NAV_ASK },
+            { 96, GEN_TICK_ETF_NAV_LAST },
+            { 97, GEN_TICK_ETF_FROZEN_NAV_LAST },
+            { 98, GEN_TICK_ETF_NAV_HIGH },
+            { 99, GEN_TICK_ETF_NAV_LOW }
         };
 
 

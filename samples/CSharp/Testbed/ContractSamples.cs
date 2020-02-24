@@ -182,6 +182,18 @@ namespace Samples
             return contract;
         }
 
+        public static Contract etf()
+        {
+            //! [etfcontract]
+            Contract contract = new Contract();
+            contract.Symbol = "QQQ";
+            contract.SecType = "STK";
+            contract.Currency = "USD";
+            contract.Exchange = "SMART";
+            //! [etfcontract]
+            return contract;
+        }
+
         public static Contract USStockWithPrimaryExch()
         {
             //! [stkcontractwithprimary]

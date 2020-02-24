@@ -165,6 +165,14 @@ class ContractSamples:
         contract.exchange = "SMART"
         return contract
 
+    @staticmethod
+    def etf():
+        contract = Contract()
+        contract.symbol = "QQQ"
+        contract.secType = "STK"
+        contract.currency = "USD"
+        contract.exchange = "SMART"
+        return contract
 
     @staticmethod
     def USOptionContract():

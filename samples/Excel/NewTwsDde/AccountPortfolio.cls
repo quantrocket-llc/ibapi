@@ -254,6 +254,7 @@ End Sub
 ' Called when value in CELL_SUBSCRIPTION_CONTROL changes
 ' ========================================================
 Private Sub Worksheet_Calculate()
+    If Not util.sheetExists(STR_SHEET_NAME) Then Exit Sub
 
     Dim server As String, id As String
     

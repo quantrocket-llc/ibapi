@@ -19,7 +19,7 @@ from ibapi.common import UNSET_INTEGER, UNSET_DOUBLE, UNSET_LONG
 logger = logging.getLogger(__name__)
 
 
-# I use this just to visually emphasize it's a wrapper overriden method
+# I use this just to visually emphasize it's a wrapper overridden method
 def iswrapper(fn):
     return fn
 
@@ -57,6 +57,8 @@ def setattr_log(self, var_name, var_value):
 
 
 SHOW_UNSET = True
+
+
 def decode(the_type, fields, show_unset = False):
     try:
         s = next(fields)
@@ -96,7 +98,6 @@ def decode(the_type, fields, show_unset = False):
     return n
 
 
-
 def ExerciseStaticMethods(klass):
 
     import types
@@ -107,11 +108,11 @@ def ExerciseStaticMethods(klass):
             print("Exercising: %s:" % var)
             print(var())
             print()
-
+            
+           
 def floatToStr(val):
-    return str(val) if val != UNSET_DOUBLE else "";
+    return str(val) if val != UNSET_DOUBLE else ""
 
+ 
 def longToStr(val):
-    return str(val) if val != UNSET_LONG else "";
-
-
+    return str(val) if val != UNSET_LONG else ""

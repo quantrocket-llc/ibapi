@@ -31,7 +31,6 @@ class Connection:
         self.wrapper = None
         self.lock = threading.Lock()
 
-
     def connect(self):
         try:
             self.socket = socket.socket()
@@ -48,7 +47,6 @@ class Connection:
 
         self.socket.settimeout(1)   #non-blocking
 
-
     def disconnect(self):
         self.lock.acquire()
         try:
@@ -62,13 +60,10 @@ class Connection:
         finally:
             self.lock.release()
 
-
     def isConnected(self):
         return self.socket is not None
 
-
     def sendMsg(self, msg):
-
         logger.debug("acquiring lock")
         self.lock.acquire()
         logger.debug("acquired lock")
@@ -90,7 +85,6 @@ class Connection:
 
         return nSent
 
-
     def recvMsg(self):
         if not self.isConnected():
             logger.debug("recvMsg attempted while not connected, releasing lock")
@@ -109,17 +103,14 @@ class Connection:
             logger.debug("socket broken, disconnecting")
             self.disconnect()
             buf = b""
-        else:
-            pass
 
         return buf
-
 
     def _recvAllMsg(self):
         cont = True
         allbuf = b""
 
-        while cont and self.socket is not None:
+        while cont and self.isConnected():
             buf = self.socket.recv(4096)
             allbuf += buf
             logger.debug("len %d raw:%s|", len(buf), buf)

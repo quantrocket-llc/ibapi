@@ -45,7 +45,6 @@ class Decoder(Object):
         self.wrapper = wrapper
         self.serverVersion = serverVersion
         self.discoverParams()
-        #self.printParams()
 
 
     def processTickPriceMsg(self, fields):

@@ -129,6 +129,8 @@ public class Utils {
         put(TickType.DELAYED_ASK_OPTION.index(), TickType.ASK_OPTION.field());
         put(TickType.DELAYED_LAST_OPTION.index(), TickType.LAST_OPTION.field());
         put(TickType.DELAYED_MODEL_OPTION.index(), TickType.MODEL_OPTION.field());
+        put(TickType.DELAYED_LAST_TIMESTAMP.index(), TickType.LAST_TIMESTAMP.field());
+        put(TickType.DELAYED_HALTED.index(), TickType.HALTED.field());
     }};
 
     /** Method decodes string to byte array and saves it to PDF file 

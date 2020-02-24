@@ -2,7 +2,6 @@
 Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable.
 """
-import time
 
 
 """
@@ -49,7 +48,6 @@ class EClient(object):
 
 
     def reset(self):
-        self.done = False
         self.nKeybIntHard = 0
         self.conn = None
         self.host = None
@@ -64,6 +62,7 @@ class EClient(object):
         self.reader = None
         self.decode = None
         self.setConnState(EClient.DISCONNECTED)
+        self.connectionOptions = None
 
 
     def setConnState(self, connState):
@@ -141,6 +140,10 @@ class EClient(object):
 
             v100prefix = "API\0"
             v100version = "v%d..%d" % (MIN_CLIENT_VER, MAX_CLIENT_VER)
+
+            if self.connectionOptions:
+                v100version = v100version + " " + self.connectionOptions
+
             #v100version = "v%d..%d" % (MIN_CLIENT_VER, 101)
             msg = comm.make_msg(v100version)
             logger.debug("msg %s", msg)
@@ -155,6 +158,12 @@ class EClient(object):
             while len(fields) != 2:
                 self.decoder.interpret(fields)
                 buf = self.conn.recvMsg()
+                if not self.conn.isConnected():
+                    # recvMsg() triggers disconnect() where there's a socket.error or 0 length buffer
+                    # if we don't then drop out of the while loop it infinitely loops
+                    logger.warning('Disconnected; resetting connection')
+                    self.reset()
+                    return
                 logger.debug("ANSWER %s", buf)
                 if len(buf) > 0:
                     (size, msg, rest) = comm.read_msg(buf)
@@ -183,7 +192,6 @@ class EClient(object):
                 self.wrapper.error(NO_VALID_ID, CONNECT_FAIL.code(), CONNECT_FAIL.msg())
             logger.info("could not connect")
             self.disconnect()
-            self.done = True
 
 
     def disconnect(self):
@@ -216,37 +224,35 @@ class EClient(object):
         if self.nKeybIntHard > 5:
             raise SystemExit()
 
+    def setConnectionOptions(self, opts):
+        self.connectionOptions = opts
 
     def run(self):
         """This is the function that has the message loop."""
 
         try:
-            while not self.done and (self.isConnected()
-                        or not self.msg_queue.empty()):
+            while self.isConnected() or not self.msg_queue.empty():
                 try:
                     try:
                         text = self.msg_queue.get(block=True, timeout=0.2)
                         if len(text) > MAX_MSG_LEN:
                             self.wrapper.error(NO_VALID_ID, BAD_LENGTH.code(),
                                 "%s:%d:%s" % (BAD_LENGTH.msg(), len(text), text))
-                            self.disconnect()
                             break
                     except queue.Empty:
-                        logging.debug("queue.get: empty")
-                        break # Added this break statement to stop infinite loops from happening 
+                        logger.debug("queue.get: empty")
                     else:
                         fields = comm.read_fields(text)
-                        logging.debug("fields %s", fields)
+                        logger.debug("fields %s", fields)
                         self.decoder.interpret(fields)
                 except (KeyboardInterrupt, SystemExit):
-                    logging.info("detected KeyboardInterrupt, SystemExit")
+                    logger.info("detected KeyboardInterrupt, SystemExit")
                     self.keyboardInterrupt()
                     self.keyboardInterruptHard()
                 except BadMessage:
-                    logging.info("BadMessage")
-                    self.conn.disconnect()
+                    logger.info("BadMessage")
 
-                logging.debug("conn:%d queue.sz:%d",
+                logger.debug("conn:%d queue.sz:%d",
                              self.isConnected(),
                              self.msg_queue.qsize())
         finally:

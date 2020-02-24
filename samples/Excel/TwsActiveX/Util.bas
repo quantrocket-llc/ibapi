@@ -31,7 +31,6 @@ Private Type TIME_ZONE_INFORMATION
 End Type
 
 Public Const MaxLongValue As Long = &H7FFFFFFF
-Public Const MaxLongLongValue As LongLong = 9223372036854775807^
 Public Const MaxDoubleValue As Double = (2 - 2 ^ -52) * 2 ^ 1023
 
 ' error codes
@@ -221,6 +220,16 @@ Public Enum tickType
     AVG_OPT_VOLUME
     DELAYED_LAST_TIMESTAMP
     SHORTABLE_SHARES
+    DELAYED_HALTED
+    REUTERS_2_MUTUAL_FUNDS
+    ETF_NAV_CLOSE
+    ETF_NAV_PRIOR_CLOSE
+    ETF_NAV_BID
+    ETF_NAV_ASK
+    ETF_NAV_LAST
+    ETF_FROZEN_NAV_LAST
+    ETF_NAV_HIGH
+    ETF_NAV_LOW
 End Enum
 
 Public Type MktDataAttr
@@ -471,16 +480,6 @@ Public Function DblMaxStr(dblVal As Double) As String
         DblMaxStr = CStr(dblVal)
     End If
 End Function
-
-Public Function LongMaxStr(longVal As LongLong) As String
-    If longVal = MaxLongLongValue Then
-        LongMaxStr = ""
-    Else
-        LongMaxStr = CStr(longVal)
-    End If
-End Function
-
-
 
 Public Sub FillContractObject(lContractInfo As TWSLib.IContract, contractTable As Range, id As Long)
     With lContractInfo

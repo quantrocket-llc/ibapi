@@ -55,7 +55,7 @@ namespace Samples
             /***************************************************/
             /*** Real time market data operations  - Tickers ***/
             /***************************************************/
-            //tickDataOperations(client);
+            tickDataOperations(client);
 
             /***************************************************/
             /*** Option computation operations  - Tickers    ***/
@@ -90,7 +90,7 @@ namespace Samples
             /****************************/
             /*** Contract information ***/
             /****************************/
-            contractOperations(client);
+            //contractOperations(client);
 
             /***********************/
             /*** Market Scanners ***/
@@ -382,6 +382,10 @@ namespace Samples
             client.reqMktData(1016, ContractSamples.USStockAtSmart(), "mdoff,105", false, false, null);
             //! [reqavgoptvolume]
 
+            //! [reqetfticks]
+            client.reqMktData(1017, ContractSamples.etf(), "mdoff,576,577,578,623,614", false, false, null);
+            //! [reqetfticks]
+
             Thread.Sleep(10000);
             /*** Canceling the market data subscription ***/
             //! [cancelmktdata]
@@ -391,6 +395,7 @@ namespace Samples
             client.cancelMktData(1014);
             client.cancelMktData(1015);
             client.cancelMktData(1016);
+            client.cancelMktData(1017);
             //! [cancelmktdata]
         }
 

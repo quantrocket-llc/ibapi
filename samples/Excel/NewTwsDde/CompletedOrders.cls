@@ -82,7 +82,8 @@ End Sub
 ' Called when value in CELL_SUBSCRIPTION_CONTROL changes
 ' ========================================================
 Private Sub Worksheet_Calculate()
-    'On Error Resume Next
+    If Not util.sheetExists(STR_SHEET_NAME) Then Exit Sub
+    
     With Worksheets(STR_SHEET_NAME)
        If CStr(.range(CELL_REQUEST_CONTROL).value) = util.STR_RECEIVED Then
             Dim server As String, id As String

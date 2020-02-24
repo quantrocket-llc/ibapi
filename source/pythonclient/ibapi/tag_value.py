@@ -20,5 +20,3 @@ class TagValue(Object):
         # this is not only used for Python dump but when encoding to send
         # so don't change it lightly !
         return "%s=%s;" % (self.tag, self.value)
-
- 
