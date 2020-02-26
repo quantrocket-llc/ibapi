@@ -1,12 +1,7 @@
 ﻿/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
-using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
 
 namespace IBApi
 {
@@ -165,11 +160,11 @@ namespace IBApi
             LastLiquidity = new Liquidity(0);
         }
 
-        public Execution(int orderId, int clientId, String execId, String time,
-                          String acctNumber, String exchange, String side, double shares,
+        public Execution(int orderId, int clientId, string execId, string time,
+                          string acctNumber, string exchange, string side, double shares,
                           double price, int permId, int liquidation, double cumQty,
-                          double avgPrice, String orderRef, String evRule, double evMultiplier,
-                          String modelCode, Liquidity lastLiquidity)
+                          double avgPrice, string orderRef, string evRule, double evMultiplier,
+                          string modelCode, Liquidity lastLiquidity)
         {
             OrderId = orderId;
             ClientId = clientId;
@@ -191,7 +186,7 @@ namespace IBApi
             LastLiquidity = lastLiquidity;
         }
 
-        public override bool Equals(Object p_other)
+        public override bool Equals(object p_other)
         {
             bool l_bRetVal = false;
             Execution l_theOther = p_other as Execution;
@@ -206,7 +201,7 @@ namespace IBApi
             }
             else
             {
-                l_bRetVal = String.Compare(ExecId, l_theOther.ExecId, true) == 0;
+                l_bRetVal = string.Compare(ExecId, l_theOther.ExecId, true) == 0;
             }
             return l_bRetVal;
         }

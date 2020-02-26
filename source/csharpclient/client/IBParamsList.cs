@@ -1,8 +1,7 @@
 ﻿/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
-using System;
+
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Globalization;
 using System.IO;
@@ -42,7 +41,7 @@ namespace IBApi
         public static void AddParameter(this BinaryWriter source, string value)
         {
             if (value != null)
-                source.Write(UTF8Encoding.UTF8.GetBytes(value));
+                source.Write(Encoding.UTF8.GetBytes(value));
             source.Write(Constants.EOL);
         }
 
@@ -70,7 +69,7 @@ namespace IBApi
 
         public static void AddParameterMax(this BinaryWriter source, double value)
         {
-            if (value == Double.MaxValue)
+            if (value == double.MaxValue)
                 source.Write(Constants.EOL);
             else
                 source.AddParameter(value);
@@ -79,7 +78,7 @@ namespace IBApi
 
         public static void AddParameterMax(this BinaryWriter source, int value)
         {
-            if (value == Int32.MaxValue)
+            if (value == int.MaxValue)
                 source.Write(Constants.EOL);
             else
                 source.AddParameter(value);

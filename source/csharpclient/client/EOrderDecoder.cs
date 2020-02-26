@@ -1,11 +1,7 @@
 /* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace IBApi
 {
@@ -67,7 +63,7 @@ namespace IBApi
 
         public void readTotalQuantity()
         {
-            order.TotalQuantity = serverVersion >= MinServerVer.FRACTIONAL_POSITIONS ? eDecoder.ReadDouble() : (double)eDecoder.ReadInt();
+            order.TotalQuantity = serverVersion >= MinServerVer.FRACTIONAL_POSITIONS ? eDecoder.ReadDouble() : eDecoder.ReadInt();
         }
 
         public void readOrderType()
@@ -478,11 +474,11 @@ namespace IBApi
                     {
                         int conId = eDecoder.ReadInt();
                         int ratio = eDecoder.ReadInt();
-                        String action = eDecoder.ReadString();
-                        String exchange = eDecoder.ReadString();
+                        string action = eDecoder.ReadString();
+                        string exchange = eDecoder.ReadString();
                         int openClose = eDecoder.ReadInt();
                         int shortSaleSlot = eDecoder.ReadInt();
-                        String designatedLocation = eDecoder.ReadString();
+                        string designatedLocation = eDecoder.ReadString();
                         int exemptCode = eDecoder.ReadInt();
 
                         ComboLeg comboLeg = new ComboLeg(conId, ratio, action, exchange, openClose,
@@ -543,7 +539,7 @@ namespace IBApi
                 order.ScalePriceIncrement = eDecoder.ReadDoubleMax();
             }
 
-            if (msgVersion >= 28 && order.ScalePriceIncrement > 0.0 && order.ScalePriceIncrement != Double.MaxValue)
+            if (msgVersion >= 28 && order.ScalePriceIncrement > 0.0 && order.ScalePriceIncrement != double.MaxValue)
             {
                 order.ScalePriceAdjustValue = eDecoder.ReadDoubleMax();
                 order.ScalePriceAdjustInterval = eDecoder.ReadIntMax();

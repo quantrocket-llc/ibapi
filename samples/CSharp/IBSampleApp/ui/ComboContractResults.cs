@@ -2,12 +2,6 @@
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using IBSampleApp.messages;
 
@@ -35,13 +29,13 @@ namespace IBSampleApp.ui
         private void contractResultsClose_Click(object sender, EventArgs e)
         {
             contractResults.Rows.Clear();
-            this.Visible = false;
+            Visible = false;
         }
 
         private void addComboLeg_Click(object sender, EventArgs e)
         {
             int conId = (int)contractResults.SelectedRows[0].Cells[6].Value;
-            this.Visible = false;
+            Visible = false;
         }
     }
 }

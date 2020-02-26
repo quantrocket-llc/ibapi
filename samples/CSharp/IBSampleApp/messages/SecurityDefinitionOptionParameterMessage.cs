@@ -1,10 +1,7 @@
 ﻿/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace IBSampleApp.messages
 {
@@ -20,13 +17,13 @@ namespace IBSampleApp.messages
 
         public SecurityDefinitionOptionParameterMessage(int reqId, string exchange, int underlyingConId, string tradingClass, string multiplier, HashSet<string> expirations, HashSet<double> strikes)
         {
-            this.ReqId = reqId;
-            this.Exchange = exchange;
-            this.UnderlyingConId = underlyingConId;
-            this.TradingClass = tradingClass;
-            this.Multiplier = multiplier;
-            this.Expirations = expirations;
-            this.Strikes = strikes;
+            ReqId = reqId;
+            Exchange = exchange;
+            UnderlyingConId = underlyingConId;
+            TradingClass = tradingClass;
+            Multiplier = multiplier;
+            Expirations = expirations;
+            Strikes = strikes;
         }
     }
 }

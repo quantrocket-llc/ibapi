@@ -1,11 +1,6 @@
 ﻿/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 namespace IBApi
 {
     /**
@@ -114,7 +109,7 @@ namespace IBApi
         public const int ETF_NAV_HIGH = 98;
         public const int ETF_NAV_LOW = 99;
 
-        public static String getField( int tickType) {
+        public static string getField( int tickType) {
             switch( tickType) {
                 case BID_SIZE:                    return "bidSize";
                 case BID:                         return "bidPrice";

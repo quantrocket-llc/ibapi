@@ -3,7 +3,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using IBSampleApp.messages;
 using IBApi;
@@ -44,10 +43,8 @@ namespace IBSampleApp.ui
         private int currentMktDataPutRequest = OPTIONS_DATA_PUT_BASE;
         private int currentOptionsExercisingRequest = OPTIONS_EXERCISING_BASE;
 
-        private bool isRequestActive = false;
-        
         private string optionsDataExchange;
-        private bool useSnapshot = false;
+        private bool useSnapshot;
         
         private IBClient ibClient;
         private DataGridView callGrid;
@@ -62,7 +59,7 @@ namespace IBSampleApp.ui
             this.ibClient = ibClient;
             this.callGrid = callGrid;
             this.putGrid = putGrid;
-            this.positionsGrid = optionPositionsGrid;
+            positionsGrid = optionPositionsGrid;
             this.optionParamsListView = optionParamsListView;
         }
 
@@ -156,7 +153,7 @@ namespace IBSampleApp.ui
             Clear();
             IsRequestActive = true;
             this.useSnapshot = useSnapshot;
-            this.optionsDataExchange = optionExchange;
+            optionsDataExchange = optionExchange;
             ibClient.ClientSocket.reqContractDetails(OPTIONS_ID_BASE, contract);
         }
 
@@ -219,11 +216,7 @@ namespace IBSampleApp.ui
             grid[THETA_INDEX, row].Value = message.Theta;
         }
 
-        public bool IsRequestActive
-        {
-            get { return isRequestActive; }
-            set { isRequestActive = value; }
-        }
+        public bool IsRequestActive { get; set; }
 
         public void ExerciseOptions(int ovrd, int quantity, string exchange, int action) 
         {

@@ -3,8 +3,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace IBApi
 {
@@ -519,7 +517,7 @@ namespace IBApi
          * @param message the message
          * @param origExchange the exchange where the message comes from.
          */
-        void updateNewsBulletin(int msgId, int msgType, String message, String origExchange);
+        void updateNewsBulletin(int msgId, int msgType, string message, string origExchange);
 
         /**
          * @brief provides the portfolio's open positions.

@@ -3,12 +3,8 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading;
-using System.Net.Sockets;
 using System.IO;
-using System.Net;
 using System.Text.RegularExpressions;
 
 namespace IBApi
@@ -24,8 +20,8 @@ namespace IBApi
         public EDecoder(int serverVersion, EWrapper callback, EClientMsgSink sink = null)
         {
             this.serverVersion = serverVersion;
-            this.eWrapper = callback;
-            this.eClientMsgSink = sink;
+            eWrapper = callback;
+            eClientMsgSink = sink;
         }
 
         public int ParseAndProcessMsg(byte[] buf)
@@ -404,7 +400,7 @@ namespace IBApi
             Contract contract = new Contract();
             Order order = new Order();
             OrderState orderState = new OrderState();
-            EOrderDecoder eOrderDecoder = new EOrderDecoder(this, contract, order, orderState, Int32.MaxValue, serverVersion);
+            EOrderDecoder eOrderDecoder = new EOrderDecoder(this, contract, order, orderState, int.MaxValue, serverVersion);
 
             // read contract fields
             eOrderDecoder.readContractFields();
@@ -507,8 +503,8 @@ namespace IBApi
                     TickAttribLast tickAttribLast = new TickAttribLast();
                     tickAttribLast.PastLimit = mask[0];
                     tickAttribLast.Unreported = mask[1];
-                    String exchange = ReadString();
-                    String specialConditions = ReadString();
+                    string exchange = ReadString();
+                    string specialConditions = ReadString();
                     eWrapper.tickByTickAllLast(reqId, tickType, time, price, size, tickAttribLast, exchange, specialConditions);
                     break;
                 case 3: // BidAsk
@@ -777,7 +773,7 @@ namespace IBApi
             for (int i = 0; i < n; i++)
             {
                 int bitNumber = ReadInt();
-                String exchange = ReadString();
+                string exchange = ReadString();
                 char exchangeLetter = ReadChar();
 
                 theMap.Add(bitNumber, new KeyValuePair<string, char>(exchange, exchangeLetter));
@@ -790,7 +786,7 @@ namespace IBApi
         {
             int tickerId = ReadInt();
             double minTick = ReadDouble();
-            String bboExchange = ReadString();
+            string bboExchange = ReadString();
             int snapshotPermissions = ReadInt();
 
             eWrapper.tickReqParams(tickerId, minTick, bboExchange, snapshotPermissions);
@@ -883,7 +879,7 @@ namespace IBApi
                     }
                     else
                     {
-                        depthMktDataDescriptions[i] = new DepthMktDataDescription(ReadString(), ReadString(), "", ReadBoolFromInt() ? "Deep2" : "Deep", Int32.MaxValue);
+                        depthMktDataDescriptions[i] = new DepthMktDataDescription(ReadString(), ReadString(), "", ReadBoolFromInt() ? "Deep2" : "Deep", int.MaxValue);
                     }
                 }
             }
@@ -959,7 +955,7 @@ namespace IBApi
         private void VerifyCompletedEvent()
         {
             int msgVersion = ReadInt();
-            bool isSuccessful = String.Compare(ReadString(), "true", true) == 0;
+            bool isSuccessful = string.Compare(ReadString(), "true", true) == 0;
             string errorText = ReadString();
 
             eWrapper.verifyCompleted(isSuccessful, errorText);
@@ -976,7 +972,7 @@ namespace IBApi
         private void VerifyAndAuthCompletedEvent()
         {
             int msgVersion = ReadInt();
-            bool isSuccessful = String.Compare(ReadString(), "true", true) == 0;
+            bool isSuccessful = string.Compare(ReadString(), "true", true) == 0;
             string errorText = ReadString();
 
             eWrapper.verifyAndAuthCompleted(isSuccessful, errorText);
@@ -1164,30 +1160,30 @@ namespace IBApi
             double impliedVolatility = ReadDouble();
             if (impliedVolatility.Equals(-1))
             { // -1 is the "not yet computed" indicator
-                impliedVolatility = Double.MaxValue;
+                impliedVolatility = double.MaxValue;
             }
             double delta = ReadDouble();
             if (delta.Equals(-2))
             { // -2 is the "not yet computed" indicator
-                delta = Double.MaxValue;
+                delta = double.MaxValue;
             }
-            double optPrice = Double.MaxValue;
-            double pvDividend = Double.MaxValue;
-            double gamma = Double.MaxValue;
-            double vega = Double.MaxValue;
-            double theta = Double.MaxValue;
-            double undPrice = Double.MaxValue;
+            double optPrice = double.MaxValue;
+            double pvDividend = double.MaxValue;
+            double gamma = double.MaxValue;
+            double vega = double.MaxValue;
+            double theta = double.MaxValue;
+            double undPrice = double.MaxValue;
             if (msgVersion >= 6 || tickType == TickType.MODEL_OPTION || tickType == TickType.DELAYED_MODEL_OPTION)
             {
                 optPrice = ReadDouble();
                 if (optPrice.Equals(-1))
                 { // -1 is the "not yet computed" indicator
-                    optPrice = Double.MaxValue;
+                    optPrice = double.MaxValue;
                 }
                 pvDividend = ReadDouble();
                 if (pvDividend.Equals(-1))
                 { // -1 is the "not yet computed" indicator
-                    pvDividend = Double.MaxValue;
+                    pvDividend = double.MaxValue;
                 }
             }
             if (msgVersion >= 6)
@@ -1195,22 +1191,22 @@ namespace IBApi
                 gamma = ReadDouble();
                 if (gamma.Equals(-2))
                 { // -2 is the "not yet computed" indicator
-                    gamma = Double.MaxValue;
+                    gamma = double.MaxValue;
                 }
                 vega = ReadDouble();
                 if (vega.Equals(-2))
                 { // -2 is the "not yet computed" indicator
-                    vega = Double.MaxValue;
+                    vega = double.MaxValue;
                 }
                 theta = ReadDouble();
                 if (theta.Equals(-2))
                 { // -2 is the "not yet computed" indicator
-                    theta = Double.MaxValue;
+                    theta = double.MaxValue;
                 }
                 undPrice = ReadDouble();
                 if (undPrice.Equals(-1))
                 { // -1 is the "not yet computed" indicator
-                    undPrice = Double.MaxValue;
+                    undPrice = double.MaxValue;
                 }
             }
 
@@ -1352,7 +1348,7 @@ namespace IBApi
                 contract.TradingClass = ReadString();
             }
 
-            var position = serverVersion >= MinServerVer.FRACTIONAL_POSITIONS ? ReadDouble() : (double)ReadInt();
+            var position = serverVersion >= MinServerVer.FRACTIONAL_POSITIONS ? ReadDouble() : ReadInt();
             double marketPrice = ReadDouble();
             double marketValue = ReadDouble();
             double averageCost = 0.0;
@@ -1399,8 +1395,8 @@ namespace IBApi
             int msgVersion = serverVersion >= MinServerVer.MARKET_CAP_PRICE ? int.MaxValue : ReadInt();
             int id = ReadInt();
             string status = ReadString();
-            double filled = serverVersion >= MinServerVer.FRACTIONAL_POSITIONS ? ReadDouble() : (double)ReadInt();
-            double remaining = serverVersion >= MinServerVer.FRACTIONAL_POSITIONS ? ReadDouble() : (double)ReadInt();
+            double filled = serverVersion >= MinServerVer.FRACTIONAL_POSITIONS ? ReadDouble() : ReadInt();
+            double remaining = serverVersion >= MinServerVer.FRACTIONAL_POSITIONS ? ReadDouble() : ReadInt();
             double avgFillPrice = ReadDouble();
 
             int permId = 0;
@@ -1677,7 +1673,7 @@ namespace IBApi
             exec.AcctNumber = ReadString();
             exec.Exchange = ReadString();
             exec.Side = ReadString();
-            exec.Shares = serverVersion >= MinServerVer.FRACTIONAL_POSITIONS ? ReadDouble() : (double)ReadInt();
+            exec.Shares = serverVersion >= MinServerVer.FRACTIONAL_POSITIONS ? ReadDouble() : ReadInt();
             exec.Price = ReadDouble();
             if (msgVersion >= 2)
             {
@@ -1867,7 +1863,7 @@ namespace IBApi
                 contract.TradingClass = ReadString();
             }
 
-            var pos = serverVersion >= MinServerVer.FRACTIONAL_POSITIONS ? ReadDouble() : (double)ReadInt();
+            var pos = serverVersion >= MinServerVer.FRACTIONAL_POSITIONS ? ReadDouble() : ReadInt();
             double avgCost = 0;
             if (msgVersion >= 3)
                 avgCost = ReadDouble();
@@ -2002,13 +1998,13 @@ namespace IBApi
             {
                 return 0;
             }
-            else return Double.Parse(doubleAsstring, System.Globalization.NumberFormatInfo.InvariantInfo);
+            else return double.Parse(doubleAsstring, System.Globalization.NumberFormatInfo.InvariantInfo);
         }
 
         public double ReadDoubleMax()
         {
             string str = ReadString();
-            return (str == null || str.Length == 0) ? Double.MaxValue : Double.Parse(str, System.Globalization.NumberFormatInfo.InvariantInfo);
+            return string.IsNullOrEmpty(str) ? double.MaxValue : double.Parse(str, System.Globalization.NumberFormatInfo.InvariantInfo);
         }
 
         public long ReadLong()
@@ -2019,7 +2015,7 @@ namespace IBApi
             {
                 return 0;
             }
-            else return Int64.Parse(longAsstring);
+            else return long.Parse(longAsstring);
         }
 
         public int ReadInt()
@@ -2030,19 +2026,19 @@ namespace IBApi
             {
                 return 0;
             }
-            else return Int32.Parse(intAsstring);
+            else return int.Parse(intAsstring);
         }
 
         public int ReadIntMax()
         {
             string str = ReadString();
-            return (str == null || str.Length == 0) ? Int32.MaxValue : Int32.Parse(str);
+            return string.IsNullOrEmpty(str) ? int.MaxValue : int.Parse(str);
         }
 
         public bool ReadBoolFromInt()
         {
             string str = ReadString();
-            return str == null ? false : (Int32.Parse(str) != 0);
+            return str == null ? false : (int.Parse(str) != 0);
         }
 
         public char ReadChar()
