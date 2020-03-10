@@ -405,11 +405,11 @@
 		</tr>
 		<tr>
 			<td>201</td><td>Order rejected - Reason:</td>
-			<td>An attempted order was rejected by the IB servers.</td>
+			<td>An attempted order was rejected by the IB servers. See @ref order_placement for additional information/considerations for these errors.</td>
 		</tr>
 		<tr>
 			<td>202</td><td>Order cancelled - Reason:</td>
-			<td>An active order on the IB server was cancelled</td>
+			<td>An active order on the IB server was cancelled. See @ref order_placement for additional information/considerations for these errors.</td>
 		</tr>
 		<tr>
 			<td>203</td><td>The security \<security\> is not available or allowed for this account.</td>

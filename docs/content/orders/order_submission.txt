@@ -176,10 +176,11 @@
 	- <b>PreSubmitted</b> - indicates that a simulated order type has been accepted by the IB system and that this order has yet to be elected. The order is held in the IB system until the election criteria are met. At that time the order is transmitted to the order destination as specified. 
 	- <b>Submitted</b> - indicates that your order has been accepted at the order destination and is working. 
 	- <b>ApiCancelled</b> - after an order has been submitted and before it has been acknowledged, an API client can request its cancellation, producing this state. 
-	- <b>Cancelled</b> - indicates that the balance of your order has been confirmed cancelled by the IB system. This could occur unexpectedly when IB or the destination has rejected your order. 
+	- <b>Cancelled</b> - indicates that the balance of your order has been confirmed cancelled by the IB system. This could occur unexpectedly when IB or the destination has rejected your order. For example, if your order is subject to price checks, it could be cancelled, as explained in @ref order_placement
 	- <b>Filled</b> - indicates that the order has been completely filled. 
 	- <b>Inactive</b> - indicates an order is not working, possible reasons include: 
 		- it is invalid or triggered an error. A corresponding error code is expected to the error() function. 
+            - This error may be a reject, for example a regulatory size reject. See @ref order_placement
 		- the order is to short shares but the order is being held while shares are being located. 
 		- an order is placed manually in TWS while the exchange is closed.
 	    - an order is blocked by TWS due to a precautionary setting and appears there in an untransmitted state 
