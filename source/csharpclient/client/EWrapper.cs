@@ -877,7 +877,7 @@ namespace IBApi
         * @param specialConditions - tick-by-tick real-time tick special conditions
         * @sa EClient::reqTickByTickData
         */
-        void tickByTickAllLast(int reqId, int tickType, long time, double price, int size, TickAttribLast tickAttriblast, string exchange, string specialConditions);
+        void tickByTickAllLast(int reqId, int tickType, long time, double price, int size, TickAttribLast tickAttribLast, string exchange, string specialConditions);
 
         /**
         * @brief returns "BidAsk" tick-by-tick real-time tick
