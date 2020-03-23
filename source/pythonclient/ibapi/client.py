@@ -227,6 +227,14 @@ class EClient(object):
     def setConnectionOptions(self, opts):
         self.connectionOptions = opts
 
+    def msgLoopTmo( self ):
+        #intended to be overloaded
+        pass
+
+    def msgLoopRec( self ):
+        #intended to be overloaded
+        pass
+
     def run(self):
         """This is the function that has the message loop."""
 
@@ -241,10 +249,12 @@ class EClient(object):
                             break
                     except queue.Empty:
                         logger.debug("queue.get: empty")
+                        self.msgLoopTmo()
                     else:
                         fields = comm.read_fields(text)
                         logger.debug("fields %s", fields)
                         self.decoder.interpret(fields)
+                        self.msgLoopRec()
                 except (KeyboardInterrupt, SystemExit):
                     logger.info("detected KeyboardInterrupt, SystemExit")
                     self.keyboardInterrupt()
