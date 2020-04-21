@@ -31,7 +31,7 @@ namespace IBApi
         internal bool UseV100Plus { get { return useV100Plus; } }
 
         private string connectOptions = "";
-        protected bool allowRedirect = false;
+        protected bool allowRedirect;
 
         /**
          * @brief Constructor
@@ -41,11 +41,11 @@ namespace IBApi
         public EClient(EWrapper wrapper)
         {
             this.wrapper = wrapper;
-            this.clientId = -1;
-            this.extraAuth = false;
-            this.isConnected = false;
-            this.optionalCapabilities = "";
-            this.AsyncEConnect = false;
+            clientId = -1;
+            extraAuth = false;
+            isConnected = false;
+            optionalCapabilities = "";
+            AsyncEConnect = false;
         }
 
         /**
@@ -55,7 +55,7 @@ namespace IBApi
         {
             if (IsConnected())
             {
-                wrapper.error(this.clientId, EClientErrors.AlreadyConnected.Code, EClientErrors.AlreadyConnected.Message);
+                wrapper.error(clientId, EClientErrors.AlreadyConnected.Code, EClientErrors.AlreadyConnected.Message);
 
                 return;
             }
@@ -68,8 +68,8 @@ namespace IBApi
          */
         public void DisableUseV100Plus()
         {
-            this.useV100Plus = false;
-            this.connectOptions = "";
+            useV100Plus = false;
+            connectOptions = "";
         }
 
         /**
@@ -136,7 +136,7 @@ namespace IBApi
                 {
                     List<byte> buf = new List<byte>();
 
-                    buf.AddRange(UTF8Encoding.UTF8.GetBytes(Constants.ClientVersion.ToString()));
+                    buf.AddRange(Encoding.UTF8.GetBytes(Constants.ClientVersion.ToString()));
                     buf.Add(Constants.EOL);
                     socketTransport.Send(new EMessage(buf.ToArray()));
                 }
@@ -197,10 +197,10 @@ namespace IBApi
             if (resetState)
             {
                 isConnected = false;
-                this.extraAuth = false;
-                this.clientId = -1;
+                extraAuth = false;
+                clientId = -1;
                 serverVersion = 0;
-                this.optionalCapabilities = "";
+                optionalCapabilities = "";
             }
 
 
@@ -742,7 +742,7 @@ namespace IBApi
             paramsList.AddParameter(order.OrderType);
             if (serverVersion < MinServerVer.ORDER_COMBO_LEGS_PRICE)
             {
-                paramsList.AddParameter(order.LmtPrice == Double.MaxValue ? 0 : order.LmtPrice);
+                paramsList.AddParameter(order.LmtPrice == double.MaxValue ? 0 : order.LmtPrice);
             }
             else
             {
@@ -750,7 +750,7 @@ namespace IBApi
             }
             if (serverVersion < MinServerVer.TRAILING_PERCENT)
             {
-                paramsList.AddParameter(order.AuxPrice == Double.MaxValue ? 0 : order.AuxPrice);
+                paramsList.AddParameter(order.AuxPrice == double.MaxValue ? 0 : order.AuxPrice);
             }
             else
             {
@@ -807,7 +807,7 @@ namespace IBApi
                     ComboLeg comboLeg;
                     for (int i = 0; i < contract.ComboLegs.Count; i++)
                     {
-                        comboLeg = (ComboLeg)contract.ComboLegs[i];
+                        comboLeg = contract.ComboLegs[i];
                         paramsList.AddParameter(comboLeg.ConId);
                         paramsList.AddParameter(comboLeg.Ratio);
                         paramsList.AddParameter(comboLeg.Action);
@@ -927,10 +927,10 @@ namespace IBApi
                 paramsList.AddParameterMax(order.Delta);
                 // Volatility orders had specific watermark price attribs in server version 26
                 double lower = (serverVersion == 26 && order.OrderType.Equals("VOL"))
-                     ? Double.MaxValue
+                     ? double.MaxValue
                      : order.StockRangeLower;
                 double upper = (serverVersion == 26 && order.OrderType.Equals("VOL"))
-                     ? Double.MaxValue
+                     ? double.MaxValue
                      : order.StockRangeUpper;
                 paramsList.AddParameterMax(lower);
                 paramsList.AddParameterMax(upper);
@@ -947,7 +947,7 @@ namespace IBApi
                 paramsList.AddParameterMax(order.VolatilityType);
                 if (serverVersion < 28)
                 {
-                    bool isDeltaNeutralTypeMKT = (String.Compare("MKT", order.DeltaNeutralOrderType, true) == 0);
+                    bool isDeltaNeutralTypeMKT = (string.Compare("MKT", order.DeltaNeutralOrderType, true) == 0);
                     paramsList.AddParameter(isDeltaNeutralTypeMKT);
                 }
                 else
@@ -975,8 +975,8 @@ namespace IBApi
                 if (serverVersion == 26)
                 {
                     // Volatility orders had specific watermark price attribs in server version 26
-                    double lower = order.OrderType.Equals("VOL") ? order.StockRangeLower : Double.MaxValue;
-                    double upper = order.OrderType.Equals("VOL") ? order.StockRangeUpper : Double.MaxValue;
+                    double lower = order.OrderType.Equals("VOL") ? order.StockRangeLower : double.MaxValue;
+                    double upper = order.OrderType.Equals("VOL") ? order.StockRangeUpper : double.MaxValue;
                     paramsList.AddParameterMax(lower);
                     paramsList.AddParameterMax(upper);
                 }
@@ -1009,7 +1009,7 @@ namespace IBApi
                 paramsList.AddParameterMax(order.ScalePriceIncrement);
             }
 
-            if (serverVersion >= MinServerVer.SCALE_ORDERS3 && order.ScalePriceIncrement > 0.0 && order.ScalePriceIncrement != Double.MaxValue)
+            if (serverVersion >= MinServerVer.SCALE_ORDERS3 && order.ScalePriceIncrement > 0.0 && order.ScalePriceIncrement != double.MaxValue)
             {
                 paramsList.AddParameterMax(order.ScalePriceAdjustValue);
                 paramsList.AddParameterMax(order.ScalePriceAdjustInterval);
@@ -1080,7 +1080,7 @@ namespace IBApi
                     {
                         for (int i = 0; i < algoParamsCount; ++i)
                         {
-                            TagValue tagValue = (TagValue)algoParams[i];
+                            TagValue tagValue = algoParams[i];
                             paramsList.AddParameter(tagValue.Tag);
                             paramsList.AddParameter(tagValue.Value);
                         }
@@ -1537,7 +1537,7 @@ namespace IBApi
                 - CalendarReport: Company calendar from Wall Street Horizons
          * @sa EWrapper::fundamentalData
          */
-        public void reqFundamentalData(int reqId, Contract contract, String reportType,
+        public void reqFundamentalData(int reqId, Contract contract, string reportType,
             //reserved for future use, must be blank
             List<TagValue> fundamentalDataOptions)
         {
@@ -1721,7 +1721,7 @@ namespace IBApi
                     ComboLeg comboLeg;
                     for (int i = 0; i < contract.ComboLegs.Count; i++)
                     {
-                        comboLeg = (ComboLeg)contract.ComboLegs[i];
+                        comboLeg = contract.ComboLegs[i];
                         paramsList.AddParameter(comboLeg.ConId);
                         paramsList.AddParameter(comboLeg.Ratio);
                         paramsList.AddParameter(comboLeg.Action);
@@ -2691,7 +2691,7 @@ namespace IBApi
          * @param bboExchange mapping identifier received from EWrapper.tickReqParams
          * @sa EWrapper::smartComponents
              */
-        public void reqSmartComponents(int reqId, String bboExchange)
+        public void reqSmartComponents(int reqId, string bboExchange)
         {
             if (!CheckConnection())
                 return;
@@ -3198,7 +3198,7 @@ namespace IBApi
                     ComboLeg comboLeg;
                     for (int i = 0; i < contract.ComboLegs.Count; ++i)
                     {
-                        comboLeg = (ComboLeg)contract.ComboLegs[i];
+                        comboLeg = contract.ComboLegs[i];
                         if (comboLeg.ShortSaleSlot != 0 ||
                             !IsEmpty(comboLeg.DesignatedLocation))
                         {
@@ -3246,7 +3246,7 @@ namespace IBApi
                     ComboLeg comboLeg;
                     for (int i = 0; i < contract.ComboLegs.Count; ++i)
                     {
-                        comboLeg = (ComboLeg)contract.ComboLegs[i];
+                        comboLeg = contract.ComboLegs[i];
                         if (comboLeg.ExemptCode != -1)
                         {
                             ReportError(id, EClientErrors.UPDATE_TWS,
@@ -3272,8 +3272,8 @@ namespace IBApi
         {
             if (serverVersion < MinServerVer.SCALE_ORDERS)
             {
-                if (order.ScaleInitLevelSize != Int32.MaxValue ||
-                    order.ScalePriceIncrement != Double.MaxValue)
+                if (order.ScaleInitLevelSize != int.MaxValue ||
+                    order.ScalePriceIncrement != double.MaxValue)
                 {
                     ReportError(id, EClientErrors.UPDATE_TWS,
                         "  It does not support Scale orders.");
@@ -3292,7 +3292,7 @@ namespace IBApi
 
             if (serverVersion < MinServerVer.SCALE_ORDERS2)
             {
-                if (order.ScaleSubsLevelSize != Int32.MaxValue)
+                if (order.ScaleSubsLevelSize != int.MaxValue)
                 {
                     ReportError(id, EClientErrors.UPDATE_TWS,
                         "  It does not support Subsequent Level Size for Scale orders.");
@@ -3381,14 +3381,14 @@ namespace IBApi
 
             if (serverVersion < MinServerVer.SCALE_ORDERS3)
             {
-                if (order.ScalePriceIncrement > 0 && order.ScalePriceIncrement != Double.MaxValue)
+                if (order.ScalePriceIncrement > 0 && order.ScalePriceIncrement != double.MaxValue)
                 {
-                    if (order.ScalePriceAdjustValue != Double.MaxValue ||
-                        order.ScalePriceAdjustInterval != Int32.MaxValue ||
-                        order.ScaleProfitOffset != Double.MaxValue ||
+                    if (order.ScalePriceAdjustValue != double.MaxValue ||
+                        order.ScalePriceAdjustInterval != int.MaxValue ||
+                        order.ScaleProfitOffset != double.MaxValue ||
                         order.ScaleAutoReset ||
-                        order.ScaleInitPosition != Int32.MaxValue ||
-                        order.ScaleInitFillQty != Int32.MaxValue ||
+                        order.ScaleInitPosition != int.MaxValue ||
+                        order.ScaleInitFillQty != int.MaxValue ||
                         order.ScaleRandomPercent)
                     {
                         ReportError(id, EClientErrors.UPDATE_TWS,
@@ -3406,8 +3406,8 @@ namespace IBApi
                     OrderComboLeg orderComboLeg;
                     for (int i = 0; i < order.OrderComboLegs.Count; ++i)
                     {
-                        orderComboLeg = (OrderComboLeg)order.OrderComboLegs[i];
-                        if (orderComboLeg.Price != Double.MaxValue)
+                        orderComboLeg = order.OrderComboLegs[i];
+                        if (orderComboLeg.Price != double.MaxValue)
                         {
                             ReportError(id, EClientErrors.UPDATE_TWS,
                                 "  It does not support per-leg prices for order combo legs.");
@@ -3419,7 +3419,7 @@ namespace IBApi
 
             if (serverVersion < MinServerVer.TRAILING_PERCENT)
             {
-                if (order.TrailingPercent != Double.MaxValue)
+                if (order.TrailingPercent != double.MaxValue)
                 {
                     ReportError(id, EClientErrors.UPDATE_TWS,
                         "  It does not support trailing percent parameter.");
@@ -3451,7 +3451,7 @@ namespace IBApi
                 return false;
             }
 
-            if (serverVersion < MinServerVer.CASH_QTY && order.CashQty != Double.MaxValue)
+            if (serverVersion < MinServerVer.CASH_QTY && order.CashQty != double.MaxValue)
             {
                 ReportError(id, EClientErrors.UPDATE_TWS, " It does not support cashQty parameter");
 
@@ -3515,7 +3515,7 @@ namespace IBApi
 
         private bool StringsAreEqual(string a, string b)
         {
-            return String.Compare(a, b, true) == 0;
+            return string.Compare(a, b, true) == 0;
         }
 
         public bool IsDataAvailable()

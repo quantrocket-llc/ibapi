@@ -2,9 +2,6 @@
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace IBApi
 {
@@ -35,8 +32,8 @@ namespace IBApi
                 return false;
 
             return base.Equals(obj)
-                && this.ConId == other.ConId
-                && this.Exchange.Equals(other.Exchange);
+                && ConId == other.ConId
+                && Exchange.Equals(other.Exchange);
         }
 
         public override int GetHashCode()

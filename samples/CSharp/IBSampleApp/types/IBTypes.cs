@@ -1,37 +1,25 @@
 ﻿/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+
 using System.Data;
 
 namespace IBSampleApp.types
 {
     class IBType
     {
-        private string name;
-        private object value;
-
         public IBType(string name, object value)
         {
-            this.name = name;
-            this.value = value;
+            Name = name;
+            Value = value;
         }
 
-        public string Name
-        {
-            get { return name; }
-        }
-        
-        public object Value
-        {
-            get { return this.value; }
-        }
+        public string Name { get; }
+
+        public object Value { get; }
 
         public override string ToString()
         {
-            return name;
+            return Name;
         }
     }
 
@@ -209,7 +197,7 @@ namespace IBSampleApp.types
         public static IBType get(int marketDataType)
         {
             IBType ret = Real_Time;
-            foreach (object ibType in MarketDataType.GetAll()){
+            foreach (object ibType in GetAll()){
                 if ( (int)((IBType)ibType).Value == marketDataType)
                 {
                     ret = (IBType)ibType;

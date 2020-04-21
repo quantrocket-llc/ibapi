@@ -2,11 +2,8 @@
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.Serialization;
-using System.Text;
 
 namespace IBApi
 {
@@ -94,7 +91,7 @@ namespace IBApi
             if (other == null)
                 return false;
 
-            return this.IsConjunctionConnection == other.IsConjunctionConnection && this.Type == other.Type;
+            return IsConjunctionConnection == other.IsConjunctionConnection && Type == other.Type;
         }
 
         public override int GetHashCode()
@@ -105,26 +102,24 @@ namespace IBApi
 
     class StringSuffixParser
     {
-        string str;
-
         public StringSuffixParser(string str)
         {
-            this.str = str;
+            Rest = str;
         }
 
         string SkipSuffix(string perfix)
         {
-            return str.Substring(str.IndexOf(perfix) + perfix.Length);
+            return Rest.Substring(Rest.IndexOf(perfix) + perfix.Length);
         }
 
         public string GetNextSuffixedValue(string perfix)
         {
-            var rval = str.Substring(0, str.IndexOf(perfix));
-            str = SkipSuffix(perfix);
+            var rval = Rest.Substring(0, Rest.IndexOf(perfix));
+            Rest = SkipSuffix(perfix);
 
             return rval;
         }
 
-        public string Rest { get { return str; } }
+        public string Rest { get; private set; }
     }
 }

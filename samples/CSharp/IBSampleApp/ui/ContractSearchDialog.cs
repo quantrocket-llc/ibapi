@@ -4,12 +4,7 @@
 using IBApi;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace IBSampleApp.ui
@@ -58,7 +53,7 @@ namespace IBSampleApp.ui
                 return;
 
             Contract = contracts[listBox.SelectedIndex];
-            this.DialogResult = DialogResult.OK;
+            DialogResult = DialogResult.OK;
 
             Close();
         }

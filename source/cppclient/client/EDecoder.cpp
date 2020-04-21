@@ -339,75 +339,84 @@ const char* EDecoder::processOpenOrderMsg(const char* ptr, const char* endPtr) {
 	EOrderDecoder eOrderDecoder(&contract, &order, &orderState, version, m_serverVersion);
 
 	// read order id
-	eOrderDecoder.decodeOrderId(ptr, endPtr);
+        if (!eOrderDecoder.decodeOrderId(ptr, endPtr)) {
+          return nullptr;
+        }
 
 	// read contract fields
-	eOrderDecoder.decodeContract(ptr, endPtr);
+        if (!eOrderDecoder.decodeContract(ptr, endPtr)) {
+          return nullptr;
+        }
+
 
 	// read order fields
-	eOrderDecoder.decodeAction(ptr, endPtr);
-	eOrderDecoder.decodeTotalQuantity(ptr, endPtr);
-	eOrderDecoder.decodeOrderType(ptr, endPtr);
-	eOrderDecoder.decodeLmtPrice(ptr, endPtr);
-	eOrderDecoder.decodeAuxPrice(ptr, endPtr);
-	eOrderDecoder.decodeTIF(ptr, endPtr);
-	eOrderDecoder.decodeOcaGroup(ptr, endPtr);
-	eOrderDecoder.decodeAccount(ptr, endPtr);
-	eOrderDecoder.decodeOpenClose(ptr, endPtr);
-	eOrderDecoder.decodeOrigin(ptr, endPtr);
-	eOrderDecoder.decodeOrderRef(ptr, endPtr);
-	eOrderDecoder.decodeClientId(ptr, endPtr);
-	eOrderDecoder.decodePermId(ptr, endPtr);
-	eOrderDecoder.decodeOutsideRth(ptr, endPtr);
-	eOrderDecoder.decodeHidden(ptr, endPtr);
-	eOrderDecoder.decodeDiscretionaryAmount(ptr, endPtr);
-	eOrderDecoder.decodeGoodAfterTime(ptr, endPtr);
-	eOrderDecoder.skipSharesAllocation(ptr, endPtr);
-	eOrderDecoder.decodeFAParams(ptr, endPtr);
-	eOrderDecoder.decodeModelCode(ptr, endPtr);
-	eOrderDecoder.decodeGoodTillDate(ptr, endPtr);
-	eOrderDecoder.decodeRule80A(ptr, endPtr);
-	eOrderDecoder.decodePercentOffset(ptr, endPtr);
-	eOrderDecoder.decodeSettlingFirm(ptr, endPtr);
-	eOrderDecoder.decodeShortSaleParams(ptr, endPtr);
-	eOrderDecoder.decodeAuctionStrategy(ptr, endPtr);
-	eOrderDecoder.decodeBoxOrderParams(ptr, endPtr);
-	eOrderDecoder.decodePegToStkOrVolOrderParams(ptr, endPtr);
-	eOrderDecoder.decodeDisplaySize(ptr, endPtr);
-	eOrderDecoder.decodeBlockOrder(ptr, endPtr);
-	eOrderDecoder.decodeSweepToFill(ptr, endPtr);
-	eOrderDecoder.decodeAllOrNone(ptr, endPtr);
-	eOrderDecoder.decodeMinQty(ptr, endPtr);
-	eOrderDecoder.decodeOcaType(ptr, endPtr);
-	eOrderDecoder.decodeETradeOnly(ptr, endPtr);
-	eOrderDecoder.decodeFirmQuoteOnly(ptr, endPtr);
-	eOrderDecoder.decodeNbboPriceCap(ptr, endPtr);
-	eOrderDecoder.decodeParentId(ptr, endPtr);
-	eOrderDecoder.decodeTriggerMethod(ptr, endPtr);
-	eOrderDecoder.decodeVolOrderParams(ptr, endPtr, true);
-	eOrderDecoder.decodeTrailParams(ptr, endPtr);
-	eOrderDecoder.decodeBasisPoints(ptr, endPtr);
-	eOrderDecoder.decodeComboLegs(ptr, endPtr);
-	eOrderDecoder.decodeSmartComboRoutingParams(ptr, endPtr);
-	eOrderDecoder.decodeScaleOrderParams(ptr, endPtr);
-	eOrderDecoder.decodeHedgeParams(ptr, endPtr);
-	eOrderDecoder.decodeOptOutSmartRouting(ptr, endPtr);
-	eOrderDecoder.decodeClearingParams(ptr, endPtr);
-	eOrderDecoder.decodeNotHeld(ptr, endPtr);
-	eOrderDecoder.decodeDeltaNeutral(ptr, endPtr);
-	eOrderDecoder.decodeAlgoParams(ptr, endPtr);
-	eOrderDecoder.decodeSolicited(ptr, endPtr);
-	eOrderDecoder.decodeWhatIfInfoAndCommission(ptr, endPtr);
-	eOrderDecoder.decodeVolRandomizeFlags(ptr, endPtr);
-	eOrderDecoder.decodePegBenchParams(ptr, endPtr);
-	eOrderDecoder.decodeConditions(ptr, endPtr);
-	eOrderDecoder.decodeAdjustedOrderParams(ptr, endPtr);
-	eOrderDecoder.decodeSoftDollarTier(ptr, endPtr);
-	eOrderDecoder.decodeCashQty(ptr, endPtr);
-	eOrderDecoder.decodeDontUseAutoPriceForHedge(ptr, endPtr);
-	eOrderDecoder.decodeIsOmsContainer(ptr, endPtr);
-	eOrderDecoder.decodeDiscretionaryUpToLimitPrice(ptr, endPtr);
-	eOrderDecoder.decodeUsePriceMgmtAlgo(ptr, endPtr);
+        bool success =
+             eOrderDecoder.decodeAction(ptr, endPtr)
+          && eOrderDecoder.decodeTotalQuantity(ptr, endPtr)
+          && eOrderDecoder.decodeOrderType(ptr, endPtr)
+          && eOrderDecoder.decodeLmtPrice(ptr, endPtr)
+          && eOrderDecoder.decodeAuxPrice(ptr, endPtr)
+          && eOrderDecoder.decodeTIF(ptr, endPtr)
+          && eOrderDecoder.decodeOcaGroup(ptr, endPtr)
+          && eOrderDecoder.decodeAccount(ptr, endPtr)
+          && eOrderDecoder.decodeOpenClose(ptr, endPtr)
+          && eOrderDecoder.decodeOrigin(ptr, endPtr)
+          && eOrderDecoder.decodeOrderRef(ptr, endPtr)
+          && eOrderDecoder.decodeClientId(ptr, endPtr)
+          && eOrderDecoder.decodePermId(ptr, endPtr)
+          && eOrderDecoder.decodeOutsideRth(ptr, endPtr)
+          && eOrderDecoder.decodeHidden(ptr, endPtr)
+          && eOrderDecoder.decodeDiscretionaryAmount(ptr, endPtr)
+          && eOrderDecoder.decodeGoodAfterTime(ptr, endPtr)
+          && eOrderDecoder.skipSharesAllocation(ptr, endPtr)
+          && eOrderDecoder.decodeFAParams(ptr, endPtr)
+          && eOrderDecoder.decodeModelCode(ptr, endPtr)
+          && eOrderDecoder.decodeGoodTillDate(ptr, endPtr)
+          && eOrderDecoder.decodeRule80A(ptr, endPtr)
+          && eOrderDecoder.decodePercentOffset(ptr, endPtr)
+          && eOrderDecoder.decodeSettlingFirm(ptr, endPtr)
+          && eOrderDecoder.decodeShortSaleParams(ptr, endPtr)
+          && eOrderDecoder.decodeAuctionStrategy(ptr, endPtr)
+          && eOrderDecoder.decodeBoxOrderParams(ptr, endPtr)
+          && eOrderDecoder.decodePegToStkOrVolOrderParams(ptr, endPtr)
+          && eOrderDecoder.decodeDisplaySize(ptr, endPtr)
+          && eOrderDecoder.decodeBlockOrder(ptr, endPtr)
+          && eOrderDecoder.decodeSweepToFill(ptr, endPtr)
+          && eOrderDecoder.decodeAllOrNone(ptr, endPtr)
+          && eOrderDecoder.decodeMinQty(ptr, endPtr)
+          && eOrderDecoder.decodeOcaType(ptr, endPtr)
+          && eOrderDecoder.decodeETradeOnly(ptr, endPtr)
+          && eOrderDecoder.decodeFirmQuoteOnly(ptr, endPtr)
+          && eOrderDecoder.decodeNbboPriceCap(ptr, endPtr)
+          && eOrderDecoder.decodeParentId(ptr, endPtr)
+          && eOrderDecoder.decodeTriggerMethod(ptr, endPtr)
+          && eOrderDecoder.decodeVolOrderParams(ptr, endPtr, true)
+          && eOrderDecoder.decodeTrailParams(ptr, endPtr)
+          && eOrderDecoder.decodeBasisPoints(ptr, endPtr)
+          && eOrderDecoder.decodeComboLegs(ptr, endPtr)
+          && eOrderDecoder.decodeSmartComboRoutingParams(ptr, endPtr)
+          && eOrderDecoder.decodeScaleOrderParams(ptr, endPtr)
+          && eOrderDecoder.decodeHedgeParams(ptr, endPtr)
+          && eOrderDecoder.decodeOptOutSmartRouting(ptr, endPtr)
+          && eOrderDecoder.decodeClearingParams(ptr, endPtr)
+          && eOrderDecoder.decodeNotHeld(ptr, endPtr)
+          && eOrderDecoder.decodeDeltaNeutral(ptr, endPtr)
+          && eOrderDecoder.decodeAlgoParams(ptr, endPtr)
+          && eOrderDecoder.decodeSolicited(ptr, endPtr)
+          && eOrderDecoder.decodeWhatIfInfoAndCommission(ptr, endPtr)
+          && eOrderDecoder.decodeVolRandomizeFlags(ptr, endPtr)
+          && eOrderDecoder.decodePegBenchParams(ptr, endPtr)
+          && eOrderDecoder.decodeConditions(ptr, endPtr)
+          && eOrderDecoder.decodeAdjustedOrderParams(ptr, endPtr)
+          && eOrderDecoder.decodeSoftDollarTier(ptr, endPtr)
+          && eOrderDecoder.decodeCashQty(ptr, endPtr)
+          && eOrderDecoder.decodeDontUseAutoPriceForHedge(ptr, endPtr)
+          && eOrderDecoder.decodeIsOmsContainer(ptr, endPtr)
+          && eOrderDecoder.decodeDiscretionaryUpToLimitPrice(ptr, endPtr)
+          && eOrderDecoder.decodeUsePriceMgmtAlgo(ptr, endPtr);
+        if (!success) {
+          return nullptr;
+        }
 
 	m_pEWrapper->openOrder((OrderId)order.orderId, contract, order, orderState);
 
@@ -2086,69 +2095,75 @@ const char* EDecoder::processCompletedOrderMsg(const char* ptr, const char* endP
 	EOrderDecoder eOrderDecoder(&contract, &order, &orderState, UNSET_INTEGER, m_serverVersion);
 
 	// read contract fields
-	eOrderDecoder.decodeContract(ptr, endPtr);
+        if (!eOrderDecoder.decodeContract(ptr, endPtr)) {
+          return nullptr;
+        }
 
 	// read order fields
-	eOrderDecoder.decodeAction(ptr, endPtr);
-	eOrderDecoder.decodeTotalQuantity(ptr, endPtr);
-	eOrderDecoder.decodeOrderType(ptr, endPtr);
-	eOrderDecoder.decodeLmtPrice(ptr, endPtr);
-	eOrderDecoder.decodeAuxPrice(ptr, endPtr);
-	eOrderDecoder.decodeTIF(ptr, endPtr);
-	eOrderDecoder.decodeOcaGroup(ptr, endPtr);
-	eOrderDecoder.decodeAccount(ptr, endPtr);
-	eOrderDecoder.decodeOpenClose(ptr, endPtr);
-	eOrderDecoder.decodeOrigin(ptr, endPtr);
-	eOrderDecoder.decodeOrderRef(ptr, endPtr);
-	eOrderDecoder.decodePermId(ptr, endPtr);
-	eOrderDecoder.decodeOutsideRth(ptr, endPtr);
-	eOrderDecoder.decodeHidden(ptr, endPtr);
-	eOrderDecoder.decodeDiscretionaryAmount(ptr, endPtr);
-	eOrderDecoder.decodeGoodAfterTime(ptr, endPtr);
-	eOrderDecoder.decodeFAParams(ptr, endPtr);
-	eOrderDecoder.decodeModelCode(ptr, endPtr);
-	eOrderDecoder.decodeGoodTillDate(ptr, endPtr);
-	eOrderDecoder.decodeRule80A(ptr, endPtr);
-	eOrderDecoder.decodePercentOffset(ptr, endPtr);
-	eOrderDecoder.decodeSettlingFirm(ptr, endPtr);
-	eOrderDecoder.decodeShortSaleParams(ptr, endPtr);
-	eOrderDecoder.decodeBoxOrderParams(ptr, endPtr);
-	eOrderDecoder.decodePegToStkOrVolOrderParams(ptr, endPtr);
-	eOrderDecoder.decodeDisplaySize(ptr, endPtr);
-	eOrderDecoder.decodeSweepToFill(ptr, endPtr);
-	eOrderDecoder.decodeAllOrNone(ptr, endPtr);
-	eOrderDecoder.decodeMinQty(ptr, endPtr);
-	eOrderDecoder.decodeOcaType(ptr, endPtr);
-	eOrderDecoder.decodeTriggerMethod(ptr, endPtr);
-	eOrderDecoder.decodeVolOrderParams(ptr, endPtr, false);
-	eOrderDecoder.decodeTrailParams(ptr, endPtr);
-	eOrderDecoder.decodeComboLegs(ptr, endPtr);
-	eOrderDecoder.decodeSmartComboRoutingParams(ptr, endPtr);
-	eOrderDecoder.decodeScaleOrderParams(ptr, endPtr);
-	eOrderDecoder.decodeHedgeParams(ptr, endPtr);
-	eOrderDecoder.decodeClearingParams(ptr, endPtr);
-	eOrderDecoder.decodeNotHeld(ptr, endPtr);
-	eOrderDecoder.decodeDeltaNeutral(ptr, endPtr);
-	eOrderDecoder.decodeAlgoParams(ptr, endPtr);
-	eOrderDecoder.decodeSolicited(ptr, endPtr);
-	eOrderDecoder.decodeOrderStatus(ptr, endPtr);
-	eOrderDecoder.decodeVolRandomizeFlags(ptr, endPtr);
-	eOrderDecoder.decodePegBenchParams(ptr, endPtr);
-	eOrderDecoder.decodeConditions(ptr, endPtr);
-	eOrderDecoder.decodeStopPriceAndLmtPriceOffset(ptr, endPtr);
-	eOrderDecoder.decodeCashQty(ptr, endPtr);
-	eOrderDecoder.decodeDontUseAutoPriceForHedge(ptr, endPtr);
-	eOrderDecoder.decodeIsOmsContainer(ptr, endPtr);
-	eOrderDecoder.decodeAutoCancelDate(ptr, endPtr);
-	eOrderDecoder.decodeFilledQuantity(ptr, endPtr);
-	eOrderDecoder.decodeRefFuturesConId(ptr, endPtr);
-	eOrderDecoder.decodeAutoCancelParent(ptr, endPtr);
-	eOrderDecoder.decodeShareholder(ptr, endPtr);
-	eOrderDecoder.decodeImbalanceOnly(ptr, endPtr);
-	eOrderDecoder.decodeRouteMarketableToBbo(ptr, endPtr);
-	eOrderDecoder.decodeParentPermId(ptr, endPtr);
-	eOrderDecoder.decodeCompletedTime(ptr, endPtr);
-	eOrderDecoder.decodeCompletedStatus(ptr, endPtr);
+        bool success =
+             eOrderDecoder.decodeAction(ptr, endPtr)
+          && eOrderDecoder.decodeTotalQuantity(ptr, endPtr)
+          && eOrderDecoder.decodeOrderType(ptr, endPtr)
+          && eOrderDecoder.decodeLmtPrice(ptr, endPtr)
+          && eOrderDecoder.decodeAuxPrice(ptr, endPtr)
+          && eOrderDecoder.decodeTIF(ptr, endPtr)
+          && eOrderDecoder.decodeOcaGroup(ptr, endPtr)
+          && eOrderDecoder.decodeAccount(ptr, endPtr)
+          && eOrderDecoder.decodeOpenClose(ptr, endPtr)
+          && eOrderDecoder.decodeOrigin(ptr, endPtr)
+          && eOrderDecoder.decodeOrderRef(ptr, endPtr)
+          && eOrderDecoder.decodePermId(ptr, endPtr)
+          && eOrderDecoder.decodeOutsideRth(ptr, endPtr)
+          && eOrderDecoder.decodeHidden(ptr, endPtr)
+          && eOrderDecoder.decodeDiscretionaryAmount(ptr, endPtr)
+          && eOrderDecoder.decodeGoodAfterTime(ptr, endPtr)
+          && eOrderDecoder.decodeFAParams(ptr, endPtr)
+          && eOrderDecoder.decodeModelCode(ptr, endPtr)
+          && eOrderDecoder.decodeGoodTillDate(ptr, endPtr)
+          && eOrderDecoder.decodeRule80A(ptr, endPtr)
+          && eOrderDecoder.decodePercentOffset(ptr, endPtr)
+          && eOrderDecoder.decodeSettlingFirm(ptr, endPtr)
+          && eOrderDecoder.decodeShortSaleParams(ptr, endPtr)
+          && eOrderDecoder.decodeBoxOrderParams(ptr, endPtr)
+          && eOrderDecoder.decodePegToStkOrVolOrderParams(ptr, endPtr)
+          && eOrderDecoder.decodeDisplaySize(ptr, endPtr)
+          && eOrderDecoder.decodeSweepToFill(ptr, endPtr)
+          && eOrderDecoder.decodeAllOrNone(ptr, endPtr)
+          && eOrderDecoder.decodeMinQty(ptr, endPtr)
+          && eOrderDecoder.decodeOcaType(ptr, endPtr)
+          && eOrderDecoder.decodeTriggerMethod(ptr, endPtr)
+          && eOrderDecoder.decodeVolOrderParams(ptr, endPtr, false)
+          && eOrderDecoder.decodeTrailParams(ptr, endPtr)
+          && eOrderDecoder.decodeComboLegs(ptr, endPtr)
+          && eOrderDecoder.decodeSmartComboRoutingParams(ptr, endPtr)
+          && eOrderDecoder.decodeScaleOrderParams(ptr, endPtr)
+          && eOrderDecoder.decodeHedgeParams(ptr, endPtr)
+          && eOrderDecoder.decodeClearingParams(ptr, endPtr)
+          && eOrderDecoder.decodeNotHeld(ptr, endPtr)
+          && eOrderDecoder.decodeDeltaNeutral(ptr, endPtr)
+          && eOrderDecoder.decodeAlgoParams(ptr, endPtr)
+          && eOrderDecoder.decodeSolicited(ptr, endPtr)
+          && eOrderDecoder.decodeOrderStatus(ptr, endPtr)
+          && eOrderDecoder.decodeVolRandomizeFlags(ptr, endPtr)
+          && eOrderDecoder.decodePegBenchParams(ptr, endPtr)
+          && eOrderDecoder.decodeConditions(ptr, endPtr)
+          && eOrderDecoder.decodeStopPriceAndLmtPriceOffset(ptr, endPtr)
+          && eOrderDecoder.decodeCashQty(ptr, endPtr)
+          && eOrderDecoder.decodeDontUseAutoPriceForHedge(ptr, endPtr)
+          && eOrderDecoder.decodeIsOmsContainer(ptr, endPtr)
+          && eOrderDecoder.decodeAutoCancelDate(ptr, endPtr)
+          && eOrderDecoder.decodeFilledQuantity(ptr, endPtr)
+          && eOrderDecoder.decodeRefFuturesConId(ptr, endPtr)
+          && eOrderDecoder.decodeAutoCancelParent(ptr, endPtr)
+          && eOrderDecoder.decodeShareholder(ptr, endPtr)
+          && eOrderDecoder.decodeImbalanceOnly(ptr, endPtr)
+          && eOrderDecoder.decodeRouteMarketableToBbo(ptr, endPtr)
+          && eOrderDecoder.decodeParentPermId(ptr, endPtr)
+          && eOrderDecoder.decodeCompletedTime(ptr, endPtr)
+          && eOrderDecoder.decodeCompletedStatus(ptr, endPtr);
+        if (!success) {
+          return nullptr;
+        }
 
 	m_pEWrapper->completedOrder(contract, order, orderState);
 

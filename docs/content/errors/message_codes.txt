@@ -405,11 +405,11 @@
 		</tr>
 		<tr>
 			<td>201</td><td>Order rejected - Reason:</td>
-			<td>An attempted order was rejected by the IB servers.</td>
+			<td>An attempted order was rejected by the IB servers. See @ref order_placement for additional information/considerations for these errors.</td>
 		</tr>
 		<tr>
 			<td>202</td><td>Order cancelled - Reason:</td>
-			<td>An active order on the IB server was cancelled</td>
+			<td>An active order on the IB server was cancelled. See @ref order_placement for additional information/considerations for these errors.</td>
 		</tr>
 		<tr>
 			<td>203</td><td>The security \<security\> is not available or allowed for this account.</td>
@@ -1129,6 +1129,9 @@
 		</tr>
         <tr>
             <td>10148</td><td>OrderId <OrderId> that needs to be cancelled can not be cancelled, state:</td><td>An attempt was made to cancel an order that had already been filled by the system.</td>
+        </tr>
+        <tr>
+            <td>10186</td><td>Requested market data is not subscribed. Delayed market data is not enabled</td><td>See See @ref market_data_type on how to enable delayed data.</td>
         </tr>
 		
 	</table>

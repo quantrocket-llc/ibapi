@@ -1,20 +1,17 @@
 /* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
-using System;
+
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+
 using IBSampleApp.messages;
 using IBApi;
 using System.Windows.Forms;
-using System.ComponentModel;
 
 namespace IBSampleApp.ui
 {
     class OrderManager
     {        
         private OrderDialog orderDialog;
-        private IBClient ibClient;
         private List<string> managedAccounts;
 
         private List<OpenOrderMessage> openOrders = new List<OpenOrderMessage>();
@@ -24,12 +21,12 @@ namespace IBSampleApp.ui
         private DataGridView completedOrdersGrid;
         private DataGridView tradeLogGrid;
 
-        public IBClient IBClient { get { return ibClient; } }
+        public IBClient IBClient { get; }
 
         public OrderManager(IBClient ibClient, DataGridView liveOrdersGrid, DataGridView completedOrdersGrid, DataGridView tradeLogGrid)
         {
-            this.ibClient = ibClient;
-            this.orderDialog = new OrderDialog(this);
+            IBClient = ibClient;
+            orderDialog = new OrderDialog(this);
             this.liveOrdersGrid = liveOrdersGrid;
             this.completedOrdersGrid = completedOrdersGrid;
             this.tradeLogGrid = tradeLogGrid;
@@ -49,12 +46,12 @@ namespace IBSampleApp.ui
         {
             if (order.OrderId != 0)
             {
-                ibClient.ClientSocket.placeOrder(order.OrderId, contract, order);
+                IBClient.ClientSocket.placeOrder(order.OrderId, contract, order);
             }
             else
             {
-                ibClient.ClientSocket.placeOrder(ibClient.NextOrderId, contract, order);
-                ibClient.NextOrderId++;
+                IBClient.ClientSocket.placeOrder(IBClient.NextOrderId, contract, order);
+                IBClient.NextOrderId++;
             }
         }
 
@@ -72,7 +69,7 @@ namespace IBSampleApp.ui
 
         public void EditOrder()
         {
-            if (liveOrdersGrid.SelectedRows.Count > 0 && (int)(liveOrdersGrid.SelectedRows[0].Cells[2].Value) != 0 && (int)(liveOrdersGrid.SelectedRows[0].Cells[1].Value) == ibClient.ClientId)
+            if (liveOrdersGrid.SelectedRows.Count > 0 && (int)(liveOrdersGrid.SelectedRows[0].Cells[2].Value) != 0 && (int)(liveOrdersGrid.SelectedRows[0].Cells[1].Value) == IBClient.ClientId)
             {
                 DataGridViewRow selectedRow = liveOrdersGrid.SelectedRows[0];
                 int orderId = (int)selectedRow.Cells[2].Value;
@@ -92,7 +89,7 @@ namespace IBSampleApp.ui
 
         public void AttachOrder()
         {
-            if (liveOrdersGrid.SelectedRows.Count > 0 && (int)(liveOrdersGrid.SelectedRows[0].Cells[2].Value) != 0 && (int)(liveOrdersGrid.SelectedRows[0].Cells[1].Value) == ibClient.ClientId)
+            if (liveOrdersGrid.SelectedRows.Count > 0 && (int)(liveOrdersGrid.SelectedRows[0].Cells[2].Value) != 0 && (int)(liveOrdersGrid.SelectedRows[0].Cells[1].Value) == IBClient.ClientId)
             {
                 DataGridViewRow selectedRow = liveOrdersGrid.SelectedRows[0];
                 int orderId = (int)selectedRow.Cells[2].Value;
@@ -103,8 +100,8 @@ namespace IBSampleApp.ui
                         orderDialog.SetOrderContract(openOrders[i].Contract);
                         orderDialog.SetOrder(openOrders[i].Order);
 
-                        orderDialog.SetOrderId(ibClient.NextOrderId);
-                        ibClient.NextOrderId++;
+                        orderDialog.SetOrderId(IBClient.NextOrderId);
+                        IBClient.NextOrderId++;
                         orderDialog.SetParentOrderId(orderId);
                     }
                 }
@@ -123,7 +120,7 @@ namespace IBSampleApp.ui
                     int clientId = (int)liveOrdersGrid.SelectedRows[i].Cells[1].Value;
                     OpenOrderMessage openOrder = GetOpenOrderMessage(orderId, clientId);
                     if(openOrder != null)
-                        ibClient.ClientSocket.cancelOrder(openOrder.OrderId);
+                        IBClient.ClientSocket.cancelOrder(openOrder.OrderId);
                 }
             }
         }
@@ -253,7 +250,7 @@ namespace IBSampleApp.ui
             liveOrdersGrid[6, rowIndex].Value = orderMessage.Order.TotalQuantity;
             liveOrdersGrid[7, rowIndex].Value = orderMessage.Contract.Symbol+" "+orderMessage.Contract.SecType+" "+orderMessage.Contract.Exchange;
             liveOrdersGrid[8, rowIndex].Value = orderMessage.OrderState.Status;
-            liveOrdersGrid[9, rowIndex].Value = (orderMessage.Order.CashQty != Double.MaxValue ? orderMessage.Order.CashQty.ToString() : "");
+            liveOrdersGrid[9, rowIndex].Value = (orderMessage.Order.CashQty != double.MaxValue ? orderMessage.Order.CashQty.ToString() : "");
         }
 
         private void PopulateCompletedOrderRow(int rowIndex, CompletedOrderMessage completedOrderMessage)

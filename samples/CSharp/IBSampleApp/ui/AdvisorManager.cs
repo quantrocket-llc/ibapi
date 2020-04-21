@@ -1,9 +1,7 @@
 ﻿/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
-using System;
+
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using IBSampleApp.types;
 using IBSampleApp.messages;
@@ -13,11 +11,6 @@ namespace IBSampleApp.ui
 {
     class AdvisorManager
     {
-        private IBClient ibClient;
-        private DataGridView aliasesGrid;
-        private DataGridView profilesGrid;
-        private DataGridView groupsGrid;
-
         public AdvisorManager(IBClient ibClient, DataGridView aliasesGrid, DataGridView groupsGrid, DataGridView profilesGrid)
         {
             IbClient = ibClient;
@@ -53,9 +46,9 @@ namespace IBSampleApp.ui
             List<AccountAlias> aliases = XmlHelper.ParseFAInformation<AccountAlias>(aliasData);
             for(int i=0; i < aliases.Count; i++)
             {
-                aliasesGrid.Rows.Add(1);
-                aliasesGrid[0, i].Value = aliases[i].Account;
-                aliasesGrid[1, i].Value = aliases[i].Alias;
+                AliasesGrid.Rows.Add(1);
+                AliasesGrid[0, i].Value = aliases[i].Account;
+                AliasesGrid[1, i].Value = aliases[i].Alias;
             }
         }
 
@@ -64,10 +57,10 @@ namespace IBSampleApp.ui
             List<AllocationProfile> profiles = XmlHelper.ParseFAInformation<AllocationProfile>(profilesData);
             for (int i = 0; i < profiles.Count; i++)
             {
-                profilesGrid.Rows.Add(1);
-                profilesGrid[0, i].Value = profiles[i].Name;
-                profilesGrid[1, i].Value = profiles[i].Type;
-                profilesGrid[2, i].Value = profiles[i].AllocationsToString();
+                ProfilesGrid.Rows.Add(1);
+                ProfilesGrid[0, i].Value = profiles[i].Name;
+                ProfilesGrid[1, i].Value = profiles[i].Type;
+                ProfilesGrid[2, i].Value = profiles[i].AllocationsToString();
             }
         }
 
@@ -75,14 +68,14 @@ namespace IBSampleApp.ui
         {
             string xmlData = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
                             + "<ListOfAllocationProfiles>";
-            for (int i = 0; i < profilesGrid.Rows.Count-1; i++)
+            for (int i = 0; i < ProfilesGrid.Rows.Count-1; i++)
             {
-                AllocationProfile allocProfile = new AllocationProfile((string)profilesGrid[0, i].Value, (int)profilesGrid[1, i].Value);
-                allocProfile.AllocationsFromString((string)profilesGrid[2, i].Value);
+                AllocationProfile allocProfile = new AllocationProfile((string)ProfilesGrid[0, i].Value, (int)ProfilesGrid[1, i].Value);
+                allocProfile.AllocationsFromString((string)ProfilesGrid[2, i].Value);
                 xmlData += allocProfile.ToXmlString();
             }
             xmlData += "</ListOfAllocationProfiles>";
-            ibClient.ClientSocket.replaceFA((int)FinancialAdvisorDataType.Profiles.Value, xmlData);
+            IbClient.ClientSocket.replaceFA((int)FinancialAdvisorDataType.Profiles.Value, xmlData);
         }
 
         private void HandleGroupsData(string groupsData)
@@ -90,10 +83,10 @@ namespace IBSampleApp.ui
             List<AdvisorGroup> groups = XmlHelper.ParseFAInformation<AdvisorGroup>(groupsData);
             for (int i = 0; i < groups.Count; i++)
             {
-                groupsGrid.Rows.Add(1);
-                groupsGrid[0, i].Value = groups[i].Name;
-                ((DataGridViewComboBoxCell)groupsGrid[1, i]).Value = groups[i].DefaultMethod;
-                groupsGrid[2, i].Value = groups[i].AccountsToString();
+                GroupsGrid.Rows.Add(1);
+                GroupsGrid[0, i].Value = groups[i].Name;
+                ((DataGridViewComboBoxCell)GroupsGrid[1, i]).Value = groups[i].DefaultMethod;
+                GroupsGrid[2, i].Value = groups[i].AccountsToString();
             }
         }
 
@@ -101,42 +94,27 @@ namespace IBSampleApp.ui
         {
             string xmlData = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
                                         + "<ListOfGroups>";
-            for (int i = 0; i < groupsGrid.Rows.Count - 1; i++)
+            for (int i = 0; i < GroupsGrid.Rows.Count - 1; i++)
             {
-                AdvisorGroup advisorGroup = new AdvisorGroup((string)groupsGrid[0, i].Value, (string)groupsGrid[1, i].Value);
-                advisorGroup.AccountsFromString((string)groupsGrid[2, i].Value);
+                AdvisorGroup advisorGroup = new AdvisorGroup((string)GroupsGrid[0, i].Value, (string)GroupsGrid[1, i].Value);
+                advisorGroup.AccountsFromString((string)GroupsGrid[2, i].Value);
                 xmlData += advisorGroup.ToXmlString();
             }
             xmlData += "</ListOfGroups>";
-            ibClient.ClientSocket.replaceFA((int)FinancialAdvisorDataType.Groups.Value, xmlData);
+            IbClient.ClientSocket.replaceFA((int)FinancialAdvisorDataType.Groups.Value, xmlData);
         }
 
         public void RequestFAData(IBType dataType)
         {
-            ibClient.ClientSocket.requestFA((int)(dataType.Value));
+            IbClient.ClientSocket.requestFA((int)(dataType.Value));
         }
 
-        public IBClient IbClient
-        {
-            get { return ibClient; }
-            set { ibClient = value; }
-        }
-        public DataGridView AliasesGrid
-        {
-            get { return aliasesGrid; }
-            set { aliasesGrid = value; }
-        }
+        public IBClient IbClient { get; set; }
 
-        public DataGridView GroupsGrid
-        {
-            get { return groupsGrid; }
-            set { groupsGrid = value; }
-        }
+        public DataGridView AliasesGrid { get; set; }
 
-        public DataGridView ProfilesGrid
-        {
-            get { return profilesGrid; }
-            set { profilesGrid = value; }
-        }
+        public DataGridView GroupsGrid { get; set; }
+
+        public DataGridView ProfilesGrid { get; set; }
     }
 }

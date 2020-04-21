@@ -1,10 +1,8 @@
 ﻿/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Xml;
 using IBSampleApp.types;
 
@@ -72,11 +70,11 @@ namespace IBSampleApp.util
             XmlNodeList profilesList = profilesListNode.ChildNodes;
             for (int i=0; i<profilesList.Count; i++)
             {
-                AllocationProfile allocationProfile = new AllocationProfile(profilesList.Item(i).ChildNodes[0].InnerText, Int32.Parse(profilesList.Item(i).ChildNodes[1].InnerText));
+                AllocationProfile allocationProfile = new AllocationProfile(profilesList.Item(i).ChildNodes[0].InnerText, int.Parse(profilesList.Item(i).ChildNodes[1].InnerText));
                 XmlNodeList allocationNodes = profilesList[i].ChildNodes[2].ChildNodes;
                 for (int j = 0; j < allocationNodes.Count; j++)
                 {
-                    allocationProfile.Allocations.Add(new Allocation(allocationNodes[j].ChildNodes[0].InnerText, Double.Parse(allocationNodes[j].ChildNodes[1].InnerText)));
+                    allocationProfile.Allocations.Add(new Allocation(allocationNodes[j].ChildNodes[0].InnerText, double.Parse(allocationNodes[j].ChildNodes[1].InnerText)));
                 }
                 advisorProfiles.Add(allocationProfile);
             }

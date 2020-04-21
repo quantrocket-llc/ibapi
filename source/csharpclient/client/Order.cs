@@ -1,11 +1,7 @@
 ﻿/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
 
 namespace IBApi
 {
@@ -31,192 +27,71 @@ namespace IBApi
         public static string EMPTY_STR = "";
 
         // main order fields
-        private int orderId;
-        private int clientId;
-        private int permId;
-        private string action;
-        private double totalQuantity;
-        private string orderType;
-        private double lmtPrice;
-        private double auxPrice;
         // extended order fields
         // "Time in Force" - DAY, GTC, etc.
-        private string tif;
         //GTC orders
-        private string activeStartTime;
-        private string activeStopTime;
         // one cancels all group name
-        private string ocaGroup;
         // 1 = CANCEL_WITH_BLOCK, 2 = REDUCE_WITH_BLOCK, 3 = REDUCE_NON_BLOCK
-        private int ocaType;
-        private string orderRef;
         // if false, order will be created but not transmitted
-        private bool transmit;
         // Parent order Id, to associate Auto STP or TRAIL orders with the original order.
-        private int parentId;
-        private bool blockOrder;
-        private bool sweepToFill;
-        private int displaySize;
         // 0=Default, 1=Double_Bid_Ask, 2=Last, 3=Double_Last, 4=Bid_Ask, 7=Last_or_Bid_Ask, 8=Mid-point
-        private int triggerMethod;
-        private bool outsideRth;
-        private bool hidden;
         // FORMAT: 20060505 08:00:00 {time zone}
-        private string goodAfterTime;
         // FORMAT: 20060505 08:00:00 {time zone}
-        private string goodTillDate;
-        private bool overridePercentageConstraints;
         // Individual = 'I', Agency = 'A', AgentOtherMember = 'W', IndividualPTIA = 'J', AgencyPTIA = 'U', AgentOtherMemberPTIA = 'M', IndividualPT = 'K', AgencyPT = 'Y', AgentOtherMemberPT = 'N'
-        private string rule80A;
-        private bool allOrNone;
-        private int minQty;
         // REL orders only
-        private double percentOffset;
         // for TRAILLIMIT orders only
-        private double trailStopPrice;
-        private double trailingPercent;
         // Financial advisors only 
-        private string faGroup;
-        private string faProfile;
-        private string faMethod;
-        private string faPercentage;
         // Institutional orders only
         // O=Open, C=Close
-        private string openClose;
         // 0=Customer, 1=Firm
-        private int origin;
         // 1 if you hold the shares, 2 if they will be delivered from elsewhere.  Only for Action="SSHORT
-        private int shortSaleSlot;
         // set when slot=2 only.
-        private string designatedLocation;
-        private int exemptCode;
         // SMART routing only
-        private double discretionaryAmt;
-        private bool eTradeOnly;
-        private bool firmQuoteOnly;
-        private double nbboPriceCap;
-        private bool optOutSmartRouting;
         // BOX or VOL ORDERS ONLY
         // 1=AUCTION_MATCH, 2=AUCTION_IMPROVEMENT, 3=AUCTION_TRANSPARENT
-        private int auctionStrategy;
         // BOX ORDERS ONLY
-        private double startingPrice;
-        private double stockRefPrice;
-        private double delta;
         // pegged to stock or VOL orders
-        private double stockRangeLower;
-        private double stockRangeUpper;
         // VOLATILITY ORDERS ONLY
-        private double volatility;
         // 1=daily, 2=annual
-        private int volatilityType;
-        private int continuousUpdate;
         // 1=Average, 2 = BidOrAsk
-        private int referencePriceType;
-        private string deltaNeutralOrderType;
-        private double deltaNeutralAuxPrice;
-        private int deltaNeutralConId;
-        private string deltaNeutralSettlingFirm;
 
-        private string deltaNeutralClearingAccount;
-        private string deltaNeutralClearingIntent;
-        private string deltaNeutralOpenClose;
-        private bool deltaNeutralShortSale;
-        private int deltaNeutralShortSaleSlot;
-        private string deltaNeutralDesignatedLocation;
         // COMBO ORDERS ONLY
         // EFP orders only
-        private double basisPoints;
         // EFP orders only
-        private int basisPointsType;
         // SCALE ORDERS ONLY
-        private int scaleInitLevelSize;
-        private int scaleSubsLevelSize;
-        private double scalePriceIncrement;
-        private double scalePriceAdjustValue;
-        private int scalePriceAdjustInterval;
-        private double scaleProfitOffset;
-        private bool scaleAutoReset;
-        private int scaleInitPosition;
-        private int scaleInitFillQty;
-        private bool scaleRandomPercent;
-        private string scaleTable;
         // HEDGE ORDERS ONLY
         // 'D' - delta, 'B' - beta, 'F' - FX, 'P' - pair
-        private string hedgeType;
         // beta value for beta hedge, ratio for pair hedge
-        private string hedgeParam;
         // Clearing info
-        private string account; // IB account
         // True beneficiary of the order
-        private string clearingAccount;
         // "" (Default), "IB", "Away", "PTA" (PostTrade)
-        private string clearingIntent;
         // ALGO ORDERS ONLY
-        private string algoStrategy;
-        private List<TagValue> algoParams;
         // What-if
-        private bool whatIf;
         //algoId
-        private string algoId;
         // Not Held
-        private bool notHeld;
-        private string settlingFirm;
+
         // Smart combo routing params
-        private List<TagValue> smartComboRoutingParams;
         // order combo legs
-        private List<OrderComboLeg> orderComboLegs = new List<OrderComboLeg>();
-        private List<TagValue> orderMiscOptions = new List<TagValue>();
-        private bool solicited;
-        private string modelCode;
-        private string extOperator;
         // native cash quantity
-        private double cashQty;
 
         // don't use auto price for hedge
-        private bool dontUseAutoPriceForHedge;
-
-        private string autoCancelDate;
-        private double filledQuantity;
-        private int refFuturesConId;
-        private bool autoCancelParent;
-        private string shareholder;
-        private bool imbalanceOnly;
-        private bool routeMarketableToBbo;
-        private long parentPermId;
 
         /**
          * @brief The API client's order id.
          */
-        public int OrderId
-        {
-            get { return orderId; }
-            set { orderId = value; }
-        }
+        public int OrderId { get; set; }
 
-        public bool Solicited
-        {
-            get { return solicited; }
-            set { solicited = value; }
-        }
+        public bool Solicited { get; set; }
 
         /**
          * @brief The API client id which placed the order.
          */
-        public int ClientId
-        {
-            get { return clientId; }
-            set { clientId = value; }
-        }
+        public int ClientId { get; set; }
 
         /**
          * @brief The Host order identifier.
          */
-        public int PermId
-        {
-            get { return permId; }
-            set { permId = value; }
-        }
+        public int PermId { get; set; }
 
         /**
          * @brief Identifies the side.
@@ -226,48 +101,28 @@ namespace IBApi
          * SSHORT is only supported for institutional account configured with Long/Short account segments or clearing with a separate account.
 		 * SLONG is available in specially-configured institutional accounts to indicate that long position not yet delivered is being sold.	
          */
-        public string Action
-        {
-            get { return action; }
-            set { action = value; }
-        }
+        public string Action { get; set; }
 
         /**
          * @brief The number of positions being bought/sold.
          */
-        public double TotalQuantity
-        {
-            get { return totalQuantity; }
-            set { totalQuantity = value; }
-        }
+        public double TotalQuantity { get; set; }
 
         /**
          * @brief The order's type.
          */
-        public string OrderType
-        {
-            get { return orderType; }
-            set { orderType = value; }
-        }
+        public string OrderType { get; set; }
 
         /**
          * @brief The LIMIT price.
          * Used for limit, stop-limit and relative orders. In all other cases specify zero. For relative orders with no limit price, also specify zero.
          */
-        public double LmtPrice
-        {
-            get { return lmtPrice; }
-            set { lmtPrice = value; }
-        }
+        public double LmtPrice { get; set; }
 
         /**
          * @brief Generic field to contain the stop price for STP LMT orders, trailing amount, etc.
          */
-        public double AuxPrice
-        {
-            get { return auxPrice; }
-            set { auxPrice = value; }
-        }
+        public double AuxPrice { get; set; }
 
         /**
           * @brief The time in force.
@@ -285,21 +140,13 @@ namespace IBApi
          *      FOK - If the entire Fill-or-Kill order does not execute as soon as it becomes available, the entire order is canceled.\n
          *      DTC - Day until Canceled \n
           */
-        public string Tif
-        {
-            get { return tif; }
-            set { tif = value; }
-        }
+        public string Tif { get; set; }
 
 
         /**
          * @brief One-Cancels-All group identifier.
          */
-        public string OcaGroup
-        {
-            get { return ocaGroup; }
-            set { ocaGroup = value; }
-        }
+        public string OcaGroup { get; set; }
 
         /**
          * @brief Tells how to handle remaining orders in an OCA group when one order or part of an order executes.
@@ -309,66 +156,38 @@ namespace IBApi
          *      \t\t 3 = Remaining orders are proportionately reduced in size with no block.\n
          * If you use a value "with block" it gives the order overfill protection. This means that only one order in the group will be routed at a time to remove the possibility of an overfill.
          */
-        public int OcaType
-        {
-            get { return ocaType; }
-            set { ocaType = value; }
-        }
+        public int OcaType { get; set; }
 
         /**
          * @brief The order reference.
          * Intended for institutional customers only, although all customers may use it to identify the API client that sent the order when multiple API clients are running.
          */
-        public string OrderRef
-        {
-            get { return orderRef; }
-            set { orderRef = value; }
-        }
+        public string OrderRef { get; set; }
 
         /**
          * @brief Specifies whether the order will be transmitted by TWS. If set to false, the order will be created at TWS but will not be sent.
          */
-        public bool Transmit
-        {
-            get { return transmit; }
-            set { transmit = value; }
-        }
+        public bool Transmit { get; set; }
 
         /**
          * @brief The order ID of the parent order, used for bracket and auto trailing stop orders.
          */
-        public int ParentId
-        {
-            get { return parentId; }
-            set { parentId = value; }
-        }
+        public int ParentId { get; set; }
 
         /**
          * @brief If set to true, specifies that the order is an ISE Block order.
          */
-        public bool BlockOrder
-        {
-            get { return blockOrder; }
-            set { blockOrder = value; }
-        }
+        public bool BlockOrder { get; set; }
 
         /**
          * @brief If set to true, specifies that the order is a Sweep-to-Fill order.
          */
-        public bool SweepToFill
-        {
-            get { return sweepToFill; }
-            set { sweepToFill = value; }
-        }
+        public bool SweepToFill { get; set; }
 
         /**
          * @brief The publicly disclosed order size, used when placing Iceberg orders.
          */
-        public int DisplaySize
-        {
-            get { return displaySize; }
-            set { displaySize = value; }
-        }
+        public int DisplaySize { get; set; }
 
         /**
          * @brief Specifies how Simulated Stop, Stop-Limit and Trailing Stop orders are triggered.
@@ -381,61 +200,37 @@ namespace IBApi
          *  7 last or bid/ask function.\n
          *  8 mid-point function.\n
          */
-        public int TriggerMethod
-        {
-            get { return triggerMethod; }
-            set { triggerMethod = value; }
-        }
+        public int TriggerMethod { get; set; }
 
         /**
          * @brief If set to true, allows orders to also trigger or fill outside of regular trading hours.
          */
-        public bool OutsideRth
-        {
-            get { return outsideRth; }
-            set { outsideRth = value; }
-        }
+        public bool OutsideRth { get; set; }
 
         /**
          * @brief If set to true, the order will not be visible when viewing the market depth. 
          * This option only applies to orders routed to the ISLAND exchange.
          */
-        public bool Hidden
-        {
-            get { return hidden; }
-            set { hidden = value; }
-        }
+        public bool Hidden { get; set; }
 
         /**
          * @brief Specifies the date and time after which the order will be active.
          * Format: yyyymmdd hh:mm:ss {optional Timezone}
          */
-        public string GoodAfterTime
-        {
-            get { return goodAfterTime; }
-            set { goodAfterTime = value; }
-        }
+        public string GoodAfterTime { get; set; }
 
         /**
          * @brief The date and time until the order will be active.
          * You must enter GTD as the time in force to use this string. The trade's "Good Till Date," format "YYYYMMDD hh:mm:ss (optional time zone)"
          */
-        public string GoodTillDate
-        {
-            get { return goodTillDate; }
-            set { goodTillDate = value; }
-        }
+        public string GoodTillDate { get; set; }
 
         /**
          * @brief Overrides TWS constraints.
          * Precautionary constraints are defined on the TWS Presets page, and help ensure tha tyour price and size order values are reasonable. Orders sent from the API are also validated against these safety constraints, and may be rejected if any constraint is violated. To override validation, set this parameter’s value to True.
          * 
          */
-        public bool OverridePercentageConstraints
-        {
-            get { return overridePercentageConstraints; }
-            set { overridePercentageConstraints = value; }
-        }
+        public bool OverridePercentageConstraints { get; set; }
 
         /**
          * @brief -
@@ -449,47 +244,27 @@ namespace IBApi
          * AgencyPT = 'Y'\n
          * AgentOtherMemberPT = 'N'\n
          */
-        public string Rule80A
-        {
-            get { return rule80A; }
-            set { rule80A = value; }
-        }
+        public string Rule80A { get; set; }
 
         /**
          * @brief Indicates whether or not all the order has to be filled on a single execution.
          */
-        public bool AllOrNone
-        {
-            get { return allOrNone; }
-            set { allOrNone = value; }
-        }
+        public bool AllOrNone { get; set; }
 
         /**
          * @brief Identifies a minimum quantity order type.
          */
-        public int MinQty
-        {
-            get { return minQty; }
-            set { minQty = value; }
-        }
+        public int MinQty { get; set; }
 
         /**
          * @brief The percent offset amount for relative orders.
          */
-        public double PercentOffset
-        {
-            get { return percentOffset; }
-            set { percentOffset = value; }
-        }
+        public double PercentOffset { get; set; }
 
         /**
          * @brief Trail stop price for TRAILIMIT orders.
          */
-        public double TrailStopPrice
-        {
-            get { return trailStopPrice; }
-            set { trailStopPrice = value; }
-        }
+        public double TrailStopPrice { get; set; }
 
         /**
          * @brief Specifies the trailing amount of a trailing stop order as a percentage.
@@ -498,51 +273,31 @@ namespace IBApi
          *    - This field is read AFTER the stop price (barrier price) as follows: deltaNeutralAuxPrice stopPrice, trailingPercent, scale order attributes\n
          *    - The field will also be sent to the API in the openOrder message if the API client version is >= 56. It is sent after the stopPrice field as follows: stopPrice, trailingPct, basisPoint\n
          */
-        public double TrailingPercent
-        {
-            get { return trailingPercent; }
-            set { trailingPercent = value; }
-        }
+        public double TrailingPercent { get; set; }
 
         /**
          * @brief The Financial Advisor group the trade will be allocated to.
          * Use an empty string if not applicable.
          */
-        public string FaGroup
-        {
-            get { return faGroup; }
-            set { faGroup = value; }
-        }
+        public string FaGroup { get; set; }
 
         /**
          * @brief The Financial Advisor allocation profile the trade will be allocated to.
          * Use an empty string if not applicable.
          */
-        public string FaProfile
-        {
-            get { return faProfile; }
-            set { faProfile = value; }
-        }
+        public string FaProfile { get; set; }
 
         /**
          * @brief The Financial Advisor allocation method the trade will be allocated to.
          * Use an empty string if not applicable.
          */
-        public string FaMethod
-        {
-            get { return faMethod; }
-            set { faMethod = value; }
-        }
+        public string FaMethod { get; set; }
 
         /**
          * @brief The Financial Advisor percentage concerning the trade's allocation.
          * Use an empty string if not applicable.
          */
-        public string FaPercentage
-        {
-            get { return faPercentage; }
-            set { faPercentage = value; }
-        }
+        public string FaPercentage { get; set; }
 
 
         /**
@@ -551,99 +306,59 @@ namespace IBApi
 		 * When Action = "BUY" and OpenClose = "O" this will open a new position. 
 		 * When Action = "BUY" and OpenClose = "C" this will close and existing short position.
          */
-        public string OpenClose
-        {
-            get { return openClose; }
-            set { openClose = value; }
-        }
+        public string OpenClose { get; set; }
 
 
         /**
          * @brief The order's origin. 
          * Same as TWS "Origin" column. Identifies the type of customer from which the order originated. Valid values are 0 (customer), 1 (firm).
          */
-        public int Origin
-        {
-            get { return origin; }
-            set { origin = value; }
-        }
+        public int Origin { get; set; }
 
         /**
          * @brief -
          * For institutions only. Valid values are: 1 (broker holds shares) or 2 (shares come from elsewhere).
          */
-        public int ShortSaleSlot
-        {
-            get { return shortSaleSlot; }
-            set { shortSaleSlot = value; }
-        }
+        public int ShortSaleSlot { get; set; }
 
         /**
          * @brief Used only when shortSaleSlot is 2.
          * For institutions only. Indicates the location where the shares to short come from. Used only when short 
          * sale slot is set to 2 (which means that the shares to short are held elsewhere and not with IB).
          */
-        public string DesignatedLocation
-        {
-            get { return designatedLocation; }
-            set { designatedLocation = value; }
-        }
+        public string DesignatedLocation { get; set; }
 
         /**
          * @brief Only available with IB Execution-Only accounts with applicable securities
 	 * Mark order as exempt from short sale uptick rule 
          */
-        public int ExemptCode
-        {
-            get { return exemptCode; }
-            set { exemptCode = value; }
-        }
+        public int ExemptCode { get; set; }
 
         /**
           * @brief The amount off the limit price allowed for discretionary orders.
           */
-        public double DiscretionaryAmt
-        {
-            get { return discretionaryAmt; }
-            set { discretionaryAmt = value; }
-        }
+        public double DiscretionaryAmt { get; set; }
 
         /**
          * @brief Trade with electronic quotes.
          */
-        public bool ETradeOnly
-        {
-            get { return eTradeOnly; }
-            set { eTradeOnly = value; }
-        }
+        public bool ETradeOnly { get; set; }
 
         /**
          * @brief Trade with firm quotes.
          */
-        public bool FirmQuoteOnly
-        {
-            get { return firmQuoteOnly; }
-            set { firmQuoteOnly = value; }
-        }
+        public bool FirmQuoteOnly { get; set; }
 
         /**
          * @brief Maximum smart order distance from the NBBO.
          */
-        public double NbboPriceCap
-        {
-            get { return nbboPriceCap; }
-            set { nbboPriceCap = value; }
-        }
+        public double NbboPriceCap { get; set; }
 
         /**
          * @brief Use to opt out of default SmartRouting for orders routed directly to ASX.
          * This attribute defaults to false unless explicitly set to true. When set to false, orders routed directly to ASX will NOT use SmartRouting. When set to true, orders routed directly to ASX orders WILL use SmartRouting.
          */
-        public bool OptOutSmartRouting
-        {
-            get { return optOutSmartRouting; }
-            set { optOutSmartRouting = value; }
-        }
+        public bool OptOutSmartRouting { get; set; }
 
         /**
          * @brief - 
@@ -652,72 +367,44 @@ namespace IBApi
          *      2 - improvement \n
          *      3 - transparent \n
          */
-        public int AuctionStrategy
-        {
-            get { return auctionStrategy; }
-            set { auctionStrategy = value; }
-        }
+        public int AuctionStrategy { get; set; }
 
         /**
          * @brief The auction's starting price.
          * For BOX orders only.
          */
-        public double StartingPrice
-        {
-            get { return startingPrice; }
-            set { startingPrice = value; }
-        }
+        public double StartingPrice { get; set; }
 
         /**
          * @brief The stock's reference price.
          * The reference price is used for VOL orders to compute the limit price sent to an exchange (whether or not Continuous Update is selected), and for price range monitoring.
          */
-        public double StockRefPrice
-        {
-            get { return stockRefPrice; }
-            set { stockRefPrice = value; }
-        }
+        public double StockRefPrice { get; set; }
 
         /**
          * @brief The stock's Delta.
          * For orders on BOX only.
          */
-        public double Delta
-        {
-            get { return delta; }
-            set { delta = value; }
-        }
+        public double Delta { get; set; }
 
         /**
           * @brief The lower value for the acceptable underlying stock price range.
           * For price improvement option orders on BOX and VOL orders with dynamic management.
           */
-        public double StockRangeLower
-        {
-            get { return stockRangeLower; }
-            set { stockRangeLower = value; }
-        }
+        public double StockRangeLower { get; set; }
 
         /**
          * @brief The upper value for the acceptable underlying stock price range.
          * For price improvement option orders on BOX and VOL orders with dynamic management.
          */
-        public double StockRangeUpper
-        {
-            get { return stockRangeUpper; }
-            set { stockRangeUpper = value; }
-        }
+        public double StockRangeUpper { get; set; }
 
 
         /**
          * @brief The option price in volatility, as calculated by TWS' Option Analytics.
          * This value is expressed as a percent and is used to calculate the limit price sent to the exchange.
          */
-        public double Volatility
-        {
-            get { return volatility; }
-            set { volatility = value; }
-        }
+        public double Volatility { get; set; }
 
         /**
          * @brief
@@ -725,21 +412,13 @@ namespace IBApi
          *      1 - Daily Volatility
          *      2 - Annual Volatility
          */
-        public int VolatilityType
-        {
-            get { return volatilityType; }
-            set { volatilityType = value; }
-        }
+        public int VolatilityType { get; set; }
 
         /**
          * @brief Specifies whether TWS will automatically update the limit price of the order as the underlying price moves.
          * VOL orders only.
          */
-        public int ContinuousUpdate
-        {
-            get { return continuousUpdate; }
-            set { continuousUpdate = value; }
-        }
+        public int ContinuousUpdate { get; set; }
 
         /**
          * @brief Specifies how you want TWS to calculate the limit price for options, and for stock range price monitoring.
@@ -747,225 +426,133 @@ namespace IBApi
          *      1 - Average of NBBO \n
          *      2 - NBB or the NBO depending on the action and right. \n
          */
-        public int ReferencePriceType
-        {
-            get { return referencePriceType; }
-            set { referencePriceType = value; }
-        }
+        public int ReferencePriceType { get; set; }
 
         /**
          * @brief Enter an order type to instruct TWS to submit a delta neutral trade on full or partial execution of the VOL order.
          * VOL orders only. For no hedge delta order to be sent, specify NONE.
          */
-        public string DeltaNeutralOrderType
-        {
-            get { return deltaNeutralOrderType; }
-            set { deltaNeutralOrderType = value; }
-        }
+        public string DeltaNeutralOrderType { get; set; }
 
         /**
          * @brief Use this field to enter a value if the value in the deltaNeutralOrderType field is an order type that requires an Aux price, such as a REL order. 
          * VOL orders only.
          */
-        public double DeltaNeutralAuxPrice
-        {
-            get { return deltaNeutralAuxPrice; }
-            set { deltaNeutralAuxPrice = value; }
-        }
+        public double DeltaNeutralAuxPrice { get; set; }
 
         /**
          * @brief - DOC_TODO
          */
-        public int DeltaNeutralConId
-        {
-            get { return deltaNeutralConId; }
-            set { deltaNeutralConId = value; }
-        }
+        public int DeltaNeutralConId { get; set; }
 
         /**
          * @brief - DOC_TODO
          */
-        public string DeltaNeutralSettlingFirm
-        {
-            get { return deltaNeutralSettlingFirm; }
-            set { deltaNeutralSettlingFirm = value; }
-        }
+        public string DeltaNeutralSettlingFirm { get; set; }
 
         /**
          * @brief - DOC_TODO
          */
-        public string DeltaNeutralClearingAccount
-        {
-            get { return deltaNeutralClearingAccount; }
-            set { deltaNeutralClearingAccount = value; }
-        }
+        public string DeltaNeutralClearingAccount { get; set; }
 
         /**
          * @brief - DOC_TODO
          */
-        public string DeltaNeutralClearingIntent
-        {
-            get { return deltaNeutralClearingIntent; }
-            set { deltaNeutralClearingIntent = value; }
-        }
+        public string DeltaNeutralClearingIntent { get; set; }
 
         /**
          * @brief Specifies whether the order is an Open or a Close order and is used when the hedge involves a CFD and and the order is clearing away.
          */
-        public string DeltaNeutralOpenClose
-        {
-            get { return deltaNeutralOpenClose; }
-            set { deltaNeutralOpenClose = value; }
-        }
+        public string DeltaNeutralOpenClose { get; set; }
 
         /**
          * @brief Used when the hedge involves a stock and indicates whether or not it is sold short.
          */
-        public bool DeltaNeutralShortSale
-        {
-            get { return deltaNeutralShortSale; }
-            set { deltaNeutralShortSale = value; }
-        }
+        public bool DeltaNeutralShortSale { get; set; }
 
         /**
          * @brief -
          * Has a value of 1 (the clearing broker holds shares) or 2 (delivered from a third party). If you use 2, then you must specify a deltaNeutralDesignatedLocation.
          */
-        public int DeltaNeutralShortSaleSlot
-        {
-            get { return deltaNeutralShortSaleSlot; }
-            set { deltaNeutralShortSaleSlot = value; }
-        }
+        public int DeltaNeutralShortSaleSlot { get; set; }
 
         /**
          * @brief -
          * Used only when deltaNeutralShortSaleSlot = 2.
          */
-        public string DeltaNeutralDesignatedLocation
-        {
-            get { return deltaNeutralDesignatedLocation; }
-            set { deltaNeutralDesignatedLocation = value; }
-        }
+        public string DeltaNeutralDesignatedLocation { get; set; }
 
         /**
          * @brief - DOC_TODO
          * For EFP orders only.
          */
-        public double BasisPoints
-        {
-            get { return basisPoints; }
-            set { basisPoints = value; }
-        }
+        public double BasisPoints { get; set; }
 
         /**
          * @brief - DOC_TODO
          * For EFP orders only.
          */
-        public int BasisPointsType
-        {
-            get { return basisPointsType; }
-            set { basisPointsType = value; }
-        }
+        public int BasisPointsType { get; set; }
 
         /**
          * @brief Defines the size of the first, or initial, order component.
          * For Scale orders only.
          */
-        public int ScaleInitLevelSize
-        {
-            get { return scaleInitLevelSize; }
-            set { scaleInitLevelSize = value; }
-        }
+        public int ScaleInitLevelSize { get; set; }
 
         /**
          * @brief Defines the order size of the subsequent scale order components.
          * For Scale orders only. Used in conjunction with scaleInitLevelSize().
          */
-        public int ScaleSubsLevelSize
-        {
-            get { return scaleSubsLevelSize; }
-            set { scaleSubsLevelSize = value; }
-        }
+        public int ScaleSubsLevelSize { get; set; }
 
         /**
          * @brief Defines the price increment between scale components.
          * For Scale orders only. This value is compulsory.
          */
-        public double ScalePriceIncrement
-        {
-            get { return scalePriceIncrement; }
-            set { scalePriceIncrement = value; }
-        }
+        public double ScalePriceIncrement { get; set; }
 
         /**
          * @brief - DOC_TODO
          * For extended Scale orders.
          */
-        public double ScalePriceAdjustValue
-        {
-            get { return scalePriceAdjustValue; }
-            set { scalePriceAdjustValue = value; }
-        }
+        public double ScalePriceAdjustValue { get; set; }
 
         /**
          * @brief - DOC_TODO
          * For extended Scale orders.
          */
-        public int ScalePriceAdjustInterval
-        {
-            get { return scalePriceAdjustInterval; }
-            set { scalePriceAdjustInterval = value; }
-        }
+        public int ScalePriceAdjustInterval { get; set; }
 
         /**
          * @brief - DOC_TODO
          * For extended scale orders.
          */
-        public double ScaleProfitOffset
-        {
-            get { return scaleProfitOffset; }
-            set { scaleProfitOffset = value; }
-        }
+        public double ScaleProfitOffset { get; set; }
 
         /**
          * @brief - DOC_TODO
          * For extended scale orders.
          */
-        public bool ScaleAutoReset
-        {
-            get { return scaleAutoReset; }
-            set { scaleAutoReset = value; }
-        }
+        public bool ScaleAutoReset { get; set; }
 
         /**
          * @brief - DOC_TODO
          * For extended scale orders.
          */
-        public int ScaleInitPosition
-        {
-            get { return scaleInitPosition; }
-            set { scaleInitPosition = value; }
-        }
+        public int ScaleInitPosition { get; set; }
 
         /**
           * @brief - DOC_TODO
           * For extended scale orders.
           */
-        public int ScaleInitFillQty
-        {
-            get { return scaleInitFillQty; }
-            set { scaleInitFillQty = value; }
-        }
+        public int ScaleInitFillQty { get; set; }
 
         /**
          * @brief - DOC_TODO
          * For extended scale orders.
          */
-        public bool ScaleRandomPercent
-        {
-            get { return scaleRandomPercent; }
-            set { scaleRandomPercent = value; }
-        }
+        public bool ScaleRandomPercent { get; set; }
 
         /**
          * @brief For hedge orders.
@@ -975,60 +562,36 @@ namespace IBApi
          *      F - FX \n
          *      P - Pair \n
          */
-        public string HedgeType
-        {
-            get { return hedgeType; }
-            set { hedgeType = value; }
-        }
+        public string HedgeType { get; set; }
 
         /**
          * @brief - DOC_TODO
          * Beta = x for Beta hedge orders, ratio = y for Pair hedge order
          */
-        public string HedgeParam
-        {
-            get { return hedgeParam; }
-            set { hedgeParam = value; }
-        }
+        public string HedgeParam { get; set; }
 
         /**
          * @brief The account the trade will be allocated to.
          */
-        public string Account
-        {
-            get { return account; }
-            set { account = value; }
-        }
+        public string Account { get; set; }
 
         /**
          * @brief - DOC_TODO
          * Institutions only. Indicates the firm which will settle the trade.
          */
-        public string SettlingFirm
-        {
-            get { return settlingFirm; }
-            set { settlingFirm = value; }
-        }
+        public string SettlingFirm { get; set; }
 
         /**
          * @brief Specifies the true beneficiary of the order.
          * For IBExecution customers. This value is required for FUT/FOP orders for reporting to the exchange.
          */
-        public string ClearingAccount
-        {
-            get { return clearingAccount; }
-            set { clearingAccount = value; }
-        }
+        public string ClearingAccount { get; set; }
 
         /**
         * @brief For exeuction-only clients to know where do they want their shares to be cleared at.
          * Valid values are: IB, Away, and PTA (post trade allocation).
         */
-        public string ClearingIntent
-        {
-            get { return clearingIntent; }
-            set { clearingIntent = value; }
-        }
+        public string ClearingIntent { get; set; }
 
         /**
          * @brief The algorithm strategy.
@@ -1040,43 +603,27 @@ namespace IBApi
          *      Vwap - VWAP (Volume Weighted Average Price) \n
          * For more information about IB's API algorithms, refer to https://www.interactivebrokers.com/en/software/api/apiguide/tables/ibalgo_parameters.htm
         */
-        public string AlgoStrategy
-        {
-            get { return algoStrategy; }
-            set { algoStrategy = value; }
-        }
+        public string AlgoStrategy { get; set; }
 
         /**
         * @brief The list of parameters for the IB algorithm.
          * For more information about IB's API algorithms, refer to https://www.interactivebrokers.com/en/software/api/apiguide/tables/ibalgo_parameters.htm
         */
-        public List<TagValue> AlgoParams
-        {
-            get { return algoParams; }
-            set { algoParams = value; }
-        }
+        public List<TagValue> AlgoParams { get; set; }
 
         /**
         * @brief Allows to retrieve the commissions and margin information.
          * When placing an order with this attribute set to true, the order will not be placed as such. Instead it will used to request the commissions and margin information that would result from this order.
         */
-        public bool WhatIf
-        {
-            get { return whatIf; }
-            set { whatIf = value; }
-        }
+        public bool WhatIf { get; set; }
 
-        public string AlgoId { get { return algoId; } set { algoId = value; } }
+        public string AlgoId { get; set; }
 
         /**
         * @brief Orders routed to IBDARK are tagged as “post only” and are held in IB's order book, where incoming SmartRouted orders from other IB customers are eligible to trade against them.
          * For IBDARK orders only.
         */
-        public bool NotHeld
-        {
-            get { return notHeld; }
-            set { notHeld = value; }
-        }
+        public bool NotHeld { get; set; }
 
         /**
          * @brief Advanced parameters for Smart combo routing. \n
@@ -1114,87 +661,51 @@ namespace IBApi
 		 *    Value = The upper price \n
 		 * \n
          */
-        public List<TagValue> SmartComboRoutingParams
-        {
-            get { return smartComboRoutingParams; }
-            set { smartComboRoutingParams = value; }
-        }
+        public List<TagValue> SmartComboRoutingParams { get; set; }
 
         /**
         * @brief List of Per-leg price following the same sequence combo legs are added. The combo price must be left unspecified when using per-leg prices.
         */
-        public List<OrderComboLeg> OrderComboLegs
-        {
-            get { return orderComboLegs; }
-            set { orderComboLegs = value; }
-        }
+        public List<OrderComboLeg> OrderComboLegs { get; set; } = new List<OrderComboLeg>();
 
         /**
          * @brief - DOC_TODO
          */
-        public List<TagValue> OrderMiscOptions
-        {
-            get { return orderMiscOptions; }
-            set { orderMiscOptions = value; }
-        }
+        public List<TagValue> OrderMiscOptions { get; set; } = new List<TagValue>();
 
         /**
          * @brief for GTC orders.
          */
-        public string ActiveStartTime
-        {
-            get { return activeStartTime; }
-            set { activeStartTime = value; }
-        }
+        public string ActiveStartTime { get; set; }
 
         /**
         * @brief for GTC orders.
         */
-        public string ActiveStopTime
-        {
-            get { return activeStopTime; }
-            set { activeStopTime = value; }
-        }
+        public string ActiveStopTime { get; set; }
 
         /**
          * @brief Used for scale orders.
          */
-        public string ScaleTable
-        {
-            get { return scaleTable; }
-            set { scaleTable = value; }
-        }
+        public string ScaleTable { get; set; }
 
         /**
          * @brief model code
          */
-        public string ModelCode
-        {
-            get { return modelCode; }
-            set { modelCode = value; }
-        }
+        public string ModelCode { get; set; }
 
         /**
          * @brief This is a regulartory attribute that applies to all US Commodity (Futures) Exchanges, 
          * provided to allow client to comply with CFTC Tag 50 Rules
          */
 
-        public string ExtOperator
-        {
-            get { return extOperator; }
-            set { extOperator = value; }
-        }
+        public string ExtOperator { get; set; }
 
         /**
          * @brief The native cash quantity
          */
-        public double CashQty
-        {
-            get { return cashQty; }
-            set { cashQty = value; }
-        }
+        public double CashQty { get; set; }
 
-		/**
+        /**
          * @brief Identifies a person as the responsible party for investment decisions within the firm. Orders covered by MiFID 2 (Markets in Financial Instruments Directive 2) must include either Mifid2DecisionMaker or Mifid2DecisionAlgo field (but not both). Requires TWS 969+.
          */
 		public string Mifid2DecisionMaker { get; set; }
@@ -1217,112 +728,76 @@ namespace IBApi
         /**
          * @brief Don't use auto price for hedge
          */
-        public bool DontUseAutoPriceForHedge
-        {
-            get { return dontUseAutoPriceForHedge; }
-            set { dontUseAutoPriceForHedge = value; }
-        }
+        public bool DontUseAutoPriceForHedge { get; set; }
 
-        public string AutoCancelDate 
-        {
-            get { return autoCancelDate; }
-            set { autoCancelDate = value; } 
-        }
+        public string AutoCancelDate { get; set; }
 
-        public double FilledQuantity 
-        {
-            get { return filledQuantity; }
-            set { filledQuantity = value; }
-        }
+        public double FilledQuantity { get; set; }
 
-        public int RefFuturesConId 
-        {
-            get { return refFuturesConId; }
-            set { refFuturesConId = value; }
-        }
+        public int RefFuturesConId { get; set; }
 
-        public bool AutoCancelParent 
-        {
-            get { return autoCancelParent; }
-            set { autoCancelParent = value; }
-        }
+        public bool AutoCancelParent { get; set; }
 
-        public string Shareholder 
-        {
-            get { return shareholder; }
-            set { shareholder = value; }
-        }
+        public string Shareholder { get; set; }
 
-        public bool ImbalanceOnly 
-        {
-            get { return imbalanceOnly; }
-            set { imbalanceOnly = value; }
-        }
+        public bool ImbalanceOnly { get; set; }
 
-        public bool RouteMarketableToBbo 
-        {
-            get { return routeMarketableToBbo; }
-            set { routeMarketableToBbo = value; }
-        }
+        public bool RouteMarketableToBbo { get; set; }
 
-        public long ParentPermId 
-        {
-            get { return parentPermId; }
-            set { parentPermId = value; }
-        }
+        public long ParentPermId { get; set; }
 
 
         public Order()
         {
-            lmtPrice = Double.MaxValue;
-            auxPrice = Double.MaxValue;
-            activeStartTime = EMPTY_STR;
-            activeStopTime = EMPTY_STR;
-            outsideRth = false;
-            openClose = EMPTY_STR;
-            origin = CUSTOMER;
-            transmit = true;
-            designatedLocation = EMPTY_STR;
-            exemptCode = -1;
-            minQty = Int32.MaxValue;
-            percentOffset = Double.MaxValue;
-            nbboPriceCap = Double.MaxValue;
-            optOutSmartRouting = false;
-            startingPrice = Double.MaxValue;
-            stockRefPrice = Double.MaxValue;
-            delta = Double.MaxValue;
-            stockRangeLower = Double.MaxValue;
-            stockRangeUpper = Double.MaxValue;
-            volatility = Double.MaxValue;
-            volatilityType = Int32.MaxValue;
-            deltaNeutralOrderType = EMPTY_STR;
-            deltaNeutralAuxPrice = Double.MaxValue;
-            deltaNeutralConId = 0;
-            deltaNeutralSettlingFirm = EMPTY_STR;
-            deltaNeutralClearingAccount = EMPTY_STR;
-            deltaNeutralClearingIntent = EMPTY_STR;
-            deltaNeutralOpenClose = EMPTY_STR;
-            deltaNeutralShortSale = false;
-            deltaNeutralShortSaleSlot = 0;
-            deltaNeutralDesignatedLocation = EMPTY_STR;
-            referencePriceType = Int32.MaxValue;
-            trailStopPrice = Double.MaxValue;
-            trailingPercent = Double.MaxValue;
-            basisPoints = Double.MaxValue;
-            basisPointsType = Int32.MaxValue;
-            scaleInitLevelSize = Int32.MaxValue;
-            scaleSubsLevelSize = Int32.MaxValue;
-            scalePriceIncrement = Double.MaxValue;
-            scalePriceAdjustValue = Double.MaxValue;
-            scalePriceAdjustInterval = Int32.MaxValue;
-            scaleProfitOffset = Double.MaxValue;
-            scaleAutoReset = false;
-            scaleInitPosition = Int32.MaxValue;
-            scaleInitFillQty = Int32.MaxValue;
-            scaleRandomPercent = false;
-            scaleTable = EMPTY_STR;
-            whatIf = false;
-            notHeld = false;
+            LmtPrice = double.MaxValue;
+            AuxPrice = double.MaxValue;
+            ActiveStartTime = EMPTY_STR;
+            ActiveStopTime = EMPTY_STR;
+            OutsideRth = false;
+            OpenClose = EMPTY_STR;
+            Origin = CUSTOMER;
+            Transmit = true;
+            DesignatedLocation = EMPTY_STR;
+            ExemptCode = -1;
+            MinQty = int.MaxValue;
+            PercentOffset = double.MaxValue;
+            NbboPriceCap = double.MaxValue;
+            OptOutSmartRouting = false;
+            StartingPrice = double.MaxValue;
+            StockRefPrice = double.MaxValue;
+            Delta = double.MaxValue;
+            StockRangeLower = double.MaxValue;
+            StockRangeUpper = double.MaxValue;
+            Volatility = double.MaxValue;
+            VolatilityType = int.MaxValue;
+            DeltaNeutralOrderType = EMPTY_STR;
+            DeltaNeutralAuxPrice = double.MaxValue;
+            DeltaNeutralConId = 0;
+            DeltaNeutralSettlingFirm = EMPTY_STR;
+            DeltaNeutralClearingAccount = EMPTY_STR;
+            DeltaNeutralClearingIntent = EMPTY_STR;
+            DeltaNeutralOpenClose = EMPTY_STR;
+            DeltaNeutralShortSale = false;
+            DeltaNeutralShortSaleSlot = 0;
+            DeltaNeutralDesignatedLocation = EMPTY_STR;
+            ReferencePriceType = int.MaxValue;
+            TrailStopPrice = double.MaxValue;
+            TrailingPercent = double.MaxValue;
+            BasisPoints = double.MaxValue;
+            BasisPointsType = int.MaxValue;
+            ScaleInitLevelSize = int.MaxValue;
+            ScaleSubsLevelSize = int.MaxValue;
+            ScalePriceIncrement = double.MaxValue;
+            ScalePriceAdjustValue = double.MaxValue;
+            ScalePriceAdjustInterval = int.MaxValue;
+            ScaleProfitOffset = double.MaxValue;
+            ScaleAutoReset = false;
+            ScaleInitPosition = int.MaxValue;
+            ScaleInitFillQty = int.MaxValue;
+            ScaleRandomPercent = false;
+            ScaleTable = EMPTY_STR;
+            WhatIf = false;
+            NotHeld = false;
             Conditions = new List<OrderCondition>();
             TriggerPrice = double.MaxValue;
             LmtPriceOffset = double.MaxValue;
@@ -1331,25 +806,25 @@ namespace IBApi
             AdjustedTrailingAmount = double.MaxValue;
             ExtOperator = EMPTY_STR;
             Tier = new SoftDollarTier(EMPTY_STR, EMPTY_STR, EMPTY_STR);
-            cashQty = Double.MaxValue;
+            CashQty = double.MaxValue;
             Mifid2DecisionMaker = EMPTY_STR;
             Mifid2DecisionAlgo = EMPTY_STR;
             Mifid2ExecutionTrader = EMPTY_STR;
             Mifid2ExecutionAlgo = EMPTY_STR;
-            dontUseAutoPriceForHedge = false;
-            autoCancelDate = EMPTY_STR;
-            filledQuantity = Double.MaxValue;
-            refFuturesConId = Int32.MaxValue;
-            autoCancelParent = false;
-            shareholder = EMPTY_STR;
-            imbalanceOnly = false;
-            routeMarketableToBbo = false;
-            parentPermId = Int64.MaxValue;
+            DontUseAutoPriceForHedge = false;
+            AutoCancelDate = EMPTY_STR;
+            FilledQuantity = double.MaxValue;
+            RefFuturesConId = int.MaxValue;
+            AutoCancelParent = false;
+            Shareholder = EMPTY_STR;
+            ImbalanceOnly = false;
+            RouteMarketableToBbo = false;
+            ParentPermId = long.MaxValue;
             UsePriceMgmtAlgo = null;
         }
 
 		// Note: Two orders can be 'equivalent' even if all fields do not match. This function is not intended to be used with Order objects returned from TWS.
-        public override bool Equals(Object p_other)
+        public override bool Equals(object p_other)
         {
             if (this == p_other)
                 return true;
@@ -1427,7 +902,7 @@ namespace IBApi
                 ConditionsCancelOrder != l_theOther.ConditionsCancelOrder ||
                 Tier != l_theOther.Tier ||
                 CashQty != l_theOther.CashQty ||
-                dontUseAutoPriceForHedge != l_theOther.dontUseAutoPriceForHedge ||
+                DontUseAutoPriceForHedge != l_theOther.DontUseAutoPriceForHedge ||
                 IsOmsContainer != l_theOther.IsOmsContainer ||
                 UsePriceMgmtAlgo != l_theOther.UsePriceMgmtAlgo ||
                 FilledQuantity != l_theOther.FilledQuantity ||

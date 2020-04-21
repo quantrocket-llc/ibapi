@@ -273,7 +273,7 @@ Public Function FindOrAddSheet(sheetName As String, ByRef needsInitialising As B
     For Each ws In Worksheets
         If ws.name = sheetName Then
             ' sheet was found
-            needsInitialising = (ws.Cells(1, 1) = 0)
+            needsInitialising = (ws.Cells(1, 200) = 0)
             Exit For
         End If
     Next

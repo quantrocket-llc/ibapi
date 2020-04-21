@@ -1,11 +1,6 @@
 /* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 namespace IBApi
 {
     /**
@@ -106,24 +101,15 @@ namespace IBApi
   */
     public class CodeMsgPair
     {
-        private int code;
-        private string message;
-
         public CodeMsgPair(int code, string message)
         {
-            this.code = code;
-            this.message = message;
+            Code = code;
+            Message = message;
         }
 
-        public int Code
-        {
-            get { return code; } 
-        }
+        public int Code { get; }
 
-        public string Message
-        {
-            get { return message; }
-        }
+        public string Message { get; }
     }
 
 }

@@ -1,12 +1,6 @@
 ﻿/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-
 namespace IBApi
 {
     /**
@@ -16,28 +10,17 @@ namespace IBApi
      */
     public class ContractDescription
     {
-        private Contract contract;
-        private string[] derivativeSecTypes;
-
-         /**
+        /**
          * @brief A contract data
          */
-        public Contract Contract
-        {
-            get { return contract; }
-            set { contract = value; }
-        }
+        public Contract Contract { get; set; }
 
-        /**
+         /**
          * @brief A list of derivative security types
          */
-        public string[] DerivativeSecTypes
-        {
-            get { return derivativeSecTypes; }
-            set { derivativeSecTypes = value; }
-        }
+        public string[] DerivativeSecTypes { get; set; }
 
-        public ContractDescription()
+         public ContractDescription()
         {
             Contract = new Contract();
         }
@@ -50,7 +33,7 @@ namespace IBApi
 
         public override string ToString()
         {
-            return Contract.ToString() + " derivativeSecTypes [" + String.Join(", ", DerivativeSecTypes) + "]";
+            return Contract.ToString() + " derivativeSecTypes [" + string.Join(", ", DerivativeSecTypes) + "]";
         }
     }
 }

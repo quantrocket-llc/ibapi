@@ -2,9 +2,7 @@
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading;
-using System.Linq;
 using System.IO;
 
 namespace IBApi
@@ -129,7 +127,7 @@ namespace IBApi
             while (true)
                 try
                 {
-                    msgSize = new EDecoder(this.eClientSocket.ServerVersion, defaultWrapper).ParseAndProcessMsg(inBuf.ToArray());
+                    msgSize = new EDecoder(eClientSocket.ServerVersion, defaultWrapper).ParseAndProcessMsg(inBuf.ToArray());
                     break;
                 }
                 catch (EndOfStreamException)

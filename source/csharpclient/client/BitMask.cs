@@ -2,9 +2,6 @@
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace IBApi
 {
@@ -14,7 +11,7 @@ namespace IBApi
 
         public BitMask(int p)
         {
-            this.m_mask = p;
+            m_mask = p;
         }
 
         public int GetMask()
