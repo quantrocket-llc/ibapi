@@ -35,6 +35,14 @@ target_include_directories( twsapi
         source/cppclient/client/
 )
 
+# On Windows (including MinGW), link against Winsock 2
+if( WIN32 )
+    target_link_libraries( twsapi
+        PUBLIC
+            ws2_32
+    )
+endif()
+
 option( IBKR_BUILD_TESTCPPCLIENT "Whether or not to build the TWS API example/test client" FALSE )
 if( IBKR_BUILD_TESTCPPCLIENT )
     # this is the example/test client
@@ -68,4 +76,16 @@ if( IBKR_BUILD_TESTCPPCLIENT )
         PUBLIC
             Threads::Threads
     )
+
+    if( MSVC )
+        target_compile_options( TestCppClient PRIVATE /W3 )
+    else()
+        target_compile_options( TestCppClient PRIVATE -Wall -Wextra -pedantic -Wno-unused-parameter )
+    endif()
+endif()
+
+if( MSVC )
+    target_compile_options( twsapi PRIVATE /W3 )
+else()
+    target_compile_options( twsapi PRIVATE -Wall -Wextra -pedantic -Wno-unused-parameter )
 endif()
