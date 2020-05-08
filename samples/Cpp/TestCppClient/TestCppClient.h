@@ -188,7 +188,7 @@ private:
 	time_t m_sleepDeadline;
 
 	OrderId m_orderId;
-	EReader *m_pReader;
+	std::unique_ptr<EReader> m_pReader;
     bool m_extraAuth;
 	std::string m_bboExchange;
 };

@@ -49,17 +49,17 @@ TestCppClient::TestCppClient() :
 	, m_state(ST_CONNECT)
 	, m_sleepDeadline(0)
 	, m_orderId(0)
-    , m_pReader(0)
     , m_extraAuth(false)
 {
 }
 //! [socket_init]
 TestCppClient::~TestCppClient()
 {
-    if (m_pReader)
-        delete m_pReader;
+	// destroy the reader before the client
+	if( m_pReader )
+		m_pReader.reset();
 
-    delete m_pClient;
+	delete m_pClient;
 }
 
 bool TestCppClient::connect(const char *host, int port, int clientId)
@@ -74,7 +74,7 @@ bool TestCppClient::connect(const char *host, int port, int clientId)
 	if (bRes) {
 		printf( "Connected to %s:%d clientId:%d\n", m_pClient->host().c_str(), m_pClient->port(), clientId);
 		//! [ereader]
-        m_pReader = new EReader(m_pClient, &m_osSignal);
+		m_pReader = std::unique_ptr<EReader>( new EReader(m_pClient, &m_osSignal) );
 		m_pReader->start();
 		//! [ereader]
 	}
