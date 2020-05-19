@@ -11,7 +11,6 @@
 	- Briefing Trader (BRF)
 	- Benzinga Pro (BZ)
 	- Fly on the Wall (FLY)
-	- Midnight Trader (MT) <b>*</b>not currently available from the API
 	
 	The API functions which handle news are able to query available news provides, subscribe to news in real time to receive headlines as they are released, request specific news articles, and return a historical list of news stories that are cached in the system. 
 
@@ -148,26 +147,6 @@
 		</li>
 		<li>
 			\snippet ContractSamples.py newscontractfly
-		</li>
-	</ul>
-	
-	<h2> Midnight Trader </h2>
-	
-	<ul id="tab">
-		<li class="active">
-			\snippet ContractSamples.cs newscontractmt
-		</li>
-		<li>
-			\snippet ContractSamples.java newscontractmt
-		</li>
-		<li>
-			\snippet ContractSamples.vb newscontractmt
-		</li>
-		<li>
-			\snippet ContractSamples.cpp newscontractmt
-		</li>
-		<li>
-			\snippet ContractSamples.py newscontractmt
 		</li>
 	</ul>
 	

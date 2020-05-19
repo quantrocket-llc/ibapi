@@ -644,17 +644,6 @@ Contract ContractSamples::FLYbroadtapeNewsFeed()
 	return contract;
 }
 
-Contract ContractSamples::MTbroadtapeNewsFeed()
-{
-	//! [newscontractmt]
-	Contract contract;
-	contract.symbol = "MT:MT_ALL"; //BroadTape All News
-	contract.secType = "NEWS";
-	contract.exchange = "MT"; //Midnight Trader
-	//! [newscontractmt]
-	return contract;
-}
-
 Contract ContractSamples::ContFut()
 {
 	//! [continuousfuturescontract]

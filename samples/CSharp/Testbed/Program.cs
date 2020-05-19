@@ -359,7 +359,6 @@ namespace Samples
             client.reqMktData(1009, ContractSamples.BTbroadtapeNewsFeed(), "mdoff,292", false, false, null);
             client.reqMktData(1010, ContractSamples.BZbroadtapeNewsFeed(), "mdoff,292", false, false, null);
             client.reqMktData(1011, ContractSamples.FLYbroadtapeNewsFeed(), "mdoff,292", false, false, null);
-            client.reqMktData(1012, ContractSamples.MTbroadtapeNewsFeed(), "mdoff,292", false, false, null);
             //! [reqmktdata_broadtapenews]
 
             //! [reqoptiondatagenticks]

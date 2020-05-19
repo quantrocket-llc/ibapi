@@ -621,16 +621,6 @@ Namespace Samples
             Return contract
         End Function
 
-        Public Shared Function MTbroadtapeNewsFeed() As Contract
-            '! [newscontractmt]
-            Dim contract As Contract = New Contract()
-            contract.Symbol = "MT:MT_ALL" 'BroadTape All News
-            contract.SecType = "NEWS"
-            contract.Exchange = "MT" 'Midnight Trader
-            '! [newscontractmt]
-            Return contract
-        End Function
-
         Public Shared Function ContFut() As Contract
             '! [continuousfuturescontract]
             Dim contract As Contract = New Contract()

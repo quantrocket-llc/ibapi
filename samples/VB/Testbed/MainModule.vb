@@ -273,7 +273,6 @@ Module MainModule
         client.reqMktData(1009, ContractSamples.BTbroadtapeNewsFeed(), "mdoff,292", False, False, Nothing)
         client.reqMktData(1010, ContractSamples.BZbroadtapeNewsFeed(), "mdoff,292", False, False, Nothing)
         client.reqMktData(1011, ContractSamples.FLYbroadtapeNewsFeed(), "mdoff,292", False, False, Nothing)
-        client.reqMktData(1012, ContractSamples.MTbroadtapeNewsFeed(), "mdoff,292", False, False, Nothing)
         '! [reqmktdata_broadtapenews]
 
         '! [reqoptiondatagenticks]

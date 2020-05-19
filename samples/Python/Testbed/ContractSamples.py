@@ -533,47 +533,37 @@ class ContractSamples:
 
 
     @staticmethod
-    def BRFGbroadtapeNewsFeed():
+    def BTbroadtapeNewsFeed():
         #! [newscontractbt]
         contract = Contract()
-        contract.symbol  = "BRFG:BRFG_ALL"
+        contract.symbol  = "BRF:BRF_ALL"
         contract.secType = "NEWS"
-        contract.exchange = "BRFG"
+        contract.exchange = "BRF"
         #! [newscontractbt]
         return contract
 
 
     @staticmethod
-    def DJNLbroadtapeNewsFeed():
+    def BZbroadtapeNewsFeed():
         #! [newscontractbz]
         contract = Contract()
-        contract.symbol = "DJNL:DJNL_ALL"
+        contract.symbol = "BZ:BZ_ALL"
         contract.secType = "NEWS"
-        contract.exchange = "DJNL"
+        contract.exchange = "BZ"
         #! [newscontractbz]
         return contract
 
 
     @staticmethod
-    def DJTOPbroadtapeNewsFeed():
+    def FLYbroadtapeNewsFeed():
         #! [newscontractfly]
         contract = Contract()
-        contract.symbol  = "DJTOP:ASIAPAC"
+        contract.symbol  = "FLY:FLY_ALL"
         contract.secType = "NEWS"
-        contract.exchange = "DJTOP"
+        contract.exchange = "FLY"
         #! [newscontractfly]
         return contract
 
-
-    @staticmethod
-    def BRFUPDNbroadtapeNewsFeed():
-        #! [newscontractmt]
-        contract = Contract()
-        contract.symbol = "BRFUPDN:BRF_ALL"
-        contract.secType = "NEWS"
-        contract.exchange = "BRFUPDN"
-        #! [newscontractmt]
-        return contract
 
     @staticmethod
     def ContFut():

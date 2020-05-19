@@ -543,16 +543,6 @@ public class ContractSamples {
 		//! [newscontractfly]
 		return contract;
 	}
-	
-        public static Contract MTbroadtapeNewsFeed() {
-		//! [newscontractmt]
-		Contract contract = new Contract();
-		contract.symbol("MT:MT_ALL"); //BroadTape All News
-		contract.secType("NEWS");
-		contract.exchange("MT"); //Midnight Trader
-		//! [newscontractmt]
-		return contract;
-	}
 
 	public static Contract ContFut() {
 		//! [continuousfuturescontract]

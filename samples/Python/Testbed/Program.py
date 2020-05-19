@@ -669,10 +669,9 @@ class TestApp(TestWrapper, TestClient):
 
 
         # ! [reqmktdata_broadtapenews]
-        self.reqMktData(1009, ContractSamples.BRFGbroadtapeNewsFeed(), "mdoff,292", False, False, [])
-        self.reqMktData(1010, ContractSamples.DJNLbroadtapeNewsFeed(), "mdoff,292", False, False, [])
-        self.reqMktData(1011, ContractSamples.DJTOPbroadtapeNewsFeed(), "mdoff,292", False, False, [])
-        self.reqMktData(1012, ContractSamples.BRFUPDNbroadtapeNewsFeed(), "mdoff,292", False, False, [])
+        self.reqMktData(1009, ContractSamples.BTbroadtapeNewsFeed(), "mdoff,292", False, False, [])
+        self.reqMktData(1010, ContractSamples.BZbroadtapeNewsFeed(), "mdoff,292", False, False, [])
+        self.reqMktData(1011, ContractSamples.FLYbroadtapeNewsFeed(), "mdoff,292", False, False, [])
         # ! [reqmktdata_broadtapenews]
 
         # ! [reqoptiondatagenticks]

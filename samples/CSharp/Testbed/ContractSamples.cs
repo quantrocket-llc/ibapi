@@ -625,17 +625,6 @@ namespace Samples
             return contract;
         }
 
-        public static Contract MTbroadtapeNewsFeed()
-        {
-            //! [newscontractmt]
-            Contract contract = new Contract();
-            contract.Symbol = "MT:MT_ALL"; //BroadTape All News
-            contract.SecType = "NEWS";
-            contract.Exchange = "MT"; //Midnight Trader
-            //! [newscontractmt]
-            return contract;
-        }
-
         public static Contract ContFut()
         {
             //! [continuousfuturescontract]
