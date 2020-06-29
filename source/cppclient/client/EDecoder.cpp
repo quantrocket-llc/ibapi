@@ -116,6 +116,7 @@ const char* EDecoder::processTickOptionComputationMsg(const char* ptr, const cha
 	int version;
 	int tickerId;
 	int tickTypeInt;
+	int tickAttrib;
 	double impliedVol;
 	double delta;
 
@@ -127,9 +128,18 @@ const char* EDecoder::processTickOptionComputationMsg(const char* ptr, const cha
 	double theta = DBL_MAX;
 	double undPrice = DBL_MAX;
 
-	DECODE_FIELD( version);
+	if (m_serverVersion < MIN_SERVER_VER_PRICE_BASED_VOLATILITY)
+	{
+		DECODE_FIELD(version);
+	}
+
 	DECODE_FIELD( tickerId);
 	DECODE_FIELD( tickTypeInt);
+
+	if (m_serverVersion >= MIN_SERVER_VER_PRICE_BASED_VOLATILITY)
+	{
+		DECODE_FIELD( tickAttrib);
+	}
 
 	DECODE_FIELD( impliedVol);
 	DECODE_FIELD( delta);
@@ -173,7 +183,7 @@ const char* EDecoder::processTickOptionComputationMsg(const char* ptr, const cha
 			undPrice = DBL_MAX;
 		}
 	}
-	m_pEWrapper->tickOptionComputation( tickerId, (TickType)tickTypeInt,
+	m_pEWrapper->tickOptionComputation( tickerId, (TickType)tickTypeInt, tickAttrib,
 		impliedVol, delta, optPrice, pvDividend, gamma, vega, theta, undPrice);
 
 	return ptr;

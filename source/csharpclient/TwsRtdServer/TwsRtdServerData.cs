@@ -180,6 +180,7 @@ namespace TwsRtdServer{
         public const string DELAYED_HALTED = "DELAYEDHALTED";
 
         // Option Topics
+        public const string BID_TICK_ATTRIB = "BIDTICKATTRIB";
         public const string BID_IMPLIED_VOL = "BIDIMPLIEDVOL";
         public const string BID_DELTA = "BIDDELTA";
         public const string BID_OPT_PRICE = "BIDOPTPRICE";
@@ -189,6 +190,7 @@ namespace TwsRtdServer{
         public const string BID_THETA = "BIDTHETA";
         public const string BID_UND_PRICE = "BIDUNDPRICE";
 
+        public const string ASK_TICK_ATTRIB = "ASKTICKATTRIB";
         public const string ASK_IMPLIED_VOL = "ASKIMPLIEDVOL";
         public const string ASK_DELTA = "ASKDELTA";
         public const string ASK_OPT_PRICE = "ASKOPTPRICE";
@@ -198,6 +200,7 @@ namespace TwsRtdServer{
         public const string ASK_THETA = "ASKTHETA";
         public const string ASK_UND_PRICE = "ASKUNDPRICE";
 
+        public const string LAST_TICK_ATTRIB = "LASTTICKATTRIB";
         public const string LAST_IMPLIED_VOL = "LASTIMPLIEDVOL";
         public const string LAST_DELTA = "LASTDELTA";
         public const string LAST_OPT_PRICE = "LASTOPTPRICE";
@@ -207,6 +210,7 @@ namespace TwsRtdServer{
         public const string LAST_THETA = "LASTTHETA";
         public const string LAST_UND_PRICE = "LASTUNDPRICE";
 
+        public const string MODEL_TICK_ATTRIB = "MODELTICKATTRIB";
         public const string MODEL_IMPLIED_VOL = "MODELIMPLIEDVOL";
         public const string MODEL_DELTA = "MODELDELTA";
         public const string MODEL_OPT_PRICE = "MODELOPTPRICE";
@@ -254,10 +258,10 @@ namespace TwsRtdServer{
             LASTTIME, HALTED,
 
             // option topics
-            BID_IMPLIED_VOL, BID_DELTA, BID_OPT_PRICE, BID_PV_DIVIDEND, BID_GAMMA, BID_VEGA, BID_THETA, BID_UND_PRICE,
-            ASK_IMPLIED_VOL, ASK_DELTA, ASK_OPT_PRICE, ASK_PV_DIVIDEND, ASK_GAMMA, ASK_VEGA, ASK_THETA, ASK_UND_PRICE,
-            LAST_IMPLIED_VOL, LAST_DELTA, LAST_OPT_PRICE, LAST_PV_DIVIDEND, LAST_GAMMA, LAST_VEGA, LAST_THETA, LAST_UND_PRICE,
-            MODEL_IMPLIED_VOL, MODEL_DELTA, MODEL_OPT_PRICE, MODEL_PV_DIVIDEND, MODEL_GAMMA, MODEL_VEGA, MODEL_THETA, MODEL_UND_PRICE,
+            BID_TICK_ATTRIB, BID_IMPLIED_VOL, BID_DELTA, BID_OPT_PRICE, BID_PV_DIVIDEND, BID_GAMMA, BID_VEGA, BID_THETA, BID_UND_PRICE,
+            ASK_TICK_ATTRIB, ASK_IMPLIED_VOL, ASK_DELTA, ASK_OPT_PRICE, ASK_PV_DIVIDEND, ASK_GAMMA, ASK_VEGA, ASK_THETA, ASK_UND_PRICE,
+            LAST_TICK_ATTRIB, LAST_IMPLIED_VOL, LAST_DELTA, LAST_OPT_PRICE, LAST_PV_DIVIDEND, LAST_GAMMA, LAST_VEGA, LAST_THETA, LAST_UND_PRICE,
+            MODEL_TICK_ATTRIB, MODEL_IMPLIED_VOL, MODEL_DELTA, MODEL_OPT_PRICE, MODEL_PV_DIVIDEND, MODEL_GAMMA, MODEL_VEGA, MODEL_THETA, MODEL_UND_PRICE,
 
             // generic topics
             GEN_TICK_AUCTION_VOLUME, GEN_TICK_AUCTION_IMBALANCE, GEN_TICK_AUCTION_PRICE, GEN_TICK_REGULATORY_IMBALANCE, // AUCTION (225)
@@ -410,6 +414,7 @@ namespace TwsRtdServer{
 
         public class OptionComputationData
         {
+            private int m_tickAttrib = 0;
             private double m_impliedVolatility = 0.0;
             private double m_delta = 0.0;
             private double m_optPrice = 0.0;
@@ -421,9 +426,10 @@ namespace TwsRtdServer{
 
             public OptionComputationData() { }
 
-            public OptionComputationData(double impliedVolatility, double delta, double optPrice, double pvDividend, double gamma, double vega,
+            public OptionComputationData(int tickAttrib, double impliedVolatility, double delta, double optPrice, double pvDividend, double gamma, double vega,
                 double theta, double undPrice)
             {
+                m_tickAttrib = tickAttrib;
                 m_impliedVolatility = impliedVolatility;
                 m_delta = delta;
                 m_optPrice = optPrice;
@@ -435,6 +441,11 @@ namespace TwsRtdServer{
             }
 
             // gets
+            public int getTickAttrib()
+            {
+                return m_tickAttrib;
+            }
+
             public double getImpliedVolatility()
             {
                 return m_impliedVolatility;

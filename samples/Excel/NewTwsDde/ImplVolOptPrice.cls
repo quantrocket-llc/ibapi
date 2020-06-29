@@ -24,6 +24,7 @@ Const STR_CALCULATE_OPTION_PRICE = "calculateOptionPrice"
 Const STR_CANCEL_CALCULATE_OPTION_PRICE = "cancelCalculateOptionPrice"
 Const STR_CALCULATE_OPTION_PRICE_TICK = "calculateOptionPriceTick"
 Const STR_OPTION_PRICE = "custOptCompOptPrice"
+Const STR_TICK_ATTRIB = "custOptCompTickAttrib"
 
 
 ' cells
@@ -36,14 +37,16 @@ Const calculateImpliedVolatilityUnderPriceColumnIndex = 14 ' index of "underlyin
 Const calculateImpliedVolatilityStatusColumnIndex = 15 ' index of "status" column (calculateImpliedVolatility)
 Const calculateImpliedVolatilityIdColumnIndex = 16 ' index of "id" column (calculateImpliedVolatility)
 Const calculateImpliedVolatilityErrorColumnIndex = 17 ' index of "error" column (calculateImpliedVolatility)
-Const calculateImpliedVolatilityResultColumnIndex = 18 ' index of "implied volatility" column (calculateImpliedVolatility)
+Const calculateImpliedVolatilityResultTickAttrib = 18 ' index of "tick attrib" column (calculateImpliedVolatility)
+Const calculateImpliedVolatilityResultColumnIndex = 19 ' index of "implied volatility" column (calculateImpliedVolatility)
 
-Const calculateOptionPriceImpliedVolatilityColumnIndex = 19 ' index of "implied volatility" column (calculateOptionPrice)
-Const calculateOptionPriceUnderPriceColumnIndex = 20 ' index of "underlying price" column (calculateOptionPrice)
-Const calculateOptionPriceStatusColumnIndex = 21 ' index of "status" column (calculateOptionPrice)
-Const calculateOptionPriceIdColumnIndex = 22 ' index of "id" column (calculateOptionPrice)
-Const calculateOptionPriceErrorColumnIndex = 23 ' index of "error" column (calculateOptionPrice)
-Const calculateOptionPriceResultColumnIndex = 24 ' index of "option price" column (calculateOptionPrice)
+Const calculateOptionPriceImpliedVolatilityColumnIndex = 20 ' index of "implied volatility" column (calculateOptionPrice)
+Const calculateOptionPriceUnderPriceColumnIndex = 21 ' index of "underlying price" column (calculateOptionPrice)
+Const calculateOptionPriceStatusColumnIndex = 22 ' index of "status" column (calculateOptionPrice)
+Const calculateOptionPriceIdColumnIndex = 23 ' index of "id" column (calculateOptionPrice)
+Const calculateOptionPriceErrorColumnIndex = 24 ' index of "error" column (calculateOptionPrice)
+Const calculateOptionPriceResultTickAttrib = 25 ' index of "tick attrib" column (calculateOptionPrice)
+Const calculateOptionPriceResultColumnIndex = 26 ' index of "option price" column (calculateOptionPrice)
 
 ' rows
 Const dataStartRowIndex = 10 ' starting row of data
@@ -83,17 +86,19 @@ End Sub
 ' ========================================================
 Sub cancelCalculateRequest(requestType As String)
     
-    Dim idColumnIndex As Integer, statusColumnIndex As Integer, errorColumnIndex As Integer, resultColumnIndex As Integer
+    Dim idColumnIndex As Integer, statusColumnIndex As Integer, errorColumnIndex As Integer, resultColumnIndex As Integer, tickAttribColumnIndex As Integer
 
     If requestType = STR_CANCEL_CALCULATE_OPTION_PRICE Then
         idColumnIndex = calculateOptionPriceIdColumnIndex
         statusColumnIndex = calculateOptionPriceStatusColumnIndex
         errorColumnIndex = calculateOptionPriceErrorColumnIndex
+        tickAttribColumnIndex = calculateOptionPriceResultTickAttrib
         resultColumnIndex = calculateOptionPriceResultColumnIndex
     Else
         idColumnIndex = calculateImpliedVolatilityIdColumnIndex
         statusColumnIndex = calculateImpliedVolatilityStatusColumnIndex
         errorColumnIndex = calculateImpliedVolatilityErrorColumnIndex
+        tickAttribColumnIndex = calculateImpliedVolatilityResultTickAttrib
         resultColumnIndex = calculateImpliedVolatilityResultColumnIndex
     End If
 
@@ -116,6 +121,7 @@ Sub cancelCalculateRequest(requestType As String)
             .Cells(row.row, statusColumnIndex).ClearContents
             .Cells(row.row, idColumnIndex).ClearContents
             .Cells(row.row, errorColumnIndex).ClearContents
+            .Cells(row.row, tickAttribColumnIndex).ClearContents
             .Cells(row.row, resultColumnIndex).ClearContents
         
             util.sendRequest server, requestType, id
@@ -178,28 +184,32 @@ End Sub
 Sub sendCalculateRequest(server As String, cell As range, requestType As String)
 
     Dim idColumnIndex As Integer, statusColumnIndex As Integer, errorColumnIndex As Integer, resultColumnIndex As Integer
-    Dim firstValColumnIndex As Integer, secondValColumnIndex As Integer
-    Dim tickStr As String, resultStr As String
+    Dim firstValColumnIndex As Integer, secondValColumnIndex As Integer, tickAttribColumnIndex As Integer
+    Dim tickStr As String, resultStr As String, tickAttrib As String
     Dim id As String
     
     If requestType = STR_CALCULATE_OPTION_PRICE Then
         idColumnIndex = calculateOptionPriceIdColumnIndex
         statusColumnIndex = calculateOptionPriceStatusColumnIndex
         errorColumnIndex = calculateOptionPriceErrorColumnIndex
+        tickAttribColumnIndex = calculateOptionPriceResultTickAttrib
         resultColumnIndex = calculateOptionPriceResultColumnIndex
         firstValColumnIndex = calculateOptionPriceImpliedVolatilityColumnIndex
         secondValColumnIndex = calculateOptionPriceUnderPriceColumnIndex
         tickStr = STR_CALCULATE_OPTION_PRICE_TICK
+        tickAttrib = STR_TICK_ATTRIB
         resultStr = STR_OPTION_PRICE
         id = util.getIDpost(genId1, util.ID_CALCULATE_OPTION_PRICE)
     Else
         idColumnIndex = calculateImpliedVolatilityIdColumnIndex
         statusColumnIndex = calculateImpliedVolatilityStatusColumnIndex
         errorColumnIndex = calculateImpliedVolatilityErrorColumnIndex
+        tickAttribColumnIndex = calculateImpliedVolatilityResultTickAttrib
         resultColumnIndex = calculateImpliedVolatilityResultColumnIndex
         firstValColumnIndex = calculateImpliedVolatilityOptionPriceColumnIndex
         secondValColumnIndex = calculateImpliedVolatilityUnderPriceColumnIndex
         tickStr = STR_CALCULATE_IMPLIED_VOLATILITY_TICK
+        tickAttrib = STR_TICK_ATTRIB
         resultStr = STR_IMPLIED_VOLATILITY
         id = util.getIDpost(genId2, util.ID_CALCULATE_IMPLIED_VOLATILITY)
     End If
@@ -219,6 +229,7 @@ Sub sendCalculateRequest(server As String, cell As range, requestType As String)
             .Cells(cell.row, statusColumnIndex).ClearContents
             .Cells(cell.row, idColumnIndex).ClearContents
             .Cells(cell.row, errorColumnIndex).ClearContents
+            .Cells(cell.row, tickAttribColumnIndex).ClearContents
             .Cells(cell.row, resultColumnIndex).ClearContents
             Exit Sub
         End If
@@ -228,6 +239,8 @@ Sub sendCalculateRequest(server As String, cell As range, requestType As String)
 
         ' fill error column with formula
         .Cells(cell.row, errorColumnIndex).Formula = util.composeLink(server, tickStr, id, util.STR_ERROR)
+        ' fill tick attrib column with formula
+        .Cells(cell.row, tickAttribColumnIndex).Formula = util.composeLink(server, tickStr, id, tickAttrib)
         ' fill result column with formula
         .Cells(cell.row, resultColumnIndex).Formula = util.composeLink(server, tickStr, id, resultStr)
 

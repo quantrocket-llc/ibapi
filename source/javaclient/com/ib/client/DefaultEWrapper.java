@@ -24,7 +24,7 @@ public class DefaultEWrapper implements EWrapper {
 	}
 
 	@Override
-	public void tickOptionComputation(int tickerId, int field,
+	public void tickOptionComputation(int tickerId, int field, int tickAttrib,
 			double impliedVol, double delta, double optPrice,
 			double pvDividend, double gamma, double vega, double theta,
 			double undPrice) {

@@ -48,6 +48,11 @@ namespace Samples
         private static void testIBMethods(EClientSocket client, int nextValidId)
         {
             /**************************************************************/
+            /*** Options operations                                     ***/
+            /**************************************************************/
+            optionsOperations(client);
+
+            /**************************************************************/
             /*** Real time market data operations  - Streamed or Frozen ***/
             /**************************************************************/
             //marketDataType(client);
@@ -55,7 +60,7 @@ namespace Samples
             /***************************************************/
             /*** Real time market data operations  - Tickers ***/
             /***************************************************/
-            tickDataOperations(client);
+            //tickDataOperations(client);
 
             /***************************************************/
             /*** Option computation operations  - Tickers    ***/
@@ -401,8 +406,10 @@ namespace Samples
         private static void tickOptionComputationOperations(EClientSocket client)
         {
             /*** Requesting real time market data ***/
+            client.reqMarketDataType(4);
+
             //! [reqmktdata]
-            client.reqMktData(2001, ContractSamples.FuturesOnOptions(), string.Empty, false, false, null);
+            client.reqMktData(2001, ContractSamples.OptionWithLocalSymbol(), string.Empty, false, false, null);
             //! [reqmktdata]
 
             Thread.Sleep(10000);
@@ -485,13 +492,13 @@ namespace Samples
 
             /*** Calculating implied volatility ***/
             //! [calculateimpliedvolatility]
-            client.calculateImpliedVolatility(5001, ContractSamples.OptionAtBOX(), 5, 85, null);
+            client.calculateImpliedVolatility(5001, ContractSamples.OptionWithLocalSymbol(), 0.5, 55, null);
             //! [calculateimpliedvolatility]
             /*** Canceling implied volatility ***/
             client.cancelCalculateImpliedVolatility(5001);
             /*** Calculating option's price ***/
             //! [calculateoptionprice]
-            client.calculateOptionPrice(5002, ContractSamples.OptionAtBOX(), 0.22, 85, null);
+            client.calculateOptionPrice(5002, ContractSamples.OptionWithLocalSymbol(), 0.6, 55, null);
             //! [calculateoptionprice]
             /*** Canceling option's price calculation ***/
             client.cancelCalculateOptionPrice(5002);

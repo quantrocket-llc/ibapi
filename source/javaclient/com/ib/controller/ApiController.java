@@ -471,7 +471,7 @@ public class ApiController implements EWrapper {
 	}
 
 	public interface IOptHandler extends ITopMktDataHandler {
-		void tickOptionComputation( TickType tickType, double impliedVol, double delta, double optPrice, double pvDividend, double gamma, double vega, double theta, double undPrice);
+		void tickOptionComputation( TickType tickType, int tickAttrib, double impliedVol, double delta, double optPrice, double pvDividend, double gamma, double vega, double theta, double undPrice);
 	}
 
 	public static class TopMktDataAdapter implements ITopMktDataHandler {
@@ -702,13 +702,13 @@ public class ApiController implements EWrapper {
 		}
 	}
 
-	@Override public void tickOptionComputation(int reqId, int tickType, double impliedVol, double delta, double optPrice, double pvDividend, double gamma, double vega, double theta, double undPrice) {
+	@Override public void tickOptionComputation(int reqId, int tickType, int tickAttrib, double impliedVol, double delta, double optPrice, double pvDividend, double gamma, double vega, double theta, double undPrice) {
 		IOptHandler handler = m_optionCompMap.get( reqId);
 		if (handler != null) {
-			handler.tickOptionComputation( TickType.get( tickType), impliedVol, delta, optPrice, pvDividend, gamma, vega, theta, undPrice);
+			handler.tickOptionComputation( TickType.get( tickType), tickAttrib, impliedVol, delta, optPrice, pvDividend, gamma, vega, theta, undPrice);
 		}
 		else {
-			System.out.println( String.format( "not handled %s %s %s %s %s %s %s %s %s", tickType, impliedVol, delta, optPrice, pvDividend, gamma, vega, theta, undPrice) );
+			System.out.println( String.format( "not handled %s %s %s %s %s %s %s %s %s %s", tickType, tickAttrib, impliedVol, delta, optPrice, pvDividend, gamma, vega, theta, undPrice) );
 		}
 		recEOM();
 	}

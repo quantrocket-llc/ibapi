@@ -1154,9 +1154,15 @@ namespace IBApi
 
         private void TickOptionComputationEvent()
         {
-            int msgVersion = ReadInt();
+            int msgVersion = serverVersion >= MinServerVer.PRICE_BASED_VOLATILITY ? int.MaxValue : ReadInt();
+
             int requestId = ReadInt();
             int tickType = ReadInt();
+            int tickAttrib = int.MaxValue;
+            if (serverVersion >= MinServerVer.PRICE_BASED_VOLATILITY)
+            {
+                tickAttrib = ReadInt();
+            }
             double impliedVolatility = ReadDouble();
             if (impliedVolatility.Equals(-1))
             { // -1 is the "not yet computed" indicator
@@ -1210,7 +1216,7 @@ namespace IBApi
                 }
             }
 
-            eWrapper.tickOptionComputation(requestId, tickType, impliedVolatility, delta, optPrice, pvDividend, gamma, vega, theta, undPrice);
+            eWrapper.tickOptionComputation(requestId, tickType, tickAttrib, impliedVolatility, delta, optPrice, pvDividend, gamma, vega, theta, undPrice);
         }
 
         private void AccountSummaryEvent()

@@ -236,7 +236,7 @@ class ContractSamples:
         #! [optcontract_localsymbol]
         contract = Contract()
         #Watch out for the spaces within the local symbol!
-        contract.localSymbol = "C DBK  DEC 20  1600"
+        contract.localSymbol = "C BMW  JUL 20  4800"
         contract.secType = "OPT"
         contract.exchange = "DTB"
         contract.currency = "EUR"

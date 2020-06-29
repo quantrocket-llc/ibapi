@@ -281,7 +281,7 @@ namespace Samples
             //! [optcontract_localsymbol]
             Contract contract = new Contract();
             //Watch out for the spaces within the local symbol!
-            contract.LocalSymbol = "C DBK  DEC 20  1600";
+            contract.LocalSymbol = "P BMW  JUL 20  4650";
             contract.SecType = "OPT";
             contract.Exchange = "DTB";
             contract.Currency = "EUR";

@@ -391,11 +391,12 @@ Friend Class ApiEventSource
                          End Sub)
     End Sub
 
-    Private Sub EWrapper_TickOptionComputation(tickerId As Integer, field As Integer, impliedVolatility As Double, delta As Double, optPrice As Double, pvDividend As Double, gamma As Double, vega As Double, theta As Double, undPrice As Double) Implements IBApi.EWrapper.tickOptionComputation
+    Private Sub EWrapper_TickOptionComputation(tickerId As Integer, field As Integer, tickAttrib As Integer, impliedVolatility As Double, delta As Double, optPrice As Double, pvDividend As Double, gamma As Double, vega As Double, theta As Double, undPrice As Double) Implements IBApi.EWrapper.tickOptionComputation
         InvokeIfRequired(Sub()
                              RaiseEvent TickOptionComputation(Me, New TickOptionComputationEventArgs With {
                                                                                                         .tickerId = tickerId,
                                                                                                         .tickType = field,
+                                                                                                        .tickAttrib = tickAttrib,
                                                                                                         .impliedVolatility = impliedVolatility,
                                                                                                         .delta = delta,
                                                                                                         .optPrice = optPrice,

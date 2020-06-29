@@ -1582,9 +1582,13 @@ class EDecoder implements ObjectInput {
 	}
 
 	private void processTickOptionComputationMsg() throws IOException {
-		int version = readInt();
+		int version = m_serverVersion >= EClient.MIN_SERVER_VER_PRICE_BASED_VOLATILITY ? Integer.MAX_VALUE : readInt();
 		int tickerId = readInt();
 		int tickType = readInt();
+		int tickAttrib = Integer.MAX_VALUE;
+		if (m_serverVersion >= EClient.MIN_SERVER_VER_PRICE_BASED_VOLATILITY) {
+			tickAttrib = readInt();
+		}
 		double impliedVol = readDouble();
 		if (Double.compare(impliedVol, -1) == 0) { // -1 is the "not yet computed" indicator
 			impliedVol = Double.MAX_VALUE;
@@ -1630,7 +1634,7 @@ class EDecoder implements ObjectInput {
 			}
 		}
 
-		m_EWrapper.tickOptionComputation( tickerId, tickType, impliedVol, delta, optPrice, pvDividend, gamma, vega, theta, undPrice);
+		m_EWrapper.tickOptionComputation( tickerId, tickType, tickAttrib, impliedVol, delta, optPrice, pvDividend, gamma, vega, theta, undPrice);
 	}
 
 	private void processAccountSummaryEndMsg() throws IOException {

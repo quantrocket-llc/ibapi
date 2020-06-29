@@ -56,11 +56,11 @@ public class EWrapperImpl implements EWrapper {
 	
 	//! [tickoptioncomputation]
 	@Override
-	public void tickOptionComputation(int tickerId, int field,
+	public void tickOptionComputation(int tickerId, int field, int tickAttrib,
 			double impliedVol, double delta, double optPrice,
 			double pvDividend, double gamma, double vega, double theta,
 			double undPrice) {
-		System.out.println("TickOptionComputation. TickerId: "+tickerId+", field: "+field+", ImpliedVolatility: "+impliedVol+", Delta: "+delta
+		System.out.println("TickOptionComputation. TickerId: "+tickerId+", field: "+field+", TickAttrib: "+tickAttrib+", ImpliedVolatility: "+impliedVol+", Delta: "+delta
                 +", OptionPrice: "+optPrice+", pvDividend: "+pvDividend+", Gamma: "+gamma+", Vega: "+vega+", Theta: "+theta+", UnderlyingPrice: "+undPrice);
 	}
 	//! [tickoptioncomputation]

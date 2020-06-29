@@ -70,6 +70,7 @@ namespace TwsRtdServer
                 {
                         // assigning implied vol, delta, opt price, pv dividend, gamma, vega, theta and und price
                     case TwsRtdServerData.BID_OPTION_COMPUTATION:
+                        GetTopicAndAddUpdate(TwsRtdServerData.BID_TICK_ATTRIB, mktDataRequest, value.getTickAttrib());
                         GetTopicAndAddUpdate(TwsRtdServerData.BID_IMPLIED_VOL, mktDataRequest, value.getImpliedVolatility());
                         GetTopicAndAddUpdate(TwsRtdServerData.BID_DELTA, mktDataRequest, value.getDelta());
                         GetTopicAndAddUpdate(TwsRtdServerData.BID_OPT_PRICE, mktDataRequest, value.getOptPrice());
@@ -80,6 +81,7 @@ namespace TwsRtdServer
                         GetTopicAndAddUpdate(TwsRtdServerData.BID_UND_PRICE, mktDataRequest, value.getUndPrice());
                         break;
                     case TwsRtdServerData.ASK_OPTION_COMPUTATION:
+                        GetTopicAndAddUpdate(TwsRtdServerData.ASK_TICK_ATTRIB, mktDataRequest, value.getTickAttrib());
                         GetTopicAndAddUpdate(TwsRtdServerData.ASK_IMPLIED_VOL, mktDataRequest, value.getImpliedVolatility());
                         GetTopicAndAddUpdate(TwsRtdServerData.ASK_DELTA, mktDataRequest, value.getDelta());
                         GetTopicAndAddUpdate(TwsRtdServerData.ASK_OPT_PRICE, mktDataRequest, value.getOptPrice());
@@ -90,6 +92,7 @@ namespace TwsRtdServer
                         GetTopicAndAddUpdate(TwsRtdServerData.ASK_UND_PRICE, mktDataRequest, value.getUndPrice());
                         break;
                     case TwsRtdServerData.LAST_OPTION_COMPUTATION:
+                        GetTopicAndAddUpdate(TwsRtdServerData.LAST_TICK_ATTRIB, mktDataRequest, value.getTickAttrib());
                         GetTopicAndAddUpdate(TwsRtdServerData.LAST_IMPLIED_VOL, mktDataRequest, value.getImpliedVolatility());
                         GetTopicAndAddUpdate(TwsRtdServerData.LAST_DELTA, mktDataRequest, value.getDelta());
                         GetTopicAndAddUpdate(TwsRtdServerData.LAST_OPT_PRICE, mktDataRequest, value.getOptPrice());
@@ -100,6 +103,7 @@ namespace TwsRtdServer
                         GetTopicAndAddUpdate(TwsRtdServerData.LAST_UND_PRICE, mktDataRequest, value.getUndPrice());
                         break;
                     case TwsRtdServerData.MODEL_OPTION_COMPUTATION:
+                        GetTopicAndAddUpdate(TwsRtdServerData.MODEL_TICK_ATTRIB, mktDataRequest, value.getTickAttrib());
                         GetTopicAndAddUpdate(TwsRtdServerData.MODEL_IMPLIED_VOL, mktDataRequest, value.getImpliedVolatility());
                         GetTopicAndAddUpdate(TwsRtdServerData.MODEL_DELTA, mktDataRequest, value.getDelta());
                         GetTopicAndAddUpdate(TwsRtdServerData.MODEL_OPT_PRICE, mktDataRequest, value.getOptPrice());
@@ -189,9 +193,9 @@ namespace TwsRtdServer
         }
 
         public void deltaNeutralValidation(int reqId, DeltaNeutralContract deltaNeutralContract) { }
-        public void tickOptionComputation(int tickerId, int field, double impliedVolatility, double delta, double optPrice, double pvDividend, double gamma, double vega, double theta, double undPrice) 
+        public void tickOptionComputation(int tickerId, int field, int tickAttrib, double impliedVolatility, double delta, double optPrice, double pvDividend, double gamma, double vega, double theta, double undPrice) 
         { 
-            TwsRtdServerData.OptionComputationData value = new TwsRtdServerData.OptionComputationData(impliedVolatility,
+            TwsRtdServerData.OptionComputationData value = new TwsRtdServerData.OptionComputationData(tickAttrib, impliedVolatility,
                 delta, optPrice, pvDividend, gamma, vega, theta, undPrice);
             SetOptionComputationTopicsValues(tickerId, field, value);
         }

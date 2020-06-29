@@ -274,7 +274,7 @@ Namespace Samples
             '! [optcontract_localsymbol]
             Dim contract As Contract = New Contract()
             'Watch out for the spaces within the local symbol!
-            contract.LocalSymbol = "C DBK  DEC 20  1600"
+            contract.LocalSymbol = "P BMW  JUL 20  4650"
             contract.SecType = "OPT"
             contract.Exchange = "DTB"
             contract.Currency = "EUR"

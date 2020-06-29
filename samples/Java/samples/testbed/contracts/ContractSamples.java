@@ -236,7 +236,7 @@ public class ContractSamples {
 		//! [optcontract_localsymbol]
 		Contract contract = new Contract();
 		//Watch out for the spaces within the local symbol!
-		contract.localSymbol("C DBK  DEC 20  1600");
+		contract.localSymbol("P BMW  JUL 20  4650");
 		contract.secType("OPT");
 		contract.exchange("DTB");
 		contract.currency("EUR");

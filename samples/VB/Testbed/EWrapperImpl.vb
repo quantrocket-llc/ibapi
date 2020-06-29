@@ -389,8 +389,8 @@ Namespace Samples
         '! [tickgeneric]
 
         '! [tickoptioncomputation]
-        Public Sub tickOptionComputation(tickerId As Integer, field As Integer, impliedVolatility As Double, delta As Double, optPrice As Double, pvDividend As Double, gamma As Double, vega As Double, theta As Double, undPrice As Double) Implements IBApi.EWrapper.tickOptionComputation
-            Console.WriteLine("TickOptionComputation. TickerId: " & tickerId & ", field: " & field & ", ImpliedVolatility: " & impliedVolatility &
+        Public Sub tickOptionComputation(tickerId As Integer, field As Integer, tickAttrib As Integer, impliedVolatility As Double, delta As Double, optPrice As Double, pvDividend As Double, gamma As Double, vega As Double, theta As Double, undPrice As Double) Implements IBApi.EWrapper.tickOptionComputation
+            Console.WriteLine("TickOptionComputation. TickerId: " & tickerId & ", field: " & field & ", TickAttrib: " & tickAttrib & ", ImpliedVolatility: " & impliedVolatility &
                         ", Delta: " & delta & ", OptionPrice: " & optPrice & ", pvDividend: " & pvDividend & ", Gamma: " & gamma &
                       ", Vega: " & vega & ", Theta: " & theta & ", UnderlyingPrice: " & undPrice)
         End Sub

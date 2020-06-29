@@ -111,12 +111,13 @@ const int MIN_SERVER_VER_STOCK_TYPE                 = 152;
 const int MIN_SERVER_VER_ENCODE_MSG_ASCII7          = 153;
 const int MIN_SERVER_VER_SEND_ALL_FAMILY_CODES		= 154;
 const int MIN_SERVER_VER_NO_DEFAULT_OPEN_CLOSE		= 155;
+const int MIN_SERVER_VER_PRICE_BASED_VOLATILITY     = 156;
 
 /* 100+ messaging */
 // 100 = enhanced handshake, msg length prefixes
 
 const int MIN_CLIENT_VER = 100;
-const int MAX_CLIENT_VER = MIN_SERVER_VER_NO_DEFAULT_OPEN_CLOSE;
+const int MAX_CLIENT_VER = MIN_SERVER_VER_PRICE_BASED_VOLATILITY;
 
 
 // incoming msg id's

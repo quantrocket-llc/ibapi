@@ -2245,6 +2245,7 @@ Friend Class MainForm
     '--------------------------------------------------------------------------------
     Private Sub Api_tickOptionComputation(sender As Object, e As TickOptionComputationEventArgs) Handles m_apiEvents.TickOptionComputation
         Dim mktDataStr = "id = " & e.tickerId & " " & m_utils.getField(e.tickType) &
+            " tickAttrib = " & e.tickAttrib &
             " impliedVolatility = " & Utils.DoubleMaxToString(e.impliedVolatility) &
             " delta = " & Utils.DoubleMaxToString(e.delta) &
             " gamma = " & Utils.DoubleMaxToString(e.gamma) &

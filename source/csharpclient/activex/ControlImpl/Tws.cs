@@ -1900,13 +1900,13 @@ namespace TWSLib
                 sc.Post(state => t_mktDepthExchanges(depthMktDataDescriptions.Length > 0 ? new ComDepthMktDataDescriptionList(depthMktDataDescriptions) : null), null);
         }
 
-        public delegate void tickOptionComputationDelegate(int id, int tickType, double impliedVol, double delta, double optPrice, double pvDividend, double gamma, double vega, double theta, double undPrice);
+        public delegate void tickOptionComputationDelegate(int id, int tickType, int tickAttrib, double impliedVol, double delta, double optPrice, double pvDividend, double gamma, double vega, double theta, double undPrice);
         public event tickOptionComputationDelegate tickOptionComputation;
-        void EWrapper.tickOptionComputation(int tickerId, int field, double impliedVolatility, double delta, double optPrice, double pvDividend, double gamma, double vega, double theta, double undPrice)
+        void EWrapper.tickOptionComputation(int tickerId, int field, int tickAttrib, double impliedVolatility, double delta, double optPrice, double pvDividend, double gamma, double vega, double theta, double undPrice)
         {
             var t_tickOptionComputation = this.tickOptionComputation;
             if (t_tickOptionComputation != null)
-                sc.Post(state => t_tickOptionComputation(tickerId, field, impliedVolatility, delta, optPrice, pvDividend, gamma, vega, theta, undPrice), null);
+                sc.Post(state => t_tickOptionComputation(tickerId, field, tickAttrib, impliedVolatility, delta, optPrice, pvDividend, gamma, vega, theta, undPrice), null);
         }
 
         public delegate void tickNewsDelegate(int tickerId, string timeStamp, string providerCode, string articleId, string headline, string extraData);

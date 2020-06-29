@@ -112,6 +112,7 @@ namespace IBApi
          *      11 = Ask
          *      12 = Last
          * @param impliedVolatility the implied volatility calculated by the TWS option modeler, using the specified tick type value.
+         * @param tickAttrib: 0 - return based, 1- price based.
          * @param delta the option delta value.
          * @param optPrice the option price.
          * @param pwDividend the present value of dividends expected on the option's underlying.
@@ -121,7 +122,7 @@ namespace IBApi
          * @param undPrice the price of the underlying.
          * @sa TickType, tickSize, tickPrice, tickEFP, tickGeneric, tickString, tickSnapshotEnd, marketDataType, EClientSocket::reqMktData
          */
-        void tickOptionComputation(int tickerId, int field, double impliedVolatility, double delta, double optPrice, double pvDividend, double gamma, double vega, double theta, double undPrice);
+        void tickOptionComputation(int tickerId, int field, int tickAttrib, double impliedVolatility, double delta, double optPrice, double pvDividend, double gamma, double vega, double theta, double undPrice);
 
         /**
          * @brief When requesting market data snapshots, this market will indicate the snapshot reception is finished. Expected to occur 11 seconds after beginning of request. 

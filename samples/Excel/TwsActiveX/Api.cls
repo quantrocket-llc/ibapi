@@ -264,10 +264,10 @@ Private Sub m_Tws_tickNews(ByVal tickerId As Long, ByVal timeStamp As String, By
     News.TickNews tickerId, timeStamp, providerCode, articleId, headline, extraData
 End Sub
 
-Private Sub m_Tws_tickOptionComputation(ByVal id As Long, ByVal tickType As Long, ByVal impliedVol As Double, ByVal delta As Double, ByVal optPrice As Double, ByVal pvDividend As Double, ByVal gamma As Double, ByVal vega As Double, ByVal theta As Double, ByVal undPrice As Double)
+Private Sub m_Tws_tickOptionComputation(ByVal id As Long, ByVal tickType As Long, ByVal tickAttrib As Long, ByVal impliedVol As Double, ByVal delta As Double, ByVal optPrice As Double, ByVal pvDividend As Double, ByVal gamma As Double, ByVal vega As Double, ByVal theta As Double, ByVal undPrice As Double)
     'update Tickers sheet with new data
     On Error Resume Next
-    Tickers.UpdateTickersSheetWithOptionComp id, tickType, impliedVol, delta, optPrice, pvDividend, gamma, vega, theta, undPrice
+    Tickers.UpdateTickersSheetWithOptionComp id, tickType, tickAttrib, impliedVol, delta, optPrice, pvDividend, gamma, vega, theta, undPrice
 End Sub
 
 Private Sub m_Tws_tickPrice(ByVal id As Long, ByVal tickType As Long, ByVal price As Double, ByVal CanAutoExecute As Boolean, ByVal PastLimit As Boolean, ByVal PreOpen As Boolean)

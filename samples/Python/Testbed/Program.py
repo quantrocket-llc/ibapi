@@ -252,11 +252,12 @@ class TestApp(TestWrapper, TestClient):
             #self.reqGlobalCancel()
             #self.marketDataTypeOperations()
             #self.accountOperations_req()
-            self.tickDataOperations_req()
+            #self.tickDataOperations_req()
+            #self.tickOptionComputations_req()
             #self.marketDepthOperations_req()
             #self.realTimeBarsOperations_req()
             #self.historicalDataOperations_req()
-            #self.optionsOperations_req()
+            self.optionsOperations_req()
             #self.marketScannersOperations_req()
             #self.fundamentalsOperations_req()
             #self.bulletinsOperations_req()
@@ -290,7 +291,8 @@ class TestApp(TestWrapper, TestClient):
         #self.orderOperations_cancel()
         #self.accountOperations_cancel()
         #self.tickDataOperations_cancel()
-        self.marketDepthOperations_cancel()
+        #self.tickOptionComputations_cancel()
+        #self.marketDepthOperations_cancel()
         #self.realTimeBarsOperations_cancel()
         #self.historicalDataOperations_cancel()
         #self.optionsOperations_cancel()
@@ -734,6 +736,21 @@ class TestApp(TestWrapper, TestClient):
 
         self.cancelMktData(1019)
 
+    @printWhenExecuting
+    def tickOptionComputations_req(self):
+        self.reqMarketDataType(MarketDataTypeEnum.DELAYED_FROZEN)
+        # Requesting options computations
+        # ! [reqoptioncomputations]
+        self.reqMktData(1000, ContractSamples.OptionWithLocalSymbol(), "", False, False, [])
+        # ! [reqoptioncomputations]
+
+    @printWhenExecuting
+    def tickOptionComputations_cancel(self):
+        # Canceling options computations
+        # ! [canceloptioncomputations]
+        self.cancelMktData(1000)
+        # ! [canceloptioncomputations]
+
     @iswrapper
     # ! [tickprice]
     def tickPrice(self, reqId: TickerId, tickType: TickType, price: float,
@@ -1047,12 +1064,12 @@ class TestApp(TestWrapper, TestClient):
 
         # Calculating implied volatility
         # ! [calculateimpliedvolatility]
-        self.calculateImpliedVolatility(5001, ContractSamples.OptionAtBOX(), 5, 85, [])
+        self.calculateImpliedVolatility(5001, ContractSamples.OptionWithLocalSymbol(), 0.5, 55, [])
         # ! [calculateimpliedvolatility]
 
         # Calculating option's price
         # ! [calculateoptionprice]
-        self.calculateOptionPrice(5002, ContractSamples.OptionAtBOX(), 0.22, 85, [])
+        self.calculateOptionPrice(5002, ContractSamples.OptionWithLocalSymbol(), 0.6, 55, [])
         # ! [calculateoptionprice]
 
         # Exercising options
@@ -1089,12 +1106,13 @@ class TestApp(TestWrapper, TestClient):
 
     @iswrapper
     # ! [tickoptioncomputation]
-    def tickOptionComputation(self, reqId: TickerId, tickType: TickType,
+    def tickOptionComputation(self, reqId: TickerId, tickType: TickType, tickAttrib: int,
                               impliedVol: float, delta: float, optPrice: float, pvDividend: float,
                               gamma: float, vega: float, theta: float, undPrice: float):
-        super().tickOptionComputation(reqId, tickType, impliedVol, delta,
+        super().tickOptionComputation(reqId, tickType, tickAttrib, impliedVol, delta,
                                       optPrice, pvDividend, gamma, vega, theta, undPrice)
         print("TickOptionComputation. TickerId:", reqId, "TickType:", tickType,
+              "TickAttrib:", tickAttrib,
               "ImpliedVolatility:", impliedVol, "Delta:", delta, "OptionPrice:",
               optPrice, "pvDividend:", pvDividend, "Gamma: ", gamma, "Vega:", vega,
               "Theta:", theta, "UnderlyingPrice:", undPrice)

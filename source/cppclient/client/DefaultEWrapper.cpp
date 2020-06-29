@@ -6,7 +6,7 @@
 
 void DefaultEWrapper::tickPrice( TickerId tickerId, TickType field, double price, const TickAttrib& attribs) { }
 void DefaultEWrapper::tickSize( TickerId tickerId, TickType field, int size) { }
-void DefaultEWrapper::tickOptionComputation( TickerId tickerId, TickType tickType, double impliedVol, double delta,
+void DefaultEWrapper::tickOptionComputation( TickerId tickerId, TickType tickType, int tickAttrib, double impliedVol, double delta,
 	   double optPrice, double pvDividend, double gamma, double vega, double theta, double undPrice) { }
 void DefaultEWrapper::tickGeneric(TickerId tickerId, TickType tickType, double value) { }
 void DefaultEWrapper::tickString(TickerId tickerId, TickType tickType, const std::string& value) { }

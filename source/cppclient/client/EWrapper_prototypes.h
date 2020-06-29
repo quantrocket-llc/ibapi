@@ -9,7 +9,7 @@
 
 virtual void tickPrice( TickerId tickerId, TickType field, double price, const TickAttrib& attrib) EWRAPPER_VIRTUAL_IMPL;
 virtual void tickSize( TickerId tickerId, TickType field, int size) EWRAPPER_VIRTUAL_IMPL;
-virtual void tickOptionComputation( TickerId tickerId, TickType tickType, double impliedVol, double delta,
+virtual void tickOptionComputation( TickerId tickerId, TickType tickType, int tickAttrib, double impliedVol, double delta,
 	double optPrice, double pvDividend, double gamma, double vega, double theta, double undPrice) EWRAPPER_VIRTUAL_IMPL;
 virtual void tickGeneric(TickerId tickerId, TickType tickType, double value) EWRAPPER_VIRTUAL_IMPL;
 virtual void tickString(TickerId tickerId, TickType tickType, const std::string& value) EWRAPPER_VIRTUAL_IMPL;

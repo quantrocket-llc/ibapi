@@ -1115,10 +1115,10 @@ class SampleFrame extends JFrame implements EWrapper {
         m_tickers.add( msg );
     }
 
-    public void tickOptionComputation( int tickerId, int field, double impliedVol, double delta, double optPrice, double pvDividend,
+    public void tickOptionComputation( int tickerId, int field, int tickAttrib, double impliedVol, double delta, double optPrice, double pvDividend,
         double gamma, double vega, double theta, double undPrice) {
         // received computation tick
-        String msg = EWrapperMsgGenerator.tickOptionComputation( tickerId, field, impliedVol, delta, optPrice, pvDividend,
+        String msg = EWrapperMsgGenerator.tickOptionComputation( tickerId, field, tickAttrib, impliedVol, delta, optPrice, pvDividend,
             gamma, vega, theta, undPrice);
         m_tickers.add( msg );
     }

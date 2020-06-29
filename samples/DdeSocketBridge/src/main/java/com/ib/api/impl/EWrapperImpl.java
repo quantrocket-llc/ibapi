@@ -287,14 +287,16 @@ public class EWrapperImpl implements EWrapper {
     }
 
     @Override
-    public void tickOptionComputation(int tickerId, int field,
+    public void tickOptionComputation(int tickerId, int field, int tickAttrib,
             double impliedVol, double delta, double optPrice,
             double pvDividend, double gamma, double vega, double theta,
             double undPrice) {
         String fieldStr = Utils.getField(field);
-        System.out.println("tickOptionComputation TickerId [" + tickerId + "] Field [" + fieldStr + "] ImpliedVol [" + impliedVol + "] OptPrice [" + optPrice + "]"
+        System.out.println("tickOptionComputation TickerId [" + tickerId + "] Field [" + fieldStr + "] TickAttrib [" + tickAttrib + "]" 
+                + " ImpliedVol [" + impliedVol + "] OptPrice [" + optPrice + "]"
                 + " UndPrice [" + undPrice + "] PvDividend [" + pvDividend + "] Delta [" + delta + "] Gamma [" + gamma + "]"
                 + " Vega [" + vega + "] Theta [" + theta + "]");
+        m_twsService.updateMarketData(tickerId, fieldStr + Utils.TICK_ATTRIB_STR, tickAttrib, DdeRequestStatus.SUBSCRIBED);
         m_twsService.updateMarketData(tickerId, fieldStr + Utils.IMPLIED_VOL_STR, impliedVol, DdeRequestStatus.SUBSCRIBED);
         m_twsService.updateMarketData(tickerId, fieldStr + Utils.OPT_PRICE_STR, optPrice, DdeRequestStatus.SUBSCRIBED);
         m_twsService.updateMarketData(tickerId, fieldStr + Utils.UND_PRICE_STR, undPrice, DdeRequestStatus.SUBSCRIBED);
@@ -305,8 +307,12 @@ public class EWrapperImpl implements EWrapper {
         m_twsService.updateMarketData(tickerId, fieldStr + Utils.THETA_STR, theta, DdeRequestStatus.SUBSCRIBED);
         
         if (field == TickType.CUST_OPTION_COMPUTATION.index()) {
+            m_twsService.updateCustomOptionComputation(tickerId, fieldStr + Utils.TICK_ATTRIB_STR, tickAttrib, 
+                   DdeRequestStatus.SUBSCRIBED, DdeRequestType.CALCULATE_IMPLIED_VOLATILITY_TICK);
             m_twsService.updateCustomOptionComputation(tickerId, fieldStr + Utils.IMPLIED_VOL_STR, impliedVol, 
                     DdeRequestStatus.SUBSCRIBED, DdeRequestType.CALCULATE_IMPLIED_VOLATILITY_TICK);
+            m_twsService.updateCustomOptionComputation(tickerId, fieldStr + Utils.TICK_ATTRIB_STR, tickAttrib, 
+                    DdeRequestStatus.SUBSCRIBED, DdeRequestType.CALCULATE_OPTION_PRICE_TICK);
             m_twsService.updateCustomOptionComputation(tickerId, fieldStr + Utils.OPT_PRICE_STR, optPrice, 
                     DdeRequestStatus.SUBSCRIBED, DdeRequestType.CALCULATE_OPTION_PRICE_TICK);
         }

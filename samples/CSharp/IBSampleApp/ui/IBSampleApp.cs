@@ -275,14 +275,14 @@ namespace IBSampleApp
         {
             dataGridViewHistoricalTicks.DataSource = historicalTickLastTable;
 
-            historicalTickLastTable.Rows.Add(Util.UnixSecondsToString(msg.Time, "yyyyMMdd-HH:mm:ss zzz"), msg.Price, msg.Size, msg.Exchange, msg.SpecialConditions, msg.TickAttribLast.toString());
+            historicalTickLastTable.Rows.Add(Util.UnixSecondsToString(msg.Time, "yyyyMMdd-HH:mm:ss zzz"), msg.Price, msg.Size, msg.Exchange, msg.SpecialConditions, msg.TickAttribLast);
         }
 
         private void UpdateUI(HistoricalTickBidAskMessage msg)
         {
             dataGridViewHistoricalTicks.DataSource = historicalTickBidAskTable;
 
-            historicalTickBidAskTable.Rows.Add(Util.UnixSecondsToString(msg.Time, "yyyyMMdd-HH:mm:ss zzz"), msg.PriceBid, msg.PriceAsk, msg.SizeBid, msg.SizeAsk, msg.TickAttribBidAsk.toString());
+            historicalTickBidAskTable.Rows.Add(Util.UnixSecondsToString(msg.Time, "yyyyMMdd-HH:mm:ss zzz"), msg.PriceBid, msg.PriceAsk, msg.SizeBid, msg.SizeAsk, msg.TickAttribBidAsk);
         }
 
         private void UpdateUI(HistoricalTickMessage msg)

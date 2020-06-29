@@ -553,6 +553,8 @@ class Decoder(Object):
         self.wrapper.realtimeBar(reqId, bar.time, bar.open, bar.high, bar.low, bar.close, bar.volume, bar.wap, bar.count)
 
     def processTickOptionComputationMsg(self, fields):
+        version = self.serverVersion
+        tickAttrib = None
         optPrice = None
         pvDividend = None
         gamma = None
@@ -561,9 +563,14 @@ class Decoder(Object):
         undPrice = None
 
         next(fields)
-        version = decode(int, fields)
+        if self.serverVersion < MIN_SERVER_VER_PRICE_BASED_VOLATILITY:
+            version = decode(int, fields)
+
         reqId = decode(int, fields)
         tickTypeInt = decode(int, fields)
+
+        if self.serverVersion >= MIN_SERVER_VER_PRICE_BASED_VOLATILITY:
+            tickAttrib = decode(int, fields)
 
         impliedVol = decode(float, fields)
         delta = decode(float, fields)
@@ -600,7 +607,7 @@ class Decoder(Object):
             if undPrice == -1:             # -1 is the "not computed" indicator
                 undPrice = None
 
-        self.wrapper.tickOptionComputation(reqId, tickTypeInt, impliedVol,
+        self.wrapper.tickOptionComputation(reqId, tickTypeInt, tickAttrib, impliedVol,
             delta, optPrice, pvDividend, gamma, vega, theta, undPrice)
 
 

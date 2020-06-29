@@ -45,8 +45,9 @@ public class Testbed {
 		Thread.sleep(1000);
 
 		//tickByTickOperations(wrapper.getClient());
-		tickDataOperations(wrapper.getClient());
+		//tickDataOperations(wrapper.getClient());
 		//tickOptionComputations(wrapper.getClient());
+		optionsOperations(wrapper.getClient());
 		//orderOperations(wrapper.getClient(), wrapper.getCurrentOrderId());
 		//contractOperations(wrapper.getClient());
 		//hedgeSample(wrapper.getClient(), wrapper.getCurrentOrderId());
@@ -306,8 +307,10 @@ public class Testbed {
 	private static void tickOptionComputations(EClientSocket client) throws InterruptedException {
 		
 		/*** Requesting real time market data ***/
+		client.reqMarketDataType(4);
+		
 		//! [reqmktdata]
-		client.reqMktData(2001, ContractSamples.FuturesOnOptions(), "", false, false, null);
+		client.reqMktData(2001, ContractSamples.OptionWithLocalSymbol(), "", false, false, null);
 		//! [reqmktdata]
 		
 		Thread.sleep(10000);
@@ -838,14 +841,14 @@ public class Testbed {
 		//! [reqsecdefoptparams]
 		
 		//! [calculateimpliedvolatility]
-		client.calculateImpliedVolatility(5001, ContractSamples.OptionAtBOX(), 5, 85, null);
+		client.calculateImpliedVolatility(5001, ContractSamples.OptionWithLocalSymbol(), 0.6, 55, null);
 		//! [calculateimpliedvolatility]
 		
 		//** Canceling implied volatility ***
 		client.cancelCalculateImpliedVolatility(5001);
 		
 		//! [calculateoptionprice]
-		client.calculateOptionPrice(5002, ContractSamples.OptionAtBOX(), 0.22, 85, null);
+		client.calculateOptionPrice(5002, ContractSamples.OptionWithLocalSymbol(), 0.5, 55, null);
 		//! [calculateoptionprice]
 		
 		//** Canceling option's price calculation ***

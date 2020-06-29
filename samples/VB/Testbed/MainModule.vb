@@ -62,9 +62,14 @@ Module MainModule
     Private Sub testIBMethods(client As EClientSocket, nextValidId As Integer)
 
         '**************************************************
+        '** Options operations                          ***
+        '**************************************************
+        optionsOperations(client)
+
+        '**************************************************
         '** Real time market data operations  - Tickers ***
         '**************************************************
-        tickDataOperations(client)
+        'tickDataOperations(client)
 
         '***************************************************
         '** Tick option computation operations - Tickers ***
@@ -318,8 +323,10 @@ Module MainModule
     Private Sub tickOptionComputationOperations(client As EClientSocket)
 
         ' Requesting real time market data 
+        client.reqMarketDataType(4)
+
         ' [reqmktdata]
-        client.reqMktData(2001, ContractSamples.FuturesOnOptions(), String.Empty, False, False, Nothing)
+        client.reqMktData(2001, ContractSamples.OptionWithLocalSymbol(), String.Empty, False, False, Nothing)
         ' [reqmktdata]
 
         Thread.Sleep(10000)
@@ -406,14 +413,14 @@ Module MainModule
 
         '! [calculateimpliedvolatility]
         '** Calculating implied volatility ***
-        client.calculateImpliedVolatility(5001, ContractSamples.NormalOption(), 5, 85, Nothing)
+        client.calculateImpliedVolatility(5001, ContractSamples.OptionWithLocalSymbol(), 0.5, 55, Nothing)
         '** Canceling implied volatility ***
         client.cancelCalculateImpliedVolatility(5001)
         '! [calculateimpliedvolatility]
 
         '! [calculateoptionprice]
         '** Calculating option's price ***
-        client.calculateOptionPrice(5002, ContractSamples.NormalOption(), 0.22, 85, Nothing)
+        client.calculateOptionPrice(5002, ContractSamples.OptionWithLocalSymbol(), 0.6, 55, Nothing)
         '** Canceling option's price calculation ***
         client.cancelCalculateOptionPrice(5002)
         '! [calculateoptionprice]

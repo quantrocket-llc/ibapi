@@ -389,6 +389,9 @@ namespace TwsRtdServer
                 case TwsRtdServerData.LASTTIME:
                     value = m_lastTime;
                     break;
+                case TwsRtdServerData.BID_TICK_ATTRIB:
+                    value = m_bidOptionComputation.getTickAttrib();
+                    break;
                 case TwsRtdServerData.BID_IMPLIED_VOL:
                     value = m_bidOptionComputation.getImpliedVolatility();
                     break;
@@ -412,6 +415,9 @@ namespace TwsRtdServer
                     break;
                 case TwsRtdServerData.BID_UND_PRICE:
                     value = m_bidOptionComputation.getUndPrice();
+                    break;
+                case TwsRtdServerData.ASK_TICK_ATTRIB:
+                    value = m_askOptionComputation.getTickAttrib();
                     break;
                 case TwsRtdServerData.ASK_IMPLIED_VOL:
                     value = m_askOptionComputation.getImpliedVolatility();
@@ -437,6 +443,9 @@ namespace TwsRtdServer
                 case TwsRtdServerData.ASK_UND_PRICE:
                     value = m_askOptionComputation.getUndPrice();
                     break;
+                case TwsRtdServerData.LAST_TICK_ATTRIB:
+                    value = m_lastOptionComputation.getTickAttrib();
+                    break;
                 case TwsRtdServerData.LAST_IMPLIED_VOL:
                     value = m_lastOptionComputation.getImpliedVolatility();
                     break;
@@ -460,6 +469,9 @@ namespace TwsRtdServer
                     break;
                 case TwsRtdServerData.LAST_UND_PRICE:
                     value = m_lastOptionComputation.getUndPrice();
+                    break;
+                case TwsRtdServerData.MODEL_TICK_ATTRIB:
+                    value = m_modelOptionComputation.getTickAttrib();
                     break;
                 case TwsRtdServerData.MODEL_IMPLIED_VOL:
                     value = m_modelOptionComputation.getImpliedVolatility();

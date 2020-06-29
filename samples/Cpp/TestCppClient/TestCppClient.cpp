@@ -458,8 +458,11 @@ void TestCppClient::tickOptionComputationOperation()
 {
 	/*** Requesting real time market data ***/
 	std::this_thread::sleep_for(std::chrono::seconds(1));
+
+	m_pClient->reqMarketDataType(4);
+
 	//! [reqmktdata]
-	m_pClient->reqMktData(2001, ContractSamples::FuturesOnOptions(), "", false, false, TagValueListSPtr());
+	m_pClient->reqMktData(2001, ContractSamples::OptionWithLocalSymbol(), "", false, false, TagValueListSPtr());
 	//! [reqmktdata]
 
 	std::this_thread::sleep_for(std::chrono::seconds(10));
@@ -576,14 +579,14 @@ void TestCppClient::optionsOperations()
 	//! [reqsecdefoptparams]
 
 	//! [calculateimpliedvolatility]
-	m_pClient->calculateImpliedVolatility(5001, ContractSamples::NormalOption(), 5, 85, TagValueListSPtr());
+	m_pClient->calculateImpliedVolatility(5001, ContractSamples::OptionWithLocalSymbol(), 0.5, 55, TagValueListSPtr());
 	//! [calculateimpliedvolatility]
 
 	//** Canceling implied volatility ***
 	m_pClient->cancelCalculateImpliedVolatility(5001);
 
 	//! [calculateoptionprice]
-	m_pClient->calculateOptionPrice(5002, ContractSamples::NormalOption(), 0.22, 85, TagValueListSPtr());
+	m_pClient->calculateOptionPrice(5002, ContractSamples::OptionWithLocalSymbol(), 0.6, 55, TagValueListSPtr());
 	//! [calculateoptionprice]
 
 	//** Canceling option's price calculation ***
@@ -1370,7 +1373,8 @@ void TestCppClient::nextValidId( OrderId orderId)
 	//! [nextvalidid]
 
     //m_state = ST_TICKOPTIONCOMPUTATIONOPERATION; 
-    m_state = ST_TICKDATAOPERATION; 
+    //m_state = ST_TICKDATAOPERATION; 
+    m_state = ST_OPTIONSOPERATIONS;
     //m_state = ST_REQTICKBYTICKDATA; 
     //m_state = ST_REQHISTORICALTICKS; 
     //m_state = ST_CONTFUT; 
@@ -1447,10 +1451,10 @@ void TestCppClient::tickSize( TickerId tickerId, TickType field, int size) {
 //! [ticksize]
 
 //! [tickoptioncomputation]
-void TestCppClient::tickOptionComputation( TickerId tickerId, TickType tickType, double impliedVol, double delta,
+void TestCppClient::tickOptionComputation( TickerId tickerId, TickType tickType, int tickAttrib, double impliedVol, double delta,
                                           double optPrice, double pvDividend,
                                           double gamma, double vega, double theta, double undPrice) {
-	printf( "TickOptionComputation. Ticker Id: %ld, Type: %d, ImpliedVolatility: %g, Delta: %g, OptionPrice: %g, pvDividend: %g, Gamma: %g, Vega: %g, Theta: %g, Underlying Price: %g\n", tickerId, (int)tickType, impliedVol, delta, optPrice, pvDividend, gamma, vega, theta, undPrice);
+	printf( "TickOptionComputation. Ticker Id: %ld, Type: %d, TickAttrib: %d, ImpliedVolatility: %g, Delta: %g, OptionPrice: %g, pvDividend: %g, Gamma: %g, Vega: %g, Theta: %g, Underlying Price: %g\n", tickerId, (int)tickType, tickAttrib, impliedVol, delta, optPrice, pvDividend, gamma, vega, theta, undPrice);
 }
 //! [tickoptioncomputation]
 
