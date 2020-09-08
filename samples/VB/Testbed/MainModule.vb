@@ -263,8 +263,8 @@ Module MainModule
         ' [regulatorysnapshot]
 
         '! [reqmktdata_genticks]
-        'Requesting RTVolume (Time & Sales), shortable And Fundamental Ratios generic ticks
-        client.reqMktData(1004, ContractSamples.USStockAtSmart(), "233,236,258", False, False, Nothing)
+        'Requesting RTVolume (Time & Sales) and shortable generic ticks
+        client.reqMktData(1004, ContractSamples.USStockAtSmart(), "233,236", False, False, Nothing)
         '! [reqmktdata_genticks]
 
         '! [reqmktdata_contractnews]

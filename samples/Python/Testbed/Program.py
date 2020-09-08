@@ -657,8 +657,8 @@ class TestApp(TestWrapper, TestClient):
         # ! [regulatorysnapshot]
 
         # ! [reqmktdata_genticks]
-        # Requesting RTVolume (Time & Sales), shortable and Fundamental Ratios generic ticks
-        self.reqMktData(1004, ContractSamples.USStockAtSmart(), "233,236,258", False, False, [])
+        # Requesting RTVolume (Time & Sales) and shortable generic ticks
+        self.reqMktData(1004, ContractSamples.USStockAtSmart(), "233,236", False, False, [])
         # ! [reqmktdata_genticks]
 
         # ! [reqmktdata_contractnews]

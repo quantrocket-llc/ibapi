@@ -2816,8 +2816,7 @@ class EClient(object):
             ReportsFinSummary (financial summary)
             ReportRatios (financial ratios)
             ReportsFinStatements (financial statements)
-            RESC (analyst estimates)
-            CalendarReport (company calendar) """
+            RESC (analyst estimates) """
 
         self.logRequest(current_fn_name(), vars())
 

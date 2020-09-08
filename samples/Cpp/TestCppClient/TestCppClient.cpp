@@ -397,8 +397,8 @@ void TestCppClient::tickDataOperation()
 	*/
 	
 	//! [reqmktdata_genticks]
-	//Requesting RTVolume (Time & Sales), shortable and Fundamental Ratios generic ticks
-	m_pClient->reqMktData(1004, ContractSamples::USStockAtSmart(), "233,236,258", false, false, TagValueListSPtr());
+	//Requesting RTVolume (Time & Sales) and shortable generic ticks
+	m_pClient->reqMktData(1004, ContractSamples::USStockAtSmart(), "233,236", false, false, TagValueListSPtr());
 	//! [reqmktdata_genticks]
 
 	//! [reqmktdata_contractnews]

@@ -349,8 +349,8 @@ namespace Samples
 			*/
 			
             //! [reqmktdata_genticks]
-            //Requesting RTVolume (Time & Sales), shortable and Fundamental Ratios generic ticks
-            client.reqMktData(1004, ContractSamples.USStockAtSmart(), "233,236,258", false, false, null);
+            //Requesting RTVolume (Time & Sales) and shortable generic ticks
+            client.reqMktData(1004, ContractSamples.USStockAtSmart(), "233,236", false, false, null);
             //! [reqmktdata_genticks]
 
             //! [reqmktdata_contractnews]
