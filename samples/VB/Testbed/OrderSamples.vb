@@ -392,12 +392,11 @@ Namespace Samples
 		''' Requires TWS or IBG 963+
 		''' https://www.interactivebrokers.com/en/index.php?f=23876#963-02
 		''' </summary>
-		Public Shared Function LimitOrderWithCashQty(action As String, quantity As Double, limitPrice As Double, cashQty As Double) As Order
+		Public Shared Function LimitOrderWithCashQty(action As String, limitPrice As Double, cashQty As Double) As Order
             '! [limitorderwithcashqty]
             Dim order As Order = New Order
             order.Action = action
             order.OrderType = "LMT"
-            order.TotalQuantity = quantity
             order.LmtPrice = limitPrice
             order.CashQty = cashQty
             '! [limitorderwithcashqty]

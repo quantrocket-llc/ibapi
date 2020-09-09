@@ -397,13 +397,12 @@ class OrderSamples:
     </summary>"""
         
     @staticmethod
-    def LimitOrderWithCashQty(action:str, quantity:float, limitPrice:float, cashQty:float):
+    def LimitOrderWithCashQty(action:str, limitPrice:float, cashQty:float):
     
         # ! [limitorderwithcashqty]
         order = Order()
         order.action = action
         order.orderType = "LMT"
-        order.totalQuantity = quantity
         order.lmtPrice = limitPrice
         order.cashQty = cashQty
         # ! [limitorderwithcashqty]

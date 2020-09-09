@@ -366,12 +366,11 @@ Order OrderSamples::LimitOrder(std::string action, double quantity, double limit
 	/// https://www.interactivebrokers.com/en/index.php?f=23876#963-02
 	/// </summary>
 
-Order OrderSamples::LimitOrderWithCashQty(std::string action, double quantity, double limitPrice, double cashQty){
+Order OrderSamples::LimitOrderWithCashQty(std::string action, double limitPrice, double cashQty){
 	// ! [limitorderwithcashqty]
 	Order order;
 	order.action = action;
 	order.orderType = "LMT";
-	order.totalQuantity = quantity;
 	order.lmtPrice = limitPrice;
 	order.cashQty = cashQty;
 	// ! [limitorderwithcashqty]
