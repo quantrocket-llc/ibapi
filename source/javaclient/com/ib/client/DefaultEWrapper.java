@@ -538,4 +538,9 @@ public class DefaultEWrapper implements EWrapper {
     public void completedOrdersEnd() {
         // TODO Auto-generated method stub
     }
+
+    @Override
+    public void replaceFAEnd(int reqId, String text) {
+        // TODO Auto-generated method stub
+    }
 }

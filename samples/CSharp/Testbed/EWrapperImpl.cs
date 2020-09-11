@@ -803,5 +803,12 @@ namespace Samples
             Console.WriteLine("CompletedOrdersEnd");
         }
         //! [completedordersend]
+
+        //! [replacefaend]
+        public virtual void replaceFAEnd(int reqId, string text)
+        {
+            Console.WriteLine("Replace FA End. ReqId: " + reqId + ", Text: " + text + "\n");
+        }
+        //! [replacefaend]
     }
 }

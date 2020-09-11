@@ -1210,7 +1210,7 @@ namespace IBApi
          * @param xml the xml-formatted configuration string
          * @sa requestFA
          */
-        public void replaceFA(int faDataType, string xml)
+        public void replaceFA(int reqId, int faDataType, string xml)
         {
             if (!CheckConnection())
                 return;
@@ -1222,6 +1222,11 @@ namespace IBApi
             paramsList.AddParameter(1);
             paramsList.AddParameter(faDataType);
             paramsList.AddParameter(xml);
+            if (serverVersion >= MinServerVer.REPLACE_FA_END)
+            {
+                paramsList.AddParameter(reqId);
+            }
+
             CloseAndSend(paramsList, lengthPos, EClientErrors.FAIL_SEND_FA_REPLACE);
         }
 

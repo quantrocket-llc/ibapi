@@ -511,9 +511,9 @@ namespace TWSLib
         }
 
 
-        void ITws.replaceFA(int faDataType, string cxml)
+        void ITws.replaceFA(int reqId, int faDataType, string cxml)
         {
-            this.socket.replaceFA(faDataType, cxml);
+            this.socket.replaceFA(reqId, faDataType, cxml);
         }
 
 
@@ -2165,6 +2165,15 @@ namespace TWSLib
             var t_completedOrdersEnd = this.completedOrdersEnd;
             if (t_completedOrdersEnd != null)
                 sc.Post(state => t_completedOrdersEnd(), null);
+        }
+
+        public delegate void replaceFAEndDelegate(int reqId, string text);
+        public event replaceFAEndDelegate replaceFAEnd;
+        void EWrapper.replaceFAEnd(int reqId, string text)
+        {
+            var t_replaceFAEnd = this.replaceFAEnd;
+            if (t_replaceFAEnd != null)
+                sc.Post(state => t_replaceFAEnd(reqId, text), null);
         }
 
         #endregion

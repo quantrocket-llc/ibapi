@@ -104,5 +104,6 @@ virtual void tickByTickMidPoint(int reqId, time_t time, double midPoint) EWRAPPE
 virtual void orderBound(long long orderId, int apiClientId, int apiOrderId) EWRAPPER_VIRTUAL_IMPL;
 virtual void completedOrder(const Contract& contract, const Order& order, const OrderState& orderState) EWRAPPER_VIRTUAL_IMPL;
 virtual void completedOrdersEnd() EWRAPPER_VIRTUAL_IMPL;
+virtual void replaceFAEnd(int reqId, const std::string& text) EWRAPPER_VIRTUAL_IMPL;
 
 #undef EWRAPPER_VIRTUAL_IMPL

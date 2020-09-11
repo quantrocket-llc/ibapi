@@ -289,5 +289,6 @@ namespace TwsRtdServer
         public void orderBound(long orderId, int apiClientId, int apiOrderId) { }
         public void completedOrder(Contract contract, Order order, OrderState orderState) { }
         public void completedOrdersEnd() { }
+        public void replaceFAEnd(int reqId, string text) { }
     }
 }

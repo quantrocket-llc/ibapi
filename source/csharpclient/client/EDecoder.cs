@@ -386,6 +386,9 @@ namespace IBApi
                     CompletedOrdersEndEvent();
                     break;
 
+                case IncomingMessage.ReplaceFAEnd:
+                    ReplaceFAEndEvent();
+                    break;
 
                 default:
                     eWrapper.error(IncomingMessage.NotValid, EClientErrors.UNKNOWN_ID.Code, EClientErrors.UNKNOWN_ID.Message);
@@ -1994,6 +1997,13 @@ namespace IBApi
             int msgVersion = ReadInt();
             int requestId = ReadInt();
             eWrapper.accountUpdateMultiEnd(requestId);
+        }
+
+        private void ReplaceFAEndEvent()
+        {
+            int reqId = ReadInt();
+            string text = ReadString();
+            eWrapper.replaceFAEnd(reqId, text);
         }
 
         public double ReadDouble()

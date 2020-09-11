@@ -283,7 +283,7 @@ public:
 	void reqAllOpenOrders();
 	void reqManagedAccts();
 	void requestFA(faDataType pFaDataType);
-	void replaceFA(faDataType pFaDataType, const std::string& cxml);
+	void replaceFA(int reqId, faDataType pFaDataType, const std::string& cxml);
 	void reqHistoricalData(TickerId id, const Contract& contract,
 		const std::string& endDateTime, const std::string& durationStr,
 		const std::string&  barSizeSetting, const std::string& whatToShow,

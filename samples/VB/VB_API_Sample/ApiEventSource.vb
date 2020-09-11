@@ -845,8 +845,14 @@ Friend Class ApiEventSource
                              RaiseEvent CompletedOrdersEnd(Me, EventArgs.Empty)
                          End Sub)
     End Sub
-
-
+    Private Sub EWrapper_ReplaceFAEnd(reqId As Integer, text As String) Implements IBApi.EWrapper.replaceFAEnd
+        InvokeIfRequired(Sub()
+                             RaiseEvent ReplaceFAEnd(Me, New ReplaceFAEndEventArgs With {
+                                                              .reqId = reqId,
+                                                              .text = text
+                                                              })
+                         End Sub)
+    End Sub
 #End Region
 
 #Region "Event declarations"
@@ -931,6 +937,9 @@ Friend Class ApiEventSource
     Event OrderBound(sender As Object, e As OrderBoundEventArgs)
     Event CompletedOrder(sender As Object, e As OpenOrderEventArgs)
     Event CompletedOrdersEnd(sender As Object, e As EventArgs)
+    Event ReplaceFAEnd(sender As Object, e As ReplaceFAEndEventArgs)
+
+
 
 
 #End Region

@@ -1421,9 +1421,9 @@ class SampleFrame extends JFrame implements EWrapper {
             return;
           }
 
-          m_client.replaceFA( EClientSocket.GROUPS, dlg.groupsXML );
-          m_client.replaceFA( EClientSocket.PROFILES, dlg.profilesXML );
-          m_client.replaceFA( EClientSocket.ALIASES, dlg.aliasesXML );
+          m_client.replaceFA( 0, EClientSocket.GROUPS, dlg.groupsXML );
+          m_client.replaceFA( 1, EClientSocket.PROFILES, dlg.profilesXML );
+          m_client.replaceFA( 2, EClientSocket.ALIASES, dlg.aliasesXML );
 
       }
     }
@@ -1804,6 +1804,12 @@ class SampleFrame extends JFrame implements EWrapper {
     @Override
     public void completedOrdersEnd() {
         String msg = EWrapperMsgGenerator.completedOrdersEnd();
+        m_TWS.add(msg);
+    }
+
+    @Override
+    public void replaceFAEnd(int reqId, String text) {
+        String msg = EWrapperMsgGenerator.replaceFAEnd(reqId, text);
         m_TWS.add(msg);
     }
 }

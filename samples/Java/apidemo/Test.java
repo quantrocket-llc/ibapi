@@ -440,4 +440,9 @@ public class Test implements EWrapper {
     public void completedOrdersEnd() {
         System.out.println(EWrapperMsgGenerator.completedOrdersEnd());
     }
+
+    @Override
+    public void replaceFAEnd(int reqId, String text) {
+        System.out.println(EWrapperMsgGenerator.replaceFAEnd(reqId, text));
+    }
 }

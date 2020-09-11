@@ -963,5 +963,15 @@ namespace IBSampleApp
             if (tmp != null)
                 sc.Post(t => tmp(), null);
         }
+
+        public event Action<int, string> ReplaceFAEnd;
+
+        void EWrapper.replaceFAEnd(int reqId, string text)
+        {
+            var tmp = ReplaceFAEnd;
+
+            if (tmp != null)
+                sc.Post(t => tmp(reqId, text), null);
+        }
     }
 }

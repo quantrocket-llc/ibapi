@@ -673,6 +673,10 @@ public class EWrapperMsgGenerator {
         return "=============== end ===============";
     }
  
+    public static String replaceFAEnd(int reqId, String text) {
+    	return "id = " + reqId + " ===== " + text + " =====";
+    }    
+    
     private static void appendOrderFields(StringBuilder sb, int orderId, Contract contract, Order order, OrderState orderState,
             boolean isOpenOrder) {
         Util.appendValidIntValue(sb, "orderId", orderId);

@@ -2227,10 +2227,11 @@ class EClient(object):
         return self.sendMsg(msg)
 
 
-    def replaceFA(self, faData:FaDataType , cxml:str):
+    def replaceFA(self, reqId:TickerId , faData:FaDataType , cxml:str):
         """Call this function to modify FA configuration information from the
         API. Note that this can also be done manually in TWS itself.
 
+        reqId:TickerId - request id
         faData:FaDataType - Specifies the type of Financial Advisor
             configuration data beingingg requested. Valid values include:
             1 = GROUPS
@@ -2251,6 +2252,9 @@ class EClient(object):
            + make_field(VERSION) \
            + make_field(int(faData)) \
            + make_field(cxml) \
+
+        if self.serverVersion() >= MIN_SERVER_VER_REPLACE_FA_END:
+            msg += make_field(reqId)
 
         return self.sendMsg(msg)
 

@@ -362,5 +362,9 @@ namespace IBApi
         public virtual void completedOrdersEnd()
         {
         }
+
+        public virtual void replaceFAEnd(int reqId, string text)
+        {
+        }
     }
 }

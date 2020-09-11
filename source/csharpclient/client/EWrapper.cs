@@ -925,5 +925,13 @@ namespace IBApi
          * @sa completedOrder, EClientSocket::reqCompletedOrders
          */
         void completedOrdersEnd();
+
+        /**
+         * @brief notifies the end of the FA replace.
+         * @param reqId the id of request
+         * @param text the message text
+         * @sa EClient::replaceFA
+         */
+        void replaceFAEnd(int reqId, string text);
     }
 }

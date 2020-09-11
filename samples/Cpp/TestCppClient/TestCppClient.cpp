@@ -807,7 +807,7 @@ void TestCppClient::orderOperations()
 	//! [place_midprice]
 	
 	//! [place order with cashQty]
-	m_pClient->placeOrder(m_orderId++, ContractSamples::USStockAtSmart(), OrderSamples::LimitOrderWithCashQty("BUY", 1, 30, 5000));
+	m_pClient->placeOrder(m_orderId++, ContractSamples::USStockAtSmart(), OrderSamples::LimitOrderWithCashQty("BUY", 30, 5000));
 	//! [place order with cashQty]
 
 	std::this_thread::sleep_for(std::chrono::seconds(1));
@@ -1064,19 +1064,19 @@ void TestCppClient::financialAdvisorOperations()
 
 	/*** Replacing FA information - Fill in with the appropriate XML string. ***/
 	//! [replacefaonegroup]
-	m_pClient->replaceFA(faDataType::GROUPS, FAMethodSamples::FAOneGroup());
+	m_pClient->replaceFA(1000, faDataType::GROUPS, FAMethodSamples::FAOneGroup());
 	//! [replacefaonegroup]
 
 	//! [replacefatwogroups]
-	m_pClient->replaceFA(faDataType::GROUPS, FAMethodSamples::FATwoGroups());
+	m_pClient->replaceFA(1001, faDataType::GROUPS, FAMethodSamples::FATwoGroups());
 	//! [replacefatwogroups]
 
 	//! [replacefaoneprofile]
-	m_pClient->replaceFA(faDataType::PROFILES, FAMethodSamples::FAOneProfile());
+	m_pClient->replaceFA(1002, faDataType::PROFILES, FAMethodSamples::FAOneProfile());
 	//! [replacefaoneprofile]
 
 	//! [replacefatwoprofiles]
-	m_pClient->replaceFA(faDataType::PROFILES, FAMethodSamples::FATwoProfiles());
+	m_pClient->replaceFA(1003, faDataType::PROFILES, FAMethodSamples::FATwoProfiles());
 	//! [replacefatwoprofiles]
 
 	//! [reqSoftDollarTiers]
@@ -1374,7 +1374,7 @@ void TestCppClient::nextValidId( OrderId orderId)
 
     //m_state = ST_TICKOPTIONCOMPUTATIONOPERATION; 
     //m_state = ST_TICKDATAOPERATION; 
-    m_state = ST_OPTIONSOPERATIONS;
+    //m_state = ST_OPTIONSOPERATIONS;
     //m_state = ST_REQTICKBYTICKDATA; 
     //m_state = ST_REQHISTORICALTICKS; 
     //m_state = ST_CONTFUT; 
@@ -1397,7 +1397,7 @@ void TestCppClient::nextValidId( OrderId orderId)
 	//m_state = ST_HEDGESAMPLES;
 	//m_state = ST_TESTALGOSAMPLES;
 	//m_state = ST_FAORDERSAMPLES;
-	//m_state = ST_FAOPERATIONS;
+	m_state = ST_FAOPERATIONS;
 	//m_state = ST_DISPLAYGROUPS;
 	//m_state = ST_MISCELANEOUS;
 	//m_state = ST_FAMILYCODES;
@@ -2100,3 +2100,9 @@ void TestCppClient::completedOrdersEnd() {
 	printf( "CompletedOrdersEnd\n");
 }
 //! [completedordersend]
+
+//! [replacefaend]
+void TestCppClient::replaceFAEnd(int reqId, const std::string& text) {
+	printf("Replace FA End. Request: %d, Text:%s\n", reqId, text.c_str());
+}
+//! [replacefaend]

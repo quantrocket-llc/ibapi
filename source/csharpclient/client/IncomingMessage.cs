@@ -83,5 +83,6 @@ namespace IBApi
         public const int OrderBound = 100;
         public const int CompletedOrder = 101;
         public const int CompletedOrdersEnd = 102;
+        public const int ReplaceFAEnd = 103;
     }
 }

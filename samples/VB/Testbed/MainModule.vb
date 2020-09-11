@@ -64,7 +64,7 @@ Module MainModule
         '**************************************************
         '** Options operations                          ***
         '**************************************************
-        optionsOperations(client)
+        'optionsOperations(client)
 
         '**************************************************
         '** Real time market data operations  - Tickers ***
@@ -134,7 +134,7 @@ Module MainModule
         '***********************************
         '** Financial Advisor Exclusive Operations ***
         '***********************************
-        ' financialAdvisorOperations(client)
+        financialAdvisorOperations(client)
 
         '*******************
         '** Miscellaneous ***
@@ -954,19 +954,19 @@ Module MainModule
 
         ''*** Replacing FA information - Fill in with the appropriate XML string. ***/
         ''! [replacefaonegroup]
-        client.replaceFA(Constants.FaGroups, FaAllocationSamples.FaOneGroup)
+        client.replaceFA(1000, Constants.FaGroups, FaAllocationSamples.FaOneGroup)
         ''! [replacefaonegroup]
 
         ''! [replacefatwogroups]
-        client.replaceFA(Constants.FaGroups, FaAllocationSamples.FaTwoGroups)
+        client.replaceFA(1001, Constants.FaGroups, FaAllocationSamples.FaTwoGroups)
         ''! [replacefatwogroups]
 
         ''! [replacefaoneprofile]
-        client.replaceFA(Constants.FaProfiles, FaAllocationSamples.FaOneProfile)
+        client.replaceFA(1002, Constants.FaProfiles, FaAllocationSamples.FaOneProfile)
         ''! [replacefaoneprofile]
 
         ''! [replacefatwoprofiles]
-        client.replaceFA(Constants.FaProfiles, FaAllocationSamples.FaTwoProfiles)
+        client.replaceFA(1003, Constants.FaProfiles, FaAllocationSamples.FaTwoProfiles)
         ''! [replacefatwoprofiles]
 
         ''! [reqSoftDollarTiers]

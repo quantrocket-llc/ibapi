@@ -210,6 +210,10 @@ Private Sub m_Tws_pnlSingle(ByVal reqId As Long, ByVal pos As Long, ByVal dailyP
     AcctUpdMulti.UpdatePnLSingle reqId, pos, dailyPnL, unrealizedPNL, realizedPNL, value
 End Sub
 
+Private Sub m_Tws_replaceFAEnd(ByVal reqId As Long, ByVal text As String)
+    MsgBox text
+End Sub
+
 Private Sub m_Tws_securityDefinitionOptionParameter(ByVal reqId As Long, ByVal exchange As String, ByVal underlyingConId As Long, ByVal tradingClass As String, ByVal multiplier As String, ByVal expirations As String, ByVal strikes As String)
     On Error Resume Next
     SecDefOptParams.UpdateSecDefOptParams _

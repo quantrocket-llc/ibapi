@@ -212,5 +212,7 @@ namespace TWSLib
         void completedOrder(IContract contract, IOrder order, IOrderState orderState);
         [DispId(152)]
         void completedOrdersEnd();
+        [DispId(153)]
+        void replaceFAEnd(int reqId, string text);
     }
 }

@@ -257,7 +257,7 @@ class TestApp(TestWrapper, TestClient):
             #self.marketDepthOperations_req()
             #self.realTimeBarsOperations_req()
             #self.historicalDataOperations_req()
-            self.optionsOperations_req()
+            #self.optionsOperations_req()
             #self.marketScannersOperations_req()
             #self.fundamentalsOperations_req()
             #self.bulletinsOperations_req()
@@ -265,7 +265,7 @@ class TestApp(TestWrapper, TestClient):
             #self.newsOperations_req()
             #self.miscelaneousOperations()
             #self.linkingOperations()
-            #self.financialAdvisorOperations()
+            self.financialAdvisorOperations()
             #self.orderOperations_req()
             #self.rerouteCFDOperations()
             #self.marketRuleOperations()
@@ -1576,19 +1576,19 @@ class TestApp(TestWrapper, TestClient):
 
         # Replacing FA information - Fill in with the appropriate XML string.
         # ! [replacefaonegroup]
-        self.replaceFA(FaDataTypeEnum.GROUPS, FaAllocationSamples.FaOneGroup)
+        self.replaceFA(1000, FaDataTypeEnum.GROUPS, FaAllocationSamples.FaOneGroup)
         # ! [replacefaonegroup]
 
         # ! [replacefatwogroups]
-        self.replaceFA(FaDataTypeEnum.GROUPS, FaAllocationSamples.FaTwoGroups)
+        self.replaceFA(1001, FaDataTypeEnum.GROUPS, FaAllocationSamples.FaTwoGroups)
         # ! [replacefatwogroups]
 
         # ! [replacefaoneprofile]
-        self.replaceFA(FaDataTypeEnum.PROFILES, FaAllocationSamples.FaOneProfile)
+        self.replaceFA(1002, FaDataTypeEnum.PROFILES, FaAllocationSamples.FaOneProfile)
         # ! [replacefaoneprofile]
 
         # ! [replacefatwoprofiles]
-        self.replaceFA(FaDataTypeEnum.PROFILES, FaAllocationSamples.FaTwoProfiles)
+        self.replaceFA(1003, FaDataTypeEnum.PROFILES, FaAllocationSamples.FaTwoProfiles)
         # ! [replacefatwoprofiles]
 
         # ! [reqSoftDollarTiers]
@@ -1907,6 +1907,13 @@ class TestApp(TestWrapper, TestClient):
         super().completedOrdersEnd()
         print("CompletedOrdersEnd")
     # ! [completedordersend]
+
+    @iswrapper
+    # ! [replacefaend]
+    def replaceFAEnd(self, reqId: int, text: str):
+        super().replaceFAEnd(reqId, text)
+        print("ReplaceFAEnd.", "ReqId:", reqId, "Text:", text)
+    # ! [replacefaend]
 
 def main():
     SetupLogger()

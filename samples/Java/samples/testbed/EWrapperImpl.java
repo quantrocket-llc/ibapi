@@ -690,4 +690,11 @@ public class EWrapperImpl implements EWrapper {
         System.out.println(EWrapperMsgGenerator.completedOrdersEnd());
     }
     //! [completedordersend]
+
+    //! [replacefaend]
+    @Override
+    public void replaceFAEnd(int reqId, String text) {
+        System.out.println(EWrapperMsgGenerator.replaceFAEnd(reqId, text));
+    }
+    //! [replacefaend]
 }

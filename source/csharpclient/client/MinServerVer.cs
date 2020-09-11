@@ -110,5 +110,6 @@ namespace IBApi
         public const int SEND_ALL_FAMILY_CODES = 154;
         public const int NO_DEFAULT_OPEN_CLOSE = 155;
         public const int PRICE_BASED_VOLATILITY = 156;
+        public const int REPLACE_FA_END = 157;
     }
 }

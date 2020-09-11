@@ -97,6 +97,7 @@ class EDecoder implements ObjectInput {
     private static final int ORDER_BOUND = 100;
     private static final int COMPLETED_ORDER = 101;
     private static final int COMPLETED_ORDERS_END = 102;
+    private static final int REPLACE_FA_END = 103;
 
     static final int MAX_MSG_LENGTH = 0xffffff;
     private static final int REDIRECT_MSG_ID = -1;
@@ -475,6 +476,10 @@ class EDecoder implements ObjectInput {
 
             case COMPLETED_ORDERS_END:
                 processCompletedOrdersEndMsg();
+                break;
+
+            case REPLACE_FA_END:
+                processReplaceFAEndMsg();
                 break;
                 
             default: {
@@ -1954,6 +1959,13 @@ class EDecoder implements ObjectInput {
     
     private void processCompletedOrdersEndMsg() throws IOException {
         m_EWrapper.completedOrdersEnd();
+    }
+    
+    private void processReplaceFAEndMsg() throws IOException {
+        int reqId = readInt();
+        String text = readStr();
+
+        m_EWrapper.replaceFAEnd(reqId, text);
     }
     
     private void readLastTradeDate(ContractDetails contract, boolean isBond) throws IOException {

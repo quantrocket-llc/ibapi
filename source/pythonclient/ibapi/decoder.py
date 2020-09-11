@@ -1186,6 +1186,13 @@ class Decoder(Object):
         next(fields)
 
         self.wrapper.completedOrdersEnd()
+        
+    def processReplaceFAEndMsg(self, fields):
+        next(fields)
+        reqId = decode(int, fields)
+        text = decode(str, fields)
+
+        self.wrapper.replaceFAEnd(reqId, text)
 
     ######################################################################
 
@@ -1371,7 +1378,8 @@ class Decoder(Object):
         IN.TICK_BY_TICK: HandleInfo(proc=processTickByTickMsg),
         IN.ORDER_BOUND: HandleInfo(proc=processOrderBoundMsg),
         IN.COMPLETED_ORDER: HandleInfo(proc=processCompletedOrderMsg),
-        IN.COMPLETED_ORDERS_END: HandleInfo(proc=processCompletedOrdersEndMsg)
+        IN.COMPLETED_ORDERS_END: HandleInfo(proc=processCompletedOrdersEndMsg),
+        IN.REPLACE_FA_END: HandleInfo(proc=processReplaceFAEndMsg)
 }
 
 

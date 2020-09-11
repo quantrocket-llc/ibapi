@@ -921,4 +921,10 @@ public class EWrapperImpl implements EWrapper {
         System.out.println("completedOrdersEnd");
         m_twsService.updateCompletedOrdersEnd();
     }
+
+    @Override
+    public void replaceFAEnd(int reqId, String text) {
+        System.out.println("replaceFAEnd ReqId [" + reqId + "] Text [" + text + "]");
+        m_twsService.replaceFAEnd(reqId, text);
+    }
 }

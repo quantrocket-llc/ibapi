@@ -301,9 +301,19 @@ Private Sub Worksheet_Calculate()
             Dim faArray() As Variant
             ' send request and FA table/array
             faArray = util.sendRequest(server, STR_REQ_FA, util.IDENTIFIER_ZERO) ' returned array can be 1-Dimension or 2-Dimension
-            For i = 1 To UBound(faArray) - LBound(faArray) + 1
-                .Cells(FA_START_ROW + i - 1, COLUMN_FA).value = faArray(i, 1)
-            Next i
+            dimension = util.getDimension(faArray)
+            If dimension = 2 Then
+                ' 2d array
+                For i = 1 To UBound(faArray) - LBound(faArray) + 1
+                    .Cells(FA_START_ROW + i - 1, COLUMN_FA).value = faArray(i, 1)
+                Next i
+            ElseIf dimension = 1 Then
+                ' 1d array
+                For i = 1 To UBound(faArray) - LBound(faArray) + 1
+                    .Cells(FA_START_ROW + i - 1, COLUMN_FA).value = faArray(i)
+                Next i
+            End If
+            
         End If
         
         ' request FA error

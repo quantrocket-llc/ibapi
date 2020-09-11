@@ -733,6 +733,12 @@ Namespace Samples
         End Sub
         '! [completedordersend]
 
+        '! [replacefaend]
+        Public Sub replaceFAEnd(reqId As Integer, text As String) Implements IBApi.EWrapper.replaceFAEnd
+            Console.WriteLine("replaceFAEnd. ReqId: {0}, Text: {1}", reqId, text)
+        End Sub
+        '! [replacefaend]
+
     End Class
 
 End Namespace

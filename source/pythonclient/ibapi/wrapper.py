@@ -713,3 +713,8 @@ class EWrapper:
         """This is called at the end of a given request for completed orders."""
 
         self.logAnswer(current_fn_name(), vars())
+
+    def replaceFAEnd(self, reqId: int, text: str):
+        """This is called at the end of a replace FA."""
+
+        self.logAnswer(current_fn_name(), vars())

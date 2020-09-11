@@ -2186,6 +2186,18 @@ const char* EDecoder::processCompletedOrdersEndMsg(const char* ptr, const char* 
 	return ptr;
 }
 
+const char* EDecoder::processReplaceFAEndMsg(const char* ptr, const char* endPtr) {
+	int reqId;
+	std::string text;
+
+	DECODE_FIELD(reqId);
+	DECODE_FIELD(text);
+
+	m_pEWrapper->replaceFAEnd(reqId, text);
+
+	return ptr;
+}
+
 
 int EDecoder::parseAndProcessMsg(const char*& beginPtr, const char* endPtr) {
 	// process a single message from the buffer;
@@ -2511,6 +2523,10 @@ int EDecoder::parseAndProcessMsg(const char*& beginPtr, const char* endPtr) {
         case COMPLETED_ORDERS_END:
             ptr = processCompletedOrdersEndMsg(ptr, endPtr);
             break;
+
+		case REPLACE_FA_END:
+			ptr = processReplaceFAEndMsg(ptr, endPtr);
+			break;
 
 		default:
 			{

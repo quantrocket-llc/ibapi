@@ -292,9 +292,10 @@ public abstract class EClient {
     protected static final int MIN_SERVER_VER_SEND_ALL_FAMILY_CODES = 154;
     protected static final int MIN_SERVER_VER_NO_DEFAULT_OPEN_CLOSE = 155;
     protected static final int MIN_SERVER_VER_PRICE_BASED_VOLATILITY = 156;
+    protected static final int MIN_SERVER_VER_REPLACE_FA_END = 157;
     
     public static final int MIN_VERSION = 100; // envelope encoding, applicable to useV100Plus mode only
-    public static final int MAX_VERSION = MIN_SERVER_VER_PRICE_BASED_VOLATILITY; // ditto
+    public static final int MAX_VERSION = MIN_SERVER_VER_REPLACE_FA_END; // ditto
 
     protected EReaderSignal m_signal;
     protected EWrapper m_eWrapper;    // msg handler
@@ -2349,7 +2350,7 @@ public abstract class EClient {
         }
     }
 
-    public synchronized void replaceFA( int faDataType, String xml ) {
+    public synchronized void replaceFA( int reqId, int faDataType, String xml ) {
         // not connected?
         if( !isConnected()) {
             notConnected();
@@ -2372,6 +2373,9 @@ public abstract class EClient {
             b.send( VERSION);
             b.send( faDataType);
             b.send( xml);
+            if(m_serverVersion >= MIN_SERVER_VER_REPLACE_FA_END) {
+                b.send(reqId);
+            }
 
             closeAndSend(b);
         }

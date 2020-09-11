@@ -2157,7 +2157,7 @@ void EClient::requestFA(faDataType pFaDataType)
     closeAndSend( msg.str());
 }
 
-void EClient::replaceFA(faDataType pFaDataType, const std::string& cxml)
+void EClient::replaceFA(int reqId, faDataType pFaDataType, const std::string& cxml)
 {
     // not connected?
     if( !isConnected()) {
@@ -2180,6 +2180,9 @@ void EClient::replaceFA(faDataType pFaDataType, const std::string& cxml)
     ENCODE_FIELD( VERSION);
     ENCODE_FIELD( (int)pFaDataType);
     ENCODE_FIELD( cxml);
+    if (m_serverVersion >= MIN_SERVER_VER_REPLACE_FA_END) {
+        ENCODE_FIELD(reqId);
+    }
 
     closeAndSend( msg.str());
 }

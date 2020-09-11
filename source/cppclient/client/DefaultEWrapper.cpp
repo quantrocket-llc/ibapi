@@ -101,3 +101,4 @@ void DefaultEWrapper::tickByTickMidPoint(int reqId, time_t time, double midPoint
 void DefaultEWrapper::orderBound(long long orderId, int apiClientId, int apiOrderId) { }
 void DefaultEWrapper::completedOrder(const Contract& contract, const Order& order, const OrderState& orderState) { }
 void DefaultEWrapper::completedOrdersEnd() { }
+void DefaultEWrapper::replaceFAEnd(int reqId, const std::string& text) { }
