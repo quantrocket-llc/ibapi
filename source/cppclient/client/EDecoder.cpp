@@ -113,10 +113,10 @@ const char* EDecoder::processTickSizeMsg(const char* ptr, const char* endPtr) {
 }
 
 const char* EDecoder::processTickOptionComputationMsg(const char* ptr, const char* endPtr) {
-	int version;
+	int version = m_serverVersion;
 	int tickerId;
 	int tickTypeInt;
-	int tickAttrib;
+	int tickAttrib = 0;
 	double impliedVol;
 	double delta;
 
