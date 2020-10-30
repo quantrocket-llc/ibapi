@@ -109,10 +109,7 @@ namespace TwsRtdServer
             {
                 // if marketdata request was not found, then create new one
                 mktDataRequest = new TwsRtdServerMktDataRequest(mktDataRequestStr, m_twsReqIdNext, this);
-                    
-                // mktdata request was successfully sent to TWS
-                m_mktDataRequests.Add(m_twsReqIdNext, mktDataRequest);
-                m_mktDataRequestsStrToIdMapping.Add(mktDataRequestStr, m_twsReqIdNext);
+
                 m_twsReqIdNext++;
             }
 
@@ -151,6 +148,16 @@ namespace TwsRtdServer
         {
             TwsRtdServerMktDataRequest mktDataRequest;
             return m_mktDataRequests.TryGetValue(twsReqId, out mktDataRequest) ? mktDataRequest : null;
+        }
+
+        public IDictionary<int, TwsRtdServerMktDataRequest> mktDataRequests() 
+        { 
+            return m_mktDataRequests; 
+        }
+
+        public IDictionary<string, int> mktDataRequestsStrToIdMapping() 
+        { 
+            return m_mktDataRequestsStrToIdMapping; 
         }
 
         public int MktDataRequestsCount()

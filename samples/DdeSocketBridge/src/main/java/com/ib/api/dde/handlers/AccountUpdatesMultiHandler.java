@@ -148,9 +148,9 @@ public class AccountUpdatesMultiHandler extends AccountUpdatesHandler {
             FinancialAdvisorReplace request = m_requestParser.parseFAReplace(requestStr, data);
             System.out.println("Handling FA replace.");
             m_faReplace = new BaseStringDataMap(request);
-            clientSocket().replaceFA(request.requestId(), request.faDataType(), request.xml());
             m_faReplace.ddeRequestStatus(DdeRequestStatus.REQUESTED);
             notifyDde(m_faReplace.ddeRequest().ddeRequestType().topic(), RequestParser.ID_ZERO);
+            clientSocket().replaceFA(request.requestId(), request.faDataType(), request.xml());
         }
         return null;
     }

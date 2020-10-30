@@ -34,8 +34,9 @@ public class RealTimeBarsHandler extends HistoricalDataBaseHandler {
     public byte[] handleRealTimeBarsRequest(String requestStr, byte[] data) {
         RealTimeBarsRequest request = m_requestParser.parseRealTimeBarsRequest(requestStr, data);
         System.out.println("Sending real time bars request: id=" + request.requestId() + " contract=" + Utils.shortContractString(request.contract()));
+        byte[] ret = handleHistoricalDataBaseRequest(request); 
         clientSocket().reqRealTimeBars(request.requestId(), request.contract(), request.barSize(), request.whatToShow(), request.useRth(), null);
-        return handleHistoricalDataBaseRequest(request);
+        return ret;
     }
 
     /** Method handles real time bars cancel request */

@@ -151,7 +151,7 @@ namespace IBSampleApp.ui
 
         public void SubscribeAccountUpdates()
         {
-            if (!accountUpdateRequestActive)
+            if (!accountUpdateRequestActive && AccountSelector.SelectedItem != null)
             {
                 currentAccountSubscribedToTupdate = AccountSelector.SelectedItem.ToString();
                 accountUpdateRequestActive = true;

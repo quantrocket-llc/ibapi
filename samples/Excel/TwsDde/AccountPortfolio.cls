@@ -260,7 +260,7 @@ Private Sub Worksheet_Calculate()
     
     With Worksheets(STR_SHEET_NAME)
         
-        If CStr(.range(CELL_SUBSCRIPTION_CONTROL).value) = util.STR_ERROR_UPPER Then
+        If CStr(.range(CELL_SUBSCRIPTION_CONTROL).value) = util.STR_ERROR_UPPER And CStr(.range(CELL_ERROR).value) = util.STR_EMPTY Then
             server = util.getServerVal(STR_SHEET_NAME, CELL_SERVER_NAME)
             If server = util.STR_EMPTY Then Exit Sub
             .range(CELL_ERROR).Formula = util.composeLink(server, STR_REQ_ACCOUNT_PORTFOLIO_ERROR, util.IDENTIFIER_ZERO, util.STR_EMPTY)

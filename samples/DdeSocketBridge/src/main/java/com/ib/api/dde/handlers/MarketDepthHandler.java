@@ -49,10 +49,10 @@ public class MarketDepthHandler extends BaseHandler {
     public byte[] handleMarketDepthRequest(String requestStr, byte[] data) {
         MarketDepthRequest request = m_requestParser.parseMarketDepthRequest(requestStr, data);
         System.out.println("Sending market depth request: id=" + request.requestId() + " for contract=" + Utils.shortContractString(request.contract()) + " isSmartDepth=" + request.isSmartDepth());
-        clientSocket().reqMktDepth(request.requestId(), request.contract(), request.numRows(), request.isSmartDepth(), null);
         MarketDepthDataMap dataMap = new MarketDepthDataMap(request);
         m_marketDepthRequests.put(request.requestId(), dataMap);
         updateMarketDepthStatus(request.requestId(), dataMap, DdeRequestStatus.REQUESTED);
+        clientSocket().reqMktDepth(request.requestId(), request.contract(), request.numRows(), request.isSmartDepth(), null);
         return null;
     }
 

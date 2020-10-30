@@ -750,7 +750,7 @@ namespace IBSampleApp
 
         private void accUpdatesSubscribe_Click(object sender, EventArgs e)
         {
-            if (accUpdatesSubscribe.Text.Equals("Subscribe"))
+            if (accUpdatesSubscribe.Text.Equals("Subscribe") && accountSelector.SelectedItem != null)
             {
                 accUpdatesSubscribedAccount.Text = accountSelector.SelectedItem.ToString();
                 accUpdatesSubscribe.Text = "Unsubscribe";

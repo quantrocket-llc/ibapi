@@ -62,8 +62,8 @@ public class NewsDataHandler extends BaseHandler {
     public byte[] handleNewsTicksRequest(String requestStr, byte[] data) {
         NewsTicksRequest request = m_requestParser.parseNewsTicksRequest(requestStr, data);
         System.out.println("Sending news ticks request: id=" + request.requestId() + " contract=" + Utils.shortContractString(request.contract()));
-        clientSocket().reqMktData(request.requestId(), request.contract(), "mdoff,292", false, false, null);
         handleNewsBaseRequest(request, DdeRequestType.NEWS_TICKS_TICK.topic());
+        clientSocket().reqMktData(request.requestId(), request.contract(), "mdoff,292", false, false, null);
         return null;
     }
 
@@ -74,9 +74,9 @@ public class NewsDataHandler extends BaseHandler {
             return null;
         }
         System.out.println("Sending historical news request: id=" + request.requestId() + " conId=" + request.conId() + " providerCodes=" + request.providerCodes());
+        handleNewsBaseRequest(request, DdeRequestType.HISTORICAL_NEWS_TICK.topic());
         clientSocket().reqHistoricalNews(request.requestId(), request.conId(), request.providerCodes(), 
                 request.startDateTime(), request.endDateTime(), request.totalResults(), null);
-        handleNewsBaseRequest(request, DdeRequestType.HISTORICAL_NEWS_TICK.topic());
         return null;
     }
 
@@ -216,10 +216,10 @@ public class NewsDataHandler extends BaseHandler {
         }
         System.out.println("Sending news article request: id=" + request.requestId() + " providerCode=" + request.providerCode() 
             + " articleId=" + request.articleId());
-        clientSocket().reqNewsArticle(request.requestId(), request.providerCode(), request.articleId(), null); 
         BaseStringDataMap dataMap = new BaseStringDataMap(request);
         m_newsArticleRequests.put(request.requestId(), dataMap);
         updateNewsArticleRequestStatus(request.requestId(), dataMap, DdeRequestStatus.REQUESTED);
+        clientSocket().reqNewsArticle(request.requestId(), request.providerCode(), request.articleId(), null); 
         return null;
     }
 
