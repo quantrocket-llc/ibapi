@@ -381,6 +381,22 @@ namespace Samples
             //! [fopcontract]
             return contract;
         }
+		
+		public static Contract Warrants()
+        {
+            //! [warcontract]
+            Contract contract = new Contract();
+            contract.Symbol = "GOOG";
+            contract.SecType = "WAR";
+            contract.Exchange = "FWB";
+            contract.Currency = "EUR";
+            contract.LastTradeDateOrContractMonth = "20201117";
+            contract.Strike = 1500.0;
+            contract.Right = "C";
+            contract.Multiplier = "0.01";
+            //! [warcontract]
+            return contract;
+        }
 
         /*
          * It is also possible to define contracts based on their ISIN (IBKR STK sample).

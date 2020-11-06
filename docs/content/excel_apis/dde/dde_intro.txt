@@ -18,7 +18,8 @@
 	- Windows OS
 	- Microsoft Excel
 	- TWS API v975 or higher installed to the C: drive
-	- Excel must be set to the <b>US convention for commas and periods</b>. That is, commas denote thousands and periods denote decimals. 
+	- Excel must be set to the <b>US convention for commas and periods</b>. That is, commas denote thousands and periods denote decimals.
+	- Latest Java Version	
 
 	<hr/>
 	<h3>Steps to launch DDE server</h3>
@@ -47,9 +48,11 @@
 	</ol>
 	<hr/>
 	
-	<b>Note:</b> Other programs running on the same computer which use DDE can interfere with the communication between Excel and TWS and cause Excel to 'hang' or 'freeze' after making the initial request. 
+	<b>Notes:</b> 
+	- Other programs running on the same computer which use DDE can interfere with the communication between Excel and TWS and cause Excel to 'hang' or 'freeze' after making the initial request. 
 	The only solution to this problem is to close other programs using DDE one-by-one to find the culprit. Programs which are known to cause this issue include Google Chrome, Microsoft OneNote, Skype 
 	and Adobe Creative Cloud.
+	- While running the DDE Bridge if the command prompt screen flashes after opening and disappears, please install the latest version on your operating system from https://www.java.com/en/download/ . 
 
 	The Legacy DDE API is described here: \subpage legacy_DDE
 	<br><br>

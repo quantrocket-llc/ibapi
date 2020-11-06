@@ -368,6 +368,23 @@ Namespace Samples
             Return contract
 
         End Function
+		
+		Public Shared Function Warrants() As Contract
+
+            '! [warcontract]
+            Dim contract As Contract = New Contract
+            contract.Symbol = "GOOG"
+            contract.SecType = "WAR"
+            contract.Exchange = "FWB"
+            contract.Currency = "EUR"
+            contract.LastTradeDateOrContractMonth = "20201117"
+            contract.Strike = 1500.0
+            contract.Right = "C"
+            contract.Multiplier = "0.01"
+            '! [warcontract]
+            Return contract
+
+        End Function
 
         '
         ' It Is also possible to define contracts based on their ISIN (IBKR STK sample).

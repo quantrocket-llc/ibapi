@@ -381,6 +381,28 @@
 		</li>
 	</ul>
 	
+	\section warrant Standard Warrants
+	
+	Warrants, like options, require an <b>expiration date</b>, a <b>right</b>, a <b>strike</b> and a <b>multiplier</b>. For some warrants it will be necessary to define a localSymbol or conId to uniquely identify the contract.  
+	
+	<ul id="tab">
+		<li class="active">
+			\snippet ContractSamples.cs warcontract
+		</li>
+		<li>
+			\snippet ContractSamples.java warcontract
+		</li>
+		<li>
+			\snippet ContractSamples.vb warcontract
+		</li>
+		<li>
+			\snippet ContractSamples.cpp warcontract
+		</li>
+		<li>
+			\snippet ContractSamples.py warcontract
+		</li>
+	</ul>
+	
 	\section iopts Dutch Warrants and Structured Products
 	
 	To unambiguously define a Dutch Warrant or Structured Product (IOPTs) the conId or localSymbol field must be used.
