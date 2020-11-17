@@ -1131,7 +1131,10 @@
             <td>10148</td><td>OrderId <OrderId> that needs to be cancelled can not be cancelled, state:</td><td>An attempt was made to cancel an order that had already been filled by the system.</td>
         </tr>
         <tr>
-            <td>10186</td><td>Requested market data is not subscribed. Delayed market data is not enabled</td><td>See See @ref market_data_type on how to enable delayed data.</td>
+            <td>10186</td><td>Requested market data is not subscribed. Delayed market data is not enabled</td><td>See @ref market_data_type on how to enable delayed data.</td>
+        </tr>
+		<tr>
+            <td>10230</td><td>You have unsaved FA changes. Please retry 'request FA' operation later, when 'replace FA' operation is complete</td><td>There are pending Financial Advisor configuration changes. See @ref financial_advisor</td>
         </tr>
 		
 	</table>
