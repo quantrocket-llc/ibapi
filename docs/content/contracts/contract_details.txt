@@ -9,6 +9,14 @@
 
 	One particular use of the IBApi::EClient::reqContractDetails function is to request an option chain. See @ref option_chains for more details. 
 	
+	<b>Trading Schedule <em>TimeZoneId</em>:</b>
+	
+	Another function of IBApi::EClient::reqContractDetails is to request the trading schedule of an instrument via the TradingHours and LiquidHours fields.
+	The corresponding timeZoneId field will then indicate the time zone for the trading schedule of the instrument. TWS sends these timeZoneId strings to the API from the schedule responses as-is, and may not exactly match the time zones displayed in the TWS contract description.
+	
+	<em>Possible timeZoneId values are:</em>
+	Europe/Riga, Australia/NSW, Europe/Warsaw, US/Pacific, Europe/Tallinn, Japan, US/Eastern, GB-Eire, Africa/Johannesburg, Israel, Europe/Vilnius, MET, Europe/Helsinki, US/Central, Europe/Budapest, Asia/Calcutta, Hongkong, Europe/Moscow, GMT
+	
 	\section broadtape_list  BroadTape News List
 	
 	The example below shows an "incomplete" news @ref IBApi::Contract with no symbol or currency defined. In most cases using such a contract would result in an invalid 
