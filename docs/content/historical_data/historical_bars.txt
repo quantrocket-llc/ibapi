@@ -41,7 +41,7 @@
 	\section hd_receive Receiving Historical Bar Data
 	
 	The historical data will be delivered via the IBApi::EWrapper::historicalData method in the form of <b>candlesticks</b>. The time zone of returned bars is the time zone chosen in TWS on the login screen. If reqHistoricalData was invoked with <i><b>keepUpToDate = false</b></i>, once all candlesticks have been received the @ref IBApi::EWrapper::historicalDataEnd
-	marker will be sent. Otherwise updates of the most recent partial five-second bar will continue to be returned in real time to IBApi::EWrapper::historicalDataUpdate. The keepUpToDate functionality can only be used with bar sizes 5 seconds or greater and requires the endDate is set as the empty string. 
+	marker will be sent. Otherwise updates of the most recent partial five-second bar will continue to be returned in real time to IBApi::EWrapper::historicalDataUpdate. The keepUpToDate functionality can only be used with bar sizes 5 seconds or greater and requires the endDate is set as the empty string. Also, with <i>keepUpToDate = true</i>, if bust event happens, then bust event error (code=10225) is reported to all API client versions connected to TWS version 981+.
 	
 	- Note: IB's historical data feed is filtered for some types of trades which generally occur away from the NBBO such as combos, block trades, and derivatives. For that reason the historical data volume will be lower than an unfiltered historical data feed.
 	
