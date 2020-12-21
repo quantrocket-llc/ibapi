@@ -19,7 +19,7 @@
 	- Microsoft Excel
 	- TWS API v975 or higher installed to the C: drive
 	- Excel must be set to the <b>US convention for commas and periods</b>. That is, commas denote thousands and periods denote decimals.
-	- Latest Java Version	
+	- Latest Java Version installed	
 
 	<hr/>
 	<h3>Steps to launch DDE server</h3>
