@@ -14,9 +14,6 @@ import socket
 import threading
 import logging
 
-from ibapi.common import * # @UnusedWildImport
-from ibapi.errors import * # @UnusedWildImport
-
 
 #TODO: support SSL !!
 
@@ -103,6 +100,10 @@ class Connection:
             logger.debug("socket broken, disconnecting")
             self.disconnect()
             buf = b""
+        except OSError:
+            # Thrown if the socket was closed (ex: disconnected at end of script) 
+            # while waiting for self.socket.recv() to timeout.
+            logger.debug("Socket is broken or closed.")
 
         return buf
 
