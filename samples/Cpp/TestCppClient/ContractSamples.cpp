@@ -410,6 +410,22 @@ Contract ContractSamples::FuturesOnOptions(){
 	return contract;
 }
 
+Contract ContractSamples::Warrants(){
+	//! [warcontract]
+	Contract contract;
+	contract.symbol = "GOOG";
+	contract.secType = "WAR";
+	contract.exchange = "FWB";
+	contract.currency = "EUR";
+	contract.lastTradeDateOrContractMonth = "20201117";
+	contract.strike = 1500.0;
+	contract.right = "C";
+	contract.multiplier = "0.01";
+	//! [warcontract]
+	return contract;
+}
+
+
 	/*
      * It is also possible to define contracts based on their ISIN (IBKR STK sample).
      * 

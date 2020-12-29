@@ -316,6 +316,21 @@ public class ContractSamples {
 		return contract;
 	}
 	
+	public static Contract Warrants() {
+		//! [warcontract]
+		Contract contract = new Contract();
+		contract.symbol("GOOG");
+		contract.secType("WAR");
+		contract.currency("EUR");
+		contract.exchange("FWB");
+		contract.lastTradeDateOrContractMonth("20201117");
+		contract.right("C");
+		contract.strike(1500.0);
+		contract.multiplier("0.01");
+		//! [warcontract]
+		return contract;
+	}
+	
 	public static Contract ByISIN() {
 		Contract contract = new Contract();
 		contract.secIdType("ISIN");
