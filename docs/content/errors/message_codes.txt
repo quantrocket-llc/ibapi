@@ -1134,10 +1134,79 @@
             <td>10186</td><td>Requested market data is not subscribed. Delayed market data is not enabled</td><td>See @ref market_data_type on how to enable delayed data.</td>
         </tr>
 		<tr>
-            <td>10225</td><td>Bust event occurred, current subscription is deactivated. Please resubscribe real-time bars immediately</td>
+            <td>10225</td><td>Bust event occurred, current subscription is deactivated. Please resubscribe real-time bars immediately</td><td></td>
         </tr>
 		<tr>
             <td>10230</td><td>You have unsaved FA changes. Please retry 'request FA' operation later, when 'replace FA' operation is complete</td><td>There are pending Financial Advisor configuration changes. See @ref financial_advisor</td>
+        </tr>
+		<tr>
+            <td>10231</td><td>The following Groups and/or Profiles contain invalid accounts: <list of groups/profiles></td><td>If the account(s) inside Groups or Profiles is/are incorrect in xml-formatted configuration string of replaceFA request, then the error shows list of such Groups and/or Profiles.</td>
+        </tr>
+		<tr>
+            <td>10233</td><td>Defaults were inherited from CASH preset during the creation of this order.</td><td></td>
+        </tr>
+		<tr>
+            <td>10234</td><td>The Decision Maker field is required and not set for this order (non-desktop).</td><td></td>
+        </tr>
+		<tr>
+            <td>10235</td><td>The Decision Maker field is required and not set for this order (ibbot).</td><td></td>
+        </tr>
+		<tr>
+            <td>10236</td><td>Child has to be AON if parent order is AON</td><td></td>
+        </tr>
+		<tr>
+            <td>10237</td><td>All or None ticket can route entire unfilled size only</td><td></td>
+        </tr>
+		<tr>
+            <td>10238</td><td>Some error occured during communication with Advisor Setup web-app</td><td></td>
+        </tr>
+		<tr>
+            <td>10239</td><td>This order will affect one or more accounts that are flagged because they do not fit the required risk score criteria prescribed by the group/profile/model allocation.</td><td></td>
+        </tr>
+		<tr>
+            <td>10240</td><td>You must enter a valid Price Cap.</td><td></td>
+        </tr>
+		<tr>
+            <td>10241</td><td>Order Quantity is expressed in monetary terms. Modification is not supported via API. Please use desktop version to revise this order.</td><td></td>
+        </tr>
+		<tr>
+            <td>10242</td><td>Fractional-sized order cannot be modified via API. Please use desktop version to revise this order.</td><td></td>
+        </tr>
+		<tr>
+            <td>10243</td><td>Fractional-sized order cannot be placed via API. Please use desktop version to place this order.</td><td></td>
+        </tr>
+		<tr>
+            <td>10244</td><td>Cash Quantity cannot be used for this order</td><td></td>
+        </tr>
+		<tr>
+            <td>10245</td><td>This financial instrument does not support fractional shares trading</td><td></td>
+        </tr>
+		<tr>
+            <td>10246</td><td>This order doesn't support fractional shares trading</td><td></td>
+        </tr>
+		<tr>
+            <td>10247</td><td>Only IB SmartRouting supports fractional shares</td><td></td>
+        </tr>
+		<tr>
+            <td>10248</td><td><Account> doesn't have permission to trade fractional shares</td><td></td>
+        </tr>
+		<tr>
+            <td>10249</td><td><Order type> order doesn't support fractional shares</td><td></td>
+        </tr>
+		<tr>
+            <td>10250</td><td>The size does not conform to the minimum variation of for this contract</td><td></td>
+        </tr>
+		<tr>
+            <td>10251</td><td>Fractional shares are not supported for allocation orders</td><td></td>
+        </tr>
+		<tr>
+            <td>10252</td><td>This non-close-position order doesn't support fractional shares trading</td><td></td>
+        </tr>
+		<tr>
+            <td>10253</td><td>Clear Away orders are not supported for multi-leg combo with attached hedge.</td><td></td>
+        </tr>
+		<tr>
+            <td>10254</td><td>Invalid Order: bond expired</td><td></td>
         </tr>
 		
 	</table>
