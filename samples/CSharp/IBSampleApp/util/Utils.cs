@@ -2,9 +2,7 @@
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+
 using IBApi;
 
 namespace IBSampleApp.util
@@ -13,7 +11,7 @@ namespace IBSampleApp.util
     {
         public static string UnixMillisecondsToString(long milliseconds, string dateFormat)
         {
-            return String.Format("{0:" + dateFormat + "}", DateTime.SpecifyKind(new DateTime(1970, 1, 1), DateTimeKind.Utc).AddMilliseconds(milliseconds));
+            return string.Format("{0:" + dateFormat + "}", DateTime.SpecifyKind(new DateTime(1970, 1, 1), DateTimeKind.Utc).AddMilliseconds(milliseconds));
         }
 
         public static string ContractToString(Contract contract)

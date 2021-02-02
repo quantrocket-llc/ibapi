@@ -21,11 +21,12 @@ class ScanData(Object):
         return "Rank: %d, Symbol: %s, SecType: %s, Currency: %s, Distance: %s, Benchmark: %s, Projection: %s, Legs String: %s" % (self.rank, 
             self.contract.symbol, self.contract.secType, self.contract.currency, self.distance,
             self.benchmark, self.projection, self.legsStr)
- 
+
+
 NO_ROW_NUMBER_SPECIFIED = -1
 
-class ScannerSubscription(Object):
 
+class ScannerSubscription(Object):
     def __init__(self):
         self.numberOfRows = NO_ROW_NUMBER_SPECIFIED
         self.instrument = ""
@@ -49,9 +50,7 @@ class ScannerSubscription(Object):
         self.scannerSettingPairs =  ""
         self.stockTypeFilter =  ""
 
-
     def __str__(self):
         s = "Instrument: %s, LocationCode: %s, ScanCode: %s" % (self.instrument, self.locationCode, self.scanCode)
-
         return s
 

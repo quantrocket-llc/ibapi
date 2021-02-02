@@ -1,20 +1,16 @@
 ﻿/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+
 using System.Windows.Forms;
 using IBApi;
 using IBSampleApp.messages;
-using IBSampleApp.util;
 
 namespace IBSampleApp.ui
 {
     class SymbolSamplesManager : DataManager
     {
-        protected bool active = false;
-        int activeReqId = 0;
+        protected bool active;
+        int activeReqId;
 
         public SymbolSamplesManager(IBClient client, DataGridView dataGrid) : base(client, dataGrid) {}
 

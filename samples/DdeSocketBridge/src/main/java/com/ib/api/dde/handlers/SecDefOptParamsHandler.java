@@ -36,9 +36,10 @@ public class SecDefOptParamsHandler extends BaseListDataHandler<SecDefOptParamsD
         System.out.println("Sending sec def opt params request: id=" + request.requestId() + " underlyingSymbol=" + request.underlyingSymbol() + 
                 " futFopExchange=" + request.futFopExchange() + " underlyingSecType=" + request.underlyingSecType() + 
                 " underlyingConId=" + request.underlyingConId());
+        byte[] ret = handleBaseRequest(request);
         clientSocket().reqSecDefOptParams(request.requestId(), request.underlyingSymbol(), request.futFopExchange(), 
                 request.underlyingSecType(), request.underlyingConId());
-        return handleBaseRequest(request);
+        return ret;
     }
 
     /** Method handles security definition option parameters cancel request */

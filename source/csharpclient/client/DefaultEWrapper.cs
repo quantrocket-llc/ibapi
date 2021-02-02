@@ -2,8 +2,6 @@
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace IBApi
 {
@@ -60,7 +58,7 @@ namespace IBApi
         {
         }
 
-        public virtual void tickOptionComputation(int tickerId, int field, double impliedVolatility, double delta, double optPrice, double pvDividend, double gamma, double vega, double theta, double undPrice)
+        public virtual void tickOptionComputation(int tickerId, int field, int tickAttrib, double impliedVolatility, double delta, double optPrice, double pvDividend, double gamma, double vega, double theta, double undPrice)
         {
         }
 
@@ -362,6 +360,10 @@ namespace IBApi
         }
 
         public virtual void completedOrdersEnd()
+        {
+        }
+
+        public virtual void replaceFAEnd(int reqId, string text)
         {
         }
     }

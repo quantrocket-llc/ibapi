@@ -47,8 +47,9 @@ public class Testbed {
 		//tickByTickOperations(wrapper.getClient());
 		//tickDataOperations(wrapper.getClient());
 		//tickOptionComputations(wrapper.getClient());
+		//optionsOperations(wrapper.getClient());
 		//orderOperations(wrapper.getClient(), wrapper.getCurrentOrderId());
-		contractOperations(wrapper.getClient());
+		//contractOperations(wrapper.getClient());
 		//hedgeSample(wrapper.getClient(), wrapper.getCurrentOrderId());
 		//testAlgoSamples(wrapper.getClient(), wrapper.getCurrentOrderId());
 		//bracketSample(wrapper.getClient(), wrapper.getCurrentOrderId());
@@ -69,6 +70,7 @@ public class Testbed {
 		//histogram(wrapper.getClient());
 		//whatIfSamples(wrapper.getClient(), wrapper.getCurrentOrderId());
 		//historicalTicks(wrapper.getClient());
+		financialAdvisorOperations(wrapper.getClient());
 
 		Thread.sleep(100000);
 		m_client.eDisconnect();
@@ -252,8 +254,8 @@ public class Testbed {
 		*/
 		
 		//! [reqmktdata_genticks]
-		//Requesting RTVolume (Time & Sales), shortable and Fundamental Ratios generic ticks
-		client.reqMktData(1004, ContractSamples.USStockAtSmart(), "233,236,258", false, false, null);
+		//Requesting RTVolume (Time & Sales) and shortable generic ticks
+		client.reqMktData(1004, ContractSamples.USStockAtSmart(), "233,236", false, false, null);
 		//! [reqmktdata_genticks]
 		//! [reqmktdata_contractnews]
 		// Without the API news subscription this will generate an "invalid tick type" error
@@ -266,7 +268,6 @@ public class Testbed {
 		client.reqMktData(1009, ContractSamples.BTbroadtapeNewsFeed(), "mdoff,292", false, false, null);
 		client.reqMktData(1010, ContractSamples.BZbroadtapeNewsFeed(), "mdoff,292", false, false, null);
 		client.reqMktData(1011, ContractSamples.FLYbroadtapeNewsFeed(), "mdoff,292", false, false, null);
-		client.reqMktData(1012, ContractSamples.MTbroadtapeNewsFeed(), "mdoff,292", false, false, null);
 		//! [reqmktdata_broadtapenews]
 		//! [reqoptiondatagenticks]
         //Requesting data for an option contract will return the greek values
@@ -287,6 +288,10 @@ public class Testbed {
         client.reqMktData(1016, ContractSamples.USStockAtSmart(), "mdoff,105", false, false, null);
         //! [reqavgoptvolume]
         
+        //! [reqetfticks]
+        client.reqMktData(1017, ContractSamples.etf(), "mdoff,576,577,578,614,623", false, false, null);
+        //! [reqetfticks]
+        
 		Thread.sleep(10000);
 		//! [cancelmktdata]
 		client.cancelMktData(1001);
@@ -295,6 +300,7 @@ public class Testbed {
 		client.cancelMktData(1014);
 		client.cancelMktData(1015);
 		client.cancelMktData(1016);
+		client.cancelMktData(1017);
 		//! [cancelmktdata]
 		
 	}
@@ -302,8 +308,10 @@ public class Testbed {
 	private static void tickOptionComputations(EClientSocket client) throws InterruptedException {
 		
 		/*** Requesting real time market data ***/
+		client.reqMarketDataType(4);
+		
 		//! [reqmktdata]
-		client.reqMktData(2001, ContractSamples.FuturesOnOptions(), "", false, false, null);
+		client.reqMktData(2001, ContractSamples.OptionWithLocalSymbol(), "", false, false, null);
 		//! [reqmktdata]
 		
 		Thread.sleep(10000);
@@ -772,24 +780,24 @@ public class Testbed {
 		
 		/*** Replacing FA information - Fill in with the appropriate XML string. ***/
 		//! [replacefaonegroup]
-		client.replaceFA(FADataType.GROUPS.ordinal(), FAMethodSamples.FA_ONE_GROUP);
+		client.replaceFA(1000, FADataType.GROUPS.ordinal(), FAMethodSamples.FA_ONE_GROUP);
 		//! [replacefaonegroup]
 		
 		//! [replacefatwogroups]
-		client.replaceFA(FADataType.GROUPS.ordinal(), FAMethodSamples.FA_TWO_GROUPS);
+		client.replaceFA(1001, FADataType.GROUPS.ordinal(), FAMethodSamples.FA_TWO_GROUPS);
 		//! [replacefatwogroups]
 		
 		//! [replacefaoneprofile]
-		client.replaceFA(FADataType.PROFILES.ordinal(), FAMethodSamples.FA_ONE_PROFILE);
+		client.replaceFA(1002, FADataType.PROFILES.ordinal(), FAMethodSamples.FA_ONE_PROFILE);
 		//! [replacefaoneprofile]
 		
 		//! [replacefatwoprofiles]
-		client.replaceFA(FADataType.PROFILES.ordinal(), FAMethodSamples.FA_TWO_PROFILES);
+		client.replaceFA(1003, FADataType.PROFILES.ordinal(), FAMethodSamples.FA_TWO_PROFILES);
 		//! [replacefatwoprofiles]
 		
-                //! [reqSoftDollarTiers]
-                client.reqSoftDollarTiers(4001);
-                //! [reqSoftDollarTiers]
+        //! [reqSoftDollarTiers]
+        client.reqSoftDollarTiers(4001);
+        //! [reqSoftDollarTiers]
 	}
 	
 	private static void testDisplayGroups(EClientSocket client) throws InterruptedException {
@@ -834,14 +842,14 @@ public class Testbed {
 		//! [reqsecdefoptparams]
 		
 		//! [calculateimpliedvolatility]
-		client.calculateImpliedVolatility(5001, ContractSamples.OptionAtBOX(), 5, 85, null);
+		client.calculateImpliedVolatility(5001, ContractSamples.OptionWithLocalSymbol(), 0.6, 55, null);
 		//! [calculateimpliedvolatility]
 		
 		//** Canceling implied volatility ***
 		client.cancelCalculateImpliedVolatility(5001);
 		
 		//! [calculateoptionprice]
-		client.calculateOptionPrice(5002, ContractSamples.OptionAtBOX(), 0.22, 85, null);
+		client.calculateOptionPrice(5002, ContractSamples.OptionWithLocalSymbol(), 0.5, 55, null);
 		//! [calculateoptionprice]
 		
 		//** Canceling option's price calculation ***

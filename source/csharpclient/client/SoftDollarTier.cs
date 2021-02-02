@@ -1,11 +1,6 @@
 ﻿/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 namespace IBApi
 {
     /**
@@ -31,9 +26,9 @@ namespace IBApi
 
         public SoftDollarTier(string name, string value, string displayName)
         {
-            this.Name = name;
-            this.Value = value;
-            this.DisplayName = displayName;
+            Name = name;
+            Value = value;
+            DisplayName = displayName;
         }
 
         public SoftDollarTier()
@@ -45,7 +40,7 @@ namespace IBApi
         {
             SoftDollarTier b = obj as SoftDollarTier;
 
-            if (object.Equals(b, null))
+            if (Equals(b, null))
                 return false;
 
             return string.Compare(Name, b.Name, true) == 0 && string.Compare(Value, b.Value, true) == 0;
@@ -53,7 +48,7 @@ namespace IBApi
 
         public override int GetHashCode()
         {
-            return Name.GetHashCode() + Value.GetHashCode();
+            return (Name ?? "").GetHashCode() + (Value ?? "").GetHashCode();
         }
 
         public static bool operator ==(SoftDollarTier left, SoftDollarTier right)
@@ -68,7 +63,7 @@ namespace IBApi
 
         public override string ToString()
         {
-            return this.DisplayName;
+            return DisplayName;
         }
     }
 }

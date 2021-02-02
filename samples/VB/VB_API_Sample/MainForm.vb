@@ -2245,6 +2245,7 @@ Friend Class MainForm
     '--------------------------------------------------------------------------------
     Private Sub Api_tickOptionComputation(sender As Object, e As TickOptionComputationEventArgs) Handles m_apiEvents.TickOptionComputation
         Dim mktDataStr = "id = " & e.tickerId & " " & m_utils.getField(e.tickType) &
+            " tickAttrib = " & e.tickAttrib &
             " impliedVolatility = " & Utils.DoubleMaxToString(e.impliedVolatility) &
             " delta = " & Utils.DoubleMaxToString(e.delta) &
             " gamma = " & Utils.DoubleMaxToString(e.gamma) &
@@ -2671,9 +2672,9 @@ Friend Class MainForm
             m_dlgFinancialAdvisor.init(m_utils, m_faGroupXML, m_faProfilesXML, m_faAliasesXML)
             m_dlgFinancialAdvisor.ShowDialog()
             If m_dlgFinancialAdvisor.ok Then
-                m_api.replaceFA(Utils.FaMessageType.Groups, m_dlgFinancialAdvisor.groupsXML)
-                m_api.replaceFA(Utils.FaMessageType.Profiles, m_dlgFinancialAdvisor.profilesXML)
-                m_api.replaceFA(Utils.FaMessageType.Aliases, m_dlgFinancialAdvisor.aliasesXML)
+                m_api.replaceFA(0, Utils.FaMessageType.Groups, m_dlgFinancialAdvisor.groupsXML)
+                m_api.replaceFA(1, Utils.FaMessageType.Profiles, m_dlgFinancialAdvisor.profilesXML)
+                m_api.replaceFA(2, Utils.FaMessageType.Aliases, m_dlgFinancialAdvisor.aliasesXML)
             End If
 
         End If
@@ -3211,6 +3212,16 @@ Friend Class MainForm
         ' move into view
         lstServerResponses.TopIndex = offset
 
+    End Sub
+
+    '--------------------------------------------------------------------------------
+    ' Replace FA End
+    '--------------------------------------------------------------------------------
+    Private Sub Api_replaceFAEnd(sender As Object, e As ReplaceFAEndEventArgs) Handles m_apiEvents.ReplaceFAEnd
+        m_utils.addListItem(Utils.ListType.ServerResponses, "=== Replace FA End ===, reqId=" & e.reqId & ", text=" & e.text)
+
+        ' move into view
+        lstServerResponses.TopIndex = lstServerResponses.Items.Count - 1
     End Sub
 
 #End Region

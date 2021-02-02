@@ -72,6 +72,8 @@
 	\subsection uploading_logs Uploading logs
 	
 	- If API logging has been enabled with the setting "Create API Message Log" during the time when an issue occurs, it can be uploaded to the API group using the combination <b>Ctrl-Alt-Q</b>, then clicking <b>Submit</b>. If logs have been uploaded, please let the API Support group know by <b>creating a webticket</b> in the Message Center in Account Management (under Support) indicating the <b>username</b> of the associated TWS session. In some cases a TWS log may also be requested at the Detailed logging level. The TWS log can grow quite large and may not be uploadable by the automatic method; in this case an alternative means of upload can be found. 
+    
+    \subpage automated_considerations
 	
 	<br><br>
 

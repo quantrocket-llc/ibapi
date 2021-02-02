@@ -1,9 +1,8 @@
 ﻿/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
-using System;
+
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+
 using IBSampleApp.messages;
 using System.Windows.Forms;
 using IBSampleApp.util;
@@ -20,17 +19,10 @@ namespace IBSampleApp.ui
              +"GrossPositionValue,ReqTEquity,ReqTMargin,SMA,InitMarginReq,MaintMarginReq,AvailableFunds,ExcessLiquidity,Cushion,FullInitMarginReq,FullMaintMarginReq,FullAvailableFunds,"
              +"FullExcessLiquidity,LookAheadNextChange,LookAheadInitMarginReq ,LookAheadMaintMarginReq,LookAheadAvailableFunds,LookAheadExcessLiquidity,HighestSeverity,DayTradesRemaining,Leverage";
 
-        private IBClient ibClient;
         private List<string> managedAccounts;
-        private ComboBox accountSelector;
-        private DataGridView accountSummaryGrid;
-        private DataGridView accountValueGrid;
-        private DataGridView accountPortfolioGrid;
-        private DataGridView positionsGrid;
-        private DataGridView familyCodesGrid;
 
-        private bool accountSummaryRequestActive = false;
-        private bool accountUpdateRequestActive = false;
+        private bool accountSummaryRequestActive;
+        private bool accountUpdateRequestActive;
         private string currentAccountSubscribedToTupdate;
 
         public AccountManager(IBClient ibClient, ComboBox accountSelector, DataGridView accountSummaryGrid, DataGridView accountValueGrid,
@@ -52,94 +44,94 @@ namespace IBSampleApp.ui
 
         public void HandleAccountSummary(AccountSummaryMessage summaryMessage)
         {
-            for (int i = 0; i < accountSummaryGrid.Rows.Count; i++)
+            for (int i = 0; i < AccountSummaryGrid.Rows.Count; i++)
             {
-                if (accountSummaryGrid[0, i].Value.Equals(summaryMessage.Tag) && accountSummaryGrid[3, i].Value.Equals(summaryMessage.Account))
+                if (AccountSummaryGrid[0, i].Value.Equals(summaryMessage.Tag) && AccountSummaryGrid[3, i].Value.Equals(summaryMessage.Account))
                 {
-                    accountSummaryGrid[1, i].Value = summaryMessage.Value;
-                    accountSummaryGrid[2, i].Value = summaryMessage.Currency;
+                    AccountSummaryGrid[1, i].Value = summaryMessage.Value;
+                    AccountSummaryGrid[2, i].Value = summaryMessage.Currency;
                     return;
                 }
             }
-            accountSummaryGrid.Rows.Add(1);
-            accountSummaryGrid[0, accountSummaryGrid.Rows.Count-1].Value = summaryMessage.Tag;
-            accountSummaryGrid[1, accountSummaryGrid.Rows.Count - 1].Value = summaryMessage.Value;
-            accountSummaryGrid[2, accountSummaryGrid.Rows.Count - 1].Value = summaryMessage.Currency;
-            accountSummaryGrid[3, accountSummaryGrid.Rows.Count - 1].Value = summaryMessage.Account;
+            AccountSummaryGrid.Rows.Add(1);
+            AccountSummaryGrid[0, AccountSummaryGrid.Rows.Count-1].Value = summaryMessage.Tag;
+            AccountSummaryGrid[1, AccountSummaryGrid.Rows.Count - 1].Value = summaryMessage.Value;
+            AccountSummaryGrid[2, AccountSummaryGrid.Rows.Count - 1].Value = summaryMessage.Currency;
+            AccountSummaryGrid[3, AccountSummaryGrid.Rows.Count - 1].Value = summaryMessage.Account;
         }
 
         public void HandleAccountValue(AccountValueMessage accountValueMessage)
         {
-            for (int i = 0; i < accountValueGrid.Rows.Count; i++)
+            for (int i = 0; i < AccountValueGrid.Rows.Count; i++)
             {
-                if (accountValueGrid[0, i].Value.Equals(accountValueMessage.Key))
+                if (AccountValueGrid[0, i].Value.Equals(accountValueMessage.Key))
                 {
-                    accountValueGrid[1, i].Value = accountValueMessage.Value;
-                    accountValueGrid[2, i].Value = accountValueMessage.Currency;
+                    AccountValueGrid[1, i].Value = accountValueMessage.Value;
+                    AccountValueGrid[2, i].Value = accountValueMessage.Currency;
                     return;
                 }
             }
-            accountValueGrid.Rows.Add(1);
-            accountValueGrid[0, accountValueGrid.Rows.Count - 1].Value = accountValueMessage.Key;
-            accountValueGrid[1, accountValueGrid.Rows.Count - 1].Value = accountValueMessage.Value;
-            accountValueGrid[2, accountValueGrid.Rows.Count - 1].Value = accountValueMessage.Currency;
+            AccountValueGrid.Rows.Add(1);
+            AccountValueGrid[0, AccountValueGrid.Rows.Count - 1].Value = accountValueMessage.Key;
+            AccountValueGrid[1, AccountValueGrid.Rows.Count - 1].Value = accountValueMessage.Value;
+            AccountValueGrid[2, AccountValueGrid.Rows.Count - 1].Value = accountValueMessage.Currency;
         }
 
         public void HandlePortfolioValue(UpdatePortfolioMessage updatePortfolioMessage)
         {
             
-            for (int i = 0; i < accountPortfolioGrid.Rows.Count; i++)
+            for (int i = 0; i < AccountPortfolioGrid.Rows.Count; i++)
             {
-                if (accountPortfolioGrid[0, i].Value.Equals(Utils.ContractToString(updatePortfolioMessage.Contract)))
+                if (AccountPortfolioGrid[0, i].Value.Equals(Utils.ContractToString(updatePortfolioMessage.Contract)))
                 {
-                    accountPortfolioGrid[1, i].Value = updatePortfolioMessage.Position;
-                    accountPortfolioGrid[2, i].Value = updatePortfolioMessage.MarketPrice;
-                    accountPortfolioGrid[3, i].Value = updatePortfolioMessage.MarketValue;
-                    accountPortfolioGrid[4, i].Value = updatePortfolioMessage.AverageCost;
-                    accountPortfolioGrid[5, i].Value = updatePortfolioMessage.UnrealizedPNL;
-                    accountPortfolioGrid[6, i].Value = updatePortfolioMessage.RealizedPNL;
+                    AccountPortfolioGrid[1, i].Value = updatePortfolioMessage.Position;
+                    AccountPortfolioGrid[2, i].Value = updatePortfolioMessage.MarketPrice;
+                    AccountPortfolioGrid[3, i].Value = updatePortfolioMessage.MarketValue;
+                    AccountPortfolioGrid[4, i].Value = updatePortfolioMessage.AverageCost;
+                    AccountPortfolioGrid[5, i].Value = updatePortfolioMessage.UnrealizedPNL;
+                    AccountPortfolioGrid[6, i].Value = updatePortfolioMessage.RealizedPNL;
                     return;
                 }
             }
             
-            accountPortfolioGrid.Rows.Add(1);
-            accountPortfolioGrid[0, accountPortfolioGrid.Rows.Count - 1].Value = Utils.ContractToString(updatePortfolioMessage.Contract); ;
-            accountPortfolioGrid[1, accountPortfolioGrid.Rows.Count - 1].Value = updatePortfolioMessage.Position;
-            accountPortfolioGrid[2, accountPortfolioGrid.Rows.Count - 1].Value = updatePortfolioMessage.MarketPrice;
-            accountPortfolioGrid[3, accountPortfolioGrid.Rows.Count - 1].Value = updatePortfolioMessage.MarketValue;
-            accountPortfolioGrid[4, accountPortfolioGrid.Rows.Count - 1].Value = updatePortfolioMessage.AverageCost;
-            accountPortfolioGrid[5, accountPortfolioGrid.Rows.Count - 1].Value = updatePortfolioMessage.UnrealizedPNL;
-            accountPortfolioGrid[6, accountPortfolioGrid.Rows.Count - 1].Value = updatePortfolioMessage.RealizedPNL;
+            AccountPortfolioGrid.Rows.Add(1);
+            AccountPortfolioGrid[0, AccountPortfolioGrid.Rows.Count - 1].Value = Utils.ContractToString(updatePortfolioMessage.Contract); ;
+            AccountPortfolioGrid[1, AccountPortfolioGrid.Rows.Count - 1].Value = updatePortfolioMessage.Position;
+            AccountPortfolioGrid[2, AccountPortfolioGrid.Rows.Count - 1].Value = updatePortfolioMessage.MarketPrice;
+            AccountPortfolioGrid[3, AccountPortfolioGrid.Rows.Count - 1].Value = updatePortfolioMessage.MarketValue;
+            AccountPortfolioGrid[4, AccountPortfolioGrid.Rows.Count - 1].Value = updatePortfolioMessage.AverageCost;
+            AccountPortfolioGrid[5, AccountPortfolioGrid.Rows.Count - 1].Value = updatePortfolioMessage.UnrealizedPNL;
+            AccountPortfolioGrid[6, AccountPortfolioGrid.Rows.Count - 1].Value = updatePortfolioMessage.RealizedPNL;
         }
 
         public void HandlePosition(PositionMessage positionMessage)
         {
-            for (int i = 0; i < positionsGrid.Rows.Count; i++)
+            for (int i = 0; i < PositionsGrid.Rows.Count; i++)
             {
-                if (positionsGrid[0, i].Value.Equals(Utils.ContractToString(positionMessage.Contract)))
+                if (PositionsGrid[0, i].Value.Equals(Utils.ContractToString(positionMessage.Contract)))
                 {
-                    positionsGrid[1, i].Value = positionMessage.Account;
-                    positionsGrid[2, i].Value = positionMessage.Position;
-                    positionsGrid[3, i].Value = positionMessage.AverageCost;
+                    PositionsGrid[1, i].Value = positionMessage.Account;
+                    PositionsGrid[2, i].Value = positionMessage.Position;
+                    PositionsGrid[3, i].Value = positionMessage.AverageCost;
                     return;
                 }
             }
 
-            positionsGrid.Rows.Add(1);
-            positionsGrid[0, positionsGrid.Rows.Count - 1].Value = Utils.ContractToString(positionMessage.Contract);
-            positionsGrid[1, positionsGrid.Rows.Count - 1].Value = positionMessage.Account;
-            positionsGrid[2, positionsGrid.Rows.Count - 1].Value = positionMessage.Position;
-            positionsGrid[3, positionsGrid.Rows.Count - 1].Value = positionMessage.AverageCost;
+            PositionsGrid.Rows.Add(1);
+            PositionsGrid[0, PositionsGrid.Rows.Count - 1].Value = Utils.ContractToString(positionMessage.Contract);
+            PositionsGrid[1, PositionsGrid.Rows.Count - 1].Value = positionMessage.Account;
+            PositionsGrid[2, PositionsGrid.Rows.Count - 1].Value = positionMessage.Position;
+            PositionsGrid[3, PositionsGrid.Rows.Count - 1].Value = positionMessage.AverageCost;
         }
 
         public void HandleFamilyCodes(FamilyCodesMessage familyCodesMessage)
         {
-            familyCodesGrid.Rows.Clear();
+            FamilyCodesGrid.Rows.Clear();
             for (int i = 0; i < familyCodesMessage.FamilyCodes.Length; i++)
             {
-                familyCodesGrid.Rows.Add(1);
-                familyCodesGrid[0, familyCodesGrid.Rows.Count - 1].Value = familyCodesMessage.FamilyCodes[i].AccountID;
-                familyCodesGrid[1, familyCodesGrid.Rows.Count - 1].Value = familyCodesMessage.FamilyCodes[i].FamilyCodeStr;
+                FamilyCodesGrid.Rows.Add(1);
+                FamilyCodesGrid[0, FamilyCodesGrid.Rows.Count - 1].Value = familyCodesMessage.FamilyCodes[i].AccountID;
+                FamilyCodesGrid[1, FamilyCodesGrid.Rows.Count - 1].Value = familyCodesMessage.FamilyCodes[i].FamilyCodeStr;
             }
         }
 
@@ -148,28 +140,28 @@ namespace IBSampleApp.ui
             if (!accountSummaryRequestActive)
             {
                 accountSummaryRequestActive = true;
-                accountSummaryGrid.Rows.Clear();
-                ibClient.ClientSocket.reqAccountSummary(ACCOUNT_SUMMARY_ID, "All", ACCOUNT_SUMMARY_TAGS);
+                AccountSummaryGrid.Rows.Clear();
+                IbClient.ClientSocket.reqAccountSummary(ACCOUNT_SUMMARY_ID, "All", ACCOUNT_SUMMARY_TAGS);
             }
             else
             {
-                ibClient.ClientSocket.cancelAccountSummary(ACCOUNT_SUMMARY_ID);
+                IbClient.ClientSocket.cancelAccountSummary(ACCOUNT_SUMMARY_ID);
             }
         }
 
         public void SubscribeAccountUpdates()
         {
-            if (!accountUpdateRequestActive)
+            if (!accountUpdateRequestActive && AccountSelector.SelectedItem != null)
             {
-                currentAccountSubscribedToTupdate = accountSelector.SelectedItem.ToString();
+                currentAccountSubscribedToTupdate = AccountSelector.SelectedItem.ToString();
                 accountUpdateRequestActive = true;
-                accountValueGrid.Rows.Clear();
-                accountPortfolioGrid.Rows.Clear();
-                ibClient.ClientSocket.reqAccountUpdates(true, currentAccountSubscribedToTupdate);
+                AccountValueGrid.Rows.Clear();
+                AccountPortfolioGrid.Rows.Clear();
+                IbClient.ClientSocket.reqAccountUpdates(true, currentAccountSubscribedToTupdate);
             }
             else
             {
-                ibClient.ClientSocket.reqAccountUpdates(false, currentAccountSubscribedToTupdate);
+                IbClient.ClientSocket.reqAccountUpdates(false, currentAccountSubscribedToTupdate);
                 currentAccountSubscribedToTupdate = null;
                 accountUpdateRequestActive = false;
             }
@@ -177,17 +169,17 @@ namespace IBSampleApp.ui
 
         public void RequestPositions()
         {
-            ibClient.ClientSocket.reqPositions();
+            IbClient.ClientSocket.reqPositions();
         }
 
         public void RequestFamilyCodes()
         {
-            ibClient.ClientSocket.reqFamilyCodes();
+            IbClient.ClientSocket.reqFamilyCodes();
         }
 
         public void ClearFamilyCodes()
         {
-            familyCodesGrid.Rows.Clear();
+            FamilyCodesGrid.Rows.Clear();
         }
 
         public List<string> ManagedAccounts
@@ -206,46 +198,18 @@ namespace IBSampleApp.ui
             AccountSelector.SelectedIndex = 0;
         }
 
-        public ComboBox AccountSelector
-        {
-            get { return accountSelector; }
-            set { accountSelector = value; }
-        }
+        public ComboBox AccountSelector { get; set; }
 
-        public DataGridView AccountSummaryGrid
-        {
-            get { return accountSummaryGrid; }
-            set { accountSummaryGrid = value; }
-        }
+        public DataGridView AccountSummaryGrid { get; set; }
 
-        public DataGridView AccountValueGrid
-        {
-            get { return accountValueGrid; }
-            set { accountValueGrid = value; }
-        }
+        public DataGridView AccountValueGrid { get; set; }
 
-        public DataGridView AccountPortfolioGrid
-        {
-            get { return accountPortfolioGrid; }
-            set { accountPortfolioGrid = value; }
-        }
+        public DataGridView AccountPortfolioGrid { get; set; }
 
-        public DataGridView PositionsGrid
-        {
-            get { return positionsGrid; }
-            set { positionsGrid = value; }
-        }
+        public DataGridView PositionsGrid { get; set; }
 
-        public DataGridView FamilyCodesGrid
-        {
-            get { return familyCodesGrid; }
-            set { familyCodesGrid = value; }
-        }
+        public DataGridView FamilyCodesGrid { get; set; }
 
-        public IBClient IbClient
-        {
-            get { return ibClient; }
-            set { ibClient = value; }
-        }
+        public IBClient IbClient { get; set; }
     }
 }

@@ -20,6 +20,7 @@ public:
 	static Contract EuropeanStock();
 	static Contract OptionAtIse();
 	static Contract USStock();
+	static Contract etf();
 	static Contract USStockAtSmart();
 	static Contract IBMUSStockAtSmart();
 	static Contract USStockWithPrimaryExch();

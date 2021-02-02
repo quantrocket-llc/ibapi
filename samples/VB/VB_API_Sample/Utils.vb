@@ -96,6 +96,16 @@ Friend Class Utils
         AvgOptVolume
         DelayedLastTimestamp
         ShortableShares
+        DelayedHalted
+        Reuters2MutualFunds
+        EtfNavClose
+        EtfNavPriorClose
+        EtfNavBid
+        EtfNavAsk
+        EtfNavLast
+        EtfFrozenNavLast
+        EtfNavHigh
+        EtfNavLow
         Unknown
     End Enum
 

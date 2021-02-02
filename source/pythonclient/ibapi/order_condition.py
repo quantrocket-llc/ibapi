@@ -13,7 +13,6 @@ from ibapi.utils import decode
 #TODO: add support for Rebate, P/L, ShortableShares conditions 
 
 
- 
 class OrderCondition(Object):
     Price = 1
     Time = 3
@@ -42,16 +41,13 @@ class OrderCondition(Object):
         self.isConjunctionConnection = connector == "a"
 
     def make_fields(self):
-        flds = []
-        flds.append(comm.make_field("a" if self.isConjunctionConnection else "o"))
-        return flds
+        return [comm.make_field("a" if self.isConjunctionConnection else "o")]
  
     def __str__(self):
         return "<AND>" if self.isConjunctionConnection else "<OR>"
 
 
 class ExecutionCondition(OrderCondition):
-
     def __init__(self, secType=None, exch=None, symbol=None):
         OrderCondition.__init__(self, OrderCondition.Execution)
         self.secType = secType
@@ -277,6 +273,3 @@ def Create(condType):
         cond = VolumeCondition()
 
     return cond
-
-
-

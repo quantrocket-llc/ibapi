@@ -43,21 +43,21 @@ public class TickByTickDataHandler extends MarketDataBaseHandler {
     public byte[] handleTickByTickDataRequest(String requestStr, byte[] data) {
         TickByTickRequest request = m_requestParser.parseTickByTickRequest(requestStr, data);
         System.out.println("Sending tick-by-tick data request: id=" + request.requestId() + " for contract=" + Utils.shortContractString(request.contract()) + " tickType=" + request.tickType());
+        byte[] ret = handleMarketDataBaseRequest(request); 
         clientSocket().reqTickByTickData(request.requestId(), request.contract(), request.tickType(), 0, request.ignoreSize());
-        return handleMarketDataBaseRequest(request);
+        return ret;
     }
     
     /** Method sends tick-by-tick request to TWS */
     public byte[] handleTickByTickDataRequestExt(String requestStr, byte[] data) {
         TickByTickRequest request = m_requestParser.parseTickByTickRequestExt(requestStr, data);
         System.out.println("Sending tick-by-tick data request: id=" + request.requestId() + " for contract=" + Utils.shortContractString(request.contract()));
-        clientSocket().reqTickByTickData(request.requestId(), request.contract(), request.tickType(), 0, request.ignoreSize());
-        clientSocket().reqTickByTickData(request.requestId() + 50000, request.contract(), TickByTickData.BID_ASK, 0, request.ignoreSize());
-        
         TickByTickDataMap dataMap = new TickByTickDataMap(request);
         dataMap.numberOfRows(request.numberOfRows());
         m_tickByTickDataRequests.put(request.requestId(), dataMap);
         updateTickByTickDataStatus(request.requestId(), dataMap, DdeRequestStatus.REQUESTED);
+        clientSocket().reqTickByTickData(request.requestId(), request.contract(), request.tickType(), 0, request.ignoreSize());
+        clientSocket().reqTickByTickData(request.requestId() + 50000, request.contract(), TickByTickData.BID_ASK, 0, request.ignoreSize());
         return null;
     }
 

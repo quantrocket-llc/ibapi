@@ -15,6 +15,7 @@ from ibapi.softdollartier import SoftDollarTier
 
 logger = logging.getLogger(__name__)
 
+
 class OrderDecoder(Object):
     def __init__(self, contract, order, orderState, version, serverVersion):
         self.contract = contract
@@ -22,7 +23,6 @@ class OrderDecoder(Object):
         self.orderState = orderState
         self.version = version
         self.serverVersion = serverVersion
-        self.discoverParams()
 
     def decodeOrderId(self, fields):
         self.order.orderId = decode(int, fields)

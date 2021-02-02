@@ -1,9 +1,7 @@
 ﻿/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
-using System;
+
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using IBApi;
 using IBSampleApp.messages;
@@ -38,7 +36,7 @@ namespace IBSampleApp.ui
         private const int PRE_OPEN_BID = 4;
         private const int PRE_OPEN_ASK = 5;
 
-        private bool active = false;
+        private bool active;
 
         private List<Contract> activeRequests = new List<Contract>();
 

@@ -1,12 +1,6 @@
 ﻿/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-
 namespace IBApi
 {
     /**
@@ -16,28 +10,22 @@ namespace IBApi
      */
     public class OrderComboLeg
     {
-        double price;
-
         /**
          * @brief The order's leg's price
          */
-        public double Price
-        {
-            get { return price; }
-            set { price = value; }
-        }
+        public double Price { get; set; }
 
         public OrderComboLeg()
         {
-            price = Double.MaxValue;
+            Price = double.MaxValue;
         }
 
         public OrderComboLeg(double p_price)
         {
-            price = p_price;
+            Price = p_price;
         }
 
-        public override bool Equals(Object other)
+        public override bool Equals(object other)
         {
             OrderComboLeg theOther = other as OrderComboLeg;
             if (theOther == null)
@@ -50,7 +38,7 @@ namespace IBApi
                 return true;
             }
 
-            return price == theOther.Price;
+            return Price == theOther.Price;
         }
 
         public override int GetHashCode()

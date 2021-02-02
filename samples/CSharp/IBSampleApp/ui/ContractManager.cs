@@ -1,35 +1,21 @@
 ﻿/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
-using System;
+
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using IBApi;
 using IBSampleApp.messages;
-using IBSampleApp.types;
 
 namespace IBSampleApp.ui
 {
     class ContractManager
     {
-        private IBClient ibClient;
-        private TextBox fundamentals;
-        private DataGridView contractDetailsGrid;
-        private DataGridView bondContractDetailsGrid;
-        private ComboContractResults comboContractResults;
-        private ComboBox comboBoxMarketRuleId;
-        private DataGridView dataGridViewMarketRule;
-        private Label labelMarketRuleIdRes;
-
         public const int CONTRACT_ID_BASE = 60000000;
         public const int CONTRACT_DETAILS_ID = CONTRACT_ID_BASE + 1;
         public const int FUNDAMENTALS_ID = CONTRACT_ID_BASE + 2;
 
-        private bool isComboLegRequest = false;
-
-        private bool contractRequestActive = false;
-        private bool fundamentalsRequestActive = false;
+        private bool contractRequestActive;
+        private bool fundamentalsRequestActive;
 
         public ContractManager(IBClient ibClient, TextBox fundamentalsOutput, DataGridView contractDetailsGrid, DataGridView bondContractDetailsGrid, ComboBox comboBoxMarketRuleId,
             DataGridView dataGridViewMarketRule, Label labelMarketRuleIdRes)
@@ -38,7 +24,7 @@ namespace IBSampleApp.ui
             Fundamentals = fundamentalsOutput;
             ContractDetailsGrid = contractDetailsGrid;
             BondContractDetailsGrid = bondContractDetailsGrid;
-            comboContractResults = new ComboContractResults();
+            ComboContractResults = new ComboContractResults();
             ComboBoxMarketRuleId = comboBoxMarketRuleId;
             DataGridViewMarketRule = dataGridViewMarketRule;
             LabelMarketRuleIdRes =  labelMarketRuleIdRes;
@@ -47,8 +33,8 @@ namespace IBSampleApp.ui
         public void UpdateUI(ContractDetailsMessage message)
         {
 
-            if (isComboLegRequest)
-                comboContractResults.UpdateUI(message);
+            if (IsComboLegRequest)
+                ComboContractResults.UpdateUI(message);
             else
                 HandleContractMessage(message);
         }
@@ -56,7 +42,7 @@ namespace IBSampleApp.ui
         public void HandleContractDataEndMessage(ContractDetailsEndMessage contractDetailsEndMessage)
         {
             if (IsComboLegRequest)
-                comboContractResults.Show();
+                ComboContractResults.Show();
 
             contractRequestActive = false;
             IsComboLegRequest = false;
@@ -131,14 +117,14 @@ namespace IBSampleApp.ui
 
         public void HandleMarketRuleMessage(MarketRuleMessage marketRuleMessage)
         {
-            labelMarketRuleIdRes.Text = "Market Rule Id: " + marketRuleMessage.MarketruleId;
+            LabelMarketRuleIdRes.Text = "Market Rule Id: " + marketRuleMessage.MarketruleId;
 
-            dataGridViewMarketRule.Rows.Clear();
+            DataGridViewMarketRule.Rows.Clear();
             for (int i = 0; i < marketRuleMessage.PriceIncrements.Length; i++)
             {
-                dataGridViewMarketRule.Rows.Add(1);
-                dataGridViewMarketRule[0, dataGridViewMarketRule.Rows.Count - 1].Value = marketRuleMessage.PriceIncrements[i].LowEdge;
-                dataGridViewMarketRule[1, dataGridViewMarketRule.Rows.Count - 1].Value = marketRuleMessage.PriceIncrements[i].Increment;
+                DataGridViewMarketRule.Rows.Add(1);
+                DataGridViewMarketRule[0, DataGridViewMarketRule.Rows.Count - 1].Value = marketRuleMessage.PriceIncrements[i].LowEdge;
+                DataGridViewMarketRule[1, DataGridViewMarketRule.Rows.Count - 1].Value = marketRuleMessage.PriceIncrements[i].Increment;
             }
         }
 
@@ -146,7 +132,7 @@ namespace IBSampleApp.ui
         {
             if (requestId == CONTRACT_DETAILS_ID)
             {
-                isComboLegRequest = false;
+                IsComboLegRequest = false;
                 contractRequestActive = false;
             }
             else if (requestId == FUNDAMENTALS_ID)
@@ -155,7 +141,7 @@ namespace IBSampleApp.ui
 
         public void HandleFundamentalsData(FundamentalsMessage fundamentalsMessage)
         {
-            fundamentals.Text = fundamentalsMessage.Data;
+            Fundamentals.Text = fundamentalsMessage.Data;
             fundamentalsRequestActive = false;
         }
 
@@ -163,35 +149,35 @@ namespace IBSampleApp.ui
         {
             if (!contractRequestActive)
             {
-                contractDetailsGrid.Rows.Clear();
-                bondContractDetailsGrid.Rows.Clear();
-                ibClient.ClientSocket.reqContractDetails(CONTRACT_DETAILS_ID, contract);
+                ContractDetailsGrid.Rows.Clear();
+                BondContractDetailsGrid.Rows.Clear();
+                IbClient.ClientSocket.reqContractDetails(CONTRACT_DETAILS_ID, contract);
             }
         }
 
         public void RequestFundamentals(Contract contract, string reportType)
         {
-            fundamentals.Text = "";
+            Fundamentals.Text = "";
             if (!fundamentalsRequestActive)
             {
                 fundamentalsRequestActive = true;
-                ibClient.ClientSocket.reqFundamentalData(FUNDAMENTALS_ID, contract, reportType, new List<TagValue>());
+                IbClient.ClientSocket.reqFundamentalData(FUNDAMENTALS_ID, contract, reportType, new List<TagValue>());
             }
             else
             {
                 fundamentalsRequestActive = false;
-                ibClient.ClientSocket.cancelFundamentalData(FUNDAMENTALS_ID);
+                IbClient.ClientSocket.cancelFundamentalData(FUNDAMENTALS_ID);
             }
         }
 
         public void RequestMarketDataType(int marketDataType)
         {
-            ibClient.ClientSocket.reqMarketDataType(marketDataType);
+            IbClient.ClientSocket.reqMarketDataType(marketDataType);
         }
 
         public void RequestMarketRule(int marketRuleId)
         {
-            ibClient.ClientSocket.reqMarketRule(marketRuleId);
+            IbClient.ClientSocket.reqMarketRule(marketRuleId);
         }
 
         private void UpdateMakretRuleIdsComboBox(string marketRuleIdsStr)
@@ -209,58 +195,22 @@ namespace IBSampleApp.ui
             }
         }
 
-        public ComboContractResults ComboContractResults
-        {
-            get { return comboContractResults; }
-            set { comboContractResults = value; }
-        }
+        public ComboContractResults ComboContractResults { get; set; }
 
-        public IBClient IbClient
-        {
-            get { return ibClient; }
-            set { ibClient = value; }
-        }
+        public IBClient IbClient { get; set; }
 
-        public TextBox Fundamentals
-        {
-            get { return fundamentals; }
-            set { fundamentals = value; }
-        }
+        public TextBox Fundamentals { get; set; }
 
-        public DataGridView ContractDetailsGrid
-        {
-            get { return contractDetailsGrid; }
-            set { contractDetailsGrid = value; }
-        }
+        public DataGridView ContractDetailsGrid { get; set; }
 
-        public DataGridView BondContractDetailsGrid
-        {
-            get { return bondContractDetailsGrid; }
-            set { bondContractDetailsGrid = value; }
-        }
+        public DataGridView BondContractDetailsGrid { get; set; }
 
-        public bool IsComboLegRequest
-        {
-            get { return isComboLegRequest; }
-            set { isComboLegRequest = value; }
-        }
+        public bool IsComboLegRequest { get; set; }
 
-        public ComboBox ComboBoxMarketRuleId
-        {
-            get { return comboBoxMarketRuleId; }
-            set { comboBoxMarketRuleId = value; }
-        }
+        public ComboBox ComboBoxMarketRuleId { get; set; }
 
-        public DataGridView DataGridViewMarketRule
-        {
-            get { return dataGridViewMarketRule; }
-            set { dataGridViewMarketRule = value; }
-        }
+        public DataGridView DataGridViewMarketRule { get; set; }
 
-        public Label LabelMarketRuleIdRes
-        {
-            get { return labelMarketRuleIdRes; }
-            set { labelMarketRuleIdRes = value; }
-        }
+        public Label LabelMarketRuleIdRes { get; set; }
     }
 }

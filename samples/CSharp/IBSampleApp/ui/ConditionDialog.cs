@@ -4,12 +4,7 @@
 using IBApi;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace IBSampleApp.ui
@@ -33,7 +28,7 @@ namespace IBSampleApp.ui
             radioMap[percentRb] = Tuple.Create(percentPanel, OrderConditionType.PercentCange);
 
             radioButtons = conditionTypePage.Controls.OfType<RadioButton>().ToArray();
-            this.Condition = condition != null ? condition : OrderCondition.Create(OrderConditionType.Price);
+            Condition = condition != null ? condition : OrderCondition.Create(OrderConditionType.Price);
 
             priceMethod.Items.AddRange(CTriggerMethod.friendlyNames.Where(n => !string.IsNullOrWhiteSpace(n)).ToArray());
 
@@ -50,30 +45,30 @@ namespace IBSampleApp.ui
             
             tabControl1.TabPages.OfType<TabPage>().Skip(2).ToList().ForEach(page => tabControl1.TabPages.Remove(page));
 
-            switch (this.Condition.Type)
+            switch (Condition.Type)
             {
                 case OrderConditionType.Execution:
-                    fillFromCondition(this.Condition as ExecutionCondition);
+                    fillFromCondition(Condition as ExecutionCondition);
                     break;  
   
                 case OrderConditionType.Margin:
-                    fillFromCondition(this.Condition as MarginCondition);
+                    fillFromCondition(Condition as MarginCondition);
                     break;
 
                 case OrderConditionType.PercentCange:
-                    fillFromCondition(this.Condition as PercentChangeCondition);
+                    fillFromCondition(Condition as PercentChangeCondition);
                     break;
 
                 case OrderConditionType.Price:
-                    fillFromCondition(this.Condition as PriceCondition);
+                    fillFromCondition(Condition as PriceCondition);
                     break;
 
                 case OrderConditionType.Time:
-                    fillFromCondition(this.Condition as TimeCondition);
+                    fillFromCondition(Condition as TimeCondition);
                     break;
 
                 case OrderConditionType.Volume:
-                    fillFromCondition(this.Condition as VolumeCondition);
+                    fillFromCondition(Condition as VolumeCondition);
                     break;
             }
 
@@ -147,7 +142,8 @@ namespace IBSampleApp.ui
 
         private void fillUnderlyingContract(ContractSearchControl underlyingControl, ContractCondition condition)
         {
-            underlyingControl.Contract = new Contract() { ConId = condition.ConId, Exchange = condition.Exchange };
+            underlyingControl.Contract = new Contract
+                                         { ConId = condition.ConId, Exchange = condition.Exchange };
         }
 
         private void next_Click(object sender, EventArgs e)

@@ -1,11 +1,6 @@
 /* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 namespace IBApi
 {
     /**
@@ -96,6 +91,7 @@ namespace IBApi
         public static readonly CodeMsgPair FAIL_SEND_REQTICKBYTICKDATA = new CodeMsgPair(576, "Request Tick-By-Tick Data Sending Error - ");
         public static readonly CodeMsgPair FAIL_SEND_CANCELTICKBYTICKDATA = new CodeMsgPair(577, "Cancel Tick-By-Tick Data Sending Error - ");
         public static readonly CodeMsgPair FAIL_SEND_REQCOMPLETEDORDERS = new CodeMsgPair(578, "Request Completed Orders Sending Error - ");
+        public static readonly CodeMsgPair INVALID_SYMBOL = new CodeMsgPair(579, "Invalid symbol in string - ");
 
         public static readonly CodeMsgPair FAIL_GENERIC = new CodeMsgPair(-1, "Specific error message needs to be given for these requests! ");
     
@@ -106,24 +102,15 @@ namespace IBApi
   */
     public class CodeMsgPair
     {
-        private int code;
-        private string message;
-
         public CodeMsgPair(int code, string message)
         {
-            this.code = code;
-            this.message = message;
+            Code = code;
+            Message = message;
         }
 
-        public int Code
-        {
-            get { return code; } 
-        }
+        public int Code { get; }
 
-        public string Message
-        {
-            get { return message; }
-        }
+        public string Message { get; }
     }
 
 }

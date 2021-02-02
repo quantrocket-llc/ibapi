@@ -25,11 +25,12 @@ public class EWrapperMsgGenerator {
     	return "id=" + tickerId + "  " + TickType.getField( field) + "=" + size;
     }
     
-    public static String tickOptionComputation( int tickerId, int field, double impliedVol,
+    public static String tickOptionComputation( int tickerId, int field, int tickAttrib, double impliedVol,
     		double delta, double optPrice, double pvDividend,
     		double gamma, double vega, double theta, double undPrice) {
-		return "id=" + tickerId + "  " + TickType.getField( field) +
-            ": impliedVol = " + Util.maxDoubleToString(impliedVol) +
+	return "id=" + tickerId + "  " + TickType.getField( field) +
+            ": tickAttrib = " + Util.IntMaxString(tickAttrib) +
+            " impliedVol = " + Util.maxDoubleToString(impliedVol) +
             " delta = " + Util.maxDoubleToString(delta) +
             " gamma = " + Util.maxDoubleToString(gamma) +
             " vega = " + Util.maxDoubleToString(vega) +
@@ -672,6 +673,10 @@ public class EWrapperMsgGenerator {
         return "=============== end ===============";
     }
  
+    public static String replaceFAEnd(int reqId, String text) {
+    	return "id = " + reqId + " ===== " + text + " =====";
+    }    
+    
     private static void appendOrderFields(StringBuilder sb, int orderId, Contract contract, Order order, OrderState orderState,
             boolean isOpenOrder) {
         Util.appendValidIntValue(sb, "orderId", orderId);

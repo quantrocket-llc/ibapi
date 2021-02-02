@@ -1,9 +1,7 @@
 ﻿/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
-using System;
+
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using IBSampleApp.messages;
 using IBApi;
@@ -16,7 +14,7 @@ namespace IBSampleApp.ui
 
         private int numRows = 3;
 
-        bool isSubscribed = false;
+        bool isSubscribed;
 
         private const int BID_MAKER_IDX = 0;
         private const int BID_SIZE_IDX = 1;
@@ -26,10 +24,7 @@ namespace IBSampleApp.ui
         private const int ASK_SIZE_IDX = 4;
         private const int ASK_MAKER_IDX = 5;
 
-        private DataGridView mktDepthExchangesGrid;
-        private bool isSmartDepth;
 
-        
         public DeepBookManager(IBClient client, DataGridView dataGrid, DataGridView mktDepthExchangesGrid) : base(client, dataGrid)
         {
             MktDepthExchangesGrid = mktDepthExchangesGrid;
@@ -92,12 +87,12 @@ namespace IBSampleApp.ui
 
         public void ClearMktDepthExchanges()
         {
-            mktDepthExchangesGrid.Rows.Clear();
+            MktDepthExchangesGrid.Rows.Clear();
         }
 
         public void HandleMktDepthExchangesMessage(MktDepthExchangesMessage mktDepthExchangesMessage)
         {
-            mktDepthExchangesGrid.Rows.Clear();
+            MktDepthExchangesGrid.Rows.Clear();
 
             for (int i = 0; i < mktDepthExchangesMessage.Descriptions.Length; i++)
             {
@@ -107,21 +102,12 @@ namespace IBSampleApp.ui
                 MktDepthExchangesGrid[2, MktDepthExchangesGrid.Rows.Count - 1].Value = mktDepthExchangesMessage.Descriptions[i].ListingExch;
                 MktDepthExchangesGrid[3, MktDepthExchangesGrid.Rows.Count - 1].Value = mktDepthExchangesMessage.Descriptions[i].ServiceDataType;
                 MktDepthExchangesGrid[4, MktDepthExchangesGrid.Rows.Count - 1].Value = 
-                    mktDepthExchangesMessage.Descriptions[i].AggGroup != Int32.MaxValue ? mktDepthExchangesMessage.Descriptions[i].AggGroup.ToString() : "";
+                    mktDepthExchangesMessage.Descriptions[i].AggGroup != int.MaxValue ? mktDepthExchangesMessage.Descriptions[i].AggGroup.ToString() : "";
             }
         }
 
-        public DataGridView MktDepthExchangesGrid
-        {
-            get { return mktDepthExchangesGrid; }
-            set { mktDepthExchangesGrid = value; }
-        }
+        public DataGridView MktDepthExchangesGrid { get; set; }
 
-        public bool IsSmartDepth
-        {
-            get { return isSmartDepth; }
-            set { isSmartDepth = value; }
-        }
-
+        public bool IsSmartDepth { get; set; }
     }
 }

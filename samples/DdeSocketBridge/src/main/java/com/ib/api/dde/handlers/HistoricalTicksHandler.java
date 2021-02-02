@@ -35,9 +35,10 @@ public class HistoricalTicksHandler extends BaseListDataHandler<TickByTickData> 
     public byte[] handleHistoricalTicksRequest(String requestStr, byte[] data) {
         HistoricalTicksRequest request = m_requestParser.parseHistoricalTicksRequest(requestStr, data);
         System.out.println("Sending historical ticks request: id=" + request.requestId() + " contract=" + Utils.shortContractString(request.contract()));
+        byte[] ret = handleBaseRequest(request); 
         clientSocket().reqHistoricalTicks(request.requestId(), request.contract(), request.startDateTime(), request.endDateTime(), 
                 request.numberOfTicks(), request.whatToShow(), request.useRth(), request.ignoreSize(), null);
-        return handleBaseRequest(request);
+        return ret;
     }
 
     /** Method handles historical ticks cancel request */

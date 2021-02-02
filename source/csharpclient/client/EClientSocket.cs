@@ -3,7 +3,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -49,7 +48,7 @@ namespace IBApi
                 {
                     List<byte> buf = new List<byte>();
 
-                    buf.AddRange(UTF8Encoding.UTF8.GetBytes(clientId.ToString()));
+                    buf.AddRange(Encoding.UTF8.GetBytes(clientId.ToString()));
                     buf.Add(Constants.EOL);
                     socketTransport.Send(new EMessage(buf.ToArray()));
                 }
@@ -58,7 +57,7 @@ namespace IBApi
             ServerTime = time;
             isConnected = true;
 
-            if (!this.AsyncEConnect)
+            if (!AsyncEConnect)
                 startApi();
         }
 
@@ -134,8 +133,8 @@ namespace IBApi
         {
             var rval = (uint)paramsList.BaseStream.Position;
 
-            if (this.useV100Plus)
-                paramsList.Write((int)0);
+            if (useV100Plus)
+                paramsList.Write(0);
 
             return rval;
         }

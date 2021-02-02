@@ -48,6 +48,11 @@ namespace Samples
         private static void testIBMethods(EClientSocket client, int nextValidId)
         {
             /**************************************************************/
+            /*** Options operations                                     ***/
+            /**************************************************************/
+            //optionsOperations(client);
+
+            /**************************************************************/
             /*** Real time market data operations  - Streamed or Frozen ***/
             /**************************************************************/
             //marketDataType(client);
@@ -90,7 +95,7 @@ namespace Samples
             /****************************/
             /*** Contract information ***/
             /****************************/
-            contractOperations(client);
+            //contractOperations(client);
 
             /***********************/
             /*** Market Scanners ***/
@@ -120,7 +125,7 @@ namespace Samples
             /************************************/
             /*** Financial Advisor Exclusive Operations ***/
             /************************************/
-            //financialAdvisorOperations(client);
+            financialAdvisorOperations(client);
 
             /********************/
             /*** Miscelaneous ***/
@@ -344,8 +349,8 @@ namespace Samples
 			*/
 			
             //! [reqmktdata_genticks]
-            //Requesting RTVolume (Time & Sales), shortable and Fundamental Ratios generic ticks
-            client.reqMktData(1004, ContractSamples.USStockAtSmart(), "233,236,258", false, false, null);
+            //Requesting RTVolume (Time & Sales) and shortable generic ticks
+            client.reqMktData(1004, ContractSamples.USStockAtSmart(), "233,236", false, false, null);
             //! [reqmktdata_genticks]
 
             //! [reqmktdata_contractnews]
@@ -359,7 +364,6 @@ namespace Samples
             client.reqMktData(1009, ContractSamples.BTbroadtapeNewsFeed(), "mdoff,292", false, false, null);
             client.reqMktData(1010, ContractSamples.BZbroadtapeNewsFeed(), "mdoff,292", false, false, null);
             client.reqMktData(1011, ContractSamples.FLYbroadtapeNewsFeed(), "mdoff,292", false, false, null);
-            client.reqMktData(1012, ContractSamples.MTbroadtapeNewsFeed(), "mdoff,292", false, false, null);
             //! [reqmktdata_broadtapenews]
 
             //! [reqoptiondatagenticks]
@@ -382,6 +386,10 @@ namespace Samples
             client.reqMktData(1016, ContractSamples.USStockAtSmart(), "mdoff,105", false, false, null);
             //! [reqavgoptvolume]
 
+            //! [reqetfticks]
+            client.reqMktData(1017, ContractSamples.etf(), "mdoff,576,577,578,623,614", false, false, null);
+            //! [reqetfticks]
+
             Thread.Sleep(10000);
             /*** Canceling the market data subscription ***/
             //! [cancelmktdata]
@@ -391,14 +399,17 @@ namespace Samples
             client.cancelMktData(1014);
             client.cancelMktData(1015);
             client.cancelMktData(1016);
+            client.cancelMktData(1017);
             //! [cancelmktdata]
         }
 
         private static void tickOptionComputationOperations(EClientSocket client)
         {
             /*** Requesting real time market data ***/
+            client.reqMarketDataType(4);
+
             //! [reqmktdata]
-            client.reqMktData(2001, ContractSamples.FuturesOnOptions(), string.Empty, false, false, null);
+            client.reqMktData(2001, ContractSamples.OptionWithLocalSymbol(), string.Empty, false, false, null);
             //! [reqmktdata]
 
             Thread.Sleep(10000);
@@ -481,13 +492,13 @@ namespace Samples
 
             /*** Calculating implied volatility ***/
             //! [calculateimpliedvolatility]
-            client.calculateImpliedVolatility(5001, ContractSamples.OptionAtBOX(), 5, 85, null);
+            client.calculateImpliedVolatility(5001, ContractSamples.OptionWithLocalSymbol(), 0.5, 55, null);
             //! [calculateimpliedvolatility]
             /*** Canceling implied volatility ***/
             client.cancelCalculateImpliedVolatility(5001);
             /*** Calculating option's price ***/
             //! [calculateoptionprice]
-            client.calculateOptionPrice(5002, ContractSamples.OptionAtBOX(), 0.22, 85, null);
+            client.calculateOptionPrice(5002, ContractSamples.OptionWithLocalSymbol(), 0.6, 55, null);
             //! [calculateoptionprice]
             /*** Canceling option's price calculation ***/
             client.cancelCalculateOptionPrice(5002);
@@ -1007,19 +1018,19 @@ namespace Samples
 
             /*** Replacing FA information - Fill in with the appropriate XML string. ***/
             //! [replacefaonegroup]
-            client.replaceFA(Constants.FaGroups, FaAllocationSamples.FaOneGroup);
+            client.replaceFA(1000, Constants.FaGroups, FaAllocationSamples.FaOneGroup);
             //! [replacefaonegroup]
 
             //! [replacefatwogroups]
-            client.replaceFA(Constants.FaGroups, FaAllocationSamples.FaTwoGroups);
+            client.replaceFA(1001, Constants.FaGroups, FaAllocationSamples.FaTwoGroups);
             //! [replacefatwogroups]
 
             //! [replacefaoneprofile]
-            client.replaceFA(Constants.FaProfiles, FaAllocationSamples.FaOneProfile);
+            client.replaceFA(1002, Constants.FaProfiles, FaAllocationSamples.FaOneProfile);
             //! [replacefaoneprofile]
 
             //! [replacefatwoprofiles]
-            client.replaceFA(Constants.FaProfiles, FaAllocationSamples.FaTwoProfiles);
+            client.replaceFA(1003, Constants.FaProfiles, FaAllocationSamples.FaTwoProfiles);
             //! [replacefatwoprofiles]
 
             //! [reqSoftDollarTiers]

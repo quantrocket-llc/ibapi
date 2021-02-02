@@ -33,3 +33,8 @@
 __pycache__
 
 .vs/
+/samples/Excel/TwsActiveX/TickerForm.frx
+/samples/Excel/TwsActiveX/ScrollableMsgBox.frx
+/samples/Excel/TwsActiveX/ParamsForm.frx
+/samples/Excel/TwsActiveX/ComboLegForm.frx
+/samples/Excel/80F45F30

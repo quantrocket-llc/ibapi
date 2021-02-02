@@ -1,7 +1,7 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} TickerForm 
    Caption         =   "Ticker"
-   ClientHeight    =   7035
+   ClientHeight    =   6750
    ClientLeft      =   45
    ClientTop       =   330
    ClientWidth     =   4890
@@ -13,48 +13,60 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+Public Sub ShowForm()
+    symbol.Text = ActiveCell.offset(0, 0).value
+    secType.Text = ActiveCell.offset(0, 1).value
+    lastTradeDate.Text = ActiveCell.offset(0, 2).value
+    strike.Text = ActiveCell.offset(0, 3).value
+    right.Text = ActiveCell.offset(0, 4).value
+    multiplier.Text = ActiveCell.offset(0, 5).value
+    tradingClass.Text = ActiveCell.offset(0, 6).value
+    exchange.Text = ActiveCell.offset(0, 7).value
+    primaryexchange.Text = ActiveCell.offset(0, 8).value
+    curr.Text = ActiveCell.offset(0, 9).value
+    localSymbol.Text = ActiveCell.offset(0, 10).value
+    conid.Text = ActiveCell.offset(0, 11).value
+
+    TickerForm.Show
+End Sub
+
+
+
 Private Sub Ok_Click()
-ActiveCell.Formula = "symbol.Text"
+    ActiveCell.offset(0, 0).value = symbol.Text
+    ActiveCell.offset(0, 1).value = secType.Text
+    ActiveCell.offset(0, 2).value = lastTradeDate.Text
+    ActiveCell.offset(0, 3).value = strike.Text
+    ActiveCell.offset(0, 4).value = right.Text
+    ActiveCell.offset(0, 5).value = multiplier.Text
+    ActiveCell.offset(0, 6).value = tradingClass.Text
+    ActiveCell.offset(0, 7).value = exchange.Text
+    ActiveCell.offset(0, 8).value = primaryexchange.Text
+    ActiveCell.offset(0, 9).value = curr.Text
+    ActiveCell.offset(0, 10).value = localSymbol.Text
+    ActiveCell.offset(0, 11).value = conid.Text
 
-
-ActiveCell.offset(0, 0).Formula = symbol.Text
-ActiveCell.offset(0, 1).Formula = secType.Text
-ActiveCell.offset(0, 8).Formula = primaryexchange.Text
-ActiveCell.offset(0, 9).Formula = curr.Text
-If secType.Text = util.OPT Or secType.Text = util.FUT Then
-    ActiveCell.offset(0, 2).Formula = expiry.Text
-    ActiveCell.offset(0, 5).Formula = multiplier.Text
-    ActiveCell.offset(0, 6).Formula = tradingClass.Text
-End If
-If secType.Text = util.OPT Then
-    ActiveCell.offset(0, 3).Formula = strike.Text
-    ActiveCell.offset(0, 4).Formula = right.Text
-End If
-ActiveCell.offset(0, 7).Formula = exchange.Text
-TickerForm.Hide
-
-
+    TickerForm.Hide
 End Sub
 
 Private Sub cancel_Click()
-TickerForm.Hide
-
+    TickerForm.Hide
 End Sub
 
-
-
-Private Sub right_Change()
-
-End Sub
 
 Private Sub UserForm_Initialize()
-
-secType.AddItem util.STK
-secType.AddItem util.OPT
-secType.AddItem util.FUT
-
-right.AddItem util.CPUT
-right.AddItem util.CCALL
+    secType.AddItem util.STK
+    secType.AddItem util.OPT
+    secType.AddItem util.FUT
+    secType.AddItem util.FOP
+    secType.AddItem util.IND
+    secType.AddItem util.CASH
+    secType.AddItem util.WAR
+    secType.AddItem util.IOPT
+    secType.AddItem util.BAG
+    
+    right.AddItem util.CPUT
+    right.AddItem util.CCALL
 
 End Sub
 

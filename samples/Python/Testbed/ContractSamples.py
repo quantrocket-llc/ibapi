@@ -165,6 +165,14 @@ class ContractSamples:
         contract.exchange = "SMART"
         return contract
 
+    @staticmethod
+    def etf():
+        contract = Contract()
+        contract.symbol = "QQQ"
+        contract.secType = "STK"
+        contract.currency = "USD"
+        contract.exchange = "SMART"
+        return contract
 
     @staticmethod
     def USOptionContract():
@@ -228,7 +236,7 @@ class ContractSamples:
         #! [optcontract_localsymbol]
         contract = Contract()
         #Watch out for the spaces within the local symbol!
-        contract.localSymbol = "C DBK  DEC 20  1600"
+        contract.localSymbol = "C BMW  JUL 20  4800"
         contract.secType = "OPT"
         contract.exchange = "DTB"
         contract.currency = "EUR"
@@ -320,7 +328,21 @@ class ContractSamples:
         contract.multiplier = "50"
         #! [fopcontract]
         return contract
-
+		
+	@staticmethod
+    def Warrants():
+        #! [warcontract]
+        contract = Contract()
+        contract.symbol = "GOOG"
+        contract.secType = "WAR"
+        contract.exchange = "FWB"
+        contract.currency = "EUR"
+        contract.lastTradeDateOrContractMonth = "20201117"
+        contract.strike = 1500.0
+        contract.right = "C"
+        contract.multiplier = "0.01"
+        #! [warcontract]
+        return contract
 
     """ It is also possible to define contracts based on their ISIN (IBKR STK
     sample). """
@@ -525,47 +547,37 @@ class ContractSamples:
 
 
     @staticmethod
-    def BRFGbroadtapeNewsFeed():
+    def BTbroadtapeNewsFeed():
         #! [newscontractbt]
         contract = Contract()
-        contract.symbol  = "BRFG:BRFG_ALL"
+        contract.symbol  = "BRF:BRF_ALL"
         contract.secType = "NEWS"
-        contract.exchange = "BRFG"
+        contract.exchange = "BRF"
         #! [newscontractbt]
         return contract
 
 
     @staticmethod
-    def DJNLbroadtapeNewsFeed():
+    def BZbroadtapeNewsFeed():
         #! [newscontractbz]
         contract = Contract()
-        contract.symbol = "DJNL:DJNL_ALL"
+        contract.symbol = "BZ:BZ_ALL"
         contract.secType = "NEWS"
-        contract.exchange = "DJNL"
+        contract.exchange = "BZ"
         #! [newscontractbz]
         return contract
 
 
     @staticmethod
-    def DJTOPbroadtapeNewsFeed():
+    def FLYbroadtapeNewsFeed():
         #! [newscontractfly]
         contract = Contract()
-        contract.symbol  = "DJTOP:ASIAPAC"
+        contract.symbol  = "FLY:FLY_ALL"
         contract.secType = "NEWS"
-        contract.exchange = "DJTOP"
+        contract.exchange = "FLY"
         #! [newscontractfly]
         return contract
 
-
-    @staticmethod
-    def BRFUPDNbroadtapeNewsFeed():
-        #! [newscontractmt]
-        contract = Contract()
-        contract.symbol = "BRFUPDN:BRF_ALL"
-        contract.secType = "NEWS"
-        contract.exchange = "BRFUPDN"
-        #! [newscontractmt]
-        return contract
 
     @staticmethod
     def ContFut():

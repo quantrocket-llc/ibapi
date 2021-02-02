@@ -35,11 +35,11 @@ public class OldHistoricalDataHandler extends HistoricalDataHandler {
         
         HistoricalDataMap dataMap = m_historicalDataRequests.get(request.requestId());
         if(dataMap == null) {
-            clientSocket().reqHistoricalData(request.requestId(), request.contract(), request.endDateTime(), request.durationStr(), 
-                    request.barSizeSetting(), request.whatToShow(), request.useRth(), request.formatDate(), request.keepUpToDate(), null);
             dataMap = new HistoricalDataMap(request);
             m_historicalDataRequests.put(request.requestId(), dataMap);
             updateHistoricalDataRequestStatus(request.requestId(), dataMap, DdeRequestStatus.REQUESTED);
+            clientSocket().reqHistoricalData(request.requestId(), request.contract(), request.endDateTime(), request.durationStr(), 
+                    request.barSizeSetting(), request.whatToShow(), request.useRth(), request.formatDate(), request.keepUpToDate(), null);
         }
         return dataMap.ddeRequestStatus().toString();
     }

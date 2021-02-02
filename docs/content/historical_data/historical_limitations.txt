@@ -42,7 +42,7 @@
 
 	The other historical data limitations listed are general limitations for all trading platforms:	
 
-	- Bars which size is 30 seconds or less <b>older than six months</b>
+	- Bars whose size is 30 seconds or less <b>older than six months</b>
 	- Expired futures data older than two years counting from the future's expiration date.
 	- Expired options, FOPs, warrants and structured products.
 	- End of Day (EOD) data for options, FOPs, warrants and structured products.

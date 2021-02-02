@@ -2,9 +2,7 @@
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading;
-using System.Linq;
 using System.IO;
 
 namespace IBApi
@@ -45,8 +43,16 @@ namespace IBApi
                 try
                 {
                     while (eClientSocket.IsConnected())
+                    {
+                        if (!eClientSocket.IsDataAvailable())
+                        {
+                            Thread.Sleep(1);
+                            continue;
+                        }
+
                         if (!putMessageToQueue())
                             break;
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -91,7 +97,7 @@ namespace IBApi
             catch (Exception ex)
             {
                 if (eClientSocket.IsConnected())
-                    eClientSocket.Wrapper.error(ex.Message);
+                    eClientSocket.Wrapper.error(ex);
 
                 return false;
             }
@@ -121,7 +127,7 @@ namespace IBApi
             while (true)
                 try
                 {
-                    msgSize = new EDecoder(this.eClientSocket.ServerVersion, defaultWrapper).ParseAndProcessMsg(inBuf.ToArray());
+                    msgSize = new EDecoder(eClientSocket.ServerVersion, defaultWrapper).ParseAndProcessMsg(inBuf.ToArray());
                     break;
                 }
                 catch (EndOfStreamException)
@@ -131,12 +137,12 @@ namespace IBApi
 
                     AppendInBuf();
                 }
-            
+
             var msgBuf = new byte[msgSize];
 
             inBuf.CopyTo(0, msgBuf, 0, msgSize);
             inBuf.RemoveRange(0, msgSize);
-          
+
             if (inBuf.Count < defaultInBufSize && inBuf.Capacity > defaultInBufSize)
                 inBuf.Capacity = defaultInBufSize;
 

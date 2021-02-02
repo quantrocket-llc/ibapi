@@ -11,23 +11,31 @@ This module has tools for implementing the IB low level messaging.
 
 import struct
 import logging
+import sys
 
 from ibapi.common import UNSET_INTEGER, UNSET_DOUBLE
+from ibapi.utils import ClientException
+from ibapi.utils import isAsciiPrintable
+from ibapi.errors import INVALID_SYMBOL
 
 logger = logging.getLogger(__name__)
 
 
 def make_msg(text) -> bytes:
     """ adds the length prefix """
+
     msg = struct.pack("!I%ds" % len(text), len(text), str.encode(text))
     return msg
 
 
 def make_field(val) -> str:
     """ adds the NULL string terminator """
-
     if val is None:
         raise ValueError("Cannot send None to TWS")
+
+    # if string is not empty and contains invalid symbols
+    if val is not None and type(val) == str and val and not isAsciiPrintable(val):
+        raise ClientException(INVALID_SYMBOL.code(), INVALID_SYMBOL.msg(), val.encode(sys.stdout.encoding, errors='ignore').decode(sys.stdout.encoding))
 
     # bool type is encoded as int
     if type(val) is bool:
@@ -38,7 +46,6 @@ def make_field(val) -> str:
 
 
 def make_field_handle_empty(val) -> str:
-
     if val is None:
         raise ValueError("Cannot send None to TWS")
 
@@ -50,6 +57,7 @@ def make_field_handle_empty(val) -> str:
 
 def read_msg(buf:bytes) -> tuple:
     """ first the size prefix and then the corresponding msg payload """
+
     if len(buf) < 4:
         return (0, "", buf)
     size = struct.unpack("!I", buf[0:4])[0]
@@ -62,7 +70,6 @@ def read_msg(buf:bytes) -> tuple:
 
 
 def read_fields(buf:bytes) -> tuple:
-
     if isinstance(buf, str):
         buf = buf.encode()
 

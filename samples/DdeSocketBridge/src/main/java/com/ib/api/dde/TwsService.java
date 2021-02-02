@@ -1343,4 +1343,8 @@ public class TwsService {
         m_accountUpdatesMultiHandler.updateFAReplaceError(errorMsgStr);
     }
     
+    /** Method updates replace FA end */
+    public void replaceFAEnd(int requestId, String text) {
+        m_accountUpdatesMultiHandler.updateFAReplaceEnd(requestId, text);
+    }
 }

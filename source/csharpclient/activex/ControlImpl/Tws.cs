@@ -511,9 +511,9 @@ namespace TWSLib
         }
 
 
-        void ITws.replaceFA(int faDataType, string cxml)
+        void ITws.replaceFA(int reqId, int faDataType, string cxml)
         {
-            this.socket.replaceFA(faDataType, cxml);
+            this.socket.replaceFA(reqId, faDataType, cxml);
         }
 
 
@@ -1900,13 +1900,13 @@ namespace TWSLib
                 sc.Post(state => t_mktDepthExchanges(depthMktDataDescriptions.Length > 0 ? new ComDepthMktDataDescriptionList(depthMktDataDescriptions) : null), null);
         }
 
-        public delegate void tickOptionComputationDelegate(int id, int tickType, double impliedVol, double delta, double optPrice, double pvDividend, double gamma, double vega, double theta, double undPrice);
+        public delegate void tickOptionComputationDelegate(int id, int tickType, int tickAttrib, double impliedVol, double delta, double optPrice, double pvDividend, double gamma, double vega, double theta, double undPrice);
         public event tickOptionComputationDelegate tickOptionComputation;
-        void EWrapper.tickOptionComputation(int tickerId, int field, double impliedVolatility, double delta, double optPrice, double pvDividend, double gamma, double vega, double theta, double undPrice)
+        void EWrapper.tickOptionComputation(int tickerId, int field, int tickAttrib, double impliedVolatility, double delta, double optPrice, double pvDividend, double gamma, double vega, double theta, double undPrice)
         {
             var t_tickOptionComputation = this.tickOptionComputation;
             if (t_tickOptionComputation != null)
-                sc.Post(state => t_tickOptionComputation(tickerId, field, impliedVolatility, delta, optPrice, pvDividend, gamma, vega, theta, undPrice), null);
+                sc.Post(state => t_tickOptionComputation(tickerId, field, tickAttrib, impliedVolatility, delta, optPrice, pvDividend, gamma, vega, theta, undPrice), null);
         }
 
         public delegate void tickNewsDelegate(int tickerId, string timeStamp, string providerCode, string articleId, string headline, string extraData);
@@ -2165,6 +2165,15 @@ namespace TWSLib
             var t_completedOrdersEnd = this.completedOrdersEnd;
             if (t_completedOrdersEnd != null)
                 sc.Post(state => t_completedOrdersEnd(), null);
+        }
+
+        public delegate void replaceFAEndDelegate(int reqId, string text);
+        public event replaceFAEndDelegate replaceFAEnd;
+        void EWrapper.replaceFAEnd(int reqId, string text)
+        {
+            var t_replaceFAEnd = this.replaceFAEnd;
+            if (t_replaceFAEnd != null)
+                sc.Post(state => t_replaceFAEnd(reqId, text), null);
         }
 
         #endregion

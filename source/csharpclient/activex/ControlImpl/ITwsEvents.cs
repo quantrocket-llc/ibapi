@@ -66,7 +66,7 @@ namespace TWSLib
         [DispId(26)]
         void scannerData(int reqId, int rank, string symbol, string secType, string lastTradeDate, double strike, string right, string exchange, string curency, string localSymbol, string marketName, string tradingClass, string distance, string benchmark, string projection, string legsStr);
         [DispId(27)]
-        void tickOptionComputation(int id, int tickType, double impliedVol, double delta, double optPrice, double pvDividend, double gamma, double vega, double theta, double undPrice);
+        void tickOptionComputation(int id, int tickType, int tickAttrib, double impliedVol, double delta, double optPrice, double pvDividend, double gamma, double vega, double theta, double undPrice);
         [DispId(28)]
         void tickGeneric(int id, int tickType, double value);
         [DispId(29)]
@@ -212,5 +212,7 @@ namespace TWSLib
         void completedOrder(IContract contract, IOrder order, IOrderState orderState);
         [DispId(152)]
         void completedOrdersEnd();
+        [DispId(153)]
+        void replaceFAEnd(int reqId, string text);
     }
 }

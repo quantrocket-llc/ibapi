@@ -397,13 +397,12 @@ class OrderSamples:
     </summary>"""
         
     @staticmethod
-    def LimitOrderWithCashQty(action:str, quantity:float, limitPrice:float, cashQty:float):
+    def LimitOrderWithCashQty(action:str, limitPrice:float, cashQty:float):
     
         # ! [limitorderwithcashqty]
         order = Order()
         order.action = action
         order.orderType = "LMT"
-        order.totalQuantity = quantity
         order.lmtPrice = limitPrice
         order.cashQty = cashQty
         # ! [limitorderwithcashqty]
@@ -998,7 +997,7 @@ class OrderSamples:
         order.adjustedOrderType = "TRAIL"
         #With a stop price of...
         order.adjustedStopPrice = adjustedStopPrice
-        #traling by and amount (0) or a percent (1)...
+        #traling by and amount (0) or a percent (100)...
         order.adjustableTrailingUnit = trailUnit
         #of...
         order.adjustedTrailingAmount = adjustedTrailAmount

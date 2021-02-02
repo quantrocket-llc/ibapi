@@ -3,9 +3,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+
 using IBApi;
-using System.Windows.Forms;
+
 using IBSampleApp.messages;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,10 +14,6 @@ namespace IBSampleApp
 {
     class IBClient : EWrapper
     {
-        private EClientSocket clientSocket;
-        private int nextOrderId;
-        private int clientId;
-
         public Task<Contract> ResolveContractAsync(int conId, string refExch)
         {
             var reqId = new Random(DateTime.Now.Millisecond).Next();
@@ -55,7 +51,8 @@ namespace IBSampleApp
                 ContractDetailsEnd = tmpContractDetailsEnd;
             });
 
-            ClientSocket.reqContractDetails(reqId, new Contract() { ConId = conId, Exchange = refExch });
+            ClientSocket.reqContractDetails(reqId, new Contract
+                                                   { ConId = conId, Exchange = refExch });
 
             return resolveResult.Task;
         }
@@ -100,36 +97,25 @@ namespace IBSampleApp
                 ContractDetailsEnd = tmpContractDetailsEnd;
             });
 
-            ClientSocket.reqContractDetails(reqId, new Contract() { SecType = secType, Symbol = symbol, Currency = currency, Exchange = exchange });
+            ClientSocket.reqContractDetails(reqId, new Contract
+                                                   { SecType = secType, Symbol = symbol, Currency = currency, Exchange = exchange });
 
             return res.Task;
         }
 
-        public int ClientId
-        {
-            get { return clientId; }
-            set { clientId = value; }
-        }
+        public int ClientId { get; set; }
 
         SynchronizationContext sc;
 
         public IBClient(EReaderSignal signal)
         {
-            clientSocket = new EClientSocket(this, signal);
+            ClientSocket = new EClientSocket(this, signal);
             sc = SynchronizationContext.Current;
         }
 
-        public EClientSocket ClientSocket
-        {
-            get { return clientSocket; }
-            private set { clientSocket = value; }
-        }
+        public EClientSocket ClientSocket { get; private set; }
 
-        public int NextOrderId
-        {
-            get { return nextOrderId; }
-            set { nextOrderId = value; }
-        }
+        public int NextOrderId { get; set; }
 
         public event Action<int, int, string, Exception> Error;
 
@@ -138,7 +124,7 @@ namespace IBSampleApp
             var tmp = Error;
 
             if (tmp != null)
-                sc.Post((t) => tmp(0, 0, null, e), null);
+                sc.Post(t => tmp(0, 0, null, e), null);
         }
 
         void EWrapper.error(string str)
@@ -146,7 +132,7 @@ namespace IBSampleApp
             var tmp = Error;
 
             if (tmp != null)
-                sc.Post((t) => tmp(0, 0, str, null), null);
+                sc.Post(t => tmp(0, 0, str, null), null);
         }
 
         void EWrapper.error(int id, int errorCode, string errorMsg)
@@ -154,7 +140,7 @@ namespace IBSampleApp
             var tmp = Error;
 
             if (tmp != null)
-                sc.Post((t) => tmp(id, errorCode, errorMsg, null), null);
+                sc.Post(t => tmp(id, errorCode, errorMsg, null), null);
         }
 
         public event Action ConnectionClosed;
@@ -164,7 +150,7 @@ namespace IBSampleApp
             var tmp = ConnectionClosed;
 
             if (tmp != null)
-                sc.Post((t) => tmp(), null);
+                sc.Post(t => tmp(), null);
         }
 
         public event Action<long> CurrentTime;
@@ -174,7 +160,7 @@ namespace IBSampleApp
             var tmp = CurrentTime;
 
             if (tmp != null)
-                sc.Post((t) => tmp(time), null);
+                sc.Post(t => tmp(time), null);
         }
 
         public event Action<TickPriceMessage> TickPrice;
@@ -184,7 +170,7 @@ namespace IBSampleApp
             var tmp = TickPrice;
 
             if (tmp != null)
-                sc.Post((t) => tmp(new TickPriceMessage(tickerId, field, price, attribs)), null);
+                sc.Post(t => tmp(new TickPriceMessage(tickerId, field, price, attribs)), null);
         }
 
         public event Action<TickSizeMessage> TickSize;
@@ -194,7 +180,7 @@ namespace IBSampleApp
             var tmp = TickSize;
 
             if (tmp != null)
-                sc.Post((t) => tmp(new TickSizeMessage(tickerId, field, size)), null);
+                sc.Post(t => tmp(new TickSizeMessage(tickerId, field, size)), null);
         }
 
         public event Action<int, int, string> TickString;
@@ -204,7 +190,7 @@ namespace IBSampleApp
             var tmp = TickString;
 
             if (tmp != null)
-                sc.Post((t) => tmp(tickerId, tickType, value), null);
+                sc.Post(t => tmp(tickerId, tickType, value), null);
         }
 
         public event Action<int, int, double> TickGeneric;
@@ -214,7 +200,7 @@ namespace IBSampleApp
             var tmp = TickGeneric;
 
             if (tmp != null)
-                sc.Post((t) => tmp(tickerId, field, value), null);
+                sc.Post(t => tmp(tickerId, field, value), null);
         }
 
         public event Action<int, int, double, string, double, int, string, double, double> TickEFP;
@@ -224,7 +210,7 @@ namespace IBSampleApp
             var tmp = TickEFP;
 
             if (tmp != null)
-                sc.Post((t) => tmp(tickerId, tickType, basisPoints, formattedBasisPoints, impliedFuture, holdDays, futureLastTradeDate, dividendImpact, dividendsToLastTradeDate), null);
+                sc.Post(t => tmp(tickerId, tickType, basisPoints, formattedBasisPoints, impliedFuture, holdDays, futureLastTradeDate, dividendImpact, dividendsToLastTradeDate), null);
         }
 
         public event Action<int> TickSnapshotEnd;
@@ -234,7 +220,7 @@ namespace IBSampleApp
             var tmp = TickSnapshotEnd;
 
             if (tmp != null)
-                sc.Post((t) => tmp(tickerId), null);
+                sc.Post(t => tmp(tickerId), null);
         }
 
         public event Action<ConnectionStatusMessage> NextValidId;
@@ -244,7 +230,7 @@ namespace IBSampleApp
             var tmp = NextValidId;
 
             if (tmp != null)
-                sc.Post((t) => tmp(new ConnectionStatusMessage(true)), null);
+                sc.Post(t => tmp(new ConnectionStatusMessage(true)), null);
 
             NextOrderId = orderId;
         }
@@ -256,7 +242,7 @@ namespace IBSampleApp
             var tmp = DeltaNeutralValidation;
 
             if (tmp != null)
-                sc.Post((t) => tmp(reqId, deltaNeutralContract), null);
+                sc.Post(t => tmp(reqId, deltaNeutralContract), null);
         }
 
         public event Action<ManagedAccountsMessage> ManagedAccounts;
@@ -266,17 +252,17 @@ namespace IBSampleApp
             var tmp = ManagedAccounts;
 
             if (tmp != null)
-                sc.Post((t) => tmp(new ManagedAccountsMessage(accountsList)), null);
+                sc.Post(t => tmp(new ManagedAccountsMessage(accountsList)), null);
         }
 
         public event Action<TickOptionMessage> TickOptionCommunication;
 
-        void EWrapper.tickOptionComputation(int tickerId, int field, double impliedVolatility, double delta, double optPrice, double pvDividend, double gamma, double vega, double theta, double undPrice)
+        void EWrapper.tickOptionComputation(int tickerId, int field, int tickAttrib, double impliedVolatility, double delta, double optPrice, double pvDividend, double gamma, double vega, double theta, double undPrice)
         {
             var tmp = TickOptionCommunication;
 
             if (tmp != null)
-                sc.Post((t) => tmp(new TickOptionMessage(tickerId, field, impliedVolatility, delta, optPrice, pvDividend, gamma, vega, theta, undPrice)), null);
+                sc.Post(t => tmp(new TickOptionMessage(tickerId, field, tickAttrib, impliedVolatility, delta, optPrice, pvDividend, gamma, vega, theta, undPrice)), null);
         }
 
         public event Action<AccountSummaryMessage> AccountSummary;
@@ -286,7 +272,7 @@ namespace IBSampleApp
             var tmp = AccountSummary;
 
             if (tmp != null)
-                sc.Post((t) => tmp(new AccountSummaryMessage(reqId, account, tag, value, currency)), null);
+                sc.Post(t => tmp(new AccountSummaryMessage(reqId, account, tag, value, currency)), null);
         }
 
         public event Action<AccountSummaryEndMessage> AccountSummaryEnd;
@@ -296,7 +282,7 @@ namespace IBSampleApp
             var tmp = AccountSummaryEnd;
 
             if (tmp != null)
-                sc.Post((t) => tmp(new AccountSummaryEndMessage(reqId)), null);
+                sc.Post(t => tmp(new AccountSummaryEndMessage(reqId)), null);
         }
 
         public event Action<AccountValueMessage> UpdateAccountValue;
@@ -306,7 +292,7 @@ namespace IBSampleApp
             var tmp = UpdateAccountValue;
 
             if (tmp != null)
-                sc.Post((t) => tmp(new AccountValueMessage(key, value, currency, accountName)), null);
+                sc.Post(t => tmp(new AccountValueMessage(key, value, currency, accountName)), null);
         }
 
         public event Action<UpdatePortfolioMessage> UpdatePortfolio;
@@ -316,7 +302,7 @@ namespace IBSampleApp
             var tmp = UpdatePortfolio;
 
             if (tmp != null)
-                sc.Post((t) => tmp(new UpdatePortfolioMessage(contract, position, marketPrice, marketValue, averageCost, unrealizedPNL, realizedPNL, accountName)), null);
+                sc.Post(t => tmp(new UpdatePortfolioMessage(contract, position, marketPrice, marketValue, averageCost, unrealizedPNL, realizedPNL, accountName)), null);
         }
 
         public event Action<UpdateAccountTimeMessage> UpdateAccountTime;
@@ -326,7 +312,7 @@ namespace IBSampleApp
             var tmp = UpdateAccountTime;
 
             if (tmp != null)
-                sc.Post((t) => tmp(new UpdateAccountTimeMessage(timestamp)), null);
+                sc.Post(t => tmp(new UpdateAccountTimeMessage(timestamp)), null);
         }
 
         public event Action<AccountDownloadEndMessage> AccountDownloadEnd;
@@ -336,7 +322,7 @@ namespace IBSampleApp
             var tmp = AccountDownloadEnd;
 
             if (tmp != null)
-                sc.Post((t) => tmp(new AccountDownloadEndMessage(account)), null);
+                sc.Post(t => tmp(new AccountDownloadEndMessage(account)), null);
         }
 
         public event Action<OrderStatusMessage> OrderStatus;
@@ -346,7 +332,7 @@ namespace IBSampleApp
             var tmp = OrderStatus;
 
             if (tmp != null)
-                sc.Post((t) => tmp(new OrderStatusMessage(orderId, status, filled, remaining, avgFillPrice, permId, parentId, lastFillPrice, clientId, whyHeld, mktCapPrice)), null);
+                sc.Post(t => tmp(new OrderStatusMessage(orderId, status, filled, remaining, avgFillPrice, permId, parentId, lastFillPrice, clientId, whyHeld, mktCapPrice)), null);
         }
 
         public event Action<OpenOrderMessage> OpenOrder;
@@ -356,7 +342,7 @@ namespace IBSampleApp
             var tmp = OpenOrder;
 
             if (tmp != null)
-                sc.Post((t) => tmp(new OpenOrderMessage(orderId, contract, order, orderState)), null);
+                sc.Post(t => tmp(new OpenOrderMessage(orderId, contract, order, orderState)), null);
         }
 
         public event Action OpenOrderEnd;
@@ -366,7 +352,7 @@ namespace IBSampleApp
             var tmp = OpenOrderEnd;
 
             if (tmp != null)
-                sc.Post((t) => tmp(), null);
+                sc.Post(t => tmp(), null);
         }
 
         public event Action<ContractDetailsMessage> ContractDetails;
@@ -376,7 +362,7 @@ namespace IBSampleApp
             var tmp = ContractDetails;
 
             if (tmp != null)
-                sc.Post((t) => tmp(new ContractDetailsMessage(reqId, contractDetails)), null);
+                sc.Post(t => tmp(new ContractDetailsMessage(reqId, contractDetails)), null);
         }
 
         public event Action<int> ContractDetailsEnd;
@@ -386,7 +372,7 @@ namespace IBSampleApp
             var tmp = ContractDetailsEnd;
 
             if (tmp != null)
-                sc.Post((t) => tmp(reqId), null);
+                sc.Post(t => tmp(reqId), null);
         }
 
         public event Action<ExecutionMessage> ExecDetails;
@@ -396,7 +382,7 @@ namespace IBSampleApp
             var tmp = ExecDetails;
 
             if (tmp != null)
-                sc.Post((t) => tmp(new ExecutionMessage(reqId, contract, execution)), null);
+                sc.Post(t => tmp(new ExecutionMessage(reqId, contract, execution)), null);
         }
 
         public event Action<int> ExecDetailsEnd;
@@ -406,7 +392,7 @@ namespace IBSampleApp
             var tmp = ExecDetailsEnd;
 
             if (tmp != null)
-                sc.Post((t) => tmp(reqId), null);
+                sc.Post(t => tmp(reqId), null);
         }
 
         public event Action<CommissionReport> CommissionReport;
@@ -416,7 +402,7 @@ namespace IBSampleApp
             var tmp = CommissionReport;
 
             if (tmp != null)
-                sc.Post((t) => tmp(commissionReport), null);
+                sc.Post(t => tmp(commissionReport), null);
         }
 
         public event Action<FundamentalsMessage> FundamentalData;
@@ -426,7 +412,7 @@ namespace IBSampleApp
             var tmp = FundamentalData;
 
             if (tmp != null)
-                sc.Post((t) => tmp(new FundamentalsMessage(data)), null);
+                sc.Post(t => tmp(new FundamentalsMessage(data)), null);
         }
 
         public event Action<HistoricalDataMessage> HistoricalData;
@@ -436,7 +422,7 @@ namespace IBSampleApp
             var tmp = HistoricalData;
 
             if (tmp != null)
-                sc.Post((t) => tmp(new HistoricalDataMessage(reqId, bar)), null);
+                sc.Post(t => tmp(new HistoricalDataMessage(reqId, bar)), null);
         }
 
         public event Action<HistoricalDataEndMessage> HistoricalDataEnd;
@@ -446,7 +432,7 @@ namespace IBSampleApp
             var tmp = HistoricalDataEnd;
 
             if (tmp != null)
-                sc.Post((t) => tmp(new HistoricalDataEndMessage(reqId, startDate, endDate)), null);
+                sc.Post(t => tmp(new HistoricalDataEndMessage(reqId, startDate, endDate)), null);
         }
 
         public event Action<MarketDataTypeMessage> MarketDataType;
@@ -456,7 +442,7 @@ namespace IBSampleApp
             var tmp = MarketDataType;
 
             if (tmp != null)
-                sc.Post((t) => tmp(new MarketDataTypeMessage(reqId, marketDataType)), null);
+                sc.Post(t => tmp(new MarketDataTypeMessage(reqId, marketDataType)), null);
         }
 
         public event Action<DeepBookMessage> UpdateMktDepth;
@@ -466,7 +452,7 @@ namespace IBSampleApp
             var tmp = UpdateMktDepth;
 
             if (tmp != null)
-                sc.Post((t) => tmp(new DeepBookMessage(tickerId, position, operation, side, price, size, "", false)), null);
+                sc.Post(t => tmp(new DeepBookMessage(tickerId, position, operation, side, price, size, "", false)), null);
         }
 
         public event Action<DeepBookMessage> UpdateMktDepthL2;
@@ -476,17 +462,17 @@ namespace IBSampleApp
             var tmp = UpdateMktDepthL2;
 
             if (tmp != null)
-                sc.Post((t) => tmp(new DeepBookMessage(tickerId, position, operation, side, price, size, marketMaker, isSmartDepth)), null);
+                sc.Post(t => tmp(new DeepBookMessage(tickerId, position, operation, side, price, size, marketMaker, isSmartDepth)), null);
         }
 
-        public event Action<int, int, String, String> UpdateNewsBulletin;
+        public event Action<int, int, string, string> UpdateNewsBulletin;
 
-        void EWrapper.updateNewsBulletin(int msgId, int msgType, String message, String origExchange)
+        void EWrapper.updateNewsBulletin(int msgId, int msgType, string message, string origExchange)
         {
             var tmp = UpdateNewsBulletin;
 
             if (tmp != null)
-                sc.Post((t) => tmp(msgId, msgType, message, origExchange), null);
+                sc.Post(t => tmp(msgId, msgType, message, origExchange), null);
         }
 
         public event Action<PositionMessage> Position;
@@ -496,7 +482,7 @@ namespace IBSampleApp
             var tmp = Position;
 
             if (tmp != null)
-                sc.Post((t) => tmp(new PositionMessage(account, contract, pos, avgCost)), null);
+                sc.Post(t => tmp(new PositionMessage(account, contract, pos, avgCost)), null);
         }
 
         public event Action PositionEnd;
@@ -506,7 +492,7 @@ namespace IBSampleApp
             var tmp = PositionEnd;
 
             if (tmp != null)
-                sc.Post((t) => tmp(), null);
+                sc.Post(t => tmp(), null);
         }
 
         public event Action<RealTimeBarMessage> RealtimeBar;
@@ -516,7 +502,7 @@ namespace IBSampleApp
             var tmp = RealtimeBar;
 
             if (tmp != null)
-                sc.Post((t) => tmp(new RealTimeBarMessage(reqId, time, open, high, low, close, volume, WAP, count)), null);
+                sc.Post(t => tmp(new RealTimeBarMessage(reqId, time, open, high, low, close, volume, WAP, count)), null);
         }
 
         public event Action<string> ScannerParameters;
@@ -526,7 +512,7 @@ namespace IBSampleApp
             var tmp = ScannerParameters;
 
             if (tmp != null)
-                sc.Post((t) => tmp(xml), null);
+                sc.Post(t => tmp(xml), null);
         }
 
         public event Action<ScannerMessage> ScannerData;
@@ -536,7 +522,7 @@ namespace IBSampleApp
             var tmp = ScannerData;
 
             if (tmp != null)
-                sc.Post((t) => tmp(new ScannerMessage(reqId, rank, contractDetails, distance, benchmark, projection, legsStr)), null);
+                sc.Post(t => tmp(new ScannerMessage(reqId, rank, contractDetails, distance, benchmark, projection, legsStr)), null);
         }
 
         public event Action<int> ScannerDataEnd;
@@ -546,7 +532,7 @@ namespace IBSampleApp
             var tmp = ScannerDataEnd;
 
             if (tmp != null)
-                sc.Post((t) => tmp(reqId), null);
+                sc.Post(t => tmp(reqId), null);
         }
 
         public event Action<AdvisorDataMessage> ReceiveFA;
@@ -556,7 +542,7 @@ namespace IBSampleApp
             var tmp = ReceiveFA;
 
             if (tmp != null)
-                sc.Post((t) => tmp(new AdvisorDataMessage(faDataType, faXmlData)), null);
+                sc.Post(t => tmp(new AdvisorDataMessage(faDataType, faXmlData)), null);
         }
 
         public event Action<BondContractDetailsMessage> BondContractDetails;
@@ -566,7 +552,7 @@ namespace IBSampleApp
             var tmp = BondContractDetails;
 
             if (tmp != null)
-                sc.Post((t) => tmp(new BondContractDetailsMessage(requestId, contractDetails)), null);
+                sc.Post(t => tmp(new BondContractDetailsMessage(requestId, contractDetails)), null);
         }
 
         public event Action<string> VerifyMessageAPI;
@@ -576,7 +562,7 @@ namespace IBSampleApp
             var tmp = VerifyMessageAPI;
 
             if (tmp != null)
-                sc.Post((t) => tmp(apiData), null);
+                sc.Post(t => tmp(apiData), null);
         }
         public event Action<bool, string> VerifyCompleted;
 
@@ -585,7 +571,7 @@ namespace IBSampleApp
             var tmp = VerifyCompleted;
 
             if (tmp != null)
-                sc.Post((t) => tmp(isSuccessful, errorText), null);
+                sc.Post(t => tmp(isSuccessful, errorText), null);
         }
 
         public event Action<string, string> VerifyAndAuthMessageAPI;
@@ -595,7 +581,7 @@ namespace IBSampleApp
             var tmp = VerifyAndAuthMessageAPI;
 
             if (tmp != null)
-                sc.Post((t) => tmp(apiData, xyzChallenge), null);
+                sc.Post(t => tmp(apiData, xyzChallenge), null);
         }
 
         public event Action<bool, string> VerifyAndAuthCompleted;
@@ -605,7 +591,7 @@ namespace IBSampleApp
             var tmp = VerifyAndAuthCompleted;
 
             if (tmp != null)
-                sc.Post((t) => tmp(isSuccessful, errorText), null);
+                sc.Post(t => tmp(isSuccessful, errorText), null);
         }
 
         public event Action<int, string> DisplayGroupList;
@@ -615,7 +601,7 @@ namespace IBSampleApp
             var tmp = DisplayGroupList;
 
             if (tmp != null)
-                sc.Post((t) => tmp(reqId, groups), null);
+                sc.Post(t => tmp(reqId, groups), null);
         }
 
         public event Action<int, string> DisplayGroupUpdated;
@@ -625,7 +611,7 @@ namespace IBSampleApp
             var tmp = DisplayGroupUpdated;
 
             if (tmp != null)
-                sc.Post((t) => tmp(reqId, contractInfo), null);
+                sc.Post(t => tmp(reqId, contractInfo), null);
         }
 
 
@@ -642,7 +628,7 @@ namespace IBSampleApp
             var tmp = PositionMulti;
 
             if (tmp != null)
-                sc.Post((t) => tmp(new PositionMultiMessage(reqId, account, modelCode, contract, pos, avgCost)), null);
+                sc.Post(t => tmp(new PositionMultiMessage(reqId, account, modelCode, contract, pos, avgCost)), null);
         }
 
         public event Action<int> PositionMultiEnd;
@@ -652,7 +638,7 @@ namespace IBSampleApp
             var tmp = PositionMultiEnd;
 
             if (tmp != null)
-                sc.Post((t) => tmp(reqId), null);
+                sc.Post(t => tmp(reqId), null);
         }
 
         public event Action<AccountUpdateMultiMessage> AccountUpdateMulti;
@@ -662,7 +648,7 @@ namespace IBSampleApp
             var tmp = AccountUpdateMulti;
 
             if (tmp != null)
-                sc.Post((t) => tmp(new AccountUpdateMultiMessage(reqId, account, modelCode, key, value, currency)), null);
+                sc.Post(t => tmp(new AccountUpdateMultiMessage(reqId, account, modelCode, key, value, currency)), null);
         }
 
         public event Action<int> AccountUpdateMultiEnd;
@@ -672,7 +658,7 @@ namespace IBSampleApp
             var tmp = AccountUpdateMultiEnd;
 
             if (tmp != null)
-                sc.Post((t) => tmp(reqId), null);
+                sc.Post(t => tmp(reqId), null);
         }
 
         public event Action<SecurityDefinitionOptionParameterMessage> SecurityDefinitionOptionParameter;
@@ -682,7 +668,7 @@ namespace IBSampleApp
             var tmp = SecurityDefinitionOptionParameter;
 
             if (tmp != null)
-                sc.Post((t) => tmp(new SecurityDefinitionOptionParameterMessage(reqId, exchange, underlyingConId, tradingClass, multiplier, expirations, strikes)), null);
+                sc.Post(t => tmp(new SecurityDefinitionOptionParameterMessage(reqId, exchange, underlyingConId, tradingClass, multiplier, expirations, strikes)), null);
         }
 
         public event Action<int> SecurityDefinitionOptionParameterEnd;
@@ -692,7 +678,7 @@ namespace IBSampleApp
             var tmp = SecurityDefinitionOptionParameterEnd;
 
             if (tmp != null)
-                sc.Post((t) => tmp(reqId), null);
+                sc.Post(t => tmp(reqId), null);
         }
 
         public event Action<SoftDollarTiersMessage> SoftDollarTiers;
@@ -702,7 +688,7 @@ namespace IBSampleApp
             var tmp = SoftDollarTiers;
 
             if (tmp != null)
-                sc.Post((t) => tmp(new SoftDollarTiersMessage(reqId, tiers)), null);
+                sc.Post(t => tmp(new SoftDollarTiersMessage(reqId, tiers)), null);
         }
 
         public event Action<FamilyCode[]> FamilyCodes;
@@ -712,7 +698,7 @@ namespace IBSampleApp
             var tmp = FamilyCodes;
 
             if (tmp != null)
-                sc.Post((t) => tmp(familyCodes), null);
+                sc.Post(t => tmp(familyCodes), null);
         }
 
         public event Action<SymbolSamplesMessage> SymbolSamples;
@@ -722,7 +708,7 @@ namespace IBSampleApp
             var tmp = SymbolSamples;
 
             if (tmp != null)
-                sc.Post((t) => tmp(new SymbolSamplesMessage(reqId, contractDescriptions)), null);
+                sc.Post(t => tmp(new SymbolSamplesMessage(reqId, contractDescriptions)), null);
         }
 
 
@@ -733,7 +719,7 @@ namespace IBSampleApp
             var tmp = MktDepthExchanges;
 
             if (tmp != null)
-                sc.Post((t) => tmp(depthMktDataDescriptions), null);
+                sc.Post(t => tmp(depthMktDataDescriptions), null);
         }
 
         public event Action<TickNewsMessage> TickNews;
@@ -743,7 +729,7 @@ namespace IBSampleApp
             var tmp = TickNews;
 
             if (tmp != null)
-                sc.Post((t) => tmp(new TickNewsMessage(tickerId, timeStamp, providerCode, articleId, headline, extraData)), null);
+                sc.Post(t => tmp(new TickNewsMessage(tickerId, timeStamp, providerCode, articleId, headline, extraData)), null);
         }
 
         public event Action<int, Dictionary<int, KeyValuePair<string, char>>> SmartComponents;
@@ -753,7 +739,7 @@ namespace IBSampleApp
             var tmp = SmartComponents;
 
             if (tmp != null)
-                sc.Post((t) => tmp(reqId, theMap), null);
+                sc.Post(t => tmp(reqId, theMap), null);
         }
 
         public event Action<TickReqParamsMessage> TickReqParams;
@@ -763,7 +749,7 @@ namespace IBSampleApp
             var tmp = TickReqParams;
 
             if (tmp != null)
-                sc.Post((t) => tmp(new TickReqParamsMessage(tickerId, minTick, bboExchange, snapshotPermissions)), null);
+                sc.Post(t => tmp(new TickReqParamsMessage(tickerId, minTick, bboExchange, snapshotPermissions)), null);
         }
 
         public event Action<NewsProvider[]> NewsProviders;
@@ -773,7 +759,7 @@ namespace IBSampleApp
             var tmp = NewsProviders;
 
             if (tmp != null)
-                sc.Post((t) => tmp(newsProviders), null);
+                sc.Post(t => tmp(newsProviders), null);
         }
 
         public event Action<NewsArticleMessage> NewsArticle;
@@ -783,7 +769,7 @@ namespace IBSampleApp
             var tmp = NewsArticle;
 
             if (tmp != null)
-                sc.Post((t) => tmp(new NewsArticleMessage(requestId, articleType, articleText)), null);
+                sc.Post(t => tmp(new NewsArticleMessage(requestId, articleType, articleText)), null);
         }
 
         public event Action<HistoricalNewsMessage> HistoricalNews;
@@ -793,7 +779,7 @@ namespace IBSampleApp
             var tmp = HistoricalNews;
 
             if (tmp != null)
-                sc.Post((t) => tmp(new HistoricalNewsMessage(requestId, time, providerCode, articleId, headline)), null);
+                sc.Post(t => tmp(new HistoricalNewsMessage(requestId, time, providerCode, articleId, headline)), null);
         }
 
         public event Action<HistoricalNewsEndMessage> HistoricalNewsEnd;
@@ -803,7 +789,7 @@ namespace IBSampleApp
             var tmp = HistoricalNewsEnd;
 
             if (tmp != null)
-                sc.Post((t) => tmp(new HistoricalNewsEndMessage(requestId, hasMore)), null);
+                sc.Post(t => tmp(new HistoricalNewsEndMessage(requestId, hasMore)), null);
         }
 
         public event Action<HeadTimestampMessage> HeadTimestamp;
@@ -813,7 +799,7 @@ namespace IBSampleApp
             var tmp = HeadTimestamp;
 
             if (tmp != null)
-                sc.Post((t) => tmp(new HeadTimestampMessage(reqId, headTimestamp)), null);
+                sc.Post(t => tmp(new HeadTimestampMessage(reqId, headTimestamp)), null);
         }
 
         public event Action<HistogramDataMessage> HistogramData;
@@ -823,7 +809,7 @@ namespace IBSampleApp
             var tmp = HistogramData;
 
             if (tmp != null)
-                sc.Post((t) => tmp(new HistogramDataMessage(reqId, data)), null);
+                sc.Post(t => tmp(new HistogramDataMessage(reqId, data)), null);
         }
 
         public event Action<HistoricalDataMessage> HistoricalDataUpdate;
@@ -833,7 +819,7 @@ namespace IBSampleApp
             var tmp = HistoricalDataUpdate;
 
             if (tmp != null)
-                sc.Post((t) => tmp(new HistoricalDataMessage(reqId, bar)), null);
+                sc.Post(t => tmp(new HistoricalDataMessage(reqId, bar)), null);
         }
 
         public event Action<int, int, string> RerouteMktDataReq;
@@ -843,7 +829,7 @@ namespace IBSampleApp
             var tmp = RerouteMktDataReq;
 
             if (tmp != null)
-                sc.Post((t) => tmp(reqId, conId, exchange), null);
+                sc.Post(t => tmp(reqId, conId, exchange), null);
         }
 
         public event Action<int, int, string> RerouteMktDepthReq;
@@ -853,7 +839,7 @@ namespace IBSampleApp
             var tmp = RerouteMktDepthReq;
 
             if (tmp != null)
-                sc.Post((t) => tmp(reqId, conId, exchange), null);
+                sc.Post(t => tmp(reqId, conId, exchange), null);
         }
 
         public event Action<MarketRuleMessage> MarketRule;
@@ -863,7 +849,7 @@ namespace IBSampleApp
             var tmp = MarketRule;
 
             if (tmp != null)
-                sc.Post((t) => tmp(new MarketRuleMessage(marketRuleId, priceIncrements)), null);
+                sc.Post(t => tmp(new MarketRuleMessage(marketRuleId, priceIncrements)), null);
         }
 
         public event Action<PnLMessage> pnl;
@@ -873,7 +859,7 @@ namespace IBSampleApp
             var tmp = pnl;
 
             if (tmp != null)
-                sc.Post((t) => tmp(new PnLMessage(reqId, dailyPnL, unrealizedPnL, realizedPnL)), null);
+                sc.Post(t => tmp(new PnLMessage(reqId, dailyPnL, unrealizedPnL, realizedPnL)), null);
         }
 
         public event Action<PnLSingleMessage> pnlSingle;
@@ -883,7 +869,7 @@ namespace IBSampleApp
             var tmp = pnlSingle;
 
             if (tmp != null)
-                sc.Post((t) => tmp(new PnLSingleMessage(reqId, pos, dailyPnL, unrealizedPnL, realizedPnL, value)), null);
+                sc.Post(t => tmp(new PnLSingleMessage(reqId, pos, dailyPnL, unrealizedPnL, realizedPnL, value)), null);
         }
 
         public event Action<HistoricalTickMessage> historicalTick;
@@ -893,7 +879,7 @@ namespace IBSampleApp
             var tmp = historicalTick;
 
             if (tmp != null)
-                ticks.ToList().ForEach(tick => sc.Post((t) => tmp(new HistoricalTickMessage(reqId, tick.Time, tick.Price, tick.Size)), null));
+                ticks.ToList().ForEach(tick => sc.Post(t => tmp(new HistoricalTickMessage(reqId, tick.Time, tick.Price, tick.Size)), null));
         }
 
         public event Action<HistoricalTickBidAskMessage> historicalTickBidAsk;
@@ -903,7 +889,7 @@ namespace IBSampleApp
             var tmp = historicalTickBidAsk;
 
             if (tmp != null)
-                ticks.ToList().ForEach(tick => sc.Post((t) =>
+                ticks.ToList().ForEach(tick => sc.Post(t =>
                     tmp(new HistoricalTickBidAskMessage(reqId, tick.Time, tick.TickAttribBidAsk, tick.PriceBid, tick.PriceAsk, tick.SizeBid, tick.SizeAsk)), null));
         }
 
@@ -914,7 +900,7 @@ namespace IBSampleApp
             var tmp = historicalTickLast;
 
             if (tmp != null)
-                ticks.ToList().ForEach(tick => sc.Post((t) => 
+                ticks.ToList().ForEach(tick => sc.Post(t => 
                     tmp(new HistoricalTickLastMessage(reqId, tick.Time, tick.TickAttribLast, tick.Price, tick.Size, tick.Exchange, tick.SpecialConditions)), null));
         }
 
@@ -925,7 +911,7 @@ namespace IBSampleApp
             var tmp = tickByTickAllLast;
 
             if (tmp != null)
-                sc.Post((t) => tmp(new TickByTickAllLastMessage(reqId, tickType, time, price, size, tickAttribLast, exchange, specialConditions)), null);
+                sc.Post(t => tmp(new TickByTickAllLastMessage(reqId, tickType, time, price, size, tickAttribLast, exchange, specialConditions)), null);
         }
 
         public event Action<TickByTickBidAskMessage> tickByTickBidAsk;
@@ -935,7 +921,7 @@ namespace IBSampleApp
             var tmp = tickByTickBidAsk;
 
             if (tmp != null)
-                sc.Post((t) => tmp(new TickByTickBidAskMessage(reqId, time, bidPrice, askPrice, bidSize, askSize, tickAttribBidAsk)), null);
+                sc.Post(t => tmp(new TickByTickBidAskMessage(reqId, time, bidPrice, askPrice, bidSize, askSize, tickAttribBidAsk)), null);
         }
 
         public event Action<TickByTickMidPointMessage> tickByTickMidPoint;
@@ -945,7 +931,7 @@ namespace IBSampleApp
             var tmp = tickByTickMidPoint;
 
             if (tmp != null)
-                sc.Post((t) => tmp(new TickByTickMidPointMessage(reqId, time, midPoint)), null);
+                sc.Post(t => tmp(new TickByTickMidPointMessage(reqId, time, midPoint)), null);
         }
 
         public event Action<OrderBoundMessage> OrderBound;
@@ -955,7 +941,7 @@ namespace IBSampleApp
             var tmp = OrderBound;
 
             if (tmp != null)
-                sc.Post((t) => tmp(new OrderBoundMessage(orderId, apiClientId, apiOrderId)), null);
+                sc.Post(t => tmp(new OrderBoundMessage(orderId, apiClientId, apiOrderId)), null);
         }
 
         public event Action<CompletedOrderMessage> CompletedOrder;
@@ -965,7 +951,7 @@ namespace IBSampleApp
             var tmp = CompletedOrder;
 
             if (tmp != null)
-                sc.Post((t) => tmp(new CompletedOrderMessage(contract, order, orderState)), null);
+                sc.Post(t => tmp(new CompletedOrderMessage(contract, order, orderState)), null);
         }
 
         public event Action CompletedOrdersEnd;
@@ -975,7 +961,17 @@ namespace IBSampleApp
             var tmp = CompletedOrdersEnd;
 
             if (tmp != null)
-                sc.Post((t) => tmp(), null);
+                sc.Post(t => tmp(), null);
+        }
+
+        public event Action<int, string> ReplaceFAEnd;
+
+        void EWrapper.replaceFAEnd(int reqId, string text)
+        {
+            var tmp = ReplaceFAEnd;
+
+            if (tmp != null)
+                sc.Post(t => tmp(reqId, text), null);
         }
     }
 }

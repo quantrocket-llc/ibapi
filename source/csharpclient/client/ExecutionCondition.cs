@@ -1,11 +1,7 @@
 ﻿/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 
 namespace IBApi
 {
@@ -91,9 +87,9 @@ namespace IBApi
                 return false;
 
             return base.Equals(obj) 
-                && this.Exchange.Equals(other.Exchange)
-                && this.SecType.Equals(other.SecType)
-                && this.Symbol.Equals(other.Symbol);
+                && Exchange.Equals(other.Exchange)
+                && SecType.Equals(other.SecType)
+                && Symbol.Equals(other.Symbol);
         }
 
         public override int GetHashCode()

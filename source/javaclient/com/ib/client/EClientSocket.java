@@ -63,7 +63,8 @@ public class EClientSocket extends EClient implements EClientMsgSink  {
 	    EReader reader = new EReader(this, m_signal);
 	
 	    if (!m_asyncEConnect) {
-	    	reader.putMessageToQueue();
+	    	if (!reader.putMessageToQueue())
+	    		return;
 
 	    	while (m_serverVersion == 0) {
 	    		m_signal.waitForSignal();

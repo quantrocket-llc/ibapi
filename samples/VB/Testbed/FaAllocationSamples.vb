@@ -55,7 +55,7 @@ Namespace Samples
             "<ListOfAllocationProfiles>" &
             "<AllocationProfile>" &
                 "<name> Percent_60_40</name>" &
-                "<Type>1</type>" &
+                "<type>1</type>" &
                     "<ListOfAllocations varName=""listOfAllocations"">" &
                     "<Allocation>" &
                      "<acct> DU119915</acct>" &

@@ -8,5 +8,6 @@
   - \subpage order_management
   - \subpage minimum_increment
   - \subpage margin
+  - \subpage trigger_method_limit 
     
 */
