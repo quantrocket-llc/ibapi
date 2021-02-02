@@ -35,9 +35,10 @@ public class HistoricalDataHandler extends HistoricalDataBaseHandler {
     public byte[] handleHistoricalDataRequest(String requestStr, byte[] data) {
         HistoricalDataRequest request = m_requestParser.parseHistoricalDataRequest(requestStr, data);
         System.out.println("Sending historical data request: id=" + request.requestId() + " contract=" + Utils.shortContractString(request.contract()));
+        byte[] ret = handleHistoricalDataBaseRequest(request);
         clientSocket().reqHistoricalData(request.requestId(), request.contract(), request.endDateTime(), request.durationStr(), 
                 request.barSizeSetting(), request.whatToShow(), request.useRth(), request.formatDate(), request.keepUpToDate(), null);
-        return handleHistoricalDataBaseRequest(request);
+        return ret;
     }
 
     /** Method handles historical data cancel request */

@@ -38,4 +38,4 @@ BAD_MESSAGE = CodeMsgPair(508, "Bad message")
 SOCKET_EXCEPTION = CodeMsgPair(509, "Exception caught while reading socket - ")
 FAIL_CREATE_SOCK = CodeMsgPair(520, "Failed to create socket")
 SSL_FAIL = CodeMsgPair(530, "SSL specific error: ")
- 
+INVALID_SYMBOL = CodeMsgPair(579, "Invalid symbol in string - ")

@@ -1,18 +1,10 @@
 ﻿/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace IBSampleApp
 {
     class ErrorMessage 
     {
-        private string message;
-        private int errorCode;
-        private int requestId;
-
         public ErrorMessage(int requestId, int errorCode, string message)
         {
             Message = message;
@@ -20,24 +12,12 @@ namespace IBSampleApp
             ErrorCode = errorCode;
         }
 
-        public string Message
-        {
-            get { return message; }
-            set { message = value; }
-        }
-        
-        public int ErrorCode
-        {
-            get { return errorCode; }
-            set { errorCode = value; }
-        }
-        
+        public string Message { get; set; }
 
-        public int RequestId
-        {
-            get { return requestId; }
-            set { requestId = value; }
-        }
+        public int ErrorCode { get; set; }
+
+
+        public int RequestId { get; set; }
 
         public override string ToString()
         {

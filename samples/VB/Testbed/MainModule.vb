@@ -62,6 +62,11 @@ Module MainModule
     Private Sub testIBMethods(client As EClientSocket, nextValidId As Integer)
 
         '**************************************************
+        '** Options operations                          ***
+        '**************************************************
+        'optionsOperations(client)
+
+        '**************************************************
         '** Real time market data operations  - Tickers ***
         '**************************************************
         'tickDataOperations(client)
@@ -99,7 +104,7 @@ Module MainModule
         '***************************
         '** Contract information ***
         '***************************
-        contractOperations(client)
+        'contractOperations(client)
 
         '**********************
         '** Market Scanners ***
@@ -129,7 +134,7 @@ Module MainModule
         '***********************************
         '** Financial Advisor Exclusive Operations ***
         '***********************************
-        ' financialAdvisorOperations(client)
+        financialAdvisorOperations(client)
 
         '*******************
         '** Miscellaneous ***
@@ -258,8 +263,8 @@ Module MainModule
         ' [regulatorysnapshot]
 
         '! [reqmktdata_genticks]
-        'Requesting RTVolume (Time & Sales), shortable And Fundamental Ratios generic ticks
-        client.reqMktData(1004, ContractSamples.USStockAtSmart(), "233,236,258", False, False, Nothing)
+        'Requesting RTVolume (Time & Sales) and shortable generic ticks
+        client.reqMktData(1004, ContractSamples.USStockAtSmart(), "233,236", False, False, Nothing)
         '! [reqmktdata_genticks]
 
         '! [reqmktdata_contractnews]
@@ -273,7 +278,6 @@ Module MainModule
         client.reqMktData(1009, ContractSamples.BTbroadtapeNewsFeed(), "mdoff,292", False, False, Nothing)
         client.reqMktData(1010, ContractSamples.BZbroadtapeNewsFeed(), "mdoff,292", False, False, Nothing)
         client.reqMktData(1011, ContractSamples.FLYbroadtapeNewsFeed(), "mdoff,292", False, False, Nothing)
-        client.reqMktData(1012, ContractSamples.MTbroadtapeNewsFeed(), "mdoff,292", False, False, Nothing)
         '! [reqmktdata_broadtapenews]
 
         '! [reqoptiondatagenticks]
@@ -296,6 +300,11 @@ Module MainModule
         client.reqMktData(1016, ContractSamples.USStockAtSmart(), "mdoff,105", False, False, Nothing)
         '! [reqavgoptvolume]
 
+        '! [reqetfticks]
+        'Requesting data for an ETF will return the ETF ticks
+        client.reqMktData(1017, ContractSamples.etf(), "mdoff,576,577,578,614,623", False, False, Nothing)
+        '! [reqetfticks]
+
         Thread.Sleep(10000)
         ' Canceling the market data subscription 
         ' [cancelmktdata]
@@ -307,14 +316,17 @@ Module MainModule
         client.cancelMktData(1014)
         client.cancelMktData(1015)
         client.cancelMktData(1016)
+        client.cancelMktData(1017)
         ' [cancelmktdata]
     End Sub
 
     Private Sub tickOptionComputationOperations(client As EClientSocket)
 
         ' Requesting real time market data 
+        client.reqMarketDataType(4)
+
         ' [reqmktdata]
-        client.reqMktData(2001, ContractSamples.FuturesOnOptions(), String.Empty, False, False, Nothing)
+        client.reqMktData(2001, ContractSamples.OptionWithLocalSymbol(), String.Empty, False, False, Nothing)
         ' [reqmktdata]
 
         Thread.Sleep(10000)
@@ -401,14 +413,14 @@ Module MainModule
 
         '! [calculateimpliedvolatility]
         '** Calculating implied volatility ***
-        client.calculateImpliedVolatility(5001, ContractSamples.NormalOption(), 5, 85, Nothing)
+        client.calculateImpliedVolatility(5001, ContractSamples.OptionWithLocalSymbol(), 0.5, 55, Nothing)
         '** Canceling implied volatility ***
         client.cancelCalculateImpliedVolatility(5001)
         '! [calculateimpliedvolatility]
 
         '! [calculateoptionprice]
         '** Calculating option's price ***
-        client.calculateOptionPrice(5002, ContractSamples.NormalOption(), 0.22, 85, Nothing)
+        client.calculateOptionPrice(5002, ContractSamples.OptionWithLocalSymbol(), 0.6, 55, Nothing)
         '** Canceling option's price calculation ***
         client.cancelCalculateOptionPrice(5002)
         '! [calculateoptionprice]
@@ -942,19 +954,19 @@ Module MainModule
 
         ''*** Replacing FA information - Fill in with the appropriate XML string. ***/
         ''! [replacefaonegroup]
-        client.replaceFA(Constants.FaGroups, FaAllocationSamples.FaOneGroup)
+        client.replaceFA(1000, Constants.FaGroups, FaAllocationSamples.FaOneGroup)
         ''! [replacefaonegroup]
 
         ''! [replacefatwogroups]
-        client.replaceFA(Constants.FaGroups, FaAllocationSamples.FaTwoGroups)
+        client.replaceFA(1001, Constants.FaGroups, FaAllocationSamples.FaTwoGroups)
         ''! [replacefatwogroups]
 
         ''! [replacefaoneprofile]
-        client.replaceFA(Constants.FaProfiles, FaAllocationSamples.FaOneProfile)
+        client.replaceFA(1002, Constants.FaProfiles, FaAllocationSamples.FaOneProfile)
         ''! [replacefaoneprofile]
 
         ''! [replacefatwoprofiles]
-        client.replaceFA(Constants.FaProfiles, FaAllocationSamples.FaTwoProfiles)
+        client.replaceFA(1003, Constants.FaProfiles, FaAllocationSamples.FaTwoProfiles)
         ''! [replacefatwoprofiles]
 
         ''! [reqSoftDollarTiers]

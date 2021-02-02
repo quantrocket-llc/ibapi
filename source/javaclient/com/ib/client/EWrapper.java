@@ -14,7 +14,7 @@ public interface EWrapper {
     ///////////////////////////////////////////////////////////////////////
     void tickPrice( int tickerId, int field, double price, TickAttrib attrib);
     void tickSize( int tickerId, int field, int size);
-    void tickOptionComputation( int tickerId, int field, double impliedVol,
+    void tickOptionComputation( int tickerId, int field, int tickAttrib, double impliedVol,
     		double delta, double optPrice, double pvDividend,
     		double gamma, double vega, double theta, double undPrice);
 	void tickGeneric(int tickerId, int tickType, double value);
@@ -106,5 +106,6 @@ public interface EWrapper {
     void orderBound(long orderId, int apiClientId, int apiOrderId);
     void completedOrder(Contract contract, Order order, OrderState orderState);
     void completedOrdersEnd();
+    void replaceFAEnd(int reqId, String text);
 }
 

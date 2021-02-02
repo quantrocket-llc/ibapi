@@ -68,6 +68,7 @@ import com.ib.client.VolumeCondition;
 /** Class contains some utility methods */
 public class Utils {
     // some constants
+    public static final String TICK_ATTRIB_STR = "TickAttrib";
     public static final String IMPLIED_VOL_STR = "ImpliedVol";
     public static final String OPT_PRICE_STR = "OptPrice";
     public static final String UND_PRICE_STR = "UndPrice";
@@ -129,6 +130,8 @@ public class Utils {
         put(TickType.DELAYED_ASK_OPTION.index(), TickType.ASK_OPTION.field());
         put(TickType.DELAYED_LAST_OPTION.index(), TickType.LAST_OPTION.field());
         put(TickType.DELAYED_MODEL_OPTION.index(), TickType.MODEL_OPTION.field());
+        put(TickType.DELAYED_LAST_TIMESTAMP.index(), TickType.LAST_TIMESTAMP.field());
+        put(TickType.DELAYED_HALTED.index(), TickType.HALTED.field());
     }};
 
     /** Method decodes string to byte array and saves it to PDF file 

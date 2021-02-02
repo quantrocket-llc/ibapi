@@ -98,12 +98,23 @@ Public Enum TickerColumns
     Col_OPTHISTVOLUME
     Col_OPTIMPLVOLUME
 
+' ETF
+    Col_ETFNAVCLOSE
+    Col_ETFNAVPRIORCLOSE
+    Col_ETFNAVBID
+    Col_ETFNAVASK
+    Col_ETFNAVLAST
+    Col_ETFFROZENNAVLAST
+    Col_ETFNAVHIGH
+    Col_ETFNAVLOW
+
 ' yields
     Col_BIDYIELD
     Col_ASKYIELD
     Col_LASTYIELD
 
 ' option computation
+    Col_OPTMODTICKATTRIB
     Col_OPTMODIMPLVOL
     Col_OPTMODDELTA
     Col_OPTMODOPTPRICE
@@ -113,6 +124,7 @@ Public Enum TickerColumns
     Col_OPTMODTHETA
     Col_OPTMODUNDPRICE
 
+    Col_BIDTICKATTRIB
     Col_BIDIMPLVOL
     Col_BIDDELTA
     Col_BIDOPTPRICE
@@ -122,6 +134,7 @@ Public Enum TickerColumns
     Col_BIDTHETA
     Col_BIDUNDPRICE
 
+    Col_ASKTICKATTRIB
     Col_ASKIMPLVOL
     Col_ASKDELTA
     Col_ASKOPTPRICE
@@ -131,6 +144,7 @@ Public Enum TickerColumns
     Col_ASKTHETA
     Col_ASKUNDPRICE
 
+    Col_LASTTICKATTRIB
     Col_LASTIMPLVOL
     Col_LASTDELTA
     Col_LASTOPTPRICE
@@ -141,6 +155,7 @@ Public Enum TickerColumns
     Col_LASTUNDPRICE
 
 ' custom option computation
+    Col_CUSTOMTICKATTRIB_IV
     Col_CUSTOMIMPLVOL_IV
     Col_CUSTOMDELTA_IV
     Col_CUSTOMOPTPRICE_IV
@@ -150,6 +165,7 @@ Public Enum TickerColumns
     Col_CUSTOMTHETA_IV
     Col_CUSTOMUNDPRICE_IV
 
+    Col_CUSTOMTICKATTRIB_OP
     Col_CUSTOMIMPLVOL_OP
     Col_CUSTOMDELTA_OP
     Col_CUSTOMOPTPRICE_OP
@@ -241,6 +257,7 @@ Private Type MktDataRecord
     OptAskExch As String
 
     ' tick option computation
+    OptModelTickAttrib As Integer
     OptModelImplVol As Double
     OptModelDelta As Double
     OptModelOptPrice As Double
@@ -250,6 +267,7 @@ Private Type MktDataRecord
     OptModelTheta As Double
     OptModelUndPrice As Double
     
+    BidTickAttrib As Integer
     BidImplVol As Double
     BidDelta As Double
     BidOptPrice As Double
@@ -259,6 +277,7 @@ Private Type MktDataRecord
     BidTheta As Double
     BidUndPrice As Double
     
+    AskTickAttrib As Integer
     AskImplVol As Double
     AskDelta As Double
     AskOptPrice As Double
@@ -268,6 +287,7 @@ Private Type MktDataRecord
     AskTheta As Double
     AskUndPrice As Double
 
+    LastTickAttrib As Integer
     LastImplVol As Double
     LastDelta As Double
     LastOptPrice As Double
@@ -323,6 +343,16 @@ Private Type MktDataRecord
     TradeRate As Double
     VolumeRate As Double
     LastRTHTrade As Double
+    
+    ' ETF
+    etfNavClose As Double
+    etfNavPriorClose As Double
+    etfNavBid As Double
+    etfNavAsk As Double
+    etfNavLast As Double
+    etfFrozenNavLast As Double
+    etfNavHigh As Double
+    etfNavLow As Double
     
     ' yields
     BidYield As Double
@@ -546,6 +576,32 @@ Private Sub RepaintMktDataRow(ByVal i As Long)
             tickerDataTable(i, Col_AVGOPTVOLUME).value = .AvgOptVolume
         End If
         
+        ' ETF
+        If tickerDataTable(i, Col_ETFNAVCLOSE).value <> .etfNavClose Then
+            tickerDataTable(i, Col_ETFNAVCLOSE).value = .etfNavClose
+        End If
+        If tickerDataTable(i, Col_ETFNAVPRIORCLOSE).value <> .etfNavPriorClose Then
+            tickerDataTable(i, Col_ETFNAVPRIORCLOSE).value = .etfNavPriorClose
+        End If
+        If tickerDataTable(i, Col_ETFNAVBID).value <> .etfNavBid Then
+            tickerDataTable(i, Col_ETFNAVBID).value = .etfNavBid
+        End If
+        If tickerDataTable(i, Col_ETFNAVASK).value <> .etfNavAsk Then
+            tickerDataTable(i, Col_ETFNAVASK).value = .etfNavAsk
+        End If
+        If tickerDataTable(i, Col_ETFNAVLAST).value <> .etfNavLast Then
+            tickerDataTable(i, Col_ETFNAVLAST).value = .etfNavLast
+        End If
+        If tickerDataTable(i, Col_ETFFROZENNAVLAST).value <> .etfFrozenNavLast Then
+            tickerDataTable(i, Col_ETFFROZENNAVLAST).value = .etfFrozenNavLast
+        End If
+        If tickerDataTable(i, Col_ETFNAVHIGH).value <> .etfNavHigh Then
+            tickerDataTable(i, Col_ETFNAVHIGH).value = .etfNavHigh
+        End If
+        If tickerDataTable(i, Col_ETFNAVLOW).value <> .etfNavLow Then
+            tickerDataTable(i, Col_ETFNAVLOW).value = .etfNavLow
+        End If
+        
         
         ' Bonds
         If .SecType = Util.SECTYPE_BOND Or tickerDataTable(i, Col_CONID).value <> STR_EMPTY Then
@@ -591,6 +647,9 @@ Private Sub RepaintMktDataRow(ByVal i As Long)
             End If
             
             ' option model
+            If tickerDataTable(i, Col_OPTMODTICKATTRIB).value <> .OptModelTickAttrib Then
+                tickerDataTable(i, Col_OPTMODTICKATTRIB).value = .OptModelTickAttrib
+            End If
             If tickerDataTable(i, Col_OPTMODIMPLVOL).value <> .OptModelImplVol Then
                 If .OptModelImplVol = MaxDoubleValue Then
                     tickerDataTable(i, Col_OPTMODIMPLVOL).value = STR_NOT_AVAILABLE
@@ -649,6 +708,9 @@ Private Sub RepaintMktDataRow(ByVal i As Long)
             End If
             
             ' bid
+            If tickerDataTable(i, Col_BIDTICKATTRIB).value <> .BidTickAttrib Then
+                tickerDataTable(i, Col_BIDTICKATTRIB).value = .BidTickAttrib
+            End If
             If tickerDataTable(i, Col_BIDIMPLVOL).value <> .BidImplVol Then
                 If .BidImplVol = MaxDoubleValue Then
                     tickerDataTable(i, Col_BIDIMPLVOL).value = STR_NOT_AVAILABLE
@@ -707,6 +769,9 @@ Private Sub RepaintMktDataRow(ByVal i As Long)
             End If
 
             ' ask
+            If tickerDataTable(i, Col_ASKTICKATTRIB).value <> .AskTickAttrib Then
+                tickerDataTable(i, Col_ASKTICKATTRIB).value = .AskTickAttrib
+            End If
             If tickerDataTable(i, Col_ASKIMPLVOL).value <> .AskImplVol Then
                 If .AskImplVol = MaxDoubleValue Then
                     tickerDataTable(i, Col_ASKIMPLVOL).value = STR_NOT_AVAILABLE
@@ -765,6 +830,9 @@ Private Sub RepaintMktDataRow(ByVal i As Long)
             End If
 
             ' last
+            If tickerDataTable(i, Col_LASTTICKATTRIB).value <> .LastTickAttrib Then
+                tickerDataTable(i, Col_LASTTICKATTRIB).value = .LastTickAttrib
+            End If
             If tickerDataTable(i, Col_LASTIMPLVOL).value <> .LastImplVol Then
                 If .LastImplVol = MaxDoubleValue Then
                     tickerDataTable(i, Col_LASTIMPLVOL).value = STR_NOT_AVAILABLE
@@ -968,7 +1036,7 @@ Private Sub CalculateImpliedVolatility_Click()
         If (contractTable(index, Col_SECTYPE).value = SECTYPE_OPT _
             Or contractTable(index, Col_SECTYPE).value = SECTYPE_FOP _
             Or contractTable(index, Col_CONID).value <> STR_EMPTY) _
-            And contractTable(index, Col_CALCIMPLVOLSTATUS).value <> STR_CALCULATED Then
+            And tickerDataTable(index, Col_CALCIMPLVOLSTATUS).value <> STR_CALCULATED Then
             
             ' create contract
             Dim lContractInfo As TWSLib.IContract
@@ -996,7 +1064,7 @@ Private Sub CalculateImpliedVolatility_Click()
             Api.Tws.CalculateImpliedVolatility index + ID_CALC_IMPL_VOL, lContractInfo, optPrice, underPrice
             
             ' update status column
-            contractTable(index, Col_CALCIMPLVOLSTATUS).value = STR_CALCULATING
+            tickerDataTable(index, Col_CALCIMPLVOLSTATUS).value = STR_CALCULATING
 
         End If
 
@@ -1019,7 +1087,7 @@ Private Sub CalculateOptionPrice_Click()
         If (contractTable(id, Col_SECTYPE).value = SECTYPE_OPT _
             Or contractTable(id, Col_SECTYPE).value = SECTYPE_FOP _
             Or contractTable(id, Col_CONID).value <> STR_EMPTY) _
-            And contractTable(id, Col_CALCOPTPRICESTATUS).value <> STR_CALCULATED Then
+            And tickerDataTable(id, Col_CALCOPTPRICESTATUS).value <> STR_CALCULATED Then
 
             ' create contract
             Dim lContractInfo As TWSLib.IContract
@@ -1045,7 +1113,7 @@ Private Sub CalculateOptionPrice_Click()
             underPrice = contractTable(id, Col_UNDERPRICE).value
 
             ' update status column
-            contractTable(id, Col_CALCOPTPRICESTATUS).value = STR_CALCULATING
+            tickerDataTable(id, Col_CALCOPTPRICESTATUS).value = STR_CALCULATING
             
             Api.Tws.CalculateOptionPrice id + ID_CALC_OPTION_PRICE, lContractInfo, volatility, underPrice
 
@@ -1087,6 +1155,7 @@ Private Sub CancelCalculateImpliedVolatilitySubscription(sel As Range)
 End Sub
 
 Private Sub ClearCustomCalculateImpliedVolatilityCells(row As Integer)
+    tickerDataTable(row, Col_CUSTOMTICKATTRIB_IV).value = STR_EMPTY
     tickerDataTable(row, Col_CUSTOMIMPLVOL_IV).value = STR_EMPTY
     tickerDataTable(row, Col_CUSTOMDELTA_IV).value = STR_EMPTY
     tickerDataTable(row, Col_CUSTOMOPTPRICE_IV).value = STR_EMPTY
@@ -1098,6 +1167,7 @@ Private Sub ClearCustomCalculateImpliedVolatilityCells(row As Integer)
 End Sub
 
 Private Sub ClearCustomCalculateOptionPriceCells(row As Integer)
+    tickerDataTable(row, Col_CUSTOMTICKATTRIB_OP).value = STR_EMPTY
     tickerDataTable(row, Col_CUSTOMIMPLVOL_OP).value = STR_EMPTY
     tickerDataTable(row, Col_CUSTOMDELTA_OP).value = STR_EMPTY
     tickerDataTable(row, Col_CUSTOMOPTPRICE_OP).value = STR_EMPTY
@@ -1219,6 +1289,14 @@ Private Sub ClearMarketDataCells(ByVal row As Integer)
     tickerDataTable(row, Col_EFPCLOSEFORMATTEDBASISPOINTS).value = STR_EMPTY
     tickerDataTable(row, Col_EFPCLOSETOTALDIVIDENDS).value = STR_EMPTY
     tickerDataTable(row, Col_EFPCLOSEDIVIDENDIMPACT).value = STR_EMPTY
+    tickerDataTable(row, Col_ETFNAVCLOSE).value = STR_EMPTY
+    tickerDataTable(row, Col_ETFNAVPRIORCLOSE).value = STR_EMPTY
+    tickerDataTable(row, Col_ETFNAVBID).value = STR_EMPTY
+    tickerDataTable(row, Col_ETFNAVASK).value = STR_EMPTY
+    tickerDataTable(row, Col_ETFNAVLAST).value = STR_EMPTY
+    tickerDataTable(row, Col_ETFFROZENNAVLAST).value = STR_EMPTY
+    tickerDataTable(row, Col_ETFNAVHIGH).value = STR_EMPTY
+    tickerDataTable(row, Col_ETFNAVLOW).value = STR_EMPTY
 End Sub
 
 ' cancel calculate option price click
@@ -1435,6 +1513,15 @@ Private Sub CancelMarketDataSubscription(ByVal tickerIndex As Long)
         .AskExch = STR_EMPTY
         .OptBidExch = STR_EMPTY
         .OptAskExch = STR_EMPTY
+        
+        .etfNavClose = 0
+        .etfNavPriorClose = 0
+        .etfNavBid = 0
+        .etfNavAsk = 0
+        .etfNavLast = 0
+        .etfFrozenNavLast = 0
+        .etfNavHigh = 0
+        .etfNavLast = 0
 
         .BidYield = 0
         .AskYield = 0
@@ -1547,7 +1634,6 @@ Public Sub UpdateTickersSheetWithPrice(id As Long, tickType As Long, price As Do
         End If
     End If
    
-    
     With arMktData(id)
 
         Select Case tickType
@@ -1615,6 +1701,22 @@ Public Sub UpdateTickersSheetWithPrice(id As Long, tickType As Long, price As Do
                 .ClosePrice = price
             Case DELAYED_OPEN
                 .OpenPrice = price
+            Case ETF_NAV_CLOSE
+                .etfNavClose = price
+            Case ETF_NAV_PRIOR_CLOSE
+                .etfNavPriorClose = price
+            Case ETF_NAV_BID
+                .etfNavBid = price
+            Case ETF_NAV_ASK
+                .etfNavAsk = price
+            Case ETF_NAV_LAST
+                .etfNavLast = price
+            Case ETF_FROZEN_NAV_LAST
+                .etfFrozenNavLast = price
+            Case ETF_NAV_HIGH
+                .etfNavHigh = price
+            Case ETF_NAV_LOW
+                .etfNavLow = price
         End Select
     End With
 
@@ -1686,10 +1788,12 @@ Public Sub UpdateTickersSheetWithSize(id As Long, tickType As Long, size As Long
 End Sub
 
 ' update tickers sheet with option data
-Public Sub UpdateTickersSheetWithOptionComp(id As Long, tickType As Long, ByVal impliedVol As Double, ByVal delta As Double, ByVal optPrice As Double, ByVal pvDividend As Double, ByVal gamma As Double, ByVal vega As Double, ByVal theta As Double, ByVal undPrice As Double)
+Public Sub UpdateTickersSheetWithOptionComp(id As Long, tickType As Long, ByVal tickAttrib As Long, ByVal impliedVol As Double, ByVal delta As Double, ByVal optPrice As Double, ByVal pvDividend As Double, ByVal gamma As Double, ByVal vega As Double, ByVal theta As Double, ByVal undPrice As Double)
 
+    'MsgBox tickType & tickAttrib
     If id >= ID_CALC_OPTION_PRICE Then
         id = id - ID_CALC_OPTION_PRICE
+        tickerDataTable(id, Col_CUSTOMTICKATTRIB_OP).value = tickAttrib
         If impliedVol = MaxDoubleValue Then
             tickerDataTable(id, Col_CUSTOMIMPLVOL_OP).value = STR_NOT_AVAILABLE
         Else
@@ -1734,6 +1838,7 @@ Public Sub UpdateTickersSheetWithOptionComp(id As Long, tickType As Long, ByVal 
 
     ElseIf id >= ID_CALC_IMPL_VOL And id < ID_CALC_OPTION_PRICE Then
         id = id - ID_CALC_IMPL_VOL
+        tickerDataTable(id, Col_CUSTOMTICKATTRIB_IV).value = tickAttrib
         If impliedVol = MaxDoubleValue Then
             tickerDataTable(id, Col_CUSTOMIMPLVOL_IV).value = STR_NOT_AVAILABLE
         Else
@@ -1791,6 +1896,7 @@ Public Sub UpdateTickersSheetWithOptionComp(id As Long, tickType As Long, ByVal 
 
             Select Case tickType
                 Case BID_OPTION_COMPUTATION
+                    .BidTickAttrib = tickAttrib
                     .BidImplVol = impliedVol
                     .BidDelta = delta
                     .BidOptPrice = optPrice
@@ -1800,6 +1906,7 @@ Public Sub UpdateTickersSheetWithOptionComp(id As Long, tickType As Long, ByVal 
                     .BidTheta = theta
                     .BidUndPrice = undPrice
                 Case ASK_OPTION_COMPUTATION
+                    .AskTickAttrib = tickAttrib
                     .AskImplVol = impliedVol
                     .AskDelta = delta
                     .AskOptPrice = optPrice
@@ -1809,6 +1916,7 @@ Public Sub UpdateTickersSheetWithOptionComp(id As Long, tickType As Long, ByVal 
                     .AskTheta = theta
                     .AskUndPrice = undPrice
                 Case LAST_OPTION_COMPUTATION
+                    .LastTickAttrib = tickAttrib
                     .LastImplVol = impliedVol
                     .LastDelta = delta
                     .LastOptPrice = optPrice
@@ -1818,6 +1926,7 @@ Public Sub UpdateTickersSheetWithOptionComp(id As Long, tickType As Long, ByVal 
                     .LastTheta = theta
                     .LastUndPrice = undPrice
                 Case MODEL_OPTION
+                    .OptModelTickAttrib = tickAttrib
                     .OptModelImplVol = impliedVol
                     .OptModelDelta = delta
                     .OptModelOptPrice = optPrice
@@ -1827,6 +1936,7 @@ Public Sub UpdateTickersSheetWithOptionComp(id As Long, tickType As Long, ByVal 
                     .OptModelTheta = theta
                     .OptModelUndPrice = undPrice
                 Case DELAYED_BID_OPTION
+                    .BidTickAttrib = tickAttrib
                     .BidImplVol = impliedVol
                     .BidDelta = delta
                     .BidOptPrice = optPrice
@@ -1836,6 +1946,7 @@ Public Sub UpdateTickersSheetWithOptionComp(id As Long, tickType As Long, ByVal 
                     .BidTheta = theta
                     .BidUndPrice = undPrice
                 Case DELAYED_ASK_OPTION
+                    .AskTickAttrib = tickAttrib
                     .AskImplVol = impliedVol
                     .AskDelta = delta
                     .AskOptPrice = optPrice
@@ -1845,6 +1956,7 @@ Public Sub UpdateTickersSheetWithOptionComp(id As Long, tickType As Long, ByVal 
                     .AskTheta = theta
                     .AskUndPrice = undPrice
                 Case DELAYED_LAST_OPTION
+                    .LastTickAttrib = tickAttrib
                     .LastImplVol = impliedVol
                     .LastDelta = delta
                     .LastOptPrice = optPrice
@@ -1854,6 +1966,7 @@ Public Sub UpdateTickersSheetWithOptionComp(id As Long, tickType As Long, ByVal 
                     .LastTheta = theta
                     .LastUndPrice = undPrice
                 Case DELAYED_MODEL_OPTION
+                    .OptModelTickAttrib = tickAttrib
                     .OptModelImplVol = impliedVol
                     .OptModelDelta = delta
                     .OptModelOptPrice = optPrice
@@ -1982,6 +2095,8 @@ Public Sub UpdateTickersSheetWithTickGeneric(ByVal id As Long, ByVal tickType As
                 .TradeRate = value
             Case VOLUME_RATE
                 .VolumeRate = value
+            Case DELAYED_HALTED
+                .Halted = value
         End Select
     End With
 

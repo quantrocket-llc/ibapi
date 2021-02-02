@@ -34,9 +34,10 @@ public class MarketDataHandler extends MarketDataBaseHandler {
     public byte[] handleMarketDataRequest(String requestStr, byte[] data) {
         MarketDataRequest request = m_requestParser.parseMarketDataRequest(requestStr, data);
         System.out.println("Sending market data request: id=" + request.requestId() + " for contract=" + Utils.shortContractString(request.contract()) + " genTicks=" + request.genericTicks());
+        byte[] ret = handleMarketDataBaseRequest(request); 
         clientSocket().reqMktData(request.requestId(), request.contract(), 
                 request.genericTicks(), request.snapshot(), false, null);
-        return handleMarketDataBaseRequest(request);
+        return ret;
     }
 
     /** Method returns array with long value */

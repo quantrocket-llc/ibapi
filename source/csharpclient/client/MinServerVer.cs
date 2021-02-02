@@ -1,11 +1,6 @@
 /* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 namespace IBApi
 {
     public class MinServerVer
@@ -114,5 +109,7 @@ namespace IBApi
         public const int ENCODE_MSG_ASCII7 = 153;
         public const int SEND_ALL_FAMILY_CODES = 154;
         public const int NO_DEFAULT_OPEN_CLOSE = 155;
+        public const int PRICE_BASED_VOLATILITY = 156;
+        public const int REPLACE_FA_END = 157;
     }
 }

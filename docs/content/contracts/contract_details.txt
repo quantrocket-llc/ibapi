@@ -1,6 +1,6 @@
 /*! \page contract_details Requesting Contract Details
 
-	Complete details about a contract in IB's database can be retrieved using the function @ref IBApi::EClient::reqContractDetails. This includes information about a contracts conID, symbol, local symbol, currency, etc. which is returned in a @ref IBApi::ContractDetails object IBApi.EWrapper.contractDetail. reqContractDetails takes as an argument a Contract object which may uniquely match an argument, and unlike other API functions it can also take a Contract object which matches multiple contracts in IB's database. When there are multiple matches, they will each be returned individually to the function IBApi::EWrapper::contractDetails. 
+	Complete details about a contract in IB's database can be retrieved using the function @ref IBApi::EClient::reqContractDetails. This includes information about a contract's conID, symbol, local symbol, currency, etc. which is returned in a @ref IBApi::ContractDetails object. reqContractDetails takes as an argument a Contract object which may uniquely match one contract, and unlike other API functions it can also take a Contract object which matches multiple contracts in IB's database. When there are multiple matches, they will each be returned individually to the function IBApi::EWrapper::contractDetails. 
 	
 	<b>Note</b>: Invoking reqContractDetails with a Contract object which has currency = USD will only return US contracts, even if there are non-US instruments which have the USD currency. 
 	
@@ -8,6 +8,14 @@
 	a few available fields to be returned in a bond contract description, namely the minTick, exchange, and short name. 
 
 	One particular use of the IBApi::EClient::reqContractDetails function is to request an option chain. See @ref option_chains for more details. 
+	
+	<b>Trading Schedule <em>TimeZoneId</em>:</b>
+	
+	Another function of IBApi::EClient::reqContractDetails is to request the trading schedule of an instrument via the TradingHours and LiquidHours fields.
+	The corresponding timeZoneId field will then indicate the time zone for the trading schedule of the instrument. TWS sends these timeZoneId strings to the API from the schedule responses as-is, and may not exactly match the time zones displayed in the TWS contract description.
+	
+	<em>Possible timeZoneId values are:</em>
+	Europe/Riga, Australia/NSW, Europe/Warsaw, US/Pacific, Europe/Tallinn, Japan, US/Eastern, GB-Eire, Africa/Johannesburg, Israel, Europe/Vilnius, MET, Europe/Helsinki, US/Central, Europe/Budapest, Asia/Calcutta, Hongkong, Europe/Moscow, GMT
 	
 	\section broadtape_list  BroadTape News List
 	
@@ -84,7 +92,7 @@
 	</ul>
 	
 	<b>Important:</b> due to the potentially high amount of data resulting from such queries this request is subject to pacing. Although a request such as the above one will be answered immediately,
-	a similar subsequent one will be kept on hold for one minute. This amount of time will increase if more such requests are performed. To prevent this narrow down the amount of eligible contracts
+	a similar subsequent one will be kept on hold for one minute. This amount of time will increase if more such requests are performed. To prevent this, narrow down the amount of eligible contracts
 	by providing an expiration date specifying at least the year (i.e. 2016) or the year and the month (i.e. 201603 for March 2016).
 	
 	<br><br>

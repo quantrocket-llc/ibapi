@@ -67,6 +67,9 @@ namespace TwsRtdServer
                     return;
                 }
 
+                twsRtdServerConnection.mktDataRequests().Add(m_twsReqId, this);
+                twsRtdServerConnection.mktDataRequestsStrToIdMapping().Add(mktDataRequestStr, m_twsReqId);
+
                 socket.reqMktData(m_twsReqId, contract, genericTicks, false, false, mktDataOptions);
             }
             catch

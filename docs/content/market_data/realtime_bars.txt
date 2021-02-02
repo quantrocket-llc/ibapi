@@ -27,6 +27,7 @@
 	
 	- To receive volume, VWAP, or trade count data, it is necessary to specify whatToShow as TRADES.
 	- It may be necessary to remake real time bars subscriptions after the IB server reset or between trading sessions. 
+	- If bust event happens, then bust event error (code=10225) is reported to all API client versions connected to TWS version 978+.
 	
 	\section rt_bars_rec Receiving
 	

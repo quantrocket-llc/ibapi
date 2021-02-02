@@ -142,7 +142,6 @@ public class OrdersHandler extends BaseHandler {
         if (request != null) {
                     
             System.out.println("Placing order: id=" + request.requestId() + " for contract=" + Utils.shortContractString(request.contract()) + " order=" + Utils.shortOrderString(request.order()));
-            clientSocket().placeOrder(request.requestId(), request.contract(), request.order()); 
             
             OrderStatusData orderStatus = new OrderStatusData(request.requestId(), "Sent", 0, 
                     request.order().totalQuantity(), 0, request.order().permId(), request.order().parentId(), 
@@ -150,6 +149,8 @@ public class OrdersHandler extends BaseHandler {
             OpenOrderData openOrderData = new OpenOrderData(request.requestId(), request.contract(), request.order(), null, orderStatus, false);
     
             m_openOrderDataMap.put(request.requestId(), openOrderData);
+            
+            clientSocket().placeOrder(request.requestId(), request.contract(), request.order()); 
         }
         
         return null;

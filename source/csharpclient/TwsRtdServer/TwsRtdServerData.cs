@@ -71,7 +71,7 @@ namespace TwsRtdServer{
         // TODO:
         // generic ticks
 
-        // STK  100,101,104,105,106,165,221,225,232,236,258,293,294,295,318,411,456,460,595,619
+        // STK  100,101,104,105,106,165,221,225,232,236,258,293,294,295,318,411,456,460,595,619,576,577,578,614,623
         // OPT  100,101,104,106,    165,221,225,232,236,258,293,294,295,318,411,456,460,595,619
         // FUT  100,101,104,106,    165,221,225,232,236,258,293,294,295,318,411,    460,    619,588
         // FOP  100,101,104,106,    165,221,225,232,236,258,293,294,295,318,411,    460,    619
@@ -85,7 +85,7 @@ namespace TwsRtdServer{
 
         public const string GENERIC_TICKS_BASE = "100,101,106,165,221,225,232,236,258,293,294,295,318,460,619"; // BAG
         public const string GENERIC_TICKS_FUT = GENERIC_TICKS_BASE + ",104,411,588"; // FUT, FOP, WAR, CFD, BOND, CASH
-        public const string GENERIC_TICKS_STK = GENERIC_TICKS_OPT  + ",105"; // STK
+        public const string GENERIC_TICKS_STK = GENERIC_TICKS_OPT  + ",105,576,577,578,614,623"; // STK
         public const string GENERIC_TICKS_OPT = GENERIC_TICKS_BASE + ",104,411,456,595"; // OPT
         public const string GENERIC_TICKS_IND = GENERIC_TICKS_BASE + ",104,162,411"; // IND
 
@@ -150,7 +150,20 @@ namespace TwsRtdServer{
         public const string FUTURES_OPEN_INTEREST = "FUTURESOPENINTEREST";
         // AVG_OPT_VOLUME (105)
         public const string GEN_TICK_AVG_OPT_VOLUME = "AVGOPTVOLUME";
-        
+        // ETF_NAV_CLOSE (578)
+        public const string GEN_TICK_ETF_NAV_CLOSE = "ETFNAVCLOSE";
+        public const string GEN_TICK_ETF_NAV_PRIOR_CLOSE = "ETFNAVPRIORCLOSE";
+        // ETF_NAV_BIDASK (576)
+        public const string GEN_TICK_ETF_NAV_BID = "ETFNAVBID";
+        public const string GEN_TICK_ETF_NAV_ASK = "ETFNAVASK";
+        // ETF_NAV_LAST (577)
+        public const string GEN_TICK_ETF_NAV_LAST = "ETFNAVLAST";
+        // ETF_FROZEN_NAV_LAST (623)
+        public const string GEN_TICK_ETF_FROZEN_NAV_LAST = "ETFFROZENNAVLAST";
+        // ETF_NAV_MISC (614)
+        public const string GEN_TICK_ETF_NAV_HIGH = "ETFNAVHIGH";
+        public const string GEN_TICK_ETF_NAV_LOW = "ETFNAVLOW";
+
         // DELAYED_TICKS
         public const string DELAYED_BID = "DELAYEDBID";
         public const string DELAYED_ASK = "DELAYEDASK";
@@ -164,8 +177,10 @@ namespace TwsRtdServer{
         public const string DELAYED_CLOSE = "DELAYEDCLOSE";
         public const string DELAYED_OPEN = "DELAYEDOPEN";
         public const string DELAYED_LAST_TIMESTAMP = "DELAYEDLASTTIMESTAMP";
+        public const string DELAYED_HALTED = "DELAYEDHALTED";
 
         // Option Topics
+        public const string BID_TICK_ATTRIB = "BIDTICKATTRIB";
         public const string BID_IMPLIED_VOL = "BIDIMPLIEDVOL";
         public const string BID_DELTA = "BIDDELTA";
         public const string BID_OPT_PRICE = "BIDOPTPRICE";
@@ -175,6 +190,7 @@ namespace TwsRtdServer{
         public const string BID_THETA = "BIDTHETA";
         public const string BID_UND_PRICE = "BIDUNDPRICE";
 
+        public const string ASK_TICK_ATTRIB = "ASKTICKATTRIB";
         public const string ASK_IMPLIED_VOL = "ASKIMPLIEDVOL";
         public const string ASK_DELTA = "ASKDELTA";
         public const string ASK_OPT_PRICE = "ASKOPTPRICE";
@@ -184,6 +200,7 @@ namespace TwsRtdServer{
         public const string ASK_THETA = "ASKTHETA";
         public const string ASK_UND_PRICE = "ASKUNDPRICE";
 
+        public const string LAST_TICK_ATTRIB = "LASTTICKATTRIB";
         public const string LAST_IMPLIED_VOL = "LASTIMPLIEDVOL";
         public const string LAST_DELTA = "LASTDELTA";
         public const string LAST_OPT_PRICE = "LASTOPTPRICE";
@@ -193,6 +210,7 @@ namespace TwsRtdServer{
         public const string LAST_THETA = "LASTTHETA";
         public const string LAST_UND_PRICE = "LASTUNDPRICE";
 
+        public const string MODEL_TICK_ATTRIB = "MODELTICKATTRIB";
         public const string MODEL_IMPLIED_VOL = "MODELIMPLIEDVOL";
         public const string MODEL_DELTA = "MODELDELTA";
         public const string MODEL_OPT_PRICE = "MODELOPTPRICE";
@@ -240,10 +258,10 @@ namespace TwsRtdServer{
             LASTTIME, HALTED,
 
             // option topics
-            BID_IMPLIED_VOL, BID_DELTA, BID_OPT_PRICE, BID_PV_DIVIDEND, BID_GAMMA, BID_VEGA, BID_THETA, BID_UND_PRICE,
-            ASK_IMPLIED_VOL, ASK_DELTA, ASK_OPT_PRICE, ASK_PV_DIVIDEND, ASK_GAMMA, ASK_VEGA, ASK_THETA, ASK_UND_PRICE,
-            LAST_IMPLIED_VOL, LAST_DELTA, LAST_OPT_PRICE, LAST_PV_DIVIDEND, LAST_GAMMA, LAST_VEGA, LAST_THETA, LAST_UND_PRICE,
-            MODEL_IMPLIED_VOL, MODEL_DELTA, MODEL_OPT_PRICE, MODEL_PV_DIVIDEND, MODEL_GAMMA, MODEL_VEGA, MODEL_THETA, MODEL_UND_PRICE,
+            BID_TICK_ATTRIB, BID_IMPLIED_VOL, BID_DELTA, BID_OPT_PRICE, BID_PV_DIVIDEND, BID_GAMMA, BID_VEGA, BID_THETA, BID_UND_PRICE,
+            ASK_TICK_ATTRIB, ASK_IMPLIED_VOL, ASK_DELTA, ASK_OPT_PRICE, ASK_PV_DIVIDEND, ASK_GAMMA, ASK_VEGA, ASK_THETA, ASK_UND_PRICE,
+            LAST_TICK_ATTRIB, LAST_IMPLIED_VOL, LAST_DELTA, LAST_OPT_PRICE, LAST_PV_DIVIDEND, LAST_GAMMA, LAST_VEGA, LAST_THETA, LAST_UND_PRICE,
+            MODEL_TICK_ATTRIB, MODEL_IMPLIED_VOL, MODEL_DELTA, MODEL_OPT_PRICE, MODEL_PV_DIVIDEND, MODEL_GAMMA, MODEL_VEGA, MODEL_THETA, MODEL_UND_PRICE,
 
             // generic topics
             GEN_TICK_AUCTION_VOLUME, GEN_TICK_AUCTION_IMBALANCE, GEN_TICK_AUCTION_PRICE, GEN_TICK_REGULATORY_IMBALANCE, // AUCTION (225)
@@ -268,16 +286,22 @@ namespace TwsRtdServer{
             GEN_TICK_SHORT_TERM_VOLUME_3_MIN, GEN_TICK_SHORT_TERM_VOLUME_5_MIN, GEN_TICK_SHORT_TERM_VOLUME_10_MIN, // SHORT_TERM_VOLUME (595)
             FUTURES_OPEN_INTEREST, // FUTURES_OPEN_INTEREST (588)
             GEN_TICK_AVG_OPT_VOLUME, // AVG_OPT_VOLUME (105)
+            GEN_TICK_ETF_NAV_CLOSE, GEN_TICK_ETF_NAV_PRIOR_CLOSE, // ETF_NAV_CLOSE (578)
+            GEN_TICK_ETF_NAV_BID, GEN_TICK_ETF_NAV_ASK, // ETF_NAV_BIDASK (576)
+            GEN_TICK_ETF_NAV_LAST, // ETF_NAV_LAST (577)
+            GEN_TICK_ETF_FROZEN_NAV_LAST, // ETF_FROZEN_NAV_LAST (623)
+            GEN_TICK_ETF_NAV_HIGH, GEN_TICK_ETF_NAV_LOW, // ETF_NAV_MISC (614)
 
             // delayed topics
             DELAYED_BID, DELAYED_ASK, DELAYED_LAST, DELAYED_BID_SIZE, DELAYED_ASK_SIZE, DELAYED_LAST_SIZE, 
-            DELAYED_HIGH, DELAYED_LOW, DELAYED_VOLUME, DELAYED_CLOSE, DELAYED_OPEN, DELAYED_LAST_TIMESTAMP
+            DELAYED_HIGH, DELAYED_LOW, DELAYED_VOLUME, DELAYED_CLOSE, DELAYED_OPEN, DELAYED_LAST_TIMESTAMP,
+            DELAYED_HALTED
         };
 
         private static string[] m_allowedDelayedTopics = new string[]{ 
             // delayed topics
             DELAYED_BID, DELAYED_ASK, DELAYED_LAST, DELAYED_BID_SIZE, DELAYED_ASK_SIZE, DELAYED_LAST_SIZE, 
-            DELAYED_HIGH, DELAYED_LOW, DELAYED_VOLUME, DELAYED_CLOSE, DELAYED_OPEN,
+            DELAYED_HIGH, DELAYED_LOW, DELAYED_VOLUME, DELAYED_CLOSE, DELAYED_OPEN, DELAYED_LAST_TIMESTAMP, DELAYED_HALTED,
 
             // generic tick types that are provided when delayed data is enabled
             // 232
@@ -358,13 +382,22 @@ namespace TwsRtdServer{
             { 75, DELAYED_CLOSE },
             { 76, DELAYED_OPEN },
             { 88, DELAYED_LAST_TIMESTAMP },
+            { 90, DELAYED_HALTED },
        
             { 78, GEN_TICK_CREDITMAN_MARK_PRICE },
             { 79, GEN_TICK_CREDITMAN_SLOW_MARK_PRICE },
             { 84, LASTEXCH },
             { 86, FUTURES_OPEN_INTEREST },
             { 87, GEN_TICK_AVG_OPT_VOLUME },
-            { 89, GEN_TICK_SHORTABLE_SHARES }
+            { 89, GEN_TICK_SHORTABLE_SHARES },
+            { 92, GEN_TICK_ETF_NAV_CLOSE },
+            { 93, GEN_TICK_ETF_NAV_PRIOR_CLOSE },
+            { 94, GEN_TICK_ETF_NAV_BID },
+            { 95, GEN_TICK_ETF_NAV_ASK },
+            { 96, GEN_TICK_ETF_NAV_LAST },
+            { 97, GEN_TICK_ETF_FROZEN_NAV_LAST },
+            { 98, GEN_TICK_ETF_NAV_HIGH },
+            { 99, GEN_TICK_ETF_NAV_LOW }
         };
 
 
@@ -381,6 +414,7 @@ namespace TwsRtdServer{
 
         public class OptionComputationData
         {
+            private int m_tickAttrib = 0;
             private double m_impliedVolatility = 0.0;
             private double m_delta = 0.0;
             private double m_optPrice = 0.0;
@@ -392,9 +426,10 @@ namespace TwsRtdServer{
 
             public OptionComputationData() { }
 
-            public OptionComputationData(double impliedVolatility, double delta, double optPrice, double pvDividend, double gamma, double vega,
+            public OptionComputationData(int tickAttrib, double impliedVolatility, double delta, double optPrice, double pvDividend, double gamma, double vega,
                 double theta, double undPrice)
             {
+                m_tickAttrib = tickAttrib;
                 m_impliedVolatility = impliedVolatility;
                 m_delta = delta;
                 m_optPrice = optPrice;
@@ -406,6 +441,11 @@ namespace TwsRtdServer{
             }
 
             // gets
+            public int getTickAttrib()
+            {
+                return m_tickAttrib;
+            }
+
             public double getImpliedVolatility()
             {
                 return m_impliedVolatility;

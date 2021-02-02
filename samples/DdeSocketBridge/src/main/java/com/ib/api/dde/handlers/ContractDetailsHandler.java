@@ -49,11 +49,10 @@ public class ContractDetailsHandler extends BaseHandler {
     public byte[] handleContractDetailsRequest(String requestStr, byte[] data) {
         ContractDetailsRequest request = m_requestParser.parseContractDetailsRequest(requestStr, data);
         System.out.println("Sending contract details request: id=" + request.requestId() + " contract=" + Utils.shortContractString(request.contract()));
-        clientSocket().reqContractDetails(request.requestId(), request.contract());
-
         ContractDetailsMap dataMap = new ContractDetailsMap(request);
         m_contractDetailsRequests.put(request.requestId(), dataMap);
         updateRequestStatus(request.requestId(), dataMap, DdeRequestStatus.REQUESTED);
+        clientSocket().reqContractDetails(request.requestId(), request.contract());
         return null;
     }
 

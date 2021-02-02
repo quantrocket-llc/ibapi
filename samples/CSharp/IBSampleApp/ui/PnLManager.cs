@@ -2,17 +2,14 @@
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace IBSampleApp.ui
 {
     class PnLManager
     {
-        private int pnlReqId = 0;
+        private int pnlReqId;
         private IBClient ibClient;
-        private int pnlSingleReqId = 0;
+        private int pnlSingleReqId;
 
         public void ReqPnL(string account, string modelCode)
         {

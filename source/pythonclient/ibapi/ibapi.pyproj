@@ -34,6 +34,7 @@
     <Compile Include="news.py" />
     <Compile Include="object_implem.py" />
     <Compile Include="order.py" />
+    <Compile Include="orderdecoder.py" />
     <Compile Include="order_condition.py" />
     <Compile Include="order_state.py" />
     <Compile Include="reader.py" />

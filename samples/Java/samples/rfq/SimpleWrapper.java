@@ -118,7 +118,7 @@ public class SimpleWrapper implements EWrapper {
 		logIn("tickSnapshotEnd");
 	}	
 
-	public void tickOptionComputation(int tickerId, int field, double impliedVol,
+	public void tickOptionComputation(int tickerId, int field, int tickAttrib, double impliedVol,
 			double delta, double optPrice, double pvDividend,
 			double gamma, double vega, double theta, double undPrice) {
 		logIn("tickOptionComputation");
@@ -546,6 +546,11 @@ public class SimpleWrapper implements EWrapper {
 
     @Override
     public void completedOrdersEnd() {
+        // TODO Auto-generated method stub
+    }
+
+    @Override
+    public void replaceFAEnd(int reqId, String text) {
         // TODO Auto-generated method stub
     }
 }

@@ -116,7 +116,17 @@ public class EReader extends Thread {
 
 	private EMessage readSingleMessage() throws IOException {
 		if (isUseV100Plus()) {
-			int msgSize = m_clientSocket.readInt();
+			int msgSize = 0;
+			try {
+				msgSize = m_clientSocket.readInt();
+			} 
+			catch (Exception ex) {
+				if (ex instanceof EOFException) {
+					parent().connectionError();
+					parent().eDisconnect();
+				}
+				return null;
+			}
 
 			if (msgSize > MAX_MSG_LENGTH) {
 				throw new InvalidMessageLengthException("message is too long: "

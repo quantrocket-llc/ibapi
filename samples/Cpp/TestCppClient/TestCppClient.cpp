@@ -49,17 +49,17 @@ TestCppClient::TestCppClient() :
 	, m_state(ST_CONNECT)
 	, m_sleepDeadline(0)
 	, m_orderId(0)
-    , m_pReader(0)
     , m_extraAuth(false)
 {
 }
 //! [socket_init]
 TestCppClient::~TestCppClient()
 {
-    if (m_pReader)
-        delete m_pReader;
+	// destroy the reader before the client
+	if( m_pReader )
+		m_pReader.reset();
 
-    delete m_pClient;
+	delete m_pClient;
 }
 
 bool TestCppClient::connect(const char *host, int port, int clientId)
@@ -74,7 +74,7 @@ bool TestCppClient::connect(const char *host, int port, int clientId)
 	if (bRes) {
 		printf( "Connected to %s:%d clientId:%d\n", m_pClient->host().c_str(), m_pClient->port(), clientId);
 		//! [ereader]
-        m_pReader = new EReader(m_pClient, &m_osSignal);
+		m_pReader = std::unique_ptr<EReader>( new EReader(m_pClient, &m_osSignal) );
 		m_pReader->start();
 		//! [ereader]
 	}
@@ -397,8 +397,8 @@ void TestCppClient::tickDataOperation()
 	*/
 	
 	//! [reqmktdata_genticks]
-	//Requesting RTVolume (Time & Sales), shortable and Fundamental Ratios generic ticks
-	m_pClient->reqMktData(1004, ContractSamples::USStockAtSmart(), "233,236,258", false, false, TagValueListSPtr());
+	//Requesting RTVolume (Time & Sales) and shortable generic ticks
+	m_pClient->reqMktData(1004, ContractSamples::USStockAtSmart(), "233,236", false, false, TagValueListSPtr());
 	//! [reqmktdata_genticks]
 
 	//! [reqmktdata_contractnews]
@@ -412,7 +412,6 @@ void TestCppClient::tickDataOperation()
 	m_pClient->reqMktData(1009, ContractSamples::BTbroadtapeNewsFeed(), "mdoff,292", false, false, TagValueListSPtr());
 	m_pClient->reqMktData(1010, ContractSamples::BZbroadtapeNewsFeed(), "mdoff,292", false, false, TagValueListSPtr());
 	m_pClient->reqMktData(1011, ContractSamples::FLYbroadtapeNewsFeed(), "mdoff,292", false, false, TagValueListSPtr());
-	m_pClient->reqMktData(1012, ContractSamples::MTbroadtapeNewsFeed(), "mdoff,292", false, false, TagValueListSPtr());
 	//! [reqmktdata_broadtapenews]
 
 	//! [reqoptiondatagenticks]
@@ -435,6 +434,11 @@ void TestCppClient::tickDataOperation()
 	m_pClient->reqMktData(1016, ContractSamples::USStockAtSmart(), "mdoff,105", false, false, TagValueListSPtr());
 	//! [reqavgoptvolume]
 
+	//! [reqetfticks]
+	//Requesting data for an ETF will return the ETF ticks
+	m_pClient->reqMktData(1017, ContractSamples::etf(), "mdoff,576,577,578,614,623", false, false, TagValueListSPtr());
+	//! [reqetfticks]
+
 	std::this_thread::sleep_for(std::chrono::seconds(1));
 	/*** Canceling the market data subscription ***/
 	//! [cancelmktdata]
@@ -444,6 +448,7 @@ void TestCppClient::tickDataOperation()
 	m_pClient->cancelMktData(1014);
 	m_pClient->cancelMktData(1015);
 	m_pClient->cancelMktData(1016);
+	m_pClient->cancelMktData(1017);
 	//! [cancelmktdata]
 
 	m_state = ST_TICKDATAOPERATION_ACK;
@@ -453,8 +458,11 @@ void TestCppClient::tickOptionComputationOperation()
 {
 	/*** Requesting real time market data ***/
 	std::this_thread::sleep_for(std::chrono::seconds(1));
+
+	m_pClient->reqMarketDataType(4);
+
 	//! [reqmktdata]
-	m_pClient->reqMktData(2001, ContractSamples::FuturesOnOptions(), "", false, false, TagValueListSPtr());
+	m_pClient->reqMktData(2001, ContractSamples::OptionWithLocalSymbol(), "", false, false, TagValueListSPtr());
 	//! [reqmktdata]
 
 	std::this_thread::sleep_for(std::chrono::seconds(10));
@@ -571,14 +579,14 @@ void TestCppClient::optionsOperations()
 	//! [reqsecdefoptparams]
 
 	//! [calculateimpliedvolatility]
-	m_pClient->calculateImpliedVolatility(5001, ContractSamples::NormalOption(), 5, 85, TagValueListSPtr());
+	m_pClient->calculateImpliedVolatility(5001, ContractSamples::OptionWithLocalSymbol(), 0.5, 55, TagValueListSPtr());
 	//! [calculateimpliedvolatility]
 
 	//** Canceling implied volatility ***
 	m_pClient->cancelCalculateImpliedVolatility(5001);
 
 	//! [calculateoptionprice]
-	m_pClient->calculateOptionPrice(5002, ContractSamples::NormalOption(), 0.22, 85, TagValueListSPtr());
+	m_pClient->calculateOptionPrice(5002, ContractSamples::OptionWithLocalSymbol(), 0.6, 55, TagValueListSPtr());
 	//! [calculateoptionprice]
 
 	//** Canceling option's price calculation ***
@@ -799,7 +807,7 @@ void TestCppClient::orderOperations()
 	//! [place_midprice]
 	
 	//! [place order with cashQty]
-	m_pClient->placeOrder(m_orderId++, ContractSamples::USStockAtSmart(), OrderSamples::LimitOrderWithCashQty("BUY", 1, 30, 5000));
+	m_pClient->placeOrder(m_orderId++, ContractSamples::USStockAtSmart(), OrderSamples::LimitOrderWithCashQty("BUY", 30, 5000));
 	//! [place order with cashQty]
 
 	std::this_thread::sleep_for(std::chrono::seconds(1));
@@ -1056,19 +1064,19 @@ void TestCppClient::financialAdvisorOperations()
 
 	/*** Replacing FA information - Fill in with the appropriate XML string. ***/
 	//! [replacefaonegroup]
-	m_pClient->replaceFA(faDataType::GROUPS, FAMethodSamples::FAOneGroup());
+	m_pClient->replaceFA(1000, faDataType::GROUPS, FAMethodSamples::FAOneGroup());
 	//! [replacefaonegroup]
 
 	//! [replacefatwogroups]
-	m_pClient->replaceFA(faDataType::GROUPS, FAMethodSamples::FATwoGroups());
+	m_pClient->replaceFA(1001, faDataType::GROUPS, FAMethodSamples::FATwoGroups());
 	//! [replacefatwogroups]
 
 	//! [replacefaoneprofile]
-	m_pClient->replaceFA(faDataType::PROFILES, FAMethodSamples::FAOneProfile());
+	m_pClient->replaceFA(1002, faDataType::PROFILES, FAMethodSamples::FAOneProfile());
 	//! [replacefaoneprofile]
 
 	//! [replacefatwoprofiles]
-	m_pClient->replaceFA(faDataType::PROFILES, FAMethodSamples::FATwoProfiles());
+	m_pClient->replaceFA(1003, faDataType::PROFILES, FAMethodSamples::FATwoProfiles());
 	//! [replacefatwoprofiles]
 
 	//! [reqSoftDollarTiers]
@@ -1366,6 +1374,7 @@ void TestCppClient::nextValidId( OrderId orderId)
 
     //m_state = ST_TICKOPTIONCOMPUTATIONOPERATION; 
     //m_state = ST_TICKDATAOPERATION; 
+    //m_state = ST_OPTIONSOPERATIONS;
     //m_state = ST_REQTICKBYTICKDATA; 
     //m_state = ST_REQHISTORICALTICKS; 
     //m_state = ST_CONTFUT; 
@@ -1376,7 +1385,7 @@ void TestCppClient::nextValidId( OrderId orderId)
 	//m_state = ST_REALTIMEBARS;
 	//m_state = ST_MARKETDATATYPE;
 	//m_state = ST_HISTORICALDATAREQUESTS;
-	m_state = ST_CONTRACTOPERATION;
+	//m_state = ST_CONTRACTOPERATION;
 	//m_state = ST_MARKETSCANNERS;
 	//m_state = ST_FUNDAMENTALS;
 	//m_state = ST_BULLETINS;
@@ -1388,7 +1397,7 @@ void TestCppClient::nextValidId( OrderId orderId)
 	//m_state = ST_HEDGESAMPLES;
 	//m_state = ST_TESTALGOSAMPLES;
 	//m_state = ST_FAORDERSAMPLES;
-	//m_state = ST_FAOPERATIONS;
+	m_state = ST_FAOPERATIONS;
 	//m_state = ST_DISPLAYGROUPS;
 	//m_state = ST_MISCELANEOUS;
 	//m_state = ST_FAMILYCODES;
@@ -1442,10 +1451,10 @@ void TestCppClient::tickSize( TickerId tickerId, TickType field, int size) {
 //! [ticksize]
 
 //! [tickoptioncomputation]
-void TestCppClient::tickOptionComputation( TickerId tickerId, TickType tickType, double impliedVol, double delta,
+void TestCppClient::tickOptionComputation( TickerId tickerId, TickType tickType, int tickAttrib, double impliedVol, double delta,
                                           double optPrice, double pvDividend,
                                           double gamma, double vega, double theta, double undPrice) {
-	printf( "TickOptionComputation. Ticker Id: %ld, Type: %d, ImpliedVolatility: %g, Delta: %g, OptionPrice: %g, pvDividend: %g, Gamma: %g, Vega: %g, Theta: %g, Underlying Price: %g\n", tickerId, (int)tickType, impliedVol, delta, optPrice, pvDividend, gamma, vega, theta, undPrice);
+	printf( "TickOptionComputation. Ticker Id: %ld, Type: %d, TickAttrib: %d, ImpliedVolatility: %g, Delta: %g, OptionPrice: %g, pvDividend: %g, Gamma: %g, Vega: %g, Theta: %g, Underlying Price: %g\n", tickerId, (int)tickType, tickAttrib, impliedVol, delta, optPrice, pvDividend, gamma, vega, theta, undPrice);
 }
 //! [tickoptioncomputation]
 
@@ -1908,7 +1917,7 @@ void TestCppClient::smartComponents(int reqId, const SmartComponentsMap& theMap)
 
 //! [tickReqParams]
 void TestCppClient::tickReqParams(int tickerId, double minTick, const std::string& bboExchange, int snapshotPermissions) {
-	printf("tickerId: %d, minTick: %g, bboExchange: %s, snapshotPermissions: %u", tickerId, minTick, bboExchange.c_str(), snapshotPermissions);
+	printf("tickerId: %d, minTick: %g, bboExchange: %s, snapshotPermissions: %u\n", tickerId, minTick, bboExchange.c_str(), snapshotPermissions);
 
 	m_bboExchange = bboExchange;
 }
@@ -2091,3 +2100,9 @@ void TestCppClient::completedOrdersEnd() {
 	printf( "CompletedOrdersEnd\n");
 }
 //! [completedordersend]
+
+//! [replacefaend]
+void TestCppClient::replaceFAEnd(int reqId, const std::string& text) {
+	printf("Replace FA End. Request: %d, Text:%s\n", reqId, text.c_str());
+}
+//! [replacefaend]

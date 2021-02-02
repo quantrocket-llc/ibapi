@@ -103,7 +103,14 @@ TickTypeEnum = Enum("BID_SIZE",
                 "AVG_OPT_VOLUME",
                 "DELAYED_LAST_TIMESTAMP",
                 "SHORTABLE_SHARES",
+                "DELAYED_HALTED",
+                "REUTERS_2_MUTUAL_FUNDS",
+                "ETF_NAV_CLOSE",
+                "ETF_NAV_PRIOR_CLOSE",
+                "ETF_NAV_BID",
+                "ETF_NAV_ASK",
+                "ETF_NAV_LAST",
+                "ETF_FROZEN_NAV_LAST",
+                "ETF_NAV_HIGH",
+                "ETF_NAV_LOW",
                 "NOT_SET")
-
-
-

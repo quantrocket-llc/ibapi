@@ -1,0 +1,38 @@
+/*! \page trigger_method_limit Trigger Methods
+
+	The Trigger Method defined in the @ref IBApi::Order class specifies how simulated stop, stop-limit, and trailling stops, and conditional orders are triggered. Valid values are:
+		- 0 - The default method for instrument
+		- 1 - "Double bid/ask" function, where stop orders are triggered based on two consecutive bid or ask prices.
+		- 2 - "Last" function, where stop orders are triggered based on the last price
+		- 3 - "Double last" function
+		- 4 - Bid/ask function
+		- 7 - Last or bid/ask function
+		- 8 - Mid-point function
+	
+	Below is a table which indicates whether a given secType is compatible with bid/ask-driven or last-driven trigger methods (method 7 only used in iBot alerts)
+
+	<table>
+		<tr><th>secType</th><th>Bid/Ask-driven (1, 4, 8)</th><th>Last-driven (2, 3)</th><th>Default behavior</th><th>Notes</th></tr>
+		<tr><td>STK</td><td>yes</td><td>yes</td><td>Last</td><td></td>The double bid/ask is used for OTC stocks</tr>
+		<tr><td>CFD</td><td>yes</td><td>yes</td><td>Last</td><td></td></tr>
+		<tr><td>CFD - Index</td><td>yes</td><td>n/a</td><td>n/a</td><td>Ex IBUS500</td></tr>
+		<tr><td>OPT</td><td>yes</td><td>yes</td><td>US OPT: Double bid/ask, Other: Last</td><td></td></tr>
+		<tr><td>FOP</td><td>yes</td><td>yes</td><td>Last</td><td></td></tr>
+		<tr><td>WAR</td><td>yes</td><td>yes</td><td>Last</td><td></td></tr>
+		<tr><td>IOPT</td><td>yes</td><td>yes</td><td>Last</td><td></td></tr>
+		<tr><td>FUT</td><td>yes</td><td>yes</td><td>Last</td><td></td></tr>
+		<tr><td>COMBO</td><td>yes</td><td>yes</td><td>Last</td><td></td></tr>
+		<tr><td>CASH</td><td>yes</td><td>n/a</td><td>Bid/ask</td><td></td></tr>
+		<tr><td>CMDTY</td><td>yes</td><td>n/a</td><td>Last</td><td></td></tr>
+		<tr><td>IND</td><td>n/a</td><td>yes</td><td>n/a</td><td>For conditions only</td></tr>
+		</tr>
+	</table>
+
+	<b>Important notes</b> : 
+	
+	- If an incompatible triggerMethod and secType are used in your API order, the order may never trigger.
+	- These trigger methods only apply to stop orders simulated by IB. If a stop-variant is handled natively, the trigger method specified is ignored. See our  <a href="https://www.interactivebrokers.com/en/index.php?f=609" target="_blank" class="linkexternal">Stop Orders</a> page for more information.
+
+	<br><br>
+	
+*/

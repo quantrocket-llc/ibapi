@@ -2,8 +2,6 @@
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using IBApi;
 using IBSampleApp.messages;
@@ -20,15 +18,8 @@ namespace IBSampleApp.ui
         private const int NEWS_ARTICLE_ID = TICK_NEWS_ID_BASE + 10000;
         private const int HISTORICAL_NEWS_ID = TICK_NEWS_ID_BASE + 20000;
 
-        int rowCountHistoricalNewsGrid = 0;
-        int rowCountTickNewsGrid = 0;
-
-        private IBClient ibClient;
-        private DataGridView tickNewsGrid;
-        private DataGridView newsProvidersGrid;
-        private TextBox textBoxArticleText;
-        private DataGridView historicalNewsGrid;
-        private string path;
+        int rowCountHistoricalNewsGrid;
+        int rowCountTickNewsGrid;
 
         public NewsManager(IBClient ibClient, DataGridView tickNewsDataGrid, DataGridView newsProvidersGrid, TextBox textBoxArticleText, DataGridView historicalNewsGrid)
         {
@@ -80,12 +71,12 @@ namespace IBSampleApp.ui
 
         public void HandleNewsProviders(NewsProvidersMessage newsProvidersMessage)
         {
-            newsProvidersGrid.Rows.Clear();
+            NewsProvidersGrid.Rows.Clear();
             for (int i = 0; i < newsProvidersMessage.NewsProviders.Length; i++)
             {
-                newsProvidersGrid.Rows.Add(1);
-                newsProvidersGrid[0, newsProvidersGrid.Rows.Count - 1].Value = newsProvidersMessage.NewsProviders[i].ProviderCode;
-                newsProvidersGrid[1, newsProvidersGrid.Rows.Count - 1].Value = newsProvidersMessage.NewsProviders[i].ProviderName;
+                NewsProvidersGrid.Rows.Add(1);
+                NewsProvidersGrid[0, NewsProvidersGrid.Rows.Count - 1].Value = newsProvidersMessage.NewsProviders[i].ProviderCode;
+                NewsProvidersGrid[1, NewsProvidersGrid.Rows.Count - 1].Value = newsProvidersMessage.NewsProviders[i].ProviderName;
             }
         }
 
@@ -93,26 +84,26 @@ namespace IBSampleApp.ui
         {
             if (newsArticleMessage.ArticleType == 0)
             {
-                textBoxArticleText.Text = newsArticleMessage.ArticleText;
+                TextBoxArticleText.Text = newsArticleMessage.ArticleText;
             }
             else if (newsArticleMessage.ArticleType == 1)
             {
                 byte[] bytes = Convert.FromBase64String(newsArticleMessage.ArticleText);
-                File.WriteAllBytes(path, bytes);
-                textBoxArticleText.Text = "Binary/pdf article was saved to " + path;
+                File.WriteAllBytes(Path, bytes);
+                TextBoxArticleText.Text = "Binary/pdf article was saved to " + Path;
             }
         }
 
         public void RequestNewsArticle(string providerCode, string articleId, string path)
         {
             Path = path + "\\" + articleId + ".pdf";
-            textBoxArticleText.Clear();
-            ibClient.ClientSocket.reqNewsArticle(NEWS_ARTICLE_ID, providerCode, articleId, new List<TagValue>());
+            TextBoxArticleText.Clear();
+            IbClient.ClientSocket.reqNewsArticle(NEWS_ARTICLE_ID, providerCode, articleId, new List<TagValue>());
         }
 
         public void ClearArticleText()
         {
-            textBoxArticleText.Clear();
+            TextBoxArticleText.Clear();
         }
 
         public void RequestNewsTicks(Contract contract)
@@ -121,7 +112,7 @@ namespace IBSampleApp.ui
                 TickNewsGrid.Visible = true;
 
             ClearTickNews();
-            ibClient.ClientSocket.reqMktData(TICK_NEWS_ID, contract, "mdoff,292", false, false, new List<TagValue>());
+            IbClient.ClientSocket.reqMktData(TICK_NEWS_ID, contract, "mdoff,292", false, false, new List<TagValue>());
         }
 
         public void ClearTickNews()
@@ -132,23 +123,23 @@ namespace IBSampleApp.ui
 
         public void CancelTickNews()
         {
-            ibClient.ClientSocket.cancelMktData(TICK_NEWS_ID);
+            IbClient.ClientSocket.cancelMktData(TICK_NEWS_ID);
             ClearTickNews();
         }
 
         public void ClearNewsProviders()
         {
-            newsProvidersGrid.Rows.Clear();
+            NewsProvidersGrid.Rows.Clear();
         }
 
         public void RequestNewsProviders()
         {
             if (!NewsProvidersGrid.Visible)
-                newsProvidersGrid.Visible = true;
+                NewsProvidersGrid.Visible = true;
 
             ClearNewsProviders();
 
-            ibClient.ClientSocket.reqNewsProviders();
+            IbClient.ClientSocket.reqNewsProviders();
         }
 
         public void RequestHistoricalNews(int conId, string providerCodes, string startDateTime, string endDateTime, int totalResults)
@@ -165,41 +156,16 @@ namespace IBSampleApp.ui
             HistoricalNewsGrid.Rows.Clear();
         }
 
-        public DataGridView HistoricalNewsGrid
-        {
-            get { return historicalNewsGrid; }
-            set { historicalNewsGrid = value; }
-        }
+        public DataGridView HistoricalNewsGrid { get; set; }
 
-        public DataGridView TickNewsGrid
-        {
-            get { return tickNewsGrid; }
-            set { tickNewsGrid = value; }
-        }
+        public DataGridView TickNewsGrid { get; set; }
 
-        public DataGridView NewsProvidersGrid
-        {
-            get { return newsProvidersGrid; }
-            set { newsProvidersGrid = value; }
-        }
+        public DataGridView NewsProvidersGrid { get; set; }
 
-        public TextBox TextBoxArticleText
-        {
-            get { return textBoxArticleText; }
-            set { textBoxArticleText = value; }
-        }
+        public TextBox TextBoxArticleText { get; set; }
 
-        public IBClient IbClient
-        {
-            get { return ibClient; }
-            set { ibClient = value; }
-        }
+        public IBClient IbClient { get; set; }
 
-        public string Path
-        {
-            get { return path; }
-            set { path = value; }
-        }
-
+        public string Path { get; set; }
     }
 }

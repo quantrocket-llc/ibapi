@@ -31,7 +31,7 @@ namespace IBApi
         internal bool UseV100Plus { get { return useV100Plus; } }
 
         private string connectOptions = "";
-        protected bool allowRedirect = false;
+        protected bool allowRedirect;
 
         /**
          * @brief Constructor
@@ -41,11 +41,11 @@ namespace IBApi
         public EClient(EWrapper wrapper)
         {
             this.wrapper = wrapper;
-            this.clientId = -1;
-            this.extraAuth = false;
-            this.isConnected = false;
-            this.optionalCapabilities = "";
-            this.AsyncEConnect = false;
+            clientId = -1;
+            extraAuth = false;
+            isConnected = false;
+            optionalCapabilities = "";
+            AsyncEConnect = false;
         }
 
         /**
@@ -55,7 +55,7 @@ namespace IBApi
         {
             if (IsConnected())
             {
-                wrapper.error(this.clientId, EClientErrors.AlreadyConnected.Code, EClientErrors.AlreadyConnected.Message);
+                wrapper.error(clientId, EClientErrors.AlreadyConnected.Code, EClientErrors.AlreadyConnected.Message);
 
                 return;
             }
@@ -68,8 +68,8 @@ namespace IBApi
          */
         public void DisableUseV100Plus()
         {
-            this.useV100Plus = false;
-            this.connectOptions = "";
+            useV100Plus = false;
+            connectOptions = "";
         }
 
         /**
@@ -91,7 +91,7 @@ namespace IBApi
         }
 
         /**
-         * @brief Indicates whether the API-TWS connection has been closed. 
+         * @brief Indicates whether the API-TWS connection has been closed.
          * Note: This function is not automatically invoked and must be by the API client.
          * @returns true if connection has been established, false if it has not.
          */
@@ -136,7 +136,7 @@ namespace IBApi
                 {
                     List<byte> buf = new List<byte>();
 
-                    buf.AddRange(UTF8Encoding.UTF8.GetBytes(Constants.ClientVersion.ToString()));
+                    buf.AddRange(Encoding.UTF8.GetBytes(Constants.ClientVersion.ToString()));
                     buf.Add(Constants.EOL);
                     socketTransport.Send(new EMessage(buf.ToArray()));
                 }
@@ -197,10 +197,10 @@ namespace IBApi
             if (resetState)
             {
                 isConnected = false;
-                this.extraAuth = false;
-                this.clientId = -1;
+                extraAuth = false;
+                clientId = -1;
                 serverVersion = 0;
-                this.optionalCapabilities = "";
+                optionalCapabilities = "";
             }
 
 
@@ -255,7 +255,7 @@ namespace IBApi
             paramsList.AddParameter(OutgoingMessages.CancelTickByTickData);
             paramsList.AddParameter(requestId);
 
-            CloseAndSend(paramsList, lengthPos, EClientErrors.FAIL_SEND_CANCELTICKBYTICKDATA);
+            CloseAndSend(requestId, paramsList, lengthPos, EClientErrors.FAIL_SEND_CANCELTICKBYTICKDATA);
         }
 
         /**
@@ -283,29 +283,37 @@ namespace IBApi
             var paramsList = new BinaryWriter(new MemoryStream());
             var lengthPos = prepareBuffer(paramsList);
 
-            paramsList.AddParameter(OutgoingMessages.ReqTickByTickData);
-            paramsList.AddParameter(requestId);
-            paramsList.AddParameter(contract.ConId);
-            paramsList.AddParameter(contract.Symbol);
-            paramsList.AddParameter(contract.SecType);
-            paramsList.AddParameter(contract.LastTradeDateOrContractMonth);
-            paramsList.AddParameter(contract.Strike);
-            paramsList.AddParameter(contract.Right);
-            paramsList.AddParameter(contract.Multiplier);
-            paramsList.AddParameter(contract.Exchange);
-            paramsList.AddParameter(contract.PrimaryExch);
-            paramsList.AddParameter(contract.Currency);
-            paramsList.AddParameter(contract.LocalSymbol);
-            paramsList.AddParameter(contract.TradingClass);
-            paramsList.AddParameter(tickType);
-
-            if (serverVersion >= MinServerVer.TICK_BY_TICK_IGNORE_SIZE)
+            try
             {
-                paramsList.AddParameter(numberOfTicks);
-                paramsList.AddParameter(ignoreSize);
+                paramsList.AddParameter(OutgoingMessages.ReqTickByTickData);
+                paramsList.AddParameter(requestId);
+                paramsList.AddParameter(contract.ConId);
+                paramsList.AddParameter(contract.Symbol);
+                paramsList.AddParameter(contract.SecType);
+                paramsList.AddParameter(contract.LastTradeDateOrContractMonth);
+                paramsList.AddParameter(contract.Strike);
+                paramsList.AddParameter(contract.Right);
+                paramsList.AddParameter(contract.Multiplier);
+                paramsList.AddParameter(contract.Exchange);
+                paramsList.AddParameter(contract.PrimaryExch);
+                paramsList.AddParameter(contract.Currency);
+                paramsList.AddParameter(contract.LocalSymbol);
+                paramsList.AddParameter(contract.TradingClass);
+                paramsList.AddParameter(tickType);
+
+                if (serverVersion >= MinServerVer.TICK_BY_TICK_IGNORE_SIZE)
+                {
+                    paramsList.AddParameter(numberOfTicks);
+                    paramsList.AddParameter(ignoreSize);
+                }
+            }
+            catch (EClientException e)
+            {
+                wrapper.error(requestId, e.Err.Code, e.Err.Message + e.Text);
+                return;
             }
 
-            CloseAndSend(paramsList, lengthPos, EClientErrors.FAIL_SEND_REQTICKBYTICKDATA);
+            CloseAndSend(requestId, paramsList, lengthPos, EClientErrors.FAIL_SEND_REQTICKBYTICKDATA);
         }
 
         /**
@@ -348,32 +356,40 @@ namespace IBApi
             var paramsList = new BinaryWriter(new MemoryStream());
             var lengthPos = prepareBuffer(paramsList);
 
-            paramsList.AddParameter(OutgoingMessages.ReqCalcImpliedVolat);
-            paramsList.AddParameter(version);
-            paramsList.AddParameter(reqId);
-            paramsList.AddParameter(contract.ConId);
-            paramsList.AddParameter(contract.Symbol);
-            paramsList.AddParameter(contract.SecType);
-            paramsList.AddParameter(contract.LastTradeDateOrContractMonth);
-            paramsList.AddParameter(contract.Strike);
-            paramsList.AddParameter(contract.Right);
-            paramsList.AddParameter(contract.Multiplier);
-            paramsList.AddParameter(contract.Exchange);
-            paramsList.AddParameter(contract.PrimaryExch);
-            paramsList.AddParameter(contract.Currency);
-            paramsList.AddParameter(contract.LocalSymbol);
-
-            if (serverVersion >= MinServerVer.TRADING_CLASS)
+            try
             {
-                paramsList.AddParameter(contract.TradingClass);
+                paramsList.AddParameter(OutgoingMessages.ReqCalcImpliedVolat);
+                paramsList.AddParameter(version);
+                paramsList.AddParameter(reqId);
+                paramsList.AddParameter(contract.ConId);
+                paramsList.AddParameter(contract.Symbol);
+                paramsList.AddParameter(contract.SecType);
+                paramsList.AddParameter(contract.LastTradeDateOrContractMonth);
+                paramsList.AddParameter(contract.Strike);
+                paramsList.AddParameter(contract.Right);
+                paramsList.AddParameter(contract.Multiplier);
+                paramsList.AddParameter(contract.Exchange);
+                paramsList.AddParameter(contract.PrimaryExch);
+                paramsList.AddParameter(contract.Currency);
+                paramsList.AddParameter(contract.LocalSymbol);
+
+                if (serverVersion >= MinServerVer.TRADING_CLASS)
+                {
+                    paramsList.AddParameter(contract.TradingClass);
+                }
+
+                paramsList.AddParameter(optionPrice);
+                paramsList.AddParameter(underPrice);
+
+                if (serverVersion >= MinServerVer.LINKING)
+                {
+                    paramsList.AddParameter(impliedVolatilityOptions);
+                }
             }
-
-            paramsList.AddParameter(optionPrice);
-            paramsList.AddParameter(underPrice);
-
-            if (serverVersion >= MinServerVer.LINKING)
+            catch (EClientException e)
             {
-                paramsList.AddParameter(impliedVolatilityOptions);
+                wrapper.error(reqId, e.Err.Code, e.Err.Message + e.Text);
+                return;
             }
 
             CloseAndSend(reqId, paramsList, lengthPos, EClientErrors.FAIL_SEND_REQCALCIMPLIEDVOLAT);
@@ -405,32 +421,40 @@ namespace IBApi
             var paramsList = new BinaryWriter(new MemoryStream());
             var lengthPos = prepareBuffer(paramsList);
 
-            paramsList.AddParameter(OutgoingMessages.ReqCalcOptionPrice);
-            paramsList.AddParameter(version);
-            paramsList.AddParameter(reqId);
-            paramsList.AddParameter(contract.ConId);
-            paramsList.AddParameter(contract.Symbol);
-            paramsList.AddParameter(contract.SecType);
-            paramsList.AddParameter(contract.LastTradeDateOrContractMonth);
-            paramsList.AddParameter(contract.Strike);
-            paramsList.AddParameter(contract.Right);
-            paramsList.AddParameter(contract.Multiplier);
-            paramsList.AddParameter(contract.Exchange);
-            paramsList.AddParameter(contract.PrimaryExch);
-            paramsList.AddParameter(contract.Currency);
-            paramsList.AddParameter(contract.LocalSymbol);
-
-            if (serverVersion >= MinServerVer.TRADING_CLASS)
+            try
             {
-                paramsList.AddParameter(contract.TradingClass);
+                paramsList.AddParameter(OutgoingMessages.ReqCalcOptionPrice);
+                paramsList.AddParameter(version);
+                paramsList.AddParameter(reqId);
+                paramsList.AddParameter(contract.ConId);
+                paramsList.AddParameter(contract.Symbol);
+                paramsList.AddParameter(contract.SecType);
+                paramsList.AddParameter(contract.LastTradeDateOrContractMonth);
+                paramsList.AddParameter(contract.Strike);
+                paramsList.AddParameter(contract.Right);
+                paramsList.AddParameter(contract.Multiplier);
+                paramsList.AddParameter(contract.Exchange);
+                paramsList.AddParameter(contract.PrimaryExch);
+                paramsList.AddParameter(contract.Currency);
+                paramsList.AddParameter(contract.LocalSymbol);
+
+                if (serverVersion >= MinServerVer.TRADING_CLASS)
+                {
+                    paramsList.AddParameter(contract.TradingClass);
+                }
+
+                paramsList.AddParameter(volatility);
+                paramsList.AddParameter(underPrice);
+
+                if (serverVersion >= MinServerVer.LINKING)
+                {
+                    paramsList.AddParameter(optionPriceOptions);
+                }
             }
-
-            paramsList.AddParameter(volatility);
-            paramsList.AddParameter(underPrice);
-
-            if (serverVersion >= MinServerVer.LINKING)
+            catch (EClientException e)
             {
-                paramsList.AddParameter(optionPriceOptions);
+                wrapper.error(reqId, e.Err.Code, e.Err.Message + e.Text);
+                return;
             }
 
             CloseAndSend(reqId, paramsList, lengthPos, EClientErrors.FAIL_SEND_REQCALCOPTIONPRICE);
@@ -541,7 +565,7 @@ namespace IBApi
                 paramsList.AddParameter(isSmartDepth);
             }
 
-            CloseAndSend(paramsList, lengthPos, EClientErrors.FAIL_SEND_CANMKTDEPTH);
+            CloseAndSend(tickerId, paramsList, lengthPos, EClientErrors.FAIL_SEND_CANMKTDEPTH);
         }
 
         /**
@@ -638,38 +662,46 @@ namespace IBApi
             var paramsList = new BinaryWriter(new MemoryStream());
             var lengthPos = prepareBuffer(paramsList);
 
-            paramsList.AddParameter(OutgoingMessages.ExerciseOptions);
-            paramsList.AddParameter(VERSION);
-            paramsList.AddParameter(tickerId);
-
-            if (serverVersion >= MinServerVer.TRADING_CLASS)
+            try
             {
-                paramsList.AddParameter(contract.ConId);
-            }
-            paramsList.AddParameter(contract.Symbol);
-            paramsList.AddParameter(contract.SecType);
-            paramsList.AddParameter(contract.LastTradeDateOrContractMonth);
-            paramsList.AddParameter(contract.Strike);
-            paramsList.AddParameter(contract.Right);
-            paramsList.AddParameter(contract.Multiplier);
-            paramsList.AddParameter(contract.Exchange);
-            paramsList.AddParameter(contract.Currency);
-            paramsList.AddParameter(contract.LocalSymbol);
-            if (serverVersion >= MinServerVer.TRADING_CLASS)
-            {
-                paramsList.AddParameter(contract.TradingClass);
-            }
-            paramsList.AddParameter(exerciseAction);
-            paramsList.AddParameter(exerciseQuantity);
-            paramsList.AddParameter(account);
-            paramsList.AddParameter(ovrd);
+                paramsList.AddParameter(OutgoingMessages.ExerciseOptions);
+                paramsList.AddParameter(VERSION);
+                paramsList.AddParameter(tickerId);
 
-            CloseAndSend(paramsList, lengthPos, EClientErrors.FAIL_GENERIC);
+                if (serverVersion >= MinServerVer.TRADING_CLASS)
+                {
+                    paramsList.AddParameter(contract.ConId);
+                }
+                paramsList.AddParameter(contract.Symbol);
+                paramsList.AddParameter(contract.SecType);
+                paramsList.AddParameter(contract.LastTradeDateOrContractMonth);
+                paramsList.AddParameter(contract.Strike);
+                paramsList.AddParameter(contract.Right);
+                paramsList.AddParameter(contract.Multiplier);
+                paramsList.AddParameter(contract.Exchange);
+                paramsList.AddParameter(contract.Currency);
+                paramsList.AddParameter(contract.LocalSymbol);
+                if (serverVersion >= MinServerVer.TRADING_CLASS)
+                {
+                    paramsList.AddParameter(contract.TradingClass);
+                }
+                paramsList.AddParameter(exerciseAction);
+                paramsList.AddParameter(exerciseQuantity);
+                paramsList.AddParameter(account);
+                paramsList.AddParameter(ovrd);
+            }
+            catch (EClientException e)
+            {
+                wrapper.error(tickerId, e.Err.Code, e.Err.Message + e.Text);
+                return;
+            }
+
+            CloseAndSend(tickerId, paramsList, lengthPos, EClientErrors.FAIL_GENERIC);
         }
 
         /**
          * @brief Places or modifies an order
-         * @param id the order's unique identifier. Use a sequential id starting with the id received at the nextValidId method. If a new order is placed with an order ID less than or equal to the order ID of a previous order an error will occur. 
+         * @param id the order's unique identifier. Use a sequential id starting with the id received at the nextValidId method. If a new order is placed with an order ID less than or equal to the order ID of a previous order an error will occur.
          * @param contract the order's contract
          * @param order the order
          * @sa EWrapper::nextValidId, reqAllOpenOrders, reqAutoOpenOrders, reqOpenOrders, cancelOrder, reqGlobalCancel, EWrapper::openOrder, EWrapper::orderStatus, Order, Contract
@@ -688,512 +720,519 @@ namespace IBApi
             var paramsList = new BinaryWriter(new MemoryStream());
             var lengthPos = prepareBuffer(paramsList);
 
+            try
+            {
+                paramsList.AddParameter(OutgoingMessages.PlaceOrder);
 
-            paramsList.AddParameter(OutgoingMessages.PlaceOrder);
-            
-            if (serverVersion < MinServerVer.ORDER_CONTAINER)
-            {
-                paramsList.AddParameter(MsgVersion);
-            }
-
-            paramsList.AddParameter(id);
-
-            if (serverVersion >= MinServerVer.PLACE_ORDER_CONID)
-            {
-                paramsList.AddParameter(contract.ConId);
-            }
-            paramsList.AddParameter(contract.Symbol);
-            paramsList.AddParameter(contract.SecType);
-            paramsList.AddParameter(contract.LastTradeDateOrContractMonth);
-            paramsList.AddParameter(contract.Strike);
-            paramsList.AddParameter(contract.Right);
-            if (serverVersion >= 15)
-            {
-                paramsList.AddParameter(contract.Multiplier);
-            }
-            paramsList.AddParameter(contract.Exchange);
-            if (serverVersion >= 14)
-            {
-                paramsList.AddParameter(contract.PrimaryExch);
-            }
-            paramsList.AddParameter(contract.Currency);
-            if (serverVersion >= 2)
-            {
-                paramsList.AddParameter(contract.LocalSymbol);
-            }
-            if (serverVersion >= MinServerVer.TRADING_CLASS)
-            {
-                paramsList.AddParameter(contract.TradingClass);
-            }
-            if (serverVersion >= MinServerVer.SEC_ID_TYPE)
-            {
-                paramsList.AddParameter(contract.SecIdType);
-                paramsList.AddParameter(contract.SecId);
-            }
-
-            // paramsList.AddParameter main order fields
-            paramsList.AddParameter(order.Action);
-
-            if (ServerVersion >= MinServerVer.FRACTIONAL_POSITIONS)
-                paramsList.AddParameter(order.TotalQuantity);
-            else
-                paramsList.AddParameter((int)order.TotalQuantity);
-
-            paramsList.AddParameter(order.OrderType);
-            if (serverVersion < MinServerVer.ORDER_COMBO_LEGS_PRICE)
-            {
-                paramsList.AddParameter(order.LmtPrice == Double.MaxValue ? 0 : order.LmtPrice);
-            }
-            else
-            {
-                paramsList.AddParameterMax(order.LmtPrice);
-            }
-            if (serverVersion < MinServerVer.TRAILING_PERCENT)
-            {
-                paramsList.AddParameter(order.AuxPrice == Double.MaxValue ? 0 : order.AuxPrice);
-            }
-            else
-            {
-                paramsList.AddParameterMax(order.AuxPrice);
-            }
-
-            // paramsList.AddParameter extended order fields
-            paramsList.AddParameter(order.Tif);
-            paramsList.AddParameter(order.OcaGroup);
-            paramsList.AddParameter(order.Account);
-            paramsList.AddParameter(order.OpenClose);
-            paramsList.AddParameter(order.Origin);
-            paramsList.AddParameter(order.OrderRef);
-            paramsList.AddParameter(order.Transmit);
-            if (serverVersion >= 4)
-            {
-                paramsList.AddParameter(order.ParentId);
-            }
-
-            if (serverVersion >= 5)
-            {
-                paramsList.AddParameter(order.BlockOrder);
-                paramsList.AddParameter(order.SweepToFill);
-                paramsList.AddParameter(order.DisplaySize);
-                paramsList.AddParameter(order.TriggerMethod);
-                if (serverVersion < 38)
+                if (serverVersion < MinServerVer.ORDER_CONTAINER)
                 {
-                    // will never happen
-                    paramsList.AddParameter(/* order.ignoreRth */ false);
+                    paramsList.AddParameter(MsgVersion);
+                }
+
+                paramsList.AddParameter(id);
+
+                if (serverVersion >= MinServerVer.PLACE_ORDER_CONID)
+                {
+                    paramsList.AddParameter(contract.ConId);
+                }
+                paramsList.AddParameter(contract.Symbol);
+                paramsList.AddParameter(contract.SecType);
+                paramsList.AddParameter(contract.LastTradeDateOrContractMonth);
+                paramsList.AddParameter(contract.Strike);
+                paramsList.AddParameter(contract.Right);
+                if (serverVersion >= 15)
+                {
+                    paramsList.AddParameter(contract.Multiplier);
+                }
+                paramsList.AddParameter(contract.Exchange);
+                if (serverVersion >= 14)
+                {
+                    paramsList.AddParameter(contract.PrimaryExch);
+                }
+                paramsList.AddParameter(contract.Currency);
+                if (serverVersion >= 2)
+                {
+                    paramsList.AddParameter(contract.LocalSymbol);
+                }
+                if (serverVersion >= MinServerVer.TRADING_CLASS)
+                {
+                    paramsList.AddParameter(contract.TradingClass);
+                }
+                if (serverVersion >= MinServerVer.SEC_ID_TYPE)
+                {
+                    paramsList.AddParameter(contract.SecIdType);
+                    paramsList.AddParameter(contract.SecId);
+                }
+
+                // paramsList.AddParameter main order fields
+                paramsList.AddParameter(order.Action);
+
+                if (ServerVersion >= MinServerVer.FRACTIONAL_POSITIONS)
+                    paramsList.AddParameter(order.TotalQuantity);
+                else
+                    paramsList.AddParameter((int)order.TotalQuantity);
+
+                paramsList.AddParameter(order.OrderType);
+                if (serverVersion < MinServerVer.ORDER_COMBO_LEGS_PRICE)
+                {
+                    paramsList.AddParameter(order.LmtPrice == double.MaxValue ? 0 : order.LmtPrice);
                 }
                 else
                 {
-                    paramsList.AddParameter(order.OutsideRth);
+                    paramsList.AddParameterMax(order.LmtPrice);
                 }
-            }
-
-            if (serverVersion >= 7)
-            {
-                paramsList.AddParameter(order.Hidden);
-            }
-
-            // paramsList.AddParameter combo legs for BAG requests
-            bool isBag = StringsAreEqual(Constants.BagSecType, contract.SecType);
-            if (serverVersion >= 8 && isBag)
-            {
-                if (contract.ComboLegs == null)
+                if (serverVersion < MinServerVer.TRAILING_PERCENT)
                 {
-                    paramsList.AddParameter(0);
+                    paramsList.AddParameter(order.AuxPrice == double.MaxValue ? 0 : order.AuxPrice);
                 }
                 else
                 {
-                    paramsList.AddParameter(contract.ComboLegs.Count);
+                    paramsList.AddParameterMax(order.AuxPrice);
+                }
 
-                    ComboLeg comboLeg;
-                    for (int i = 0; i < contract.ComboLegs.Count; i++)
+                // paramsList.AddParameter extended order fields
+                paramsList.AddParameter(order.Tif);
+                paramsList.AddParameter(order.OcaGroup);
+                paramsList.AddParameter(order.Account);
+                paramsList.AddParameter(order.OpenClose);
+                paramsList.AddParameter(order.Origin);
+                paramsList.AddParameter(order.OrderRef);
+                paramsList.AddParameter(order.Transmit);
+                if (serverVersion >= 4)
+                {
+                    paramsList.AddParameter(order.ParentId);
+                }
+
+                if (serverVersion >= 5)
+                {
+                    paramsList.AddParameter(order.BlockOrder);
+                    paramsList.AddParameter(order.SweepToFill);
+                    paramsList.AddParameter(order.DisplaySize);
+                    paramsList.AddParameter(order.TriggerMethod);
+                    if (serverVersion < 38)
                     {
-                        comboLeg = (ComboLeg)contract.ComboLegs[i];
-                        paramsList.AddParameter(comboLeg.ConId);
-                        paramsList.AddParameter(comboLeg.Ratio);
-                        paramsList.AddParameter(comboLeg.Action);
-                        paramsList.AddParameter(comboLeg.Exchange);
-                        paramsList.AddParameter(comboLeg.OpenClose);
+                        // will never happen
+                        paramsList.AddParameter(/* order.ignoreRth */ false);
+                    }
+                    else
+                    {
+                        paramsList.AddParameter(order.OutsideRth);
+                    }
+                }
 
-                        if (serverVersion >= MinServerVer.SSHORT_COMBO_LEGS)
+                if (serverVersion >= 7)
+                {
+                    paramsList.AddParameter(order.Hidden);
+                }
+
+                // paramsList.AddParameter combo legs for BAG requests
+                bool isBag = StringsAreEqual(Constants.BagSecType, contract.SecType);
+                if (serverVersion >= 8 && isBag)
+                {
+                    if (contract.ComboLegs == null)
+                    {
+                        paramsList.AddParameter(0);
+                    }
+                    else
+                    {
+                        paramsList.AddParameter(contract.ComboLegs.Count);
+
+                        ComboLeg comboLeg;
+                        for (int i = 0; i < contract.ComboLegs.Count; i++)
                         {
-                            paramsList.AddParameter(comboLeg.ShortSaleSlot);
-                            paramsList.AddParameter(comboLeg.DesignatedLocation);
+                            comboLeg = contract.ComboLegs[i];
+                            paramsList.AddParameter(comboLeg.ConId);
+                            paramsList.AddParameter(comboLeg.Ratio);
+                            paramsList.AddParameter(comboLeg.Action);
+                            paramsList.AddParameter(comboLeg.Exchange);
+                            paramsList.AddParameter(comboLeg.OpenClose);
+
+                            if (serverVersion >= MinServerVer.SSHORT_COMBO_LEGS)
+                            {
+                                paramsList.AddParameter(comboLeg.ShortSaleSlot);
+                                paramsList.AddParameter(comboLeg.DesignatedLocation);
+                            }
+                            if (serverVersion >= MinServerVer.SSHORTX_OLD)
+                            {
+                                paramsList.AddParameter(comboLeg.ExemptCode);
+                            }
                         }
-                        if (serverVersion >= MinServerVer.SSHORTX_OLD)
+                    }
+                }
+
+                // add order combo legs for BAG requests
+                if (serverVersion >= MinServerVer.ORDER_COMBO_LEGS_PRICE && isBag)
+                {
+                    if (order.OrderComboLegs == null)
+                    {
+                        paramsList.AddParameter(0);
+                    }
+                    else
+                    {
+                        paramsList.AddParameter(order.OrderComboLegs.Count);
+
+                        for (int i = 0; i < order.OrderComboLegs.Count; i++)
                         {
-                            paramsList.AddParameter(comboLeg.ExemptCode);
+                            OrderComboLeg orderComboLeg = order.OrderComboLegs[i];
+                            paramsList.AddParameterMax(orderComboLeg.Price);
                         }
                     }
                 }
-            }
 
-            // add order combo legs for BAG requests
-            if (serverVersion >= MinServerVer.ORDER_COMBO_LEGS_PRICE && isBag)
-            {
-                if (order.OrderComboLegs == null)
+                if (serverVersion >= MinServerVer.SMART_COMBO_ROUTING_PARAMS && isBag)
                 {
-                    paramsList.AddParameter(0);
-                }
-                else
-                {
-                    paramsList.AddParameter(order.OrderComboLegs.Count);
-
-                    for (int i = 0; i < order.OrderComboLegs.Count; i++)
+                    List<TagValue> smartComboRoutingParams = order.SmartComboRoutingParams;
+                    int smartComboRoutingParamsCount = smartComboRoutingParams == null ? 0 : smartComboRoutingParams.Count;
+                    paramsList.AddParameter(smartComboRoutingParamsCount);
+                    if (smartComboRoutingParamsCount > 0)
                     {
-                        OrderComboLeg orderComboLeg = order.OrderComboLegs[i];
-                        paramsList.AddParameterMax(orderComboLeg.Price);
-                    }
-                }
-            }
-
-            if (serverVersion >= MinServerVer.SMART_COMBO_ROUTING_PARAMS && isBag)
-            {
-                List<TagValue> smartComboRoutingParams = order.SmartComboRoutingParams;
-                int smartComboRoutingParamsCount = smartComboRoutingParams == null ? 0 : smartComboRoutingParams.Count;
-                paramsList.AddParameter(smartComboRoutingParamsCount);
-                if (smartComboRoutingParamsCount > 0)
-                {
-                    for (int i = 0; i < smartComboRoutingParamsCount; ++i)
-                    {
-                        TagValue tagValue = smartComboRoutingParams[i];
-                        paramsList.AddParameter(tagValue.Tag);
-                        paramsList.AddParameter(tagValue.Value);
-                    }
-                }
-            }
-
-            if (serverVersion >= 9)
-            {
-                // paramsList.AddParameter deprecated sharesAllocation field
-                paramsList.AddParameter("");
-            }
-
-            if (serverVersion >= 10)
-            {
-                paramsList.AddParameter(order.DiscretionaryAmt);
-            }
-
-            if (serverVersion >= 11)
-            {
-                paramsList.AddParameter(order.GoodAfterTime);
-            }
-
-            if (serverVersion >= 12)
-            {
-                paramsList.AddParameter(order.GoodTillDate);
-            }
-
-            if (serverVersion >= 13)
-            {
-                paramsList.AddParameter(order.FaGroup);
-                paramsList.AddParameter(order.FaMethod);
-                paramsList.AddParameter(order.FaPercentage);
-                paramsList.AddParameter(order.FaProfile);
-            }
-
-            if (serverVersion >= MinServerVer.MODELS_SUPPORT)
-            {
-                paramsList.AddParameter(order.ModelCode);
-            }
-
-            if (serverVersion >= 18)
-            { // institutional short sale slot fields.
-                paramsList.AddParameter(order.ShortSaleSlot);      // 0 only for retail, 1 or 2 only for institution.
-                paramsList.AddParameter(order.DesignatedLocation); // only populate when order.shortSaleSlot = 2.
-            }
-            if (serverVersion >= MinServerVer.SSHORTX_OLD)
-            {
-                paramsList.AddParameter(order.ExemptCode);
-            }
-            if (serverVersion >= 19)
-            {
-                paramsList.AddParameter(order.OcaType);
-                if (serverVersion < 38)
-                {
-                    // will never happen
-                    paramsList.AddParameter( /* order.rthOnly */ false);
-                }
-                paramsList.AddParameter(order.Rule80A);
-                paramsList.AddParameter(order.SettlingFirm);
-                paramsList.AddParameter(order.AllOrNone);
-                paramsList.AddParameterMax(order.MinQty);
-                paramsList.AddParameterMax(order.PercentOffset);
-                paramsList.AddParameter(order.ETradeOnly);
-                paramsList.AddParameter(order.FirmQuoteOnly);
-                paramsList.AddParameterMax(order.NbboPriceCap);
-                paramsList.AddParameterMax(order.AuctionStrategy);
-                paramsList.AddParameterMax(order.StartingPrice);
-                paramsList.AddParameterMax(order.StockRefPrice);
-                paramsList.AddParameterMax(order.Delta);
-                // Volatility orders had specific watermark price attribs in server version 26
-                double lower = (serverVersion == 26 && order.OrderType.Equals("VOL"))
-                     ? Double.MaxValue
-                     : order.StockRangeLower;
-                double upper = (serverVersion == 26 && order.OrderType.Equals("VOL"))
-                     ? Double.MaxValue
-                     : order.StockRangeUpper;
-                paramsList.AddParameterMax(lower);
-                paramsList.AddParameterMax(upper);
-            }
-
-            if (serverVersion >= 22)
-            {
-                paramsList.AddParameter(order.OverridePercentageConstraints);
-            }
-
-            if (serverVersion >= 26)
-            { // Volatility orders
-                paramsList.AddParameterMax(order.Volatility);
-                paramsList.AddParameterMax(order.VolatilityType);
-                if (serverVersion < 28)
-                {
-                    bool isDeltaNeutralTypeMKT = (String.Compare("MKT", order.DeltaNeutralOrderType, true) == 0);
-                    paramsList.AddParameter(isDeltaNeutralTypeMKT);
-                }
-                else
-                {
-                    paramsList.AddParameter(order.DeltaNeutralOrderType);
-                    paramsList.AddParameterMax(order.DeltaNeutralAuxPrice);
-
-                    if (serverVersion >= MinServerVer.DELTA_NEUTRAL_CONID && !IsEmpty(order.DeltaNeutralOrderType))
-                    {
-                        paramsList.AddParameter(order.DeltaNeutralConId);
-                        paramsList.AddParameter(order.DeltaNeutralSettlingFirm);
-                        paramsList.AddParameter(order.DeltaNeutralClearingAccount);
-                        paramsList.AddParameter(order.DeltaNeutralClearingIntent);
-                    }
-
-                    if (serverVersion >= MinServerVer.DELTA_NEUTRAL_OPEN_CLOSE && !IsEmpty(order.DeltaNeutralOrderType))
-                    {
-                        paramsList.AddParameter(order.DeltaNeutralOpenClose);
-                        paramsList.AddParameter(order.DeltaNeutralShortSale);
-                        paramsList.AddParameter(order.DeltaNeutralShortSaleSlot);
-                        paramsList.AddParameter(order.DeltaNeutralDesignatedLocation);
-                    }
-                }
-                paramsList.AddParameter(order.ContinuousUpdate);
-                if (serverVersion == 26)
-                {
-                    // Volatility orders had specific watermark price attribs in server version 26
-                    double lower = order.OrderType.Equals("VOL") ? order.StockRangeLower : Double.MaxValue;
-                    double upper = order.OrderType.Equals("VOL") ? order.StockRangeUpper : Double.MaxValue;
-                    paramsList.AddParameterMax(lower);
-                    paramsList.AddParameterMax(upper);
-                }
-                paramsList.AddParameterMax(order.ReferencePriceType);
-            }
-
-            if (serverVersion >= 30)
-            { // TRAIL_STOP_LIMIT stop price
-                paramsList.AddParameterMax(order.TrailStopPrice);
-            }
-
-            if (serverVersion >= MinServerVer.TRAILING_PERCENT)
-            {
-                paramsList.AddParameterMax(order.TrailingPercent);
-            }
-
-            if (serverVersion >= MinServerVer.SCALE_ORDERS)
-            {
-                if (serverVersion >= MinServerVer.SCALE_ORDERS2)
-                {
-                    paramsList.AddParameterMax(order.ScaleInitLevelSize);
-                    paramsList.AddParameterMax(order.ScaleSubsLevelSize);
-                }
-                else
-                {
-                    paramsList.AddParameter("");
-                    paramsList.AddParameterMax(order.ScaleInitLevelSize);
-
-                }
-                paramsList.AddParameterMax(order.ScalePriceIncrement);
-            }
-
-            if (serverVersion >= MinServerVer.SCALE_ORDERS3 && order.ScalePriceIncrement > 0.0 && order.ScalePriceIncrement != Double.MaxValue)
-            {
-                paramsList.AddParameterMax(order.ScalePriceAdjustValue);
-                paramsList.AddParameterMax(order.ScalePriceAdjustInterval);
-                paramsList.AddParameterMax(order.ScaleProfitOffset);
-                paramsList.AddParameter(order.ScaleAutoReset);
-                paramsList.AddParameterMax(order.ScaleInitPosition);
-                paramsList.AddParameterMax(order.ScaleInitFillQty);
-                paramsList.AddParameter(order.ScaleRandomPercent);
-            }
-
-            if (serverVersion >= MinServerVer.SCALE_TABLE)
-            {
-                paramsList.AddParameter(order.ScaleTable);
-                paramsList.AddParameter(order.ActiveStartTime);
-                paramsList.AddParameter(order.ActiveStopTime);
-            }
-
-            if (serverVersion >= MinServerVer.HEDGE_ORDERS)
-            {
-                paramsList.AddParameter(order.HedgeType);
-                if (!IsEmpty(order.HedgeType))
-                {
-                    paramsList.AddParameter(order.HedgeParam);
-                }
-            }
-
-            if (serverVersion >= MinServerVer.OPT_OUT_SMART_ROUTING)
-            {
-                paramsList.AddParameter(order.OptOutSmartRouting);
-            }
-
-            if (serverVersion >= MinServerVer.PTA_ORDERS)
-            {
-                paramsList.AddParameter(order.ClearingAccount);
-                paramsList.AddParameter(order.ClearingIntent);
-            }
-
-            if (serverVersion >= MinServerVer.NOT_HELD)
-            {
-                paramsList.AddParameter(order.NotHeld);
-            }
-
-            if (serverVersion >= MinServerVer.DELTA_NEUTRAL)
-            {
-                if (contract.DeltaNeutralContract != null)
-                {
-                    DeltaNeutralContract deltaNeutralContract = contract.DeltaNeutralContract;
-                    paramsList.AddParameter(true);
-                    paramsList.AddParameter(deltaNeutralContract.ConId);
-                    paramsList.AddParameter(deltaNeutralContract.Delta);
-                    paramsList.AddParameter(deltaNeutralContract.Price);
-                }
-                else
-                {
-                    paramsList.AddParameter(false);
-                }
-            }
-
-            if (serverVersion >= MinServerVer.ALGO_ORDERS)
-            {
-                paramsList.AddParameter(order.AlgoStrategy);
-                if (!IsEmpty(order.AlgoStrategy))
-                {
-                    List<TagValue> algoParams = order.AlgoParams;
-                    int algoParamsCount = algoParams == null ? 0 : algoParams.Count;
-                    paramsList.AddParameter(algoParamsCount);
-                    if (algoParamsCount > 0)
-                    {
-                        for (int i = 0; i < algoParamsCount; ++i)
+                        for (int i = 0; i < smartComboRoutingParamsCount; ++i)
                         {
-                            TagValue tagValue = (TagValue)algoParams[i];
+                            TagValue tagValue = smartComboRoutingParams[i];
                             paramsList.AddParameter(tagValue.Tag);
                             paramsList.AddParameter(tagValue.Value);
                         }
                     }
                 }
-            }
 
-            if (serverVersion >= MinServerVer.ALGO_ID)
-            {
-                paramsList.AddParameter(order.AlgoId);
-            }
-
-            if (serverVersion >= MinServerVer.WHAT_IF_ORDERS)
-            {
-                paramsList.AddParameter(order.WhatIf);
-            }
-
-            if (serverVersion >= MinServerVer.LINKING)
-            {
-                paramsList.AddParameter(order.OrderMiscOptions);
-            }
-
-            if (serverVersion >= MinServerVer.ORDER_SOLICITED)
-            {
-                paramsList.AddParameter(order.Solicited);
-            }
-
-            if (serverVersion >= MinServerVer.RANDOMIZE_SIZE_AND_PRICE)
-            {
-                paramsList.AddParameter(order.RandomizeSize);
-                paramsList.AddParameter(order.RandomizePrice);
-            }
-
-            if (serverVersion >= MinServerVer.PEGGED_TO_BENCHMARK)
-            {
-                if (order.OrderType == "PEG BENCH")
+                if (serverVersion >= 9)
                 {
-                    paramsList.AddParameter(order.ReferenceContractId);
-                    paramsList.AddParameter(order.IsPeggedChangeAmountDecrease);
-                    paramsList.AddParameter(order.PeggedChangeAmount);
-                    paramsList.AddParameter(order.ReferenceChangeAmount);
-                    paramsList.AddParameter(order.ReferenceExchange);
+                    // paramsList.AddParameter deprecated sharesAllocation field
+                    paramsList.AddParameter("");
                 }
 
-                paramsList.AddParameter(order.Conditions.Count);
-
-                if (order.Conditions.Count > 0)
+                if (serverVersion >= 10)
                 {
-                    foreach (OrderCondition item in order.Conditions)
+                    paramsList.AddParameter(order.DiscretionaryAmt);
+                }
+
+                if (serverVersion >= 11)
+                {
+                    paramsList.AddParameter(order.GoodAfterTime);
+                }
+
+                if (serverVersion >= 12)
+                {
+                    paramsList.AddParameter(order.GoodTillDate);
+                }
+
+                if (serverVersion >= 13)
+                {
+                    paramsList.AddParameter(order.FaGroup);
+                    paramsList.AddParameter(order.FaMethod);
+                    paramsList.AddParameter(order.FaPercentage);
+                    paramsList.AddParameter(order.FaProfile);
+                }
+
+                if (serverVersion >= MinServerVer.MODELS_SUPPORT)
+                {
+                    paramsList.AddParameter(order.ModelCode);
+                }
+
+                if (serverVersion >= 18)
+                { // institutional short sale slot fields.
+                    paramsList.AddParameter(order.ShortSaleSlot);      // 0 only for retail, 1 or 2 only for institution.
+                    paramsList.AddParameter(order.DesignatedLocation); // only populate when order.shortSaleSlot = 2.
+                }
+                if (serverVersion >= MinServerVer.SSHORTX_OLD)
+                {
+                    paramsList.AddParameter(order.ExemptCode);
+                }
+                if (serverVersion >= 19)
+                {
+                    paramsList.AddParameter(order.OcaType);
+                    if (serverVersion < 38)
                     {
-                        paramsList.AddParameter((int)item.Type);
-                        item.Serialize(paramsList);
+                        // will never happen
+                        paramsList.AddParameter( /* order.rthOnly */ false);
+                    }
+                    paramsList.AddParameter(order.Rule80A);
+                    paramsList.AddParameter(order.SettlingFirm);
+                    paramsList.AddParameter(order.AllOrNone);
+                    paramsList.AddParameterMax(order.MinQty);
+                    paramsList.AddParameterMax(order.PercentOffset);
+                    paramsList.AddParameter(order.ETradeOnly);
+                    paramsList.AddParameter(order.FirmQuoteOnly);
+                    paramsList.AddParameterMax(order.NbboPriceCap);
+                    paramsList.AddParameterMax(order.AuctionStrategy);
+                    paramsList.AddParameterMax(order.StartingPrice);
+                    paramsList.AddParameterMax(order.StockRefPrice);
+                    paramsList.AddParameterMax(order.Delta);
+                    // Volatility orders had specific watermark price attribs in server version 26
+                    double lower = (serverVersion == 26 && order.OrderType.Equals("VOL"))
+                         ? double.MaxValue
+                         : order.StockRangeLower;
+                    double upper = (serverVersion == 26 && order.OrderType.Equals("VOL"))
+                         ? double.MaxValue
+                         : order.StockRangeUpper;
+                    paramsList.AddParameterMax(lower);
+                    paramsList.AddParameterMax(upper);
+                }
+
+                if (serverVersion >= 22)
+                {
+                    paramsList.AddParameter(order.OverridePercentageConstraints);
+                }
+
+                if (serverVersion >= 26)
+                { // Volatility orders
+                    paramsList.AddParameterMax(order.Volatility);
+                    paramsList.AddParameterMax(order.VolatilityType);
+                    if (serverVersion < 28)
+                    {
+                        bool isDeltaNeutralTypeMKT = (string.Compare("MKT", order.DeltaNeutralOrderType, true) == 0);
+                        paramsList.AddParameter(isDeltaNeutralTypeMKT);
+                    }
+                    else
+                    {
+                        paramsList.AddParameter(order.DeltaNeutralOrderType);
+                        paramsList.AddParameterMax(order.DeltaNeutralAuxPrice);
+
+                        if (serverVersion >= MinServerVer.DELTA_NEUTRAL_CONID && !IsEmpty(order.DeltaNeutralOrderType))
+                        {
+                            paramsList.AddParameter(order.DeltaNeutralConId);
+                            paramsList.AddParameter(order.DeltaNeutralSettlingFirm);
+                            paramsList.AddParameter(order.DeltaNeutralClearingAccount);
+                            paramsList.AddParameter(order.DeltaNeutralClearingIntent);
+                        }
+
+                        if (serverVersion >= MinServerVer.DELTA_NEUTRAL_OPEN_CLOSE && !IsEmpty(order.DeltaNeutralOrderType))
+                        {
+                            paramsList.AddParameter(order.DeltaNeutralOpenClose);
+                            paramsList.AddParameter(order.DeltaNeutralShortSale);
+                            paramsList.AddParameter(order.DeltaNeutralShortSaleSlot);
+                            paramsList.AddParameter(order.DeltaNeutralDesignatedLocation);
+                        }
+                    }
+                    paramsList.AddParameter(order.ContinuousUpdate);
+                    if (serverVersion == 26)
+                    {
+                        // Volatility orders had specific watermark price attribs in server version 26
+                        double lower = order.OrderType.Equals("VOL") ? order.StockRangeLower : double.MaxValue;
+                        double upper = order.OrderType.Equals("VOL") ? order.StockRangeUpper : double.MaxValue;
+                        paramsList.AddParameterMax(lower);
+                        paramsList.AddParameterMax(upper);
+                    }
+                    paramsList.AddParameterMax(order.ReferencePriceType);
+                }
+
+                if (serverVersion >= 30)
+                { // TRAIL_STOP_LIMIT stop price
+                    paramsList.AddParameterMax(order.TrailStopPrice);
+                }
+
+                if (serverVersion >= MinServerVer.TRAILING_PERCENT)
+                {
+                    paramsList.AddParameterMax(order.TrailingPercent);
+                }
+
+                if (serverVersion >= MinServerVer.SCALE_ORDERS)
+                {
+                    if (serverVersion >= MinServerVer.SCALE_ORDERS2)
+                    {
+                        paramsList.AddParameterMax(order.ScaleInitLevelSize);
+                        paramsList.AddParameterMax(order.ScaleSubsLevelSize);
+                    }
+                    else
+                    {
+                        paramsList.AddParameter("");
+                        paramsList.AddParameterMax(order.ScaleInitLevelSize);
+
+                    }
+                    paramsList.AddParameterMax(order.ScalePriceIncrement);
+                }
+
+                if (serverVersion >= MinServerVer.SCALE_ORDERS3 && order.ScalePriceIncrement > 0.0 && order.ScalePriceIncrement != double.MaxValue)
+                {
+                    paramsList.AddParameterMax(order.ScalePriceAdjustValue);
+                    paramsList.AddParameterMax(order.ScalePriceAdjustInterval);
+                    paramsList.AddParameterMax(order.ScaleProfitOffset);
+                    paramsList.AddParameter(order.ScaleAutoReset);
+                    paramsList.AddParameterMax(order.ScaleInitPosition);
+                    paramsList.AddParameterMax(order.ScaleInitFillQty);
+                    paramsList.AddParameter(order.ScaleRandomPercent);
+                }
+
+                if (serverVersion >= MinServerVer.SCALE_TABLE)
+                {
+                    paramsList.AddParameter(order.ScaleTable);
+                    paramsList.AddParameter(order.ActiveStartTime);
+                    paramsList.AddParameter(order.ActiveStopTime);
+                }
+
+                if (serverVersion >= MinServerVer.HEDGE_ORDERS)
+                {
+                    paramsList.AddParameter(order.HedgeType);
+                    if (!IsEmpty(order.HedgeType))
+                    {
+                        paramsList.AddParameter(order.HedgeParam);
+                    }
+                }
+
+                if (serverVersion >= MinServerVer.OPT_OUT_SMART_ROUTING)
+                {
+                    paramsList.AddParameter(order.OptOutSmartRouting);
+                }
+
+                if (serverVersion >= MinServerVer.PTA_ORDERS)
+                {
+                    paramsList.AddParameter(order.ClearingAccount);
+                    paramsList.AddParameter(order.ClearingIntent);
+                }
+
+                if (serverVersion >= MinServerVer.NOT_HELD)
+                {
+                    paramsList.AddParameter(order.NotHeld);
+                }
+
+                if (serverVersion >= MinServerVer.DELTA_NEUTRAL)
+                {
+                    if (contract.DeltaNeutralContract != null)
+                    {
+                        DeltaNeutralContract deltaNeutralContract = contract.DeltaNeutralContract;
+                        paramsList.AddParameter(true);
+                        paramsList.AddParameter(deltaNeutralContract.ConId);
+                        paramsList.AddParameter(deltaNeutralContract.Delta);
+                        paramsList.AddParameter(deltaNeutralContract.Price);
+                    }
+                    else
+                    {
+                        paramsList.AddParameter(false);
+                    }
+                }
+
+                if (serverVersion >= MinServerVer.ALGO_ORDERS)
+                {
+                    paramsList.AddParameter(order.AlgoStrategy);
+                    if (!IsEmpty(order.AlgoStrategy))
+                    {
+                        List<TagValue> algoParams = order.AlgoParams;
+                        int algoParamsCount = algoParams == null ? 0 : algoParams.Count;
+                        paramsList.AddParameter(algoParamsCount);
+                        if (algoParamsCount > 0)
+                        {
+                            for (int i = 0; i < algoParamsCount; ++i)
+                            {
+                                TagValue tagValue = algoParams[i];
+                                paramsList.AddParameter(tagValue.Tag);
+                                paramsList.AddParameter(tagValue.Value);
+                            }
+                        }
+                    }
+                }
+
+                if (serverVersion >= MinServerVer.ALGO_ID)
+                {
+                    paramsList.AddParameter(order.AlgoId);
+                }
+
+                if (serverVersion >= MinServerVer.WHAT_IF_ORDERS)
+                {
+                    paramsList.AddParameter(order.WhatIf);
+                }
+
+                if (serverVersion >= MinServerVer.LINKING)
+                {
+                    paramsList.AddParameter(order.OrderMiscOptions);
+                }
+
+                if (serverVersion >= MinServerVer.ORDER_SOLICITED)
+                {
+                    paramsList.AddParameter(order.Solicited);
+                }
+
+                if (serverVersion >= MinServerVer.RANDOMIZE_SIZE_AND_PRICE)
+                {
+                    paramsList.AddParameter(order.RandomizeSize);
+                    paramsList.AddParameter(order.RandomizePrice);
+                }
+
+                if (serverVersion >= MinServerVer.PEGGED_TO_BENCHMARK)
+                {
+                    if (order.OrderType == "PEG BENCH")
+                    {
+                        paramsList.AddParameter(order.ReferenceContractId);
+                        paramsList.AddParameter(order.IsPeggedChangeAmountDecrease);
+                        paramsList.AddParameter(order.PeggedChangeAmount);
+                        paramsList.AddParameter(order.ReferenceChangeAmount);
+                        paramsList.AddParameter(order.ReferenceExchange);
                     }
 
-                    paramsList.AddParameter(order.ConditionsIgnoreRth);
-                    paramsList.AddParameter(order.ConditionsCancelOrder);
+                    paramsList.AddParameter(order.Conditions.Count);
+
+                    if (order.Conditions.Count > 0)
+                    {
+                        foreach (OrderCondition item in order.Conditions)
+                        {
+                            paramsList.AddParameter((int)item.Type);
+                            item.Serialize(paramsList);
+                        }
+
+                        paramsList.AddParameter(order.ConditionsIgnoreRth);
+                        paramsList.AddParameter(order.ConditionsCancelOrder);
+                    }
+
+                    paramsList.AddParameter(order.AdjustedOrderType);
+                    paramsList.AddParameter(order.TriggerPrice);
+                    paramsList.AddParameter(order.LmtPriceOffset);
+                    paramsList.AddParameter(order.AdjustedStopPrice);
+                    paramsList.AddParameter(order.AdjustedStopLimitPrice);
+                    paramsList.AddParameter(order.AdjustedTrailingAmount);
+                    paramsList.AddParameter(order.AdjustableTrailingUnit);
                 }
 
-                paramsList.AddParameter(order.AdjustedOrderType);
-                paramsList.AddParameter(order.TriggerPrice);
-                paramsList.AddParameter(order.LmtPriceOffset);
-                paramsList.AddParameter(order.AdjustedStopPrice);
-                paramsList.AddParameter(order.AdjustedStopLimitPrice);
-                paramsList.AddParameter(order.AdjustedTrailingAmount);
-                paramsList.AddParameter(order.AdjustableTrailingUnit);
-            }
+                if (serverVersion >= MinServerVer.EXT_OPERATOR)
+                {
+                    paramsList.AddParameter(order.ExtOperator);
+                }
 
-            if (serverVersion >= MinServerVer.EXT_OPERATOR)
-            {
-                paramsList.AddParameter(order.ExtOperator);
-            }
+                if (serverVersion >= MinServerVer.SOFT_DOLLAR_TIER)
+                {
+                    paramsList.AddParameter(order.Tier.Name);
+                    paramsList.AddParameter(order.Tier.Value);
+                }
 
-            if (serverVersion >= MinServerVer.SOFT_DOLLAR_TIER)
-            {
-                paramsList.AddParameter(order.Tier.Name);
-                paramsList.AddParameter(order.Tier.Value);
-            }
+                if (serverVersion >= MinServerVer.CASH_QTY)
+                {
+                    paramsList.AddParameterMax(order.CashQty);
+                }
 
-            if (serverVersion >= MinServerVer.CASH_QTY)
-            {
-                paramsList.AddParameterMax(order.CashQty);
-            }
+                if (serverVersion >= MinServerVer.DECISION_MAKER)
+                {
+                    paramsList.AddParameter(order.Mifid2DecisionMaker);
+                    paramsList.AddParameter(order.Mifid2DecisionAlgo);
+                }
 
-            if (serverVersion >= MinServerVer.DECISION_MAKER)
-            {
-                paramsList.AddParameter(order.Mifid2DecisionMaker);
-                paramsList.AddParameter(order.Mifid2DecisionAlgo);
-            }
+                if (serverVersion >= MinServerVer.MIFID_EXECUTION)
+                {
+                    paramsList.AddParameter(order.Mifid2ExecutionTrader);
+                    paramsList.AddParameter(order.Mifid2ExecutionAlgo);
+                }
 
-            if (serverVersion >= MinServerVer.MIFID_EXECUTION)
-            {
-                paramsList.AddParameter(order.Mifid2ExecutionTrader);
-                paramsList.AddParameter(order.Mifid2ExecutionAlgo);
-            }
+                if (serverVersion >= MinServerVer.AUTO_PRICE_FOR_HEDGE)
+                {
+                    paramsList.AddParameter(order.DontUseAutoPriceForHedge);
+                }
 
-            if (serverVersion >= MinServerVer.AUTO_PRICE_FOR_HEDGE)
-            {
-                paramsList.AddParameter(order.DontUseAutoPriceForHedge);
-            }
+                if (serverVersion >= MinServerVer.ORDER_CONTAINER)
+                {
+                    paramsList.AddParameter(order.IsOmsContainer);
+                }
 
-            if (serverVersion >= MinServerVer.ORDER_CONTAINER)
-            {
-                paramsList.AddParameter(order.IsOmsContainer);
-            }
+                if (serverVersion >= MinServerVer.D_PEG_ORDERS)
+                {
+                    paramsList.AddParameter(order.DiscretionaryUpToLimitPrice);
+                }
 
-            if (serverVersion >= MinServerVer.D_PEG_ORDERS)
-            {
-                paramsList.AddParameter(order.DiscretionaryUpToLimitPrice);
+                if (serverVersion >= MinServerVer.PRICE_MGMT_ALGO)
+                {
+                    paramsList.AddParameter(order.UsePriceMgmtAlgo);
+                }
             }
-
-            if (serverVersion >= MinServerVer.PRICE_MGMT_ALGO)
+            catch (EClientException e)
             {
-                paramsList.AddParameter(order.UsePriceMgmtAlgo);
+                wrapper.error(id, e.Err.Code, e.Err.Message + e.Text);
+                return;
             }
 
             CloseAndSend(id, paramsList, lengthPos, EClientErrors.FAIL_SEND_ORDER);
@@ -1201,16 +1240,16 @@ namespace IBApi
 
         /**
          * @brief Replaces Financial Advisor's settings
-         * A Financial Advisor can define three different configurations: 
+         * A Financial Advisor can define three different configurations:
          *    1. Groups: offer traders a way to create a group of accounts and apply a single allocation method to all accounts in the group.
          *    2. Profiles: let you allocate shares on an account-by-account basis using a predefined calculation value.
          *    3. Account Aliases: let you easily identify the accounts by meaningful names rather than account numbers.
          * More information at https://www.interactivebrokers.com/en/?f=%2Fen%2Fsoftware%2Fpdfhighlights%2FPDF-AdvisorAllocations.php%3Fib_entity%3Dllc
          * @param faDataType the configuration to change. Set to 1, 2 or 3 as defined above.
          * @param xml the xml-formatted configuration string
-         * @sa requestFA 
+         * @sa requestFA
          */
-        public void replaceFA(int faDataType, string xml)
+        public void replaceFA(int reqId, int faDataType, string xml)
         {
             if (!CheckConnection())
                 return;
@@ -1218,22 +1257,35 @@ namespace IBApi
             var paramsList = new BinaryWriter(new MemoryStream());
             var lengthPos = prepareBuffer(paramsList);
 
-            paramsList.AddParameter(OutgoingMessages.ReplaceFA);
-            paramsList.AddParameter(1);
-            paramsList.AddParameter(faDataType);
-            paramsList.AddParameter(xml);
-            CloseAndSend(paramsList, lengthPos, EClientErrors.FAIL_SEND_FA_REPLACE);
+            try
+            {
+                paramsList.AddParameter(OutgoingMessages.ReplaceFA);
+                paramsList.AddParameter(1);
+                paramsList.AddParameter(faDataType);
+                paramsList.AddParameter(xml);
+                if (serverVersion >= MinServerVer.REPLACE_FA_END)
+                {
+                    paramsList.AddParameter(reqId);
+                }
+            }
+            catch (EClientException e)
+            {
+                wrapper.error(reqId, e.Err.Code, e.Err.Message + e.Text);
+                return;
+            }
+
+            CloseAndSend(reqId, paramsList, lengthPos, EClientErrors.FAIL_SEND_FA_REPLACE);
         }
 
         /**
          * @brief Requests the FA configuration
-         * A Financial Advisor can define three different configurations: 
+         * A Financial Advisor can define three different configurations:
          *      1. Groups: offer traders a way to create a group of accounts and apply a single allocation method to all accounts in the group.
          *      2. Profiles: let you allocate shares on an account-by-account basis using a predefined calculation value.
          *      3. Account Aliases: let you easily identify the accounts by meaningful names rather than account numbers.
          * More information at https://www.interactivebrokers.com/en/?f=%2Fen%2Fsoftware%2Fpdfhighlights%2FPDF-AdvisorAllocations.php%3Fib_entity%3Dllc
          * @param faDataType the configuration to change. Set to 1, 2 or 3 as defined above.
-         * @sa replaceFA 
+         * @sa replaceFA
          */
         public void requestFA(int faDataType)
         {
@@ -1303,11 +1355,20 @@ namespace IBApi
             var paramsList = new BinaryWriter(new MemoryStream());
             var lengthPos = prepareBuffer(paramsList);
 
-            paramsList.AddParameter(OutgoingMessages.RequestAccountSummary);
-            paramsList.AddParameter(VERSION);
-            paramsList.AddParameter(reqId);
-            paramsList.AddParameter(group);
-            paramsList.AddParameter(tags);
+            try
+            {
+                paramsList.AddParameter(OutgoingMessages.RequestAccountSummary);
+                paramsList.AddParameter(VERSION);
+                paramsList.AddParameter(reqId);
+                paramsList.AddParameter(group);
+                paramsList.AddParameter(tags);
+            }
+            catch (EClientException e)
+            {
+                wrapper.error(reqId, e.Err.Code, e.Err.Message + e.Text);
+                return;
+            }
+
             CloseAndSend(reqId, paramsList, lengthPos, EClientErrors.FAIL_SEND_REQACCOUNTDATA);
         }
 
@@ -1327,11 +1388,20 @@ namespace IBApi
             var paramsList = new BinaryWriter(new MemoryStream());
             var lengthPos = prepareBuffer(paramsList);
 
-            paramsList.AddParameter(OutgoingMessages.RequestAccountData);
-            paramsList.AddParameter(VERSION);
-            paramsList.AddParameter(subscribe);
-            if (serverVersion >= 9)
-                paramsList.AddParameter(acctCode);
+            try
+            {
+                paramsList.AddParameter(OutgoingMessages.RequestAccountData);
+                paramsList.AddParameter(VERSION);
+                paramsList.AddParameter(subscribe);
+                if (serverVersion >= 9)
+                    paramsList.AddParameter(acctCode);
+            }
+            catch (EClientException e)
+            {
+                wrapper.error(IncomingMessage.NotValid, e.Err.Code, e.Err.Message + e.Text);
+                return;
+            }
+
             CloseAndSend(paramsList, lengthPos, EClientErrors.FAIL_SEND_REQACCOUNTDATA);
         }
 
@@ -1354,7 +1424,7 @@ namespace IBApi
         }
 
         /**
-         * @brief Requests status updates about future orders placed from TWS. Can only be used with client ID 0. 
+         * @brief Requests status updates about future orders placed from TWS. Can only be used with client ID 0.
          * @param autoBind if set to true, the newly created orders will be assigned an API order ID and implicitly associated with this client. If set to false, future orders will not be.
          * @sa reqAllOpenOrders, reqOpenOrders, cancelOrder, reqGlobalCancel, EWrapper::openOrder, EWrapper::orderStatus
          */
@@ -1406,58 +1476,67 @@ namespace IBApi
             var paramsList = new BinaryWriter(new MemoryStream());
             var lengthPos = prepareBuffer(paramsList);
 
-            paramsList.AddParameter(OutgoingMessages.RequestContractData);
-            paramsList.AddParameter(VERSION);//version
-            if (serverVersion >= MinServerVer.CONTRACT_DATA_CHAIN)
+            try
             {
-                paramsList.AddParameter(reqId);
-            }
-            if (serverVersion >= MinServerVer.CONTRACT_CONID)
-            {
-                paramsList.AddParameter(contract.ConId);
-            }
-            paramsList.AddParameter(contract.Symbol);
-            paramsList.AddParameter(contract.SecType);
-            paramsList.AddParameter(contract.LastTradeDateOrContractMonth);
-            paramsList.AddParameter(contract.Strike);
-            paramsList.AddParameter(contract.Right);
-            if (serverVersion >= 15)
-            {
-                paramsList.AddParameter(contract.Multiplier);
-            }
-
-            if (serverVersion >= MinServerVer.PRIMARYEXCH)
-            {
-                paramsList.AddParameter(contract.Exchange);
-                paramsList.AddParameter(contract.PrimaryExch);
-            }
-            else if (serverVersion >= MinServerVer.LINKING)
-            {
-                if (!IsEmpty(contract.PrimaryExch) && (contract.Exchange == "BEST" || contract.Exchange == "SMART"))
+                paramsList.AddParameter(OutgoingMessages.RequestContractData);
+                paramsList.AddParameter(VERSION);//version
+                if (serverVersion >= MinServerVer.CONTRACT_DATA_CHAIN)
                 {
-                    paramsList.AddParameter(contract.Exchange + ":" + contract.PrimaryExch);
+                    paramsList.AddParameter(reqId);
                 }
-                else
+                if (serverVersion >= MinServerVer.CONTRACT_CONID)
+                {
+                    paramsList.AddParameter(contract.ConId);
+                }
+                paramsList.AddParameter(contract.Symbol);
+                paramsList.AddParameter(contract.SecType);
+                paramsList.AddParameter(contract.LastTradeDateOrContractMonth);
+                paramsList.AddParameter(contract.Strike);
+                paramsList.AddParameter(contract.Right);
+                if (serverVersion >= 15)
+                {
+                    paramsList.AddParameter(contract.Multiplier);
+                }
+
+                if (serverVersion >= MinServerVer.PRIMARYEXCH)
                 {
                     paramsList.AddParameter(contract.Exchange);
+                    paramsList.AddParameter(contract.PrimaryExch);
+                }
+                else if (serverVersion >= MinServerVer.LINKING)
+                {
+                    if (!IsEmpty(contract.PrimaryExch) && (contract.Exchange == "BEST" || contract.Exchange == "SMART"))
+                    {
+                        paramsList.AddParameter(contract.Exchange + ":" + contract.PrimaryExch);
+                    }
+                    else
+                    {
+                        paramsList.AddParameter(contract.Exchange);
+                    }
+                }
+
+                paramsList.AddParameter(contract.Currency);
+                paramsList.AddParameter(contract.LocalSymbol);
+                if (serverVersion >= MinServerVer.TRADING_CLASS)
+                {
+                    paramsList.AddParameter(contract.TradingClass);
+                }
+                if (serverVersion >= 31)
+                {
+                    paramsList.AddParameter(contract.IncludeExpired);
+                }
+                if (serverVersion >= MinServerVer.SEC_ID_TYPE)
+                {
+                    paramsList.AddParameter(contract.SecIdType);
+                    paramsList.AddParameter(contract.SecId);
                 }
             }
+            catch (EClientException e)
+            {
+                wrapper.error(reqId, e.Err.Code, e.Err.Message + e.Text);
+                return;
+            }
 
-            paramsList.AddParameter(contract.Currency);
-            paramsList.AddParameter(contract.LocalSymbol);
-            if (serverVersion >= MinServerVer.TRADING_CLASS)
-            {
-                paramsList.AddParameter(contract.TradingClass);
-            }
-            if (serverVersion >= 31)
-            {
-                paramsList.AddParameter(contract.IncludeExpired);
-            }
-            if (serverVersion >= MinServerVer.SEC_ID_TYPE)
-            {
-                paramsList.AddParameter(contract.SecIdType);
-                paramsList.AddParameter(contract.SecId);
-            }
             CloseAndSend(reqId, paramsList, lengthPos, EClientErrors.FAIL_SEND_REQCONTRACT);
         }
 
@@ -1499,45 +1578,53 @@ namespace IBApi
             var paramsList = new BinaryWriter(new MemoryStream());
             var lengthPos = prepareBuffer(paramsList);
 
-            paramsList.AddParameter(OutgoingMessages.RequestExecutions);
-            paramsList.AddParameter(VERSION);//version
-
-            if (serverVersion >= MinServerVer.EXECUTION_DATA_CHAIN)
+            try
             {
-                paramsList.AddParameter(reqId);
+                paramsList.AddParameter(OutgoingMessages.RequestExecutions);
+                paramsList.AddParameter(VERSION);//version
+
+                if (serverVersion >= MinServerVer.EXECUTION_DATA_CHAIN)
+                {
+                    paramsList.AddParameter(reqId);
+                }
+
+                //Send the execution rpt filter data
+                if (serverVersion >= 9)
+                {
+                    paramsList.AddParameter(filter.ClientId);
+                    paramsList.AddParameter(filter.AcctCode);
+
+                    // Note that the valid format for time is "yyyymmdd-hh:mm:ss"
+                    paramsList.AddParameter(filter.Time);
+                    paramsList.AddParameter(filter.Symbol);
+                    paramsList.AddParameter(filter.SecType);
+                    paramsList.AddParameter(filter.Exchange);
+                    paramsList.AddParameter(filter.Side);
+                }
+            }
+            catch (EClientException e)
+            {
+                wrapper.error(reqId, e.Err.Code, e.Err.Message + e.Text);
+                return;
             }
 
-            //Send the execution rpt filter data
-            if (serverVersion >= 9)
-            {
-                paramsList.AddParameter(filter.ClientId);
-                paramsList.AddParameter(filter.AcctCode);
-
-                // Note that the valid format for time is "yyyymmdd-hh:mm:ss"
-                paramsList.AddParameter(filter.Time);
-                paramsList.AddParameter(filter.Symbol);
-                paramsList.AddParameter(filter.SecType);
-                paramsList.AddParameter(filter.Exchange);
-                paramsList.AddParameter(filter.Side);
-            }
             CloseAndSend(reqId, paramsList, lengthPos, EClientErrors.FAIL_SEND_EXEC);
         }
 
         /**
-         * @brief Requests the contract's fundamental or Wall Street Horizons data.
+         * @brief Requests the contract's fundamental data.
          * Fundamental data is returned at EWrapper::fundamentalData
          * @param reqId the request's unique identifier.
          * @param contract the contract's description for which the data will be returned.
-         * @param reportType there are three available report types: 
+         * @param reportType there are three available report types:
          *      - ReportSnapshot: Company overview
          *      - ReportsFinSummary: Financial summary
                 - ReportRatios:	Financial ratios
                 - ReportsFinStatements:	Financial statements
                 - RESC: Analyst estimates
-                - CalendarReport: Company calendar from Wall Street Horizons
          * @sa EWrapper::fundamentalData
          */
-        public void reqFundamentalData(int reqId, Contract contract, String reportType,
+        public void reqFundamentalData(int reqId, Contract contract, string reportType,
             //reserved for future use, must be blank
             List<TagValue> fundamentalDataOptions)
         {
@@ -1555,27 +1642,35 @@ namespace IBApi
             var paramsList = new BinaryWriter(new MemoryStream());
             var lengthPos = prepareBuffer(paramsList);
 
-            paramsList.AddParameter(OutgoingMessages.RequestFundamentalData);
-            paramsList.AddParameter(VERSION);
-            paramsList.AddParameter(reqId);
-
-            if (serverVersion >= MinServerVer.TRADING_CLASS)
+            try
             {
-                //WARN: why are we checking the trading class and multiplier above never send them?
-                paramsList.AddParameter(contract.ConId);
+                paramsList.AddParameter(OutgoingMessages.RequestFundamentalData);
+                paramsList.AddParameter(VERSION);
+                paramsList.AddParameter(reqId);
+
+                if (serverVersion >= MinServerVer.TRADING_CLASS)
+                {
+                    //WARN: why are we checking the trading class and multiplier above never send them?
+                    paramsList.AddParameter(contract.ConId);
+                }
+
+                paramsList.AddParameter(contract.Symbol);
+                paramsList.AddParameter(contract.SecType);
+                paramsList.AddParameter(contract.Exchange);
+                paramsList.AddParameter(contract.PrimaryExch);
+                paramsList.AddParameter(contract.Currency);
+                paramsList.AddParameter(contract.LocalSymbol);
+                paramsList.AddParameter(reportType);
+
+                if (serverVersion >= MinServerVer.LINKING)
+                {
+                    paramsList.AddParameter(fundamentalDataOptions);
+                }
             }
-
-            paramsList.AddParameter(contract.Symbol);
-            paramsList.AddParameter(contract.SecType);
-            paramsList.AddParameter(contract.Exchange);
-            paramsList.AddParameter(contract.PrimaryExch);
-            paramsList.AddParameter(contract.Currency);
-            paramsList.AddParameter(contract.LocalSymbol);
-            paramsList.AddParameter(reportType);
-
-            if (serverVersion >= MinServerVer.LINKING)
+            catch (EClientException e)
             {
-                paramsList.AddParameter(fundamentalDataOptions);
+                wrapper.error(reqId, e.Err.Code, e.Err.Message + e.Text);
+                return;
             }
 
             CloseAndSend(reqId, paramsList, lengthPos, EClientErrors.FAIL_SEND_REQFUNDDATA);
@@ -1606,14 +1701,14 @@ namespace IBApi
 
         /**
          * @brief Requests contracts' historical data.
-         * When requesting historical data, a finishing time and date is required along with a duration string. For example, having: 
+         * When requesting historical data, a finishing time and date is required along with a duration string. For example, having:
          *      - endDateTime: 20130701 23:59:59 GMT
          *      - durationStr: 3 D
          * will return three days of data counting backwards from July 1st 2013 at 23:59:59 GMT resulting in all the available bars of the last three days until the date and time specified. It is possible to specify a timezone optionally. The resulting bars will be returned in EWrapper::historicalData
          * @param tickerId the request's unique identifier.
          * @param contract the contract for which we want to retrieve the data.
          * @param endDateTime request's ending time with format yyyyMMdd HH:mm:ss {TMZ}
-         * @param durationString the amount of time for which the data needs to be retrieved:
+         * @param durationStr the amount of time for which the data needs to be retrieved:
          *      - " S (seconds)
          *      - " D (days)
          *      - " W (weeks)
@@ -1648,7 +1743,7 @@ namespace IBApi
          * @sa EWrapper::historicalData
          */
         public void reqHistoricalData(int tickerId, Contract contract, string endDateTime,
-            string durationString, string barSizeSetting, string whatToShow, int useRTH, int formatDate, bool keepUpToDate, List<TagValue> chartOptions)
+            string durationStr, string barSizeSetting, string whatToShow, int useRTH, int formatDate, bool keepUpToDate, List<TagValue> chartOptions)
         {
             if (!CheckConnection())
                 return;
@@ -1666,81 +1761,89 @@ namespace IBApi
             var paramsList = new BinaryWriter(new MemoryStream());
             var lengthPos = prepareBuffer(paramsList);
 
-            paramsList.AddParameter(OutgoingMessages.RequestHistoricalData);
-
-            if (serverVersion < MinServerVer.SYNT_REALTIME_BARS)
+            try
             {
-                paramsList.AddParameter(VERSION);
-            }
+                paramsList.AddParameter(OutgoingMessages.RequestHistoricalData);
 
-            paramsList.AddParameter(tickerId);
-
-            if (serverVersion >= MinServerVer.TRADING_CLASS)
-            {
-                paramsList.AddParameter(contract.ConId);
-            }
-
-            paramsList.AddParameter(contract.Symbol);
-            paramsList.AddParameter(contract.SecType);
-            paramsList.AddParameter(contract.LastTradeDateOrContractMonth);
-            paramsList.AddParameter(contract.Strike);
-            paramsList.AddParameter(contract.Right);
-            paramsList.AddParameter(contract.Multiplier);
-            paramsList.AddParameter(contract.Exchange);
-            paramsList.AddParameter(contract.PrimaryExch);
-            paramsList.AddParameter(contract.Currency);
-            paramsList.AddParameter(contract.LocalSymbol);
-
-            if (serverVersion >= MinServerVer.TRADING_CLASS)
-            {
-                paramsList.AddParameter(contract.TradingClass);
-            }
-
-            paramsList.AddParameter(contract.IncludeExpired ? 1 : 0);
-
-
-            paramsList.AddParameter(endDateTime);
-            paramsList.AddParameter(barSizeSetting);
-
-            paramsList.AddParameter(durationString);
-            paramsList.AddParameter(useRTH);
-            paramsList.AddParameter(whatToShow);
-
-            paramsList.AddParameter(formatDate);
-
-            if (StringsAreEqual(Constants.BagSecType, contract.SecType))
-            {
-                if (contract.ComboLegs == null)
+                if (serverVersion < MinServerVer.SYNT_REALTIME_BARS)
                 {
-                    paramsList.AddParameter(0);
+                    paramsList.AddParameter(VERSION);
                 }
-                else
-                {
-                    paramsList.AddParameter(contract.ComboLegs.Count);
 
-                    ComboLeg comboLeg;
-                    for (int i = 0; i < contract.ComboLegs.Count; i++)
+                paramsList.AddParameter(tickerId);
+
+                if (serverVersion >= MinServerVer.TRADING_CLASS)
+                {
+                    paramsList.AddParameter(contract.ConId);
+                }
+
+                paramsList.AddParameter(contract.Symbol);
+                paramsList.AddParameter(contract.SecType);
+                paramsList.AddParameter(contract.LastTradeDateOrContractMonth);
+                paramsList.AddParameter(contract.Strike);
+                paramsList.AddParameter(contract.Right);
+                paramsList.AddParameter(contract.Multiplier);
+                paramsList.AddParameter(contract.Exchange);
+                paramsList.AddParameter(contract.PrimaryExch);
+                paramsList.AddParameter(contract.Currency);
+                paramsList.AddParameter(contract.LocalSymbol);
+
+                if (serverVersion >= MinServerVer.TRADING_CLASS)
+                {
+                    paramsList.AddParameter(contract.TradingClass);
+                }
+
+                paramsList.AddParameter(contract.IncludeExpired ? 1 : 0);
+
+
+                paramsList.AddParameter(endDateTime);
+                paramsList.AddParameter(barSizeSetting);
+
+                paramsList.AddParameter(durationStr);
+                paramsList.AddParameter(useRTH);
+                paramsList.AddParameter(whatToShow);
+
+                paramsList.AddParameter(formatDate);
+
+                if (StringsAreEqual(Constants.BagSecType, contract.SecType))
+                {
+                    if (contract.ComboLegs == null)
                     {
-                        comboLeg = (ComboLeg)contract.ComboLegs[i];
-                        paramsList.AddParameter(comboLeg.ConId);
-                        paramsList.AddParameter(comboLeg.Ratio);
-                        paramsList.AddParameter(comboLeg.Action);
-                        paramsList.AddParameter(comboLeg.Exchange);
+                        paramsList.AddParameter(0);
+                    }
+                    else
+                    {
+                        paramsList.AddParameter(contract.ComboLegs.Count);
+
+                        ComboLeg comboLeg;
+                        for (int i = 0; i < contract.ComboLegs.Count; i++)
+                        {
+                            comboLeg = contract.ComboLegs[i];
+                            paramsList.AddParameter(comboLeg.ConId);
+                            paramsList.AddParameter(comboLeg.Ratio);
+                            paramsList.AddParameter(comboLeg.Action);
+                            paramsList.AddParameter(comboLeg.Exchange);
+                        }
                     }
                 }
-            }
 
-            if (serverVersion >= MinServerVer.SYNT_REALTIME_BARS)
+                if (serverVersion >= MinServerVer.SYNT_REALTIME_BARS)
+                {
+                    paramsList.AddParameter(keepUpToDate);
+                }
+
+                if (serverVersion >= MinServerVer.LINKING)
+                {
+                    paramsList.AddParameter(chartOptions);
+                }
+            }
+            catch (EClientException e)
             {
-                paramsList.AddParameter(keepUpToDate);
+                wrapper.error(tickerId, e.Err.Code, e.Err.Message + e.Text);
+                return;
             }
 
-            if (serverVersion >= MinServerVer.LINKING)
-            {
-                paramsList.AddParameter(chartOptions);
-            }
-
-            CloseAndSend(paramsList, lengthPos, EClientErrors.FAIL_SEND_REQHISTDATA);
+            CloseAndSend(tickerId, paramsList, lengthPos, EClientErrors.FAIL_SEND_REQHISTDATA);
         }
 
         /**
@@ -1787,22 +1890,22 @@ namespace IBApi
          * @param contract the Contract for which the data is being requested
          * @param genericTickList comma separated ids of the available generic ticks:
          *      - 100 	Option Volume (currently for stocks)
-         *      - 101 	Option Open Interest (currently for stocks) 
+         *      - 101 	Option Open Interest (currently for stocks)
          *      - 104 	Historical Volatility (currently for stocks)
          *      - 105 	Average Option Volume (currently for stocks)
          *      - 106 	Option Implied Volatility (currently for stocks)
-         *      - 162 	Index Future Premium 
-         *      - 165 	Miscellaneous Stats 
-         *      - 221 	Mark Price (used in TWS P&L computations) 
-         *      - 225 	Auction values (volume, price and imbalance) 
+         *      - 162 	Index Future Premium
+         *      - 165 	Miscellaneous Stats
+         *      - 221 	Mark Price (used in TWS P&L computations)
+         *      - 225 	Auction values (volume, price and imbalance)
          *      - 233 	RTVolume - contains the last trade price, last trade size, last trade time, total volume, VWAP, and single trade flag.
          *      - 236 	Shortable
-         *      - 256 	Inventory 	 
-         *      - 258 	Fundamental Ratios 
-         *      - 411 	Realtime Historical Volatility 
+         *      - 256 	Inventory
+         *      - 258 	Fundamental Ratios
+         *      - 411 	Realtime Historical Volatility
          *      - 456 	IBDividends
-         * @param snapshot for users with corresponding real time market data subscriptions. A true value will return a one-time snapshot, while a false value will provide streaming data. 
-     * @param regulatory snapshot for US stocks requests NBBO snapshots for users which have "US Securities Snapshot Bundle" subscription but not corresponding Network A, B, or C subscription necessary for streaming 		 * market data. One-time snapshot of current market price that will incur a fee of 1 cent to the account per snapshot. 
+         * @param snapshot for users with corresponding real time market data subscriptions. A true value will return a one-time snapshot, while a false value will provide streaming data.
+     * @param regulatory snapshot for US stocks requests NBBO snapshots for users which have "US Securities Snapshot Bundle" subscription but not corresponding Network A, B, or C subscription necessary for streaming 		 * market data. One-time snapshot of current market price that will incur a fee of 1 cent to the account per snapshot.
          * @sa cancelMktData, EWrapper::tickPrice, EWrapper::tickSize, EWrapper::tickString, EWrapper::tickEFP, EWrapper::tickGeneric, EWrapper::tickOptionComputation, EWrapper::tickSnapshotEnd
          */
         public void reqMktData(int tickerId, Contract contract, string genericTickList, bool snapshot, bool regulatorySnaphsot, List<TagValue> mktDataOptions)
@@ -1830,98 +1933,106 @@ namespace IBApi
             var paramsList = new BinaryWriter(new MemoryStream());
             var lengthPos = prepareBuffer(paramsList);
 
-            paramsList.AddParameter(OutgoingMessages.RequestMarketData);
-            paramsList.AddParameter(version);
-            paramsList.AddParameter(tickerId);
-
-            if (serverVersion >= MinServerVer.CONTRACT_CONID)
+            try
             {
-                paramsList.AddParameter(contract.ConId);
-            }
+                paramsList.AddParameter(OutgoingMessages.RequestMarketData);
+                paramsList.AddParameter(version);
+                paramsList.AddParameter(tickerId);
 
-            paramsList.AddParameter(contract.Symbol);
-            paramsList.AddParameter(contract.SecType);
-            paramsList.AddParameter(contract.LastTradeDateOrContractMonth);
-            paramsList.AddParameter(contract.Strike);
-            paramsList.AddParameter(contract.Right);
-
-            if (serverVersion >= 15)
-            {
-                paramsList.AddParameter(contract.Multiplier);
-            }
-
-            paramsList.AddParameter(contract.Exchange);
-
-            if (serverVersion >= 14)
-            {
-                paramsList.AddParameter(contract.PrimaryExch);
-            }
-
-            paramsList.AddParameter(contract.Currency);
-
-            if (serverVersion >= 2)
-            {
-                paramsList.AddParameter(contract.LocalSymbol);
-            }
-
-            if (serverVersion >= MinServerVer.TRADING_CLASS)
-            {
-                paramsList.AddParameter(contract.TradingClass);
-            }
-
-            if (serverVersion >= 8 && Constants.BagSecType.Equals(contract.SecType))
-            {
-                if (contract.ComboLegs == null)
+                if (serverVersion >= MinServerVer.CONTRACT_CONID)
                 {
-                    paramsList.AddParameter(0);
+                    paramsList.AddParameter(contract.ConId);
                 }
-                else
+
+                paramsList.AddParameter(contract.Symbol);
+                paramsList.AddParameter(contract.SecType);
+                paramsList.AddParameter(contract.LastTradeDateOrContractMonth);
+                paramsList.AddParameter(contract.Strike);
+                paramsList.AddParameter(contract.Right);
+
+                if (serverVersion >= 15)
                 {
-                    paramsList.AddParameter(contract.ComboLegs.Count);
-                    for (int i = 0; i < contract.ComboLegs.Count; i++)
+                    paramsList.AddParameter(contract.Multiplier);
+                }
+
+                paramsList.AddParameter(contract.Exchange);
+
+                if (serverVersion >= 14)
+                {
+                    paramsList.AddParameter(contract.PrimaryExch);
+                }
+
+                paramsList.AddParameter(contract.Currency);
+
+                if (serverVersion >= 2)
+                {
+                    paramsList.AddParameter(contract.LocalSymbol);
+                }
+
+                if (serverVersion >= MinServerVer.TRADING_CLASS)
+                {
+                    paramsList.AddParameter(contract.TradingClass);
+                }
+
+                if (serverVersion >= 8 && Constants.BagSecType.Equals(contract.SecType))
+                {
+                    if (contract.ComboLegs == null)
                     {
-                        ComboLeg leg = contract.ComboLegs[i];
-                        paramsList.AddParameter(leg.ConId);
-                        paramsList.AddParameter(leg.Ratio);
-                        paramsList.AddParameter(leg.Action);
-                        paramsList.AddParameter(leg.Exchange);
+                        paramsList.AddParameter(0);
+                    }
+                    else
+                    {
+                        paramsList.AddParameter(contract.ComboLegs.Count);
+                        for (int i = 0; i < contract.ComboLegs.Count; i++)
+                        {
+                            ComboLeg leg = contract.ComboLegs[i];
+                            paramsList.AddParameter(leg.ConId);
+                            paramsList.AddParameter(leg.Ratio);
+                            paramsList.AddParameter(leg.Action);
+                            paramsList.AddParameter(leg.Exchange);
+                        }
                     }
                 }
-            }
 
-            if (serverVersion >= MinServerVer.DELTA_NEUTRAL)
-            {
-                if (contract.DeltaNeutralContract != null)
+                if (serverVersion >= MinServerVer.DELTA_NEUTRAL)
                 {
-                    paramsList.AddParameter(true);
-                    paramsList.AddParameter(contract.DeltaNeutralContract.ConId);
-                    paramsList.AddParameter(contract.DeltaNeutralContract.Delta);
-                    paramsList.AddParameter(contract.DeltaNeutralContract.Price);
+                    if (contract.DeltaNeutralContract != null)
+                    {
+                        paramsList.AddParameter(true);
+                        paramsList.AddParameter(contract.DeltaNeutralContract.ConId);
+                        paramsList.AddParameter(contract.DeltaNeutralContract.Delta);
+                        paramsList.AddParameter(contract.DeltaNeutralContract.Price);
+                    }
+                    else
+                    {
+                        paramsList.AddParameter(false);
+                    }
                 }
-                else
+
+                if (serverVersion >= 31)
                 {
-                    paramsList.AddParameter(false);
+                    paramsList.AddParameter(genericTickList);
+                }
+
+                if (serverVersion >= MinServerVer.SNAPSHOT_MKT_DATA)
+                {
+                    paramsList.AddParameter(snapshot);
+                }
+
+                if (serverVersion >= MinServerVer.SMART_COMPONENTS)
+                {
+                    paramsList.AddParameter(regulatorySnaphsot);
+                }
+
+                if (serverVersion >= MinServerVer.LINKING)
+                {
+                    paramsList.AddParameter(mktDataOptions);
                 }
             }
-
-            if (serverVersion >= 31)
+            catch (EClientException e)
             {
-                paramsList.AddParameter(genericTickList);
-            }
-
-            if (serverVersion >= MinServerVer.SNAPSHOT_MKT_DATA)
-            {
-                paramsList.AddParameter(snapshot);
-            }
-
-            if (serverVersion >= MinServerVer.SMART_COMPONENTS)
-            {
-                paramsList.AddParameter(regulatorySnaphsot);
-            }
-
-            if (serverVersion >= MinServerVer.LINKING)
-            {
-                paramsList.AddParameter(mktDataOptions);
+                wrapper.error(tickerId, e.Err.Code, e.Err.Message + e.Text);
+                return;
             }
 
             CloseAndSend(tickerId, paramsList, lengthPos, EClientErrors.FAIL_SEND_REQMKT);
@@ -1954,7 +2065,7 @@ namespace IBApi
         }
 
         /**
-         * @brief Requests the contract's market depth (order book).\n This request must be direct-routed to an exchange and not smart-routed. The number of simultaneous market depth requests allowed in an account is calculated based on a formula that looks at an accounts equity, commissions, and quote booster packs.  
+         * @brief Requests the contract's market depth (order book).\n This request must be direct-routed to an exchange and not smart-routed. The number of simultaneous market depth requests allowed in an account is calculated based on a formula that looks at an accounts equity, commissions, and quote booster packs.
          * @param tickerId the request's identifier
          * @param contract the Contract for which the depth is being requested
          * @param numRows the number of rows on each side of the order book
@@ -1988,58 +2099,66 @@ namespace IBApi
             var paramsList = new BinaryWriter(new MemoryStream());
             var lengthPos = prepareBuffer(paramsList);
 
-            paramsList.AddParameter(OutgoingMessages.RequestMarketDepth);
-            paramsList.AddParameter(VERSION);
-            paramsList.AddParameter(tickerId);
-
-            // paramsList.AddParameter contract fields
-            if (serverVersion >= MinServerVer.TRADING_CLASS)
+            try
             {
-                paramsList.AddParameter(contract.ConId);
+                paramsList.AddParameter(OutgoingMessages.RequestMarketDepth);
+                paramsList.AddParameter(VERSION);
+                paramsList.AddParameter(tickerId);
+
+                // paramsList.AddParameter contract fields
+                if (serverVersion >= MinServerVer.TRADING_CLASS)
+                {
+                    paramsList.AddParameter(contract.ConId);
+                }
+
+                paramsList.AddParameter(contract.Symbol);
+                paramsList.AddParameter(contract.SecType);
+                paramsList.AddParameter(contract.LastTradeDateOrContractMonth);
+                paramsList.AddParameter(contract.Strike);
+                paramsList.AddParameter(contract.Right);
+
+                if (serverVersion >= 15)
+                {
+                    paramsList.AddParameter(contract.Multiplier);
+                }
+
+                paramsList.AddParameter(contract.Exchange);
+
+                if (serverVersion >= MinServerVer.MKT_DEPTH_PRIM_EXCHANGE)
+                {
+                    paramsList.AddParameter(contract.PrimaryExch);
+                }
+
+                paramsList.AddParameter(contract.Currency);
+                paramsList.AddParameter(contract.LocalSymbol);
+
+                if (serverVersion >= MinServerVer.TRADING_CLASS)
+                {
+                    paramsList.AddParameter(contract.TradingClass);
+                }
+
+                if (serverVersion >= 19)
+                {
+                    paramsList.AddParameter(numRows);
+                }
+
+                if (serverVersion >= MinServerVer.SMART_DEPTH)
+                {
+                    paramsList.AddParameter(isSmartDepth);
+                }
+
+                if (serverVersion >= MinServerVer.LINKING)
+                {
+                    paramsList.AddParameter(mktDepthOptions);
+                }
+            }
+            catch (EClientException e)
+            {
+                wrapper.error(tickerId, e.Err.Code, e.Err.Message + e.Text);
+                return;
             }
 
-            paramsList.AddParameter(contract.Symbol);
-            paramsList.AddParameter(contract.SecType);
-            paramsList.AddParameter(contract.LastTradeDateOrContractMonth);
-            paramsList.AddParameter(contract.Strike);
-            paramsList.AddParameter(contract.Right);
-
-            if (serverVersion >= 15)
-            {
-                paramsList.AddParameter(contract.Multiplier);
-            }
-
-            paramsList.AddParameter(contract.Exchange);
-
-            if (serverVersion >= MinServerVer.MKT_DEPTH_PRIM_EXCHANGE)
-            {
-                paramsList.AddParameter(contract.PrimaryExch);
-            }
-
-            paramsList.AddParameter(contract.Currency);
-            paramsList.AddParameter(contract.LocalSymbol);
-
-            if (serverVersion >= MinServerVer.TRADING_CLASS)
-            {
-                paramsList.AddParameter(contract.TradingClass);
-            }
-
-            if (serverVersion >= 19)
-            {
-                paramsList.AddParameter(numRows);
-            }
-
-            if (serverVersion >= MinServerVer.SMART_DEPTH)
-            {
-                paramsList.AddParameter(isSmartDepth);
-            }
-
-            if (serverVersion >= MinServerVer.LINKING)
-            {
-                paramsList.AddParameter(mktDepthOptions);
-            }
-
-            CloseAndSend(paramsList, lengthPos, EClientErrors.FAIL_SEND_REQMKTDEPTH);
+            CloseAndSend(tickerId, paramsList, lengthPos, EClientErrors.FAIL_SEND_REQMKTDEPTH);
         }
 
         /**
@@ -2080,7 +2199,7 @@ namespace IBApi
         }
 
         /**
-         * @brief Subscribes to position updates for all accessible accounts. All positions sent initially, and then only updates as positions change. 
+         * @brief Subscribes to position updates for all accessible accounts. All positions sent initially, and then only updates as positions change.
          * @sa cancelPositions, EWrapper::position, EWrapper::positionEnd
          */
         public void reqPositions()
@@ -2101,7 +2220,7 @@ namespace IBApi
 
         /**
          * @brief Requests real time bars\n
-         * Currently, only 5 seconds bars are provided. This request is subject to the same pacing as any historical data request: no more than 60 API queries in more than 600 seconds.\n Real time bars subscriptions are also included in the calculation of the number of Level 1 market data subscriptions allowed in an account. 
+         * Currently, only 5 seconds bars are provided. This request is subject to the same pacing as any historical data request: no more than 60 API queries in more than 600 seconds.\n Real time bars subscriptions are also included in the calculation of the number of Level 1 market data subscriptions allowed in an account.
          * @param tickerId the request's unique identifier.
          * @param contract the Contract for which the depth is being requested
          * @param barSize currently being ignored
@@ -2130,42 +2249,50 @@ namespace IBApi
             var paramsList = new BinaryWriter(new MemoryStream());
             var lengthPos = prepareBuffer(paramsList);
 
-            paramsList.AddParameter(OutgoingMessages.RequestRealTimeBars);
-            paramsList.AddParameter(VERSION);
-            paramsList.AddParameter(tickerId);
-
-            // paramsList.AddParameter contract fields
-            if (serverVersion >= MinServerVer.TRADING_CLASS)
+            try
             {
-                paramsList.AddParameter(contract.ConId);
+                paramsList.AddParameter(OutgoingMessages.RequestRealTimeBars);
+                paramsList.AddParameter(VERSION);
+                paramsList.AddParameter(tickerId);
+
+                // paramsList.AddParameter contract fields
+                if (serverVersion >= MinServerVer.TRADING_CLASS)
+                {
+                    paramsList.AddParameter(contract.ConId);
+                }
+
+                paramsList.AddParameter(contract.Symbol);
+                paramsList.AddParameter(contract.SecType);
+                paramsList.AddParameter(contract.LastTradeDateOrContractMonth);
+                paramsList.AddParameter(contract.Strike);
+                paramsList.AddParameter(contract.Right);
+                paramsList.AddParameter(contract.Multiplier);
+                paramsList.AddParameter(contract.Exchange);
+                paramsList.AddParameter(contract.PrimaryExch);
+                paramsList.AddParameter(contract.Currency);
+                paramsList.AddParameter(contract.LocalSymbol);
+
+                if (serverVersion >= MinServerVer.TRADING_CLASS)
+                {
+                    paramsList.AddParameter(contract.TradingClass);
+                }
+
+                paramsList.AddParameter(barSize);  // this parameter is not currently used
+                paramsList.AddParameter(whatToShow);
+                paramsList.AddParameter(useRTH);
+
+                if (serverVersion >= MinServerVer.LINKING)
+                {
+                    paramsList.AddParameter(realTimeBarsOptions);
+                }
+            }
+            catch (EClientException e)
+            {
+                wrapper.error(tickerId, e.Err.Code, e.Err.Message + e.Text);
+                return;
             }
 
-            paramsList.AddParameter(contract.Symbol);
-            paramsList.AddParameter(contract.SecType);
-            paramsList.AddParameter(contract.LastTradeDateOrContractMonth);
-            paramsList.AddParameter(contract.Strike);
-            paramsList.AddParameter(contract.Right);
-            paramsList.AddParameter(contract.Multiplier);
-            paramsList.AddParameter(contract.Exchange);
-            paramsList.AddParameter(contract.PrimaryExch);
-            paramsList.AddParameter(contract.Currency);
-            paramsList.AddParameter(contract.LocalSymbol);
-
-            if (serverVersion >= MinServerVer.TRADING_CLASS)
-            {
-                paramsList.AddParameter(contract.TradingClass);
-            }
-
-            paramsList.AddParameter(barSize);  // this parameter is not currently used
-            paramsList.AddParameter(whatToShow);
-            paramsList.AddParameter(useRTH);
-
-            if (serverVersion >= MinServerVer.LINKING)
-            {
-                paramsList.AddParameter(realTimeBarsOptions);
-            }
-
-            CloseAndSend(paramsList, lengthPos, EClientErrors.FAIL_SEND_REQRTBARS);
+            CloseAndSend(tickerId, paramsList, lengthPos, EClientErrors.FAIL_SEND_REQRTBARS);
         }
 
         /**
@@ -2211,56 +2338,64 @@ namespace IBApi
             var paramsList = new BinaryWriter(new MemoryStream());
             var lengthPos = prepareBuffer(paramsList);
 
-            paramsList.AddParameter(OutgoingMessages.RequestScannerSubscription);
-
-            if (serverVersion < MinServerVer.SCANNER_GENERIC_OPTS)
+            try
             {
-                paramsList.AddParameter(VERSION);
+                paramsList.AddParameter(OutgoingMessages.RequestScannerSubscription);
+
+                if (serverVersion < MinServerVer.SCANNER_GENERIC_OPTS)
+                {
+                    paramsList.AddParameter(VERSION);
+                }
+
+                paramsList.AddParameter(reqId);
+                paramsList.AddParameterMax(subscription.NumberOfRows);
+                paramsList.AddParameter(subscription.Instrument);
+                paramsList.AddParameter(subscription.LocationCode);
+                paramsList.AddParameter(subscription.ScanCode);
+
+                paramsList.AddParameterMax(subscription.AbovePrice);
+                paramsList.AddParameterMax(subscription.BelowPrice);
+                paramsList.AddParameterMax(subscription.AboveVolume);
+                paramsList.AddParameterMax(subscription.MarketCapAbove);
+                paramsList.AddParameterMax(subscription.MarketCapBelow);
+                paramsList.AddParameter(subscription.MoodyRatingAbove);
+                paramsList.AddParameter(subscription.MoodyRatingBelow);
+                paramsList.AddParameter(subscription.SpRatingAbove);
+                paramsList.AddParameter(subscription.SpRatingBelow);
+                paramsList.AddParameter(subscription.MaturityDateAbove);
+                paramsList.AddParameter(subscription.MaturityDateBelow);
+                paramsList.AddParameterMax(subscription.CouponRateAbove);
+                paramsList.AddParameterMax(subscription.CouponRateBelow);
+                paramsList.AddParameter(subscription.ExcludeConvertible);
+
+                if (serverVersion >= 25)
+                {
+                    paramsList.AddParameterMax(subscription.AverageOptionVolumeAbove);
+                    paramsList.AddParameter(subscription.ScannerSettingPairs);
+                }
+
+                if (serverVersion >= 27)
+                {
+                    paramsList.AddParameter(subscription.StockTypeFilter);
+                }
+
+                if (serverVersion >= MinServerVer.SCANNER_GENERIC_OPTS)
+                {
+                    paramsList.AddParameter(scannerSubscriptionFilterOptions);
+                }
+
+                if (serverVersion >= MinServerVer.LINKING)
+                {
+                    paramsList.AddParameter(scannerSubscriptionOptions);
+                }
+            }
+            catch (EClientException e)
+            {
+                wrapper.error(reqId, e.Err.Code, e.Err.Message + e.Text);
+                return;
             }
 
-            paramsList.AddParameter(reqId);
-            paramsList.AddParameterMax(subscription.NumberOfRows);
-            paramsList.AddParameter(subscription.Instrument);
-            paramsList.AddParameter(subscription.LocationCode);
-            paramsList.AddParameter(subscription.ScanCode);
-
-            paramsList.AddParameterMax(subscription.AbovePrice);
-            paramsList.AddParameterMax(subscription.BelowPrice);
-            paramsList.AddParameterMax(subscription.AboveVolume);
-            paramsList.AddParameterMax(subscription.MarketCapAbove);
-            paramsList.AddParameterMax(subscription.MarketCapBelow);
-            paramsList.AddParameter(subscription.MoodyRatingAbove);
-            paramsList.AddParameter(subscription.MoodyRatingBelow);
-            paramsList.AddParameter(subscription.SpRatingAbove);
-            paramsList.AddParameter(subscription.SpRatingBelow);
-            paramsList.AddParameter(subscription.MaturityDateAbove);
-            paramsList.AddParameter(subscription.MaturityDateBelow);
-            paramsList.AddParameterMax(subscription.CouponRateAbove);
-            paramsList.AddParameterMax(subscription.CouponRateBelow);
-            paramsList.AddParameter(subscription.ExcludeConvertible);
-
-            if (serverVersion >= 25)
-            {
-                paramsList.AddParameterMax(subscription.AverageOptionVolumeAbove);
-                paramsList.AddParameter(subscription.ScannerSettingPairs);
-            }
-
-            if (serverVersion >= 27)
-            {
-                paramsList.AddParameter(subscription.StockTypeFilter);
-            }
-
-            if (serverVersion >= MinServerVer.SCANNER_GENERIC_OPTS)
-            {
-                paramsList.AddParameter(scannerSubscriptionFilterOptions);
-            }
-
-            if (serverVersion >= MinServerVer.LINKING)
-            {
-                paramsList.AddParameter(scannerSubscriptionOptions);
-            }
-
-            CloseAndSend(paramsList, lengthPos, EClientErrors.FAIL_SEND_REQSCANNER);
+            CloseAndSend(reqId, paramsList, lengthPos, EClientErrors.FAIL_SEND_REQSCANNER);
         }
 
         /**
@@ -2309,10 +2444,19 @@ namespace IBApi
             var paramsList = new BinaryWriter(new MemoryStream());
             var lengthPos = prepareBuffer(paramsList);
 
-            paramsList.AddParameter(OutgoingMessages.VerifyRequest);
-            paramsList.AddParameter(VERSION);
-            paramsList.AddParameter(apiName);
-            paramsList.AddParameter(apiVersion);
+            try
+            {
+                paramsList.AddParameter(OutgoingMessages.VerifyRequest);
+                paramsList.AddParameter(VERSION);
+                paramsList.AddParameter(apiName);
+                paramsList.AddParameter(apiVersion);
+            }
+            catch (EClientException e)
+            {
+                wrapper.error(IncomingMessage.NotValid, e.Err.Code, e.Err.Message + e.Text);
+                return;
+            }
+
             CloseAndSend(paramsList, lengthPos, EClientErrors.FAIL_SEND_VERIFYREQUEST);
         }
 
@@ -2329,9 +2473,18 @@ namespace IBApi
             var paramsList = new BinaryWriter(new MemoryStream());
             var lengthPos = prepareBuffer(paramsList);
 
-            paramsList.AddParameter(OutgoingMessages.VerifyMessage);
-            paramsList.AddParameter(VERSION);
-            paramsList.AddParameter(apiData);
+            try
+            {
+                paramsList.AddParameter(OutgoingMessages.VerifyMessage);
+                paramsList.AddParameter(VERSION);
+                paramsList.AddParameter(apiData);
+            }
+            catch (EClientException e)
+            {
+                wrapper.error(IncomingMessage.NotValid, e.Err.Code, e.Err.Message + e.Text);
+                return;
+            }
+
             CloseAndSend(paramsList, lengthPos, EClientErrors.FAIL_SEND_VERIFYMESSAGE);
         }
 
@@ -2353,11 +2506,21 @@ namespace IBApi
             const int VERSION = 1;
             var paramsList = new BinaryWriter(new MemoryStream());
             var lengthPos = prepareBuffer(paramsList);
-            paramsList.AddParameter(OutgoingMessages.VerifyAndAuthRequest);
-            paramsList.AddParameter(VERSION);
-            paramsList.AddParameter(apiName);
-            paramsList.AddParameter(apiVersion);
-            paramsList.AddParameter(opaqueIsvKey);
+
+            try
+            {
+                paramsList.AddParameter(OutgoingMessages.VerifyAndAuthRequest);
+                paramsList.AddParameter(VERSION);
+                paramsList.AddParameter(apiName);
+                paramsList.AddParameter(apiVersion);
+                paramsList.AddParameter(opaqueIsvKey);
+            }
+            catch (EClientException e)
+            {
+                wrapper.error(IncomingMessage.NotValid, e.Err.Code, e.Err.Message + e.Text);
+                return;
+            }
+
             CloseAndSend(paramsList, lengthPos, EClientErrors.FAIL_SEND_VERIFYANDAUTHREQUEST);
         }
 
@@ -2373,10 +2536,20 @@ namespace IBApi
             const int VERSION = 1;
             var paramsList = new BinaryWriter(new MemoryStream());
             var lengthPos = prepareBuffer(paramsList);
-            paramsList.AddParameter(OutgoingMessages.VerifyAndAuthMessage);
-            paramsList.AddParameter(VERSION);
-            paramsList.AddParameter(apiData);
-            paramsList.AddParameter(xyzResponse);
+
+            try
+            {
+                paramsList.AddParameter(OutgoingMessages.VerifyAndAuthMessage);
+                paramsList.AddParameter(VERSION);
+                paramsList.AddParameter(apiData);
+                paramsList.AddParameter(xyzResponse);
+            }
+            catch (EClientException e)
+            {
+                wrapper.error(IncomingMessage.NotValid, e.Err.Code, e.Err.Message + e.Text);
+                return;
+            }
+
             CloseAndSend(paramsList, lengthPos, EClientErrors.FAIL_SEND_VERIFYANDAUTHMESSAGE);
         }
 
@@ -2401,7 +2574,7 @@ namespace IBApi
         }
 
         /**
-         * @brief Integrates API client and TWS window grouping. 
+         * @brief Integrates API client and TWS window grouping.
          *@param requestId is the Id chosen for this subscription request
          * @param groupId is the display group for integration
          */
@@ -2429,7 +2602,7 @@ namespace IBApi
          * 1. none = empty selection
          * 2. contractID@exchange - any non-combination contract. Examples 8314@SMART for IBM SMART; 8314@ARCA for IBM ARCA
          * 3. combo= if any combo is selected
-         * Note: This request from the API does not get a TWS response unless an error occurs. 
+         * Note: This request from the API does not get a TWS response unless an error occurs.
          */
         public void updateDisplayGroup(int requestId, string contractInfo)
         {
@@ -2441,11 +2614,20 @@ namespace IBApi
             var paramsList = new BinaryWriter(new MemoryStream());
             var lengthPos = prepareBuffer(paramsList);
 
-            paramsList.AddParameter(OutgoingMessages.UpdateDisplayGroup);
-            paramsList.AddParameter(VERSION);
-            paramsList.AddParameter(requestId);
-            paramsList.AddParameter(contractInfo);
-            CloseAndSend(paramsList, lengthPos, EClientErrors.FAIL_SEND_UPDATEDISPLAYGROUP);
+            try
+            {
+                paramsList.AddParameter(OutgoingMessages.UpdateDisplayGroup);
+                paramsList.AddParameter(VERSION);
+                paramsList.AddParameter(requestId);
+                paramsList.AddParameter(contractInfo);
+            }
+            catch (EClientException e)
+            {
+                wrapper.error(requestId, e.Err.Code, e.Err.Message + e.Text);
+                return;
+            }
+
+            CloseAndSend(requestId, paramsList, lengthPos, EClientErrors.FAIL_SEND_UPDATEDISPLAYGROUP);
         }
 
         /**
@@ -2486,12 +2668,21 @@ namespace IBApi
             var paramsList = new BinaryWriter(new MemoryStream());
             var lengthPos = prepareBuffer(paramsList);
 
-            paramsList.AddParameter(OutgoingMessages.RequestPositionsMulti);
-            paramsList.AddParameter(VERSION);
-            paramsList.AddParameter(requestId);
-            paramsList.AddParameter(account);
-            paramsList.AddParameter(modelCode);
-            CloseAndSend(paramsList, lengthPos, EClientErrors.FAIL_SEND_REQPOSITIONSMULTI);
+            try
+            {
+                paramsList.AddParameter(OutgoingMessages.RequestPositionsMulti);
+                paramsList.AddParameter(VERSION);
+                paramsList.AddParameter(requestId);
+                paramsList.AddParameter(account);
+                paramsList.AddParameter(modelCode);
+            }
+            catch (EClientException e)
+            {
+                wrapper.error(requestId, e.Err.Code, e.Err.Message + e.Text);
+                return;
+            }
+
+            CloseAndSend(requestId, paramsList, lengthPos, EClientErrors.FAIL_SEND_REQPOSITIONSMULTI);
         }
 
         /**
@@ -2515,12 +2706,12 @@ namespace IBApi
             paramsList.AddParameter(OutgoingMessages.CancelPositionsMulti);
             paramsList.AddParameter(VERSION);
             paramsList.AddParameter(requestId);
-            CloseAndSend(paramsList, lengthPos, EClientErrors.FAIL_SEND_CANPOSITIONSMULTI);
+            CloseAndSend(requestId, paramsList, lengthPos, EClientErrors.FAIL_SEND_CANPOSITIONSMULTI);
         }
 
         /**
          * @brief Requests account updates for account and/or model
-         * @param reqId identifier to label the request 
+         * @param reqId identifier to label the request
          * @param account account values can be requested for a particular account
          * @param modelCode values can also be requested for a model
 		 * @param ledgerAndNLV returns light-weight request; only currency positions as opposed to account values and currency positions
@@ -2537,18 +2728,27 @@ namespace IBApi
             var paramsList = new BinaryWriter(new MemoryStream());
             var lengthPos = prepareBuffer(paramsList);
 
-            paramsList.AddParameter(OutgoingMessages.RequestAccountUpdatesMulti);
-            paramsList.AddParameter(VERSION);
-            paramsList.AddParameter(requestId);
-            paramsList.AddParameter(account);
-            paramsList.AddParameter(modelCode);
-            paramsList.AddParameter(ledgerAndNLV);
-            CloseAndSend(paramsList, lengthPos, EClientErrors.FAIL_SEND_REQACCOUNTUPDATESMULTI);
+            try
+            {
+                paramsList.AddParameter(OutgoingMessages.RequestAccountUpdatesMulti);
+                paramsList.AddParameter(VERSION);
+                paramsList.AddParameter(requestId);
+                paramsList.AddParameter(account);
+                paramsList.AddParameter(modelCode);
+                paramsList.AddParameter(ledgerAndNLV);
+            }
+            catch (EClientException e)
+            {
+                wrapper.error(requestId, e.Err.Code, e.Err.Message + e.Text);
+                return;
+            }
+
+            CloseAndSend(requestId, paramsList, lengthPos, EClientErrors.FAIL_SEND_REQACCOUNTUPDATESMULTI);
         }
 
         /**
          * @brief Cancels account updates request for account and/or model
-         * @param requestId account subscription to cancel  
+         * @param requestId account subscription to cancel
          * @sa reqAccountUpdatesMulti
          */
         public void cancelAccountUpdatesMulti(int requestId)
@@ -2567,13 +2767,13 @@ namespace IBApi
             paramsList.AddParameter(OutgoingMessages.CancelAccountUpdatesMulti);
             paramsList.AddParameter(VERSION);
             paramsList.AddParameter(requestId);
-            CloseAndSend(paramsList, lengthPos, EClientErrors.FAIL_SEND_CANACCOUNTUPDATESMULTI);
+            CloseAndSend(requestId, paramsList, lengthPos, EClientErrors.FAIL_SEND_CANACCOUNTUPDATESMULTI);
         }
 
         /**
          * @brief Requests security definition option parameters for viewing a contract's option chain
          * @param reqId the ID chosen for the request
-         * @param underlyingSymbol 
+         * @param underlyingSymbol
          * @param futFopExchange The exchange on which the returned options are trading. Can be set to the empty string "" for all exchanges.
          * @param underlyingSecType The type of the underlying security, i.e. STK
          * @param underlyingConId the contract ID of the underlying security
@@ -2591,13 +2791,22 @@ namespace IBApi
             var paramsList = new BinaryWriter(new MemoryStream());
             var lengthPos = prepareBuffer(paramsList);
 
-            paramsList.AddParameter(OutgoingMessages.RequestSecurityDefinitionOptionalParameters);
-            paramsList.AddParameter(reqId);
-            paramsList.AddParameter(underlyingSymbol);
-            paramsList.AddParameter(futFopExchange);
-            paramsList.AddParameter(underlyingSecType);
-            paramsList.AddParameter(underlyingConId);
-            CloseAndSend(paramsList, lengthPos, EClientErrors.FAIL_SEND_REQSECDEFOPTPARAMS);
+            try
+            {
+                paramsList.AddParameter(OutgoingMessages.RequestSecurityDefinitionOptionalParameters);
+                paramsList.AddParameter(reqId);
+                paramsList.AddParameter(underlyingSymbol);
+                paramsList.AddParameter(futFopExchange);
+                paramsList.AddParameter(underlyingSecType);
+                paramsList.AddParameter(underlyingConId);
+            }
+            catch (EClientException e)
+            {
+                wrapper.error(reqId, e.Err.Code, e.Err.Message + e.Text);
+                return;
+            }
+
+            CloseAndSend(reqId, paramsList, lengthPos, EClientErrors.FAIL_SEND_REQSECDEFOPTPARAMS);
         }
 
         /**
@@ -2659,10 +2868,19 @@ namespace IBApi
             var paramsList = new BinaryWriter(new MemoryStream());
             var lengthPos = prepareBuffer(paramsList);
 
-            paramsList.AddParameter(OutgoingMessages.RequestMatchingSymbols);
-            paramsList.AddParameter(reqId);
-            paramsList.AddParameter(pattern);
-            CloseAndSend(paramsList, lengthPos, EClientErrors.FAIL_SEND_REQMATCHINGSYMBOLS);
+            try
+            {
+                paramsList.AddParameter(OutgoingMessages.RequestMatchingSymbols);
+                paramsList.AddParameter(reqId);
+                paramsList.AddParameter(pattern);
+            }
+            catch (EClientException e)
+            {
+                wrapper.error(reqId, e.Err.Code, e.Err.Message + e.Text);
+                return;
+            }
+
+            CloseAndSend(reqId, paramsList, lengthPos, EClientErrors.FAIL_SEND_REQMATCHINGSYMBOLS);
         }
 
         /**
@@ -2691,7 +2909,7 @@ namespace IBApi
          * @param bboExchange mapping identifier received from EWrapper.tickReqParams
          * @sa EWrapper::smartComponents
              */
-        public void reqSmartComponents(int reqId, String bboExchange)
+        public void reqSmartComponents(int reqId, string bboExchange)
         {
             if (!CheckConnection())
                 return;
@@ -2703,14 +2921,23 @@ namespace IBApi
             var paramsList = new BinaryWriter(new MemoryStream());
             var lengthPos = prepareBuffer(paramsList);
 
-            paramsList.AddParameter(OutgoingMessages.RequestSmartComponents);
-            paramsList.AddParameter(reqId);
-            paramsList.AddParameter(bboExchange);
-            CloseAndSend(paramsList, lengthPos, EClientErrors.FAIL_SEND_REQSMARTCOMPONENTS);
+            try
+            {
+                paramsList.AddParameter(OutgoingMessages.RequestSmartComponents);
+                paramsList.AddParameter(reqId);
+                paramsList.AddParameter(bboExchange);
+            }
+            catch (EClientException e)
+            {
+                wrapper.error(reqId, e.Err.Code, e.Err.Message + e.Text);
+                return;
+            }
+
+            CloseAndSend(reqId, paramsList, lengthPos, EClientErrors.FAIL_SEND_REQSMARTCOMPONENTS);
         }
 
         /**
-        * @brief Requests news providers which the user has subscribed to. 
+        * @brief Requests news providers which the user has subscribed to.
         * @sa EWrapper::newsProviders
         */
         public void reqNewsProviders()
@@ -2735,7 +2962,7 @@ namespace IBApi
          * @param providerCode short code indicating news provider, e.g. FLY
          * @param articleId id of the specific article
          * @param newsArticleOptions reserved for internal use. Should be defined as null.
-         * @sa EWrapper::newsArticle, 
+         * @sa EWrapper::newsArticle,
          */
         public void reqNewsArticle(int requestId, string providerCode, string articleId, List<TagValue> newsArticleOptions)
         {
@@ -2749,17 +2976,25 @@ namespace IBApi
             var paramsList = new BinaryWriter(new MemoryStream());
             var lengthPos = prepareBuffer(paramsList);
 
-            paramsList.AddParameter(OutgoingMessages.RequestNewsArticle);
-            paramsList.AddParameter(requestId);
-            paramsList.AddParameter(providerCode);
-            paramsList.AddParameter(articleId);
-
-            if (serverVersion >= MinServerVer.NEWS_QUERY_ORIGINS)
+            try
             {
-                paramsList.AddParameter(newsArticleOptions);
+                paramsList.AddParameter(OutgoingMessages.RequestNewsArticle);
+                paramsList.AddParameter(requestId);
+                paramsList.AddParameter(providerCode);
+                paramsList.AddParameter(articleId);
+
+                if (serverVersion >= MinServerVer.NEWS_QUERY_ORIGINS)
+                {
+                    paramsList.AddParameter(newsArticleOptions);
+                }
+            }
+            catch (EClientException e)
+            {
+                wrapper.error(requestId, e.Err.Code, e.Err.Message + e.Text);
+                return;
             }
 
-            CloseAndSend(paramsList, lengthPos, EClientErrors.FAIL_SEND_REQNEWSARTICLE);
+            CloseAndSend(requestId, paramsList, lengthPos, EClientErrors.FAIL_SEND_REQNEWSARTICLE);
         }
 
         /**
@@ -2785,20 +3020,28 @@ namespace IBApi
             var paramsList = new BinaryWriter(new MemoryStream());
             var lengthPos = prepareBuffer(paramsList);
 
-            paramsList.AddParameter(OutgoingMessages.RequestHistoricalNews);
-            paramsList.AddParameter(requestId);
-            paramsList.AddParameter(conId);
-            paramsList.AddParameter(providerCodes);
-            paramsList.AddParameter(startDateTime);
-            paramsList.AddParameter(endDateTime);
-            paramsList.AddParameter(totalResults);
-
-            if (serverVersion >= MinServerVer.NEWS_QUERY_ORIGINS)
+            try
             {
-                paramsList.AddParameter(historicalNewsOptions);
+                paramsList.AddParameter(OutgoingMessages.RequestHistoricalNews);
+                paramsList.AddParameter(requestId);
+                paramsList.AddParameter(conId);
+                paramsList.AddParameter(providerCodes);
+                paramsList.AddParameter(startDateTime);
+                paramsList.AddParameter(endDateTime);
+                paramsList.AddParameter(totalResults);
+
+                if (serverVersion >= MinServerVer.NEWS_QUERY_ORIGINS)
+                {
+                    paramsList.AddParameter(historicalNewsOptions);
+                }
+            }
+            catch (EClientException e)
+            {
+                wrapper.error(requestId, e.Err.Code, e.Err.Message + e.Text);
+                return;
             }
 
-            CloseAndSend(paramsList, lengthPos, EClientErrors.FAIL_SEND_REQHISTORICALNEWS);
+            CloseAndSend(requestId, paramsList, lengthPos, EClientErrors.FAIL_SEND_REQHISTORICALNEWS);
         }
 
         /**
@@ -2823,13 +3066,22 @@ namespace IBApi
             var paramsList = new BinaryWriter(new MemoryStream());
             var lengthPos = prepareBuffer(paramsList);
 
-            paramsList.AddParameter(OutgoingMessages.RequestHeadTimestamp);
-            paramsList.AddParameter(tickerId);
-            paramsList.AddParameter(contract);
-            paramsList.AddParameter(useRTH);
-            paramsList.AddParameter(whatToShow);
-            paramsList.AddParameter(formatDate);
-            CloseAndSend(paramsList, lengthPos, EClientErrors.FAIL_SEND_REQHEADTIMESTAMP);
+            try
+            {
+                paramsList.AddParameter(OutgoingMessages.RequestHeadTimestamp);
+                paramsList.AddParameter(tickerId);
+                paramsList.AddParameter(contract);
+                paramsList.AddParameter(useRTH);
+                paramsList.AddParameter(whatToShow);
+                paramsList.AddParameter(formatDate);
+            }
+            catch (EClientException e)
+            {
+                wrapper.error(tickerId, e.Err.Code, e.Err.Message + e.Text);
+                return;
+            }
+
+            CloseAndSend(tickerId, paramsList, lengthPos, EClientErrors.FAIL_SEND_REQHEADTIMESTAMP);
         }
 
         /**
@@ -2876,12 +3128,21 @@ namespace IBApi
             var paramsList = new BinaryWriter(new MemoryStream());
             var lengthPos = prepareBuffer(paramsList);
 
-            paramsList.AddParameter(OutgoingMessages.RequestHistogramData);
-            paramsList.AddParameter(tickerId);
-            paramsList.AddParameter(contract);
-            paramsList.AddParameter(useRTH);
-            paramsList.AddParameter(period);
-            CloseAndSend(paramsList, lengthPos, EClientErrors.FAIL_SEND_REQHISTOGRAMDATA);
+            try
+            {
+                paramsList.AddParameter(OutgoingMessages.RequestHistogramData);
+                paramsList.AddParameter(tickerId);
+                paramsList.AddParameter(contract);
+                paramsList.AddParameter(useRTH);
+                paramsList.AddParameter(period);
+            }
+            catch (EClientException e)
+            {
+                wrapper.error(tickerId, e.Err.Code, e.Err.Message + e.Text);
+                return;
+            }
+
+            CloseAndSend(tickerId, paramsList, lengthPos, EClientErrors.FAIL_SEND_REQHISTOGRAMDATA);
         }
 
         /**
@@ -2951,15 +3212,23 @@ namespace IBApi
             var paramsList = new BinaryWriter(new MemoryStream());
             var lengthPos = prepareBuffer(paramsList);
 
-            paramsList.AddParameter(OutgoingMessages.ReqPnL);
-            paramsList.AddParameter(reqId);
-            paramsList.AddParameter(account);
-            paramsList.AddParameter(modelCode);
+            try
+            {
+                paramsList.AddParameter(OutgoingMessages.ReqPnL);
+                paramsList.AddParameter(reqId);
+                paramsList.AddParameter(account);
+                paramsList.AddParameter(modelCode);
+            }
+            catch (EClientException e)
+            {
+                wrapper.error(reqId, e.Err.Code, e.Err.Message + e.Text);
+                return;
+            }
 
-            CloseAndSend(paramsList, lengthPos, EClientErrors.FAIL_SEND_REQPNL);
+            CloseAndSend(reqId, paramsList, lengthPos, EClientErrors.FAIL_SEND_REQPNL);
         }
 
-        /** 
+        /**
         * @brief cancels subscription for real time updated daily PnL
         * params reqId
         */
@@ -2987,7 +3256,7 @@ namespace IBApi
         * @param reqId
         * @param account account in which position exists
         * @param modelCode model in which position exists
-        * @param conId contract ID (conId) of contract to receive daily PnL updates for.  
+        * @param conId contract ID (conId) of contract to receive daily PnL updates for.
         * Note: does not return message if invalid conId is entered
         */
 
@@ -3003,16 +3272,24 @@ namespace IBApi
             var paramsList = new BinaryWriter(new MemoryStream());
             var lengthPos = prepareBuffer(paramsList);
 
-            paramsList.AddParameter(OutgoingMessages.ReqPnLSingle);
-            paramsList.AddParameter(reqId);
-            paramsList.AddParameter(account);
-            paramsList.AddParameter(modelCode);
-            paramsList.AddParameter(conId);
+            try
+            {
+                paramsList.AddParameter(OutgoingMessages.ReqPnLSingle);
+                paramsList.AddParameter(reqId);
+                paramsList.AddParameter(account);
+                paramsList.AddParameter(modelCode);
+                paramsList.AddParameter(conId);
+            }
+            catch (EClientException e)
+            {
+                wrapper.error(reqId, e.Err.Code, e.Err.Message + e.Text);
+                return;
+            }
 
-            CloseAndSend(paramsList, lengthPos, EClientErrors.FAIL_SEND_REQPNLSINGLE);
+            CloseAndSend(reqId, paramsList, lengthPos, EClientErrors.FAIL_SEND_REQPNLSINGLE);
         }
 
-        /** 
+        /**
         * @brief Cancels real time subscription for a positions daily PnL information
         * @param reqId
         */
@@ -3042,7 +3319,7 @@ namespace IBApi
         * @param startDateTime ,i.e. "20170701 12:01:00". Uses TWS timezone specified at login.
         * @param endDateTime ,i.e. "20170701 13:01:00". In TWS timezone. Exactly one of start time and end time has to be defined.
         * @param numberOfTicks Number of distinct data points. Max currently 1000 per request.
-        * @param whatToShow (Bid_Ask, Midpoint, Trades) Type of data requested. 
+        * @param whatToShow (Bid_Ask, Midpoint, Trades) Type of data requested.
         * @param useRth Data from regular trading hours (1), or all available hours (0)
         * @param ignoreSize A filter only used when the source price is Bid_Ask
         * @param miscOptions should be defined as <i>null</i>, reserved for internal use
@@ -3062,18 +3339,26 @@ namespace IBApi
             var paramsList = new BinaryWriter(new MemoryStream());
             var lengthPos = prepareBuffer(paramsList);
 
-            paramsList.AddParameter(OutgoingMessages.ReqHistoricalTicks);
-            paramsList.AddParameter(reqId);
-            paramsList.AddParameter(contract);
-            paramsList.AddParameter(startDateTime);
-            paramsList.AddParameter(endDateTime);
-            paramsList.AddParameter(numberOfTicks);
-            paramsList.AddParameter(whatToShow);
-            paramsList.AddParameter(useRth);
-            paramsList.AddParameter(ignoreSize);
-            paramsList.AddParameter(miscOptions);
+            try
+            {
+                paramsList.AddParameter(OutgoingMessages.ReqHistoricalTicks);
+                paramsList.AddParameter(reqId);
+                paramsList.AddParameter(contract);
+                paramsList.AddParameter(startDateTime);
+                paramsList.AddParameter(endDateTime);
+                paramsList.AddParameter(numberOfTicks);
+                paramsList.AddParameter(whatToShow);
+                paramsList.AddParameter(useRth);
+                paramsList.AddParameter(ignoreSize);
+                paramsList.AddParameter(miscOptions);
+            }
+            catch (EClientException e)
+            {
+                wrapper.error(reqId, e.Err.Code, e.Err.Message + e.Text);
+                return;
+            }
 
-            CloseAndSend(paramsList, lengthPos, EClientErrors.FAIL_SEND_REQHISTORICALTICKS);
+            CloseAndSend(reqId, paramsList, lengthPos, EClientErrors.FAIL_SEND_REQHISTORICALTICKS);
         }
 
         protected bool CheckServerVersion(int requiredVersion)
@@ -3157,9 +3442,18 @@ namespace IBApi
             var paramsList = new BinaryWriter(new MemoryStream());
             var lengthPos = prepareBuffer(paramsList);
 
-            paramsList.AddParameter(msgType);
-            paramsList.AddParameter(version);
-            paramsList.AddParameter(reqId);
+            try
+            {
+                paramsList.AddParameter(msgType);
+                paramsList.AddParameter(version);
+                paramsList.AddParameter(reqId);
+            }
+            catch (EClientException e)
+            {
+                wrapper.error(reqId, e.Err.Code, e.Err.Message + e.Text);
+                return;
+            }
+
             try
             {
                 CloseAndSend(paramsList, lengthPos);
@@ -3176,8 +3470,17 @@ namespace IBApi
             var paramsList = new BinaryWriter(new MemoryStream());
             var lengthPos = prepareBuffer(paramsList);
 
-            paramsList.AddParameter(msgType);
-            paramsList.AddParameter(version);
+            try
+            {
+                paramsList.AddParameter(msgType);
+                paramsList.AddParameter(version);
+            }
+            catch (EClientException e)
+            {
+                wrapper.error(IncomingMessage.NotValid, e.Err.Code, e.Err.Message + e.Text);
+                return;
+            }
+
             try
             {
                 CloseAndSend(paramsList, lengthPos);
@@ -3198,7 +3501,7 @@ namespace IBApi
                     ComboLeg comboLeg;
                     for (int i = 0; i < contract.ComboLegs.Count; ++i)
                     {
-                        comboLeg = (ComboLeg)contract.ComboLegs[i];
+                        comboLeg = contract.ComboLegs[i];
                         if (comboLeg.ShortSaleSlot != 0 ||
                             !IsEmpty(comboLeg.DesignatedLocation))
                         {
@@ -3246,7 +3549,7 @@ namespace IBApi
                     ComboLeg comboLeg;
                     for (int i = 0; i < contract.ComboLegs.Count; ++i)
                     {
-                        comboLeg = (ComboLeg)contract.ComboLegs[i];
+                        comboLeg = contract.ComboLegs[i];
                         if (comboLeg.ExemptCode != -1)
                         {
                             ReportError(id, EClientErrors.UPDATE_TWS,
@@ -3272,8 +3575,8 @@ namespace IBApi
         {
             if (serverVersion < MinServerVer.SCALE_ORDERS)
             {
-                if (order.ScaleInitLevelSize != Int32.MaxValue ||
-                    order.ScalePriceIncrement != Double.MaxValue)
+                if (order.ScaleInitLevelSize != int.MaxValue ||
+                    order.ScalePriceIncrement != double.MaxValue)
                 {
                     ReportError(id, EClientErrors.UPDATE_TWS,
                         "  It does not support Scale orders.");
@@ -3292,7 +3595,7 @@ namespace IBApi
 
             if (serverVersion < MinServerVer.SCALE_ORDERS2)
             {
-                if (order.ScaleSubsLevelSize != Int32.MaxValue)
+                if (order.ScaleSubsLevelSize != int.MaxValue)
                 {
                     ReportError(id, EClientErrors.UPDATE_TWS,
                         "  It does not support Subsequent Level Size for Scale orders.");
@@ -3381,14 +3684,14 @@ namespace IBApi
 
             if (serverVersion < MinServerVer.SCALE_ORDERS3)
             {
-                if (order.ScalePriceIncrement > 0 && order.ScalePriceIncrement != Double.MaxValue)
+                if (order.ScalePriceIncrement > 0 && order.ScalePriceIncrement != double.MaxValue)
                 {
-                    if (order.ScalePriceAdjustValue != Double.MaxValue ||
-                        order.ScalePriceAdjustInterval != Int32.MaxValue ||
-                        order.ScaleProfitOffset != Double.MaxValue ||
+                    if (order.ScalePriceAdjustValue != double.MaxValue ||
+                        order.ScalePriceAdjustInterval != int.MaxValue ||
+                        order.ScaleProfitOffset != double.MaxValue ||
                         order.ScaleAutoReset ||
-                        order.ScaleInitPosition != Int32.MaxValue ||
-                        order.ScaleInitFillQty != Int32.MaxValue ||
+                        order.ScaleInitPosition != int.MaxValue ||
+                        order.ScaleInitFillQty != int.MaxValue ||
                         order.ScaleRandomPercent)
                     {
                         ReportError(id, EClientErrors.UPDATE_TWS,
@@ -3406,8 +3709,8 @@ namespace IBApi
                     OrderComboLeg orderComboLeg;
                     for (int i = 0; i < order.OrderComboLegs.Count; ++i)
                     {
-                        orderComboLeg = (OrderComboLeg)order.OrderComboLegs[i];
-                        if (orderComboLeg.Price != Double.MaxValue)
+                        orderComboLeg = order.OrderComboLegs[i];
+                        if (orderComboLeg.Price != double.MaxValue)
                         {
                             ReportError(id, EClientErrors.UPDATE_TWS,
                                 "  It does not support per-leg prices for order combo legs.");
@@ -3419,7 +3722,7 @@ namespace IBApi
 
             if (serverVersion < MinServerVer.TRAILING_PERCENT)
             {
-                if (order.TrailingPercent != Double.MaxValue)
+                if (order.TrailingPercent != double.MaxValue)
                 {
                     ReportError(id, EClientErrors.UPDATE_TWS,
                         "  It does not support trailing percent parameter.");
@@ -3451,7 +3754,7 @@ namespace IBApi
                 return false;
             }
 
-            if (serverVersion < MinServerVer.CASH_QTY && order.CashQty != Double.MaxValue)
+            if (serverVersion < MinServerVer.CASH_QTY && order.CashQty != double.MaxValue)
             {
                 ReportError(id, EClientErrors.UPDATE_TWS, " It does not support cashQty parameter");
 
@@ -3515,7 +3818,16 @@ namespace IBApi
 
         private bool StringsAreEqual(string a, string b)
         {
-            return String.Compare(a, b, true) == 0;
+            return string.Compare(a, b, true) == 0;
+        }
+
+        public bool IsDataAvailable()
+        {
+            if (!isConnected) return false;
+
+            var networkStream = tcpStream as NetworkStream;
+
+            return networkStream == null || networkStream.DataAvailable;
         }
 
         public int ReadInt()

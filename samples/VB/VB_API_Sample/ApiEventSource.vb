@@ -391,11 +391,12 @@ Friend Class ApiEventSource
                          End Sub)
     End Sub
 
-    Private Sub EWrapper_TickOptionComputation(tickerId As Integer, field As Integer, impliedVolatility As Double, delta As Double, optPrice As Double, pvDividend As Double, gamma As Double, vega As Double, theta As Double, undPrice As Double) Implements IBApi.EWrapper.tickOptionComputation
+    Private Sub EWrapper_TickOptionComputation(tickerId As Integer, field As Integer, tickAttrib As Integer, impliedVolatility As Double, delta As Double, optPrice As Double, pvDividend As Double, gamma As Double, vega As Double, theta As Double, undPrice As Double) Implements IBApi.EWrapper.tickOptionComputation
         InvokeIfRequired(Sub()
                              RaiseEvent TickOptionComputation(Me, New TickOptionComputationEventArgs With {
                                                                                                         .tickerId = tickerId,
                                                                                                         .tickType = field,
+                                                                                                        .tickAttrib = tickAttrib,
                                                                                                         .impliedVolatility = impliedVolatility,
                                                                                                         .delta = delta,
                                                                                                         .optPrice = optPrice,
@@ -844,8 +845,14 @@ Friend Class ApiEventSource
                              RaiseEvent CompletedOrdersEnd(Me, EventArgs.Empty)
                          End Sub)
     End Sub
-
-
+    Private Sub EWrapper_ReplaceFAEnd(reqId As Integer, text As String) Implements IBApi.EWrapper.replaceFAEnd
+        InvokeIfRequired(Sub()
+                             RaiseEvent ReplaceFAEnd(Me, New ReplaceFAEndEventArgs With {
+                                                              .reqId = reqId,
+                                                              .text = text
+                                                              })
+                         End Sub)
+    End Sub
 #End Region
 
 #Region "Event declarations"
@@ -930,6 +937,9 @@ Friend Class ApiEventSource
     Event OrderBound(sender As Object, e As OrderBoundEventArgs)
     Event CompletedOrder(sender As Object, e As OpenOrderEventArgs)
     Event CompletedOrdersEnd(sender As Object, e As EventArgs)
+    Event ReplaceFAEnd(sender As Object, e As ReplaceFAEndEventArgs)
+
+
 
 
 #End Region

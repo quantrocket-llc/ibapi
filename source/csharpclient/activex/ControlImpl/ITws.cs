@@ -202,7 +202,7 @@ namespace TWSLib
         [DispId(80)]
         void requestFA(int faDataType);
         [DispId(81)]
-        void replaceFA(int faDataType, string cxml);
+        void replaceFA(int reqId, int faDataType, string cxml);
         [DispId(82)]
         void reqHistoricalData(int id, string symbol, string secType, string lastTradeDate, double strike,
                   string right, string multiplier, string exchange, string curency, int isExpired,

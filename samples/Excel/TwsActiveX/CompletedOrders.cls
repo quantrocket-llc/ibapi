@@ -192,7 +192,7 @@ Sub UpdateCompletedOrder(contract As TWSLib.IContract, order As TWSLib.IOrder, o
     
     With order
         completedOrderStatusTable(rowId, Col_PERMID).value = .permId
-        completedOrderStatusTable(rowId, Col_PARENTPERMID).value = Util.LongMaxStr(.parentPermId)
+        completedOrderStatusTable(rowId, Col_PARENTPERMID).value = Util.IntMaxStr(.parentPermId)
     End With
 
     With order

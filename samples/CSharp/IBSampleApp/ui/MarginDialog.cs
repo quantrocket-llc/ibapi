@@ -2,14 +2,8 @@
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-using IBSampleApp.messages;
+
 using IBApi;
 
 namespace IBSampleApp.ui
@@ -25,35 +19,35 @@ namespace IBSampleApp.ui
 
         public void FillAndDisplay(OrderState state)
         {
-            this.equityWithLoanBefore.Text = Util.formatDoubleString(state.EquityWithLoanBefore);
-            this.initialMarginBefore.Text = Util.formatDoubleString(state.InitMarginBefore);
-            this.maintenanceMarginBefore.Text = Util.formatDoubleString(state.MaintMarginBefore);
-            this.equityWithLoanChange.Text = Util.formatDoubleString(state.EquityWithLoanChange);
-            this.initialMarginChange.Text = Util.formatDoubleString(state.InitMarginChange);
-            this.maintenanceMarginChange.Text = Util.formatDoubleString(state.MaintMarginChange);
-            this.equityWithLoanAfter.Text = Util.formatDoubleString(state.EquityWithLoanAfter);
-            this.initialMarginAfter.Text = Util.formatDoubleString(state.InitMarginAfter);
-            this.maintenanceMarginAfter.Text = Util.formatDoubleString(state.MaintMarginAfter);
+            equityWithLoanBefore.Text = Util.formatDoubleString(state.EquityWithLoanBefore);
+            initialMarginBefore.Text = Util.formatDoubleString(state.InitMarginBefore);
+            maintenanceMarginBefore.Text = Util.formatDoubleString(state.MaintMarginBefore);
+            equityWithLoanChange.Text = Util.formatDoubleString(state.EquityWithLoanChange);
+            initialMarginChange.Text = Util.formatDoubleString(state.InitMarginChange);
+            maintenanceMarginChange.Text = Util.formatDoubleString(state.MaintMarginChange);
+            equityWithLoanAfter.Text = Util.formatDoubleString(state.EquityWithLoanAfter);
+            initialMarginAfter.Text = Util.formatDoubleString(state.InitMarginAfter);
+            maintenanceMarginAfter.Text = Util.formatDoubleString(state.MaintMarginAfter);
         }
 
         public void UpdateMarginInformation(OrderState state)
         {
             FillAndDisplay(state);
-            this.ShowDialog();  
+            ShowDialog();  
         }
 
         private void acceptMarginButton_Click(object sender, EventArgs e)
         {
-            this.equityWithLoanBefore.Text = "";
-            this.initialMarginBefore.Text = "";
-            this.maintenanceMarginBefore.Text = "";
-            this.equityWithLoanChange.Text = "";
-            this.initialMarginChange.Text = "";
-            this.maintenanceMarginChange.Text = "";
-            this.equityWithLoanAfter.Text = "";
-            this.initialMarginAfter.Text = "";
-            this.maintenanceMarginAfter.Text = "";
-            this.Visible = false;
+            equityWithLoanBefore.Text = "";
+            initialMarginBefore.Text = "";
+            maintenanceMarginBefore.Text = "";
+            equityWithLoanChange.Text = "";
+            initialMarginChange.Text = "";
+            maintenanceMarginChange.Text = "";
+            equityWithLoanAfter.Text = "";
+            initialMarginAfter.Text = "";
+            maintenanceMarginAfter.Text = "";
+            Visible = false;
         }
 
     }

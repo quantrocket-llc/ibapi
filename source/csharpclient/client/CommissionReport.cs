@@ -1,11 +1,7 @@
 ﻿/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
 
 namespace IBApi
 {
@@ -16,76 +12,45 @@ namespace IBApi
      */
     public class CommissionReport
     {
-        private string execId;
-        private double commission;
-        private string currency;
-        private double realizedPNL;
-        private double yield;
-        private int yieldRedemptionDate;
-
         /**
         * @brief the execution's id this commission belongs to.
         */
-        public string ExecId
-        {
-            get { return execId; }
-            set { execId = value; }
-        }
+        public string ExecId { get; set; }
 
         /**
          * @brief the commissions cost.
          */
-        public double Commission
-        {
-            get { return commission; }
-            set { commission = value; }
-        }
+        public double Commission { get; set; }
 
         /**
         * @brief the reporting currency.
         */
-        public string Currency
-        {
-            get { return currency; }
-            set { currency = value; }
-        }
+        public string Currency { get; set; }
 
         /**
         * @brief the realized profit and loss
         */
-        public double RealizedPNL
-        {
-            get { return realizedPNL; }
-            set { realizedPNL = value; }
-        }
+        public double RealizedPNL { get; set; }
 
         /**
          * @brief The income return.
          */
-        public double Yield
-        {
-            get { return yield; }
-            set { yield = value; }
-        }
+        public double Yield { get; set; }
 
         /**
          * @brief date expressed in yyyymmdd format.
          */
-        public int YieldRedemptionDate
-        {
-            get { return yieldRedemptionDate; }
-            set { yieldRedemptionDate = value; }
-        }
+        public int YieldRedemptionDate { get; set; }
 
         public CommissionReport()
         {
-            commission = 0;
-            realizedPNL = 0;
-            yield = 0;
-            yieldRedemptionDate = 0;
+            Commission = 0;
+            RealizedPNL = 0;
+            Yield = 0;
+            YieldRedemptionDate = 0;
         }
 
-        public override bool Equals(Object p_other)
+        public override bool Equals(object p_other)
         {
             bool l_bRetVal;
             CommissionReport l_theOther = p_other as CommissionReport;

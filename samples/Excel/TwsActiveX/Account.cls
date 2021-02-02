@@ -35,7 +35,7 @@ Const FA_DATATYPE_ACCOUNT_ALIASES = 3
 
 Const STR_FA_CONFIG = "Financial Advisor configuration"
 
-Private faDataType As Long
+Private faDataTypeValue As Long
 
 Private accountsTable As Range
 
@@ -147,9 +147,9 @@ End Sub
 Public Sub UpdateFA(ByVal faDataType As Long, ByVal cxml As String)
     Dim captionStr As String
     captionStr = STR_FA_CONFIG
-    faDataType = faDataType
+    faDataTypeValue = faDataType
     
-    Select Case faDataType
+    Select Case faDataTypeValue
         Case FA_DATATYPE_GROUPS
             captionStr = captionStr & " - Groups"
         Case FA_DATATYPE_PROFILE
@@ -166,7 +166,7 @@ End Sub
 Public Sub ReplaceText(text As String)
     If Not CheckConnected Then Exit Sub
     
-    Api.Tws.replaceFA faDataType, text
+    Api.Tws.replaceFA 0, faDataTypeValue, text
 End Sub
 
 Public Sub Initialise()

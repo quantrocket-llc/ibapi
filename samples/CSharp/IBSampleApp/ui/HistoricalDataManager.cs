@@ -2,8 +2,6 @@
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms.DataVisualization.Charting;
 using IBApi;
 using IBSampleApp.messages;

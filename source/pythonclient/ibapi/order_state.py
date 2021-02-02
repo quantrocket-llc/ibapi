@@ -7,7 +7,6 @@ from ibapi.common import UNSET_DOUBLE
 
 
 class OrderState:
-
     def __init__(self):
         self.status= ""
 
