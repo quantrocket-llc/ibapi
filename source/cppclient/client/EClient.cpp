@@ -33,6 +33,9 @@
 using namespace ibapi::client_constants;
 
 ///////////////////////////////////////////////////////////
+// define explict specialization of int encoder before first use
+template void EClient::EncodeField<int>(std::ostream&, int);
+
 // encoders
 template<>
 void EClient::EncodeField<bool>(std::ostream& os, bool boolValue)
@@ -55,7 +58,6 @@ void EClient::EncodeField(std::ostream& os, T value)
 {
     os << value << '\0';
 }
-
 template<> 
 void EClient::EncodeField<std::string>(std::ostream& os, std::string value)
 {
@@ -3612,4 +3614,3 @@ int EClient::sendConnectRequest()
 
     return rval;
 }
-
