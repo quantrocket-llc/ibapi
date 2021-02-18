@@ -92,8 +92,8 @@ public class Test implements EWrapper {
 		System.out.println(EWrapperMsgGenerator.tickSize(tickerId, field, size));
 	}
 
-	@Override public void tickOptionComputation(int tickerId, int field, double impliedVol, double delta, double optPrice, double pvDividend, double gamma, double vega, double theta, double undPrice) {
-		System.out.println(EWrapperMsgGenerator.tickOptionComputation(tickerId, field, impliedVol, delta, optPrice, pvDividend, gamma, vega, theta, undPrice));
+	@Override public void tickOptionComputation(int tickerId, int field, int tickAttrib, double impliedVol, double delta, double optPrice, double pvDividend, double gamma, double vega, double theta, double undPrice) {
+		System.out.println(EWrapperMsgGenerator.tickOptionComputation(tickerId, field, tickAttrib, impliedVol, delta, optPrice, pvDividend, gamma, vega, theta, undPrice));
 	}
 
 	@Override public void tickGeneric(int tickerId, int tickType, double value) {
@@ -439,5 +439,10 @@ public class Test implements EWrapper {
     @Override
     public void completedOrdersEnd() {
         System.out.println(EWrapperMsgGenerator.completedOrdersEnd());
+    }
+
+    @Override
+    public void replaceFAEnd(int reqId, String text) {
+        System.out.println(EWrapperMsgGenerator.replaceFAEnd(reqId, text));
     }
 }

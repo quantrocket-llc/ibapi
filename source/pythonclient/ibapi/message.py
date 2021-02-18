@@ -94,6 +94,7 @@ class IN:
     ORDER_BOUND               = 100
     COMPLETED_ORDER           = 101
     COMPLETED_ORDERS_END      = 102
+    REPLACE_FA_END            = 103
 
 # outgoing msg id's
 class OUT:

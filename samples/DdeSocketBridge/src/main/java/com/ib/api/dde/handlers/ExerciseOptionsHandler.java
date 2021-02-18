@@ -41,11 +41,11 @@ public class ExerciseOptionsHandler extends BaseHandler {
         ExerciseOptionsRequest request = m_requestParser.parseExerciseOptionsRequest(requestStr, data);
         System.out.println("Sending exercise options request: id=" + request.requestId() + " contract=" + Utils.shortContractString(request.contract()) 
                     + " action=" + request.exerciseAction() + " quantity=" + request.exerciseQuantity() + " override=" + request.override());
-        clientSocket().exerciseOptions(request.requestId(), request.contract(), request.exerciseAction(), 
-                request.exerciseQuantity(), request.account(), request.override()); 
         BaseStringDataMap dataMap = new BaseStringDataMap(request);
         m_exerciseOptionsRequests.put(request.requestId(), dataMap);
         updateExerciseOptionsRequestStatus(request.requestId(), dataMap, DdeRequestStatus.REQUESTED);
+        clientSocket().exerciseOptions(request.requestId(), request.contract(), request.exerciseAction(), 
+                request.exerciseQuantity(), request.account(), request.override()); 
         return null;
     }
     

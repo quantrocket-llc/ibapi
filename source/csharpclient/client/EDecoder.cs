@@ -386,6 +386,9 @@ namespace IBApi
                     CompletedOrdersEndEvent();
                     break;
 
+                case IncomingMessage.ReplaceFAEnd:
+                    ReplaceFAEndEvent();
+                    break;
 
                 default:
                     eWrapper.error(IncomingMessage.NotValid, EClientErrors.UNKNOWN_ID.Code, EClientErrors.UNKNOWN_ID.Message);
@@ -1154,9 +1157,15 @@ namespace IBApi
 
         private void TickOptionComputationEvent()
         {
-            int msgVersion = ReadInt();
+            int msgVersion = serverVersion >= MinServerVer.PRICE_BASED_VOLATILITY ? int.MaxValue : ReadInt();
+
             int requestId = ReadInt();
             int tickType = ReadInt();
+            int tickAttrib = int.MaxValue;
+            if (serverVersion >= MinServerVer.PRICE_BASED_VOLATILITY)
+            {
+                tickAttrib = ReadInt();
+            }
             double impliedVolatility = ReadDouble();
             if (impliedVolatility.Equals(-1))
             { // -1 is the "not yet computed" indicator
@@ -1210,7 +1219,7 @@ namespace IBApi
                 }
             }
 
-            eWrapper.tickOptionComputation(requestId, tickType, impliedVolatility, delta, optPrice, pvDividend, gamma, vega, theta, undPrice);
+            eWrapper.tickOptionComputation(requestId, tickType, tickAttrib, impliedVolatility, delta, optPrice, pvDividend, gamma, vega, theta, undPrice);
         }
 
         private void AccountSummaryEvent()
@@ -1988,6 +1997,13 @@ namespace IBApi
             int msgVersion = ReadInt();
             int requestId = ReadInt();
             eWrapper.accountUpdateMultiEnd(requestId);
+        }
+
+        private void ReplaceFAEndEvent()
+        {
+            int reqId = ReadInt();
+            string text = ReadString();
+            eWrapper.replaceFAEnd(reqId, text);
         }
 
         public double ReadDouble()

@@ -39,10 +39,10 @@ public class OldScannerDataHandler extends ScannerDataHandler {
         BaseMapDataMap<Integer, ScannerData> dataMap = m_scannerSubscriptionRequests.get(request.requestId());
         if(dataMap == null) {
             System.out.println("Sending scanner subscription request: id=" + request.requestId() + " scanCode=" + request.scannerSubscription().scanCode());
-            clientSocket().reqScannerSubscription(request.requestId(), request.scannerSubscription(), null, request.scannerSubscriptionFilterOptions());
             dataMap = new BaseMapDataMap<Integer, ScannerData>(request);
             m_scannerSubscriptionRequests.put(request.requestId(), dataMap);
             updateScannerSubscriptionStatus(request.requestId(), dataMap, DdeRequestStatus.REQUESTED);
+            clientSocket().reqScannerSubscription(request.requestId(), request.scannerSubscription(), null, request.scannerSubscriptionFilterOptions());
         }
         return dataMap.ddeRequestStatus().toString();
     }

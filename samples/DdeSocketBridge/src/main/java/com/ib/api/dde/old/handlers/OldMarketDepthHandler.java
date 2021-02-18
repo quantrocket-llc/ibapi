@@ -42,9 +42,9 @@ public class OldMarketDepthHandler extends MarketDepthHandler {
         
         if (ddeRequest instanceof MarketDepthRequest) {
             MarketDepthRequest request = (MarketDepthRequest)ddeRequest;
-            clientSocket().reqMktDepth(request.requestId(), request.contract(), request.numRows(), request.isSmartDepth(), null);
             MarketDepthDataMap dataMap = new MarketDepthDataMap(request);
             m_marketDepthRequests.put(request.requestId(), dataMap);
+            clientSocket().reqMktDepth(request.requestId(), request.contract(), request.numRows(), request.isSmartDepth(), null);
         } else if (ddeRequest instanceof TickRequest) {
             TickRequest tickRequest = (TickRequest)ddeRequest;
             MarketDepthDataMap dataMap = m_marketDepthRequests.get(tickRequest.requestId());

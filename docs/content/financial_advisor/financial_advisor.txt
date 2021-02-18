@@ -289,6 +289,41 @@
 	
 	<em><b>Note:</b> The above command will add another 'Group_Pct_Change' group allocation to the previous FA configuration</em>
 	
+	<b>Confirming replaceFA Configuration Updates</b>
+	
+	In order to confirm that your FA changes were saved, you may wait for the IBApi::EWrapper::replaceFAEnd callback shown below, which provides the corresponding reqId.
+	
+	<ul id="tab">
+		<li class="active"> 
+			\snippet EWrapperImpl.cs ewrapperimpl
+		   ...
+		   \snippet EWrapperImpl.cs replacefaend
+		</li>
+		<li>
+			\snippet EWrapperImpl.java ewrapperimpl
+		   ...
+		   \snippet EWrapperImpl.java replacefaend
+		</li>
+		<li>
+			\snippet EWrapperImpl.vb ewrapperimpl
+		   ...
+		   \snippet EWrapperImpl.vb replacefaend
+		</li>
+		<li>
+			\snippet TestCppClient.h ewrapperimpl
+		   ...
+		   \snippet TestCppClient.cpp replacefaend
+		</li>
+		<li>
+			\snippet Program.py ewrapperimpl
+		   ...
+		   \snippet Program.py replacefaend
+		</li>
+	</ul>
+	
+	In addition, after saving changes, it is advised to verify the new FA setup via IBApi::EClient::requestFA. If it is called before changes are fully saved, you may receive an error. See @ref message_codes.
+	
+	
 	\subpage model_portfolios
 	
 	\subpage financial_advisor_methods_and_orders

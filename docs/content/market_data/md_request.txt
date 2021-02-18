@@ -138,8 +138,7 @@
 
 	Requesting regulatory snapshots is subject to pacing limitations:
 
-	- If markets are closed, no more than two requests can be made in a 5 second period.
-	- If markets are open, there can be no more than 5 requests pending for the same contract.
+	- No more than one request per second.
 	
 	<br><br>
 */

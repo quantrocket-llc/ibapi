@@ -68,6 +68,7 @@ import com.ib.client.VolumeCondition;
 /** Class contains some utility methods */
 public class Utils {
     // some constants
+    public static final String TICK_ATTRIB_STR = "TickAttrib";
     public static final String IMPLIED_VOL_STR = "ImpliedVol";
     public static final String OPT_PRICE_STR = "OptPrice";
     public static final String UND_PRICE_STR = "UndPrice";

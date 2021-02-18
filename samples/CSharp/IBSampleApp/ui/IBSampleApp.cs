@@ -191,6 +191,7 @@ namespace IBSampleApp
 
             ibClient.ScannerDataEnd += reqId => addTextToBox("ScannerDataEnd. " + reqId + "\r\n");
             ibClient.ReceiveFA += advisorManager.UpdateUI;
+            ibClient.ReplaceFAEnd += (reqId, text) => addTextToBox("Replace FA End. ReqId: " + reqId + ", Text: " + text + "\r\n");
             ibClient.BondContractDetails += contractManager.HandleBondContractMessage;
             ibClient.VerifyMessageAPI += apiData => addTextToBox("verifyMessageAPI: " + apiData);
             ibClient.VerifyCompleted += (isSuccessful, errorText) => addTextToBox("verifyCompleted. IsSuccessfule: " + isSuccessful + " - Error: " + errorText);
@@ -275,14 +276,14 @@ namespace IBSampleApp
         {
             dataGridViewHistoricalTicks.DataSource = historicalTickLastTable;
 
-            historicalTickLastTable.Rows.Add(Util.UnixSecondsToString(msg.Time, "yyyyMMdd-HH:mm:ss zzz"), msg.Price, msg.Size, msg.Exchange, msg.SpecialConditions, msg.TickAttribLast.toString());
+            historicalTickLastTable.Rows.Add(Util.UnixSecondsToString(msg.Time, "yyyyMMdd-HH:mm:ss zzz"), msg.Price, msg.Size, msg.Exchange, msg.SpecialConditions, msg.TickAttribLast);
         }
 
         private void UpdateUI(HistoricalTickBidAskMessage msg)
         {
             dataGridViewHistoricalTicks.DataSource = historicalTickBidAskTable;
 
-            historicalTickBidAskTable.Rows.Add(Util.UnixSecondsToString(msg.Time, "yyyyMMdd-HH:mm:ss zzz"), msg.PriceBid, msg.PriceAsk, msg.SizeBid, msg.SizeAsk, msg.TickAttribBidAsk.toString());
+            historicalTickBidAskTable.Rows.Add(Util.UnixSecondsToString(msg.Time, "yyyyMMdd-HH:mm:ss zzz"), msg.PriceBid, msg.PriceAsk, msg.SizeBid, msg.SizeAsk, msg.TickAttribBidAsk);
         }
 
         private void UpdateUI(HistoricalTickMessage msg)
@@ -749,7 +750,7 @@ namespace IBSampleApp
 
         private void accUpdatesSubscribe_Click(object sender, EventArgs e)
         {
-            if (accUpdatesSubscribe.Text.Equals("Subscribe"))
+            if (accUpdatesSubscribe.Text.Equals("Subscribe") && accountSelector.SelectedItem != null)
             {
                 accUpdatesSubscribedAccount.Text = accountSelector.SelectedItem.ToString();
                 accUpdatesSubscribe.Text = "Unsubscribe";

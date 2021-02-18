@@ -35,8 +35,9 @@ public class HistogramDataHandler extends BaseListDataHandler<HistogramEntry> {
     public byte[] handleHistogramDataRequest(String requestStr, byte[] data) {
         HistogramDataRequest request = m_requestParser.parseHistogramDataRequest(requestStr, data);
         System.out.println("Sending histogram data request: id=" + request.requestId() + " contract=" + Utils.shortContractString(request.contract()));
+        byte[] ret = handleBaseRequest(request); 
         clientSocket().reqHistogramData(request.requestId(), request.contract(), request.useRth(), request.timePeriod()); 
-        return handleBaseRequest(request);
+        return ret;
     }
 
     /** Method handles histogram data cancel request */

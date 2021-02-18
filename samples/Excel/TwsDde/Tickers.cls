@@ -53,7 +53,7 @@ Const startOfMarketDataColumns = 20 ' market data first column index
 Const startOfTickReqParamsColumns = 41 ' tick req params first column index
 Const startOfGenericTicksColumns = 44 ' generic ticks first column index
 Const startOfOptCompColumns = 89 ' option computations first column index
-Const startOfEFPCompColumns = 121 ' efp first column index
+Const startOfEFPCompColumns = 125 ' efp first column index
 Const fundamentalsColumnIndex = 69
 
 ' rows
@@ -263,7 +263,7 @@ Private Function getOptCompColumns() As Variant()
     optCompType = Array("modelOptComp", "bidOptComp", "askOptComp", "lastOptComp")
 
     Dim optCompFields() As Variant
-    optCompFields = Array("ImpliedVol", "OptPrice", "UndPrice", "PvDividend", "Delta", "Gamma", "Vega", "Theta")
+    optCompFields = Array("TickAttrib", "ImpliedVol", "OptPrice", "UndPrice", "PvDividend", "Delta", "Gamma", "Vega", "Theta")
     
     Dim size As Integer
 

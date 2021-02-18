@@ -100,10 +100,10 @@ public class OldMarketDataHandler extends MarketDataHandler {
         
         if (ddeRequest instanceof MarketDataRequest) {
             MarketDataRequest request = (MarketDataRequest)ddeRequest;
-            clientSocket().reqMktData(request.requestId(), request.contract(), 
-                    request.genericTicks(), request.snapshot(), false, null);
             MarketDataMap marketDataMap = new MarketDataMap(ddeRequest);
             m_marketDataRequests.put(request.requestId(), marketDataMap);
+            clientSocket().reqMktData(request.requestId(), request.contract(), 
+                    request.genericTicks(), request.snapshot(), false, null);
         } else if (ddeRequest instanceof TickRequest) {
             TickRequest tickRequest = (TickRequest)ddeRequest;
             MarketDataMap dataMap = m_marketDataRequests.get(tickRequest.requestId());
@@ -124,9 +124,9 @@ public class OldMarketDataHandler extends MarketDataHandler {
                 ret = String.valueOf(value);
             }
         } else {
+            m_marketDataRequests.put(ddeRequest.requestId(), new MarketDataMap(ddeRequest));
             clientSocket().calculateImpliedVolatility(ddeRequest.requestId(), ddeRequest.contract(), 
                     ddeRequest.optionPrice(), ddeRequest.underlyingPrice(), null);
-            m_marketDataRequests.put(ddeRequest.requestId(), new MarketDataMap(ddeRequest));
         }
         return ret;
     }
@@ -143,9 +143,9 @@ public class OldMarketDataHandler extends MarketDataHandler {
                 ret = String.valueOf(value);
             }
         } else {
+            m_marketDataRequests.put(ddeRequest.requestId(), new MarketDataMap(ddeRequest));
             clientSocket().calculateOptionPrice(ddeRequest.requestId(), ddeRequest.contract(), 
                     ddeRequest.impliedVolatility(), ddeRequest.underlyingPrice(), null);
-            m_marketDataRequests.put(ddeRequest.requestId(), new MarketDataMap(ddeRequest));
         }
         return ret;
     }    

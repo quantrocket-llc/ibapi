@@ -28,6 +28,11 @@ class BadMessage(Exception):
     def __init__(self, text):
         self.text = text
 
+class ClientException(Exception):
+    def __init__(self, code, msg, text):
+        self.code = code
+        self.msg = msg
+        self.text = text
 
 class LogFunction(object):
     def __init__(self, text, logLevel):
@@ -116,3 +121,6 @@ def floatToStr(val):
  
 def longToStr(val):
     return str(val) if val != UNSET_LONG else ""
+
+def isAsciiPrintable(val):
+    return all(ord(c) >=32 and ord(c) < 128 for c in val)

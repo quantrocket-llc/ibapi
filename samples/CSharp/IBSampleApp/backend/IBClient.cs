@@ -257,12 +257,12 @@ namespace IBSampleApp
 
         public event Action<TickOptionMessage> TickOptionCommunication;
 
-        void EWrapper.tickOptionComputation(int tickerId, int field, double impliedVolatility, double delta, double optPrice, double pvDividend, double gamma, double vega, double theta, double undPrice)
+        void EWrapper.tickOptionComputation(int tickerId, int field, int tickAttrib, double impliedVolatility, double delta, double optPrice, double pvDividend, double gamma, double vega, double theta, double undPrice)
         {
             var tmp = TickOptionCommunication;
 
             if (tmp != null)
-                sc.Post(t => tmp(new TickOptionMessage(tickerId, field, impliedVolatility, delta, optPrice, pvDividend, gamma, vega, theta, undPrice)), null);
+                sc.Post(t => tmp(new TickOptionMessage(tickerId, field, tickAttrib, impliedVolatility, delta, optPrice, pvDividend, gamma, vega, theta, undPrice)), null);
         }
 
         public event Action<AccountSummaryMessage> AccountSummary;
@@ -962,6 +962,16 @@ namespace IBSampleApp
 
             if (tmp != null)
                 sc.Post(t => tmp(), null);
+        }
+
+        public event Action<int, string> ReplaceFAEnd;
+
+        void EWrapper.replaceFAEnd(int reqId, string text)
+        {
+            var tmp = ReplaceFAEnd;
+
+            if (tmp != null)
+                sc.Post(t => tmp(reqId, text), null);
         }
     }
 }

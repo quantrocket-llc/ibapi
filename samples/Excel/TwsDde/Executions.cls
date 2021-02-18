@@ -162,7 +162,7 @@ Private Sub Worksheet_Calculate()
     Dim server As String, id As String
 
     With Worksheets(STR_SHEET_NAME)
-        If CStr(.range(CELL_SUBSCRIPTION_CONTROL).value) = util.STR_ERROR_UPPER Then
+        If CStr(.range(CELL_SUBSCRIPTION_CONTROL).value) = util.STR_ERROR_UPPER And CStr(.range(CELL_ERROR).value) = util.STR_EMPTY Then
             server = util.getServerVal(STR_SHEET_NAME, CELL_SERVER_NAME)
             If server = util.STR_EMPTY Then Exit Sub
             id = .range(CELL_ID).value

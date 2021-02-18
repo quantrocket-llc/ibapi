@@ -545,7 +545,7 @@ class EWrapper:
         self.logAnswer(current_fn_name(), vars())
 
 
-    def tickOptionComputation(self, reqId:TickerId, tickType:TickType ,
+    def tickOptionComputation(self, reqId:TickerId, tickType:TickType, tickAttrib:int,
             impliedVol:float, delta:float, optPrice:float, pvDividend:float,
             gamma:float, vega:float, theta:float, undPrice:float):
         """This function is called when the market in an option or its
@@ -711,5 +711,10 @@ class EWrapper:
 
     def completedOrdersEnd(self):
         """This is called at the end of a given request for completed orders."""
+
+        self.logAnswer(current_fn_name(), vars())
+
+    def replaceFAEnd(self, reqId: int, text: str):
+        """This is called at the end of a replace FA."""
 
         self.logAnswer(current_fn_name(), vars())

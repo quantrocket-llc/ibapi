@@ -148,9 +148,9 @@ public class AccountUpdatesMultiHandler extends AccountUpdatesHandler {
             FinancialAdvisorReplace request = m_requestParser.parseFAReplace(requestStr, data);
             System.out.println("Handling FA replace.");
             m_faReplace = new BaseStringDataMap(request);
-            clientSocket().replaceFA(request.faDataType(), request.xml());
-            m_faReplace.ddeRequestStatus(DdeRequestStatus.FINISHED);
+            m_faReplace.ddeRequestStatus(DdeRequestStatus.REQUESTED);
             notifyDde(m_faReplace.ddeRequest().ddeRequestType().topic(), RequestParser.ID_ZERO);
+            clientSocket().replaceFA(request.requestId(), request.faDataType(), request.xml());
         }
         return null;
     }
@@ -205,6 +205,15 @@ public class AccountUpdatesMultiHandler extends AccountUpdatesHandler {
         if (m_faReplace != null) {
             updateRequestError(errorMsgStr, m_faReplace, m_faReplace.ddeRequest().ddeRequestType().topic());
             return true;
+        }
+        return false;
+    }
+    
+    /** Method updates FA replace end */
+    public boolean updateFAReplaceEnd(int requestId, String text) {
+        if (m_faReplace != null) {
+            m_faReplace.ddeRequestStatus(DdeRequestStatus.FINISHED);
+            notifyDde(m_faReplace.ddeRequest().ddeRequestType().topic(), RequestParser.ID_ZERO);
         }
         return false;
     }

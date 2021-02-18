@@ -1115,10 +1115,10 @@ class SampleFrame extends JFrame implements EWrapper {
         m_tickers.add( msg );
     }
 
-    public void tickOptionComputation( int tickerId, int field, double impliedVol, double delta, double optPrice, double pvDividend,
+    public void tickOptionComputation( int tickerId, int field, int tickAttrib, double impliedVol, double delta, double optPrice, double pvDividend,
         double gamma, double vega, double theta, double undPrice) {
         // received computation tick
-        String msg = EWrapperMsgGenerator.tickOptionComputation( tickerId, field, impliedVol, delta, optPrice, pvDividend,
+        String msg = EWrapperMsgGenerator.tickOptionComputation( tickerId, field, tickAttrib, impliedVol, delta, optPrice, pvDividend,
             gamma, vega, theta, undPrice);
         m_tickers.add( msg );
     }
@@ -1421,9 +1421,9 @@ class SampleFrame extends JFrame implements EWrapper {
             return;
           }
 
-          m_client.replaceFA( EClientSocket.GROUPS, dlg.groupsXML );
-          m_client.replaceFA( EClientSocket.PROFILES, dlg.profilesXML );
-          m_client.replaceFA( EClientSocket.ALIASES, dlg.aliasesXML );
+          m_client.replaceFA( 0, EClientSocket.GROUPS, dlg.groupsXML );
+          m_client.replaceFA( 1, EClientSocket.PROFILES, dlg.profilesXML );
+          m_client.replaceFA( 2, EClientSocket.ALIASES, dlg.aliasesXML );
 
       }
     }
@@ -1804,6 +1804,12 @@ class SampleFrame extends JFrame implements EWrapper {
     @Override
     public void completedOrdersEnd() {
         String msg = EWrapperMsgGenerator.completedOrdersEnd();
+        m_TWS.add(msg);
+    }
+
+    @Override
+    public void replaceFAEnd(int reqId, String text) {
+        String msg = EWrapperMsgGenerator.replaceFAEnd(reqId, text);
         m_TWS.add(msg);
     }
 }

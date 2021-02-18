@@ -14,7 +14,7 @@
     <ProjectGuid>{E9C3126E-CEA8-41A8-A714-7644B016DB3C}</ProjectGuid>
     <RootNamespace>TwsSocketClient</RootNamespace>
     <Keyword>MFCProj</Keyword>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -209,6 +209,7 @@
     <ClInclude Include="EWrapper_prototypes.h" />
     <ClInclude Include="executioncondition.h" />
     <ClInclude Include="FamilyCode.h" />
+    <ClInclude Include="EClientException.h" />
     <ClInclude Include="HistogramEntry.h" />
     <ClInclude Include="HistoricalTick.h" />
     <ClInclude Include="HistoricalTickBidAsk.h" />

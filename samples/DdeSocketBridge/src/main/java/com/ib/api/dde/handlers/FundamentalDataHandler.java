@@ -40,10 +40,10 @@ public class FundamentalDataHandler extends BaseHandler {
     public byte[] handleFundamentalDataRequest(String requestStr, byte[] data) {
         FundamentalDataRequest request = m_requestParser.parseFundamentalDataRequest(requestStr, data);
         System.out.println("Sending fundamental data request: id=" + request.requestId() + " contract=" + Utils.shortContractString(request.contract()));
-        clientSocket().reqFundamentalData(request.requestId(), request.contract(), request.reportType(), null);
         BaseStringDataMap dataMap = new BaseStringDataMap(request);
         m_fundamentalDataRequests.put(request.requestId(), dataMap);
         updateRequestStatus(request.requestId(), dataMap, DdeRequestStatus.REQUESTED);
+        clientSocket().reqFundamentalData(request.requestId(), request.contract(), request.reportType(), null);
         return null;
     }
 

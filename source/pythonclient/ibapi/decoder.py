@@ -553,6 +553,8 @@ class Decoder(Object):
         self.wrapper.realtimeBar(reqId, bar.time, bar.open, bar.high, bar.low, bar.close, bar.volume, bar.wap, bar.count)
 
     def processTickOptionComputationMsg(self, fields):
+        version = self.serverVersion
+        tickAttrib = None
         optPrice = None
         pvDividend = None
         gamma = None
@@ -561,9 +563,14 @@ class Decoder(Object):
         undPrice = None
 
         next(fields)
-        version = decode(int, fields)
+        if self.serverVersion < MIN_SERVER_VER_PRICE_BASED_VOLATILITY:
+            version = decode(int, fields)
+
         reqId = decode(int, fields)
         tickTypeInt = decode(int, fields)
+
+        if self.serverVersion >= MIN_SERVER_VER_PRICE_BASED_VOLATILITY:
+            tickAttrib = decode(int, fields)
 
         impliedVol = decode(float, fields)
         delta = decode(float, fields)
@@ -600,7 +607,7 @@ class Decoder(Object):
             if undPrice == -1:             # -1 is the "not computed" indicator
                 undPrice = None
 
-        self.wrapper.tickOptionComputation(reqId, tickTypeInt, impliedVol,
+        self.wrapper.tickOptionComputation(reqId, tickTypeInt, tickAttrib, impliedVol,
             delta, optPrice, pvDividend, gamma, vega, theta, undPrice)
 
 
@@ -1179,6 +1186,13 @@ class Decoder(Object):
         next(fields)
 
         self.wrapper.completedOrdersEnd()
+        
+    def processReplaceFAEndMsg(self, fields):
+        next(fields)
+        reqId = decode(int, fields)
+        text = decode(str, fields)
+
+        self.wrapper.replaceFAEnd(reqId, text)
 
     ######################################################################
 
@@ -1364,7 +1378,8 @@ class Decoder(Object):
         IN.TICK_BY_TICK: HandleInfo(proc=processTickByTickMsg),
         IN.ORDER_BOUND: HandleInfo(proc=processOrderBoundMsg),
         IN.COMPLETED_ORDER: HandleInfo(proc=processCompletedOrderMsg),
-        IN.COMPLETED_ORDERS_END: HandleInfo(proc=processCompletedOrdersEndMsg)
+        IN.COMPLETED_ORDERS_END: HandleInfo(proc=processCompletedOrdersEndMsg),
+        IN.REPLACE_FA_END: HandleInfo(proc=processReplaceFAEndMsg)
 }
 
 

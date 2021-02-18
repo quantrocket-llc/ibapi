@@ -112,16 +112,17 @@ namespace IBApi
          *      11 = Ask
          *      12 = Last
          * @param impliedVolatility the implied volatility calculated by the TWS option modeler, using the specified tick type value.
+         * @param tickAttrib: 0 - return based, 1- price based.
          * @param delta the option delta value.
          * @param optPrice the option price.
-         * @param pwDividend the present value of dividends expected on the option's underlying.
+         * @param pvDividend the present value of dividends expected on the option's underlying.
          * @param gamma the option gamma value.
          * @param vega the option vega value.
          * @param theta the option theta value.
          * @param undPrice the price of the underlying.
          * @sa TickType, tickSize, tickPrice, tickEFP, tickGeneric, tickString, tickSnapshotEnd, marketDataType, EClientSocket::reqMktData
          */
-        void tickOptionComputation(int tickerId, int field, double impliedVolatility, double delta, double optPrice, double pvDividend, double gamma, double vega, double theta, double undPrice);
+        void tickOptionComputation(int tickerId, int field, int tickAttrib, double impliedVolatility, double delta, double optPrice, double pvDividend, double gamma, double vega, double theta, double undPrice);
 
         /**
          * @brief When requesting market data snapshots, this market will indicate the snapshot reception is finished. Expected to occur 11 seconds after beginning of request. 
@@ -924,5 +925,13 @@ namespace IBApi
          * @sa completedOrder, EClientSocket::reqCompletedOrders
          */
         void completedOrdersEnd();
+
+        /**
+         * @brief notifies the end of the FA replace.
+         * @param reqId the id of request
+         * @param text the message text
+         * @sa EClient::replaceFA
+         */
+        void replaceFAEnd(int reqId, string text);
     }
 }

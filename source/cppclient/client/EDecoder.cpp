@@ -113,9 +113,10 @@ const char* EDecoder::processTickSizeMsg(const char* ptr, const char* endPtr) {
 }
 
 const char* EDecoder::processTickOptionComputationMsg(const char* ptr, const char* endPtr) {
-	int version;
+	int version = m_serverVersion;
 	int tickerId;
 	int tickTypeInt;
+	int tickAttrib = 0;
 	double impliedVol;
 	double delta;
 
@@ -127,9 +128,18 @@ const char* EDecoder::processTickOptionComputationMsg(const char* ptr, const cha
 	double theta = DBL_MAX;
 	double undPrice = DBL_MAX;
 
-	DECODE_FIELD( version);
+	if (m_serverVersion < MIN_SERVER_VER_PRICE_BASED_VOLATILITY)
+	{
+		DECODE_FIELD(version);
+	}
+
 	DECODE_FIELD( tickerId);
 	DECODE_FIELD( tickTypeInt);
+
+	if (m_serverVersion >= MIN_SERVER_VER_PRICE_BASED_VOLATILITY)
+	{
+		DECODE_FIELD( tickAttrib);
+	}
 
 	DECODE_FIELD( impliedVol);
 	DECODE_FIELD( delta);
@@ -173,7 +183,7 @@ const char* EDecoder::processTickOptionComputationMsg(const char* ptr, const cha
 			undPrice = DBL_MAX;
 		}
 	}
-	m_pEWrapper->tickOptionComputation( tickerId, (TickType)tickTypeInt,
+	m_pEWrapper->tickOptionComputation( tickerId, (TickType)tickTypeInt, tickAttrib,
 		impliedVol, delta, optPrice, pvDividend, gamma, vega, theta, undPrice);
 
 	return ptr;
@@ -2176,6 +2186,18 @@ const char* EDecoder::processCompletedOrdersEndMsg(const char* ptr, const char* 
 	return ptr;
 }
 
+const char* EDecoder::processReplaceFAEndMsg(const char* ptr, const char* endPtr) {
+	int reqId;
+	std::string text;
+
+	DECODE_FIELD(reqId);
+	DECODE_FIELD(text);
+
+	m_pEWrapper->replaceFAEnd(reqId, text);
+
+	return ptr;
+}
+
 
 int EDecoder::parseAndProcessMsg(const char*& beginPtr, const char* endPtr) {
 	// process a single message from the buffer;
@@ -2501,6 +2523,10 @@ int EDecoder::parseAndProcessMsg(const char*& beginPtr, const char* endPtr) {
         case COMPLETED_ORDERS_END:
             ptr = processCompletedOrdersEndMsg(ptr, endPtr);
             break;
+
+		case REPLACE_FA_END:
+			ptr = processReplaceFAEndMsg(ptr, endPtr);
+			break;
 
 		default:
 			{

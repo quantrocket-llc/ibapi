@@ -378,13 +378,12 @@ namespace Samples
 		/// https://www.interactivebrokers.com/en/index.php?f=23876#963-02
 		/// <summary>
 
-        public static Order LimitOrderWithCashQty(string action, double quantity, double limitPrice, double cashQty)
+        public static Order LimitOrderWithCashQty(string action, double limitPrice, double cashQty)
         {
             // ! [limitorderwithcashqty]
             Order order = new Order();
             order.Action = action;
             order.OrderType = "LMT";
-            order.TotalQuantity = quantity;
             order.LmtPrice = limitPrice;
             order.CashQty = cashQty;
             // ! [limitorderwithcashqty]
@@ -942,7 +941,7 @@ namespace Samples
             order.AdjustedOrderType = "TRAIL";
             //With a stop price of...
             order.AdjustedStopPrice = adjustedStopPrice;
-            //traling by and amount (0) or a percent (1)...
+            //traling by and amount (0) or a percent (100)...
             order.AdjustableTrailingUnit = trailUnit;
             //of...
             order.AdjustedTrailingAmount = adjustedTrailAmount;

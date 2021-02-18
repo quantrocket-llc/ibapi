@@ -38,9 +38,9 @@ public class OldContractDetailsHandler extends ContractDetailsHandler {
         
         if (ddeRequest instanceof ContractDetailsRequest) {
             ContractDetailsRequest request = (ContractDetailsRequest)ddeRequest;
-            clientSocket().reqContractDetails(request.requestId(), request.contract());
             ContractDetailsMap dataMap = new ContractDetailsMap(request);
             m_contractDetailsRequests.put(request.requestId(), dataMap);
+            clientSocket().reqContractDetails(request.requestId(), request.contract());
         } else if (ddeRequest instanceof TickRequest) {
             TickRequest tickRequest = (TickRequest)ddeRequest;
             ContractDetailsMap dataMap = m_contractDetailsRequests.get(tickRequest.requestId());

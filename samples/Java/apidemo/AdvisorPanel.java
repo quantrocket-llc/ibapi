@@ -84,18 +84,26 @@ public class AdvisorPanel extends NewTabPanel implements IAdvisorHandler {
 	@Override public void closed() {
 	}
 
-	public void groups(List<Group> groups) {
+	@Override public void groups(List<Group> groups) {
 		m_groupModel.update( groups);
 	}
 
-	public void profiles(List<Profile> profiles) {
+	@Override public void profiles(List<Profile> profiles) {
 		m_profileModel.update( profiles);
 	}
 
-	public void aliases(List<Alias> aliases) {
+	@Override public void aliases(List<Alias> aliases) {
 		m_aliasModel.update( aliases);
 	}
 	
+	@Override public void updateGroupsEnd(String text) {
+		JOptionPane.showMessageDialog(this, "The groups have been updated: " + text);
+	}
+
+	@Override public void updateProfilesEnd(String text) {
+		JOptionPane.showMessageDialog(this, "The profiles have been updated: " + text);
+	}
+
 	private static class AliasModel extends AbstractTableModel {
 		List<Alias> m_list = new ArrayList<>();
 		
@@ -168,7 +176,6 @@ public class AdvisorPanel extends NewTabPanel implements IAdvisorHandler {
 			int rc = JOptionPane.showConfirmDialog( this, "This will replace all Groups in TWS with the ones shown here.\nAre you sure you want to do that?", "Confirm", JOptionPane.YES_NO_OPTION);
 			if (rc == 0) {
 				m_groupModel.transmit();
-				JOptionPane.showMessageDialog(this, "The groups have been updated");
 			}
 		}
 	}
@@ -282,7 +289,6 @@ public class AdvisorPanel extends NewTabPanel implements IAdvisorHandler {
 			int rc = JOptionPane.showConfirmDialog( this, "This will replace all Profiles in TWS with the ones shown here.\nAre you sure you want to do that?", "Confirm", JOptionPane.YES_NO_OPTION);
 			if (rc == 0) {
 				m_profileModel.transmit();
-				JOptionPane.showMessageDialog(this, "The Profiles have been updated");
 			}
 		}
 	}

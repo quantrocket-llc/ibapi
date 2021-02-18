@@ -41,11 +41,11 @@ public class HeadTimestampHandler extends BaseHandler {
     public byte[] handleHeadTimestampRequest(String requestStr, byte[] data) {
         HeadTimestampRequest request = m_requestParser.parseHeadTimestampRequest(requestStr, data);
         System.out.println("Sending head timestamp request: id=" + request.requestId() + " contract=" + Utils.shortContractString(request.contract()));
-        clientSocket().reqHeadTimestamp(request.requestId(), request.contract(), request.whatToShow(), request.useRth(), 
-                request.formatDate());
         BaseStringDataMap dataMap = new BaseStringDataMap(request);
         m_headTimestampDataRequests.put(request.requestId(), dataMap);
         updateHeadTimestampRequestStatus(request.requestId(), dataMap, DdeRequestStatus.REQUESTED);
+        clientSocket().reqHeadTimestamp(request.requestId(), request.contract(), request.whatToShow(), request.useRth(), 
+                request.formatDate());
         return null;
     }
     

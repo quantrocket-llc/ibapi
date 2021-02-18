@@ -252,7 +252,8 @@ class TestApp(TestWrapper, TestClient):
             #self.reqGlobalCancel()
             #self.marketDataTypeOperations()
             #self.accountOperations_req()
-            self.tickDataOperations_req()
+            #self.tickDataOperations_req()
+            #self.tickOptionComputations_req()
             #self.marketDepthOperations_req()
             #self.realTimeBarsOperations_req()
             #self.historicalDataOperations_req()
@@ -264,7 +265,7 @@ class TestApp(TestWrapper, TestClient):
             #self.newsOperations_req()
             #self.miscelaneousOperations()
             #self.linkingOperations()
-            #self.financialAdvisorOperations()
+            self.financialAdvisorOperations()
             #self.orderOperations_req()
             #self.rerouteCFDOperations()
             #self.marketRuleOperations()
@@ -290,7 +291,8 @@ class TestApp(TestWrapper, TestClient):
         #self.orderOperations_cancel()
         #self.accountOperations_cancel()
         #self.tickDataOperations_cancel()
-        self.marketDepthOperations_cancel()
+        #self.tickOptionComputations_cancel()
+        #self.marketDepthOperations_cancel()
         #self.realTimeBarsOperations_cancel()
         #self.historicalDataOperations_cancel()
         #self.optionsOperations_cancel()
@@ -655,8 +657,8 @@ class TestApp(TestWrapper, TestClient):
         # ! [regulatorysnapshot]
 
         # ! [reqmktdata_genticks]
-        # Requesting RTVolume (Time & Sales), shortable and Fundamental Ratios generic ticks
-        self.reqMktData(1004, ContractSamples.USStockAtSmart(), "233,236,258", False, False, [])
+        # Requesting RTVolume (Time & Sales) and shortable generic ticks
+        self.reqMktData(1004, ContractSamples.USStockAtSmart(), "233,236", False, False, [])
         # ! [reqmktdata_genticks]
 
         # ! [reqmktdata_contractnews]
@@ -669,10 +671,9 @@ class TestApp(TestWrapper, TestClient):
 
 
         # ! [reqmktdata_broadtapenews]
-        self.reqMktData(1009, ContractSamples.BRFGbroadtapeNewsFeed(), "mdoff,292", False, False, [])
-        self.reqMktData(1010, ContractSamples.DJNLbroadtapeNewsFeed(), "mdoff,292", False, False, [])
-        self.reqMktData(1011, ContractSamples.DJTOPbroadtapeNewsFeed(), "mdoff,292", False, False, [])
-        self.reqMktData(1012, ContractSamples.BRFUPDNbroadtapeNewsFeed(), "mdoff,292", False, False, [])
+        self.reqMktData(1009, ContractSamples.BTbroadtapeNewsFeed(), "mdoff,292", False, False, [])
+        self.reqMktData(1010, ContractSamples.BZbroadtapeNewsFeed(), "mdoff,292", False, False, [])
+        self.reqMktData(1011, ContractSamples.FLYbroadtapeNewsFeed(), "mdoff,292", False, False, [])
         # ! [reqmktdata_broadtapenews]
 
         # ! [reqoptiondatagenticks]
@@ -734,6 +735,21 @@ class TestApp(TestWrapper, TestClient):
         self.cancelMktData(1017)
 
         self.cancelMktData(1019)
+
+    @printWhenExecuting
+    def tickOptionComputations_req(self):
+        self.reqMarketDataType(MarketDataTypeEnum.DELAYED_FROZEN)
+        # Requesting options computations
+        # ! [reqoptioncomputations]
+        self.reqMktData(1000, ContractSamples.OptionWithLocalSymbol(), "", False, False, [])
+        # ! [reqoptioncomputations]
+
+    @printWhenExecuting
+    def tickOptionComputations_cancel(self):
+        # Canceling options computations
+        # ! [canceloptioncomputations]
+        self.cancelMktData(1000)
+        # ! [canceloptioncomputations]
 
     @iswrapper
     # ! [tickprice]
@@ -1048,12 +1064,12 @@ class TestApp(TestWrapper, TestClient):
 
         # Calculating implied volatility
         # ! [calculateimpliedvolatility]
-        self.calculateImpliedVolatility(5001, ContractSamples.OptionAtBOX(), 5, 85, [])
+        self.calculateImpliedVolatility(5001, ContractSamples.OptionWithLocalSymbol(), 0.5, 55, [])
         # ! [calculateimpliedvolatility]
 
         # Calculating option's price
         # ! [calculateoptionprice]
-        self.calculateOptionPrice(5002, ContractSamples.OptionAtBOX(), 0.22, 85, [])
+        self.calculateOptionPrice(5002, ContractSamples.OptionWithLocalSymbol(), 0.6, 55, [])
         # ! [calculateoptionprice]
 
         # Exercising options
@@ -1090,12 +1106,13 @@ class TestApp(TestWrapper, TestClient):
 
     @iswrapper
     # ! [tickoptioncomputation]
-    def tickOptionComputation(self, reqId: TickerId, tickType: TickType,
+    def tickOptionComputation(self, reqId: TickerId, tickType: TickType, tickAttrib: int,
                               impliedVol: float, delta: float, optPrice: float, pvDividend: float,
                               gamma: float, vega: float, theta: float, undPrice: float):
-        super().tickOptionComputation(reqId, tickType, impliedVol, delta,
+        super().tickOptionComputation(reqId, tickType, tickAttrib, impliedVol, delta,
                                       optPrice, pvDividend, gamma, vega, theta, undPrice)
         print("TickOptionComputation. TickerId:", reqId, "TickType:", tickType,
+              "TickAttrib:", tickAttrib,
               "ImpliedVolatility:", impliedVol, "Delta:", delta, "OptionPrice:",
               optPrice, "pvDividend:", pvDividend, "Gamma: ", gamma, "Vega:", vega,
               "Theta:", theta, "UnderlyingPrice:", undPrice)
@@ -1559,19 +1576,19 @@ class TestApp(TestWrapper, TestClient):
 
         # Replacing FA information - Fill in with the appropriate XML string.
         # ! [replacefaonegroup]
-        self.replaceFA(FaDataTypeEnum.GROUPS, FaAllocationSamples.FaOneGroup)
+        self.replaceFA(1000, FaDataTypeEnum.GROUPS, FaAllocationSamples.FaOneGroup)
         # ! [replacefaonegroup]
 
         # ! [replacefatwogroups]
-        self.replaceFA(FaDataTypeEnum.GROUPS, FaAllocationSamples.FaTwoGroups)
+        self.replaceFA(1001, FaDataTypeEnum.GROUPS, FaAllocationSamples.FaTwoGroups)
         # ! [replacefatwogroups]
 
         # ! [replacefaoneprofile]
-        self.replaceFA(FaDataTypeEnum.PROFILES, FaAllocationSamples.FaOneProfile)
+        self.replaceFA(1002, FaDataTypeEnum.PROFILES, FaAllocationSamples.FaOneProfile)
         # ! [replacefaoneprofile]
 
         # ! [replacefatwoprofiles]
-        self.replaceFA(FaDataTypeEnum.PROFILES, FaAllocationSamples.FaTwoProfiles)
+        self.replaceFA(1003, FaDataTypeEnum.PROFILES, FaAllocationSamples.FaTwoProfiles)
         # ! [replacefatwoprofiles]
 
         # ! [reqSoftDollarTiers]
@@ -1890,6 +1907,13 @@ class TestApp(TestWrapper, TestClient):
         super().completedOrdersEnd()
         print("CompletedOrdersEnd")
     # ! [completedordersend]
+
+    @iswrapper
+    # ! [replacefaend]
+    def replaceFAEnd(self, reqId: int, text: str):
+        super().replaceFAEnd(reqId, text)
+        print("ReplaceFAEnd.", "ReqId:", reqId, "Text:", text)
+    # ! [replacefaend]
 
 def main():
     SetupLogger()

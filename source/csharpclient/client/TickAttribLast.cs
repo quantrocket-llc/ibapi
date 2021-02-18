@@ -23,7 +23,7 @@ namespace IBApi
         /**
          * @brief Returns string to display. 
          */
-        public string toString()
+        public override string ToString()
         {
             return (PastLimit ? "pastLimit " : "") +
                 (Unreported ? "unreported " : "");

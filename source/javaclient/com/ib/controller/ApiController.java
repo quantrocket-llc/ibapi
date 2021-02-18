@@ -471,7 +471,7 @@ public class ApiController implements EWrapper {
 	}
 
 	public interface IOptHandler extends ITopMktDataHandler {
-		void tickOptionComputation( TickType tickType, double impliedVol, double delta, double optPrice, double pvDividend, double gamma, double vega, double theta, double undPrice);
+		void tickOptionComputation( TickType tickType, int tickAttrib, double impliedVol, double delta, double optPrice, double pvDividend, double gamma, double vega, double theta, double undPrice);
 	}
 
 	public static class TopMktDataAdapter implements ITopMktDataHandler {
@@ -702,13 +702,13 @@ public class ApiController implements EWrapper {
 		}
 	}
 
-	@Override public void tickOptionComputation(int reqId, int tickType, double impliedVol, double delta, double optPrice, double pvDividend, double gamma, double vega, double theta, double undPrice) {
+	@Override public void tickOptionComputation(int reqId, int tickType, int tickAttrib, double impliedVol, double delta, double optPrice, double pvDividend, double gamma, double vega, double theta, double undPrice) {
 		IOptHandler handler = m_optionCompMap.get( reqId);
 		if (handler != null) {
-			handler.tickOptionComputation( TickType.get( tickType), impliedVol, delta, optPrice, pvDividend, gamma, vega, theta, undPrice);
+			handler.tickOptionComputation( TickType.get( tickType), tickAttrib, impliedVol, delta, optPrice, pvDividend, gamma, vega, theta, undPrice);
 		}
 		else {
-			System.out.println( String.format( "not handled %s %s %s %s %s %s %s %s %s", tickType, impliedVol, delta, optPrice, pvDividend, gamma, vega, theta, undPrice) );
+			System.out.println( String.format( "not handled %s %s %s %s %s %s %s %s %s %s", tickType, tickAttrib, impliedVol, delta, optPrice, pvDividend, gamma, vega, theta, undPrice) );
 		}
 		recEOM();
 	}
@@ -760,7 +760,12 @@ public class ApiController implements EWrapper {
 		void groups(List<Group> groups);
 		void profiles(List<Profile> profiles);
 		void aliases(List<Alias> aliases);
+		void updateGroupsEnd(String text);
+		void updateProfilesEnd(String text);
 	}
+	
+	private static final int REPLACE_FA_GROUPS_REQ_ID = 0;
+	private static final int REPLACE_FA_PROFILES_REQ_ID = 1;
 
 	public void reqAdvisorData( FADataType type, IAdvisorHandler handler) {
 		if (!checkConnection())
@@ -775,7 +780,7 @@ public class ApiController implements EWrapper {
 		if (!checkConnection())
 			return;
 
-		m_client.replaceFA( FADataType.GROUPS.ordinal(), AdvisorUtil.getGroupsXml( groups) );
+		m_client.replaceFA( REPLACE_FA_GROUPS_REQ_ID, FADataType.GROUPS.ordinal(), AdvisorUtil.getGroupsXml( groups) );
 		sendEOM();
 	}
 
@@ -783,7 +788,7 @@ public class ApiController implements EWrapper {
 		if (!checkConnection())
 			return;
 
-		m_client.replaceFA( FADataType.PROFILES.ordinal(), AdvisorUtil.getProfilesXml( profiles) );
+		m_client.replaceFA( REPLACE_FA_PROFILES_REQ_ID, FADataType.PROFILES.ordinal(), AdvisorUtil.getProfilesXml( profiles) );
 		sendEOM();
 	}
 
@@ -812,6 +817,20 @@ public class ApiController implements EWrapper {
 
 			default:
 				break;
+		}
+		recEOM();
+	}
+	
+	@Override public final void replaceFAEnd(int reqId, String text) {
+		switch(reqId) {
+		case REPLACE_FA_GROUPS_REQ_ID:
+			m_advisorHandler.updateGroupsEnd(text);	
+			break;
+		case REPLACE_FA_PROFILES_REQ_ID:
+			m_advisorHandler.updateProfilesEnd(text);	
+			break;
+		default:
+			break;
 		}
 		recEOM();
 	}
