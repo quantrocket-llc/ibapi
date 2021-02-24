@@ -6,7 +6,7 @@
 	
 	Group and Profile order allocation methods for Financial Advisor Accounts can be created directly in TWS: <a target="_blank" class="linkexternal" href="https://www.interactivebrokers.com/en/software/tws/usersguidebook/financialadvisors/allocations_and_transfers.htm">Allocations and Transfers</a>, or utilize the @ref IBApi::EClient::replaceFA() method via the API directly. 
 	
-	As suggested from the method names below, a Group will distribute the order based on inherent properties such as the account's liquidation value or equity whereas a Profile will offer the possibility to assign the allocated proportion based on explicit ratios or percentages.	
+	As suggested from the method names below, a Group will distribute the order based on inherent properties such as the account's liquidation value or equity whereas a Profile will offer the possibility to assign the allocated proportion based on explicit ratios or percentages.	<br>Note, however, in TWS <b>v983+</b>, there is an API setting which merges groups and profiles, where both allocation methods are considered groups. See @ref groups_merge
 	
 	<h1> Allocation by Group </h1>
 	
@@ -323,6 +323,18 @@
 	
 	In addition, after saving changes, it is advised to verify the new FA setup via IBApi::EClient::requestFA. If it is called before changes are fully saved, you may receive an error. See @ref message_codes.
 	
+	\section groups_merge Unification of Groups and Profiles
+	
+	With TWS/IBGW build 983+, the API settings will have a new flag/checkbox, <b>"Use Account Groups with Allocation Methods"</b> (enabled by default for new users). If not enabled, groups and profiles would behave the same as before. If it is checked, group and profile functionality will be merged, and API clients will see the following changes: 
+	- Both IBApi::EClient::replaceFA and IBApi::EClient::requestFA will send and receive unified groups/profiles list if the argument is Group.
+		- Both IBApi::EClient::replaceFA and IBApi::EClient::requestFA will receive error if the argument is Profile.
+	- IBApi::EClient::placeOrder will support specifying profile name as the @ref IBApi::Order::FaGroup name; IBApi::Order::FaMethod may be omitted.
+		- If specifying actual group name and the faMethod is blank/omitted the default method of that group will be used. Otherwise, the method in the request will be set on the order.
+	- IBApi::EWrapper::openOrder callback will report Profile in place of Group if order was for profile.
+	- The following calls from API, which take Group name, will also accept Profile name in its place:
+		- IBApi::EClient::reqAccountSummary / IBApi::EClient::cancelAccountSummary
+		- IBApi::EClient::reqPositionsMulti / IBApi::EClient::cancelPositionsMulti
+		- IBApi::EClient::reqAccountUpdatesMulti / IBApi::EClient::cancelAccountUpdatesMulti
 	
 	\subpage model_portfolios
 	
