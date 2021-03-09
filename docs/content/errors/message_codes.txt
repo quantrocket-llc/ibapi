@@ -1208,6 +1208,18 @@
 		<tr>
             <td>10254</td><td>Invalid Order: bond expired</td><td></td>
         </tr>
+		<tr>
+			<td>10268</td><td>The 'EtradeOnly' order attribute is not supported</td>
+			<td>The EtradeOnly @ref IBApi::Order attribute is no longer supported. Error received with TWS versions 983+</td>
+		</tr>
+		<tr>
+			<td>10269</td><td>The 'firmQuoteOnly' order attribute is not supported</td>
+			<td>The firmQuoteOnly @ref IBApi::Order attribute is no longer supported. Error received with TWS versions 983+</td>
+		</tr>
+		<tr>
+			<td>10270</td><td>The 'nbboPriceCap' order attribute is not supported</td>
+			<td>The nbboPriceCap @ref IBApi::Order attribute is no longer supported. Error received with TWS versions 983+</td>
+		</tr>
 		
 	</table>
 	
