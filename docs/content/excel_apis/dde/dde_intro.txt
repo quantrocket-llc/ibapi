@@ -36,7 +36,7 @@
 	<br>
 	<ul>
 	<li>The default socket port used by DdeSocketBridge of <b>7496</b> and/or the default username <b>twsserver</b> can be changed by modifying runDdeSocketBridge.bat as follows: <br><br>
-	java -Djava.library.path=.\src\main\resources -jar DdeSocketBridge.jar -p{the socket port which has been setup in API settings} -s{TWS login user name or any other string}
+	java -Djava.library.path=.\src\main\resources -jar DdeSocketBridge.jar -p{the socket port which has been setup in API settings} -s{TWS login user name or any other string} -c{client id to be connected with TWS}
 	</li>
 	</ul>
 	<br>
