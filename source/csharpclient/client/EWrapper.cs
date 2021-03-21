@@ -115,7 +115,7 @@ namespace IBApi
          * @param tickAttrib: 0 - return based, 1- price based.
          * @param delta the option delta value.
          * @param optPrice the option price.
-         * @param pwDividend the present value of dividends expected on the option's underlying.
+         * @param pvDividend the present value of dividends expected on the option's underlying.
          * @param gamma the option gamma value.
          * @param vega the option vega value.
          * @param theta the option theta value.

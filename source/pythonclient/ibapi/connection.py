@@ -13,6 +13,7 @@ It allows us to keep some other info along with it.
 import socket
 import threading
 import logging
+import sys
 
 
 #TODO: support SSL !!
