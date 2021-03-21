@@ -1142,10 +1142,14 @@
         </tr>
 		<tr>
 <<<<<<< HEAD
+<<<<<<< HEAD
             <td>10197</td><td>No market data during competing session</td><td>Indicates that the user is logged into the paper account and live account simultaneously trying to request live market data using both the accounts. In such a scenario preference would be given to the live account, for more details please refer: https://ibkr.info/node/1719</td>
         </tr>
 		<tr>
             <td>10225</td><td>Bust event occurred, current subscription is deactivated. Please resubscribe real-time bars immediately</td>
+=======
+            <td>10225</td><td>Bust event occurred, current subscription is deactivated. Please resubscribe real-time bars immediately</td><td></td>
+>>>>>>> upstream/master
 =======
             <td>10225</td><td>Bust event occurred, current subscription is deactivated. Please resubscribe real-time bars immediately</td><td></td>
 >>>>>>> upstream/master
