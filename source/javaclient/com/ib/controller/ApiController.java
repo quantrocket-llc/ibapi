@@ -1655,7 +1655,7 @@ public class ApiController implements EWrapper {
 		Integer reqId = getAndRemoveKey(m_histogramDataMap, handler);
 		
     	if (reqId != null) {
-    		m_client.cancelHistoricalData(reqId);
+    		m_client.cancelHistogramData(reqId);
     		sendEOM();
     	}
     }
