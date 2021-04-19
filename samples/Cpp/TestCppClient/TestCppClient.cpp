@@ -304,6 +304,11 @@ void TestCppClient::processMessages()
 			break;
 		case ST_WHATIFSAMPLES_ACK:
 			break;
+		case ST_IBKRATSSAMPLE:
+			ibkratsSample();
+			break;
+		case ST_IBKRATSSAMPLE_ACK:
+			break;
 		case ST_PING:
 			reqCurrentTime();
 			break;
@@ -1363,6 +1368,15 @@ void TestCppClient::whatIfSamples()
     //! [whatiforder]
 
     m_state = ST_WHATIFSAMPLES_ACK;
+}
+
+void TestCppClient::ibkratsSample(){
+	//! [ibkratssubmit]
+	Order ibkratsOrder = OrderSamples::LimitIBKRATS("BUY", 100, 330);
+	m_pClient->placeOrder(m_orderId++, ContractSamples::IBKRATSContract(), ibkratsOrder);
+	//! [ibkratssubmit]
+	
+	m_state = ST_IBKRATSSAMPLE_ACK;
 }
 
 //! [nextvalidid]

@@ -686,5 +686,17 @@ namespace Samples
             //! [csfb_contract]
             return contract;
         }
+		
+		public static Contract IBKRATSContract()
+        {
+            //! [ibkrats_contract]
+            Contract contract = new Contract();
+            contract.Symbol = "QQQ";
+            contract.SecType = "STK";
+            contract.Exchange = "IBKRATS"; 
+            contract.Currency = "USD"; 
+            //! [ibkrats_contract]
+            return contract;
+        }
     }
 }

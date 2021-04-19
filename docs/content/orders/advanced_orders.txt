@@ -8,5 +8,6 @@
 	- \subpage adjustable_stops "Adjustable stops"
 	- \subpage order_conditions "Conditioning"
 	- \subpage algos "IB Algos"
+	- \subpage ibkrats "IBKRATS Orders"
 
 */

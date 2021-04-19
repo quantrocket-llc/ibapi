@@ -1057,6 +1057,19 @@ namespace Samples
             return volCond;
 
         }
+		
+		public static Order LimitIBKRATS(string action, double quantity, double limitPrice)
+        {
+            // ! [limit_ibkrats]
+            Order order = new Order();
+            order.Action = action;
+            order.OrderType = "LMT";
+			order.LmtPrice = limitPrice;
+            order.TotalQuantity = quantity;
+			order.NotHeld = true;
+            // ! [limit_ibkrats]
+            return order;
+        }
 
     }
 }

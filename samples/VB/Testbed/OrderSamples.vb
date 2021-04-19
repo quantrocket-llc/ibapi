@@ -1096,6 +1096,18 @@ Namespace Samples
             Return volCond
 
         End Function
+		
+		Public Shared Function LimitIBKRATS(action As String, quantity As Double, limitPrice As Double) As Order
+            '! [limit_ibkrats]
+            Dim order As Order = New Order
+            order.Action = action
+            order.OrderType = "LMT"
+			order.LmtPrice = limitPrice
+            order.TotalQuantity = quantity
+			order.NotHeld = True
+            '! [limit_ibkrats]
+            Return order
+        End Function
 
     End Class
 

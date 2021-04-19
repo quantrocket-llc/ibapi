@@ -723,5 +723,17 @@ public class OrderSamples {
         // ! [whatiflimitorder]
         return order;
     }
+	
+	public static Order LimitIBKRATS(String action, double quantity, double limitPrice) {
+		// ! [limit_ibkrats]
+		Order order = new Order();
+		order.action(action);
+		order.orderType("LMT");
+		order.lmtPrice(limitPrice);
+		order.totalQuantity(quantity);
+		order.notHeld(true);
+		// ! [limit_ibkrats]
+		return order;
+	}
 
 }

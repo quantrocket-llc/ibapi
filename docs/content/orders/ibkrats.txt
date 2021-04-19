@@ -1,0 +1,49 @@
+/*! \page ibkrats IBKRATS Orders
+
+	Customers can direct non-marketable U.S. stock orders to the IBKRATS destination to add liquidity. Orders directed to IBKRATS are tagged as "not held" orders, and are posted in IBKR's order book where incoming SmartRouted orders from other IBKR customers are eligible to take liquidity by trading against them. <br>To route an order to IBKRATS via the API, you need to set the IBApi::Contract::Exchange field to "IBKRATS" and IBApi::Order::NotHeld to True, as shown below.
+	
+	<ul id="tab">
+		<li class="active">
+			\snippet ContractSamples.cs ibkrats_contract
+			...
+			\snippet OrderSamples.cs limit_ibkrats
+			...
+			\snippet Program.cs ibkratssubmit
+		</li>
+		<li>
+			\snippet ContractSamples.java ibkrats_contract
+			...
+			\snippet OrderSamples.java limit_ibkrats
+			...
+			\snippet Testbed.java ibkratssubmit
+		</li>
+		<li>
+			\snippet ContractSamples.vb ibkrats_contract
+			...
+			\snippet OrderSamples.vb limit_ibkrats
+			...
+			\snippet Mainmodule.vb ibkratssubmit
+		</li>
+		<li>
+			\snippet ContractSamples.cpp ibkrats_contract
+			...
+			\snippet OrderSamples.cpp limit_ibkrats
+			...
+			\snippet TestCppClient.cpp ibkratssubmit
+		</li>
+		<li>
+			\snippet ContractSamples.py ibkrats_contract
+			...
+			\snippet OrderSamples.py limit_ibkrats
+			...
+			\snippet Program.py ibkratssubmit
+		</li>
+	</ul>
+	
+	For further details on these orders, please see the following page: <a target="_blank" class="linkexternal" href="https://www.interactivebrokers.com/en/index.php?f=4485">IBKRATS Orders</a>
+	
+	Note: The order must have the NotHeld field set to True, or you may receive a rejection with reason "IBKRAts order must be a not-held". When submitting via the TWS UI, this is set automatically.
+
+	<br><br>
+
+*/

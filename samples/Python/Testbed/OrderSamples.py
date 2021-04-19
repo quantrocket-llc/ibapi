@@ -1113,6 +1113,18 @@ class OrderSamples:
         volCond.isConjunctionConnection = isConjunction
         #! [volume_condition]
         return volCond
+        
+    def LimitIBKRATS(action:str, quantity:float, limitPrice:float):
+    
+        # ! [limit_ibkrats]
+        order = Order()
+        order.action = action
+        order.orderType = "LMT"
+        order.lmtPrice = limitPrice
+        order.totalQuantity = quantity
+        order.notHeld = True
+        # ! [limit_ibkrats]
+        return order
 
 
 def Test():

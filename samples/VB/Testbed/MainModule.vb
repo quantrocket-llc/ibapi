@@ -1125,5 +1125,13 @@ Module MainModule
         client.placeOrder(increment(nextOrderId), ContractSamples.USStockAtSmart(), OrderSamples.WhatIfLimitOrder("BUY", 200, 120))
         '! [whatiforder]
     End Sub
+	
+	Private Sub ibkratsSample(client As EClientSocket, nextOrderId As Integer)
+
+        '! [ibkratssubmit]
+        Dim ibkratsOrder As Order = OrderSamples.LimitIBKRATS("BUY", 100, 330)
+        client.placeOrder(increment(nextOrderId), ContractSamples.IBKRATSContract(), ibkratsOrder)
+        '! [ibkratssubmit]
+    End Sub
 
 End Module

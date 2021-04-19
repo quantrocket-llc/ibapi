@@ -1859,6 +1859,12 @@ class TestApp(TestWrapper, TestClient):
         self.reqMarketRule(26)
         self.reqMarketRule(239)
         # ! [reqmarketrule]
+        
+    def ibkratsSample(self):
+        # ! [ibkratssubmit]
+        ibkratsOrder = OrderSamples.LimitIBKRATS("BUY", 100, 330)
+        self.placeOrder(self.nextOrderId(), ContractSamples.IBKRATSContract(), ibkratsOrder)
+        # ! [ibkratssubmit]
 
     @iswrapper
     # ! [execdetails]

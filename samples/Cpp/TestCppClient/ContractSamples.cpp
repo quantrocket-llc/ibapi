@@ -702,3 +702,14 @@ Contract ContractSamples::CSFBContract(){
 	//! [csfb_contract]
 	return contract;
 }
+
+Contract ContractSamples::IBKRATSContract(){
+	//! [ibkrats_contract]
+	Contract contract;
+	contract.symbol = "QQQ";
+	contract.secType = "STK";
+	contract.exchange = "IBKRATS";
+	contract.currency = "USD";
+	//! [ibkrats_contract]
+	return contract;
+}
