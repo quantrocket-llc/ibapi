@@ -1465,9 +1465,6 @@ class SampleFrame extends JFrame implements EWrapper {
         destOrder.allOrNone(srcOrder.allOrNone());
         destOrder.minQty(srcOrder.minQty());
         destOrder.percentOffset(srcOrder.percentOffset());
-        destOrder.eTradeOnly(srcOrder.eTradeOnly());
-        destOrder.firmQuoteOnly(srcOrder.firmQuoteOnly());
-        destOrder.nbboPriceCap(srcOrder.nbboPriceCap());
         destOrder.optOutSmartRouting(srcOrder.optOutSmartRouting());
         destOrder.auctionStrategy(srcOrder.auctionStrategy());
         destOrder.startingPrice(srcOrder.startingPrice());

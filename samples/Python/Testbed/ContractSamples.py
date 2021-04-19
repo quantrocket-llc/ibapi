@@ -328,7 +328,7 @@ class ContractSamples:
         contract.multiplier = "50"
         #! [fopcontract]
         return contract
-		
+
     @staticmethod
     def Warrants():
         #! [warcontract]

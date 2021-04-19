@@ -165,14 +165,14 @@ class OrderDecoder(Object):
     def decodeOcaType(self, fields):
         self.order.ocaType = decode(int, fields)
 
-    def decodeETradeOnly(self, fields):
-        self.order.eTradeOnly = decode(bool, fields)
+    def skipETradeOnly(self, fields):
+        _eTradeOnly = decode(bool, fields) # deprecated
 
-    def decodeFirmQuoteOnly(self, fields):
-        self.order.firmQuoteOnly = decode(bool, fields)
+    def skipFirmQuoteOnly(self, fields):
+        _firmQuoteOnly = decode(bool, fields) #` deprecated
 
-    def decodeNbboPriceCap(self, fields):
-        self.order.nbboPriceCap = decode(float, fields, SHOW_UNSET)
+    def skipNbboPriceCap(self, fields):
+        _nbboPriceCap = decode(float, fields, SHOW_UNSET) # deprecated
         
     def decodeParentId(self, fields):
         self.order.parentId = decode(int, fields)

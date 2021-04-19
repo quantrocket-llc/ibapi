@@ -702,133 +702,124 @@ public class OrdersHandler extends BaseHandler {
                 order.discretionaryAmt(getDoubleFromString(table2.get(69)));
             }
             if (Utils.isNotNull(table2.get(70))) {
-                order.eTradeOnly(getBooleanFromString(table2.get(70)));
+                order.optOutSmartRouting(getBooleanFromString(table2.get(70)));
             }
             if (Utils.isNotNull(table2.get(71))) {
-                order.firmQuoteOnly(getBooleanFromString(table2.get(71)));
+                order.auctionStrategy(getIntFromString(table2.get(71)));
             }
             if (Utils.isNotNull(table2.get(72))) {
-                order.nbboPriceCap(getDoubleFromString(table2.get(72)));
+                order.startingPrice(getDoubleFromString(table2.get(72)));
             }
             if (Utils.isNotNull(table2.get(73))) {
-                order.optOutSmartRouting(getBooleanFromString(table2.get(73)));
+                order.stockRefPrice(getDoubleFromString(table2.get(73)));
             }
             if (Utils.isNotNull(table2.get(74))) {
-                order.auctionStrategy(getIntFromString(table2.get(74)));
+                order.delta(getDoubleFromString(table2.get(74)));
             }
             if (Utils.isNotNull(table2.get(75))) {
-                order.startingPrice(getDoubleFromString(table2.get(75)));
+                order.stockRangeLower(getDoubleFromString(table2.get(75)));
             }
             if (Utils.isNotNull(table2.get(76))) {
-                order.stockRefPrice(getDoubleFromString(table2.get(76)));
+                order.stockRangeUpper(getDoubleFromString(table2.get(76)));
             }
             if (Utils.isNotNull(table2.get(77))) {
-                order.delta(getDoubleFromString(table2.get(77)));
+                order.basisPoints(getDoubleFromString(table2.get(77)));
             }
             if (Utils.isNotNull(table2.get(78))) {
-                order.stockRangeLower(getDoubleFromString(table2.get(78)));
+                order.basisPointsType(getIntFromString(table2.get(78)));
             }
             if (Utils.isNotNull(table2.get(79))) {
-                order.stockRangeUpper(getDoubleFromString(table2.get(79)));
+                order.notHeld(getBooleanFromString(table2.get(79)));
             }
             if (Utils.isNotNull(table2.get(80))) {
-                order.basisPoints(getDoubleFromString(table2.get(80)));
+                order.orderMiscOptions(parseTagValueStr(table2.get(80)));
             }
             if (Utils.isNotNull(table2.get(81))) {
-                order.basisPointsType(getIntFromString(table2.get(81)));
+                order.solicited(getBooleanFromString(table2.get(81)));
             }
             if (Utils.isNotNull(table2.get(82))) {
-                order.notHeld(getBooleanFromString(table2.get(82)));
+                order.randomizeSize(getBooleanFromString(table2.get(82)));
             }
             if (Utils.isNotNull(table2.get(83))) {
-                order.orderMiscOptions(parseTagValueStr(table2.get(83)));
+                order.randomizePrice(getBooleanFromString(table2.get(83)));
             }
             if (Utils.isNotNull(table2.get(84))) {
-                order.solicited(getBooleanFromString(table2.get(84)));
+                order.referenceContractId(getIntFromString(table2.get(84)));
             }
             if (Utils.isNotNull(table2.get(85))) {
-                order.randomizeSize(getBooleanFromString(table2.get(85)));
+                order.peggedChangeAmount(getDoubleFromString(table2.get(85)));
             }
             if (Utils.isNotNull(table2.get(86))) {
-                order.randomizePrice(getBooleanFromString(table2.get(86)));
+                order.isPeggedChangeAmountDecrease(getBooleanFromString(table2.get(86)));
             }
             if (Utils.isNotNull(table2.get(87))) {
-                order.referenceContractId(getIntFromString(table2.get(87)));
+                order.referenceChangeAmount(getDoubleFromString(table2.get(87)));
             }
             if (Utils.isNotNull(table2.get(88))) {
-                order.peggedChangeAmount(getDoubleFromString(table2.get(88)));
+                order.referenceExchangeId(table2.get(88));
             }
             if (Utils.isNotNull(table2.get(89))) {
-                order.isPeggedChangeAmountDecrease(getBooleanFromString(table2.get(89)));
+                order.adjustedOrderType(OrderType.get(table2.get(89)));
             }
             if (Utils.isNotNull(table2.get(90))) {
-                order.referenceChangeAmount(getDoubleFromString(table2.get(90)));
+                order.triggerPrice(getDoubleFromString(table2.get(90)));
             }
             if (Utils.isNotNull(table2.get(91))) {
-                order.referenceExchangeId(table2.get(91));
+                order.adjustedStopPrice(getDoubleFromString(table2.get(91)));
             }
             if (Utils.isNotNull(table2.get(92))) {
-                order.adjustedOrderType(OrderType.get(table2.get(92)));
+                order.adjustedStopLimitPrice(getDoubleFromString(table2.get(92)));
             }
             if (Utils.isNotNull(table2.get(93))) {
-                order.triggerPrice(getDoubleFromString(table2.get(93)));
+                order.adjustedTrailingAmount(getDoubleFromString(table2.get(93)));
             }
             if (Utils.isNotNull(table2.get(94))) {
-                order.adjustedStopPrice(getDoubleFromString(table2.get(94)));
+                order.adjustableTrailingUnit(getIntFromString(table2.get(94)));
             }
             if (Utils.isNotNull(table2.get(95))) {
-                order.adjustedStopLimitPrice(getDoubleFromString(table2.get(95)));
+                order.lmtPriceOffset(getDoubleFromString(table2.get(95)));
             }
             if (Utils.isNotNull(table2.get(96))) {
-                order.adjustedTrailingAmount(getDoubleFromString(table2.get(96)));
+                order.conditions(parseOrderConditionsStr(table2.get(96)));
             }
             if (Utils.isNotNull(table2.get(97))) {
-                order.adjustableTrailingUnit(getIntFromString(table2.get(97)));
+                order.conditionsIgnoreRth(getBooleanFromString(table2.get(97)));
             }
             if (Utils.isNotNull(table2.get(98))) {
-                order.lmtPriceOffset(getDoubleFromString(table2.get(98)));
+                order.conditionsCancelOrder(getBooleanFromString(table2.get(98)));
             }
             if (Utils.isNotNull(table2.get(99))) {
-                order.conditions(parseOrderConditionsStr(table2.get(99)));
+                order.modelCode(table2.get(99));
             }
             if (Utils.isNotNull(table2.get(100))) {
-                order.conditionsIgnoreRth(getBooleanFromString(table2.get(100)));
+                order.extOperator(table2.get(100));
             }
             if (Utils.isNotNull(table2.get(101))) {
-                order.conditionsCancelOrder(getBooleanFromString(table2.get(101)));
+                order.softDollarTier(parseSoftDollarTierStr(table2.get(101)));
             }
             if (Utils.isNotNull(table2.get(102))) {
-                order.modelCode(table2.get(102));
+                order.cashQty(getDoubleFromString(table2.get(102)));
             }
             if (Utils.isNotNull(table2.get(103))) {
-                order.extOperator(table2.get(103));
+                order.mifid2DecisionMaker(table2.get(103));
             }
             if (Utils.isNotNull(table2.get(104))) {
-                order.softDollarTier(parseSoftDollarTierStr(table2.get(104)));
+                order.mifid2DecisionAlgo(table2.get(104));
             }
             if (Utils.isNotNull(table2.get(105))) {
-                order.cashQty(getDoubleFromString(table2.get(105)));
+                order.mifid2ExecutionTrader(table2.get(105));
             }
             if (Utils.isNotNull(table2.get(106))) {
-                order.mifid2DecisionMaker(table2.get(106));
+                order.mifid2ExecutionAlgo(table2.get(106));
             }
             if (Utils.isNotNull(table2.get(107))) {
-                order.mifid2DecisionAlgo(table2.get(107));
+                order.isOmsContainer(getBooleanFromString(table2.get(107)));
             }
             if (Utils.isNotNull(table2.get(108))) {
-                order.mifid2ExecutionTrader(table2.get(108));
+                order.discretionaryUpToLimitPrice(getBooleanFromString(table2.get(108)));
             }
             if (Utils.isNotNull(table2.get(109))) {
-                order.mifid2ExecutionAlgo(table2.get(109));
-            }
-            if (Utils.isNotNull(table2.get(110))) {
-                order.isOmsContainer(getBooleanFromString(table2.get(110)));
-            }
-            if (Utils.isNotNull(table2.get(111))) {
-                order.discretionaryUpToLimitPrice(getBooleanFromString(table2.get(111)));
-            }
-            if (Utils.isNotNull(table2.get(112))) {
-                order.usePriceMgmtAlgo(getBooleanFromString(table2.get(112)));
+                order.usePriceMgmtAlgo(getBooleanFromString(table2.get(109)));
             }
             
             return order;

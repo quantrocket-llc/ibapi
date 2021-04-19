@@ -1817,9 +1817,9 @@ public abstract class EClient {
                b.send( order.allOrNone());
                b.sendMax( order.minQty());
                b.sendMax( order.percentOffset());
-               b.send( order.eTradeOnly());
-               b.send( order.firmQuoteOnly());
-               b.sendMax( order.nbboPriceCap());
+               b.send( false); 
+               b.send( false);
+               b.sendMax( Double.MAX_VALUE);
                b.sendMax( order.auctionStrategy());
                b.sendMax( order.startingPrice());
                b.sendMax( order.stockRefPrice());

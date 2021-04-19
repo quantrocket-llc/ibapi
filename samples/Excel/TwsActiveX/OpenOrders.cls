@@ -135,9 +135,6 @@ Sub UpdateOpenOrder(orderId As Long, contract As TWSLib.IContract, order As TWSL
         ExtendedAttributesTable(rowId, Col_ALLORNONE).value = .allOrNone
         ExtendedAttributesTable(rowId, Col_MINQTY).value = Util.IntMaxStr(.minQty)
         ExtendedAttributesTable(rowId, Col_PERCENTOFFSET).value = Util.DblMaxStr(.percentOffset)
-        ExtendedAttributesTable(rowId, Col_ETRADEONLY).value = .eTradeOnly
-        ExtendedAttributesTable(rowId, Col_FIRMQUOTEONLY).value = .firmQuoteOnly
-        ExtendedAttributesTable(rowId, Col_NBBOPRICECAP).value = Util.DblMaxStr(.nbboPriceCap)
         ExtendedAttributesTable(rowId, Col_AUCTIONSTRAT).value = .auctionStrategy
         ExtendedAttributesTable(rowId, Col_STARTINGPRICE).value = Util.DblMaxStr(.startingPrice)
         ExtendedAttributesTable(rowId, Col_STOCKREFPRICE).value = Util.DblMaxStr(.stockRefPrice)

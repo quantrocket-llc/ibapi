@@ -327,9 +327,6 @@ public class OrderUtils {
                 item.add(Utils.toString(openOrderData.order().transmit()));
                 item.add(Utils.toString(openOrderData.order().parentId()));
                 item.add(Utils.toString(openOrderData.order().discretionaryAmt()));
-                item.add(Utils.toString(openOrderData.order().eTradeOnly()));
-                item.add(Utils.toString(openOrderData.order().firmQuoteOnly()));
-                item.add(Utils.toString(openOrderData.order().nbboPriceCap()));
                 item.add(Utils.toString(openOrderData.order().optOutSmartRouting()));
                 item.add(Utils.toString(openOrderData.order().auctionStrategy()));
                 item.add(Utils.toString(openOrderData.order().startingPrice()));
@@ -386,9 +383,6 @@ public class OrderUtils {
                 item.add(Utils.toString(openOrderData.order().orderRef()));
                 item.add(Utils.toString(openOrderData.order().percentOffset()));
                 item.add(Utils.toString(openOrderData.order().trailStopPrice()));
-                item.add(Utils.toString(openOrderData.order().eTradeOnly()));
-                item.add(Utils.toString(openOrderData.order().firmQuoteOnly()));
-                item.add(Utils.toString(openOrderData.order().nbboPriceCap()));
                 item.add(Utils.toString(openOrderData.order().discretionaryAmt()));
                 item.add(Utils.toString(openOrderData.order().startingPrice()));
                 item.add(Utils.toString(openOrderData.order().stockRefPrice()));

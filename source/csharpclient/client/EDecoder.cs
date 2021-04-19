@@ -1499,9 +1499,9 @@ namespace IBApi
             eOrderDecoder.readAllOrNone();
             eOrderDecoder.readMinQty();
             eOrderDecoder.readOcaType();
-            eOrderDecoder.readETradeOnly();
-            eOrderDecoder.readFirmQuoteOnly();
-            eOrderDecoder.readNbboPriceCap();
+            eOrderDecoder.skipETradeOnly();
+            eOrderDecoder.skipFirmQuoteOnly();
+            eOrderDecoder.skipNbboPriceCap();
             eOrderDecoder.readParentId();
             eOrderDecoder.readTriggerMethod();
             eOrderDecoder.readVolOrderParams(true);

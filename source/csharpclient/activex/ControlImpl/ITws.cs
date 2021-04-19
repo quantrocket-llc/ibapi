@@ -77,12 +77,6 @@ namespace TWSLib
         int minQty { get; set; }
         [DispId(32)]
         double percentOffset { get; set; }
-        [DispId(33)]
-        bool eTradeOnly { get; set; }
-        [DispId(34)]
-        bool firmQuoteOnly { get; set; }
-        [DispId(35)]
-        double nbboPriceCap { get; set; }
         [DispId(36)]
         int auctionStrategy { get; set; }
         [DispId(37)]

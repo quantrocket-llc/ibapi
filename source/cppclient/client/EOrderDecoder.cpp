@@ -284,20 +284,23 @@ bool EOrderDecoder::decodeOcaType(const char*& ptr, const char* endPtr) {
     return true;
 }
 
-bool EOrderDecoder::decodeETradeOnly(const char*& ptr, const char* endPtr) {
-    DECODE_FIELD( m_order->eTradeOnly);
+bool EOrderDecoder::skipETradeOnly(const char*& ptr, const char* endPtr) {
+    bool eTradeOnly;
+    DECODE_FIELD( eTradeOnly);
 
     return true;
 }
 
-bool EOrderDecoder::decodeFirmQuoteOnly(const char*& ptr, const char* endPtr) {
-    DECODE_FIELD( m_order->firmQuoteOnly);
+bool EOrderDecoder::skipFirmQuoteOnly(const char*& ptr, const char* endPtr) {
+    bool firmQuoteOnly;
+    DECODE_FIELD( firmQuoteOnly);
 
     return true;
 }
 
-bool EOrderDecoder::decodeNbboPriceCap(const char*& ptr, const char* endPtr) {
-    DECODE_FIELD_MAX( m_order->nbboPriceCap);
+bool EOrderDecoder::skipNbboPriceCap(const char*& ptr, const char* endPtr) {
+    double nbboPriceCap;
+    DECODE_FIELD_MAX( nbboPriceCap);
 
     return true;
 }

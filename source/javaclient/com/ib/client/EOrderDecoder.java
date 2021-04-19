@@ -278,19 +278,22 @@ public class EOrderDecoder {
 
     public void readETradeOnly() throws IOException {
         if ( m_version >= 9) {
-            m_order.eTradeOnly(m_eDecoder.readBoolFromInt());
+            // skip deprecated field
+            m_eDecoder.readBoolFromInt();
         }
     }
 
     public void readFirmQuoteOnly() throws IOException {
         if ( m_version >= 9) {
-            m_order.firmQuoteOnly(m_eDecoder.readBoolFromInt());
+            // skip deprecated field
+            m_eDecoder.readBoolFromInt();
         }
     }
 
     public void readNbboPriceCap() throws IOException {
         if ( m_version >= 9) {
-            m_order.nbboPriceCap(m_eDecoder.readDoubleMax());
+            // skip deprecated field
+            m_eDecoder.readDoubleMax();
         }
     }
 

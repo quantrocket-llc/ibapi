@@ -1736,9 +1736,9 @@ void EClient::placeOrder( OrderId id, const Contract& contract, const Order& ord
         ENCODE_FIELD( order.allOrNone);
         ENCODE_FIELD_MAX( order.minQty);
         ENCODE_FIELD_MAX( order.percentOffset);
-        ENCODE_FIELD( order.eTradeOnly);
-        ENCODE_FIELD( order.firmQuoteOnly);
-        ENCODE_FIELD_MAX( order.nbboPriceCap);
+        ENCODE_FIELD( false);
+        ENCODE_FIELD( false);
+        ENCODE_FIELD_MAX( UNSET_DOUBLE);
         ENCODE_FIELD( order.auctionStrategy); // AUCTION_MATCH, AUCTION_IMPROVEMENT, AUCTION_TRANSPARENT
         ENCODE_FIELD_MAX( order.startingPrice);
         ENCODE_FIELD_MAX( order.stockRefPrice);

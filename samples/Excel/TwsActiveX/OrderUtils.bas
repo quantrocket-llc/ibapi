@@ -72,9 +72,6 @@ Public Enum ExtendedOrderAttributesColumns
     Col_ALLORNONE
     Col_MINQTY
     Col_PERCENTOFFSET
-    Col_ETRADEONLY
-    Col_FIRMQUOTEONLY
-    Col_NBBOPRICECAP
     Col_OPT_OUT_SMART_ROUTING
     Col_AUCTIONSTRAT
     Col_STARTINGPRICE
@@ -311,9 +308,6 @@ Private Sub PlaceModifyOrder( _
         .allOrNone = Util.SetNonEmptyValue(extendedAttributeTable(orderIndex, Col_ALLORNONE).value, .allOrNone)
         .minQty = Util.SetNonEmptyValue(extendedAttributeTable(orderIndex, Col_MINQTY).value, .minQty)
         .percentOffset = Util.SetNonEmptyValue(extendedAttributeTable(orderIndex, Col_PERCENTOFFSET).value, .percentOffset)
-        .eTradeOnly = Util.SetNonEmptyValue(extendedAttributeTable(orderIndex, Col_ETRADEONLY).value, .eTradeOnly)
-        .firmQuoteOnly = Util.SetNonEmptyValue(extendedAttributeTable(orderIndex, Col_FIRMQUOTEONLY).value, .firmQuoteOnly)
-        .nbboPriceCap = Util.SetNonEmptyValue(extendedAttributeTable(orderIndex, Col_NBBOPRICECAP).value, .nbboPriceCap)
         .auctionStrategy = Util.SetNonEmptyValue(extendedAttributeTable(orderIndex, Col_AUCTIONSTRAT).value, .auctionStrategy)
         .startingPrice = Util.SetNonEmptyValue(extendedAttributeTable(orderIndex, Col_STARTINGPRICE).value, .startingPrice)
         .stockRefPrice = Util.SetNonEmptyValue(extendedAttributeTable(orderIndex, Col_STOCKREFPRICE).value, .stockRefPrice)

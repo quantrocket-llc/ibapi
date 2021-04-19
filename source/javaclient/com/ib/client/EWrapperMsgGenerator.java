@@ -729,9 +729,6 @@ public class EWrapperMsgGenerator {
         Util.appendBooleanFlag(sb, "allOrNone", order.allOrNone());
         Util.appendValidIntValue(sb, "minQty", order.minQty());
         Util.appendValidDoubleValue(sb, "percentOffset", order.percentOffset());
-        Util.appendBooleanFlag(sb, "eTradeOnly", order.eTradeOnly());
-        Util.appendBooleanFlag(sb, "firmQuoteOnly", order.firmQuoteOnly());
-        Util.appendValidDoubleValue(sb, "nbboPriceCap", order.nbboPriceCap());
         Util.appendBooleanFlag(sb, "optOutSmartRouting", order.optOutSmartRouting());
         Util.appendValidDoubleValue(sb, "startingPrice", order.startingPrice());
         Util.appendValidDoubleValue(sb, "stockRefPrice", order.stockRefPrice());

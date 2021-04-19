@@ -121,12 +121,6 @@ namespace TWSLib
 
         double TWSLib.IOrder.discretionaryAmt { get { return data.DiscretionaryAmt; } set { data.DiscretionaryAmt = value; } }
 
-        bool TWSLib.IOrder.eTradeOnly { get { return data.ETradeOnly; } set { data.ETradeOnly = value; } }
-
-        bool TWSLib.IOrder.firmQuoteOnly { get { return data.FirmQuoteOnly; } set { data.FirmQuoteOnly = value; } }
-
-        double TWSLib.IOrder.nbboPriceCap { get { return data.NbboPriceCap; } set { data.NbboPriceCap = value; } }
-
         bool TWSLib.IOrder.optOutSmartRouting { get { return data.OptOutSmartRouting; } set { data.OptOutSmartRouting = value; } }
 
         int TWSLib.IOrder.auctionStrategy { get { return data.AuctionStrategy; } set { data.AuctionStrategy = value; } }

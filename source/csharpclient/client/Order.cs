@@ -340,21 +340,6 @@ namespace IBApi
         public double DiscretionaryAmt { get; set; }
 
         /**
-         * @brief Trade with electronic quotes.
-         */
-        public bool ETradeOnly { get; set; }
-
-        /**
-         * @brief Trade with firm quotes.
-         */
-        public bool FirmQuoteOnly { get; set; }
-
-        /**
-         * @brief Maximum smart order distance from the NBBO.
-         */
-        public double NbboPriceCap { get; set; }
-
-        /**
          * @brief Use to opt out of default SmartRouting for orders routed directly to ASX.
          * This attribute defaults to false unless explicitly set to true. When set to false, orders routed directly to ASX will NOT use SmartRouting. When set to true, orders routed directly to ASX orders WILL use SmartRouting.
          */
@@ -761,7 +746,6 @@ namespace IBApi
             ExemptCode = -1;
             MinQty = int.MaxValue;
             PercentOffset = double.MaxValue;
-            NbboPriceCap = double.MaxValue;
             OptOutSmartRouting = false;
             StartingPrice = double.MaxValue;
             StockRefPrice = double.MaxValue;
@@ -862,9 +846,6 @@ namespace IBApi
                 Origin != l_theOther.Origin ||
                 ShortSaleSlot != l_theOther.ShortSaleSlot ||
                 DiscretionaryAmt != l_theOther.DiscretionaryAmt ||
-                ETradeOnly != l_theOther.ETradeOnly ||
-                FirmQuoteOnly != l_theOther.FirmQuoteOnly ||
-                NbboPriceCap != l_theOther.NbboPriceCap ||
                 OptOutSmartRouting != l_theOther.OptOutSmartRouting ||
                 AuctionStrategy != l_theOther.AuctionStrategy ||
                 StartingPrice != l_theOther.StartingPrice ||
@@ -1016,9 +997,6 @@ namespace IBApi
             hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(DesignatedLocation);
             hashCode = hashCode * -1521134295 + ExemptCode.GetHashCode();
             hashCode = hashCode * -1521134295 + DiscretionaryAmt.GetHashCode();
-            hashCode = hashCode * -1521134295 + ETradeOnly.GetHashCode();
-            hashCode = hashCode * -1521134295 + FirmQuoteOnly.GetHashCode();
-            hashCode = hashCode * -1521134295 + NbboPriceCap.GetHashCode();
             hashCode = hashCode * -1521134295 + OptOutSmartRouting.GetHashCode();
             hashCode = hashCode * -1521134295 + AuctionStrategy.GetHashCode();
             hashCode = hashCode * -1521134295 + StartingPrice.GetHashCode();

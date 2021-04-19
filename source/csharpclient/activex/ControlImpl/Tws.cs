@@ -120,12 +120,6 @@ namespace TWSLib
 
         double ITws.percentOffset { get; set; }
 
-        bool ITws.eTradeOnly { get; set; }
-
-        bool ITws.firmQuoteOnly { get; set; }
-
-        double ITws.nbboPriceCap { get; set; }
-
         int ITws.auctionStrategy { get; set; }
 
         double ITws.startingPrice { get; set; }
@@ -637,9 +631,6 @@ namespace TWSLib
             iThis.allOrNone = false;
             iThis.minQty = int.MaxValue;
             iThis.percentOffset = double.MaxValue;
-            iThis.eTradeOnly = false;
-            iThis.firmQuoteOnly = false;
-            iThis.nbboPriceCap = double.MaxValue;
             iThis.auctionStrategy = 0;
             iThis.startingPrice = double.MaxValue;
             iThis.stockRefPrice = double.MaxValue;
@@ -1220,9 +1211,9 @@ namespace TWSLib
                                 order.AllOrNone ? 1 : 0,
                                 order.MinQty,
                                 order.PercentOffset,
-                                order.ETradeOnly ? 1 : 0,
-                                order.FirmQuoteOnly ? 1 : 0,
-                                order.NbboPriceCap,
+                                0,
+                                0,
+                                Double.MaxValue,
                                 order.AuctionStrategy,
                                 order.StartingPrice,
                                 order.StockRefPrice,
@@ -2209,9 +2200,6 @@ namespace TWSLib
             order.AllOrNone = iThis.allOrNone;
             order.MinQty = iThis.minQty;
             order.PercentOffset = iThis.percentOffset;
-            order.ETradeOnly = iThis.eTradeOnly;
-            order.FirmQuoteOnly = iThis.firmQuoteOnly;
-            order.NbboPriceCap = iThis.nbboPriceCap;
             order.AuctionStrategy = iThis.auctionStrategy;
             order.StartingPrice = iThis.startingPrice;
             order.StockRefPrice = iThis.stockRefPrice;

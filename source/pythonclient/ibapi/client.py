@@ -1241,9 +1241,9 @@ class EClient(object):
                 make_field( order.allOrNone),
                 make_field_handle_empty( order.minQty),
                 make_field_handle_empty( order.percentOffset),
-                make_field( order.eTradeOnly),
-                make_field( order.firmQuoteOnly),
-                make_field_handle_empty( order.nbboPriceCap),
+                make_field( False),
+                make_field( False),
+                make_field_handle_empty( UNSET_DOUBLE),
                 make_field( order.auctionStrategy), # AUCTION_MATCH, AUCTION_IMPROVEMENT, AUCTION_TRANSPARENT
                 make_field_handle_empty( order.startingPrice),
                 make_field_handle_empty( order.stockRefPrice),

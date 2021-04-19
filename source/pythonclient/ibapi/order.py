@@ -79,9 +79,6 @@ class Order(Object):
 
         # SMART routing only
         self.discretionaryAmt = 0
-        self.eTradeOnly       = True
-        self.firmQuoteOnly    = True
-        self.nbboPriceCap     = UNSET_DOUBLE  # type: float
         self.optOutSmartRouting = False
 
         # BOX exchange orders only

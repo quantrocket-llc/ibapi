@@ -93,15 +93,11 @@ namespace IBSampleApp
             this.mifid2DecisionMaker = new System.Windows.Forms.TextBox();
             this.label17 = new System.Windows.Forms.Label();
             this.softDollarTier = new System.Windows.Forms.ComboBox();
-            this.nbboPriceCapLabel = new System.Windows.Forms.Label();
             this.trailingPercentLabel = new System.Windows.Forms.Label();
             this.transmit = new System.Windows.Forms.CheckBox();
-            this.firmQuote = new System.Windows.Forms.CheckBox();
             this.overrideConstraints = new System.Windows.Forms.CheckBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.eTrade = new System.Windows.Forms.CheckBox();
             this.optOutSmart = new System.Windows.Forms.CheckBox();
-            this.nbboPriceCap = new System.Windows.Forms.TextBox();
             this.trailingPercent = new System.Windows.Forms.TextBox();
             this.discretionaryAmount = new System.Windows.Forms.TextBox();
             this.hidden = new System.Windows.Forms.CheckBox();
@@ -805,15 +801,11 @@ namespace IBSampleApp
             this.extendedOrderTab.Controls.Add(this.mifid2DecisionMaker);
             this.extendedOrderTab.Controls.Add(this.label17);
             this.extendedOrderTab.Controls.Add(this.softDollarTier);
-            this.extendedOrderTab.Controls.Add(this.nbboPriceCapLabel);
             this.extendedOrderTab.Controls.Add(this.trailingPercentLabel);
             this.extendedOrderTab.Controls.Add(this.transmit);
-            this.extendedOrderTab.Controls.Add(this.firmQuote);
             this.extendedOrderTab.Controls.Add(this.overrideConstraints);
             this.extendedOrderTab.Controls.Add(this.label5);
-            this.extendedOrderTab.Controls.Add(this.eTrade);
             this.extendedOrderTab.Controls.Add(this.optOutSmart);
-            this.extendedOrderTab.Controls.Add(this.nbboPriceCap);
             this.extendedOrderTab.Controls.Add(this.trailingPercent);
             this.extendedOrderTab.Controls.Add(this.discretionaryAmount);
             this.extendedOrderTab.Controls.Add(this.hidden);
@@ -968,16 +960,6 @@ namespace IBSampleApp
             this.softDollarTier.Size = new System.Drawing.Size(110, 21);
             this.softDollarTier.TabIndex = 19;
             // 
-            // nbboPriceCapLabel
-            // 
-            this.nbboPriceCapLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.nbboPriceCapLabel.AutoSize = true;
-            this.nbboPriceCapLabel.Location = new System.Drawing.Point(313, 93);
-            this.nbboPriceCapLabel.Name = "nbboPriceCapLabel";
-            this.nbboPriceCapLabel.Size = new System.Drawing.Size(84, 13);
-            this.nbboPriceCapLabel.TabIndex = 32;
-            this.nbboPriceCapLabel.Text = "NBBO price cap";
-            // 
             // trailingPercentLabel
             // 
             this.trailingPercentLabel.AutoSize = true;
@@ -1001,18 +983,6 @@ namespace IBSampleApp
             this.transmit.Text = "Transmit";
             this.transmit.UseVisualStyleBackColor = true;
             // 
-            // firmQuote
-            // 
-            this.firmQuote.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.firmQuote.AutoSize = true;
-            this.firmQuote.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.firmQuote.Location = new System.Drawing.Point(443, 185);
-            this.firmQuote.Name = "firmQuote";
-            this.firmQuote.Size = new System.Drawing.Size(97, 17);
-            this.firmQuote.TabIndex = 42;
-            this.firmQuote.Text = "Firm quote only";
-            this.firmQuote.UseVisualStyleBackColor = true;
-            // 
             // overrideConstraints
             // 
             this.overrideConstraints.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -1035,18 +1005,6 @@ namespace IBSampleApp
             this.label5.TabIndex = 30;
             this.label5.Text = "Discretionary amount";
             // 
-            // eTrade
-            // 
-            this.eTrade.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.eTrade.AutoSize = true;
-            this.eTrade.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.eTrade.Location = new System.Drawing.Point(458, 164);
-            this.eTrade.Name = "eTrade";
-            this.eTrade.Size = new System.Drawing.Size(82, 17);
-            this.eTrade.TabIndex = 40;
-            this.eTrade.Text = "E-trade only";
-            this.eTrade.UseVisualStyleBackColor = true;
-            // 
             // optOutSmart
             // 
             this.optOutSmart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -1058,14 +1016,6 @@ namespace IBSampleApp
             this.optOutSmart.TabIndex = 44;
             this.optOutSmart.Text = "Opt out SMART routing";
             this.optOutSmart.UseVisualStyleBackColor = true;
-            // 
-            // nbboPriceCap
-            // 
-            this.nbboPriceCap.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.nbboPriceCap.Location = new System.Drawing.Point(403, 90);
-            this.nbboPriceCap.Name = "nbboPriceCap";
-            this.nbboPriceCap.Size = new System.Drawing.Size(70, 20);
-            this.nbboPriceCap.TabIndex = 33;
             // 
             // trailingPercent
             // 
@@ -2605,8 +2555,6 @@ namespace IBSampleApp
         private System.Windows.Forms.GroupBox baseGroup;
         private System.Windows.Forms.TextBox contractSymbol;
         private System.Windows.Forms.TextBox orderReference;        
-        private System.Windows.Forms.CheckBox firmQuote;
-        private System.Windows.Forms.CheckBox eTrade;
         private System.Windows.Forms.CheckBox overrideConstraints;
         private System.Windows.Forms.CheckBox allOrNone;
         private System.Windows.Forms.CheckBox outsideRTH;
@@ -2630,7 +2578,6 @@ namespace IBSampleApp
         private System.Windows.Forms.TextBox textBox8;
         private System.Windows.Forms.CheckBox transmit;
         private System.Windows.Forms.CheckBox optOutSmart;
-        private System.Windows.Forms.TextBox nbboPriceCap;
         private System.Windows.Forms.TextBox discretionaryAmount;
         private System.Windows.Forms.TextBox trailingPercent;
 
@@ -2654,7 +2601,6 @@ namespace IBSampleApp
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label nbboPriceCapLabel;
         private System.Windows.Forms.Label trailingPercentLabel;
         private System.Windows.Forms.Label accountLabel;
         private System.Windows.Forms.Label limitPriceLabel;

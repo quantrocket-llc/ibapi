@@ -302,8 +302,6 @@ namespace IBSampleApp
                 order.TrailingPercent = double.Parse(trailingPercent.Text);
             if (!discretionaryAmount.Text.Equals(""))
                 order.DiscretionaryAmt = int.Parse(discretionaryAmount.Text);
-            if (!nbboPriceCap.Text.Equals(""))
-                order.NbboPriceCap = double.Parse(nbboPriceCap.Text);
 
             order.OcaGroup = ocaGroup.Text;
             order.OcaType = (int)((IBType)ocaType.SelectedItem).Value;
@@ -317,8 +315,6 @@ namespace IBSampleApp
             order.OutsideRth = outsideRTH.Checked;
             order.AllOrNone = allOrNone.Checked;
             order.OverridePercentageConstraints = overrideConstraints.Checked;
-            order.ETradeOnly = eTrade.Checked;
-            order.FirmQuoteOnly = firmQuote.Checked;
             order.OptOutSmartRouting = optOutSmart.Checked;
             order.Transmit = transmit.Checked;
             order.Tier = softDollarTier.SelectedItem as SoftDollarTier ?? new SoftDollarTier("", "", "");

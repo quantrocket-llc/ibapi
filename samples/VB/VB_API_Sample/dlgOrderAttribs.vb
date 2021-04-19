@@ -40,9 +40,6 @@ Public Class dlgOrderAttribs
     Public WithEvents txtSettlingFirm As System.Windows.Forms.TextBox
     Public WithEvents txtMinQty As System.Windows.Forms.TextBox
     Public WithEvents txtPercentOffset As System.Windows.Forms.TextBox
-    Public WithEvents txtETradeOnly As System.Windows.Forms.TextBox
-    Public WithEvents txtFirmQuoteOnly As System.Windows.Forms.TextBox
-    Public WithEvents txtNBBOPriceCap As System.Windows.Forms.TextBox
     Public WithEvents txtAuctionStrategy As System.Windows.Forms.TextBox
     Public WithEvents txtStartingPrice As System.Windows.Forms.TextBox
     Public WithEvents txtStockRefPrice As System.Windows.Forms.TextBox
@@ -74,9 +71,6 @@ Public Class dlgOrderAttribs
     Public WithEvents Label34 As System.Windows.Forms.Label
     Public WithEvents Label33 As System.Windows.Forms.Label
     Public WithEvents Label32 As System.Windows.Forms.Label
-    Public WithEvents Label31 As System.Windows.Forms.Label
-    Public WithEvents Label30 As System.Windows.Forms.Label
-    Public WithEvents Label29 As System.Windows.Forms.Label
     Public WithEvents Label28 As System.Windows.Forms.Label
     Public WithEvents Label27 As System.Windows.Forms.Label
     Public WithEvents Label26 As System.Windows.Forms.Label
@@ -197,9 +191,6 @@ Public Class dlgOrderAttribs
         Me.txtSettlingFirm = New System.Windows.Forms.TextBox()
         Me.txtMinQty = New System.Windows.Forms.TextBox()
         Me.txtPercentOffset = New System.Windows.Forms.TextBox()
-        Me.txtETradeOnly = New System.Windows.Forms.TextBox()
-        Me.txtFirmQuoteOnly = New System.Windows.Forms.TextBox()
-        Me.txtNBBOPriceCap = New System.Windows.Forms.TextBox()
         Me.txtAuctionStrategy = New System.Windows.Forms.TextBox()
         Me.txtStartingPrice = New System.Windows.Forms.TextBox()
         Me.txtStockRefPrice = New System.Windows.Forms.TextBox()
@@ -231,9 +222,6 @@ Public Class dlgOrderAttribs
         Me.Label34 = New System.Windows.Forms.Label()
         Me.Label33 = New System.Windows.Forms.Label()
         Me.Label32 = New System.Windows.Forms.Label()
-        Me.Label31 = New System.Windows.Forms.Label()
-        Me.Label30 = New System.Windows.Forms.Label()
-        Me.Label29 = New System.Windows.Forms.Label()
         Me.Label28 = New System.Windows.Forms.Label()
         Me.Label27 = New System.Windows.Forms.Label()
         Me.Label26 = New System.Windows.Forms.Label()
@@ -419,53 +407,6 @@ Public Class dlgOrderAttribs
         Me.txtPercentOffset.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.txtPercentOffset.Size = New System.Drawing.Size(85, 13)
         Me.txtPercentOffset.TabIndex = 57
-        '
-        'txtETradeOnly
-        '
-        Me.txtETradeOnly.AcceptsReturn = True
-        Me.txtETradeOnly.BackColor = System.Drawing.SystemColors.Window
-        Me.txtETradeOnly.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.txtETradeOnly.Cursor = System.Windows.Forms.Cursors.IBeam
-        Me.txtETradeOnly.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtETradeOnly.ForeColor = System.Drawing.SystemColors.WindowText
-        Me.txtETradeOnly.Location = New System.Drawing.Point(432, 130)
-        Me.txtETradeOnly.MaxLength = 0
-        Me.txtETradeOnly.Name = "txtETradeOnly"
-        Me.txtETradeOnly.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.txtETradeOnly.Size = New System.Drawing.Size(85, 13)
-        Me.txtETradeOnly.TabIndex = 59
-        Me.txtETradeOnly.Text = "0"
-        '
-        'txtFirmQuoteOnly
-        '
-        Me.txtFirmQuoteOnly.AcceptsReturn = True
-        Me.txtFirmQuoteOnly.BackColor = System.Drawing.SystemColors.Window
-        Me.txtFirmQuoteOnly.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.txtFirmQuoteOnly.Cursor = System.Windows.Forms.Cursors.IBeam
-        Me.txtFirmQuoteOnly.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtFirmQuoteOnly.ForeColor = System.Drawing.SystemColors.WindowText
-        Me.txtFirmQuoteOnly.Location = New System.Drawing.Point(432, 154)
-        Me.txtFirmQuoteOnly.MaxLength = 0
-        Me.txtFirmQuoteOnly.Name = "txtFirmQuoteOnly"
-        Me.txtFirmQuoteOnly.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.txtFirmQuoteOnly.Size = New System.Drawing.Size(85, 13)
-        Me.txtFirmQuoteOnly.TabIndex = 61
-        Me.txtFirmQuoteOnly.Text = "0"
-        '
-        'txtNBBOPriceCap
-        '
-        Me.txtNBBOPriceCap.AcceptsReturn = True
-        Me.txtNBBOPriceCap.BackColor = System.Drawing.SystemColors.Window
-        Me.txtNBBOPriceCap.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.txtNBBOPriceCap.Cursor = System.Windows.Forms.Cursors.IBeam
-        Me.txtNBBOPriceCap.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtNBBOPriceCap.ForeColor = System.Drawing.SystemColors.WindowText
-        Me.txtNBBOPriceCap.Location = New System.Drawing.Point(432, 178)
-        Me.txtNBBOPriceCap.MaxLength = 0
-        Me.txtNBBOPriceCap.Name = "txtNBBOPriceCap"
-        Me.txtNBBOPriceCap.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.txtNBBOPriceCap.Size = New System.Drawing.Size(85, 13)
-        Me.txtNBBOPriceCap.TabIndex = 63
         '
         'txtAuctionStrategy
         '
@@ -937,45 +878,6 @@ Public Class dlgOrderAttribs
         Me.Label32.Size = New System.Drawing.Size(105, 17)
         Me.Label32.TabIndex = 56
         Me.Label32.Text = "Percent Offset"
-        '
-        'Label31
-        '
-        Me.Label31.BackColor = System.Drawing.Color.Gainsboro
-        Me.Label31.Cursor = System.Windows.Forms.Cursors.Default
-        Me.Label31.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label31.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.Label31.Location = New System.Drawing.Point(264, 132)
-        Me.Label31.Name = "Label31"
-        Me.Label31.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.Label31.Size = New System.Drawing.Size(136, 17)
-        Me.Label31.TabIndex = 58
-        Me.Label31.Text = "Electronic Exchange Only"
-        '
-        'Label30
-        '
-        Me.Label30.BackColor = System.Drawing.Color.Gainsboro
-        Me.Label30.Cursor = System.Windows.Forms.Cursors.Default
-        Me.Label30.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label30.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.Label30.Location = New System.Drawing.Point(264, 156)
-        Me.Label30.Name = "Label30"
-        Me.Label30.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.Label30.Size = New System.Drawing.Size(105, 17)
-        Me.Label30.TabIndex = 60
-        Me.Label30.Text = "Firm Quote Only"
-        '
-        'Label29
-        '
-        Me.Label29.BackColor = System.Drawing.Color.Gainsboro
-        Me.Label29.Cursor = System.Windows.Forms.Cursors.Default
-        Me.Label29.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label29.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.Label29.Location = New System.Drawing.Point(264, 180)
-        Me.Label29.Name = "Label29"
-        Me.Label29.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.Label29.Size = New System.Drawing.Size(105, 17)
-        Me.Label29.TabIndex = 62
-        Me.Label29.Text = "NBBO Price Cap"
         '
         'Label28
         '
@@ -2502,9 +2404,6 @@ Public Class dlgOrderAttribs
         Me.Controls.Add(Me.txtSettlingFirm)
         Me.Controls.Add(Me.txtMinQty)
         Me.Controls.Add(Me.txtPercentOffset)
-        Me.Controls.Add(Me.txtETradeOnly)
-        Me.Controls.Add(Me.txtFirmQuoteOnly)
-        Me.Controls.Add(Me.txtNBBOPriceCap)
         Me.Controls.Add(Me.txtAuctionStrategy)
         Me.Controls.Add(Me.txtStartingPrice)
         Me.Controls.Add(Me.txtStockRefPrice)
@@ -2541,9 +2440,6 @@ Public Class dlgOrderAttribs
         Me.Controls.Add(Me.Label34)
         Me.Controls.Add(Me.Label33)
         Me.Controls.Add(Me.Label32)
-        Me.Controls.Add(Me.Label31)
-        Me.Controls.Add(Me.Label30)
-        Me.Controls.Add(Me.Label29)
         Me.Controls.Add(Me.Label28)
         Me.Controls.Add(Me.Label27)
         Me.Controls.Add(Me.Label26)
@@ -2652,9 +2548,6 @@ Public Class dlgOrderAttribs
 
         'SMART routing only
         txtDiscretionaryAmt.Text = m_orderInfo.DiscretionaryAmt
-        txtETradeOnly.Text = m_orderInfo.ETradeOnly
-        txtFirmQuoteOnly.Text = m_orderInfo.FirmQuoteOnly
-        txtNBBOPriceCap.Text = dvalStr(m_orderInfo.NbboPriceCap)
         checkOptOutSmartRouting.Checked = m_orderInfo.OptOutSmartRouting
 
         ' BOX or VOL orders only
@@ -2809,9 +2702,6 @@ Public Class dlgOrderAttribs
 
         'SMART routing only
         m_orderInfo.DiscretionaryAmt = dval(txtDiscretionaryAmt.Text)
-        m_orderInfo.ETradeOnly = bval(txtETradeOnly.Text)
-        m_orderInfo.FirmQuoteOnly = bval(txtFirmQuoteOnly.Text)
-        m_orderInfo.NbboPriceCap = dval(txtNBBOPriceCap.Text)
         m_orderInfo.OptOutSmartRouting = checkOptOutSmartRouting.Checked
 
         ' BOX or VOL orders only

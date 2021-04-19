@@ -951,9 +951,9 @@ namespace IBApi
                     paramsList.AddParameter(order.AllOrNone);
                     paramsList.AddParameterMax(order.MinQty);
                     paramsList.AddParameterMax(order.PercentOffset);
-                    paramsList.AddParameter(order.ETradeOnly);
-                    paramsList.AddParameter(order.FirmQuoteOnly);
-                    paramsList.AddParameterMax(order.NbboPriceCap);
+                    paramsList.AddParameter(false);
+                    paramsList.AddParameter(false);
+                    paramsList.AddParameterMax(double.MaxValue);
                     paramsList.AddParameterMax(order.AuctionStrategy);
                     paramsList.AddParameterMax(order.StartingPrice);
                     paramsList.AddParameterMax(order.StockRefPrice);

@@ -348,27 +348,27 @@ namespace IBApi
             }
         }
 
-        public void readETradeOnly() 
+        public void skipETradeOnly() 
         {
             if (msgVersion >= 9)
             {
-                order.ETradeOnly = eDecoder.ReadBoolFromInt();
+                eDecoder.ReadBoolFromInt();
             }
         }
 
-        public void readFirmQuoteOnly() 
+        public void skipFirmQuoteOnly() 
         {
             if (msgVersion >= 9)
             {
-                order.FirmQuoteOnly = eDecoder.ReadBoolFromInt();
+                eDecoder.ReadBoolFromInt();
             }
         }
 
-        public void readNbboPriceCap() 
+        public void skipNbboPriceCap() 
         {
             if (msgVersion >= 9)
             {
-                order.NbboPriceCap = eDecoder.ReadDoubleMax();
+                eDecoder.ReadDoubleMax();
             }
         }
 

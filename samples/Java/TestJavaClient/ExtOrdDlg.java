@@ -55,9 +55,6 @@ public class ExtOrdDlg extends JDialog {
     private JTextField  m_overridePercentageConstraints = new JTextField();
     private JTextField  m_minQty = new JTextField();
     private JTextField  m_percentOffset = new JTextField();
-    private JTextField  m_eTradeOnly = new JTextField();
-    private JTextField  m_firmQuoteOnly = new JTextField();
-    private JTextField  m_nbboPriceCap = new JTextField();
     private JTextField  m_auctionStrategy = new JTextField("0");
     private JTextField  m_startingPrice = new JTextField();
     private JTextField  m_stockRefPrice = new JTextField();
@@ -183,12 +180,6 @@ public class ExtOrdDlg extends JDialog {
         extOrderDetailsPanel.add(m_minQty);
         extOrderDetailsPanel.add(new JLabel("Percent Offset"));
         extOrderDetailsPanel.add(m_percentOffset);
-        extOrderDetailsPanel.add(new JLabel("Electronic Exchange Only"));
-        extOrderDetailsPanel.add(m_eTradeOnly);
-        extOrderDetailsPanel.add(new JLabel("Firm Quote Only"));
-        extOrderDetailsPanel.add(m_firmQuoteOnly);
-        extOrderDetailsPanel.add(new JLabel("NBBO Price Cap"));
-        extOrderDetailsPanel.add(m_nbboPriceCap);
         extOrderDetailsPanel.add( new JLabel( "") );
         extOrderDetailsPanel.add( new JLabel(""));
         extOrderDetailsPanel.add(new JLabel("BOX: Auction Strategy"));
@@ -337,9 +328,6 @@ public class ExtOrdDlg extends JDialog {
             m_order.minQty(parseMaxInt(m_minQty));
             m_order.overridePercentageConstraints(parseInt(m_overridePercentageConstraints) != 0);
             m_order.percentOffset(parseMaxDouble(m_percentOffset));
-            m_order.eTradeOnly(parseInt(m_eTradeOnly) != 0);
-            m_order.firmQuoteOnly(parseInt(m_firmQuoteOnly) != 0);
-            m_order.nbboPriceCap(parseMaxDouble(m_nbboPriceCap));
             m_order.optOutSmartRouting(m_optOutSmartRoutingCheckBox.isSelected());
             m_order.solicited(m_solicited.isSelected());
             m_order.auctionStrategy(parseInt(m_auctionStrategy));
