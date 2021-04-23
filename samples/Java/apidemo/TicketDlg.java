@@ -381,6 +381,7 @@ class TicketDlg extends JDialog {
 	class MiscTicketPanel extends StackPanel {
 		final UpperField m_goodAfter = new UpperField();
 		final UpperField m_goodTil = new UpperField();
+		final UpperField m_duration = new UpperField();
 		final JTextField m_orderRef = new JTextField(7);
 		final JTextField m_ocaGroup = new JTextField(7);
 		final UpperField m_minQty = new UpperField();
@@ -420,6 +421,7 @@ class TicketDlg extends JDialog {
 			top.add("Min Qty", m_minQty);
 			top.add("Good after", m_goodAfter);
 			top.add("Good until", m_goodTil);
+			top.add("Duration", m_duration);
 			top.add("Rule 80A", m_rule80A);
 			top.add("Trigger method", m_trigger);
 			top.add("Percent Offset", m_percentOffset);
@@ -461,6 +463,7 @@ class TicketDlg extends JDialog {
 			m_minQty.setText( m_order.minQty() );
 			m_goodAfter.setText( m_order.goodAfterTime() );
 			m_goodTil.setText( m_order.goodTillDate() );
+			m_duration.setText( m_order.duration() );
 			m_orderRef.setText( m_order.orderRef() );
 			m_ocaGroup.setText( m_order.ocaGroup() );
 			m_ocaType.setSelectedItem( m_order.ocaType() );
@@ -504,6 +507,7 @@ class TicketDlg extends JDialog {
 			m_order.minQty( m_minQty.getInt() );
 			m_order.goodAfterTime( m_goodAfter.getText() );
 			m_order.goodTillDate( m_goodTil.getText() );
+			m_order.duration( m_duration.getInt() );
 			m_order.orderRef( m_orderRef.getText() );
 			m_order.ocaGroup( m_ocaGroup.getText() );
 			m_order.ocaType( m_ocaType.getSelectedItem() );

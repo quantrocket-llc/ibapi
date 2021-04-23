@@ -1547,6 +1547,13 @@ void EClient::placeOrder( OrderId id, const Contract& contract, const Order& ord
             return;
     }
 
+    if (m_serverVersion < MIN_SERVER_VER_DURATION
+        && order.duration != UNSET_INTEGER) {
+        m_pEWrapper->error(id, UPDATE_TWS.code(), UPDATE_TWS.msg() + " It does not support duration attribute");
+
+        return;
+    }
+
     std::stringstream msg;
     prepareBuffer( msg);
 
@@ -1963,6 +1970,11 @@ void EClient::placeOrder( OrderId id, const Contract& contract, const Order& ord
         if (m_serverVersion >= MIN_SERVER_VER_PRICE_MGMT_ALGO) {
             ENCODE_FIELD_MAX(order.usePriceMgmtAlgo);
         }
+
+        if (m_serverVersion >= MIN_SERVER_VER_DURATION) {
+            ENCODE_FIELD_MAX(order.duration);
+        }
+
     }
     catch (EClientException& ex) {
         m_pEWrapper->error(id, ex.error().code(), ex.error().msg() + ex.text());

@@ -1440,6 +1440,7 @@ class SampleFrame extends JFrame implements EWrapper {
 
     private static void copyExtendedOrderDetails( Order destOrder, Order srcOrder) {
         destOrder.tif(srcOrder.getTif());
+        destOrder.duration(srcOrder.duration());
         destOrder.activeStartTime(srcOrder.activeStartTime());
         destOrder.activeStopTime(srcOrder.activeStopTime());
         destOrder.ocaGroup(srcOrder.ocaGroup());

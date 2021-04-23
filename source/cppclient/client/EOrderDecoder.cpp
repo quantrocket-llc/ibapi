@@ -751,3 +751,11 @@ bool EOrderDecoder::decodeUsePriceMgmtAlgo(const char*& ptr, const char* endPtr)
 
     return true;
 }
+
+bool EOrderDecoder::decodeDuration(const char*& ptr, const char* endPtr) {
+    if (m_serverVersion >= MIN_SERVER_VER_DURATION) {
+        DECODE_FIELD(m_order->duration);
+    }
+
+    return true;
+}

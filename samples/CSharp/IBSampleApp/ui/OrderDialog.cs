@@ -302,6 +302,8 @@ namespace IBSampleApp
                 order.TrailingPercent = double.Parse(trailingPercent.Text);
             if (!discretionaryAmount.Text.Equals(""))
                 order.DiscretionaryAmt = int.Parse(discretionaryAmount.Text);
+            if (!duration.Text.Equals(""))
+                order.Duration = int.Parse(duration.Text);
 
             order.OcaGroup = ocaGroup.Text;
             order.OcaType = (int)((IBType)ocaType.SelectedItem).Value;
@@ -448,6 +450,7 @@ namespace IBSampleApp
             usePriceMgmtAlgo.CheckState = order.UsePriceMgmtAlgo.HasValue 
                 ? order.UsePriceMgmtAlgo.Value ? CheckState.Checked : CheckState.Unchecked 
                 : CheckState.Indeterminate;
+            duration.Text = order.Duration.ToString();
 
             //order = GetExtendedOrderAttributes(order);
             //order = GetAdvisorAttributes(order);

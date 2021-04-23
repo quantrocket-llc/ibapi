@@ -1228,6 +1228,11 @@ namespace IBApi
                 {
                     paramsList.AddParameter(order.UsePriceMgmtAlgo);
                 }
+
+                if (serverVersion >= MinServerVer.DURATION)
+                {
+                    paramsList.AddParameter(order.Duration);
+                }
             }
             catch (EClientException e)
             {
@@ -3804,6 +3809,13 @@ namespace IBApi
             if (serverVersion < MinServerVer.PRICE_MGMT_ALGO && order.UsePriceMgmtAlgo.HasValue)
             {
                 ReportError(id, EClientErrors.UPDATE_TWS, " It does not support Use Price Management Algo requests.");
+
+                return false;
+            }
+
+            if (serverVersion < MinServerVer.DURATION && order.Duration != int.MaxValue)
+            {
+                ReportError(id, EClientErrors.UPDATE_TWS, " It does not support duration attribute.");
 
                 return false;
             }

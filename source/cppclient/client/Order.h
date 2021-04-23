@@ -231,6 +231,7 @@ struct Order
 	long long parentPermId = UNSET_LONG;
 
 	UsePriceMmgtAlgo usePriceMgmtAlgo = UsePriceMmgtAlgo::DEFAULT;
+	int duration = UNSET_INTEGER;
 
 public:
 

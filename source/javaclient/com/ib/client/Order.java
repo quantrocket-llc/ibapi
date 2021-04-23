@@ -215,6 +215,7 @@ public class Order {
     private long    m_parentPermId;
 
     private Boolean m_usePriceMgmtAlgo;
+    private int     m_duration;
 	
 	// getters
     public Action  action()                         { return Action.get(m_action); }
@@ -355,6 +356,7 @@ public class Order {
     public boolean routeMarketableToBbo()           { return m_routeMarketableToBbo; }
     public long parentPermId()                      { return m_parentPermId; }
     public Boolean usePriceMgmtAlgo()               { return m_usePriceMgmtAlgo; }
+    public int duration()                           { return m_duration; }
   
 	// setters
 	public void referenceContractId(int m_referenceContractId)          { this.m_referenceContractId = m_referenceContractId; }
@@ -496,6 +498,7 @@ public class Order {
     public void routeMarketableToBbo(boolean v)                         { m_routeMarketableToBbo = v; }
     public void parentPermId(long v)                                    { m_parentPermId = v; }
     public void usePriceMgmtAlgo(Boolean v)                             { m_usePriceMgmtAlgo = v; }
+    public void duration(int v)                                         { m_duration = v; }
 
 
     public Order() {
@@ -543,6 +546,7 @@ public class Order {
         m_routeMarketableToBbo = false;
         m_parentPermId = 0;
         m_usePriceMgmtAlgo = null;
+        m_duration = Integer.MAX_VALUE;
     }
 
     public List<TagValue> algoParams() {
@@ -644,6 +648,7 @@ public class Order {
             || m_imbalanceOnly != l_theOther.m_imbalanceOnly
             || m_routeMarketableToBbo != l_theOther.m_routeMarketableToBbo
             || m_parentPermId != l_theOther.m_parentPermId
+            || m_duration != l_theOther.m_duration
             ) {
         	return false;
         }

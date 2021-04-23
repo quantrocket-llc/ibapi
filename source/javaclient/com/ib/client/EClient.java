@@ -293,9 +293,10 @@ public abstract class EClient {
     protected static final int MIN_SERVER_VER_NO_DEFAULT_OPEN_CLOSE = 155;
     protected static final int MIN_SERVER_VER_PRICE_BASED_VOLATILITY = 156;
     protected static final int MIN_SERVER_VER_REPLACE_FA_END = 157;
+    protected static final int MIN_SERVER_VER_DURATION = 158;
     
     public static final int MIN_VERSION = 100; // envelope encoding, applicable to useV100Plus mode only
-    public static final int MAX_VERSION = MIN_SERVER_VER_REPLACE_FA_END; // ditto
+    public static final int MAX_VERSION = MIN_SERVER_VER_DURATION; // ditto
 
     protected EReaderSignal m_signal;
     protected EWrapper m_eWrapper;    // msg handler
@@ -1622,8 +1623,14 @@ public abstract class EClient {
         if (m_serverVersion < MIN_SERVER_VER_PRICE_MGMT_ALGO 
                 && order.usePriceMgmtAlgo() != null) {
             error(id, EClientErrors.UPDATE_TWS, "  It does not support price management algo parameter");
+            return;
         }
 
+        if (m_serverVersion < MIN_SERVER_VER_DURATION 
+                && order.duration() != Integer.MAX_VALUE) {
+            error(id, EClientErrors.UPDATE_TWS, "  It does not support duration attribute");
+            return;
+        }
 
         int VERSION = (m_serverVersion < MIN_SERVER_VER_NOT_HELD) ? 27 : 45;
 
@@ -2049,6 +2056,10 @@ public abstract class EClient {
                b.send(order.usePriceMgmtAlgo());
            }
 
+           if (m_serverVersion >= MIN_SERVER_VER_DURATION) {
+               b.send(order.duration());
+           }
+           
            closeAndSend(b);
         }
         catch(EClientException e) {

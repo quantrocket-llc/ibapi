@@ -24,6 +24,7 @@ public class ExtOrdDlg extends JDialog {
     public boolean 		m_rc;
 
     private JTextField 	m_tif = new JTextField( "DAY");
+    private JTextField 	m_duration = new JTextField();
     private JTextField 	m_activeStartTime = new JTextField();
     private JTextField 	m_activeStopTime = new JTextField();
     private JTextField 	m_ocaGroup = new JTextField();
@@ -115,6 +116,8 @@ public class ExtOrdDlg extends JDialog {
         extOrderDetailsPanel.setBorder( BorderFactory.createTitledBorder( "Extended Order Info") );
         extOrderDetailsPanel.add( new JLabel( "TIF") );
         extOrderDetailsPanel.add( m_tif);
+        extOrderDetailsPanel.add( new JLabel( "Duration") );
+        extOrderDetailsPanel.add( m_duration);
         extOrderDetailsPanel.add(new JLabel("Active Start Time"));
         extOrderDetailsPanel.add(m_activeStartTime);
         extOrderDetailsPanel.add(new JLabel("Active Stop Time"));
@@ -297,6 +300,7 @@ public class ExtOrdDlg extends JDialog {
         try {
             // set extended order fields
             m_order.tif(m_tif.getText().trim());
+            m_order.duration(parseMaxInt(m_duration));
             m_order.activeStartTime(m_activeStartTime.getText().trim());
             m_order.activeStopTime(m_activeStopTime.getText().trim());
             m_order.ocaGroup(m_ocaGroup.getText().trim());

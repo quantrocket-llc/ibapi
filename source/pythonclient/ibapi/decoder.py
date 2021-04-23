@@ -209,6 +209,7 @@ class Decoder(Object):
         OrderDecoder.decodeIsOmsContainers(self, fields)
         OrderDecoder.decodeDiscretionaryUpToLimitPrice(self, fields)
         OrderDecoder.decodeUsePriceMgmtAlgo(self, fields)
+        OrderDecoder.decodeDuration(self, fields)
 
         self.wrapper.openOrder(order.orderId, contract, order, orderState)
 

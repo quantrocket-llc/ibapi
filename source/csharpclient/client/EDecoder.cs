@@ -1528,6 +1528,7 @@ namespace IBApi
             eOrderDecoder.readIsOmsContainer();
             eOrderDecoder.readDiscretionaryUpToLimitPrice();
             eOrderDecoder.readUsePriceMgmtAlgo();
+            eOrderDecoder.readDuration();
 
             eWrapper.openOrder(order.OrderId, contract, order, orderState);
         }

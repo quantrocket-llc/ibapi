@@ -423,7 +423,8 @@ const char* EDecoder::processOpenOrderMsg(const char* ptr, const char* endPtr) {
           && eOrderDecoder.decodeDontUseAutoPriceForHedge(ptr, endPtr)
           && eOrderDecoder.decodeIsOmsContainer(ptr, endPtr)
           && eOrderDecoder.decodeDiscretionaryUpToLimitPrice(ptr, endPtr)
-          && eOrderDecoder.decodeUsePriceMgmtAlgo(ptr, endPtr);
+          && eOrderDecoder.decodeUsePriceMgmtAlgo(ptr, endPtr)
+          && eOrderDecoder.decodeDuration(ptr, endPtr);
         if (!success) {
           return nullptr;
         }

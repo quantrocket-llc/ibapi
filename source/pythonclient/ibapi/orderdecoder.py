@@ -441,3 +441,8 @@ class OrderDecoder(Object):
     def decodeUsePriceMgmtAlgo(self, fields):
         if self.serverVersion >= MIN_SERVER_VER_PRICE_MGMT_ALGO:
             self.order.usePriceMgmtAlgo = decode(bool, fields)
+            
+    def decodeDuration(self, fields):
+        if self.serverVersion >= MIN_SERVER_VER_DURATION:
+            self.order.duration = decode(int, fields, SHOW_UNSET)
+            

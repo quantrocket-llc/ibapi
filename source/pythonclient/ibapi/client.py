@@ -1091,6 +1091,10 @@ class EClient(object):
             self.wrapper.error(orderId, UPDATE_TWS.code(), UPDATE_TWS.msg() + " It does not support Use price management algo requests")
             return
 
+        if self.serverVersion() < MIN_SERVER_VER_DURATION and order.duration != UNSET_INTEGER:
+            self.wrapper.error(orderId, UPDATE_TWS.code(), UPDATE_TWS.msg() + " It does not support duration attribute")
+            return
+
         try:
                 
             VERSION = 27 if (self.serverVersion() < MIN_SERVER_VER_NOT_HELD) else 45
@@ -1416,6 +1420,9 @@ class EClient(object):
     
             if self.serverVersion() >= MIN_SERVER_VER_PRICE_MGMT_ALGO:
                 flds.append(make_field_handle_empty(UNSET_INTEGER if order.usePriceMgmtAlgo == None else 1 if order.usePriceMgmtAlgo else 0))
+
+            if self.serverVersion() >= MIN_SERVER_VER_DURATION:
+                flds.append(make_field(order.duration))
     
             msg = "".join(flds)
             

@@ -207,6 +207,7 @@ class Order(Object):
         self.parentPermId = 0
 
         self.usePriceMgmtAlgo = None
+        self.duration = UNSET_INTEGER
 
     def __str__(self):
         s = "%s,%d,%s:" % (self.orderId, self.clientId, self.permId)

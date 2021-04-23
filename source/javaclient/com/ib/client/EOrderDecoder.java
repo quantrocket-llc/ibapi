@@ -666,4 +666,11 @@ public class EOrderDecoder {
             m_order.usePriceMgmtAlgo(m_eDecoder.readBoolFromInt());
         }
     }
+    
+    public void readDuration() throws IOException {
+        if (m_serverVersion >= EClient.MIN_SERVER_VER_DURATION) {
+            m_order.duration(m_eDecoder.readInt());
+        }
+    }
+    
 }

@@ -1114,6 +1114,7 @@ class OrderSamples:
         #! [volume_condition]
         return volCond
         
+    @staticmethod
     def LimitIBKRATS(action:str, quantity:float, limitPrice:float):
     
         # ! [limit_ibkrats]

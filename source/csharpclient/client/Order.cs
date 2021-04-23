@@ -732,6 +732,8 @@ namespace IBApi
         public long ParentPermId { get; set; }
 
 
+
+
         public Order()
         {
             LmtPrice = double.MaxValue;
@@ -805,6 +807,7 @@ namespace IBApi
             RouteMarketableToBbo = false;
             ParentPermId = long.MaxValue;
             UsePriceMgmtAlgo = null;
+            Duration = int.MaxValue;
         }
 
 		// Note: Two orders can be 'equivalent' even if all fields do not match. This function is not intended to be used with Order objects returned from TWS.
@@ -891,7 +894,8 @@ namespace IBApi
                 AutoCancelParent != l_theOther.AutoCancelParent ||
                 ImbalanceOnly != l_theOther.ImbalanceOnly ||
                 RouteMarketableToBbo != l_theOther.RouteMarketableToBbo ||
-                ParentPermId != l_theOther.ParentPermId)
+                ParentPermId != l_theOther.ParentPermId ||
+                Duration != l_theOther.Duration)
             {
                 return false;
             }
@@ -1084,6 +1088,7 @@ namespace IBApi
             hashCode = hashCode * -1521134295 + IsOmsContainer.GetHashCode();
             hashCode = hashCode * -1521134295 + DiscretionaryUpToLimitPrice.GetHashCode();
             hashCode = hashCode * -1521134295 + EqualityComparer<bool?>.Default.GetHashCode(UsePriceMgmtAlgo);
+            hashCode = hashCode * -1521134295 + Duration.GetHashCode();
             return hashCode;
         }
 
@@ -1183,5 +1188,8 @@ namespace IBApi
         public bool DiscretionaryUpToLimitPrice { get; set; }
 
         public bool? UsePriceMgmtAlgo { get; set; }
+
+        public int Duration { get; set; }
+
     }
 }

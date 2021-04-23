@@ -197,6 +197,7 @@ Sub UpdateOpenOrder(orderId As Long, contract As TWSLib.IContract, order As TWSL
         ExtendedAttributesTable(rowId, Col_IS_OMS_CONTAINER).value = .isOmsContainer
         ExtendedAttributesTable(rowId, Col_RELATIVE_DISCRETIONARY).value = .discretionaryUpToLimitPrice
         ExtendedAttributesTable(rowId, Col_USEPRICEMGMTALGO).value = .usePriceMgmtAlgo
+        ExtendedAttributesTable(rowId, Col_DURATION).value = Util.IntMaxStr(.duration)
     End With
 
     If Not order.SmartComboRoutingParams Is Nothing Then
@@ -240,7 +241,7 @@ Public Sub Initialise()
     Set contractTable = Range("$A$7:$M$100")
     Set orderDescriptionTable = Range("$N$7:$S$100")
     Set orderStatusTable = Range("$T$7:$AA$100")
-    Set ExtendedAttributesTable = Range("$AB$7:$DR$100")
+    Set ExtendedAttributesTable = Range("$AB$7:$DP$100")
 End Sub
 
 Private Sub Worksheet_Activate()

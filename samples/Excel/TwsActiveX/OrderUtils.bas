@@ -135,6 +135,7 @@ Public Enum ExtendedOrderAttributesColumns
     Col_IS_OMS_CONTAINER
     Col_RELATIVE_DISCRETIONARY
     Col_USEPRICEMGMTALGO
+    Col_DURATION
 End Enum
 
 ' other constants
@@ -374,6 +375,7 @@ Private Sub PlaceModifyOrder( _
         .isOmsContainer = Util.SetNonEmptyValue(extendedAttributeTable(orderIndex, Col_IS_OMS_CONTAINER).value, .isOmsContainer)
         .discretionaryUpToLimitPrice = Util.SetNonEmptyValue(extendedAttributeTable(orderIndex, Col_RELATIVE_DISCRETIONARY).value, .discretionaryUpToLimitPrice)
         .usePriceMgmtAlgo = Util.SetNonEmptyValue(extendedAttributeTable(orderIndex, Col_USEPRICEMGMTALGO).value, .usePriceMgmtAlgo)
+        .duration = Util.SetNonEmptyValue(extendedAttributeTable(orderIndex, Col_DURATION).value, .duration)
     End With
 
     ' combo legs

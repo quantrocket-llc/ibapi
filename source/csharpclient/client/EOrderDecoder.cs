@@ -831,6 +831,14 @@ namespace IBApi
                 order.UsePriceMgmtAlgo = eDecoder.ReadBoolFromInt();
             }
         }
-        
+
+        public void readDuration()
+        {
+            if (serverVersion >= MinServerVer.DURATION)
+            {
+                order.Duration = eDecoder.ReadIntMax();
+            }
+        }
+
     }
 }

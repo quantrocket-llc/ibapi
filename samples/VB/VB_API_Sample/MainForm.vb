@@ -3626,6 +3626,8 @@ Friend Class MainForm
             m_utils.addListItem(Utils.ListType.ServerResponses, "  }")
         End If
 
+        appendValidIntValue(Utils.ListType.ServerResponses, "duration", order.Duration)
+
         m_utils.addListItem(Utils.ListType.ServerResponses, "===============================")
     End Sub
 #End Region

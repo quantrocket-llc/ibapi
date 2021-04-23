@@ -182,6 +182,8 @@ Public Class dlgOrderAttribs
     Friend WithEvents checkDontUseAutoPriceForHedge As System.Windows.Forms.CheckBox
     Friend WithEvents checkOmsContainer As System.Windows.Forms.CheckBox
     Friend WithEvents checkRelativeDiscretionary As System.Windows.Forms.CheckBox
+    Public WithEvents Label29 As Label
+    Public WithEvents txtDuration As TextBox
     Public WithEvents Label41 As System.Windows.Forms.Label
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
@@ -330,6 +332,8 @@ Public Class dlgOrderAttribs
         Me.checkDontUseAutoPriceForHedge = New System.Windows.Forms.CheckBox()
         Me.checkOmsContainer = New System.Windows.Forms.CheckBox()
         Me.checkRelativeDiscretionary = New System.Windows.Forms.CheckBox()
+        Me.Label29 = New System.Windows.Forms.Label()
+        Me.txtDuration = New System.Windows.Forms.TextBox()
         Me.SuspendLayout()
         '
         'txtHedgeParam
@@ -2316,11 +2320,41 @@ Public Class dlgOrderAttribs
         Me.checkRelativeDiscretionary.Text = "Relative discretionary"
         Me.checkRelativeDiscretionary.UseVisualStyleBackColor = True
         '
+        'Label29
+        '
+        Me.Label29.BackColor = System.Drawing.Color.Gainsboro
+        Me.Label29.Cursor = System.Windows.Forms.Cursors.Default
+        Me.Label29.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label29.ForeColor = System.Drawing.SystemColors.ControlText
+        Me.Label29.Location = New System.Drawing.Point(264, 132)
+        Me.Label29.Name = "Label29"
+        Me.Label29.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.Label29.Size = New System.Drawing.Size(105, 17)
+        Me.Label29.TabIndex = 150
+        Me.Label29.Text = "Duration"
+        '
+        'txtDuration
+        '
+        Me.txtDuration.AcceptsReturn = True
+        Me.txtDuration.BackColor = System.Drawing.SystemColors.Window
+        Me.txtDuration.BorderStyle = System.Windows.Forms.BorderStyle.None
+        Me.txtDuration.Cursor = System.Windows.Forms.Cursors.IBeam
+        Me.txtDuration.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtDuration.ForeColor = System.Drawing.SystemColors.WindowText
+        Me.txtDuration.Location = New System.Drawing.Point(432, 130)
+        Me.txtDuration.MaxLength = 0
+        Me.txtDuration.Name = "txtDuration"
+        Me.txtDuration.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.txtDuration.Size = New System.Drawing.Size(85, 13)
+        Me.txtDuration.TabIndex = 151
+        '
         'dlgOrderAttribs
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
         Me.BackColor = System.Drawing.Color.Gainsboro
         Me.ClientSize = New System.Drawing.Size(850, 674)
+        Me.Controls.Add(Me.txtDuration)
+        Me.Controls.Add(Me.Label29)
         Me.Controls.Add(Me.checkRelativeDiscretionary)
         Me.Controls.Add(Me.checkOmsContainer)
         Me.Controls.Add(Me.checkDontUseAutoPriceForHedge)
@@ -2611,6 +2645,7 @@ Public Class dlgOrderAttribs
         checkDontUseAutoPriceForHedge.Checked = m_orderInfo.DontUseAutoPriceForHedge
         checkOmsContainer.Checked = m_orderInfo.IsOmsContainer
         checkRelativeDiscretionary.Checked = m_orderInfo.DiscretionaryUpToLimitPrice
+        txtDuration.Text = ivalStr(m_orderInfo.Duration)
 
     End Sub
 
@@ -2767,6 +2802,7 @@ Public Class dlgOrderAttribs
         m_orderInfo.DontUseAutoPriceForHedge = checkDontUseAutoPriceForHedge.Checked
         m_orderInfo.IsOmsContainer = checkOmsContainer.Checked
         m_orderInfo.DiscretionaryUpToLimitPrice = checkRelativeDiscretionary.Checked
+        m_orderInfo.Duration = ival(txtDuration.Text)
 
         m_ok = True
         Hide()

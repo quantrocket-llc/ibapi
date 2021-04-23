@@ -336,5 +336,9 @@ namespace TWSLib
 
         [DispId(184)]
         bool usePriceMgmtAlgo { get; set; }
+
+        [DispId(185)]
+        int duration { get; set; }
+
     }
 }

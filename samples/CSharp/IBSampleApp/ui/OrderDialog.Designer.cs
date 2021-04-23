@@ -80,6 +80,8 @@ namespace IBSampleApp
             this.contractCurrency = new System.Windows.Forms.TextBox();
             this.contractExchange = new System.Windows.Forms.TextBox();
             this.extendedOrderTab = new System.Windows.Forms.TabPage();
+            this.duration = new System.Windows.Forms.TextBox();
+            this.label25 = new System.Windows.Forms.Label();
             this.relativeDiscretionary = new System.Windows.Forms.CheckBox();
             this.omsContainer = new System.Windows.Forms.CheckBox();
             this.dontUseAutoPriceForHedge = new System.Windows.Forms.CheckBox();
@@ -788,6 +790,8 @@ namespace IBSampleApp
             // extendedOrderTab
             // 
             this.extendedOrderTab.BackColor = System.Drawing.Color.LightGray;
+            this.extendedOrderTab.Controls.Add(this.duration);
+            this.extendedOrderTab.Controls.Add(this.label25);
             this.extendedOrderTab.Controls.Add(this.relativeDiscretionary);
             this.extendedOrderTab.Controls.Add(this.omsContainer);
             this.extendedOrderTab.Controls.Add(this.dontUseAutoPriceForHedge);
@@ -843,6 +847,24 @@ namespace IBSampleApp
             this.extendedOrderTab.TabIndex = 1;
             this.extendedOrderTab.Text = "Extended Attributes";
             // 
+            // duration
+            // 
+            this.duration.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.duration.Location = new System.Drawing.Point(403, 90);
+            this.duration.Name = "duration";
+            this.duration.Size = new System.Drawing.Size(70, 20);
+            this.duration.TabIndex = 34;
+            // 
+            // label25
+            // 
+            this.label25.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label25.AutoSize = true;
+            this.label25.Location = new System.Drawing.Point(350, 94);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(47, 13);
+            this.label25.TabIndex = 33;
+            this.label25.Text = "Duration";
+            // 
             // relativeDiscretionary
             // 
             this.relativeDiscretionary.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -851,7 +873,7 @@ namespace IBSampleApp
             this.relativeDiscretionary.Location = new System.Drawing.Point(413, 273);
             this.relativeDiscretionary.Name = "relativeDiscretionary";
             this.relativeDiscretionary.Size = new System.Drawing.Size(127, 17);
-            this.relativeDiscretionary.TabIndex = 51;
+            this.relativeDiscretionary.TabIndex = 48;
             this.relativeDiscretionary.Text = "Relative discretionary";
             this.relativeDiscretionary.UseVisualStyleBackColor = true;
             // 
@@ -863,7 +885,7 @@ namespace IBSampleApp
             this.omsContainer.Location = new System.Drawing.Point(442, 254);
             this.omsContainer.Name = "omsContainer";
             this.omsContainer.Size = new System.Drawing.Size(98, 17);
-            this.omsContainer.TabIndex = 50;
+            this.omsContainer.TabIndex = 45;
             this.omsContainer.Text = "OMS Container";
             this.omsContainer.UseVisualStyleBackColor = true;
             // 
@@ -875,7 +897,7 @@ namespace IBSampleApp
             this.dontUseAutoPriceForHedge.Location = new System.Drawing.Point(371, 231);
             this.dontUseAutoPriceForHedge.Name = "dontUseAutoPriceForHedge";
             this.dontUseAutoPriceForHedge.Size = new System.Drawing.Size(169, 17);
-            this.dontUseAutoPriceForHedge.TabIndex = 45;
+            this.dontUseAutoPriceForHedge.TabIndex = 44;
             this.dontUseAutoPriceForHedge.Text = "Don\'t use auto price for hedge";
             this.dontUseAutoPriceForHedge.UseVisualStyleBackColor = true;
             // 
@@ -885,7 +907,7 @@ namespace IBSampleApp
             this.label22.Location = new System.Drawing.Point(205, 302);
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(118, 13);
-            this.label22.TabIndex = 48;
+            this.label22.TabIndex = 49;
             this.label22.Text = "MiFID II Execution Algo";
             // 
             // mifid2ExecutionAlgo
@@ -893,7 +915,7 @@ namespace IBSampleApp
             this.mifid2ExecutionAlgo.Location = new System.Drawing.Point(339, 299);
             this.mifid2ExecutionAlgo.Name = "mifid2ExecutionAlgo";
             this.mifid2ExecutionAlgo.Size = new System.Drawing.Size(70, 20);
-            this.mifid2ExecutionAlgo.TabIndex = 49;
+            this.mifid2ExecutionAlgo.TabIndex = 0;
             // 
             // label23
             // 
@@ -917,7 +939,7 @@ namespace IBSampleApp
             this.label18.Location = new System.Drawing.Point(7, 302);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(112, 13);
-            this.label18.TabIndex = 22;
+            this.label18.TabIndex = 23;
             this.label18.Text = "MiFID II Decision Algo";
             // 
             // mifid2DecisionAlgo
@@ -925,7 +947,7 @@ namespace IBSampleApp
             this.mifid2DecisionAlgo.Location = new System.Drawing.Point(125, 299);
             this.mifid2DecisionAlgo.Name = "mifid2DecisionAlgo";
             this.mifid2DecisionAlgo.Size = new System.Drawing.Size(70, 20);
-            this.mifid2DecisionAlgo.TabIndex = 23;
+            this.mifid2DecisionAlgo.TabIndex = 24;
             // 
             // label19
             // 
@@ -933,7 +955,7 @@ namespace IBSampleApp
             this.label19.Location = new System.Drawing.Point(3, 276);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(121, 13);
-            this.label19.TabIndex = 20;
+            this.label19.TabIndex = 21;
             this.label19.Text = "MiFID II Decision Maker";
             // 
             // mifid2DecisionMaker
@@ -941,7 +963,7 @@ namespace IBSampleApp
             this.mifid2DecisionMaker.Location = new System.Drawing.Point(125, 273);
             this.mifid2DecisionMaker.Name = "mifid2DecisionMaker";
             this.mifid2DecisionMaker.Size = new System.Drawing.Size(70, 20);
-            this.mifid2DecisionMaker.TabIndex = 21;
+            this.mifid2DecisionMaker.TabIndex = 22;
             // 
             // label17
             // 
@@ -949,7 +971,7 @@ namespace IBSampleApp
             this.label17.Location = new System.Drawing.Point(48, 249);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(71, 13);
-            this.label17.TabIndex = 18;
+            this.label17.TabIndex = 19;
             this.label17.Text = "Soft dollar tier";
             // 
             // softDollarTier
@@ -958,7 +980,7 @@ namespace IBSampleApp
             this.softDollarTier.Location = new System.Drawing.Point(125, 246);
             this.softDollarTier.Name = "softDollarTier";
             this.softDollarTier.Size = new System.Drawing.Size(110, 21);
-            this.softDollarTier.TabIndex = 19;
+            this.softDollarTier.TabIndex = 20;
             // 
             // trailingPercentLabel
             // 
@@ -966,7 +988,7 @@ namespace IBSampleApp
             this.trailingPercentLabel.Location = new System.Drawing.Point(39, 224);
             this.trailingPercentLabel.Name = "trailingPercentLabel";
             this.trailingPercentLabel.Size = new System.Drawing.Size(80, 13);
-            this.trailingPercentLabel.TabIndex = 16;
+            this.trailingPercentLabel.TabIndex = 17;
             this.trailingPercentLabel.Text = "Trailing percent";
             // 
             // transmit
@@ -979,7 +1001,7 @@ namespace IBSampleApp
             this.transmit.Location = new System.Drawing.Point(549, 118);
             this.transmit.Name = "transmit";
             this.transmit.Size = new System.Drawing.Size(66, 17);
-            this.transmit.TabIndex = 36;
+            this.transmit.TabIndex = 37;
             this.transmit.Text = "Transmit";
             this.transmit.UseVisualStyleBackColor = true;
             // 
@@ -991,7 +1013,7 @@ namespace IBSampleApp
             this.overrideConstraints.Location = new System.Drawing.Point(420, 141);
             this.overrideConstraints.Name = "overrideConstraints";
             this.overrideConstraints.Size = new System.Drawing.Size(120, 17);
-            this.overrideConstraints.TabIndex = 38;
+            this.overrideConstraints.TabIndex = 39;
             this.overrideConstraints.Text = "Override constraints";
             this.overrideConstraints.UseVisualStyleBackColor = true;
             // 
@@ -1002,7 +1024,7 @@ namespace IBSampleApp
             this.label5.Location = new System.Drawing.Point(291, 67);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(106, 13);
-            this.label5.TabIndex = 30;
+            this.label5.TabIndex = 31;
             this.label5.Text = "Discretionary amount";
             // 
             // optOutSmart
@@ -1013,7 +1035,7 @@ namespace IBSampleApp
             this.optOutSmart.Location = new System.Drawing.Point(403, 208);
             this.optOutSmart.Name = "optOutSmart";
             this.optOutSmart.Size = new System.Drawing.Size(137, 17);
-            this.optOutSmart.TabIndex = 44;
+            this.optOutSmart.TabIndex = 43;
             this.optOutSmart.Text = "Opt out SMART routing";
             this.optOutSmart.UseVisualStyleBackColor = true;
             // 
@@ -1022,7 +1044,7 @@ namespace IBSampleApp
             this.trailingPercent.Location = new System.Drawing.Point(125, 220);
             this.trailingPercent.Name = "trailingPercent";
             this.trailingPercent.Size = new System.Drawing.Size(70, 20);
-            this.trailingPercent.TabIndex = 17;
+            this.trailingPercent.TabIndex = 18;
             // 
             // discretionaryAmount
             // 
@@ -1030,7 +1052,7 @@ namespace IBSampleApp
             this.discretionaryAmount.Location = new System.Drawing.Point(403, 64);
             this.discretionaryAmount.Name = "discretionaryAmount";
             this.discretionaryAmount.Size = new System.Drawing.Size(70, 20);
-            this.discretionaryAmount.TabIndex = 31;
+            this.discretionaryAmount.TabIndex = 32;
             // 
             // hidden
             // 
@@ -1052,7 +1074,7 @@ namespace IBSampleApp
             this.outsideRTH.Location = new System.Drawing.Point(296, 208);
             this.outsideRTH.Name = "outsideRTH";
             this.outsideRTH.Size = new System.Drawing.Size(101, 17);
-            this.outsideRTH.TabIndex = 43;
+            this.outsideRTH.TabIndex = 42;
             this.outsideRTH.Text = "Fill outside RTH";
             this.outsideRTH.UseVisualStyleBackColor = true;
             // 
@@ -1063,7 +1085,7 @@ namespace IBSampleApp
             this.label3.Location = new System.Drawing.Point(282, 42);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(115, 13);
-            this.label3.TabIndex = 27;
+            this.label3.TabIndex = 28;
             this.label3.Text = "Hedge type and param";
             // 
             // allOrNone
@@ -1074,7 +1096,7 @@ namespace IBSampleApp
             this.allOrNone.Location = new System.Drawing.Point(464, 118);
             this.allOrNone.Name = "allOrNone";
             this.allOrNone.Size = new System.Drawing.Size(76, 17);
-            this.allOrNone.TabIndex = 35;
+            this.allOrNone.TabIndex = 36;
             this.allOrNone.Text = "All or none";
             this.allOrNone.UseVisualStyleBackColor = true;
             // 
@@ -1085,7 +1107,7 @@ namespace IBSampleApp
             this.label2.Location = new System.Drawing.Point(294, 15);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(103, 13);
-            this.label2.TabIndex = 24;
+            this.label2.TabIndex = 25;
             this.label2.Text = "OCA group and type";
             // 
             // notHeld
@@ -1096,7 +1118,7 @@ namespace IBSampleApp
             this.notHeld.Location = new System.Drawing.Point(331, 118);
             this.notHeld.Name = "notHeld";
             this.notHeld.Size = new System.Drawing.Size(66, 17);
-            this.notHeld.TabIndex = 34;
+            this.notHeld.TabIndex = 35;
             this.notHeld.Text = "Not held";
             this.notHeld.UseVisualStyleBackColor = true;
             // 
@@ -1108,7 +1130,7 @@ namespace IBSampleApp
             this.block.Location = new System.Drawing.Point(317, 141);
             this.block.Name = "block";
             this.block.Size = new System.Drawing.Size(80, 17);
-            this.block.TabIndex = 37;
+            this.block.TabIndex = 38;
             this.block.Text = "Block order";
             this.block.UseVisualStyleBackColor = true;
             // 
@@ -1118,7 +1140,7 @@ namespace IBSampleApp
             this.label1.Location = new System.Drawing.Point(16, 198);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(103, 13);
-            this.label1.TabIndex = 14;
+            this.label1.TabIndex = 15;
             this.label1.Text = "Trail order stop price";
             // 
             // sweepToFill
@@ -1129,7 +1151,7 @@ namespace IBSampleApp
             this.sweepToFill.Location = new System.Drawing.Point(314, 164);
             this.sweepToFill.Name = "sweepToFill";
             this.sweepToFill.Size = new System.Drawing.Size(83, 17);
-            this.sweepToFill.TabIndex = 39;
+            this.sweepToFill.TabIndex = 40;
             this.sweepToFill.Text = "Sweep to fill";
             this.sweepToFill.UseVisualStyleBackColor = true;
             // 
@@ -1139,7 +1161,7 @@ namespace IBSampleApp
             this.percentOffsetLabel.Location = new System.Drawing.Point(44, 172);
             this.percentOffsetLabel.Name = "percentOffsetLabel";
             this.percentOffsetLabel.Size = new System.Drawing.Size(75, 13);
-            this.percentOffsetLabel.TabIndex = 12;
+            this.percentOffsetLabel.TabIndex = 13;
             this.percentOffsetLabel.Text = "Percent Offset";
             // 
             // tiggerMethodLabel
@@ -1148,7 +1170,7 @@ namespace IBSampleApp
             this.tiggerMethodLabel.Location = new System.Drawing.Point(40, 146);
             this.tiggerMethodLabel.Name = "tiggerMethodLabel";
             this.tiggerMethodLabel.Size = new System.Drawing.Size(79, 13);
-            this.tiggerMethodLabel.TabIndex = 10;
+            this.tiggerMethodLabel.TabIndex = 11;
             this.tiggerMethodLabel.Text = "Trigger Method";
             // 
             // rule80ALabel
@@ -1157,7 +1179,7 @@ namespace IBSampleApp
             this.rule80ALabel.Location = new System.Drawing.Point(68, 120);
             this.rule80ALabel.Name = "rule80ALabel";
             this.rule80ALabel.Size = new System.Drawing.Size(51, 13);
-            this.rule80ALabel.TabIndex = 8;
+            this.rule80ALabel.TabIndex = 9;
             this.rule80ALabel.Text = "Rule 80A";
             // 
             // goodUntilLabel
@@ -1166,7 +1188,7 @@ namespace IBSampleApp
             this.goodUntilLabel.Location = new System.Drawing.Point(64, 94);
             this.goodUntilLabel.Name = "goodUntilLabel";
             this.goodUntilLabel.Size = new System.Drawing.Size(55, 13);
-            this.goodUntilLabel.TabIndex = 6;
+            this.goodUntilLabel.TabIndex = 7;
             this.goodUntilLabel.Text = "Good until";
             // 
             // goodAfterLabel
@@ -1175,7 +1197,7 @@ namespace IBSampleApp
             this.goodAfterLabel.Location = new System.Drawing.Point(62, 68);
             this.goodAfterLabel.Name = "goodAfterLabel";
             this.goodAfterLabel.Size = new System.Drawing.Size(57, 13);
-            this.goodAfterLabel.TabIndex = 4;
+            this.goodAfterLabel.TabIndex = 5;
             this.goodAfterLabel.Text = "Good after";
             // 
             // ocaGroup
@@ -1184,7 +1206,7 @@ namespace IBSampleApp
             this.ocaGroup.Location = new System.Drawing.Point(403, 12);
             this.ocaGroup.Name = "ocaGroup";
             this.ocaGroup.Size = new System.Drawing.Size(70, 20);
-            this.ocaGroup.TabIndex = 25;
+            this.ocaGroup.TabIndex = 26;
             // 
             // hedgeParam
             // 
@@ -1192,7 +1214,7 @@ namespace IBSampleApp
             this.hedgeParam.Location = new System.Drawing.Point(479, 39);
             this.hedgeParam.Name = "hedgeParam";
             this.hedgeParam.Size = new System.Drawing.Size(53, 20);
-            this.hedgeParam.TabIndex = 29;
+            this.hedgeParam.TabIndex = 30;
             // 
             // ocaType
             // 
@@ -1201,7 +1223,7 @@ namespace IBSampleApp
             this.ocaType.Location = new System.Drawing.Point(479, 12);
             this.ocaType.Name = "ocaType";
             this.ocaType.Size = new System.Drawing.Size(140, 21);
-            this.ocaType.TabIndex = 26;
+            this.ocaType.TabIndex = 27;
             // 
             // hedgeType
             // 
@@ -1210,7 +1232,7 @@ namespace IBSampleApp
             this.hedgeType.Location = new System.Drawing.Point(403, 38);
             this.hedgeType.Name = "hedgeType";
             this.hedgeType.Size = new System.Drawing.Size(70, 21);
-            this.hedgeType.TabIndex = 28;
+            this.hedgeType.TabIndex = 29;
             // 
             // orderMinQtyLabel
             // 
@@ -1218,7 +1240,7 @@ namespace IBSampleApp
             this.orderMinQtyLabel.Location = new System.Drawing.Point(70, 43);
             this.orderMinQtyLabel.Name = "orderMinQtyLabel";
             this.orderMinQtyLabel.Size = new System.Drawing.Size(49, 13);
-            this.orderMinQtyLabel.TabIndex = 2;
+            this.orderMinQtyLabel.TabIndex = 3;
             this.orderMinQtyLabel.Text = "Min. Qty.";
             // 
             // orderRefLabel
@@ -1235,14 +1257,14 @@ namespace IBSampleApp
             this.trailStopPrice.Location = new System.Drawing.Point(125, 194);
             this.trailStopPrice.Name = "trailStopPrice";
             this.trailStopPrice.Size = new System.Drawing.Size(70, 20);
-            this.trailStopPrice.TabIndex = 15;
+            this.trailStopPrice.TabIndex = 16;
             // 
             // percentOffset
             // 
             this.percentOffset.Location = new System.Drawing.Point(125, 169);
             this.percentOffset.Name = "percentOffset";
             this.percentOffset.Size = new System.Drawing.Size(70, 20);
-            this.percentOffset.TabIndex = 13;
+            this.percentOffset.TabIndex = 14;
             // 
             // triggerMethod
             // 
@@ -1250,7 +1272,7 @@ namespace IBSampleApp
             this.triggerMethod.Location = new System.Drawing.Point(125, 142);
             this.triggerMethod.Name = "triggerMethod";
             this.triggerMethod.Size = new System.Drawing.Size(110, 21);
-            this.triggerMethod.TabIndex = 11;
+            this.triggerMethod.TabIndex = 12;
             // 
             // rule80A
             // 
@@ -1258,28 +1280,28 @@ namespace IBSampleApp
             this.rule80A.Location = new System.Drawing.Point(125, 115);
             this.rule80A.Name = "rule80A";
             this.rule80A.Size = new System.Drawing.Size(110, 21);
-            this.rule80A.TabIndex = 9;
+            this.rule80A.TabIndex = 10;
             // 
             // goodUntil
             // 
             this.goodUntil.Location = new System.Drawing.Point(125, 91);
             this.goodUntil.Name = "goodUntil";
             this.goodUntil.Size = new System.Drawing.Size(70, 20);
-            this.goodUntil.TabIndex = 7;
+            this.goodUntil.TabIndex = 8;
             // 
             // goodAfter
             // 
             this.goodAfter.Location = new System.Drawing.Point(125, 65);
             this.goodAfter.Name = "goodAfter";
             this.goodAfter.Size = new System.Drawing.Size(70, 20);
-            this.goodAfter.TabIndex = 5;
+            this.goodAfter.TabIndex = 6;
             // 
             // minQty
             // 
             this.minQty.Location = new System.Drawing.Point(125, 39);
             this.minQty.Name = "minQty";
             this.minQty.Size = new System.Drawing.Size(70, 20);
-            this.minQty.TabIndex = 3;
+            this.minQty.TabIndex = 4;
             // 
             // orderReference
             // 
@@ -2449,7 +2471,7 @@ namespace IBSampleApp
             this.textBox6.Location = new System.Drawing.Point(383, 188);
             this.textBox6.Name = "textBox6";
             this.textBox6.Size = new System.Drawing.Size(70, 20);
-            this.textBox6.TabIndex = 3;
+            this.textBox6.TabIndex = 0;
             this.textBox6.Text = "WARNING!!!";
             // 
             // textBox7
@@ -2457,7 +2479,7 @@ namespace IBSampleApp
             this.textBox7.Location = new System.Drawing.Point(383, 214);
             this.textBox7.Name = "textBox7";
             this.textBox7.Size = new System.Drawing.Size(70, 20);
-            this.textBox7.TabIndex = 4;
+            this.textBox7.TabIndex = 1;
             this.textBox7.Text = "WARNING!!!";
             // 
             // textBox8
@@ -2465,7 +2487,7 @@ namespace IBSampleApp
             this.textBox8.Location = new System.Drawing.Point(383, 240);
             this.textBox8.Name = "textBox8";
             this.textBox8.Size = new System.Drawing.Size(70, 20);
-            this.textBox8.TabIndex = 5;
+            this.textBox8.TabIndex = 2;
             this.textBox8.Text = "WARNING!!!";
             // 
             // checkMarginButton
@@ -2755,6 +2777,7 @@ namespace IBSampleApp
         private System.Windows.Forms.CheckBox relativeDiscretionary;
         private System.Windows.Forms.Label label24;
         private System.Windows.Forms.CheckBox usePriceMgmtAlgo;
-        
+        private System.Windows.Forms.TextBox duration;
+        private System.Windows.Forms.Label label25;
     }
 }

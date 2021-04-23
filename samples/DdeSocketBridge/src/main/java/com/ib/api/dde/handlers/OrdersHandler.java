@@ -821,6 +821,9 @@ public class OrdersHandler extends BaseHandler {
             if (Utils.isNotNull(table2.get(109))) {
                 order.usePriceMgmtAlgo(getBooleanFromString(table2.get(109)));
             }
+            if (Utils.isNotNull(table2.get(110))) {
+                order.duration(getIntFromString(table2.get(110)));
+            }
             
             return order;
         }

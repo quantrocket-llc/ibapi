@@ -357,8 +357,9 @@ public class OrderUtils {
                 item.add(Utils.toString(openOrderData.order().isOmsContainer()));
                 item.add(Utils.toString(openOrderData.order().discretionaryUpToLimitPrice()));
                 item.add(Utils.toString(openOrderData.order().usePriceMgmtAlgo()));
+                item.add(Utils.toString(openOrderData.order().duration()));
             } else {
-                for (int j = 0; j < 100; j++) {
+                for (int j = 0; j < 98; j++) {
                     item.add(Utils.toString(""));
                 }
             }
@@ -417,7 +418,7 @@ public class OrderUtils {
                 item.add(Utils.toString(openOrderData.order().randomizeSize()));
                 item.add(Utils.toString(openOrderData.order().randomizePrice()));
             } else {
-                for (int j = 0; j < 51; j++) {
+                for (int j = 0; j < 49; j++) {
                     item.add(Utils.toString(""));
                 }
             }
