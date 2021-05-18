@@ -501,7 +501,7 @@ namespace IBApi
                 case 1: // Last
                 case 2: // AllLast
                     double price = ReadDouble();
-                    int size = ReadInt();
+                    long size = ReadLong();
                     mask = new BitMask(ReadInt());
                     TickAttribLast tickAttribLast = new TickAttribLast();
                     tickAttribLast.PastLimit = mask[0];
@@ -513,8 +513,8 @@ namespace IBApi
                 case 3: // BidAsk
                     double bidPrice = ReadDouble();
                     double askPrice = ReadDouble();
-                    int bidSize = ReadInt();
-                    int askSize = ReadInt();
+                    long bidSize = ReadLong();
+                    long askSize = ReadLong();
                     mask = new BitMask(ReadInt());
                     TickAttribBidAsk tickAttribBidAsk = new TickAttribBidAsk();
                     tickAttribBidAsk.BidPastLow = mask[0];
@@ -996,10 +996,10 @@ namespace IBApi
             int requestId = ReadInt();
             int tickType = ReadInt();
             double price = ReadDouble();
-            int size = 0;
+            long size = 0;
             
             if (msgVersion >= 2)
-                size = ReadInt();
+                size = ReadLong();
 
             TickAttrib attr = new TickAttrib();
 
@@ -1062,7 +1062,7 @@ namespace IBApi
             int msgVersion = ReadInt();
             int requestId = ReadInt();
             int tickType = ReadInt();
-            int size = ReadInt();
+            long size = ReadLong();
             eWrapper.tickSize(requestId, tickType, size);
         }
 
@@ -1819,7 +1819,7 @@ namespace IBApi
             int operation = ReadInt();
             int side = ReadInt();
             double price = ReadDouble();
-            int size = ReadInt();
+            long size = ReadLong();
             eWrapper.updateMktDepth(requestId, position, operation, side, price, size);
         }
 
@@ -1832,7 +1832,7 @@ namespace IBApi
             int operation = ReadInt();
             int side = ReadInt();
             double price = ReadDouble();
-            int size = ReadInt();
+            long size = ReadLong();
 
             bool isSmartDepth = false;
             if (serverVersion >= MinServerVer.SMART_DEPTH)

@@ -35,7 +35,7 @@ const char* EDecoder::processTickPriceMsg(const char* ptr, const char* endPtr) {
 	int tickTypeInt;
 	double price;
 
-	int size;
+	long long size;
 	int attrMask;
 
 	DECODE_FIELD( version);
@@ -100,7 +100,7 @@ const char* EDecoder::processTickSizeMsg(const char* ptr, const char* endPtr) {
 	int version;
 	int tickerId;
 	int tickTypeInt;
-	int size;
+	long long size;
 
 	DECODE_FIELD( version);
 	DECODE_FIELD( tickerId);
@@ -789,7 +789,7 @@ const char* EDecoder::processMarketDepthMsg(const char* ptr, const char* endPtr)
 	int operation;
 	int side;
 	double price;
-	int size;
+	long long size;
 
 	DECODE_FIELD( version);
 	DECODE_FIELD( id);
@@ -812,7 +812,7 @@ const char* EDecoder::processMarketDepthL2Msg(const char* ptr, const char* endPt
 	int operation;
 	int side;
 	double price;
-	int size;
+	long long size;
 	bool isSmartDepth = false;
 
 	DECODE_FIELD( version);
@@ -2037,7 +2037,7 @@ const char* EDecoder::processTickByTickDataMsg(const char* ptr, const char* endP
 
     if (tickType == 1 || tickType == 2) { // Last/AllLast
             double price;
-            int size;
+            long long size;
             int attrMask;
             TickAttribLast tickAttribLast = {};
             std::string exchange;
@@ -2059,8 +2059,8 @@ const char* EDecoder::processTickByTickDataMsg(const char* ptr, const char* endP
     } else if (tickType == 3) { // BidAsk
             double bidPrice;
             double askPrice;
-            int bidSize;
-            int askSize;
+            long long bidSize;
+            long long askSize;
             int attrMask;
             DECODE_FIELD(bidPrice);
             DECODE_FIELD(askPrice);

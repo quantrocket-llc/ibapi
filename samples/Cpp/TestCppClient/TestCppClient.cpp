@@ -1459,8 +1459,8 @@ void TestCppClient::tickPrice( TickerId tickerId, TickType field, double price, 
 //! [tickprice]
 
 //! [ticksize]
-void TestCppClient::tickSize( TickerId tickerId, TickType field, int size) {
-	printf( "Tick Size. Ticker Id: %ld, Field: %d, Size: %d\n", tickerId, (int)field, size);
+void TestCppClient::tickSize( TickerId tickerId, TickType field, long long size) {
+	printf( "Tick Size. Ticker Id: %ld, Field: %d, Size: %lld\n", tickerId, (int)field, size);
 }
 //! [ticksize]
 
@@ -1673,15 +1673,15 @@ void TestCppClient::execDetailsEnd( int reqId) {
 
 //! [updatemktdepth]
 void TestCppClient::updateMktDepth(TickerId id, int position, int operation, int side,
-                                   double price, int size) {
-	printf( "UpdateMarketDepth. %ld - Position: %d, Operation: %d, Side: %d, Price: %g, Size: %d\n", id, position, operation, side, price, size);
+                                   double price, long long size) {
+	printf( "UpdateMarketDepth. %ld - Position: %d, Operation: %d, Side: %d, Price: %g, Size: %lld\n", id, position, operation, side, price, size);
 }
 //! [updatemktdepth]
 
 //! [updatemktdepthl2]
 void TestCppClient::updateMktDepthL2(TickerId id, int position, const std::string& marketMaker, int operation,
-                                     int side, double price, int size, bool isSmartDepth) {
-	printf( "UpdateMarketDepthL2. %ld - Position: %d, Operation: %d, Side: %d, Price: %g, Size: %d, isSmartDepth: %d\n", id, position, operation, side, price, size, isSmartDepth);
+                                     int side, double price, long long size, bool isSmartDepth) {
+	printf( "UpdateMarketDepthL2. %ld - Position: %d, Operation: %d, Side: %d, Price: %g, Size: %lld, isSmartDepth: %d\n", id, position, operation, side, price, size, isSmartDepth);
 }
 //! [updatemktdepthl2]
 
@@ -2074,15 +2074,15 @@ void TestCppClient::historicalTicksLast(int reqId, const std::vector<HistoricalT
 //! [historicaltickslast]
 
 //! [tickbytickalllast]
-void TestCppClient::tickByTickAllLast(int reqId, int tickType, time_t time, double price, int size, const TickAttribLast& tickAttribLast, const std::string& exchange, const std::string& specialConditions) {
-    printf("Tick-By-Tick. ReqId: %d, TickType: %s, Time: %s, Price: %g, Size: %d, PastLimit: %d, Unreported: %d, Exchange: %s, SpecialConditions:%s\n", 
+void TestCppClient::tickByTickAllLast(int reqId, int tickType, time_t time, double price, long long size, const TickAttribLast& tickAttribLast, const std::string& exchange, const std::string& specialConditions) {
+    printf("Tick-By-Tick. ReqId: %d, TickType: %s, Time: %s, Price: %g, Size: %lld, PastLimit: %d, Unreported: %d, Exchange: %s, SpecialConditions:%s\n", 
         reqId, (tickType == 1 ? "Last" : "AllLast"), ctime(&time), price, size, tickAttribLast.pastLimit, tickAttribLast.unreported, exchange.c_str(), specialConditions.c_str());
 }
 //! [tickbytickalllast]
 
 //! [tickbytickbidask]
-void TestCppClient::tickByTickBidAsk(int reqId, time_t time, double bidPrice, double askPrice, int bidSize, int askSize, const TickAttribBidAsk& tickAttribBidAsk) {
-    printf("Tick-By-Tick. ReqId: %d, TickType: BidAsk, Time: %s, BidPrice: %g, AskPrice: %g, BidSize: %d, AskSize: %d, BidPastLow: %d, AskPastHigh: %d\n", 
+void TestCppClient::tickByTickBidAsk(int reqId, time_t time, double bidPrice, double askPrice, long long bidSize, long long askSize, const TickAttribBidAsk& tickAttribBidAsk) {
+    printf("Tick-By-Tick. ReqId: %d, TickType: BidAsk, Time: %s, BidPrice: %g, AskPrice: %g, BidSize: %lld, AskSize: %lld, BidPastLow: %d, AskPastHigh: %d\n", 
         reqId, ctime(&time), bidPrice, askPrice, bidSize, askSize, tickAttribBidAsk.bidPastLow, tickAttribBidAsk.askPastHigh);
 }
 //! [tickbytickbidask]

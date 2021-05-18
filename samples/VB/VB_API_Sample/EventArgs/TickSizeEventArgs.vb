@@ -7,7 +7,7 @@ Class TickSizeEventArgs
 
     Property tickType As Utils.TickType
 
-    Property size As Integer
+    Property size As Long
 
 End Class
 

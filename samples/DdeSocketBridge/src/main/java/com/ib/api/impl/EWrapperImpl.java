@@ -280,7 +280,7 @@ public class EWrapperImpl implements EWrapper {
     }
 
     @Override
-    public void tickSize(int tickerId, int field, int size) {
+    public void tickSize(int tickerId, int field, long size) {
         String fieldStr = Utils.getField(field);
         System.out.println("tickSize TickerId [" + tickerId + "] Field [" + fieldStr + "] Size [" + size + "]");
         m_twsService.updateMarketData(tickerId, fieldStr, size, DdeRequestStatus.SUBSCRIBED);
@@ -510,14 +510,14 @@ public class EWrapperImpl implements EWrapper {
     }
 
     @Override
-    public void updateMktDepth(int tickerId, int position, int operation, int side, double price, int size) {
+    public void updateMktDepth(int tickerId, int position, int operation, int side, double price, long size) {
         /* not supported */
         System.out.println("updateMktDepth TickerId [" + tickerId + "] Position [" + position + "] Operation [" + operation + "] "
                 + "Side [" + side + "] Price [" + price + "] Size [" + size + "] ");
     }
 
     @Override
-    public void updateMktDepthL2(int tickerId, int position, String marketMaker, int operation, int side, double price, int size, boolean isSmartDepth) {
+    public void updateMktDepthL2(int tickerId, int position, String marketMaker, int operation, int side, double price, long size, boolean isSmartDepth) {
         System.out.println("updateMktDepthL2 TickerId [" + tickerId + "] Position [" + position + "] MarketMaker [" + marketMaker + "] Operation [" + operation + "] "
                 + "Side [" + side + "] Price [" + price + "] Size [" + size + "] IsSmartDepth [" + isSmartDepth + "]");
         m_twsService.updateMarketDepthData(tickerId, new MarketDepthData(position, marketMaker, operation, side, price, size, isSmartDepth), DdeRequestStatus.SUBSCRIBED);
@@ -592,7 +592,7 @@ public class EWrapperImpl implements EWrapper {
     }
     
     @Override
-    public void tickByTickAllLast(int reqId, int tickType, long time, double price, int size, TickAttribLast attribs,
+    public void tickByTickAllLast(int reqId, int tickType, long time, double price, long size, TickAttribLast attribs,
             String exchange, String specialConditions) {
         System.out.println("tickByTickAllLast ReqId [" + reqId + "] TickType [" + tickType + "] Time [" + time + "] Price [" + price + "] "
                 + "Size [" + size + "] PastLimit [" + attribs.pastLimit() + "] Unreported [" + attribs.unreported() + "]");
@@ -606,7 +606,7 @@ public class EWrapperImpl implements EWrapper {
     }
 
     @Override
-    public void tickByTickBidAsk(int reqId, long time, double bidPrice, double askPrice, int bidSize, int askSize,
+    public void tickByTickBidAsk(int reqId, long time, double bidPrice, double askPrice, long bidSize, long askSize,
             TickAttribBidAsk attribs) {
         System.out.println("tickByTickBidAsk ReqId [" + reqId + "] Time [" + time + "] BidPrice [" + bidPrice + "] AskPrice [ " + askPrice + "] "
                 + "BidSize [" + bidSize + "] AskSize [" + askSize + "] BidPastLow [" + attribs.bidPastLow() + "] AskPastHigh [" + attribs.askPastHigh() + "]");

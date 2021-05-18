@@ -13,7 +13,7 @@ public interface EWrapper {
     // Interface methods
     ///////////////////////////////////////////////////////////////////////
     void tickPrice( int tickerId, int field, double price, TickAttrib attrib);
-    void tickSize( int tickerId, int field, int size);
+    void tickSize( int tickerId, int field, long size);
     void tickOptionComputation( int tickerId, int field, int tickAttrib, double impliedVol,
     		double delta, double optPrice, double pvDividend,
     		double gamma, double vega, double theta, double undPrice);
@@ -38,9 +38,9 @@ public interface EWrapper {
     void contractDetailsEnd(int reqId);
     void execDetails( int reqId, Contract contract, Execution execution);
     void execDetailsEnd( int reqId);
-    void updateMktDepth( int tickerId, int position, int operation, int side, double price, int size);
+    void updateMktDepth( int tickerId, int position, int operation, int side, double price, long size);
     void updateMktDepthL2( int tickerId, int position, String marketMaker, int operation,
-    		int side, double price, int size, boolean isSmartDepth);
+    		int side, double price, long size, boolean isSmartDepth);
     void updateNewsBulletin( int msgId, int msgType, String message, String origExchange);
     void managedAccounts( String accountsList);
     void receiveFA(int faDataType, String xml);
@@ -100,8 +100,8 @@ public interface EWrapper {
     void historicalTicks(int reqId, List<HistoricalTick> ticks, boolean done);
     void historicalTicksBidAsk(int reqId, List<HistoricalTickBidAsk> ticks, boolean done);
     void historicalTicksLast(int reqId, List<HistoricalTickLast> ticks, boolean done);
-    void tickByTickAllLast(int reqId, int tickType, long time, double price, int size, TickAttribLast tickAttribLast, String exchange, String specialConditions);
-    void tickByTickBidAsk(int reqId, long time, double bidPrice, double askPrice, int bidSize, int askSize, TickAttribBidAsk tickAttribBidAsk);
+    void tickByTickAllLast(int reqId, int tickType, long time, double price, long size, TickAttribLast tickAttribLast, String exchange, String specialConditions);
+    void tickByTickBidAsk(int reqId, long time, double bidPrice, double askPrice, long bidSize, long askSize, TickAttribBidAsk tickAttribBidAsk);
     void tickByTickMidPoint(int reqId, long time, double midPoint);
     void orderBound(long orderId, int apiClientId, int apiOrderId);
     void completedOrder(Contract contract, Order order, OrderState orderState);

@@ -88,7 +88,7 @@ public class Test implements EWrapper {
 		System.out.println(EWrapperMsgGenerator.tickPrice(tickerId, field, price, attribs));
 	}
 
-	@Override public void tickSize(int tickerId, int field, int size) {
+	@Override public void tickSize(int tickerId, int field, long size) {
 		System.out.println(EWrapperMsgGenerator.tickSize(tickerId, field, size));
 	}
 
@@ -157,11 +157,11 @@ public class Test implements EWrapper {
 		System.out.println(EWrapperMsgGenerator.execDetailsEnd( reqId));
 	}
 
-	@Override public void updateMktDepth(int tickerId, int position, int operation, int side, double price, int size) {
+	@Override public void updateMktDepth(int tickerId, int position, int operation, int side, double price, long size) {
 		System.out.println(EWrapperMsgGenerator.updateMktDepth(tickerId, position, operation, side, price, size));
 	}
 
-	@Override public void updateMktDepthL2(int tickerId, int position, String marketMaker, int operation, int side, double price, int size, boolean isSmartDepth) {
+	@Override public void updateMktDepthL2(int tickerId, int position, String marketMaker, int operation, int side, double price, long size, boolean isSmartDepth) {
 		System.out.println(EWrapperMsgGenerator.updateMktDepthL2( tickerId, position, marketMaker, operation, side, price, size, isSmartDepth));
 	}
 
@@ -410,13 +410,13 @@ public class Test implements EWrapper {
     }
 
     @Override
-    public void tickByTickAllLast(int reqId, int tickType, long time, double price, int size, TickAttribLast tickAttribLast,
+    public void tickByTickAllLast(int reqId, int tickType, long time, double price, long size, TickAttribLast tickAttribLast,
             String exchange, String specialConditions) {
         System.out.println(EWrapperMsgGenerator.tickByTickAllLast(reqId, tickType, time, price, size, tickAttribLast, exchange, specialConditions));
     }
 
     @Override
-    public void tickByTickBidAsk(int reqId, long time, double bidPrice, double askPrice, int bidSize, int askSize,
+    public void tickByTickBidAsk(int reqId, long time, double bidPrice, double askPrice, long bidSize, long askSize,
             TickAttribBidAsk tickAttribBidAsk) {
         System.out.println(EWrapperMsgGenerator.tickByTickBidAsk(reqId, time, bidPrice, askPrice, bidSize, askSize, tickAttribBidAsk));
     }

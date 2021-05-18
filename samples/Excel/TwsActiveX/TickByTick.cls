@@ -132,7 +132,7 @@ Private Sub reqTickByTickData_Click()
     ActiveCell.Offset(1, 0).Activate
 End Sub
 
-Public Sub TickByTickAllLast(ByVal reqId As Long, ByVal tickType As Long, ByVal time As String, ByVal price As Double, ByVal size As Long, ByVal tickAttribLast As TWSLib.ITickAttribLast, ByVal exchange As String, ByVal specialConditions As String)
+Public Sub TickByTickAllLast(ByVal reqId As Long, ByVal tickType As Long, ByVal time As String, ByVal price As Double, ByVal size As LongLong, ByVal tickAttribLast As TWSLib.ITickAttribLast, ByVal exchange As String, ByVal specialConditions As String)
     reqId = reqId - ID_TICKBYTICKDATA
     tickByTickTable(reqId, Col_TIME).value = Format(DateAdd("s", CLng(time), "01/01/1970"), "yyyy-mm-dd Hh:Nn:Ss")
     tickByTickTable(reqId, Col_PRICE).value = price
@@ -154,7 +154,7 @@ Public Sub TickByTickAllLast(ByVal reqId As Long, ByVal tickType As Long, ByVal 
     tickByTickTable(reqId, Col_MIDPOINT).value = STR_EMPTY
 End Sub
 
-Public Sub TickByTickBidAsk(ByVal reqId As Long, ByVal time As String, ByVal bidPrice As Double, ByVal askPrice As Double, ByVal bidSize As Long, ByVal askSize As Long, ByVal tickAttribBidAsk As TWSLib.ITickAttribBidAsk)
+Public Sub TickByTickBidAsk(ByVal reqId As Long, ByVal time As String, ByVal bidPrice As Double, ByVal askPrice As Double, ByVal bidSize As LongLong, ByVal askSize As LongLong, ByVal tickAttribBidAsk As TWSLib.ITickAttribBidAsk)
     reqId = reqId - ID_TICKBYTICKDATA
     tickByTickTable(reqId, Col_TIME).value = Format(DateAdd("s", CLng(time), "01/01/1970"), "yyyy-mm-dd Hh:Nn:Ss")
     tickByTickTable(reqId, Col_PRICE).value = STR_EMPTY

@@ -8,7 +8,7 @@
 #endif
 
 virtual void tickPrice( TickerId tickerId, TickType field, double price, const TickAttrib& attrib) EWRAPPER_VIRTUAL_IMPL;
-virtual void tickSize( TickerId tickerId, TickType field, int size) EWRAPPER_VIRTUAL_IMPL;
+virtual void tickSize( TickerId tickerId, TickType field, long long size) EWRAPPER_VIRTUAL_IMPL;
 virtual void tickOptionComputation( TickerId tickerId, TickType tickType, int tickAttrib, double impliedVol, double delta,
 	double optPrice, double pvDividend, double gamma, double vega, double theta, double undPrice) EWRAPPER_VIRTUAL_IMPL;
 virtual void tickGeneric(TickerId tickerId, TickType tickType, double value) EWRAPPER_VIRTUAL_IMPL;
@@ -37,9 +37,9 @@ virtual void execDetails( int reqId, const Contract& contract, const Execution& 
 virtual void execDetailsEnd( int reqId) EWRAPPER_VIRTUAL_IMPL;
 virtual void error(int id, int errorCode, const std::string& errorString) EWRAPPER_VIRTUAL_IMPL;
 virtual void updateMktDepth(TickerId id, int position, int operation, int side,
-	double price, int size) EWRAPPER_VIRTUAL_IMPL;
+	double price, long long size) EWRAPPER_VIRTUAL_IMPL;
 virtual void updateMktDepthL2(TickerId id, int position, const std::string& marketMaker, int operation,
-	int side, double price, int size, bool isSmartDepth) EWRAPPER_VIRTUAL_IMPL;
+	int side, double price, long long size, bool isSmartDepth) EWRAPPER_VIRTUAL_IMPL;
 virtual void updateNewsBulletin(int msgId, int msgType, const std::string& newsMessage, const std::string& originExch) EWRAPPER_VIRTUAL_IMPL;
 virtual void managedAccounts( const std::string& accountsList) EWRAPPER_VIRTUAL_IMPL;
 virtual void receiveFA(faDataType pFaDataType, const std::string& cxml) EWRAPPER_VIRTUAL_IMPL;
@@ -98,8 +98,8 @@ virtual void pnlSingle(int reqId, int pos, double dailyPnL, double unrealizedPnL
 virtual void historicalTicks(int reqId, const std::vector<HistoricalTick> &ticks, bool done) EWRAPPER_VIRTUAL_IMPL;
 virtual void historicalTicksBidAsk(int reqId, const std::vector<HistoricalTickBidAsk> &ticks, bool done) EWRAPPER_VIRTUAL_IMPL;
 virtual void historicalTicksLast(int reqId, const std::vector<HistoricalTickLast> &ticks, bool done) EWRAPPER_VIRTUAL_IMPL;
-virtual void tickByTickAllLast(int reqId, int tickType, time_t time, double price, int size, const TickAttribLast& tickAttribLast, const std::string& exchange, const std::string& specialConditions) EWRAPPER_VIRTUAL_IMPL;
-virtual void tickByTickBidAsk(int reqId, time_t time, double bidPrice, double askPrice, int bidSize, int askSize, const TickAttribBidAsk& tickAttribBidAsk) EWRAPPER_VIRTUAL_IMPL;
+virtual void tickByTickAllLast(int reqId, int tickType, time_t time, double price, long long size, const TickAttribLast& tickAttribLast, const std::string& exchange, const std::string& specialConditions) EWRAPPER_VIRTUAL_IMPL;
+virtual void tickByTickBidAsk(int reqId, time_t time, double bidPrice, double askPrice, long long bidSize, long long askSize, const TickAttribBidAsk& tickAttribBidAsk) EWRAPPER_VIRTUAL_IMPL;
 virtual void tickByTickMidPoint(int reqId, time_t time, double midPoint) EWRAPPER_VIRTUAL_IMPL;
 virtual void orderBound(long long orderId, int apiClientId, int apiOrderId) EWRAPPER_VIRTUAL_IMPL;
 virtual void completedOrder(const Contract& contract, const Order& order, const OrderState& orderState) EWRAPPER_VIRTUAL_IMPL;

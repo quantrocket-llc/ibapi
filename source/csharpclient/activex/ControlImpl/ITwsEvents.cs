@@ -18,7 +18,7 @@ namespace TWSLib
         [DispId(1)]
         void tickPrice(int id, int tickType, double price, bool canAutoExecute, bool pastLimit, bool preOpen);
         [DispId(2)]
-        void tickSize(int id, int tickType, int size);
+        void tickSize(int id, int tickType, long size);
         [DispId(3)]
         void connectionClosed();
         [DispId(4)]
@@ -44,9 +44,9 @@ namespace TWSLib
         [DispId(15)]
         void execDetails(int id, string symbol, string secType, string lastTradeDate, double strike, string right, string cExchange, string curency, string localSymbol, string execId, string time, string acctNumber, string eExchange, string side, double shares, double price, int permId, int clientId, int isLiquidation, string lastLiquidity);
         [DispId(16)]
-        void updateMktDepth(int id, int position, int operation, int side, double price, int size);
+        void updateMktDepth(int id, int position, int operation, int side, double price, long size);
         [DispId(17)]
-        void updateMktDepthL2(int id, int position, string marketMaker, int operation, int side, double price, int size, bool isSmartDepth);
+        void updateMktDepthL2(int id, int position, string marketMaker, int operation, int side, double price, long size, bool isSmartDepth);
         [DispId(18)]
         void updateNewsBulletin(short msgId, short msgType, string message, string origExchange);
         [DispId(19)]
@@ -199,9 +199,9 @@ namespace TWSLib
         [DispId(145)]
         void historicalTicksLast(int reqId, IHistoricalTickLastList ticks, bool done);
         [DispId(146)]
-        void tickByTickAllLast(int reqId, int tickType, string time, double price, int size, ITickAttribLast tickAttribLast, string exchange, string specialConditions);
+        void tickByTickAllLast(int reqId, int tickType, string time, double price, long size, ITickAttribLast tickAttribLast, string exchange, string specialConditions);
         [DispId(147)]
-        void tickByTickBidAsk(int reqId, string time, double bidPrice, double askPrice, int bidSize, int askSize, ITickAttribBidAsk tickAttribBidAsk);
+        void tickByTickBidAsk(int reqId, string time, double bidPrice, double askPrice, long bidSize, long askSize, ITickAttribBidAsk tickAttribBidAsk);
         [DispId(148)]
         void tickByTickMidPoint(int reqId, string time, double midPoint);
         [DispId(149)]

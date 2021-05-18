@@ -280,7 +280,7 @@ Private Sub m_Tws_tickPrice(ByVal id As Long, ByVal tickType As Long, ByVal pric
     Tickers.UpdateTickersSheetWithPrice id, tickType, price, CanAutoExecute, PastLimit, PreOpen
 End Sub
 
-Private Sub m_Tws_tickSize(ByVal id As Long, ByVal tickType As Long, ByVal size As Long)
+Private Sub m_Tws_tickSize(ByVal id As Long, ByVal tickType As Long, ByVal size As LongLong)
     'update Tickers sheet with new size
     On Error Resume Next
     Tickers.UpdateTickersSheetWithSize id, tickType, size
@@ -300,14 +300,14 @@ End Sub
 '-----------------------------
 ' market depth events
 '-----------------------------
-Private Sub m_Tws_updateMktDepth(ByVal id As Long, ByVal position As Long, ByVal operation As Long, ByVal side As Long, ByVal price As Double, ByVal size As Long)
+Private Sub m_Tws_updateMktDepth(ByVal id As Long, ByVal position As Long, ByVal operation As Long, ByVal side As Long, ByVal price As Double, ByVal size As LongLong)
     ' update Market Depth sheet with new data
     On Error Resume Next
     MarketDepth.UpdateMarketDepth id, position, STR_EMPTY, operation, side, price, size
     
 End Sub
 
-Private Sub m_Tws_updateMktDepthL2(ByVal id As Long, ByVal position As Long, ByVal marketMaker As String, ByVal operation As Long, ByVal side As Long, ByVal price As Double, ByVal size As Long, ByVal isSmartDepth As Boolean)
+Private Sub m_Tws_updateMktDepthL2(ByVal id As Long, ByVal position As Long, ByVal marketMaker As String, ByVal operation As Long, ByVal side As Long, ByVal price As Double, ByVal size As LongLong, ByVal isSmartDepth As Boolean)
     ' update Market Depth sheet with new data
     On Error Resume Next
     MarketDepth.UpdateMarketDepth id, position, marketMaker, operation, side, price, size
@@ -485,7 +485,7 @@ End Sub
 '-----------------------------
 ' tick-by-tick all last
 '-----------------------------
-Private Sub m_Tws_tickByTickAllLast(ByVal reqId As Long, ByVal tickType As Long, ByVal time As String, ByVal price As Double, ByVal size As Long, ByVal tickAttribLast As TWSLib.ITickAttribLast, ByVal exchange As String, ByVal specialConditions As String)
+Private Sub m_Tws_tickByTickAllLast(ByVal reqId As Long, ByVal tickType As Long, ByVal time As String, ByVal price As Double, ByVal size As LongLong, ByVal tickAttribLast As TWSLib.ITickAttribLast, ByVal exchange As String, ByVal specialConditions As String)
     On Error Resume Next
     TickByTick.TickByTickAllLast reqId, tickType, time, price, size, tickAttribLast, exchange, specialConditions
 End Sub
@@ -493,7 +493,7 @@ End Sub
 '-----------------------------
 ' tick-by-tick bid ask
 '-----------------------------
-Private Sub m_Tws_tickByTickBidAsk(ByVal reqId As Long, ByVal time As String, ByVal bidPrice As Double, ByVal askPrice As Double, ByVal bidSize As Long, ByVal askSize As Long, ByVal tickAttribBidAsk As TWSLib.ITickAttribBidAsk)
+Private Sub m_Tws_tickByTickBidAsk(ByVal reqId As Long, ByVal time As String, ByVal bidPrice As Double, ByVal askPrice As Double, ByVal bidSize As LongLong, ByVal askSize As LongLong, ByVal tickAttribBidAsk As TWSLib.ITickAttribBidAsk)
     On Error Resume Next
     TickByTick.TickByTickBidAsk reqId, time, bidPrice, askPrice, bidSize, askSize, tickAttribBidAsk
 End Sub

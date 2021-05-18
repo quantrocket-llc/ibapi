@@ -55,7 +55,7 @@ class TickByTickResultsPanel extends NewTabPanel implements ITickByTickDataHandl
     }
 
     @Override
-    public void tickByTickAllLast(int reqId, int tickType, long time, double price, int size, TickAttribLast tickAttribLast,
+    public void tickByTickAllLast(int reqId, int tickType, long time, double price, long size, TickAttribLast tickAttribLast,
             String exchange, String specialConditions) {
         TickByTick tick = new TickByTick(tickType, time, price, size, tickAttribLast, exchange, specialConditions);
         m_tickByTickRows.add(tick);
@@ -65,7 +65,7 @@ class TickByTickResultsPanel extends NewTabPanel implements ITickByTickDataHandl
     }
 
     @Override
-    public void tickByTickBidAsk(int reqId, long time, double bidPrice, double askPrice, int bidSize, int askSize,
+    public void tickByTickBidAsk(int reqId, long time, double bidPrice, double askPrice, long bidSize, long askSize,
             TickAttribBidAsk tickAttribBidAsk) {
         TickByTick tick = new TickByTick(time, bidPrice, bidSize, askPrice, askSize, tickAttribBidAsk);
         m_tickByTickRows.add(tick);

@@ -1070,9 +1070,9 @@ namespace TWSLib
                 sc.Post(state => t_tickPrice(tickerId, field, price, attribs.CanAutoExecute, attribs.PastLimit, attribs.PreOpen), null);
         }
 
-        public delegate void tickSizeDelegate(int id, int tickType, int size);
+        public delegate void tickSizeDelegate(int id, int tickType, long size);
         public event tickSizeDelegate tickSize;
-        void EWrapper.tickSize(int tickerId, int field, int size)
+        void EWrapper.tickSize(int tickerId, int field, long size)
         {
             var t_tickSize = this.tickSize;
             if (t_tickSize != null)
@@ -1417,18 +1417,18 @@ namespace TWSLib
                 sc.Post(state => t_execDetailsEx(reqId, (ComContract)contract, (ComExecution)execution), null);
         }
 
-        public delegate void updateMktDepthDelegate(int id, int position, int operation, int side, double price, int size);
+        public delegate void updateMktDepthDelegate(int id, int position, int operation, int side, double price, long size);
         public event updateMktDepthDelegate updateMktDepth;
-        void EWrapper.updateMktDepth(int tickerId, int position, int operation, int side, double price, int size)
+        void EWrapper.updateMktDepth(int tickerId, int position, int operation, int side, double price, long size)
         {
             var t_updateMktDepth = this.updateMktDepth;
             if (t_updateMktDepth != null)
                 sc.Post(state => t_updateMktDepth(tickerId, position, operation, side, price, size), null);
         }
 
-        public delegate void updateMktDepthL2Delegate(int id, int position, string marketMaker, int operation, int side, double price, int size, bool isSmartDepth);
+        public delegate void updateMktDepthL2Delegate(int id, int position, string marketMaker, int operation, int side, double price, long size, bool isSmartDepth);
         public event updateMktDepthL2Delegate updateMktDepthL2;
-        void EWrapper.updateMktDepthL2(int tickerId, int position, string marketMaker, int operation, int side, double price, int size, bool isSmartDepth)
+        void EWrapper.updateMktDepthL2(int tickerId, int position, string marketMaker, int operation, int side, double price, long size, bool isSmartDepth)
         {
             var t_updateMktDepthL2 = this.updateMktDepthL2;
             if (t_updateMktDepthL2 != null)
@@ -2100,9 +2100,9 @@ namespace TWSLib
                 sc.Post(state => tmp(reqId, ticks.Length > 0 ? new ComHistoricalTickLastList(ticks) : null, done), null);
         }
 
-        public delegate void TickByTickAllLastDelegate(int reqId, int tickType, string time, double price, int size, ITickAttribLast tickAttribLast, string exchange, string specialConditions);
+        public delegate void TickByTickAllLastDelegate(int reqId, int tickType, string time, double price, long size, ITickAttribLast tickAttribLast, string exchange, string specialConditions);
         public event TickByTickAllLastDelegate tickByTickAllLast;
-        void EWrapper.tickByTickAllLast(int reqId, int tickType, long time, double price, int size, TickAttribLast tickAttribLast, string exchange, string specialConditions)
+        void EWrapper.tickByTickAllLast(int reqId, int tickType, long time, double price, long size, TickAttribLast tickAttribLast, string exchange, string specialConditions)
         {
             var tmp = this.tickByTickAllLast;
 
@@ -2110,9 +2110,9 @@ namespace TWSLib
                 sc.Post(state => tmp(reqId, tickType, time.ToString("G"), price, size, (ComTickAttribLast)tickAttribLast, exchange, specialConditions), null);
         }
 
-        public delegate void TickByTickBidAskDelegate(int reqId, string time, double bidPrice, double askPrice, int bidSize, int askSize, ITickAttribBidAsk tickAttribBidAsk);
+        public delegate void TickByTickBidAskDelegate(int reqId, string time, double bidPrice, double askPrice, long bidSize, long askSize, ITickAttribBidAsk tickAttribBidAsk);
         public event TickByTickBidAskDelegate tickByTickBidAsk;
-        void EWrapper.tickByTickBidAsk(int reqId, long time, double bidPrice, double askPrice, int bidSize, int askSize, TickAttribBidAsk tickAttribBidAsk)
+        void EWrapper.tickByTickBidAsk(int reqId, long time, double bidPrice, double askPrice, long bidSize, long askSize, TickAttribBidAsk tickAttribBidAsk)
         {
             var tmp = this.tickByTickBidAsk;
 

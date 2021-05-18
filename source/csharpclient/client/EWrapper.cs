@@ -60,7 +60,7 @@ namespace IBApi
          * @param size the actual size. US stocks have a multiplier of 100.
          * @sa TickType, tickPrice, tickString, tickEFP, tickGeneric, tickOptionComputation, tickSnapshotEnd, marketDataType, EClientSocket::reqMktData
          */
-        void tickSize(int tickerId, int field, int size);
+        void tickSize(int tickerId, int field, long size);
 
         /**
          * @brief Market data callback.
@@ -489,7 +489,7 @@ namespace IBApi
          * @param size the order's size
          * @sa updateMktDepthL2, EClientSocket::reqMarketDepth
          */
-        void updateMktDepth(int tickerId, int position, int operation, int side, double price, int size);
+        void updateMktDepth(int tickerId, int position, int operation, int side, double price, long size);
 
         /**
          * @brief Returns the order book
@@ -506,7 +506,7 @@ namespace IBApi
          * @param isSmartDepth flag indicating if this is smart depth response (aggregate data from multiple exchanges, v974+)
          * @sa updateMktDepth, EClientSocket::reqMarketDepth
          */
-        void updateMktDepthL2(int tickerId, int position, string marketMaker, int operation, int side, double price, int size, bool isSmartDepth);
+        void updateMktDepthL2(int tickerId, int position, string marketMaker, int operation, int side, double price, long size, bool isSmartDepth);
 
         /**
          * @brief provides IB's bulletins
@@ -878,7 +878,7 @@ namespace IBApi
         * @param specialConditions - tick-by-tick real-time tick special conditions
         * @sa EClient::reqTickByTickData
         */
-        void tickByTickAllLast(int reqId, int tickType, long time, double price, int size, TickAttribLast tickAttribLast, string exchange, string specialConditions);
+        void tickByTickAllLast(int reqId, int tickType, long time, double price, long size, TickAttribLast tickAttribLast, string exchange, string specialConditions);
 
         /**
         * @brief returns "BidAsk" tick-by-tick real-time tick
@@ -891,7 +891,7 @@ namespace IBApi
         * @param tickAttribBidAsk - tick-by-tick real-time bid/ask tick attribs (bit 0 - bid past low, bit 1 - ask past high)
         * @sa EClient::reqTickByTickData
         */
-        void tickByTickBidAsk(int reqId, long time, double bidPrice, double askPrice, int bidSize, int askSize, TickAttribBidAsk tickAttribBidAsk);
+        void tickByTickBidAsk(int reqId, long time, double bidPrice, double askPrice, long bidSize, long askSize, TickAttribBidAsk tickAttribBidAsk);
 
         /**
         * @brief returns "MidPoint" tick-by-tick real-time tick
