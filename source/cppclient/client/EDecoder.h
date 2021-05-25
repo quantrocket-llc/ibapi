@@ -114,12 +114,13 @@ const int MIN_SERVER_VER_NO_DEFAULT_OPEN_CLOSE		= 155;
 const int MIN_SERVER_VER_PRICE_BASED_VOLATILITY     = 156;
 const int MIN_SERVER_VER_REPLACE_FA_END             = 157;
 const int MIN_SERVER_VER_DURATION                   = 158;
+const int MIN_SERVER_VER_MARKET_DATA_IN_SHARES      = 159;
 
 /* 100+ messaging */
 // 100 = enhanced handshake, msg length prefixes
 
 const int MIN_CLIENT_VER = 100;
-const int MAX_CLIENT_VER = MIN_SERVER_VER_DURATION;
+const int MAX_CLIENT_VER = MIN_SERVER_VER_MARKET_DATA_IN_SHARES;
 
 
 // incoming msg id's

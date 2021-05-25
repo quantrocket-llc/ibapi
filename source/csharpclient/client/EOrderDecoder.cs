@@ -291,7 +291,7 @@ namespace IBApi
         {
             if (msgVersion >= 9)
             {
-                order.DisplaySize = eDecoder.ReadInt();
+                order.DisplaySize = eDecoder.ReadIntMax();
             }
         }
 

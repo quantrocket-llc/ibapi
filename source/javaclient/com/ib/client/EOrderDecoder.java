@@ -233,7 +233,7 @@ public class EOrderDecoder {
 
     public void readDisplaySize() throws IOException {
         if ( m_version >= 9) {
-            m_order.displaySize(m_eDecoder.readInt());
+            m_order.displaySize(m_eDecoder.readIntMax());
         }
     }
 

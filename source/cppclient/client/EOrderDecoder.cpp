@@ -249,7 +249,7 @@ bool EOrderDecoder::decodePegToStkOrVolOrderParams(const char*& ptr, const char*
 }
 
 bool EOrderDecoder::decodeDisplaySize(const char*& ptr, const char* endPtr) {
-    DECODE_FIELD( m_order->displaySize);
+    DECODE_FIELD_MAX( m_order->displaySize);
 
     return true;
 }

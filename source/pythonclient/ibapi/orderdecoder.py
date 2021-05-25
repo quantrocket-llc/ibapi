@@ -148,7 +148,7 @@ class OrderDecoder(Object):
         self.order.stockRangeUpper = decode(float, fields, SHOW_UNSET)
 
     def decodeDisplaySize(self, fields):
-        self.order.displaySize = decode(int, fields)
+        self.order.displaySize = decode(int, fields, SHOW_UNSET)
 
     def decodeBlockOrder(self, fields):
         self.order.blockOrder = decode(bool, fields)

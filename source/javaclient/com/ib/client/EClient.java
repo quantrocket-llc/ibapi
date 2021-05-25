@@ -294,9 +294,10 @@ public abstract class EClient {
     protected static final int MIN_SERVER_VER_PRICE_BASED_VOLATILITY = 156;
     protected static final int MIN_SERVER_VER_REPLACE_FA_END = 157;
     protected static final int MIN_SERVER_VER_DURATION = 158;
+    protected static final int MIN_SERVER_VER_MARKET_DATA_IN_SHARES = 159;
     
     public static final int MIN_VERSION = 100; // envelope encoding, applicable to useV100Plus mode only
-    public static final int MAX_VERSION = MIN_SERVER_VER_DURATION; // ditto
+    public static final int MAX_VERSION = MIN_SERVER_VER_MARKET_DATA_IN_SHARES; // ditto
 
     protected EReaderSignal m_signal;
     protected EWrapper m_eWrapper;    // msg handler
