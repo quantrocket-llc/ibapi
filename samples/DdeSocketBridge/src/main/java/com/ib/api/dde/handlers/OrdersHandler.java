@@ -469,7 +469,7 @@ public class OrdersHandler extends BaseHandler {
                 System.out.println("Cannot extract base order fields");
                 return null;
             }
-            if (table2.size() < 113) {
+            if (table2.size() < 112) {
                 System.out.println("Cannot extract extended order attributes");
                 return null;
             }
@@ -823,6 +823,9 @@ public class OrdersHandler extends BaseHandler {
             }
             if (Utils.isNotNull(table2.get(110))) {
                 order.duration(getIntFromString(table2.get(110)));
+            }
+            if (Utils.isNotNull(table2.get(111))) {
+                order.postToAts(getIntFromString(table2.get(111)));
             }
             
             return order;

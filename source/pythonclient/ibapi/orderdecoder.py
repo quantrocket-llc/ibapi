@@ -446,3 +446,6 @@ class OrderDecoder(Object):
         if self.serverVersion >= MIN_SERVER_VER_DURATION:
             self.order.duration = decode(int, fields, SHOW_UNSET)
             
+    def decodePostToAts(self, fields):
+        if self.serverVersion >= MIN_SERVER_VER_POST_TO_ATS:
+            self.order.postToAts = decode(int, fields, SHOW_UNSET)

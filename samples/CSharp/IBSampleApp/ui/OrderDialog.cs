@@ -304,6 +304,8 @@ namespace IBSampleApp
                 order.DiscretionaryAmt = int.Parse(discretionaryAmount.Text);
             if (!duration.Text.Equals(""))
                 order.Duration = int.Parse(duration.Text);
+            if (!postToAts.Text.Equals(""))
+                order.PostToAts = int.Parse(postToAts.Text);
 
             order.OcaGroup = ocaGroup.Text;
             order.OcaType = (int)((IBType)ocaType.SelectedItem).Value;
@@ -451,6 +453,7 @@ namespace IBSampleApp
                 ? order.UsePriceMgmtAlgo.Value ? CheckState.Checked : CheckState.Unchecked 
                 : CheckState.Indeterminate;
             duration.Text = order.Duration.ToString();
+            postToAts.Text = order.PostToAts.ToString();
 
             //order = GetExtendedOrderAttributes(order);
             //order = GetAdvisorAttributes(order);

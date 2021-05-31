@@ -198,6 +198,8 @@ Sub UpdateOpenOrder(orderId As Long, contract As TWSLib.IContract, order As TWSL
         ExtendedAttributesTable(rowId, Col_RELATIVE_DISCRETIONARY).value = .discretionaryUpToLimitPrice
         ExtendedAttributesTable(rowId, Col_USEPRICEMGMTALGO).value = .usePriceMgmtAlgo
         ExtendedAttributesTable(rowId, Col_DURATION).value = Util.IntMaxStr(.duration)
+        ExtendedAttributesTable(rowId, Col_POST_TO_ATS).value = Util.IntMaxStr(.postToAts)
+        ExtendedAttributesTable(rowId, Col_NOT_HELD).value = .notHeld
     End With
 
     If Not order.SmartComboRoutingParams Is Nothing Then

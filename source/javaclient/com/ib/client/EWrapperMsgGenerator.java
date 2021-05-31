@@ -874,6 +874,7 @@ public class EWrapperMsgGenerator {
         Util.appendBooleanFlag(sb, "routeMarketableToBbo", order.routeMarketableToBbo());
         Util.appendValidLongValue(sb, "parentPermId", order.parentPermId());
         Util.appendValidIntValue(sb, "duration", order.duration());
+        Util.appendValidIntValue(sb, "postToAts", order.postToAts());
         
         Util.appendNonEmptyString(sb, "status", orderState.getStatus());
         Util.appendNonEmptyString(sb, "completedTime", orderState.completedTime());

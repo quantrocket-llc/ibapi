@@ -184,6 +184,9 @@ Public Class dlgOrderAttribs
     Friend WithEvents checkRelativeDiscretionary As System.Windows.Forms.CheckBox
     Public WithEvents Label29 As Label
     Public WithEvents txtDuration As TextBox
+    Public WithEvents txtPostToAts As TextBox
+    Public WithEvents Label30 As Label
+    Friend WithEvents checkNotHeld As CheckBox
     Public WithEvents Label41 As System.Windows.Forms.Label
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
@@ -334,6 +337,9 @@ Public Class dlgOrderAttribs
         Me.checkRelativeDiscretionary = New System.Windows.Forms.CheckBox()
         Me.Label29 = New System.Windows.Forms.Label()
         Me.txtDuration = New System.Windows.Forms.TextBox()
+        Me.txtPostToAts = New System.Windows.Forms.TextBox()
+        Me.Label30 = New System.Windows.Forms.Label()
+        Me.checkNotHeld = New System.Windows.Forms.CheckBox()
         Me.SuspendLayout()
         '
         'txtHedgeParam
@@ -2348,11 +2354,52 @@ Public Class dlgOrderAttribs
         Me.txtDuration.Size = New System.Drawing.Size(85, 13)
         Me.txtDuration.TabIndex = 151
         '
+        'txtPostToAts
+        '
+        Me.txtPostToAts.AcceptsReturn = True
+        Me.txtPostToAts.BackColor = System.Drawing.SystemColors.Window
+        Me.txtPostToAts.BorderStyle = System.Windows.Forms.BorderStyle.None
+        Me.txtPostToAts.Cursor = System.Windows.Forms.Cursors.IBeam
+        Me.txtPostToAts.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtPostToAts.ForeColor = System.Drawing.SystemColors.WindowText
+        Me.txtPostToAts.Location = New System.Drawing.Point(432, 154)
+        Me.txtPostToAts.MaxLength = 0
+        Me.txtPostToAts.Name = "txtPostToAts"
+        Me.txtPostToAts.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.txtPostToAts.Size = New System.Drawing.Size(85, 13)
+        Me.txtPostToAts.TabIndex = 153
+        '
+        'Label30
+        '
+        Me.Label30.BackColor = System.Drawing.Color.Gainsboro
+        Me.Label30.Cursor = System.Windows.Forms.Cursors.Default
+        Me.Label30.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label30.ForeColor = System.Drawing.SystemColors.ControlText
+        Me.Label30.Location = New System.Drawing.Point(264, 156)
+        Me.Label30.Name = "Label30"
+        Me.Label30.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.Label30.Size = New System.Drawing.Size(105, 17)
+        Me.Label30.TabIndex = 152
+        Me.Label30.Text = "Post To Ats"
+        '
+        'checkNotHeld
+        '
+        Me.checkNotHeld.AutoSize = True
+        Me.checkNotHeld.Location = New System.Drawing.Point(267, 176)
+        Me.checkNotHeld.Name = "checkNotHeld"
+        Me.checkNotHeld.Size = New System.Drawing.Size(65, 18)
+        Me.checkNotHeld.TabIndex = 154
+        Me.checkNotHeld.Text = "Not held"
+        Me.checkNotHeld.UseVisualStyleBackColor = True
+        '
         'dlgOrderAttribs
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
         Me.BackColor = System.Drawing.Color.Gainsboro
         Me.ClientSize = New System.Drawing.Size(850, 674)
+        Me.Controls.Add(Me.checkNotHeld)
+        Me.Controls.Add(Me.txtPostToAts)
+        Me.Controls.Add(Me.Label30)
         Me.Controls.Add(Me.txtDuration)
         Me.Controls.Add(Me.Label29)
         Me.Controls.Add(Me.checkRelativeDiscretionary)
@@ -2646,6 +2693,7 @@ Public Class dlgOrderAttribs
         checkOmsContainer.Checked = m_orderInfo.IsOmsContainer
         checkRelativeDiscretionary.Checked = m_orderInfo.DiscretionaryUpToLimitPrice
         txtDuration.Text = ivalStr(m_orderInfo.Duration)
+        txtPostToAts.Text = ivalStr(m_orderInfo.PostToAts)
 
     End Sub
 
@@ -2803,6 +2851,8 @@ Public Class dlgOrderAttribs
         m_orderInfo.IsOmsContainer = checkOmsContainer.Checked
         m_orderInfo.DiscretionaryUpToLimitPrice = checkRelativeDiscretionary.Checked
         m_orderInfo.Duration = ival(txtDuration.Text)
+        m_orderInfo.PostToAts = ival(txtPostToAts.Text)
+        m_orderInfo.NotHeld = checkNotHeld.Checked
 
         m_ok = True
         Hide()

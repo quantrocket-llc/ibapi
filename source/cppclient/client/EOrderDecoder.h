@@ -95,6 +95,7 @@ public:
 	bool decodeCompletedStatus(const char*& ptr, const char* endPtr);
 	bool decodeUsePriceMgmtAlgo(const char*& ptr, const char* endPtr);
 	bool decodeDuration(const char*& ptr, const char* endPtr);
+	bool decodePostToAts(const char*& ptr, const char* endPtr);
 
 private:
 	Contract* m_contract;

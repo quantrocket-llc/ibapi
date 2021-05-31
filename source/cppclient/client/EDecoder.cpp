@@ -424,7 +424,8 @@ const char* EDecoder::processOpenOrderMsg(const char* ptr, const char* endPtr) {
           && eOrderDecoder.decodeIsOmsContainer(ptr, endPtr)
           && eOrderDecoder.decodeDiscretionaryUpToLimitPrice(ptr, endPtr)
           && eOrderDecoder.decodeUsePriceMgmtAlgo(ptr, endPtr)
-          && eOrderDecoder.decodeDuration(ptr, endPtr);
+          && eOrderDecoder.decodeDuration(ptr, endPtr)
+          && eOrderDecoder.decodePostToAts(ptr, endPtr);
         if (!success) {
           return nullptr;
         }

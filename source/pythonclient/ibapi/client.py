@@ -1095,6 +1095,10 @@ class EClient(object):
             self.wrapper.error(orderId, UPDATE_TWS.code(), UPDATE_TWS.msg() + " It does not support duration attribute")
             return
 
+        if self.serverVersion() < MIN_SERVER_VER_POST_TO_ATS and order.postToAts != UNSET_INTEGER:
+            self.wrapper.error(orderId, UPDATE_TWS.code(), UPDATE_TWS.msg() + " It does not support postToAts attribute")
+            return
+
         try:
                 
             VERSION = 27 if (self.serverVersion() < MIN_SERVER_VER_NOT_HELD) else 45
@@ -1424,6 +1428,9 @@ class EClient(object):
             if self.serverVersion() >= MIN_SERVER_VER_DURATION:
                 flds.append(make_field(order.duration))
     
+            if self.serverVersion() >= MIN_SERVER_VER_POST_TO_ATS:
+                flds.append(make_field(order.postToAts))
+
             msg = "".join(flds)
             
         except ClientException as ex:

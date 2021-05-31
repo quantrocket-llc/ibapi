@@ -25,6 +25,7 @@ public class ExtOrdDlg extends JDialog {
 
     private JTextField 	m_tif = new JTextField( "DAY");
     private JTextField 	m_duration = new JTextField();
+    private JTextField 	m_postToAts = new JTextField();
     private JTextField 	m_activeStartTime = new JTextField();
     private JTextField 	m_activeStopTime = new JTextField();
     private JTextField 	m_ocaGroup = new JTextField();
@@ -105,6 +106,7 @@ public class ExtOrdDlg extends JDialog {
     private JCheckBox   m_dontUseAutoPriceForHedge = new JCheckBox("Don't use auto price for hedge", false);
     private JCheckBox   m_isOmsConainer = new JCheckBox("OMS Container", false);
     private JCheckBox   m_discretionaryUpToLimitPrice = new JCheckBox("Relative discretionary", false);
+    private JCheckBox   m_notHeld = new JCheckBox("Not held", false);
 
     ExtOrdDlg( OrderDlg owner) {
         super( owner, true);
@@ -118,6 +120,8 @@ public class ExtOrdDlg extends JDialog {
         extOrderDetailsPanel.add( m_tif);
         extOrderDetailsPanel.add( new JLabel( "Duration") );
         extOrderDetailsPanel.add( m_duration);
+        extOrderDetailsPanel.add( new JLabel( "Post To ATS") );
+        extOrderDetailsPanel.add( m_postToAts);
         extOrderDetailsPanel.add(new JLabel("Active Start Time"));
         extOrderDetailsPanel.add(m_activeStartTime);
         extOrderDetailsPanel.add(new JLabel("Active Stop Time"));
@@ -272,6 +276,7 @@ public class ExtOrdDlg extends JDialog {
         extOrderDetailsPanel.add(m_dontUseAutoPriceForHedge);
         extOrderDetailsPanel.add(m_isOmsConainer);
         extOrderDetailsPanel.add(m_discretionaryUpToLimitPrice);
+        extOrderDetailsPanel.add(m_notHeld);
 
         // create button panel
         JPanel buttonPanel = new JPanel();
@@ -301,6 +306,7 @@ public class ExtOrdDlg extends JDialog {
             // set extended order fields
             m_order.tif(m_tif.getText().trim());
             m_order.duration(parseMaxInt(m_duration));
+            m_order.postToAts(parseMaxInt(m_postToAts));
             m_order.activeStartTime(m_activeStartTime.getText().trim());
             m_order.activeStopTime(m_activeStopTime.getText().trim());
             m_order.ocaGroup(m_ocaGroup.getText().trim());
@@ -381,6 +387,7 @@ public class ExtOrdDlg extends JDialog {
             m_order.dontUseAutoPriceForHedge(m_dontUseAutoPriceForHedge.isSelected());
             m_order.isOmsContainer(m_isOmsConainer.isSelected());
             m_order.discretionaryUpToLimitPrice(m_discretionaryUpToLimitPrice.isSelected());
+            m_order.notHeld(m_notHeld.isSelected());
         }
         catch( Exception e) {
             Main.inform( this, "Error - " + e);

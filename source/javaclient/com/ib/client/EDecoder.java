@@ -1428,6 +1428,7 @@ class EDecoder implements ObjectInput {
         eOrderDecoder.readDiscretionaryUpToLimitPrice();
         eOrderDecoder.readUsePriceMgmtAlgo();
         eOrderDecoder.readDuration();
+        eOrderDecoder.readPostToAts();
 
         m_EWrapper.openOrder(order.orderId(), contract, order, orderState);
     }

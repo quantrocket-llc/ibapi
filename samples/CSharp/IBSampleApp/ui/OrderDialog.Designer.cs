@@ -250,6 +250,8 @@ namespace IBSampleApp
             this.textBox8 = new System.Windows.Forms.TextBox();
             this.checkMarginButton = new System.Windows.Forms.Button();
             this.closeOrderDialogButton = new System.Windows.Forms.Button();
+            this.postToAts = new System.Windows.Forms.TextBox();
+            this.label26 = new System.Windows.Forms.Label();
             this.conditionsTab.SuspendLayout();
             this.orderContractTab.SuspendLayout();
             this.baseGroup.SuspendLayout();
@@ -790,6 +792,8 @@ namespace IBSampleApp
             // extendedOrderTab
             // 
             this.extendedOrderTab.BackColor = System.Drawing.Color.LightGray;
+            this.extendedOrderTab.Controls.Add(this.postToAts);
+            this.extendedOrderTab.Controls.Add(this.label26);
             this.extendedOrderTab.Controls.Add(this.duration);
             this.extendedOrderTab.Controls.Add(this.label25);
             this.extendedOrderTab.Controls.Add(this.relativeDiscretionary);
@@ -2512,6 +2516,24 @@ namespace IBSampleApp
             this.closeOrderDialogButton.UseVisualStyleBackColor = true;
             this.closeOrderDialogButton.Click += new System.EventHandler(this.closeOrderDialogButton_Click);
             // 
+            // postToAts
+            // 
+            this.postToAts.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.postToAts.Location = new System.Drawing.Point(560, 90);
+            this.postToAts.Name = "postToAts";
+            this.postToAts.Size = new System.Drawing.Size(55, 20);
+            this.postToAts.TabIndex = 51;
+            // 
+            // label26
+            // 
+            this.label26.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label26.AutoSize = true;
+            this.label26.Location = new System.Drawing.Point(492, 94);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(62, 13);
+            this.label26.TabIndex = 50;
+            this.label26.Text = "Post To Ats";
+            // 
             // OrderDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2779,5 +2801,7 @@ namespace IBSampleApp
         private System.Windows.Forms.CheckBox usePriceMgmtAlgo;
         private System.Windows.Forms.TextBox duration;
         private System.Windows.Forms.Label label25;
+        private System.Windows.Forms.TextBox postToAts;
+        private System.Windows.Forms.Label label26;
     }
 }

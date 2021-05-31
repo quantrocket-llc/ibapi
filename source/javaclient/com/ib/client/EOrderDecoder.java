@@ -672,5 +672,11 @@ public class EOrderDecoder {
             m_order.duration(m_eDecoder.readInt());
         }
     }
+
+    public void readPostToAts() throws IOException {
+        if (m_serverVersion >= EClient.MIN_SERVER_VER_POST_TO_ATS) {
+            m_order.postToAts(m_eDecoder.readIntMax());
+        }
+    }
     
 }

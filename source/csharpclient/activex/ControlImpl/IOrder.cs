@@ -340,5 +340,8 @@ namespace TWSLib
         [DispId(185)]
         int duration { get; set; }
 
+        [DispId(186)]
+        int postToAts { get; set; }
+
     }
 }

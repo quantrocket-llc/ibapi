@@ -232,6 +232,7 @@ struct Order
 
 	UsePriceMmgtAlgo usePriceMgmtAlgo = UsePriceMmgtAlgo::DEFAULT;
 	int duration = UNSET_INTEGER;
+	int postToAts = UNSET_INTEGER;
 
 public:
 

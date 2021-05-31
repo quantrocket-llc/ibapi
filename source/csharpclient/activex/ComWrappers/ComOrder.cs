@@ -362,5 +362,6 @@ namespace TWSLib
         int TWSLib.IOrder.parentPermId { get { return (int)data.ParentPermId; } set { data.ParentPermId = value; } }
         bool TWSLib.IOrder.usePriceMgmtAlgo { get { return data.UsePriceMgmtAlgo ?? false; } set { data.UsePriceMgmtAlgo = value; } }
         int TWSLib.IOrder.duration { get { return (int)data.Duration; } set { data.Duration = value; } }
+        int TWSLib.IOrder.postToAts { get { return (int)data.PostToAts; } set { data.PostToAts = value; } }
     }
 }

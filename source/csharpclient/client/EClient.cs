@@ -1233,6 +1233,11 @@ namespace IBApi
                 {
                     paramsList.AddParameter(order.Duration);
                 }
+
+                if (serverVersion >= MinServerVer.POST_TO_ATS)
+                {
+                    paramsList.AddParameter(order.PostToAts);
+                }
             }
             catch (EClientException e)
             {
@@ -3816,6 +3821,13 @@ namespace IBApi
             if (serverVersion < MinServerVer.DURATION && order.Duration != int.MaxValue)
             {
                 ReportError(id, EClientErrors.UPDATE_TWS, " It does not support duration attribute.");
+
+                return false;
+            }
+
+            if (serverVersion < MinServerVer.POST_TO_ATS && order.PostToAts != int.MaxValue)
+            {
+                ReportError(id, EClientErrors.UPDATE_TWS, " It does not support postToAts attribute.");
 
                 return false;
             }

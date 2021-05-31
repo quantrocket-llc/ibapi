@@ -27,7 +27,7 @@ Const orderBaseColumnsEnd = 21 ' index of last column in Order Description
 Const errorColumnIndex = 22 ' index of error column
 Const idColumnIndex = 23 ' index of id column
 Const orderExtColumnsStart = 34 ' index of first column in Extended Order Attributes
-Const orderExtColumnsEnd = 146 ' index of last column in Extended Order Attributes
+Const orderExtColumnsEnd = 147 ' index of last column in Extended Order Attributes
 
 ' rows
 Const dataStartRowIndex = 10 ' starting row of data

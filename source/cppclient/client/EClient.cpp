@@ -1554,6 +1554,13 @@ void EClient::placeOrder( OrderId id, const Contract& contract, const Order& ord
         return;
     }
 
+    if (m_serverVersion < MIN_SERVER_VER_POST_TO_ATS
+        && order.postToAts != UNSET_INTEGER) {
+        m_pEWrapper->error(id, UPDATE_TWS.code(), UPDATE_TWS.msg() + " It does not support postToAts attribute");
+
+        return;
+    }
+
     std::stringstream msg;
     prepareBuffer( msg);
 
@@ -1973,6 +1980,10 @@ void EClient::placeOrder( OrderId id, const Contract& contract, const Order& ord
 
         if (m_serverVersion >= MIN_SERVER_VER_DURATION) {
             ENCODE_FIELD_MAX(order.duration);
+        }
+
+        if (m_serverVersion >= MIN_SERVER_VER_POST_TO_ATS) {
+            ENCODE_FIELD_MAX(order.postToAts);
         }
 
     }

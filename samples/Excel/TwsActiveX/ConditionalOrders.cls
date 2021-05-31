@@ -75,7 +75,7 @@ Public Sub Initialise()
     Set orderTable = ConditionalOrders.Range("$N$7:$S$125")
     Set orderStatusTable = ConditionalOrders.Range("$T$7:$Z$125")
     Set conditionTable = ConditionalOrders.Range("$AA$7:$AH$125")
-    Set extendedAttributeTable = ConditionalOrders.Range("$AI$7:$DW$125")
+    Set extendedAttributeTable = ConditionalOrders.Range("$AI$7:$DY$125")
 End Sub
 
 Private Sub Worksheet_Activate()

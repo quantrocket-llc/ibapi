@@ -136,6 +136,8 @@ Public Enum ExtendedOrderAttributesColumns
     Col_RELATIVE_DISCRETIONARY
     Col_USEPRICEMGMTALGO
     Col_DURATION
+    Col_POST_TO_ATS
+    Col_NOT_HELD
 End Enum
 
 ' other constants
@@ -376,6 +378,8 @@ Private Sub PlaceModifyOrder( _
         .discretionaryUpToLimitPrice = Util.SetNonEmptyValue(extendedAttributeTable(orderIndex, Col_RELATIVE_DISCRETIONARY).value, .discretionaryUpToLimitPrice)
         .usePriceMgmtAlgo = Util.SetNonEmptyValue(extendedAttributeTable(orderIndex, Col_USEPRICEMGMTALGO).value, .usePriceMgmtAlgo)
         .duration = Util.SetNonEmptyValue(extendedAttributeTable(orderIndex, Col_DURATION).value, .duration)
+        .postToAts = Util.SetNonEmptyValue(extendedAttributeTable(orderIndex, Col_POST_TO_ATS).value, .postToAts)
+        .notHeld = Util.SetNonEmptyValue(extendedAttributeTable(orderIndex, Col_NOT_HELD).value, .notHeld)
     End With
 
     ' combo legs

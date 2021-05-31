@@ -3627,6 +3627,7 @@ Friend Class MainForm
         End If
 
         appendValidIntValue(Utils.ListType.ServerResponses, "duration", order.Duration)
+        appendValidIntValue(Utils.ListType.ServerResponses, "postToAts", order.PostToAts)
 
         m_utils.addListItem(Utils.ListType.ServerResponses, "===============================")
     End Sub

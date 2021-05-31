@@ -358,8 +358,9 @@ public class OrderUtils {
                 item.add(Utils.toString(openOrderData.order().discretionaryUpToLimitPrice()));
                 item.add(Utils.toString(openOrderData.order().usePriceMgmtAlgo()));
                 item.add(Utils.toString(openOrderData.order().duration()));
+                item.add(Utils.toString(openOrderData.order().postToAts()));
             } else {
-                for (int j = 0; j < 98; j++) {
+                for (int j = 0; j < 99; j++) {
                     item.add(Utils.toString(""));
                 }
             }

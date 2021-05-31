@@ -113,5 +113,6 @@ namespace IBApi
         public const int REPLACE_FA_END = 157;
         public const int DURATION = 158;
         public const int MARKET_DATA_IN_SHARES = 159;
+        public const int POST_TO_ATS = 160;
     }
 }

@@ -1441,6 +1441,7 @@ class SampleFrame extends JFrame implements EWrapper {
     private static void copyExtendedOrderDetails( Order destOrder, Order srcOrder) {
         destOrder.tif(srcOrder.getTif());
         destOrder.duration(srcOrder.duration());
+        destOrder.postToAts(srcOrder.postToAts());
         destOrder.activeStartTime(srcOrder.activeStartTime());
         destOrder.activeStopTime(srcOrder.activeStopTime());
         destOrder.ocaGroup(srcOrder.ocaGroup());
@@ -1518,6 +1519,7 @@ class SampleFrame extends JFrame implements EWrapper {
         destOrder.dontUseAutoPriceForHedge(srcOrder.dontUseAutoPriceForHedge());
         destOrder.isOmsContainer(srcOrder.isOmsContainer());
         destOrder.discretionaryUpToLimitPrice(srcOrder.discretionaryUpToLimitPrice());
+        destOrder.notHeld(srcOrder.notHeld());
     }
 
     public void position(String account, Contract contract, double pos, double avgCost) {

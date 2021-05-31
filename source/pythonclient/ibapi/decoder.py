@@ -210,6 +210,7 @@ class Decoder(Object):
         OrderDecoder.decodeDiscretionaryUpToLimitPrice(self, fields)
         OrderDecoder.decodeUsePriceMgmtAlgo(self, fields)
         OrderDecoder.decodeDuration(self, fields)
+        OrderDecoder.decodePostToAts(self, fields)
 
         self.wrapper.openOrder(order.orderId, contract, order, orderState)
 

@@ -840,5 +840,13 @@ namespace IBApi
             }
         }
 
+        public void readPostToAts()
+        {
+            if (serverVersion >= MinServerVer.POST_TO_ATS)
+            {
+                order.PostToAts = eDecoder.ReadIntMax();
+            }
+        }
+
     }
 }
