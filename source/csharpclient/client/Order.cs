@@ -340,21 +340,6 @@ namespace IBApi
         public double DiscretionaryAmt { get; set; }
 
         /**
-         * @brief Trade with electronic quotes.
-         */
-        public bool ETradeOnly { get; set; }
-
-        /**
-         * @brief Trade with firm quotes.
-         */
-        public bool FirmQuoteOnly { get; set; }
-
-        /**
-         * @brief Maximum smart order distance from the NBBO.
-         */
-        public double NbboPriceCap { get; set; }
-
-        /**
          * @brief Use to opt out of default SmartRouting for orders routed directly to ASX.
          * This attribute defaults to false unless explicitly set to true. When set to false, orders routed directly to ASX will NOT use SmartRouting. When set to true, orders routed directly to ASX orders WILL use SmartRouting.
          */
@@ -747,6 +732,8 @@ namespace IBApi
         public long ParentPermId { get; set; }
 
 
+
+
         public Order()
         {
             LmtPrice = double.MaxValue;
@@ -761,7 +748,6 @@ namespace IBApi
             ExemptCode = -1;
             MinQty = int.MaxValue;
             PercentOffset = double.MaxValue;
-            NbboPriceCap = double.MaxValue;
             OptOutSmartRouting = false;
             StartingPrice = double.MaxValue;
             StockRefPrice = double.MaxValue;
@@ -821,6 +807,8 @@ namespace IBApi
             RouteMarketableToBbo = false;
             ParentPermId = long.MaxValue;
             UsePriceMgmtAlgo = null;
+            Duration = int.MaxValue;
+            PostToAts = int.MaxValue;
         }
 
 		// Note: Two orders can be 'equivalent' even if all fields do not match. This function is not intended to be used with Order objects returned from TWS.
@@ -862,9 +850,6 @@ namespace IBApi
                 Origin != l_theOther.Origin ||
                 ShortSaleSlot != l_theOther.ShortSaleSlot ||
                 DiscretionaryAmt != l_theOther.DiscretionaryAmt ||
-                ETradeOnly != l_theOther.ETradeOnly ||
-                FirmQuoteOnly != l_theOther.FirmQuoteOnly ||
-                NbboPriceCap != l_theOther.NbboPriceCap ||
                 OptOutSmartRouting != l_theOther.OptOutSmartRouting ||
                 AuctionStrategy != l_theOther.AuctionStrategy ||
                 StartingPrice != l_theOther.StartingPrice ||
@@ -910,7 +895,9 @@ namespace IBApi
                 AutoCancelParent != l_theOther.AutoCancelParent ||
                 ImbalanceOnly != l_theOther.ImbalanceOnly ||
                 RouteMarketableToBbo != l_theOther.RouteMarketableToBbo ||
-                ParentPermId != l_theOther.ParentPermId)
+                ParentPermId != l_theOther.ParentPermId ||
+                Duration != l_theOther.Duration ||
+                PostToAts != l_theOther.PostToAts)
             {
                 return false;
             }
@@ -1016,9 +1003,6 @@ namespace IBApi
             hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(DesignatedLocation);
             hashCode = hashCode * -1521134295 + ExemptCode.GetHashCode();
             hashCode = hashCode * -1521134295 + DiscretionaryAmt.GetHashCode();
-            hashCode = hashCode * -1521134295 + ETradeOnly.GetHashCode();
-            hashCode = hashCode * -1521134295 + FirmQuoteOnly.GetHashCode();
-            hashCode = hashCode * -1521134295 + NbboPriceCap.GetHashCode();
             hashCode = hashCode * -1521134295 + OptOutSmartRouting.GetHashCode();
             hashCode = hashCode * -1521134295 + AuctionStrategy.GetHashCode();
             hashCode = hashCode * -1521134295 + StartingPrice.GetHashCode();
@@ -1106,6 +1090,8 @@ namespace IBApi
             hashCode = hashCode * -1521134295 + IsOmsContainer.GetHashCode();
             hashCode = hashCode * -1521134295 + DiscretionaryUpToLimitPrice.GetHashCode();
             hashCode = hashCode * -1521134295 + EqualityComparer<bool?>.Default.GetHashCode(UsePriceMgmtAlgo);
+            hashCode = hashCode * -1521134295 + Duration.GetHashCode();
+            hashCode = hashCode * -1521134295 + PostToAts.GetHashCode();
             return hashCode;
         }
 
@@ -1205,5 +1191,10 @@ namespace IBApi
         public bool DiscretionaryUpToLimitPrice { get; set; }
 
         public bool? UsePriceMgmtAlgo { get; set; }
+
+        public int Duration { get; set; }
+
+        public int PostToAts { get; set; }
+
     }
 }

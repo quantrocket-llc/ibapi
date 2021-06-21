@@ -1051,7 +1051,7 @@ class EDecoder implements ObjectInput {
 		int operation = readInt();
 		int side = readInt();
 		double price = readDouble();
-		int size = readInt();
+		long size = readLong();
 		
 		boolean isSmartDepth = false;
 		if (m_serverVersion >= EClient.MIN_SERVER_VER_SMART_DEPTH) {
@@ -1070,7 +1070,7 @@ class EDecoder implements ObjectInput {
 		int operation = readInt();
 		int side = readInt();
 		double price = readDouble();
-		int size = readInt();
+		long size = readLong();
 
 		m_EWrapper.updateMktDepth(id, position, operation,
 		                side, price, size);
@@ -1427,6 +1427,8 @@ class EDecoder implements ObjectInput {
         eOrderDecoder.readIsOmsContainer();
         eOrderDecoder.readDiscretionaryUpToLimitPrice();
         eOrderDecoder.readUsePriceMgmtAlgo();
+        eOrderDecoder.readDuration();
+        eOrderDecoder.readPostToAts();
 
         m_EWrapper.openOrder(order.orderId(), contract, order, orderState);
     }
@@ -1695,7 +1697,7 @@ class EDecoder implements ObjectInput {
 		/*int version =*/ readInt();
 		int tickerId = readInt();
 		int tickType = readInt();
-		int size = readInt();
+		long size = readLong();
 
 		m_EWrapper.tickSize( tickerId, tickType, size);
 	}
@@ -1705,11 +1707,11 @@ class EDecoder implements ObjectInput {
 		int tickerId = readInt();
 		int tickType = readInt();
 		double price = readDouble();
-		int size = 0;
+		long size = 0;
 		TickAttrib attribs = new TickAttrib();
 		
 		if( version >= 2) {
-		    size = readInt();
+		    size = readLong();
 		}
 		
 		if (version >= 3) {		
@@ -1848,7 +1850,7 @@ class EDecoder implements ObjectInput {
             case 1: // Last
             case 2: // AllLast
                 double price = readDouble();
-                int size = readInt();
+                long size = readLong();
                 mask = new BitMask(readInt());
                 TickAttribLast tickAttribLast = new TickAttribLast();
                 tickAttribLast.pastLimit(mask.get(0));
@@ -1860,8 +1862,8 @@ class EDecoder implements ObjectInput {
             case 3: // BidAsk
                 double bidPrice = readDouble();
                 double askPrice = readDouble();
-                int bidSize = readInt();
-                int askSize = readInt();
+                long bidSize = readLong();
+                long askSize = readLong();
                 mask = new BitMask(readInt());
                 TickAttribBidAsk tickAttribBidAsk = new TickAttribBidAsk();
                 tickAttribBidAsk.bidPastLow(mask.get(0));

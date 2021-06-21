@@ -10,7 +10,7 @@ public class MarketDepthData {
     private final int m_operation;
     private final int m_side;
     private final double m_price;
-    private final int m_size;
+    private final long m_size;
     private final boolean m_isSmartDepth;
     
     // gets
@@ -19,10 +19,10 @@ public class MarketDepthData {
     public int operation()        { return m_operation; }
     public int side()             { return m_side; }
     public double price()         { return m_price; }
-    public int size()             { return m_size; }
+    public long size()             { return m_size; }
     public boolean isSmartDepth() { return m_isSmartDepth; }
     
-    public MarketDepthData(int position, String marketMaker, int operation, int side, double price, int size, boolean isSmartDepth) {
+    public MarketDepthData(int position, String marketMaker, int operation, int side, double price, long size, boolean isSmartDepth) {
         m_position = position;
         m_marketMaker = marketMaker;
         m_operation = operation;

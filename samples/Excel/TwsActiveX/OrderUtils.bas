@@ -72,9 +72,6 @@ Public Enum ExtendedOrderAttributesColumns
     Col_ALLORNONE
     Col_MINQTY
     Col_PERCENTOFFSET
-    Col_ETRADEONLY
-    Col_FIRMQUOTEONLY
-    Col_NBBOPRICECAP
     Col_OPT_OUT_SMART_ROUTING
     Col_AUCTIONSTRAT
     Col_STARTINGPRICE
@@ -138,6 +135,9 @@ Public Enum ExtendedOrderAttributesColumns
     Col_IS_OMS_CONTAINER
     Col_RELATIVE_DISCRETIONARY
     Col_USEPRICEMGMTALGO
+    Col_DURATION
+    Col_POST_TO_ATS
+    Col_NOT_HELD
 End Enum
 
 ' other constants
@@ -311,9 +311,6 @@ Private Sub PlaceModifyOrder( _
         .allOrNone = Util.SetNonEmptyValue(extendedAttributeTable(orderIndex, Col_ALLORNONE).value, .allOrNone)
         .minQty = Util.SetNonEmptyValue(extendedAttributeTable(orderIndex, Col_MINQTY).value, .minQty)
         .percentOffset = Util.SetNonEmptyValue(extendedAttributeTable(orderIndex, Col_PERCENTOFFSET).value, .percentOffset)
-        .eTradeOnly = Util.SetNonEmptyValue(extendedAttributeTable(orderIndex, Col_ETRADEONLY).value, .eTradeOnly)
-        .firmQuoteOnly = Util.SetNonEmptyValue(extendedAttributeTable(orderIndex, Col_FIRMQUOTEONLY).value, .firmQuoteOnly)
-        .nbboPriceCap = Util.SetNonEmptyValue(extendedAttributeTable(orderIndex, Col_NBBOPRICECAP).value, .nbboPriceCap)
         .auctionStrategy = Util.SetNonEmptyValue(extendedAttributeTable(orderIndex, Col_AUCTIONSTRAT).value, .auctionStrategy)
         .startingPrice = Util.SetNonEmptyValue(extendedAttributeTable(orderIndex, Col_STARTINGPRICE).value, .startingPrice)
         .stockRefPrice = Util.SetNonEmptyValue(extendedAttributeTable(orderIndex, Col_STOCKREFPRICE).value, .stockRefPrice)
@@ -380,6 +377,9 @@ Private Sub PlaceModifyOrder( _
         .isOmsContainer = Util.SetNonEmptyValue(extendedAttributeTable(orderIndex, Col_IS_OMS_CONTAINER).value, .isOmsContainer)
         .discretionaryUpToLimitPrice = Util.SetNonEmptyValue(extendedAttributeTable(orderIndex, Col_RELATIVE_DISCRETIONARY).value, .discretionaryUpToLimitPrice)
         .usePriceMgmtAlgo = Util.SetNonEmptyValue(extendedAttributeTable(orderIndex, Col_USEPRICEMGMTALGO).value, .usePriceMgmtAlgo)
+        .duration = Util.SetNonEmptyValue(extendedAttributeTable(orderIndex, Col_DURATION).value, .duration)
+        .postToAts = Util.SetNonEmptyValue(extendedAttributeTable(orderIndex, Col_POST_TO_ATS).value, .postToAts)
+        .notHeld = Util.SetNonEmptyValue(extendedAttributeTable(orderIndex, Col_NOT_HELD).value, .notHeld)
     End With
 
     ' combo legs

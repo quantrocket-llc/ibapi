@@ -102,7 +102,9 @@ enum State {
     ST_REQTICKBYTICKDATA_ACK,
 	ST_WHATIFSAMPLES,
 	ST_WHATIFSAMPLES_ACK,
-	ST_IDLE
+	ST_IDLE,
+	ST_IBKRATSSAMPLE,
+	ST_IBKRATSSAMPLE_ACK
 };
 
 //! [ewrapperimpl]
@@ -165,6 +167,7 @@ private:
     void reqHistoricalTicks();
     void reqTickByTickData();
 	void whatIfSamples();
+	void ibkratsSample();
 
 	void reqCurrentTime();
 

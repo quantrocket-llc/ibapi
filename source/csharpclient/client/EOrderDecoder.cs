@@ -291,7 +291,7 @@ namespace IBApi
         {
             if (msgVersion >= 9)
             {
-                order.DisplaySize = eDecoder.ReadInt();
+                order.DisplaySize = eDecoder.ReadIntMax();
             }
         }
 
@@ -348,27 +348,27 @@ namespace IBApi
             }
         }
 
-        public void readETradeOnly() 
+        public void skipETradeOnly() 
         {
             if (msgVersion >= 9)
             {
-                order.ETradeOnly = eDecoder.ReadBoolFromInt();
+                eDecoder.ReadBoolFromInt();
             }
         }
 
-        public void readFirmQuoteOnly() 
+        public void skipFirmQuoteOnly() 
         {
             if (msgVersion >= 9)
             {
-                order.FirmQuoteOnly = eDecoder.ReadBoolFromInt();
+                eDecoder.ReadBoolFromInt();
             }
         }
 
-        public void readNbboPriceCap() 
+        public void skipNbboPriceCap() 
         {
             if (msgVersion >= 9)
             {
-                order.NbboPriceCap = eDecoder.ReadDoubleMax();
+                eDecoder.ReadDoubleMax();
             }
         }
 
@@ -831,6 +831,22 @@ namespace IBApi
                 order.UsePriceMgmtAlgo = eDecoder.ReadBoolFromInt();
             }
         }
-        
+
+        public void readDuration()
+        {
+            if (serverVersion >= MinServerVer.DURATION)
+            {
+                order.Duration = eDecoder.ReadIntMax();
+            }
+        }
+
+        public void readPostToAts()
+        {
+            if (serverVersion >= MinServerVer.POST_TO_ATS)
+            {
+                order.PostToAts = eDecoder.ReadIntMax();
+            }
+        }
+
     }
 }

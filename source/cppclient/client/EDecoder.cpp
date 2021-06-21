@@ -35,7 +35,7 @@ const char* EDecoder::processTickPriceMsg(const char* ptr, const char* endPtr) {
 	int tickTypeInt;
 	double price;
 
-	int size;
+	long long size;
 	int attrMask;
 
 	DECODE_FIELD( version);
@@ -100,7 +100,7 @@ const char* EDecoder::processTickSizeMsg(const char* ptr, const char* endPtr) {
 	int version;
 	int tickerId;
 	int tickTypeInt;
-	int size;
+	long long size;
 
 	DECODE_FIELD( version);
 	DECODE_FIELD( tickerId);
@@ -395,9 +395,9 @@ const char* EDecoder::processOpenOrderMsg(const char* ptr, const char* endPtr) {
           && eOrderDecoder.decodeAllOrNone(ptr, endPtr)
           && eOrderDecoder.decodeMinQty(ptr, endPtr)
           && eOrderDecoder.decodeOcaType(ptr, endPtr)
-          && eOrderDecoder.decodeETradeOnly(ptr, endPtr)
-          && eOrderDecoder.decodeFirmQuoteOnly(ptr, endPtr)
-          && eOrderDecoder.decodeNbboPriceCap(ptr, endPtr)
+          && eOrderDecoder.skipETradeOnly(ptr, endPtr)
+          && eOrderDecoder.skipFirmQuoteOnly(ptr, endPtr)
+          && eOrderDecoder.skipNbboPriceCap(ptr, endPtr)
           && eOrderDecoder.decodeParentId(ptr, endPtr)
           && eOrderDecoder.decodeTriggerMethod(ptr, endPtr)
           && eOrderDecoder.decodeVolOrderParams(ptr, endPtr, true)
@@ -423,7 +423,9 @@ const char* EDecoder::processOpenOrderMsg(const char* ptr, const char* endPtr) {
           && eOrderDecoder.decodeDontUseAutoPriceForHedge(ptr, endPtr)
           && eOrderDecoder.decodeIsOmsContainer(ptr, endPtr)
           && eOrderDecoder.decodeDiscretionaryUpToLimitPrice(ptr, endPtr)
-          && eOrderDecoder.decodeUsePriceMgmtAlgo(ptr, endPtr);
+          && eOrderDecoder.decodeUsePriceMgmtAlgo(ptr, endPtr)
+          && eOrderDecoder.decodeDuration(ptr, endPtr)
+          && eOrderDecoder.decodePostToAts(ptr, endPtr);
         if (!success) {
           return nullptr;
         }
@@ -788,7 +790,7 @@ const char* EDecoder::processMarketDepthMsg(const char* ptr, const char* endPtr)
 	int operation;
 	int side;
 	double price;
-	int size;
+	long long size;
 
 	DECODE_FIELD( version);
 	DECODE_FIELD( id);
@@ -811,7 +813,7 @@ const char* EDecoder::processMarketDepthL2Msg(const char* ptr, const char* endPt
 	int operation;
 	int side;
 	double price;
-	int size;
+	long long size;
 	bool isSmartDepth = false;
 
 	DECODE_FIELD( version);
@@ -2036,7 +2038,7 @@ const char* EDecoder::processTickByTickDataMsg(const char* ptr, const char* endP
 
     if (tickType == 1 || tickType == 2) { // Last/AllLast
             double price;
-            int size;
+            long long size;
             int attrMask;
             TickAttribLast tickAttribLast = {};
             std::string exchange;
@@ -2058,8 +2060,8 @@ const char* EDecoder::processTickByTickDataMsg(const char* ptr, const char* endP
     } else if (tickType == 3) { // BidAsk
             double bidPrice;
             double askPrice;
-            int bidSize;
-            int askSize;
+            long long bidSize;
+            long long askSize;
             int attrMask;
             DECODE_FIELD(bidPrice);
             DECODE_FIELD(askPrice);

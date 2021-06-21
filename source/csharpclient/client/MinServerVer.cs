@@ -111,5 +111,8 @@ namespace IBApi
         public const int NO_DEFAULT_OPEN_CLOSE = 155;
         public const int PRICE_BASED_VOLATILITY = 156;
         public const int REPLACE_FA_END = 157;
+        public const int DURATION = 158;
+        public const int MARKET_DATA_IN_SHARES = 159;
+        public const int POST_TO_ATS = 160;
     }
 }

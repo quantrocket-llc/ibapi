@@ -137,9 +137,6 @@ public class Order {
     
     // SMART routing only
     private double  m_discretionaryAmt = Double.MAX_VALUE;
-    private boolean m_eTradeOnly;
-    private boolean m_firmQuoteOnly;
-    private double  m_nbboPriceCap = Double.MAX_VALUE;
     private boolean m_optOutSmartRouting;
 
     // BOX or VOL ORDERS ONLY
@@ -218,14 +215,14 @@ public class Order {
     private long    m_parentPermId;
 
     private Boolean m_usePriceMgmtAlgo;
+    private int     m_duration;
+    private int     m_postToAts;
 	
 	// getters
     public Action  action()                         { return Action.get(m_action); }
     public String  getAction()                      { return m_action; }
     public boolean allOrNone()                      { return m_allOrNone; }
     public boolean blockOrder()                     { return m_blockOrder; }
-    public boolean eTradeOnly()                     { return m_eTradeOnly; }
-    public boolean firmQuoteOnly()                  { return m_firmQuoteOnly; }
     public boolean hidden()                         { return m_hidden; }
     public boolean outsideRth()                     { return m_outsideRth; }
     public boolean notHeld()                        { return m_notHeld; }
@@ -241,7 +238,6 @@ public class Order {
     public double deltaNeutralAuxPrice()            { return m_deltaNeutralAuxPrice; }
     public double discretionaryAmt()                { return m_discretionaryAmt; }
     public double lmtPrice()                        { return m_lmtPrice; }
-    public double nbboPriceCap()                    { return m_nbboPriceCap; }
     public double percentOffset()                   { return m_percentOffset; }
     public double scalePriceAdjustValue()           { return m_scalePriceAdjustValue; }
     public double scalePriceIncrement()             { return m_scalePriceIncrement; }
@@ -361,6 +357,8 @@ public class Order {
     public boolean routeMarketableToBbo()           { return m_routeMarketableToBbo; }
     public long parentPermId()                      { return m_parentPermId; }
     public Boolean usePriceMgmtAlgo()               { return m_usePriceMgmtAlgo; }
+    public int duration()                           { return m_duration; }
+    public int postToAts()                          { return m_postToAts; }
   
 	// setters
 	public void referenceContractId(int m_referenceContractId)          { this.m_referenceContractId = m_referenceContractId; }
@@ -389,13 +387,11 @@ public class Order {
     public void deltaNeutralOrderType(String v)                         { m_deltaNeutralOrderType = v; }
     public void discretionaryAmt(double v)                              { m_discretionaryAmt = v; }
     public void displaySize(int v)                                      { m_displaySize = v; }
-    public void eTradeOnly(boolean v)                                   { m_eTradeOnly = v; }
     public void faGroup(String v)                                       { m_faGroup = v; }
     public void faMethod(Method v)                                      { m_faMethod = ( v == null ) ? null : v.getApiString(); }
     public void faMethod(String v)                                      { m_faMethod = v; }
     public void faPercentage(String v)                                  { m_faPercentage = v; }
     public void faProfile(String v)                                     { m_faProfile = v; }
-    public void firmQuoteOnly(boolean v)                                { m_firmQuoteOnly = v; }
     public void goodAfterTime(String v)                                 { m_goodAfterTime = v; }
     public void goodTillDate(String v)                                  { m_goodTillDate = v; }
     public void hedgeParam(String v)                                    { m_hedgeParam = v; }
@@ -404,7 +400,6 @@ public class Order {
     public void hidden(boolean v)                                       { m_hidden = v; }
     public void lmtPrice(double v)                                      { m_lmtPrice = v; }
     public void minQty(int v)                                           { m_minQty = v; }
-    public void nbboPriceCap(double v)                                  { m_nbboPriceCap = v; }
     public void notHeld(boolean v)                                      { m_notHeld = v; }
     public void solicited(boolean v)                                    { m_solicited = v; }
     public void ocaGroup(String v)                                      { m_ocaGroup = v; }
@@ -505,6 +500,8 @@ public class Order {
     public void routeMarketableToBbo(boolean v)                         { m_routeMarketableToBbo = v; }
     public void parentPermId(long v)                                    { m_parentPermId = v; }
     public void usePriceMgmtAlgo(Boolean v)                             { m_usePriceMgmtAlgo = v; }
+    public void duration(int v)                                         { m_duration = v; }
+    public void postToAts(int v)                                        { m_postToAts = v; }
 
 
     public Order() {
@@ -552,6 +549,8 @@ public class Order {
         m_routeMarketableToBbo = false;
         m_parentPermId = 0;
         m_usePriceMgmtAlgo = null;
+        m_duration = Integer.MAX_VALUE;
+        m_postToAts = Integer.MAX_VALUE;
     }
 
     public List<TagValue> algoParams() {
@@ -598,9 +597,6 @@ public class Order {
         	|| m_origin != l_theOther.m_origin
         	|| m_shortSaleSlot != l_theOther.m_shortSaleSlot
         	|| m_discretionaryAmt != l_theOther.m_discretionaryAmt
-        	|| m_eTradeOnly != l_theOther.m_eTradeOnly
-        	|| m_firmQuoteOnly != l_theOther.m_firmQuoteOnly
-        	|| m_nbboPriceCap != l_theOther.m_nbboPriceCap
         	|| m_optOutSmartRouting != l_theOther.m_optOutSmartRouting
         	|| m_auctionStrategy != l_theOther.m_auctionStrategy
         	|| m_startingPrice != l_theOther.m_startingPrice
@@ -656,6 +652,8 @@ public class Order {
             || m_imbalanceOnly != l_theOther.m_imbalanceOnly
             || m_routeMarketableToBbo != l_theOther.m_routeMarketableToBbo
             || m_parentPermId != l_theOther.m_parentPermId
+            || m_duration != l_theOther.m_duration
+            || m_postToAts != l_theOther.m_postToAts
             ) {
         	return false;
         }

@@ -180,9 +180,9 @@ class Decoder(Object):
         OrderDecoder.decodeAllOrNone(self, fields)
         OrderDecoder.decodeMinQty(self, fields)
         OrderDecoder.decodeOcaType(self, fields)
-        OrderDecoder.decodeETradeOnly(self, fields)
-        OrderDecoder.decodeFirmQuoteOnly(self, fields)
-        OrderDecoder.decodeNbboPriceCap(self, fields)
+        OrderDecoder.skipETradeOnly(self, fields)
+        OrderDecoder.skipFirmQuoteOnly(self, fields)
+        OrderDecoder.skipNbboPriceCap(self, fields)
         OrderDecoder.decodeParentId(self, fields)
         OrderDecoder.decodeTriggerMethod(self, fields)
         OrderDecoder.decodeVolOrderParams(self, fields, True)
@@ -209,6 +209,8 @@ class Decoder(Object):
         OrderDecoder.decodeIsOmsContainers(self, fields)
         OrderDecoder.decodeDiscretionaryUpToLimitPrice(self, fields)
         OrderDecoder.decodeUsePriceMgmtAlgo(self, fields)
+        OrderDecoder.decodeDuration(self, fields)
+        OrderDecoder.decodePostToAts(self, fields)
 
         self.wrapper.openOrder(order.orderId, contract, order, orderState)
 

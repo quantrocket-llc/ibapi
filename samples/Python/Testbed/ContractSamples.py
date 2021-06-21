@@ -328,8 +328,8 @@ class ContractSamples:
         contract.multiplier = "50"
         #! [fopcontract]
         return contract
-		
-	@staticmethod
+
+    @staticmethod
     def Warrants():
         #! [warcontract]
         contract = Contract()
@@ -664,7 +664,18 @@ class ContractSamples:
         contract.currency = "USD";
         contract.lastTradeDateOrContractMonth = "202003";
         # ! [qbalgo_contract]
-        return contract;  
+        return contract; 
+
+    @staticmethod
+    def IBKRATSContract():
+        # ! [ibkrats_contract]
+        contract = Contract();
+        contract.symbol = "QQQ";
+        contract.secType = "STK";
+        contract.currency = "USD";
+        contract.exchange = "IBKRATS";
+        # ! [ibkrats_contract]
+        return contract;
 
 def Test():
     from ibapi.utils import ExerciseStaticMethods

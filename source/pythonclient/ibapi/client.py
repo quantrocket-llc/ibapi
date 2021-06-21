@@ -1091,6 +1091,14 @@ class EClient(object):
             self.wrapper.error(orderId, UPDATE_TWS.code(), UPDATE_TWS.msg() + " It does not support Use price management algo requests")
             return
 
+        if self.serverVersion() < MIN_SERVER_VER_DURATION and order.duration != UNSET_INTEGER:
+            self.wrapper.error(orderId, UPDATE_TWS.code(), UPDATE_TWS.msg() + " It does not support duration attribute")
+            return
+
+        if self.serverVersion() < MIN_SERVER_VER_POST_TO_ATS and order.postToAts != UNSET_INTEGER:
+            self.wrapper.error(orderId, UPDATE_TWS.code(), UPDATE_TWS.msg() + " It does not support postToAts attribute")
+            return
+
         try:
                 
             VERSION = 27 if (self.serverVersion() < MIN_SERVER_VER_NOT_HELD) else 45
@@ -1241,9 +1249,9 @@ class EClient(object):
                 make_field( order.allOrNone),
                 make_field_handle_empty( order.minQty),
                 make_field_handle_empty( order.percentOffset),
-                make_field( order.eTradeOnly),
-                make_field( order.firmQuoteOnly),
-                make_field_handle_empty( order.nbboPriceCap),
+                make_field( False),
+                make_field( False),
+                make_field_handle_empty( UNSET_DOUBLE),
                 make_field( order.auctionStrategy), # AUCTION_MATCH, AUCTION_IMPROVEMENT, AUCTION_TRANSPARENT
                 make_field_handle_empty( order.startingPrice),
                 make_field_handle_empty( order.stockRefPrice),
@@ -1416,7 +1424,13 @@ class EClient(object):
     
             if self.serverVersion() >= MIN_SERVER_VER_PRICE_MGMT_ALGO:
                 flds.append(make_field_handle_empty(UNSET_INTEGER if order.usePriceMgmtAlgo == None else 1 if order.usePriceMgmtAlgo else 0))
+
+            if self.serverVersion() >= MIN_SERVER_VER_DURATION:
+                flds.append(make_field(order.duration))
     
+            if self.serverVersion() >= MIN_SERVER_VER_POST_TO_ATS:
+                flds.append(make_field(order.postToAts))
+
             msg = "".join(flds)
             
         except ClientException as ex:

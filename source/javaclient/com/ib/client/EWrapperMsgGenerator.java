@@ -21,7 +21,7 @@ public class EWrapperMsgGenerator {
         (field == TickType.BID.index() || field == TickType.ASK.index() ? " preOpen = " + attribs.preOpen() : "");
     }
 	
-    public static String tickSize( int tickerId, int field, int size) {
+    public static String tickSize( int tickerId, int field, long size) {
     	return "id=" + tickerId + "  " + TickType.getField( field) + "=" + size;
     }
     
@@ -243,12 +243,12 @@ public class EWrapperMsgGenerator {
     }
     
     public static String updateMktDepth( int tickerId, int position, int operation, int side,
-    									 double price, int size) {
+    									 double price, long size) {
     	return "updateMktDepth: " + tickerId + " " + position + " " + operation + " " + side + " " + price + " " + size;
     }
     
     public static String updateMktDepthL2( int tickerId, int position, String marketMaker,
-    									   int operation, int side, double price, int size, boolean isSmartDepth) {
+    									   int operation, int side, double price, long size, boolean isSmartDepth) {
     	return "updateMktDepth: " + tickerId + " " + position + " " + marketMaker + " " + operation + " " + side + " " + price + " " + size + " " + isSmartDepth;
     }
     
@@ -639,7 +639,7 @@ public class EWrapperMsgGenerator {
                 + ", tick attribs: " + (tickAttribLast.pastLimit() ? "pastLimit " : "") + (tickAttribLast.unreported() ? "unreported " : "");
     }
     
-    public static String tickByTickAllLast(int reqId, int tickType, long time, double price, int size, TickAttribLast tickAttribLast, 
+    public static String tickByTickAllLast(int reqId, int tickType, long time, double price, long size, TickAttribLast tickAttribLast, 
             String exchange, String specialConditions){
         return (tickType == 1 ? "Last." : "AllLast.") +
                 " Req Id: " + reqId + " Time: " + Util.UnixSecondsToString(time, "yyyyMMdd-HH:mm:ss zzz") + " Price: " + price + " Size: " + size +
@@ -647,7 +647,7 @@ public class EWrapperMsgGenerator {
                 (tickType == 1 ? "" : (tickAttribLast.unreported() ? "unreported " : ""));
     }
     
-    public static String tickByTickBidAsk(int reqId, long time, double bidPrice, double askPrice, int bidSize, int askSize,
+    public static String tickByTickBidAsk(int reqId, long time, double bidPrice, double askPrice, long bidSize, long askSize,
             TickAttribBidAsk tickAttribBidAsk){
         return "BidAsk. Req Id: " + reqId + " Time: " + Util.UnixSecondsToString(time, "yyyyMMdd-HH:mm:ss zzz") + " BidPrice: " + bidPrice + 
                 " AskPrice: " + askPrice + " BidSize: " + bidSize + " AskSize: " + askSize + " Tick Attibs: " + 
@@ -729,9 +729,6 @@ public class EWrapperMsgGenerator {
         Util.appendBooleanFlag(sb, "allOrNone", order.allOrNone());
         Util.appendValidIntValue(sb, "minQty", order.minQty());
         Util.appendValidDoubleValue(sb, "percentOffset", order.percentOffset());
-        Util.appendBooleanFlag(sb, "eTradeOnly", order.eTradeOnly());
-        Util.appendBooleanFlag(sb, "firmQuoteOnly", order.firmQuoteOnly());
-        Util.appendValidDoubleValue(sb, "nbboPriceCap", order.nbboPriceCap());
         Util.appendBooleanFlag(sb, "optOutSmartRouting", order.optOutSmartRouting());
         Util.appendValidDoubleValue(sb, "startingPrice", order.startingPrice());
         Util.appendValidDoubleValue(sb, "stockRefPrice", order.stockRefPrice());
@@ -876,6 +873,8 @@ public class EWrapperMsgGenerator {
         Util.appendBooleanFlag(sb, "imbalanceOnly", order.imbalanceOnly());
         Util.appendBooleanFlag(sb, "routeMarketableToBbo", order.routeMarketableToBbo());
         Util.appendValidLongValue(sb, "parentPermId", order.parentPermId());
+        Util.appendValidIntValue(sb, "duration", order.duration());
+        Util.appendValidIntValue(sb, "postToAts", order.postToAts());
         
         Util.appendNonEmptyString(sb, "status", orderState.getStatus());
         Util.appendNonEmptyString(sb, "completedTime", orderState.completedTime());

@@ -173,10 +173,10 @@ class TopModel extends AbstractTableModel {
 		double m_ask;
 		double m_last;
 		long m_lastTime;
-		int m_bidSize;
-		int m_askSize;
+		long m_bidSize;
+		long m_askSize;
 		double m_close;
-		int m_volume;
+		long m_volume;
 		double m_open;
 		boolean m_cancel;
 		String m_marketDataType = MarketDataType.getField(MarketDataType.REALTIME);
@@ -188,9 +188,9 @@ class TopModel extends AbstractTableModel {
 		String m_bboExch;
 		int m_snapshotPermissions;
 		int m_bidMask, m_askMask;
-		int m_futuresOpenInterest;
-		int m_avgOptVolume;
-		int m_shortableShares;
+		long m_futuresOpenInterest;
+		long m_avgOptVolume;
+		long m_shortableShares;
 		
 		TopRow( AbstractTableModel model, String description, MarketDataPanel parentPanel) {
 			m_model = model;
@@ -244,7 +244,7 @@ class TopModel extends AbstractTableModel {
 			m_model.fireTableDataChanged(); // should use a timer to be more efficient
 		}
 
-		@Override public void tickSize( TickType tickType, int size) {
+		@Override public void tickSize( TickType tickType, long size) {
 			if ( m_marketDataType.equalsIgnoreCase(MarketDataType.getField(MarketDataType.REALTIME)) &&
 					(tickType == TickType.DELAYED_BID_SIZE || 
 					tickType == TickType.DELAYED_ASK_SIZE ||

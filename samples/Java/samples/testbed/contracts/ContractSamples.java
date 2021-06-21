@@ -612,4 +612,15 @@ public class ContractSamples {
 		//! [qbalgo_contract]
 		return contract;
 	}
+	
+	public static Contract IBKRATSContract() {
+		//! [ibkrats_contract]
+		Contract contract = new Contract();
+		contract.symbol("QQQ");
+		contract.secType("STK");
+		contract.exchange("IBKRATS"); 
+		contract.currency("USD");    
+		//! [ibkrats_contract]
+		return contract;
+	}
 }

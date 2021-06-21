@@ -53,9 +53,9 @@ public:
 	bool decodeAllOrNone(const char*& ptr, const char* endPtr);
 	bool decodeMinQty(const char*& ptr, const char* endPtr);
 	bool decodeOcaType(const char*& ptr, const char* endPtr);
-	bool decodeETradeOnly(const char*& ptr, const char* endPtr);
-	bool decodeFirmQuoteOnly(const char*& ptr, const char* endPtr);
-	bool decodeNbboPriceCap(const char*& ptr, const char* endPtr);
+	bool skipETradeOnly(const char*& ptr, const char* endPtr);
+	bool skipFirmQuoteOnly(const char*& ptr, const char* endPtr);
+	bool skipNbboPriceCap(const char*& ptr, const char* endPtr);
 	bool decodeParentId(const char*& ptr, const char* endPtr);
 	bool decodeTriggerMethod(const char*& ptr, const char* endPtr);
 	bool decodeVolOrderParams(const char*& ptr, const char* endPtr, bool decodeOpenOrderAttribs);
@@ -94,6 +94,8 @@ public:
 	bool decodeCompletedTime(const char*& ptr, const char* endPtr);
 	bool decodeCompletedStatus(const char*& ptr, const char* endPtr);
 	bool decodeUsePriceMgmtAlgo(const char*& ptr, const char* endPtr);
+	bool decodeDuration(const char*& ptr, const char* endPtr);
+	bool decodePostToAts(const char*& ptr, const char* endPtr);
 
 private:
 	Contract* m_contract;

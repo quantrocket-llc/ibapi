@@ -56,6 +56,8 @@ public:
 	static Contract ContAndExpiringFut();
 	static Contract JefferiesContract();
 	static Contract CSFBContract();
+	static Contract Warrants();
+	static Contract IBKRATSContract();
 };
 
 #endif

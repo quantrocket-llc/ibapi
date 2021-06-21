@@ -1123,7 +1123,7 @@ class SampleFrame extends JFrame implements EWrapper {
         m_tickers.add( msg );
     }
 
-    public void tickSize( int tickerId, int field, int size) {
+    public void tickSize( int tickerId, int field, long size) {
         // received size tick
     	String msg = EWrapperMsgGenerator.tickSize( tickerId, field, size);
         m_tickers.add( msg);
@@ -1236,7 +1236,7 @@ class SampleFrame extends JFrame implements EWrapper {
     }
 
     public void updateMktDepth( int tickerId, int position, int operation,
-                    int side, double price, int size) {
+                    int side, double price, long size) {
 
         MktDepthDlg depthDialog = m_mapRequestToMktDepthDlg.get(tickerId);
         if ( depthDialog != null ) {
@@ -1249,7 +1249,7 @@ class SampleFrame extends JFrame implements EWrapper {
     }
 
     public void updateMktDepthL2( int tickerId, int position, String marketMaker,
-                    int operation, int side, double price, int size, boolean isSmartDepth) {
+                    int operation, int side, double price, long size, boolean isSmartDepth) {
         MktDepthDlg depthDialog = null;
         
         if (isSmartDepth) {
@@ -1440,6 +1440,8 @@ class SampleFrame extends JFrame implements EWrapper {
 
     private static void copyExtendedOrderDetails( Order destOrder, Order srcOrder) {
         destOrder.tif(srcOrder.getTif());
+        destOrder.duration(srcOrder.duration());
+        destOrder.postToAts(srcOrder.postToAts());
         destOrder.activeStartTime(srcOrder.activeStartTime());
         destOrder.activeStopTime(srcOrder.activeStopTime());
         destOrder.ocaGroup(srcOrder.ocaGroup());
@@ -1465,9 +1467,6 @@ class SampleFrame extends JFrame implements EWrapper {
         destOrder.allOrNone(srcOrder.allOrNone());
         destOrder.minQty(srcOrder.minQty());
         destOrder.percentOffset(srcOrder.percentOffset());
-        destOrder.eTradeOnly(srcOrder.eTradeOnly());
-        destOrder.firmQuoteOnly(srcOrder.firmQuoteOnly());
-        destOrder.nbboPriceCap(srcOrder.nbboPriceCap());
         destOrder.optOutSmartRouting(srcOrder.optOutSmartRouting());
         destOrder.auctionStrategy(srcOrder.auctionStrategy());
         destOrder.startingPrice(srcOrder.startingPrice());
@@ -1520,6 +1519,7 @@ class SampleFrame extends JFrame implements EWrapper {
         destOrder.dontUseAutoPriceForHedge(srcOrder.dontUseAutoPriceForHedge());
         destOrder.isOmsContainer(srcOrder.isOmsContainer());
         destOrder.discretionaryUpToLimitPrice(srcOrder.discretionaryUpToLimitPrice());
+        destOrder.notHeld(srcOrder.notHeld());
     }
 
     public void position(String account, Contract contract, double pos, double avgCost) {
@@ -1766,7 +1766,7 @@ class SampleFrame extends JFrame implements EWrapper {
     }
 
     @Override
-    public void tickByTickAllLast(int reqId, int tickType, long time, double price, int size, TickAttribLast tickAttribLast,
+    public void tickByTickAllLast(int reqId, int tickType, long time, double price, long size, TickAttribLast tickAttribLast,
             String exchange, String specialConditions) {
         String msg = EWrapperMsgGenerator.tickByTickAllLast(reqId, tickType, time, price, size, tickAttribLast, exchange, specialConditions);
 
@@ -1774,7 +1774,7 @@ class SampleFrame extends JFrame implements EWrapper {
     }
 
     @Override
-    public void tickByTickBidAsk(int reqId, long time, double bidPrice, double askPrice, int bidSize, int askSize,
+    public void tickByTickBidAsk(int reqId, long time, double bidPrice, double askPrice, long bidSize, long askSize,
             TickAttribBidAsk tickAttribBidAsk) {
         String msg = EWrapperMsgGenerator.tickByTickBidAsk(reqId, time, bidPrice, askPrice, bidSize, askSize, tickAttribBidAsk);
 

@@ -106,12 +106,6 @@ namespace TWSLib
         // SMART routing only
         [DispId(80)]
         double discretionaryAmt { get; set; }
-        [DispId(81)]
-        bool eTradeOnly { [return: MarshalAs(UnmanagedType.Bool)] get; [param: MarshalAs(UnmanagedType.Bool)] set; }
-        [DispId(82)]
-        bool firmQuoteOnly { [return: MarshalAs(UnmanagedType.Bool)] get; [param: MarshalAs(UnmanagedType.Bool)] set; }
-        [DispId(83)]
-        double nbboPriceCap { get; set; }
         [DispId(84)]
         bool optOutSmartRouting { [return: MarshalAs(UnmanagedType.Bool)] get; [param: MarshalAs(UnmanagedType.Bool)] set; }
 
@@ -342,5 +336,12 @@ namespace TWSLib
 
         [DispId(184)]
         bool usePriceMgmtAlgo { get; set; }
+
+        [DispId(185)]
+        int duration { get; set; }
+
+        [DispId(186)]
+        int postToAts { get; set; }
+
     }
 }

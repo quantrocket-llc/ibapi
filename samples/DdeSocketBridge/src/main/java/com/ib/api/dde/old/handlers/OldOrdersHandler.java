@@ -382,18 +382,9 @@ public class OldOrdersHandler extends OrdersHandler {
             if (Utils.isNotNull(token)) {
                 order.percentOffset(getDoubleFromString(token));
             }
-            token = getParameter(st);
-            if (Utils.isNotNull(token)) {
-                order.eTradeOnly(getBooleanFromString(token));
-            }
-            token = getParameter(st);
-            if (Utils.isNotNull(token)) {
-                order.firmQuoteOnly(getBooleanFromString(token));
-            }
-            token = getParameter(st);
-            if (Utils.isNotNull(token)) {
-                order.nbboPriceCap(getDoubleFromString(token));
-            }
+            token = getParameter(st); // empty (not used)
+            token = getParameter(st); // empty (not used)
+            token = getParameter(st); // empty (not used)
             token = getParameter(st); // empty (not used)
             token = getParameter(st);
             if (Utils.isNotNull(token)) {

@@ -52,13 +52,13 @@ Const MKT_DEPTH_OPER_DEL = 2
 Private Type MktDepthRecord
     BidMM As String
     bidPrice As Double
-    bidSize As Long
-    BidCumSize As Long
+    bidSize As LongLong
+    BidCumSize As LongLong
     BidAvgPrice As Double
     AskMM As String
     askPrice As Double
-    askSize As Long
-    AskCumSize As Long
+    askSize As LongLong
+    AskCumSize As LongLong
     AskAvgPrice As Double
 End Type
 
@@ -311,8 +311,8 @@ End Sub
 
 ' calculation of cumQty and avgPrice
 Private Sub CalculateCumSizeAvgPrice(id As Integer)
-    Dim bidCumQty As Long
-    Dim askCumQty As Long
+    Dim bidCumQty As LongLong
+    Dim askCumQty As LongLong
     Dim bidTotalPrice As Double
     Dim askTotalPrice As Double
     
@@ -351,7 +351,7 @@ Private Sub CalculateCumSizeAvgPrice(id As Integer)
 End Sub
 
 ' update market depth table
-Sub UpdateMarketDepth(id As Long, position As Long, marketMaker As String, operation As Long, side As Long, price As Double, size As Long)
+Sub UpdateMarketDepth(id As Long, position As Long, marketMaker As String, operation As Long, side As Long, price As Double, size As LongLong)
     
     id = id - ID_MKTDEPTH - 1
 

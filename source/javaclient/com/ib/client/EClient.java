@@ -293,9 +293,12 @@ public abstract class EClient {
     protected static final int MIN_SERVER_VER_NO_DEFAULT_OPEN_CLOSE = 155;
     protected static final int MIN_SERVER_VER_PRICE_BASED_VOLATILITY = 156;
     protected static final int MIN_SERVER_VER_REPLACE_FA_END = 157;
+    protected static final int MIN_SERVER_VER_DURATION = 158;
+    protected static final int MIN_SERVER_VER_MARKET_DATA_IN_SHARES = 159;
+    protected static final int MIN_SERVER_VER_POST_TO_ATS = 160;
     
     public static final int MIN_VERSION = 100; // envelope encoding, applicable to useV100Plus mode only
-    public static final int MAX_VERSION = MIN_SERVER_VER_REPLACE_FA_END; // ditto
+    public static final int MAX_VERSION = MIN_SERVER_VER_POST_TO_ATS; // ditto
 
     protected EReaderSignal m_signal;
     protected EWrapper m_eWrapper;    // msg handler
@@ -1622,9 +1625,21 @@ public abstract class EClient {
         if (m_serverVersion < MIN_SERVER_VER_PRICE_MGMT_ALGO 
                 && order.usePriceMgmtAlgo() != null) {
             error(id, EClientErrors.UPDATE_TWS, "  It does not support price management algo parameter");
+            return;
         }
 
+        if (m_serverVersion < MIN_SERVER_VER_DURATION 
+                && order.duration() != Integer.MAX_VALUE) {
+            error(id, EClientErrors.UPDATE_TWS, "  It does not support duration attribute");
+            return;
+        }
 
+        if (m_serverVersion < MIN_SERVER_VER_POST_TO_ATS 
+                && order.postToAts() != Integer.MAX_VALUE) {
+            error(id, EClientErrors.UPDATE_TWS, "  It does not support postToAts attribute");
+            return;
+        }
+        
         int VERSION = (m_serverVersion < MIN_SERVER_VER_NOT_HELD) ? 27 : 45;
 
         // send place order msg
@@ -1817,9 +1832,9 @@ public abstract class EClient {
                b.send( order.allOrNone());
                b.sendMax( order.minQty());
                b.sendMax( order.percentOffset());
-               b.send( order.eTradeOnly());
-               b.send( order.firmQuoteOnly());
-               b.sendMax( order.nbboPriceCap());
+               b.send( false); 
+               b.send( false);
+               b.sendMax( Double.MAX_VALUE);
                b.sendMax( order.auctionStrategy());
                b.sendMax( order.startingPrice());
                b.sendMax( order.stockRefPrice());
@@ -2049,6 +2064,14 @@ public abstract class EClient {
                b.send(order.usePriceMgmtAlgo());
            }
 
+           if (m_serverVersion >= MIN_SERVER_VER_DURATION) {
+               b.send(order.duration());
+           }
+
+           if (m_serverVersion >= MIN_SERVER_VER_POST_TO_ATS) {
+               b.send(order.postToAts());
+           }
+           
            closeAndSend(b);
         }
         catch(EClientException e) {

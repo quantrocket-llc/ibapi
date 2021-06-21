@@ -1132,7 +1132,7 @@ Friend Class dlgOrder
         Me.txtGenericTickTags.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.txtGenericTickTags.Size = New System.Drawing.Size(88, 13)
         Me.txtGenericTickTags.TabIndex = 1
-        Me.txtGenericTickTags.Text = "100,101,104,105,106,107,165,221,225,233,236,258,293,294,295,318"
+        Me.txtGenericTickTags.Text = "100,101,104,106,165,221,232,236,258,293,294,295,318,411,460,619"
         '
         'Label22
         '

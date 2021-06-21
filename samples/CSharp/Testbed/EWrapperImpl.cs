@@ -77,7 +77,7 @@ namespace Samples
         //! [tickprice]
         
         //! [ticksize]
-        public virtual void tickSize(int tickerId, int field, int size)
+        public virtual void tickSize(int tickerId, int field, long size)
         {
             Console.WriteLine("Tick Size. Ticker Id:" + tickerId + ", Field: " + field + ", Size: " + size);
         }
@@ -363,14 +363,14 @@ namespace Samples
         //! [marketdatatype]
 
         //! [updatemktdepth]
-        public virtual void updateMktDepth(int tickerId, int position, int operation, int side, double price, int size)
+        public virtual void updateMktDepth(int tickerId, int position, int operation, int side, double price, long size)
         {
             Console.WriteLine("UpdateMarketDepth. " + tickerId + " - Position: " + position + ", Operation: " + operation + ", Side: " + side + ", Price: " + price + ", Size: " + size);
         }
         //! [updatemktdepth]
 
         //! [updatemktdepthl2]
-        public virtual void updateMktDepthL2(int tickerId, int position, string marketMaker, int operation, int side, double price, int size, bool isSmartDepth)
+        public virtual void updateMktDepthL2(int tickerId, int position, string marketMaker, int operation, int side, double price, long size, bool isSmartDepth)
         {
             Console.WriteLine("UpdateMarketDepthL2. " + tickerId + " - Position: " + position + ", Operation: " + operation + ", Side: " + side + ", Price: " + price + ", Size: " + size + ", isSmartDepth: " + isSmartDepth);
         }
@@ -757,7 +757,7 @@ namespace Samples
 		//! [historicaltickslast]
 
         //! [tickbytickalllast]
-        public void tickByTickAllLast(int reqId, int tickType, long time, double price, int size, TickAttribLast tickAttribLast, string exchange, string specialConditions)
+        public void tickByTickAllLast(int reqId, int tickType, long time, double price, long size, TickAttribLast tickAttribLast, string exchange, string specialConditions)
         {
             Console.WriteLine("Tick-By-Tick. Request Id: {0}, TickType: {1}, Time: {2}, Price: {3}, Size: {4}, Exchange: {5}, Special Conditions: {6}, PastLimit: {7}, Unreported: {8}",
                 reqId, tickType == 1 ? "Last" : "AllLast", Util.UnixSecondsToString(time, "yyyyMMdd-HH:mm:ss zzz"), price, size, exchange, specialConditions, tickAttribLast.PastLimit, tickAttribLast.Unreported);
@@ -765,7 +765,7 @@ namespace Samples
         //! [tickbytickalllast]
 
         //! [tickbytickbidask]
-        public void tickByTickBidAsk(int reqId, long time, double bidPrice, double askPrice, int bidSize, int askSize, TickAttribBidAsk tickAttribBidAsk)
+        public void tickByTickBidAsk(int reqId, long time, double bidPrice, double askPrice, long bidSize, long askSize, TickAttribBidAsk tickAttribBidAsk)
         {
             Console.WriteLine("Tick-By-Tick. Request Id: {0}, TickType: BidAsk, Time: {1}, BidPrice: {2}, AskPrice: {3}, BidSize: {4}, AskSize: {5}, BidPastLow: {6}, AskPastHigh: {7}",
                 reqId, Util.UnixSecondsToString(time, "yyyyMMdd-HH:mm:ss zzz"), bidPrice, askPrice, bidSize, askSize, tickAttribBidAsk.BidPastLow, tickAttribBidAsk.AskPastHigh);

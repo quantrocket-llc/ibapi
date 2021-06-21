@@ -415,7 +415,7 @@ Friend Class ApiEventSource
                          End Sub)
     End Sub
 
-    Private Sub EWrapper_TickSize(tickerId As Integer, field As Integer, size As Integer) Implements IBApi.EWrapper.tickSize
+    Private Sub EWrapper_TickSize(tickerId As Integer, field As Integer, size As Long) Implements IBApi.EWrapper.tickSize
         InvokeIfRequired(Sub()
                              RaiseEvent TickSize(Me, New TickSizeEventArgs With {.id = tickerId, .size = size, .tickType = field})
                          End Sub)
@@ -454,7 +454,7 @@ Friend Class ApiEventSource
                          End Sub)
     End Sub
 
-    Private Sub EWrapper_UpdateMktDepth(tickerId As Integer, position As Integer, operation As Integer, side As Integer, price As Double, size As Integer) Implements IBApi.EWrapper.updateMktDepth
+    Private Sub EWrapper_UpdateMktDepth(tickerId As Integer, position As Integer, operation As Integer, side As Integer, price As Double, size As Long) Implements IBApi.EWrapper.updateMktDepth
         InvokeIfRequired(Sub()
                              RaiseEvent UpdateMktDepth(Me, New UpdateMktDepthEventArgs With {
                                                                                                  .tickerId = tickerId,
@@ -467,7 +467,7 @@ Friend Class ApiEventSource
                          End Sub)
     End Sub
 
-    Private Sub EWrapper_UpdateMktDepthL2(tickerId As Integer, position As Integer, marketMaker As String, operation As Integer, side As Integer, price As Double, size As Integer, isSmartDepth As Boolean) Implements IBApi.EWrapper.updateMktDepthL2
+    Private Sub EWrapper_UpdateMktDepthL2(tickerId As Integer, position As Integer, marketMaker As String, operation As Integer, side As Integer, price As Double, size As Long, isSmartDepth As Boolean) Implements IBApi.EWrapper.updateMktDepthL2
         InvokeIfRequired(Sub()
                              RaiseEvent UpdateMktDepthL2(Me, New UpdateMktDepthL2EventArgs With {
                                                                                                    .tickerId = tickerId,
@@ -780,7 +780,7 @@ Friend Class ApiEventSource
                          End Sub)
     End Sub
 
-    Public Sub EWrapper_TickByTickAllLast(reqId As Integer, tickType As Integer, time As Long, price As Double, size As Integer,
+    Public Sub EWrapper_TickByTickAllLast(reqId As Integer, tickType As Integer, time As Long, price As Double, size As Long,
                                           tickAttribLast As TickAttribLast, exchange As String, specialConditions As String) Implements EWrapper.tickByTickAllLast
         InvokeIfRequired(Sub()
                              RaiseEvent TickByTickAllLast(Me, New TickByTickAllLastEventArgs With {
@@ -796,7 +796,7 @@ Friend Class ApiEventSource
                          End Sub)
     End Sub
 
-    Public Sub EWrapper_TickByTickBidAsk(reqId As Integer, time As Long, bidPrice As Double, askPrice As Double, bidSize As Integer, askSize As Integer, tickAttribBidAsk As TickAttribBidAsk) Implements EWrapper.tickByTickBidAsk
+    Public Sub EWrapper_TickByTickBidAsk(reqId As Integer, time As Long, bidPrice As Double, askPrice As Double, bidSize As Long, askSize As Long, tickAttribBidAsk As TickAttribBidAsk) Implements EWrapper.tickByTickBidAsk
         InvokeIfRequired(Sub()
                              RaiseEvent TickByTickBidAsk(Me, New TickByTickBidAskEventArgs With {
                                                             .reqId = reqId,

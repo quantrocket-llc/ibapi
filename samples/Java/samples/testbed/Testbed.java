@@ -955,4 +955,13 @@ public class Testbed {
 		client.placeOrder(nextOrderId++, ContractSamples.USStockAtSmart(), OrderSamples.WhatIfLimitOrder("BUY", 200, 120));
 		//! [whatiforder]
 	}
+	
+	private static void ibkratsSample(EClientSocket client, int nextOrderId) {
+		
+		//! [ibkratssubmit]
+		Order ibkratsOrder = OrderSamples.LimitIBKRATS("BUY", 100, 330);
+		client.placeOrder(nextOrderId++, ContractSamples.IBKRATSContract(), ibkratsOrder);
+		//! [ibkratssubmit]
+		
+	}
 }

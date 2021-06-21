@@ -403,7 +403,7 @@ Namespace Samples
         '! [tickprice]
 
         '! [ticksize]
-        Public Sub tickSize(tickerId As Integer, field As Integer, size As Integer) Implements IBApi.EWrapper.tickSize
+        Public Sub tickSize(tickerId As Integer, field As Integer, size As Long) Implements IBApi.EWrapper.tickSize
             Console.WriteLine("Tick Size. Ticker Id:" & CStr(tickerId) & ", Field: " & TickType.getField(field) & ", Size: " & CStr(size))
         End Sub
         '! [ticksize]
@@ -433,14 +433,14 @@ Namespace Samples
         '! [updateaccountvalue]
 
         '! [updatemktdepth]
-        Public Sub updateMktDepth(tickerId As Integer, position As Integer, operation As Integer, side As Integer, price As Double, size As Integer) Implements IBApi.EWrapper.updateMktDepth
+        Public Sub updateMktDepth(tickerId As Integer, position As Integer, operation As Integer, side As Integer, price As Double, size As Long) Implements IBApi.EWrapper.updateMktDepth
             Console.WriteLine("UpdateMarketDepth. " & CStr(tickerId) & " - Position: " & CStr(position) & ", Operation: " & CStr(operation) & ", Side: " & CStr(side) &
                           ", Price: " & CStr(price) & ", Size: " & CStr(size))
         End Sub
         '! [updatemktdepth]
 
         '! [updatemktdepthl2]
-        Public Sub updateMktDepthL2(tickerId As Integer, position As Integer, marketMaker As String, operation As Integer, side As Integer, price As Double, size As Integer, isSmartDepth As Boolean) Implements IBApi.EWrapper.updateMktDepthL2
+        Public Sub updateMktDepthL2(tickerId As Integer, position As Integer, marketMaker As String, operation As Integer, side As Integer, price As Double, size As Long, isSmartDepth As Boolean) Implements IBApi.EWrapper.updateMktDepthL2
             Console.WriteLine("UpdateMarketDepthL2. " & CStr(tickerId) & " - Position: " & CStr(position) & ", Operation: " & CStr(operation) & ", Side: " & CStr(side) &
                           ", Price: " & CStr(price) & ", Size: " & CStr(size) & ", isSmartDepth: " & CStr(isSmartDepth))
         End Sub
@@ -687,7 +687,7 @@ Namespace Samples
         '! [historicaltickslast]
 
         '! [tickbytickalllast]
-        Public Sub tickByTickAllLast(reqId As Integer, tickType As Integer, time As Long, price As Double, size As Integer, tickAttribLast As TickAttribLast, exchange As String, specialConditions As String) Implements EWrapper.tickByTickAllLast
+        Public Sub tickByTickAllLast(reqId As Integer, tickType As Integer, time As Long, price As Double, size As Long, tickAttribLast As TickAttribLast, exchange As String, specialConditions As String) Implements EWrapper.tickByTickAllLast
             Dim tickTypeStr As String
             If tickType = 1 Then
                 tickTypeStr = "Last"
@@ -700,7 +700,7 @@ Namespace Samples
         '! [tickbytickalllast]
 
         '! [tickbytickbidask]
-        Public Sub tickByTickBidAsk(reqId As Integer, time As Long, bidPrice As Double, askPrice As Double, bidSize As Integer, askSize As Integer, tickAttribBidAsk As TickAttribBidAsk) Implements EWrapper.tickByTickBidAsk
+        Public Sub tickByTickBidAsk(reqId As Integer, time As Long, bidPrice As Double, askPrice As Double, bidSize As Long, askSize As Long, tickAttribBidAsk As TickAttribBidAsk) Implements EWrapper.tickByTickBidAsk
             Console.WriteLine("Tick-By-Tick. Request Id: {0}, TickType: BidAsk, Time: {1}, BidPrice: {2}, AskPrice: {3}, BidSize: {4}, AskSize: {5}, BidPastLow: {6}, AskPastHigh: {7}",
                 reqId, Util.UnixSecondsToString(time, "yyyyMMdd-HH:mm:ss zzz"), bidPrice, askPrice, bidSize, askSize, tickAttribBidAsk.BidPastLow, tickAttribBidAsk.AskPastHigh)
         End Sub

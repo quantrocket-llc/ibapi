@@ -79,9 +79,6 @@ class Order(Object):
 
         # SMART routing only
         self.discretionaryAmt = 0
-        self.eTradeOnly       = True
-        self.firmQuoteOnly    = True
-        self.nbboPriceCap     = UNSET_DOUBLE  # type: float
         self.optOutSmartRouting = False
 
         # BOX exchange orders only
@@ -210,6 +207,8 @@ class Order(Object):
         self.parentPermId = 0
 
         self.usePriceMgmtAlgo = None
+        self.duration = UNSET_INTEGER
+        self.postToAts = UNSET_INTEGER
 
     def __str__(self):
         s = "%s,%d,%s:" % (self.orderId, self.clientId, self.permId)

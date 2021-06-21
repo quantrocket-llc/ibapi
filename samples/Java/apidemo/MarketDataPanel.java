@@ -514,7 +514,7 @@ class MarketDataPanel extends JPanel {
 			ApiDemo.INSTANCE.controller().cancelDeepMktData( m_isSmartDepth, this);
 		}
 		
-		@Override public void updateMktDepth(int pos, String mm, DeepType operation, DeepSide side, double price, int size) {
+		@Override public void updateMktDepth(int pos, String mm, DeepType operation, DeepSide side, double price, long size) {
 			if (side == DeepSide.BUY) {
 				m_buy.updateMktDepth(pos, mm, operation, price, size);
 			}
@@ -530,7 +530,7 @@ class MarketDataPanel extends JPanel {
 				return m_rows.size();
 			}
 
-			public void updateMktDepth(int pos, String mm, DeepType operation, double price, int size) {
+			public void updateMktDepth(int pos, String mm, DeepType operation, double price, long size) {
 				switch( operation) {
 					case INSERT:
 						m_rows.add( pos, new DeepRow( mm, price, size) );
@@ -581,13 +581,13 @@ class MarketDataPanel extends JPanel {
 		static class DeepRow {
 			String m_mm;
 			double m_price;
-			int m_size;
+			long m_size;
 
-			DeepRow(String mm, double price, int size) {
+			DeepRow(String mm, double price, long size) {
 				update( mm, price, size);
 			}
 			
-			void update( String mm, double price, int size) {
+			void update( String mm, double price, long size) {
 				m_mm = mm;
 				m_price = price;
 				m_size = size;

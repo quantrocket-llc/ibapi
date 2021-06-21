@@ -24,6 +24,8 @@ public class ExtOrdDlg extends JDialog {
     public boolean 		m_rc;
 
     private JTextField 	m_tif = new JTextField( "DAY");
+    private JTextField 	m_duration = new JTextField();
+    private JTextField 	m_postToAts = new JTextField();
     private JTextField 	m_activeStartTime = new JTextField();
     private JTextField 	m_activeStopTime = new JTextField();
     private JTextField 	m_ocaGroup = new JTextField();
@@ -55,9 +57,6 @@ public class ExtOrdDlg extends JDialog {
     private JTextField  m_overridePercentageConstraints = new JTextField();
     private JTextField  m_minQty = new JTextField();
     private JTextField  m_percentOffset = new JTextField();
-    private JTextField  m_eTradeOnly = new JTextField();
-    private JTextField  m_firmQuoteOnly = new JTextField();
-    private JTextField  m_nbboPriceCap = new JTextField();
     private JTextField  m_auctionStrategy = new JTextField("0");
     private JTextField  m_startingPrice = new JTextField();
     private JTextField  m_stockRefPrice = new JTextField();
@@ -107,6 +106,7 @@ public class ExtOrdDlg extends JDialog {
     private JCheckBox   m_dontUseAutoPriceForHedge = new JCheckBox("Don't use auto price for hedge", false);
     private JCheckBox   m_isOmsConainer = new JCheckBox("OMS Container", false);
     private JCheckBox   m_discretionaryUpToLimitPrice = new JCheckBox("Relative discretionary", false);
+    private JCheckBox   m_notHeld = new JCheckBox("Not held", false);
 
     ExtOrdDlg( OrderDlg owner) {
         super( owner, true);
@@ -118,6 +118,10 @@ public class ExtOrdDlg extends JDialog {
         extOrderDetailsPanel.setBorder( BorderFactory.createTitledBorder( "Extended Order Info") );
         extOrderDetailsPanel.add( new JLabel( "TIF") );
         extOrderDetailsPanel.add( m_tif);
+        extOrderDetailsPanel.add( new JLabel( "Duration") );
+        extOrderDetailsPanel.add( m_duration);
+        extOrderDetailsPanel.add( new JLabel( "Post To ATS") );
+        extOrderDetailsPanel.add( m_postToAts);
         extOrderDetailsPanel.add(new JLabel("Active Start Time"));
         extOrderDetailsPanel.add(m_activeStartTime);
         extOrderDetailsPanel.add(new JLabel("Active Stop Time"));
@@ -183,12 +187,6 @@ public class ExtOrdDlg extends JDialog {
         extOrderDetailsPanel.add(m_minQty);
         extOrderDetailsPanel.add(new JLabel("Percent Offset"));
         extOrderDetailsPanel.add(m_percentOffset);
-        extOrderDetailsPanel.add(new JLabel("Electronic Exchange Only"));
-        extOrderDetailsPanel.add(m_eTradeOnly);
-        extOrderDetailsPanel.add(new JLabel("Firm Quote Only"));
-        extOrderDetailsPanel.add(m_firmQuoteOnly);
-        extOrderDetailsPanel.add(new JLabel("NBBO Price Cap"));
-        extOrderDetailsPanel.add(m_nbboPriceCap);
         extOrderDetailsPanel.add( new JLabel( "") );
         extOrderDetailsPanel.add( new JLabel(""));
         extOrderDetailsPanel.add(new JLabel("BOX: Auction Strategy"));
@@ -278,6 +276,7 @@ public class ExtOrdDlg extends JDialog {
         extOrderDetailsPanel.add(m_dontUseAutoPriceForHedge);
         extOrderDetailsPanel.add(m_isOmsConainer);
         extOrderDetailsPanel.add(m_discretionaryUpToLimitPrice);
+        extOrderDetailsPanel.add(m_notHeld);
 
         // create button panel
         JPanel buttonPanel = new JPanel();
@@ -306,6 +305,8 @@ public class ExtOrdDlg extends JDialog {
         try {
             // set extended order fields
             m_order.tif(m_tif.getText().trim());
+            m_order.duration(parseMaxInt(m_duration));
+            m_order.postToAts(parseMaxInt(m_postToAts));
             m_order.activeStartTime(m_activeStartTime.getText().trim());
             m_order.activeStopTime(m_activeStopTime.getText().trim());
             m_order.ocaGroup(m_ocaGroup.getText().trim());
@@ -337,9 +338,6 @@ public class ExtOrdDlg extends JDialog {
             m_order.minQty(parseMaxInt(m_minQty));
             m_order.overridePercentageConstraints(parseInt(m_overridePercentageConstraints) != 0);
             m_order.percentOffset(parseMaxDouble(m_percentOffset));
-            m_order.eTradeOnly(parseInt(m_eTradeOnly) != 0);
-            m_order.firmQuoteOnly(parseInt(m_firmQuoteOnly) != 0);
-            m_order.nbboPriceCap(parseMaxDouble(m_nbboPriceCap));
             m_order.optOutSmartRouting(m_optOutSmartRoutingCheckBox.isSelected());
             m_order.solicited(m_solicited.isSelected());
             m_order.auctionStrategy(parseInt(m_auctionStrategy));
@@ -389,6 +387,7 @@ public class ExtOrdDlg extends JDialog {
             m_order.dontUseAutoPriceForHedge(m_dontUseAutoPriceForHedge.isSelected());
             m_order.isOmsContainer(m_isOmsConainer.isSelected());
             m_order.discretionaryUpToLimitPrice(m_discretionaryUpToLimitPrice.isSelected());
+            m_order.notHeld(m_notHeld.isSelected());
         }
         catch( Exception e) {
             Main.inform( this, "Error - " + e);

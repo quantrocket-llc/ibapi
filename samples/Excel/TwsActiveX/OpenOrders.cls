@@ -135,9 +135,6 @@ Sub UpdateOpenOrder(orderId As Long, contract As TWSLib.IContract, order As TWSL
         ExtendedAttributesTable(rowId, Col_ALLORNONE).value = .allOrNone
         ExtendedAttributesTable(rowId, Col_MINQTY).value = Util.IntMaxStr(.minQty)
         ExtendedAttributesTable(rowId, Col_PERCENTOFFSET).value = Util.DblMaxStr(.percentOffset)
-        ExtendedAttributesTable(rowId, Col_ETRADEONLY).value = .eTradeOnly
-        ExtendedAttributesTable(rowId, Col_FIRMQUOTEONLY).value = .firmQuoteOnly
-        ExtendedAttributesTable(rowId, Col_NBBOPRICECAP).value = Util.DblMaxStr(.nbboPriceCap)
         ExtendedAttributesTable(rowId, Col_AUCTIONSTRAT).value = .auctionStrategy
         ExtendedAttributesTable(rowId, Col_STARTINGPRICE).value = Util.DblMaxStr(.startingPrice)
         ExtendedAttributesTable(rowId, Col_STOCKREFPRICE).value = Util.DblMaxStr(.stockRefPrice)
@@ -200,6 +197,9 @@ Sub UpdateOpenOrder(orderId As Long, contract As TWSLib.IContract, order As TWSL
         ExtendedAttributesTable(rowId, Col_IS_OMS_CONTAINER).value = .isOmsContainer
         ExtendedAttributesTable(rowId, Col_RELATIVE_DISCRETIONARY).value = .discretionaryUpToLimitPrice
         ExtendedAttributesTable(rowId, Col_USEPRICEMGMTALGO).value = .usePriceMgmtAlgo
+        ExtendedAttributesTable(rowId, Col_DURATION).value = Util.IntMaxStr(.duration)
+        ExtendedAttributesTable(rowId, Col_POST_TO_ATS).value = Util.IntMaxStr(.postToAts)
+        ExtendedAttributesTable(rowId, Col_NOT_HELD).value = .notHeld
     End With
 
     If Not order.SmartComboRoutingParams Is Nothing Then
@@ -243,7 +243,7 @@ Public Sub Initialise()
     Set contractTable = Range("$A$7:$M$100")
     Set orderDescriptionTable = Range("$N$7:$S$100")
     Set orderStatusTable = Range("$T$7:$AA$100")
-    Set ExtendedAttributesTable = Range("$AB$7:$DR$100")
+    Set ExtendedAttributesTable = Range("$AB$7:$DP$100")
 End Sub
 
 Private Sub Worksheet_Activate()

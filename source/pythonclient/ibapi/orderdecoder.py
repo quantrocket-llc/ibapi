@@ -148,7 +148,7 @@ class OrderDecoder(Object):
         self.order.stockRangeUpper = decode(float, fields, SHOW_UNSET)
 
     def decodeDisplaySize(self, fields):
-        self.order.displaySize = decode(int, fields)
+        self.order.displaySize = decode(int, fields, SHOW_UNSET)
 
     def decodeBlockOrder(self, fields):
         self.order.blockOrder = decode(bool, fields)
@@ -165,14 +165,14 @@ class OrderDecoder(Object):
     def decodeOcaType(self, fields):
         self.order.ocaType = decode(int, fields)
 
-    def decodeETradeOnly(self, fields):
-        self.order.eTradeOnly = decode(bool, fields)
+    def skipETradeOnly(self, fields):
+        _eTradeOnly = decode(bool, fields) # deprecated
 
-    def decodeFirmQuoteOnly(self, fields):
-        self.order.firmQuoteOnly = decode(bool, fields)
+    def skipFirmQuoteOnly(self, fields):
+        _firmQuoteOnly = decode(bool, fields) #` deprecated
 
-    def decodeNbboPriceCap(self, fields):
-        self.order.nbboPriceCap = decode(float, fields, SHOW_UNSET)
+    def skipNbboPriceCap(self, fields):
+        _nbboPriceCap = decode(float, fields, SHOW_UNSET) # deprecated
         
     def decodeParentId(self, fields):
         self.order.parentId = decode(int, fields)
@@ -441,3 +441,11 @@ class OrderDecoder(Object):
     def decodeUsePriceMgmtAlgo(self, fields):
         if self.serverVersion >= MIN_SERVER_VER_PRICE_MGMT_ALGO:
             self.order.usePriceMgmtAlgo = decode(bool, fields)
+            
+    def decodeDuration(self, fields):
+        if self.serverVersion >= MIN_SERVER_VER_DURATION:
+            self.order.duration = decode(int, fields, SHOW_UNSET)
+            
+    def decodePostToAts(self, fields):
+        if self.serverVersion >= MIN_SERVER_VER_POST_TO_ATS:
+            self.order.postToAts = decode(int, fields, SHOW_UNSET)

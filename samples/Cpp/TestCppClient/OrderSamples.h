@@ -63,6 +63,7 @@ public:
 	static OrderCondition* Percent_Change_Condition(double pctChange, int conId, std::string exchange, bool isMore, bool isConjunction);
 	static OrderCondition* Time_Condition(std::string time, bool isMore, bool isConjunction);
 	static OrderCondition* Volume_Condition(int conId, std::string exchange, bool isMore, int volume, bool isConjunction);
+	static Order LimitIBKRATS (std::string action, double quantity, double limitPrice);
 };
 
 #endif

@@ -79,7 +79,7 @@ class MktDepthDlg extends JDialog {
     }
 
     void updateMktDepth( int tickerId, int position, String marketMaker,
-        int operation, int side, double price, int size) {
+        int operation, int side, double price, long size) {
         try {
             MktDepthModel.MktDepthTableRow tmpRow;
 
@@ -150,7 +150,7 @@ class MktDepthDlg extends JDialog {
 class MktDepthModel extends AbstractTableModel {
     private LinkedList<MktDepthTableRow>  m_allData = new LinkedList<>();
 
-    synchronized public void addOrderAt(int position, String marketMaker, double price, int size)
+    synchronized public void addOrderAt(int position, String marketMaker, double price, long size)
     {
         MktDepthTableRow newData = new MktDepthTableRow(marketMaker, price, size);
         m_allData.add(position, newData);
@@ -173,7 +173,7 @@ class MktDepthModel extends AbstractTableModel {
 
     synchronized public void updateCumSizesAndAvgPrices(int baseRow)
     {
-        int     cumSize = 0;
+        long     cumSize = 0;
         double  totalPrice = 0.0;
         MktDepthTableRow	tmpRow;
 
@@ -239,11 +239,11 @@ class MktDepthModel extends AbstractTableModel {
     static class MktDepthTableRow {
         public String 	m_marketMaker;
         public double 	m_price;
-        public int 		m_size;
-        public int 		m_cumSize;
+        public long 	m_size;
+        public long 	m_cumSize;
         public double	m_avgPrice;
 
-        MktDepthTableRow(String marketMaker, double price,int size) {
+        MktDepthTableRow(String marketMaker, double price, long size) {
             m_marketMaker = marketMaker;
             m_price = price;
             m_size = size;

@@ -235,19 +235,19 @@ Private Type MktDataRecord
     AuctionPrice As Double
     
     ' tick size
-    bidSize As Long
-    askSize As Long
-    LastSize As Long
-    VolumeTick As Long
-    AvgVolume As Long
-    OptCallOpenInterest As Long
-    OptPutOpenInterest As Long
-    OptCallVolume As Long
-    OptPutVolume As Long
-    OpenInterest As Long
-    AuctionVolume As Long
-    AuctionImbalance As Long
-    AvgOptVolume As Long
+    bidSize As LongLong
+    askSize As LongLong
+    LastSize As LongLong
+    VolumeTick As LongLong
+    AvgVolume As LongLong
+    OptCallOpenInterest As LongLong
+    OptPutOpenInterest As LongLong
+    OptCallVolume As LongLong
+    OptPutVolume As LongLong
+    OpenInterest As LongLong
+    AuctionVolume As LongLong
+    AuctionImbalance As LongLong
+    AvgOptVolume As LongLong
     
     ' tick string
     LastTimeStamp As String
@@ -336,7 +336,7 @@ Private Type MktDataRecord
     OptImplVolume As Double
     IndexFuturePremium As Double
     Shortable As Double
-    ShortableShares As Long
+    ShortableShares As LongLong
     RTVolume As String
     Halted As String
     TradeCount As Double
@@ -1727,7 +1727,7 @@ Public Sub UpdateTickersSheetWithPrice(id As Long, tickType As Long, price As Do
 End Sub
 
 ' update tickers sheet with size
-Public Sub UpdateTickersSheetWithSize(id As Long, tickType As Long, size As Long)
+Public Sub UpdateTickersSheetWithSize(id As Long, tickType As Long, size As LongLong)
     
     id = id - ID_TICKERS
 

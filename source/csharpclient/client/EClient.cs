@@ -951,9 +951,9 @@ namespace IBApi
                     paramsList.AddParameter(order.AllOrNone);
                     paramsList.AddParameterMax(order.MinQty);
                     paramsList.AddParameterMax(order.PercentOffset);
-                    paramsList.AddParameter(order.ETradeOnly);
-                    paramsList.AddParameter(order.FirmQuoteOnly);
-                    paramsList.AddParameterMax(order.NbboPriceCap);
+                    paramsList.AddParameter(false);
+                    paramsList.AddParameter(false);
+                    paramsList.AddParameterMax(double.MaxValue);
                     paramsList.AddParameterMax(order.AuctionStrategy);
                     paramsList.AddParameterMax(order.StartingPrice);
                     paramsList.AddParameterMax(order.StockRefPrice);
@@ -1227,6 +1227,16 @@ namespace IBApi
                 if (serverVersion >= MinServerVer.PRICE_MGMT_ALGO)
                 {
                     paramsList.AddParameter(order.UsePriceMgmtAlgo);
+                }
+
+                if (serverVersion >= MinServerVer.DURATION)
+                {
+                    paramsList.AddParameter(order.Duration);
+                }
+
+                if (serverVersion >= MinServerVer.POST_TO_ATS)
+                {
+                    paramsList.AddParameter(order.PostToAts);
                 }
             }
             catch (EClientException e)
@@ -3804,6 +3814,20 @@ namespace IBApi
             if (serverVersion < MinServerVer.PRICE_MGMT_ALGO && order.UsePriceMgmtAlgo.HasValue)
             {
                 ReportError(id, EClientErrors.UPDATE_TWS, " It does not support Use Price Management Algo requests.");
+
+                return false;
+            }
+
+            if (serverVersion < MinServerVer.DURATION && order.Duration != int.MaxValue)
+            {
+                ReportError(id, EClientErrors.UPDATE_TWS, " It does not support duration attribute.");
+
+                return false;
+            }
+
+            if (serverVersion < MinServerVer.POST_TO_ATS && order.PostToAts != int.MaxValue)
+            {
+                ReportError(id, EClientErrors.UPDATE_TWS, " It does not support postToAts attribute.");
 
                 return false;
             }

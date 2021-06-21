@@ -33,7 +33,7 @@ import apidemo.PegBenchPanel;
 import apidemo.util.TCombo;
 
 public class OrderDlg extends JDialog {
-    private static final String ALL_GENERIC_TICK_TAGS = "100,101,104,105,106,107,165,221,225,233,236,258,293,294,295,318";
+    private static final String ALL_GENERIC_TICK_TAGS = "100,101,104,106,165,221,232,236,258,293,294,295,318,411,460,619";
     private static final int OPERATION_INSERT = 0;
     private static final int OPERATION_UPDATE = 1;
     private static final int OPERATION_DELETE = 2;

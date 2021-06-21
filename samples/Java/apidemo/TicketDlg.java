@@ -381,6 +381,8 @@ class TicketDlg extends JDialog {
 	class MiscTicketPanel extends StackPanel {
 		final UpperField m_goodAfter = new UpperField();
 		final UpperField m_goodTil = new UpperField();
+		final UpperField m_duration = new UpperField();
+		final UpperField m_postToAts = new UpperField();
 		final JTextField m_orderRef = new JTextField(7);
 		final JTextField m_ocaGroup = new JTextField(7);
 		final UpperField m_minQty = new UpperField();
@@ -388,7 +390,6 @@ class TicketDlg extends JDialog {
 		final UpperField m_trailingStopPrice = new UpperField();
 		final UpperField m_trailingPercent = new UpperField();
 		final UpperField m_discretionaryAmt = new UpperField();
-		final UpperField m_nbboPriceCap = new UpperField();
 		final UpperField m_algoId = new UpperField();
 		final UpperField m_extOperator = new UpperField();
 		final TCombo<SoftDollarTier> m_softDollarTiers = new TCombo<>();
@@ -408,8 +409,6 @@ class TicketDlg extends JDialog {
 		final JCheckBox m_overrideConstraints = new JCheckBox();
 		final JCheckBox m_notHeld = new JCheckBox();
 		final JCheckBox m_transmit = new JCheckBox();
-		final JCheckBox m_eTradeOnly = new JCheckBox();
-		final JCheckBox m_firmQuoteOnly = new JCheckBox();
 		final JCheckBox m_optOutSmartRouting = new JCheckBox();
         final JCheckBox m_dontUseAutoPriceForHedge = new JCheckBox();
         final JCheckBox m_omsContainer = new JCheckBox();
@@ -423,13 +422,14 @@ class TicketDlg extends JDialog {
 			top.add("Min Qty", m_minQty);
 			top.add("Good after", m_goodAfter);
 			top.add("Good until", m_goodTil);
+			top.add("Duration", m_duration);
+			top.add("Post To Ats", m_postToAts);
 			top.add("Rule 80A", m_rule80A);
 			top.add("Trigger method", m_trigger);
 			top.add("Percent Offset", m_percentOffset);
 			top.add("Trail order stop price", m_trailingStopPrice);
 			top.add("Trailing percent", m_trailingPercent);
 			top.add("Discretionary amount", m_discretionaryAmt);
-			top.add("NBBO price cap", m_nbboPriceCap);
 			top.add("Algo Id", m_algoId);
 			top.add("OCA group and type", m_ocaGroup, m_ocaType);
 			top.add("Hedge type and param" , m_hedgeType, m_hedgeParam);
@@ -447,8 +447,6 @@ class TicketDlg extends JDialog {
 
 			VerticalPanel right = new VerticalPanel();
 			right.add("Override constraints", m_overrideConstraints);
-			right.add("E-trade only", m_eTradeOnly);
-			right.add("Firm quote only", m_firmQuoteOnly);
 			right.add("Opt out SMART routing", m_optOutSmartRouting);
 			right.add("Don't use auto price for hedge", m_dontUseAutoPriceForHedge);
 			right.add("Transmit", m_transmit);
@@ -467,6 +465,8 @@ class TicketDlg extends JDialog {
 			m_minQty.setText( m_order.minQty() );
 			m_goodAfter.setText( m_order.goodAfterTime() );
 			m_goodTil.setText( m_order.goodTillDate() );
+			m_duration.setText( m_order.duration() );
+			m_postToAts.setText( m_order.postToAts() );
 			m_orderRef.setText( m_order.orderRef() );
 			m_ocaGroup.setText( m_order.ocaGroup() );
 			m_ocaType.setSelectedItem( m_order.ocaType() );
@@ -485,9 +485,6 @@ class TicketDlg extends JDialog {
 			m_trailingStopPrice.setText( m_order.trailStopPrice() );
 			m_trailingPercent.setText( m_order.trailingPercent() );
 			m_discretionaryAmt.setText( m_order.discretionaryAmt() );
-			m_eTradeOnly.setSelected( m_order.eTradeOnly() );
-			m_firmQuoteOnly.setSelected( m_order.firmQuoteOnly() );
-			m_nbboPriceCap.setText( m_order.nbboPriceCap() );
 			m_optOutSmartRouting.setSelected( m_order.optOutSmartRouting() );
 			m_algoId.setText( m_order.algoId() );
 			m_transmit.setSelected( true);
@@ -513,6 +510,8 @@ class TicketDlg extends JDialog {
 			m_order.minQty( m_minQty.getInt() );
 			m_order.goodAfterTime( m_goodAfter.getText() );
 			m_order.goodTillDate( m_goodTil.getText() );
+			m_order.duration( m_duration.getInt() );
+			m_order.postToAts( m_postToAts.getInt() );
 			m_order.orderRef( m_orderRef.getText() );
 			m_order.ocaGroup( m_ocaGroup.getText() );
 			m_order.ocaType( m_ocaType.getSelectedItem() );
@@ -530,9 +529,6 @@ class TicketDlg extends JDialog {
 			m_order.trailStopPrice( m_trailingStopPrice.getDouble() );
 			m_order.trailingPercent( m_trailingPercent.getDouble() );
 			m_order.discretionaryAmt( m_discretionaryAmt.getDouble() );
-			m_order.eTradeOnly( m_eTradeOnly.isSelected() );
-			m_order.firmQuoteOnly( m_firmQuoteOnly.isSelected() );
-			m_order.nbboPriceCap( m_nbboPriceCap.getDouble() );
 			m_order.optOutSmartRouting( m_optOutSmartRouting.isSelected() );
 			m_order.algoId( m_algoId.getText() );
 			m_order.transmit( m_transmit.isSelected() );

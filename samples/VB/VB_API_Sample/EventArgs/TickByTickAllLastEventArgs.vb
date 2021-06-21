@@ -13,7 +13,7 @@ Class TickByTickAllLastEventArgs
 
     Property price As Double
 
-    Property size As Integer
+    Property size As Long
 
     Property tickAttribLast As TickAttribLast
 

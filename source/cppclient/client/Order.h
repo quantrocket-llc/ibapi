@@ -99,9 +99,6 @@ struct Order
 
 	// SMART routing only
 	double   discretionaryAmt = 0;
-	bool     eTradeOnly = true;
-	bool     firmQuoteOnly = true;
-	double   nbboPriceCap = UNSET_DOUBLE;
 	bool     optOutSmartRouting = false;
 
 	// BOX exchange orders only
@@ -234,6 +231,8 @@ struct Order
 	long long parentPermId = UNSET_LONG;
 
 	UsePriceMmgtAlgo usePriceMgmtAlgo = UsePriceMmgtAlgo::DEFAULT;
+	int duration = UNSET_INTEGER;
+	int postToAts = UNSET_INTEGER;
 
 public:
 

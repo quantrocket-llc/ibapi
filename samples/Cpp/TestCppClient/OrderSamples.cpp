@@ -1003,3 +1003,15 @@ OrderCondition* OrderSamples::Volume_Condition(int conId, std::string exchange, 
 	return dynamic_cast<OrderCondition *>(volCondition);
 }
 
+Order OrderSamples::LimitIBKRATS(std::string action, double quantity, double limitPrice){
+	// ! [limit_ibkrats]
+	Order order;
+	order.action = action;
+	order.orderType = "LMT";
+	order.lmtPrice = limitPrice;
+	order.totalQuantity = quantity;
+	order.notHeld = true;
+	// ! [limit_ibkrats]
+	return order;
+}
+
