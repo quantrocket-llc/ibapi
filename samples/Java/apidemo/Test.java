@@ -445,4 +445,14 @@ public class Test implements EWrapper {
     public void replaceFAEnd(int reqId, String text) {
         System.out.println(EWrapperMsgGenerator.replaceFAEnd(reqId, text));
     }
+
+    @Override
+    public void wshMetaData(int reqId, String dataJson) {
+        System.out.println(EWrapperMsgGenerator.wshMetaData(reqId, dataJson));
+    }
+
+    @Override
+    public void wshEventData(int reqId, String dataJson) {
+        System.out.println(EWrapperMsgGenerator.wshEventData(reqId, dataJson));
+    }
 }

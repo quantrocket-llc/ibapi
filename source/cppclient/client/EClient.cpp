@@ -3572,6 +3572,91 @@ void EClient::reqCompletedOrders(bool apiOnly) {
     closeAndSend(msg.str());    
 }
 
+void EClient::reqWshMetaData(int reqId) {
+    if (!isConnected()) {
+        m_pEWrapper->error(NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg());
+        return;
+    }
+
+    if (m_serverVersion < MIN_SERVER_VER_WSHE_CALENDAR) {
+        m_pEWrapper->error(NO_VALID_ID, UPDATE_TWS.code(), UPDATE_TWS.msg() +
+            "  It does not support WSHE Calendar API.");
+        return;
+    }
+
+    std::stringstream msg;
+    prepareBuffer(msg);
+
+    ENCODE_FIELD(REQ_WSH_META_DATA)
+    ENCODE_FIELD(reqId)
+
+    closeAndSend(msg.str());
+}
+
+void EClient::reqWshEventData(int reqId, int conId) {
+    if (!isConnected()) {
+        m_pEWrapper->error(NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg());
+        return;
+    }
+
+    if (m_serverVersion < MIN_SERVER_VER_WSHE_CALENDAR) {
+        m_pEWrapper->error(NO_VALID_ID, UPDATE_TWS.code(), UPDATE_TWS.msg() +
+            "  It does not support WSHE Calendar API.");
+        return;
+    }
+
+    std::stringstream msg;
+    prepareBuffer(msg);
+
+    ENCODE_FIELD(REQ_WSH_EVENT_DATA)
+    ENCODE_FIELD(reqId)
+    ENCODE_FIELD(conId)
+
+    closeAndSend(msg.str());
+}
+
+void EClient::cancelWshMetaData(int reqId) {
+    if (!isConnected()) {
+        m_pEWrapper->error(NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg());
+        return;
+    }
+
+    if (m_serverVersion < MIN_SERVER_VER_WSHE_CALENDAR) {
+        m_pEWrapper->error(NO_VALID_ID, UPDATE_TWS.code(), UPDATE_TWS.msg() +
+            "  It does not support WSHE Calendar API.");
+        return;
+    }
+
+    std::stringstream msg;
+    prepareBuffer(msg);
+
+    ENCODE_FIELD(CANCEL_WSH_META_DATA)
+    ENCODE_FIELD(reqId)
+
+    closeAndSend(msg.str());
+}
+
+void EClient::cancelWshEventData(int reqId) {
+    if (!isConnected()) {
+        m_pEWrapper->error(NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg());
+        return;
+    }
+
+    if (m_serverVersion < MIN_SERVER_VER_WSHE_CALENDAR) {
+        m_pEWrapper->error(NO_VALID_ID, UPDATE_TWS.code(), UPDATE_TWS.msg() +
+            "  It does not support WSHE Calendar API.");
+        return;
+    }
+
+    std::stringstream msg;
+    prepareBuffer(msg);
+
+    ENCODE_FIELD(CANCEL_WSH_EVENT_DATA)
+    ENCODE_FIELD(reqId)
+
+    closeAndSend(msg.str());
+}
+
 bool EClient::extraAuth() {
     return m_extraAuth;
 }

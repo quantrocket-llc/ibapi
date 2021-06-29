@@ -102,3 +102,5 @@ void DefaultEWrapper::orderBound(long long orderId, int apiClientId, int apiOrde
 void DefaultEWrapper::completedOrder(const Contract& contract, const Order& order, const OrderState& orderState) { }
 void DefaultEWrapper::completedOrdersEnd() { }
 void DefaultEWrapper::replaceFAEnd(int reqId, const std::string& text) { }
+void DefaultEWrapper::wshMetaData(int reqId, const std::string& dataJson) { }
+void DefaultEWrapper::wshEventData(int reqId, const std::string& dataJson) { }

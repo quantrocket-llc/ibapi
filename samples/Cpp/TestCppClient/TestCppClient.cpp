@@ -309,6 +309,11 @@ void TestCppClient::processMessages()
 			break;
 		case ST_IBKRATSSAMPLE_ACK:
 			break;
+		case ST_WSH:
+			wshCalendarOperations();
+			break;
+		case ST_WSH_ACK:
+			break;
 		case ST_PING:
 			reqCurrentTime();
 			break;
@@ -1379,6 +1384,22 @@ void TestCppClient::ibkratsSample(){
 	m_state = ST_IBKRATSSAMPLE_ACK;
 }
 
+void TestCppClient::wshCalendarOperations() {
+	m_pClient->reqWshMetaData(30001);
+	
+	std::this_thread::sleep_for(std::chrono::seconds(10));
+
+	m_pClient->cancelWshMetaData(30001);
+
+	m_pClient->reqWshEventData(30002, 8314);
+
+	std::this_thread::sleep_for(std::chrono::seconds(10));
+
+	m_pClient->cancelWshEventData(30002);
+
+	m_state = ST_WSH_ACK;
+}
+
 //! [nextvalidid]
 void TestCppClient::nextValidId( OrderId orderId)
 {
@@ -1411,7 +1432,7 @@ void TestCppClient::nextValidId( OrderId orderId)
 	//m_state = ST_HEDGESAMPLES;
 	//m_state = ST_TESTALGOSAMPLES;
 	//m_state = ST_FAORDERSAMPLES;
-	m_state = ST_FAOPERATIONS;
+	//m_state = ST_FAOPERATIONS;
 	//m_state = ST_DISPLAYGROUPS;
 	//m_state = ST_MISCELANEOUS;
 	//m_state = ST_FAMILYCODES;
@@ -1428,6 +1449,7 @@ void TestCppClient::nextValidId( OrderId orderId)
 	//m_state = ST_MARKETRULE;
 	//m_state = ST_PING;
 	//m_state = ST_WHATIFSAMPLES;
+	m_state = ST_WSH;
 }
 
 
@@ -2120,3 +2142,15 @@ void TestCppClient::replaceFAEnd(int reqId, const std::string& text) {
 	printf("Replace FA End. Request: %d, Text:%s\n", reqId, text.c_str());
 }
 //! [replacefaend]
+
+//! [wshMetaData]
+void TestCppClient::wshMetaData(int reqId, const std::string& dataJson) {
+	printf("WSH Meta Data. ReqId: %d, dataJson: %s\n", reqId, dataJson.c_str());
+}
+//! [wshMetaData]
+
+//! [wshEventData]
+void TestCppClient::wshEventData(int reqId, const std::string& dataJson) {
+	printf("WSH Event Data. ReqId: %d, dataJson: %s\n", reqId, dataJson.c_str());
+}
+//! [wshEventData]

@@ -973,5 +973,25 @@ namespace IBSampleApp
             if (tmp != null)
                 sc.Post(t => tmp(reqId, text), null);
         }
+
+        public event Action<int, string> WshMetaData;
+
+        public void wshMetaData(int reqId, string dataJson)
+        {
+            var tmp = WshMetaData;
+
+            if (tmp != null)
+                sc.Post(t => tmp(reqId, dataJson), null);
+        }
+
+        public event Action<int, string> WshEventData;
+
+        public void wshEventData(int reqId, string dataJson)
+        {
+            var tmp = WshEventData;
+
+            if (tmp != null)
+                sc.Post(t => tmp(reqId, dataJson), null);
+        }
     }
 }

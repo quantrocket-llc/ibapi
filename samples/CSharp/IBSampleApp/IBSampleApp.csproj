@@ -182,6 +182,7 @@
     <Compile Include="ui\SecurityDefinitionOptionParameterKey.cs" />
     <Compile Include="messages\SoftDollarTiersMessage.cs" />
     <Compile Include="ui\TickReqParamsMessage.cs" />
+    <Compile Include="ui\WshManager.cs" />
     <Compile Include="util\Utils.cs" />
     <Compile Include="util\XmlHelper.cs" />
     <EmbeddedResource Include="ui\ComboContractResults.resx">

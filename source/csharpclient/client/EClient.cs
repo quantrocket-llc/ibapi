@@ -3371,6 +3371,116 @@ namespace IBApi
             CloseAndSend(reqId, paramsList, lengthPos, EClientErrors.FAIL_SEND_REQHISTORICALTICKS);
         }
 
+        /**
+        * @brief Requests real time updates for daily PnL of individual positions
+        * @param reqId
+        */
+
+        public void reqWshMetaData(int reqId)
+        {
+            if (!CheckConnection())
+                return;
+
+            if (!CheckServerVersion(MinServerVer.WSHE_CALENDAR,
+                    "  It does not support WSHE Calendar API."))
+                return;
+
+            var paramsList = new BinaryWriter(new MemoryStream());
+            var lengthPos = prepareBuffer(paramsList);
+
+            try
+            {
+                paramsList.AddParameter(OutgoingMessages.ReqWshMetaData);
+                paramsList.AddParameter(reqId);
+            }
+            catch (EClientException e)
+            {
+                wrapper.error(reqId, e.Err.Code, e.Err.Message + e.Text);
+                return;
+            }
+
+            CloseAndSend(reqId, paramsList, lengthPos, EClientErrors.FAIL_SEND_REQ_WSH_META_DATA);
+        }
+
+        /**
+        * @brief Cancels real time subscription for a positions daily PnL information
+        * @param reqId
+        */
+
+        public void cancelWshMetaData(int reqId)
+        {
+            if (!CheckConnection())
+                return;
+
+            if (!CheckServerVersion(MinServerVer.WSHE_CALENDAR,
+                    "  It does not support WSHE Calendar API."))
+                return;
+
+            var paramsList = new BinaryWriter(new MemoryStream());
+            var lengthPos = prepareBuffer(paramsList);
+
+            paramsList.AddParameter(OutgoingMessages.CancelWshMetaData);
+            paramsList.AddParameter(reqId);
+
+            CloseAndSend(paramsList, lengthPos, EClientErrors.FAIL_SEND_CAN_WSH_META_DATA);
+        }
+
+        /**
+        * @brief Requests real time updates for daily PnL of individual positions
+        * @param reqId
+        * @param conId contract ID (conId) of contract to receive WSH Event Data for.
+        */
+
+        public void reqWshEventData(int reqId, int conId)
+        {
+            if (!CheckConnection())
+                return;
+
+            if (!CheckServerVersion(MinServerVer.WSHE_CALENDAR,
+                    "  It does not support WSHE Calendar API."))
+                return;
+
+            var paramsList = new BinaryWriter(new MemoryStream());
+            var lengthPos = prepareBuffer(paramsList);
+
+            try
+            {
+                paramsList.AddParameter(OutgoingMessages.ReqWshEventData);
+                paramsList.AddParameter(reqId);
+                paramsList.AddParameter(conId);
+            }
+            catch (EClientException e)
+            {
+                wrapper.error(reqId, e.Err.Code, e.Err.Message + e.Text);
+                return;
+            }
+
+            CloseAndSend(reqId, paramsList, lengthPos, EClientErrors.FAIL_SEND_REQ_WSH_EVENT_DATA);
+        }
+
+        /**
+        * @brief Cancels real time subscription for a positions daily PnL information
+        * @param reqId
+        */
+
+        public void cancelWshEventData(int reqId)
+        {
+            if (!CheckConnection())
+                return;
+
+            if (!CheckServerVersion(MinServerVer.WSHE_CALENDAR,
+                    "  It does not support WSHE Calendar API."))
+                return;
+
+            var paramsList = new BinaryWriter(new MemoryStream());
+            var lengthPos = prepareBuffer(paramsList);
+
+            paramsList.AddParameter(OutgoingMessages.CancelWshEventData);
+            paramsList.AddParameter(reqId);
+
+            CloseAndSend(paramsList, lengthPos, EClientErrors.FAIL_SEND_CAN_WSH_EVENT_DATA);
+        }
+
         protected bool CheckServerVersion(int requiredVersion)
         {
             return CheckServerVersion(requiredVersion, "");

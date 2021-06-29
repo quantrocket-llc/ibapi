@@ -763,6 +763,21 @@ public class Testbed {
 		
 	}
 	
+    private static void wshCalendarOperations(EClientSocket client) throws InterruptedException  {
+
+        client.reqWshMetaData(1100);
+        
+        Thread.sleep(1000);
+        
+        client.cancelWshMetaData(1100);
+        
+        client.reqWshEventData(1101, 8314);
+        
+        Thread.sleep(1000);
+
+        client.cancelWshEventData(1101);
+    }
+	
 	private static void financialAdvisorOperations(EClientSocket client) {
 		
 		/*** Requesting FA information ***/

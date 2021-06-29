@@ -116,12 +116,13 @@ const int MIN_SERVER_VER_REPLACE_FA_END             = 157;
 const int MIN_SERVER_VER_DURATION                   = 158;
 const int MIN_SERVER_VER_MARKET_DATA_IN_SHARES      = 159;
 const int MIN_SERVER_VER_POST_TO_ATS                = 160;
+const int MIN_SERVER_VER_WSHE_CALENDAR              = 161;
 
 /* 100+ messaging */
 // 100 = enhanced handshake, msg length prefixes
 
 const int MIN_CLIENT_VER = 100;
-const int MAX_CLIENT_VER = MIN_SERVER_VER_POST_TO_ATS;
+const int MAX_CLIENT_VER = MIN_SERVER_VER_WSHE_CALENDAR;
 
 
 // incoming msg id's
@@ -203,6 +204,9 @@ const int ORDER_BOUND                               = 100;
 const int COMPLETED_ORDER                           = 101;
 const int COMPLETED_ORDERS_END                      = 102;
 const int REPLACE_FA_END                            = 103;
+const int WSH_META_DATA                             = 104;
+const int WSH_EVENT_DATA                            = 105;
+
 
 const int HEADER_LEN = 4; // 4 bytes for msg length
 const int MAX_MSG_LEN = 0xFFFFFF; // 16Mb - 1byte
@@ -322,6 +326,8 @@ class TWSAPIDLLEXP EDecoder
     const char* processCompletedOrderMsg(const char* ptr, const char* endPtr);
     const char* processCompletedOrdersEndMsg(const char* ptr, const char* endPtr);
     const char* processReplaceFAEndMsg(const char* ptr, const char* endPtr);
+    const char* processWshMetaData(const char* ptr, const char* endPtr);
+    const char* processWshEventData(const char* ptr, const char* endPtr);
 
 
     int processConnectAck(const char*& beginPtr, const char* endPtr);

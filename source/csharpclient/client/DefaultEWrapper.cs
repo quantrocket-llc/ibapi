@@ -366,5 +366,13 @@ namespace IBApi
         public virtual void replaceFAEnd(int reqId, string text)
         {
         }
+
+        public void wshMetaData(int reqId, string dataJson)
+        {
+        }
+
+        public void wshEventData(int reqId, string dataJson)
+        {
+        }
     }
 }

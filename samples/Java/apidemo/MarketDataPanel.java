@@ -45,6 +45,8 @@ import com.ib.controller.ApiController.IScannerHandler;
 import com.ib.controller.ApiController.ISecDefOptParamsReqHandler;
 import com.ib.controller.ApiController.ISmartComponentsHandler;
 import com.ib.controller.ApiController.ISymbolSamplesHandler;
+import com.ib.controller.ApiController.IWshEventDataHandler;
+import com.ib.controller.ApiController.IWshMetaDataHandler;
 
 import TestJavaClient.SmartComboRoutingParamsDlg;
 
@@ -83,6 +85,7 @@ class MarketDataPanel extends JPanel {
 		requestPanel.addTab("Smart Components", m_smartComponentsPanel);
 		requestPanel.addTab("PnL", new PnLPanel());
 		requestPanel.addTab("Tick-By-Tick", new TickByTickRequestPanel());
+		requestPanel.addTab("WSHE Calendar", new WSHCalendarRequestPanel());
 		
 		setLayout( new BorderLayout() );
 		add( requestPanel, BorderLayout.NORTH);
@@ -93,6 +96,92 @@ class MarketDataPanel extends JPanel {
 		m_bboExchanges.add(exch);
 		m_smartComponentsPanel.updateBboExchSet(m_bboExchanges);
 	}
+	
+	private class WSHCalendarRequestPanel extends JPanel {
+	    
+        final UpperField m_conId = new UpperField();
+
+        WSHCalendarRequestPanel() {
+            VerticalPanel paramsPanel = new VerticalPanel();
+            HtmlButton reqWSHMetaData = 
+                    new HtmlButton("Request WSH Meta Data") { @Override protected void actionPerformed() { onReqMeta(); } };
+            HtmlButton reqWSHEventData = 
+                    new HtmlButton("Request WSH Event Data") { @Override protected void actionPerformed() { onReqEvent(); } };
+                     
+            paramsPanel.add("Con Id", m_conId);           
+            paramsPanel.add(reqWSHMetaData);
+            paramsPanel.add(reqWSHEventData);
+            setLayout(new BorderLayout());
+            add(paramsPanel, BorderLayout.NORTH);
+        }
+
+        protected void onReqMeta() {
+            final WSHMetaDataModel wshMetaDataModel = new WSHMetaDataModel();
+            WSHResultsPanel resultsPanel = new WSHResultsPanel(wshMetaDataModel);
+            
+            m_resultsPanel.addTab("WSH Meta Data", resultsPanel, true, true);
+            
+            IWshMetaDataHandler handler = (reqId, dataJson) -> 
+                SwingUtilities.invokeLater(() -> wshMetaDataModel.addRow(dataJson));
+            
+            resultsPanel.handler(handler);
+            ApiDemo.INSTANCE.controller().reqWshMetaData(handler);
+            
+        }
+
+        protected void onReqEvent() { 
+            final WSHEventDataModel wshEventDataModel = new WSHEventDataModel();
+            WSHResultsPanel resultsPanel = new WSHResultsPanel(wshEventDataModel);
+            int conId = m_conId.getInt();
+            
+            m_resultsPanel.addTab("WSH Event Data for conID: " + conId, resultsPanel, true, true);
+            
+            IWshEventDataHandler handler = (reqId, jsonData) -> 
+                SwingUtilities.invokeLater(() -> wshEventDataModel.addRow(jsonData));
+            
+            resultsPanel.handler(handler);
+            ApiDemo.INSTANCE.controller().reqWshEventData(conId, handler);
+        }
+        
+	}
+	
+    static class WSHResultsPanel extends NewTabPanel {
+
+        public WSHResultsPanel(AbstractTableModel wshDataModel) {
+            JTable table = new JTable(wshDataModel);
+            JScrollPane scroll = new JScrollPane(table);
+
+            setLayout(new BorderLayout());
+            add(scroll);
+        }
+
+        private IWshMetaDataHandler m_metaDataHandler;
+        private IWshEventDataHandler m_eventDataHandler;
+
+        public void handler(IWshMetaDataHandler v) {
+            m_metaDataHandler = v;
+        }
+
+        public void handler(IWshEventDataHandler v) {
+            m_eventDataHandler = v;
+        }
+
+        @Override
+        public void activated() {
+            // TODO Auto-generated method stub
+
+        }
+
+        @Override
+        public void closed() {
+            if (m_metaDataHandler != null) {
+                ApiDemo.INSTANCE.controller().cancelWshMetaData(m_metaDataHandler);
+            } else if (m_eventDataHandler != null) {
+                ApiDemo.INSTANCE.controller().cancelWshEventData(m_eventDataHandler);
+            }
+        }
+
+    }
 	
 	private class RequestSmartComponentsPanel extends JPanel {
 		final TCombo<String> m_BBOExchList = new TCombo<>(m_bboExchanges.toArray(new String[0]));

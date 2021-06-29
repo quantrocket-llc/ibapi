@@ -718,3 +718,9 @@ class EWrapper:
         """This is called at the end of a replace FA."""
 
         self.logAnswer(current_fn_name(), vars())
+
+    def wshMetaData(self, reqId: int, dataJson: str):
+        self.logAnswer(current_fn_name(), vars())
+
+    def wshEventData(self, reqId: int, dataJson: str):
+        self.logAnswer(current_fn_name(), vars())

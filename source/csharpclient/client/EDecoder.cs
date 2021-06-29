@@ -390,6 +390,14 @@ namespace IBApi
                     ReplaceFAEndEvent();
                     break;
 
+                case IncomingMessage.WshMetaData:
+                    ProcessWshMetaData();
+                    break;
+
+                case IncomingMessage.WshEventData:
+                    ProcessWshEventData();
+                    break;
+
                 default:
                     eWrapper.error(IncomingMessage.NotValid, EClientErrors.UNKNOWN_ID.Code, EClientErrors.UNKNOWN_ID.Message);
                     return false;
@@ -997,7 +1005,7 @@ namespace IBApi
             int tickType = ReadInt();
             double price = ReadDouble();
             long size = 0;
-            
+
             if (msgVersion >= 2)
                 size = ReadLong();
 
@@ -1773,7 +1781,7 @@ namespace IBApi
             }
 
             int itemCount = ReadInt();
-            
+
             for (int ctr = 0; ctr < itemCount; ctr++)
             {
                 string date = ReadString();
@@ -1786,11 +1794,12 @@ namespace IBApi
 
                 if (serverVersion < MinServerVer.SYNT_REALTIME_BARS)
                 {
-                    /*string hasGaps = */ReadString();
+                    /*string hasGaps = */
+                    ReadString();
                 }
 
                 int barCount = -1;
-                
+
                 if (msgVersion >= 3)
                 {
                     barCount = ReadInt();
@@ -2006,6 +2015,21 @@ namespace IBApi
             int reqId = ReadInt();
             string text = ReadString();
             eWrapper.replaceFAEnd(reqId, text);
+        }
+
+        private void ProcessWshMetaData()
+        {
+            int reqId = ReadInt();
+            string dataJson = ReadString();
+
+            eWrapper.wshMetaData(reqId, dataJson);
+        }
+
+        private void ProcessWshEventData()
+        {
+            int reqId = ReadInt();
+            string dataJson = ReadString();
+            eWrapper.wshEventData(reqId, dataJson);
         }
 
         public double ReadDouble()

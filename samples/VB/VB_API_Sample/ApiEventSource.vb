@@ -853,6 +853,24 @@ Friend Class ApiEventSource
                                                               })
                          End Sub)
     End Sub
+
+    Private Sub EWrapper_wshMetaData(reqId As Integer, dataJson As String) Implements EWrapper.wshMetaData
+        InvokeIfRequired(Sub()
+                             RaiseEvent WshMetaData(Me, New WshMetaDataEventArgs With {
+                                                              .reqId = reqId,
+                                                              .dataJson = dataJson
+                                                              })
+                         End Sub)
+    End Sub
+
+    Private Sub EWrapper_wshEventData(reqId As Integer, dataJson As String) Implements EWrapper.wshEventData
+        InvokeIfRequired(Sub()
+                             RaiseEvent WshEventData(Me, New WshEventDataEventArgs With {
+                                                              .reqId = reqId,
+                                                              .dataJson = dataJson
+                                                              })
+                         End Sub)
+    End Sub
 #End Region
 
 #Region "Event declarations"
@@ -938,7 +956,8 @@ Friend Class ApiEventSource
     Event CompletedOrder(sender As Object, e As OpenOrderEventArgs)
     Event CompletedOrdersEnd(sender As Object, e As EventArgs)
     Event ReplaceFAEnd(sender As Object, e As ReplaceFAEndEventArgs)
-
+    Event WshMetaData(sender As Object, e As WshMetaDataEventArgs)
+    Event WshEventData(sender As Object, e As WshEventDataEventArgs)
 
 
 

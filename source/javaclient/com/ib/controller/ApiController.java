@@ -74,6 +74,8 @@ public class ApiController implements EWrapper {
     private final Map<Integer, IPnLSingleHandler> m_pnlSingleMap = new HashMap<>();
     private final Map<Integer, IHistoricalTickHandler> m_historicalTicksMap = new HashMap<>();
     private final Map<Integer, ITickByTickDataHandler> m_tickByTickDataMap = new HashMap<>();
+    private final Map<Integer, IWshMetaDataHandler> m_wshMetaDataMap = new HashMap<>();
+    private final Map<Integer, IWshEventDataHandler> m_wshEventDataMap = new HashMap<>();
 	private boolean m_connected = false;
 
 	public ApiConnection client() { return m_client; }
@@ -1958,5 +1960,79 @@ public class ApiController implements EWrapper {
             m_completedOrdersHandler.completedOrdersEnd();
         }
         recEOM();
+    }
+    
+    // ---------------------------------------- WSH Meta Data ----------------------------------------
+    public interface IWshMetaDataHandler {
+        void wshMetaData(int reqId, String dataJson);
+    }
+    
+    public void reqWshMetaData(IWshMetaDataHandler handler) {
+        if (!checkConnection())
+            return;
+
+        int reqId = m_reqId++;
+        m_wshMetaDataMap.put(reqId, handler);
+        m_client.reqWshMetaData(reqId);
+        sendEOM();;
+    }
+    
+    public void cancelWshMetaData(IWshMetaDataHandler handler) {
+        if (!checkConnection())
+            return;
+
+        Integer reqId = getAndRemoveKey(m_wshMetaDataMap, handler);
+        if (reqId != null) {
+            m_client.cancelWshMetaData(reqId);
+            sendEOM();
+        }
+    }
+
+    @Override
+    public void wshMetaData(int reqId, String dataJson) {
+        IWshMetaDataHandler handler = m_wshMetaDataMap.get(reqId);
+
+        if (handler != null) {
+            handler.wshMetaData(reqId, dataJson);
+        }
+
+        recEOM(); 
+    }
+
+    // ---------------------------------------- WSH Event Data ----------------------------------------
+    public interface IWshEventDataHandler {
+        void wshEventData(int reqId, String dataJson);
+    }
+    
+    public void reqWshEventData(int conId, IWshEventDataHandler handler) {
+        if (!checkConnection())
+            return;
+
+        int reqId = m_reqId++;
+        m_wshEventDataMap.put(reqId, handler);
+        m_client.reqWshEventData(reqId, conId);
+        sendEOM();;
+    }
+    
+    public void cancelWshEventData(IWshEventDataHandler handler) {
+        if (!checkConnection())
+            return;
+
+        Integer reqId = getAndRemoveKey(m_wshEventDataMap, handler);
+        if (reqId != null) {
+            m_client.cancelWshMetaData(reqId);
+            sendEOM();
+        }
+    }
+
+    @Override
+    public void wshEventData(int reqId, String dataJson) {
+        IWshEventDataHandler handler = m_wshEventDataMap.get(reqId);
+
+        if (handler != null) {
+            handler.wshEventData(reqId, dataJson);
+        }
+
+        recEOM();       
     }
 }

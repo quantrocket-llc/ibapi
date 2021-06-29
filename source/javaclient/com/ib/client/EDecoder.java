@@ -98,6 +98,8 @@ class EDecoder implements ObjectInput {
     private static final int COMPLETED_ORDER = 101;
     private static final int COMPLETED_ORDERS_END = 102;
     private static final int REPLACE_FA_END = 103;
+    private static final int WSH_META_DATA = 104;
+    private static final int WSH_EVENT_DATA = 105;
 
     static final int MAX_MSG_LENGTH = 0xffffff;
     private static final int REDIRECT_MSG_ID = -1;
@@ -481,6 +483,14 @@ class EDecoder implements ObjectInput {
             case REPLACE_FA_END:
                 processReplaceFAEndMsg();
                 break;
+                
+            case WSH_META_DATA:
+            	processWshMetaData();
+            	break;
+            	
+            case WSH_EVENT_DATA:
+            	processWshEventData();
+            	break;
                 
             default: {
                 m_EWrapper.error( EClientErrors.NO_VALID_ID, EClientErrors.UNKNOWN_ID.code(), EClientErrors.UNKNOWN_ID.msg());
@@ -1968,6 +1978,20 @@ class EDecoder implements ObjectInput {
         String text = readStr();
 
         m_EWrapper.replaceFAEnd(reqId, text);
+    }
+    
+    private void processWshMetaData() throws IOException {
+    	int reqId = readInt();
+    	String dataJson = readStr();
+    	
+    	m_EWrapper.wshMetaData(reqId, dataJson);
+    }
+    
+    private void processWshEventData() throws IOException {
+    	int reqId = readInt();    	
+    	String dataJson = readStr();
+    	
+    	m_EWrapper.wshEventData(reqId, dataJson);
     }
     
     private void readLastTradeDate(ContractDetails contract, boolean isBond) throws IOException {

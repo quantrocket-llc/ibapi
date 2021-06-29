@@ -697,4 +697,18 @@ public class EWrapperImpl implements EWrapper {
         System.out.println(EWrapperMsgGenerator.replaceFAEnd(reqId, text));
     }
     //! [replacefaend]
+    
+    //! [wshmetadata]
+	@Override
+	public void wshMetaData(int reqId, String dataJson) {
+		System.out.println(EWrapperMsgGenerator.wshMetaData(reqId, dataJson));
+	}
+    //! [wshmetadata]
+
+    //! [wsheventdata]
+	@Override
+	public void wshEventData(int reqId, String dataJson) {
+        System.out.println(EWrapperMsgGenerator.wshEventData(reqId, dataJson));
+	}
+    //! [wsheventdata]
 }

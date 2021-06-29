@@ -675,7 +675,15 @@ public class EWrapperMsgGenerator {
  
     public static String replaceFAEnd(int reqId, String text) {
     	return "id = " + reqId + " ===== " + text + " =====";
-    }    
+    }
+    
+    public static String wshMetaData(int reqId, String dataJson) {
+    	return "wshMetaData. id = " + reqId + " dataJson= " + dataJson;
+    } 
+    
+    public static String wshEventData(int reqId, String dataJson) {
+    	return "wshEventData. id = " + reqId + " dataJson= " + dataJson;
+    } 
     
     private static void appendOrderFields(StringBuilder sb, int orderId, Contract contract, Order order, OrderState orderState,
             boolean isOpenOrder) {
