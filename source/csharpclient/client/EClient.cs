@@ -1622,17 +1622,7 @@ namespace IBApi
         }
 
         /**
-         * @brief Requests the contract's fundamental data.
-         * Fundamental data is returned at EWrapper::fundamentalData
-         * @param reqId the request's unique identifier.
-         * @param contract the contract's description for which the data will be returned.
-         * @param reportType there are three available report types:
-         *      - ReportSnapshot: Company overview
-         *      - ReportsFinSummary: Financial summary
-                - ReportRatios:	Financial ratios
-                - ReportsFinStatements:	Financial statements
-                - RESC: Analyst estimates
-         * @sa EWrapper::fundamentalData
+		reqFundamentalData is currently deprecated	
          */
         public void reqFundamentalData(int reqId, Contract contract, string reportType,
             //reserved for future use, must be blank
