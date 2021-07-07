@@ -340,7 +340,7 @@
 	
 	\section funds Mutual Funds
 	
-	Trading Mutual Funds is currently supported from the API both in paper account and live account. 
+	Order placement for Mutual Funds is currently supported from the API both in paper account and live account. 
 	Note: It is recommended to understand mutual fund orders on TWS UI before implementing via API due to restrictions enforced on trading mutual funds. For example to buy ARBIX one requires to use cash quantity i.e. cashQty while selling ARBIX can be implemented using total quantity i.e. totalQuantity.
 	
 	<ul id="tab">
