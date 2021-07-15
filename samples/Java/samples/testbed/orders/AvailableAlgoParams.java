@@ -88,7 +88,7 @@ public class AvailableAlgoParams {
 		baseOrder.algoParams().add(new TagValue("startTime", startTime));
 		baseOrder.algoParams().add(new TagValue("endTime", endTime));
 		baseOrder.algoParams().add(new TagValue("allowPastEndTime", allowPastEndTime ? "1" : "0"));
-		baseOrder.algoParams().add(new TagValue("monetaryValue", String.valueOf(monetaryValue)));
+		baseOrder.cashQty(monetaryValue);
 		
 	}
 	//! [twap_params]
