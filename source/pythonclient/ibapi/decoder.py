@@ -1196,6 +1196,20 @@ class Decoder(Object):
 
         self.wrapper.replaceFAEnd(reqId, text)
 
+    def processWshMetaDataMsg(self, fields):
+        next(fields)
+        reqId = decode(int, fields)
+        dataJson = decode(str, fields)
+
+        self.wrapper.wshMetaData(reqId, dataJson)
+
+    def processWshEventDataMsg(self, fields):
+        next(fields)
+        reqId = decode(int, fields)
+        dataJson = decode(str, fields)
+
+        self.wrapper.wshEventData(reqId, dataJson)
+
     ######################################################################
 
     def readLastTradeDate(self, fields, contract: ContractDetails, isBond: bool):
@@ -1381,7 +1395,9 @@ class Decoder(Object):
         IN.ORDER_BOUND: HandleInfo(proc=processOrderBoundMsg),
         IN.COMPLETED_ORDER: HandleInfo(proc=processCompletedOrderMsg),
         IN.COMPLETED_ORDERS_END: HandleInfo(proc=processCompletedOrdersEndMsg),
-        IN.REPLACE_FA_END: HandleInfo(proc=processReplaceFAEndMsg)
+        IN.REPLACE_FA_END: HandleInfo(proc=processReplaceFAEndMsg),
+        IN.WSH_META_DATA: HandleInfo(proc=processWshMetaDataMsg),
+        IN.WSH_EVENT_DATA: HandleInfo(proc=processWshEventDataMsg)
 }
 
 

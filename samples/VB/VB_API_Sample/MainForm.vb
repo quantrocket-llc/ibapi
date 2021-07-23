@@ -117,6 +117,10 @@ Friend Class MainForm
     Friend WithEvents cmdCancelTickByTick As System.Windows.Forms.Button
     Friend WithEvents cmdReqCompletedOrders As System.Windows.Forms.Button
     Friend WithEvents cmdReqAllCompletedOrders As System.Windows.Forms.Button
+    Friend WithEvents Button1 As Button
+    Friend WithEvents Button2 As Button
+    Public WithEvents Button3 As Button
+    Friend WithEvents Button4 As Button
     Public WithEvents cmdScanner As System.Windows.Forms.Button
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.cmdReqHistoricalData = New System.Windows.Forms.Button()
@@ -192,6 +196,10 @@ Friend Class MainForm
         Me.cmdCancelTickByTick = New System.Windows.Forms.Button()
         Me.cmdReqCompletedOrders = New System.Windows.Forms.Button()
         Me.cmdReqAllCompletedOrders = New System.Windows.Forms.Button()
+        Me.Button1 = New System.Windows.Forms.Button()
+        Me.Button2 = New System.Windows.Forms.Button()
+        Me.Button3 = New System.Windows.Forms.Button()
+        Me.Button4 = New System.Windows.Forms.Button()
         Me.SuspendLayout()
         '
         'cmdReqHistoricalData
@@ -1043,11 +1051,56 @@ Friend Class MainForm
         Me.cmdReqAllCompletedOrders.Text = "Req All Completed Orders"
         Me.cmdReqAllCompletedOrders.UseVisualStyleBackColor = True
         '
+        'Button1
+        '
+        Me.Button1.Location = New System.Drawing.Point(1009, 523)
+        Me.Button1.Name = "Button1"
+        Me.Button1.Size = New System.Drawing.Size(133, 22)
+        Me.Button1.TabIndex = 76
+        Me.Button1.Text = "Cancel WSH Event Data"
+        Me.Button1.UseVisualStyleBackColor = True
+        '
+        'Button2
+        '
+        Me.Button2.Location = New System.Drawing.Point(870, 523)
+        Me.Button2.Name = "Button2"
+        Me.Button2.Size = New System.Drawing.Size(133, 22)
+        Me.Button2.TabIndex = 75
+        Me.Button2.Text = "Req WSH Event Data..."
+        Me.Button2.UseVisualStyleBackColor = True
+        '
+        'Button3
+        '
+        Me.Button3.BackColor = System.Drawing.SystemColors.Control
+        Me.Button3.Cursor = System.Windows.Forms.Cursors.Default
+        Me.Button3.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Button3.ForeColor = System.Drawing.SystemColors.ControlText
+        Me.Button3.Location = New System.Drawing.Point(1009, 495)
+        Me.Button3.Name = "Button3"
+        Me.Button3.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.Button3.Size = New System.Drawing.Size(133, 22)
+        Me.Button3.TabIndex = 74
+        Me.Button3.Text = "Cancel WSH Meta Data"
+        Me.Button3.UseVisualStyleBackColor = True
+        '
+        'Button4
+        '
+        Me.Button4.Location = New System.Drawing.Point(870, 495)
+        Me.Button4.Name = "Button4"
+        Me.Button4.Size = New System.Drawing.Size(133, 22)
+        Me.Button4.TabIndex = 73
+        Me.Button4.Text = "Req WSH Meta Data..."
+        Me.Button4.UseVisualStyleBackColor = True
+        '
         'MainForm
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
         Me.BackColor = System.Drawing.Color.Gainsboro
         Me.ClientSize = New System.Drawing.Size(1154, 638)
+        Me.Controls.Add(Me.Button1)
+        Me.Controls.Add(Me.Button2)
+        Me.Controls.Add(Me.Button3)
+        Me.Controls.Add(Me.Button4)
         Me.Controls.Add(Me.cmdReqAllCompletedOrders)
         Me.Controls.Add(Me.cmdReqCompletedOrders)
         Me.Controls.Add(Me.cmdCancelTickByTick)
@@ -1172,6 +1225,7 @@ Friend Class MainForm
     Private m_newsArticleOptions As List(Of IBApi.TagValue)
     Private m_historicalNewsOptions As List(Of IBApi.TagValue)
 
+    Private m_dlgWsh As New dlgWsh
     Private m_dlgPnL As New dlgPnL
     Private m_dlgOrder As New dlgOrder
     Private m_dlgConnect As New dlgConnect
@@ -2110,14 +2164,14 @@ Friend Class MainForm
     Private Sub m_apiEvents_HistoricalTicksBidAsk(sender As Object, e As HistoricalTicksBidAskEventArgs) Handles m_apiEvents.HistoricalTicksBidAsk
         For Each tick In e.ticks
             m_utils.addListItem(Utils.ListType.ServerResponses, String.Format("Historical Tick Bid/Ask. Request Id: {0}, Time: {1}, Price Bid: {2}, Price Ask: {3}, Size Bid: {4}, Size Ask: {5}, Bid/Ask Tick Attribs: {6}",
-                    e.reqId, Util.UnixSecondsToString(tick.Time, "yyyyMMdd-HH:mm:ss zzz"), tick.PriceBid, tick.PriceAsk, tick.SizeBid, tick.SizeAsk, tick.TickAttribBidAsk.toString()))
+                    e.reqId, Util.UnixSecondsToString(tick.Time, "yyyyMMdd-HH:mm:ss zzz"), tick.PriceBid, tick.PriceAsk, tick.SizeBid, tick.SizeAsk, tick.TickAttribBidAsk.ToString()))
         Next
     End Sub
 
     Private Sub m_apiEvents_HistoricalTicksLast(sender As Object, e As HistoricalTicksLastEventArgs) Handles m_apiEvents.HistoricalTicksLast
         For Each tick In e.ticks
             m_utils.addListItem(Utils.ListType.ServerResponses, String.Format("Historical Tick Last. Request Id: {0}, Time: {1}, Price: {2}, Size: {3}, Exchange: {4}, Special Conditions: {5}, Last Tick Attribs: {6}",
-                    e.reqId, Util.UnixSecondsToString(tick.Time, "yyyyMMdd-HH:mm:ss zzz"), tick.Price, tick.Size, tick.Exchange, tick.SpecialConditions, tick.TickAttribLast.toString()))
+                    e.reqId, Util.UnixSecondsToString(tick.Time, "yyyyMMdd-HH:mm:ss zzz"), tick.Price, tick.Size, tick.Exchange, tick.SpecialConditions, tick.TickAttribLast.ToString()))
         Next
     End Sub
 
@@ -3224,6 +3278,15 @@ Friend Class MainForm
         lstServerResponses.TopIndex = lstServerResponses.Items.Count - 1
     End Sub
 
+    Private Sub m_apiEvents_WshMetaData(sender As Object, e As WshMetaDataEventArgs) Handles m_apiEvents.WshMetaData
+        m_utils.addListItem(Utils.ListType.MarketData, $"WSH Meta Data. Request Id: {e.reqId}, Data JSON: {e.dataJson}")
+    End Sub
+
+    Private Sub m_apiEvents_WshEventData(sender As Object, e As WshEventDataEventArgs) Handles m_apiEvents.WshEventData
+        m_utils.addListItem(Utils.ListType.MarketData, $"WSH Event Data. Request Id: {e.reqId}, Data JSON: {e.dataJson}")
+    End Sub
+
+
 #End Region
 
 #Region "Helper methods"
@@ -3396,6 +3459,26 @@ Friend Class MainForm
         If Not value Is Nothing And value = True Then
             m_utils.addListItem(listType, "  " & name)
         End If
+    End Sub
+
+    Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
+        If m_dlgWsh.ShowDialog() = Windows.Forms.DialogResult.OK Then
+            m_api.reqWshMetaData(m_dlgWsh.ReqId)
+        End If
+    End Sub
+
+    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
+        If m_dlgWsh.ShowDialog() = Windows.Forms.DialogResult.OK Then
+            m_api.reqWshEventData(m_dlgWsh.ReqId, m_dlgWsh.ConId)
+        End If
+    End Sub
+
+    Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
+        m_api.cancelWshMetaData(m_dlgWsh.ReqId)
+    End Sub
+
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        m_api.cancelWshEventData(m_dlgWsh.ReqId)
     End Sub
 
     Private Sub appendOrderFields(contract As Contract, order As Order, orderState As OrderState)

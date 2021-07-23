@@ -107,5 +107,7 @@ public interface EWrapper {
     void completedOrder(Contract contract, Order order, OrderState orderState);
     void completedOrdersEnd();
     void replaceFAEnd(int reqId, String text);
+	void wshMetaData(int reqId, String dataJson);
+	void wshEventData(int reqId, String dataJson);
 }
 

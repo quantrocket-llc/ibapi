@@ -203,6 +203,20 @@ Module MainModule
         Thread.Sleep(500000)
     End Sub
 
+    Private Sub wshCalendarOperations(client As EClientSocket)
+        client.reqWshMetaData(1100)
+
+        Thread.Sleep(1000)
+
+        client.cancelWshMetaData(1100)
+
+        client.reqWshEventData(1101, 8314)
+
+        Thread.Sleep(1000)
+
+        client.cancelWshEventData(1101)
+    End Sub
+
     Private Sub historicalTicks(client As EClientSocket)
 		' [reqhistoricalticks]
         client.reqHistoricalTicks(18001, ContractSamples.USStockAtSmart(), "20170712 21:39:33", Nothing, 10, "TRADES", 1, True, Nothing)

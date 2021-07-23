@@ -290,5 +290,9 @@ namespace TwsRtdServer
         public void completedOrder(Contract contract, Order order, OrderState orderState) { }
         public void completedOrdersEnd() { }
         public void replaceFAEnd(int reqId, string text) { }
+
+        public void wshMetaData(int reqId, string dataJson) { }
+
+        public void wshEventData(int reqId, string dataJson) { }
     }
 }

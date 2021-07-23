@@ -170,8 +170,8 @@ namespace Samples
             //pnl(client);
 
             //pnlSingle(client);
-		
-	        /**************************/
+
+            /**************************/
             /*** Algo Orders ***/
             /**************************/
             //TestAlgoSamples(client, nextValidId);
@@ -193,9 +193,30 @@ namespace Samples
             /***********************/
             //whatIfSamples(client, nextValidId);
 
+            /***********************/
+            /*** WSHE Calendar API samples ***/
+            /***********************/
+            //wshCalendarOperations(client);
+
             Thread.Sleep(3000);
             Console.WriteLine("Done");
             Thread.Sleep(500000);
+        }
+
+
+        private static void wshCalendarOperations(EClientSocket client)
+        {
+            client.reqWshMetaData(1100);
+
+            Thread.Sleep(1000);
+
+            client.cancelWshMetaData(1100);
+
+            client.reqWshEventData(1101, 8314);
+
+            Thread.Sleep(1000);
+
+            client.cancelWshEventData(1101);
         }
 
         private static void tickByTickOperations(EClientSocket client)

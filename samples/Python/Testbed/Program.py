@@ -265,7 +265,7 @@ class TestApp(TestWrapper, TestClient):
             #self.newsOperations_req()
             #self.miscelaneousOperations()
             #self.linkingOperations()
-            self.financialAdvisorOperations()
+            #self.financialAdvisorOperations()
             #self.orderOperations_req()
             #self.rerouteCFDOperations()
             #self.marketRuleOperations()
@@ -275,6 +275,7 @@ class TestApp(TestWrapper, TestClient):
             #self.historicalTicksOperations()
             #self.tickByTickOperations_req()
             #self.whatIfOrderOperations()
+            self.wshCalendarOperations()
             
             print("Executing requests ... finished")
 
@@ -1595,6 +1596,10 @@ class TestApp(TestWrapper, TestClient):
         self.reqSoftDollarTiers(14001)
         # ! [reqSoftDollarTiers]
 
+    def wshCalendarOperations(self):
+        self.reqWshMetaData(1100);
+        self.reqWshEventData(1101, 8314);
+
     @iswrapper
     # ! [receivefa]
     def receiveFA(self, faData: FaDataType, cxml: str):
@@ -1921,6 +1926,21 @@ class TestApp(TestWrapper, TestClient):
         print("ReplaceFAEnd.", "ReqId:", reqId, "Text:", text)
     # ! [replacefaend]
 
+    @iswrapper
+    # ! [wshmetadata]
+    def wshMetaData(self, reqId: int, dataJson: str):
+        super().wshMetaData(reqId, dataJson)
+        print("WshMetaData.", "ReqId:", reqId, "Data JSON:", dataJson)
+    # ! [wshmetadata]
+
+    @iswrapper
+    # ! [wsheventdata]
+    def wshEventData(self, reqId: int, dataJson: str):
+        super().wshEventData(reqId, dataJson)
+        print("WshEventData.", "ReqId:", reqId, "Data JSON:", dataJson)
+    # ! [wsheventdata]
+
+
 def main():
     SetupLogger()
     logging.debug("now is %s", datetime.datetime.now())
@@ -1930,7 +1950,7 @@ def main():
     # cmdLineParser.add_option("-c", action="store_True", dest="use_cache", default = False, help = "use the cache")
     # cmdLineParser.add_option("-f", action="store", type="string", dest="file", default="", help="the input file")
     cmdLineParser.add_argument("-p", "--port", action="store", type=int,
-                               dest="port", default=7497, help="The TCP port to use")
+                               dest="port", default=7496, help="The TCP port to use")
     cmdLineParser.add_argument("-C", "--global-cancel", action="store_true",
                                dest="global_cancel", default=False,
                                help="whether to trigger a globalCancel req")

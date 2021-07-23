@@ -114,5 +114,6 @@ namespace IBApi
         public const int DURATION = 158;
         public const int MARKET_DATA_IN_SHARES = 159;
         public const int POST_TO_ATS = 160;
+        public const int WSHE_CALENDAR = 161;
     }
 }

@@ -105,5 +105,7 @@ virtual void orderBound(long long orderId, int apiClientId, int apiOrderId) EWRA
 virtual void completedOrder(const Contract& contract, const Order& order, const OrderState& orderState) EWRAPPER_VIRTUAL_IMPL;
 virtual void completedOrdersEnd() EWRAPPER_VIRTUAL_IMPL;
 virtual void replaceFAEnd(int reqId, const std::string& text) EWRAPPER_VIRTUAL_IMPL;
+virtual void wshMetaData(int reqId, const std::string& dataJson) EWRAPPER_VIRTUAL_IMPL;
+virtual void wshEventData(int reqId, const std::string& dataJson) EWRAPPER_VIRTUAL_IMPL;
 
 #undef EWRAPPER_VIRTUAL_IMPL

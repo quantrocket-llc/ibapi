@@ -2200,6 +2200,30 @@ const char* EDecoder::processReplaceFAEndMsg(const char* ptr, const char* endPtr
 	return ptr;
 }
 
+const char* EDecoder::processWshEventData(const char* ptr, const char* endPtr) {
+	int reqId;
+	std::string dataJson;
+
+	DECODE_FIELD(reqId);
+	DECODE_FIELD(dataJson);
+
+	m_pEWrapper->wshEventData(reqId, dataJson);
+
+	return ptr;
+}
+
+const char* EDecoder::processWshMetaData(const char* ptr, const char* endPtr) {
+	int reqId;
+	std::string dataJson;
+
+	DECODE_FIELD(reqId);
+	DECODE_FIELD(dataJson);
+
+	m_pEWrapper->wshMetaData(reqId, dataJson);
+
+	return ptr;
+}
+
 
 int EDecoder::parseAndProcessMsg(const char*& beginPtr, const char* endPtr) {
 	// process a single message from the buffer;
@@ -2528,6 +2552,14 @@ int EDecoder::parseAndProcessMsg(const char*& beginPtr, const char* endPtr) {
 
 		case REPLACE_FA_END:
 			ptr = processReplaceFAEndMsg(ptr, endPtr);
+			break;
+
+		case WSH_META_DATA:
+			ptr = processWshMetaData(ptr, endPtr);
+			break;
+
+		case WSH_EVENT_DATA:
+			ptr = processWshEventData(ptr, endPtr);
 			break;
 
 		default:

@@ -933,5 +933,8 @@ namespace IBApi
          * @sa EClient::replaceFA
          */
         void replaceFAEnd(int reqId, string text);
+
+        void wshMetaData(int reqId, string dataJson);
+        void wshEventData(int reqId, string dataJson);
     }
 }

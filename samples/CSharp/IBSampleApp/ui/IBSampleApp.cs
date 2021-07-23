@@ -53,7 +53,9 @@ namespace IBSampleApp
             tickByTickLastTable = new DataTable(),
             tickByTickAllLastTable = new DataTable(),
             tickByTickBidAskTable = new DataTable(),
-            tickByTickMidPointTable = new DataTable();
+            tickByTickMidPointTable = new DataTable(),
+            wshMetaDataTable = new DataTable(),
+            wshEventDataTable = new DataTable();
 
 
         public IBSampleAppDialog()
@@ -76,6 +78,13 @@ namespace IBSampleApp
             symbolSamplesManagerContractInfo = new SymbolSamplesManager(ibClient, symbolSamplesDataGridContractInfo);
             newsManager = new NewsManager(ibClient, dataGridViewNewsTicks, dataGridViewNewsProviders, textBoxNewsArticle, dataGridViewHistoricalNews);
             pnlMgr = new PnLManager(ibClient);
+            wshMgr = new WshManager(ibClient);
+
+            wshMetaDataTable.Columns.Add("Req Id");
+            wshMetaDataTable.Columns.Add("Data JSON");
+
+            wshEventDataTable.Columns.Add("Req Id");
+            wshEventDataTable.Columns.Add("Data JSON");
 
             pnldataTable.Columns.Add("Daily PnL");
             pnldataTable.Columns.Add("Unrealized PnL");
@@ -232,6 +241,8 @@ namespace IBSampleApp
             ibClient.tickByTickMidPoint += UpdateUI;
             ibClient.OrderBound += msg => addTextToBox("Order bound. OrderId: " + msg.OrderId + ", ApiClientId: " + msg.ApiClientId + ", ApiOrderId: " + msg.ApiOrderId);
             ibClient.CompletedOrder += orderManager.handleCompletedOrder;
+            ibClient.WshMetaData += (reqId, dataJson) => wshMetaDataTable.Rows.Add(reqId, dataJson);
+            ibClient.WshEventData += (reqId, dataJson) => wshEventDataTable.Rows.Add(reqId, dataJson);
             //ibClient.CompletedOrderEnd += (do nothing)
         }
 
@@ -1353,6 +1364,47 @@ namespace IBSampleApp
         private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             clearHistoricalTicksDataSources();
+        }
+
+        private void buttonRequestWshEventData_Click(object sender, EventArgs e)
+        {
+            if (!IsConnected)
+                return;
+
+            wshMgr.CancelEventData();
+            wshEventDataTable.Clear();
+
+            dataGridViewWsh.DataSource = wshEventDataTable;
+
+            int conId;
+
+            if (int.TryParse(textBoxWshConId.Text, out conId))
+                wshMgr.ReqEventData(conId);
+        }
+
+        private void buttonCancelWshMetaData_Click(object sender, EventArgs e)
+        {
+            wshMgr.CancelMetaData();
+        }
+
+        private void buttonCancelWshEventData_Click(object sender, EventArgs e)
+        {
+            wshMgr.CancelEventData();
+        }
+
+        WshManager wshMgr;
+
+        private void buttonRequestWshMetaData_Click(object sender, EventArgs e)
+        {
+            if (!IsConnected)
+                return;
+
+            wshMgr.CancelMetaData();
+            wshMetaDataTable.Clear();
+
+            dataGridViewWsh.DataSource = wshMetaDataTable;
+
+            wshMgr.ReqMetaData();
         }
 
         private void buttonRequestTickByTick_Click(object sender, EventArgs e)

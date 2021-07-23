@@ -1057,6 +1057,26 @@ namespace TWSLib
             this.socket.reqCompletedOrders(apiOnly);
         }
 
+        void ITws.reqWshMetaData(int reqId)
+        {
+            this.socket.reqWshMetaData(reqId);
+        }
+
+        void ITws.reqWshEventData(int reqId, int conId)
+        {
+            this.socket.reqWshEventData(reqId, conId);
+        }
+
+        void ITws.cancelWshMetaData(int reqId)
+        {
+            this.socket.cancelWshMetaData(reqId);
+        }
+
+        void ITws.cancelWshEventData(int reqId)
+        {
+            this.socket.cancelWshEventData(reqId);
+        }
+
         #endregion
 
         #region events
@@ -2165,6 +2185,24 @@ namespace TWSLib
             var t_replaceFAEnd = this.replaceFAEnd;
             if (t_replaceFAEnd != null)
                 sc.Post(state => t_replaceFAEnd(reqId, text), null);
+        }
+
+        public delegate void wshMetaDataDelegate(int reqId, string dataJson);
+        public event wshMetaDataDelegate wshMetaData;
+        void EWrapper.wshMetaData(int reqId, string dataJson)
+        {
+            var tmp = this.wshMetaData;
+            if (tmp != null)
+                sc.Post(state => tmp(reqId, dataJson), null);
+        }
+
+        public delegate void wshEventDataDelegate(int reqId, string dataJson);
+        public event wshEventDataDelegate wshEventData;
+        void EWrapper.wshEventData(int reqId, string dataJson)
+        {
+            var tmp = this.wshEventData;
+            if (tmp != null)
+                sc.Post(state => tmp(reqId, dataJson), null);
         }
 
         #endregion

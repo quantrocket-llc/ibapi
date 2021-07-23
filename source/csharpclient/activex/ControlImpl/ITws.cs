@@ -373,7 +373,14 @@ namespace TWSLib
         void reqHistoricalTicks(int reqId, IContract contract, string startDateTime, string endDateTime, int numberOfTicks, string whatToShow, int useRth, bool ignoreSize, ITagValueList options);
         [DispId(234)]
         void reqCompletedOrders(bool apiOnly);
-
+        [DispId(235)]
+        void reqWshMetaData(int reqId);
+        [DispId(236)]
+        void reqWshEventData(int reqId, int conId);
+        [DispId(237)]
+        void cancelWshMetaData(int reqId);
+        [DispId(238)]
+        void cancelWshEventData(int reqId);
         #endregion
     }
 }
