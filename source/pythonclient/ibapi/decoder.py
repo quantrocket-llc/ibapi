@@ -211,6 +211,7 @@ class Decoder(Object):
         OrderDecoder.decodeUsePriceMgmtAlgo(self, fields)
         OrderDecoder.decodeDuration(self, fields)
         OrderDecoder.decodePostToAts(self, fields)
+        OrderDecoder.decodeAutoCancelParent(self, fields, MIN_SERVER_VER_AUTO_CANCEL_PARENT)
 
         self.wrapper.openOrder(order.orderId, contract, order, orderState)
 

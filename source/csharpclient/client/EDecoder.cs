@@ -1538,6 +1538,7 @@ namespace IBApi
             eOrderDecoder.readUsePriceMgmtAlgo();
             eOrderDecoder.readDuration();
             eOrderDecoder.readPostToAts();
+            eOrderDecoder.readAutoCancelParent(MinServerVer.AUTO_CANCEL_PARENT);
 
             eWrapper.openOrder(order.OrderId, contract, order, orderState);
         }

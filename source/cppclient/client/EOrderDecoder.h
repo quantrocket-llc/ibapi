@@ -87,6 +87,7 @@ public:
 	bool decodeFilledQuantity(const char*& ptr, const char* endPtr);
 	bool decodeRefFuturesConId(const char*& ptr, const char* endPtr);
 	bool decodeAutoCancelParent(const char*& ptr, const char* endPtr);
+	bool decodeAutoCancelParent(const char*& ptr, const char* endPtr, int minVersionAutoCancelParent);
 	bool decodeShareholder(const char*& ptr, const char* endPtr);
 	bool decodeImbalanceOnly(const char*& ptr, const char* endPtr);
 	bool decodeRouteMarketableToBbo(const char*& ptr, const char* endPtr);

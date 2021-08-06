@@ -1561,6 +1561,15 @@ void EClient::placeOrder( OrderId id, const Contract& contract, const Order& ord
         return;
     }
 
+    if (m_serverVersion < MIN_SERVER_VER_AUTO_CANCEL_PARENT) {
+        if (order.autoCancelParent) {
+            m_pEWrapper->error(id, UPDATE_TWS.code(), UPDATE_TWS.msg() +
+                "  It does not support autoCancelParent parameter.");
+            return;
+        }
+    }
+
+
     std::stringstream msg;
     prepareBuffer( msg);
 
@@ -1986,6 +1995,9 @@ void EClient::placeOrder( OrderId id, const Contract& contract, const Order& ord
             ENCODE_FIELD_MAX(order.postToAts);
         }
 
+        if (m_serverVersion >= MIN_SERVER_VER_AUTO_CANCEL_PARENT) {
+            ENCODE_FIELD(order.autoCancelParent);
+        }
     }
     catch (EClientException& ex) {
         m_pEWrapper->error(id, ex.error().code(), ex.error().msg() + ex.text());

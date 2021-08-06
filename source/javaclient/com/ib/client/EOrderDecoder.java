@@ -634,7 +634,13 @@ public class EOrderDecoder {
     }
 
     public void readAutoCancelParent() throws IOException {
-        m_order.autoCancelParent(m_eDecoder.readBoolFromInt());
+        readAutoCancelParent(EClient.MIN_VERSION);
+    }
+
+    public void readAutoCancelParent(int minVersionAutoCancelParent) throws IOException {
+        if (m_serverVersion >= minVersionAutoCancelParent) {
+            m_order.autoCancelParent(m_eDecoder.readBoolFromInt());
+        }
     }
 
     public void readShareholder() throws IOException {

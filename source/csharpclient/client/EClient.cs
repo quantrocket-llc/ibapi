@@ -1238,6 +1238,11 @@ namespace IBApi
                 {
                     paramsList.AddParameter(order.PostToAts);
                 }
+
+                if (serverVersion >= MinServerVer.AUTO_CANCEL_PARENT)
+                {
+                    paramsList.AddParameter(order.AutoCancelParent);
+                }
             }
             catch (EClientException e)
             {
@@ -3938,6 +3943,13 @@ namespace IBApi
             if (serverVersion < MinServerVer.POST_TO_ATS && order.PostToAts != int.MaxValue)
             {
                 ReportError(id, EClientErrors.UPDATE_TWS, " It does not support postToAts attribute.");
+
+                return false;
+            }
+
+            if (serverVersion < MinServerVer.AUTO_CANCEL_PARENT && order.AutoCancelParent)
+            {
+                ReportError(id, EClientErrors.UPDATE_TWS, " It does not support autoCancelParent attribute.");
 
                 return false;
             }

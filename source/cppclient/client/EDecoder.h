@@ -117,12 +117,13 @@ const int MIN_SERVER_VER_DURATION                   = 158;
 const int MIN_SERVER_VER_MARKET_DATA_IN_SHARES      = 159;
 const int MIN_SERVER_VER_POST_TO_ATS                = 160;
 const int MIN_SERVER_VER_WSHE_CALENDAR              = 161;
+const int MIN_SERVER_VER_AUTO_CANCEL_PARENT         = 162;
 
 /* 100+ messaging */
 // 100 = enhanced handshake, msg length prefixes
 
 const int MIN_CLIENT_VER = 100;
-const int MAX_CLIENT_VER = MIN_SERVER_VER_WSHE_CALENDAR;
+const int MAX_CLIENT_VER = MIN_SERVER_VER_AUTO_CANCEL_PARENT;
 
 
 // incoming msg id's

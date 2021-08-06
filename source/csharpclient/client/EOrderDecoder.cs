@@ -791,7 +791,15 @@ namespace IBApi
 
         public void readAutoCancelParent() 
         {
-            order.AutoCancelParent = eDecoder.ReadBoolFromInt();
+            readAutoCancelParent(Constants.MinVersion);
+        }
+
+        public void readAutoCancelParent(int minVersionAutoCancelParent)
+        {
+            if (serverVersion >= minVersionAutoCancelParent)
+            {
+                order.AutoCancelParent = eDecoder.ReadBoolFromInt();
+            }
         }
 
         public void readShareholder() 

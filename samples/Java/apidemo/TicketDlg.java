@@ -413,6 +413,7 @@ class TicketDlg extends JDialog {
         final JCheckBox m_dontUseAutoPriceForHedge = new JCheckBox();
         final JCheckBox m_omsContainer = new JCheckBox();
         final JCheckBox m_discretionaryUpToLimitPrice = new JCheckBox();
+        final JCheckBox m_autoCancelParent = new JCheckBox();
 		
 		
 
@@ -451,6 +452,7 @@ class TicketDlg extends JDialog {
 			right.add("Don't use auto price for hedge", m_dontUseAutoPriceForHedge);
 			right.add("Transmit", m_transmit);
             right.add("OMS Container", m_omsContainer);
+			right.add("Auto Cancel Parent", m_autoCancelParent);
 			
 			HorzPanel checks = new HorzPanel();
 			checks.add( left);
@@ -493,6 +495,7 @@ class TicketDlg extends JDialog {
 			m_dontUseAutoPriceForHedge.setSelected( m_order.dontUseAutoPriceForHedge());
 			m_omsContainer.setSelected(m_order.isOmsContainer());
 			m_discretionaryUpToLimitPrice.setSelected(m_order.discretionaryUpToLimitPrice());
+			m_autoCancelParent.setSelected(m_order.autoCancelParent());
 			
 			ApiDemo.INSTANCE.controller().reqSoftDollarTiers(tiers -> {
                 m_softDollarTiers.invalidate();
@@ -537,6 +540,7 @@ class TicketDlg extends JDialog {
 			m_order.dontUseAutoPriceForHedge( m_dontUseAutoPriceForHedge.isSelected() );
 			m_order.isOmsContainer(m_omsContainer.isSelected());
 			m_order.discretionaryUpToLimitPrice(m_discretionaryUpToLimitPrice.isSelected());
+			m_order.autoCancelParent(m_autoCancelParent.isSelected());
 		}
 	}
 	

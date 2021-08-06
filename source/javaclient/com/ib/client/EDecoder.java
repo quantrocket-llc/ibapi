@@ -1439,6 +1439,7 @@ class EDecoder implements ObjectInput {
         eOrderDecoder.readUsePriceMgmtAlgo();
         eOrderDecoder.readDuration();
         eOrderDecoder.readPostToAts();
+        eOrderDecoder.readAutoCancelParent(EClient.MIN_SERVER_VER_AUTO_CANCEL_PARENT);
 
         m_EWrapper.openOrder(order.orderId(), contract, order, orderState);
     }

@@ -425,7 +425,8 @@ const char* EDecoder::processOpenOrderMsg(const char* ptr, const char* endPtr) {
           && eOrderDecoder.decodeDiscretionaryUpToLimitPrice(ptr, endPtr)
           && eOrderDecoder.decodeUsePriceMgmtAlgo(ptr, endPtr)
           && eOrderDecoder.decodeDuration(ptr, endPtr)
-          && eOrderDecoder.decodePostToAts(ptr, endPtr);
+          && eOrderDecoder.decodePostToAts(ptr, endPtr)
+          && eOrderDecoder.decodeAutoCancelParent(ptr, endPtr, MIN_SERVER_VER_AUTO_CANCEL_PARENT);
         if (!success) {
           return nullptr;
         }

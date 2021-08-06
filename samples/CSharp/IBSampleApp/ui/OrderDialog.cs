@@ -329,6 +329,7 @@ namespace IBSampleApp
             order.DontUseAutoPriceForHedge = dontUseAutoPriceForHedge.Checked;
             order.IsOmsContainer = omsContainer.Checked;
             order.DiscretionaryUpToLimitPrice = relativeDiscretionary.Checked;
+            order.AutoCancelParent = autoCancelParent.Checked;
         }
 
         private void FillVolatilityAttributes(Order order)

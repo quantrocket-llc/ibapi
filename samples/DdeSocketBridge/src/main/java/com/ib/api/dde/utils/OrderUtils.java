@@ -359,8 +359,9 @@ public class OrderUtils {
                 item.add(Utils.toString(openOrderData.order().usePriceMgmtAlgo()));
                 item.add(Utils.toString(openOrderData.order().duration()));
                 item.add(Utils.toString(openOrderData.order().postToAts()));
+                item.add(Utils.toString(openOrderData.order().autoCancelParent()));
             } else {
-                for (int j = 0; j < 99; j++) {
+                for (int j = 0; j < 100; j++) {
                     item.add(Utils.toString(""));
                 }
             }

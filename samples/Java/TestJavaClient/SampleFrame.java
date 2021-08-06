@@ -1560,6 +1560,7 @@ class SampleFrame extends JFrame implements EWrapper {
         destOrder.isOmsContainer(srcOrder.isOmsContainer());
         destOrder.discretionaryUpToLimitPrice(srcOrder.discretionaryUpToLimitPrice());
         destOrder.notHeld(srcOrder.notHeld());
+        destOrder.autoCancelParent(srcOrder.autoCancelParent());
     }
 
     public void position(String account, Contract contract, double pos, double avgCost) {

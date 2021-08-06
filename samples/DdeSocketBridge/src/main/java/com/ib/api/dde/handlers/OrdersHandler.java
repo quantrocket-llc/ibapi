@@ -827,6 +827,9 @@ public class OrdersHandler extends BaseHandler {
             if (Utils.isNotNull(table2.get(111))) {
                 order.postToAts(getIntFromString(table2.get(111)));
             }
+            if (Utils.isNotNull(table2.get(112))) {
+                order.autoCancelParent(getBooleanFromString(table2.get(112)));
+            }
             
             return order;
         }

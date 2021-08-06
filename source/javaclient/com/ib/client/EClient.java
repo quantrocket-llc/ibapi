@@ -301,9 +301,10 @@ public abstract class EClient {
     protected static final int MIN_SERVER_VER_MARKET_DATA_IN_SHARES = 159;
     protected static final int MIN_SERVER_VER_POST_TO_ATS = 160;
     protected static final int MIN_SERVER_VER_WSHE_CALENDAR = 161;
+    protected static final int MIN_SERVER_VER_AUTO_CANCEL_PARENT = 162;
     
     public static final int MIN_VERSION = 100; // envelope encoding, applicable to useV100Plus mode only
-    public static final int MAX_VERSION = MIN_SERVER_VER_WSHE_CALENDAR; // ditto
+    public static final int MAX_VERSION = MIN_SERVER_VER_AUTO_CANCEL_PARENT; // ditto
 
     protected EReaderSignal m_signal;
     protected EWrapper m_eWrapper;    // msg handler
@@ -1644,6 +1645,12 @@ public abstract class EClient {
             error(id, EClientErrors.UPDATE_TWS, "  It does not support postToAts attribute");
             return;
         }
+
+        if (m_serverVersion < MIN_SERVER_VER_AUTO_CANCEL_PARENT 
+                && order.autoCancelParent()) {
+            error(id, EClientErrors.UPDATE_TWS, "  It does not support autoCancelParent attribute");
+            return;
+        }
         
         int VERSION = (m_serverVersion < MIN_SERVER_VER_NOT_HELD) ? 27 : 45;
 
@@ -2075,6 +2082,10 @@ public abstract class EClient {
 
            if (m_serverVersion >= MIN_SERVER_VER_POST_TO_ATS) {
                b.send(order.postToAts());
+           }
+
+           if (m_serverVersion >= MIN_SERVER_VER_AUTO_CANCEL_PARENT) {
+               b.send(order.autoCancelParent());
            }
            
            closeAndSend(b);

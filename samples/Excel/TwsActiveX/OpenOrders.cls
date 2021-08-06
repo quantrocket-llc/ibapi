@@ -200,6 +200,7 @@ Sub UpdateOpenOrder(orderId As Long, contract As TWSLib.IContract, order As TWSL
         ExtendedAttributesTable(rowId, Col_DURATION).value = Util.IntMaxStr(.duration)
         ExtendedAttributesTable(rowId, Col_POST_TO_ATS).value = Util.IntMaxStr(.postToAts)
         ExtendedAttributesTable(rowId, Col_NOT_HELD).value = .notHeld
+        ExtendedAttributesTable(rowId, Col_AUTO_CANCEL_PARENT).value = .autoCancelParent
     End With
 
     If Not order.SmartComboRoutingParams Is Nothing Then
@@ -243,7 +244,7 @@ Public Sub Initialise()
     Set contractTable = Range("$A$7:$M$100")
     Set orderDescriptionTable = Range("$N$7:$S$100")
     Set orderStatusTable = Range("$T$7:$AA$100")
-    Set ExtendedAttributesTable = Range("$AB$7:$DP$100")
+    Set ExtendedAttributesTable = Range("$AB$7:$DS$100")
 End Sub
 
 Private Sub Worksheet_Activate()

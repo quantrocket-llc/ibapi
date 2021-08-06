@@ -703,7 +703,13 @@ bool EOrderDecoder::decodeRefFuturesConId(const char*& ptr, const char* endPtr) 
 }
 
 bool EOrderDecoder::decodeAutoCancelParent(const char*& ptr, const char* endPtr) {
-    DECODE_FIELD( m_order->autoCancelParent);
+    return decodeAutoCancelParent(ptr, endPtr, MIN_CLIENT_VER);
+}
+
+bool EOrderDecoder::decodeAutoCancelParent(const char*& ptr, const char* endPtr, int minVersionAutoCancelParent) {
+    if (m_version >= minVersionAutoCancelParent) {
+        DECODE_FIELD(m_order->autoCancelParent);
+    }
 
     return true;
 }

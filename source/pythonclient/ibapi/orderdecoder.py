@@ -417,8 +417,9 @@ class OrderDecoder(Object):
     def decodeRefFuturesConId(self, fields):
         self.order.refFuturesConId = decode(int, fields)
 
-    def decodeAutoCancelParent(self, fields):
-        self.order.autoCancelParent = decode(bool, fields)
+    def decodeAutoCancelParent(self, fields, minVersionAutoCancelParent = MIN_CLIENT_VER):
+        if self.serverVersion >= minVersionAutoCancelParent:
+            self.order.autoCancelParent = decode(bool, fields)
 
     def decodeShareholder(self, fields):
         self.order.shareholder = decode(str, fields)
