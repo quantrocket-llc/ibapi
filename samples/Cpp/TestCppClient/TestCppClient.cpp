@@ -1385,13 +1385,17 @@ void TestCppClient::ibkratsSample(){
 }
 
 void TestCppClient::wshCalendarOperations() {
+	//! [reqmetadata]
 	m_pClient->reqWshMetaData(30001);
+	//! [reqmetadata]
 	
 	std::this_thread::sleep_for(std::chrono::seconds(10));
 
 	m_pClient->cancelWshMetaData(30001);
 
+	//! [reqeventdata]
 	m_pClient->reqWshEventData(30002, 8314);
+	//! [reqeventdata]
 
 	std::this_thread::sleep_for(std::chrono::seconds(10));
 

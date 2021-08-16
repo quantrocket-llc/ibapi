@@ -809,16 +809,20 @@ namespace Samples
         {
             Console.WriteLine("Replace FA End. ReqId: " + reqId + ", Text: " + text + "\n");
         }
+		//! [replacefaend]
 
+		//! [wshMetaData]
         public void wshMetaData(int reqId, string dataJson)
         {
             Console.WriteLine($"WSH Meta Data. Request Id: {reqId}, Data JSON: {dataJson}\n");
         }
+		//! [wshMetaData]
 
+		//! [wshEventData]
         public void wshEventData(int reqId, string dataJson)
         {
             Console.WriteLine($"WSH Event Data. Request Id: {reqId}, Data JSON: {dataJson}\n");
         }
-        //! [replacefaend]
+		//! [wshEventData]
     }
 }

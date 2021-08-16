@@ -1627,7 +1627,7 @@ namespace IBApi
         }
 
         /**
-         * @brief Requests the contract's fundamental data.
+         * @brief Legacy/DEPRECATED. Requests the contract's fundamental data.
          * Fundamental data is returned at EWrapper::fundamentalData
          * @param reqId the request's unique identifier.
          * @param contract the contract's description for which the data will be returned.
@@ -3377,7 +3377,7 @@ namespace IBApi
         }
 
         /**
-        * @brief Requests real time updates for daily PnL of individual positions
+        * @brief Requests metadata from the WSH calendar
         * @param reqId
         */
 
@@ -3408,7 +3408,7 @@ namespace IBApi
         }
 
         /**
-        * @brief Cancels real time subscription for a positions daily PnL information
+        * @brief Cancels pending request for WSH metadata
         * @param reqId
         */
 
@@ -3431,7 +3431,7 @@ namespace IBApi
         }
 
         /**
-        * @brief Requests real time updates for daily PnL of individual positions
+        * @brief Requests event data from the wSH calendar
         * @param reqId
         * @param conId contract ID (conId) of contract to receive WSH Event Data for.
         */
@@ -3464,7 +3464,7 @@ namespace IBApi
         }
 
         /**
-        * @brief Cancels real time subscription for a positions daily PnL information
+        * @brief Cancels pending WSH event data request
         * @param reqId
         */
 

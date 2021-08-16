@@ -698,17 +698,17 @@ public class EWrapperImpl implements EWrapper {
     }
     //! [replacefaend]
     
-    //! [wshmetadata]
+    //! [wshMetaData]
 	@Override
 	public void wshMetaData(int reqId, String dataJson) {
 		System.out.println(EWrapperMsgGenerator.wshMetaData(reqId, dataJson));
 	}
-    //! [wshmetadata]
+    //! [wshMetaData]
 
-    //! [wsheventdata]
+    //! [wshEventData]
 	@Override
 	public void wshEventData(int reqId, String dataJson) {
         System.out.println(EWrapperMsgGenerator.wshEventData(reqId, dataJson));
 	}
-    //! [wsheventdata]
+    //! [wshEventData]
 }

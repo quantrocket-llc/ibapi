@@ -765,13 +765,17 @@ public class Testbed {
 	
     private static void wshCalendarOperations(EClientSocket client) throws InterruptedException  {
 
+		//! [reqmetadata]
         client.reqWshMetaData(1100);
+		//! [reqmetadata]
         
         Thread.sleep(1000);
         
         client.cancelWshMetaData(1100);
         
+		//! [reqeventdata]
         client.reqWshEventData(1101, 8314);
+		//! [reqeventdata]
         
         Thread.sleep(1000);
 

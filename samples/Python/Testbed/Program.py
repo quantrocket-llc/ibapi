@@ -1597,8 +1597,13 @@ class TestApp(TestWrapper, TestClient):
         # ! [reqSoftDollarTiers]
 
     def wshCalendarOperations(self):
+        # ! [reqmetadata]
         self.reqWshMetaData(1100);
+        # ! [reqmetadata]
+        
+        # ! [reqeventdata]
         self.reqWshEventData(1101, 8314);
+        # ! [reqeventdata]
 
     @iswrapper
     # ! [receivefa]

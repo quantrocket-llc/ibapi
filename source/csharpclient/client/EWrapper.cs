@@ -934,7 +934,20 @@ namespace IBApi
          */
         void replaceFAEnd(int reqId, string text);
 
+		/**
+         * @brief returns meta data from the WSH calendar
+         * @param reqId the id of request
+         * @param dataJson metadata in json format
+         * @sa EClient::reqWshMetaData
+         */
         void wshMetaData(int reqId, string dataJson);
+		
+		/**
+         * @brief returns calendar events from the WSH
+         * @param reqId the id of request
+         * @param dataJson event data in json format
+         * @sa EClient::reqWshEventData
+         */
         void wshEventData(int reqId, string dataJson);
     }
 }

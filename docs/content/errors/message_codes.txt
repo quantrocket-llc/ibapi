@@ -1234,6 +1234,42 @@
 			<td>10270</td><td>The 'nbboPriceCap' order attribute is not supported</td>
 			<td>The nbboPriceCap @ref IBApi::Order attribute is no longer supported. Error received with TWS versions 983+</td>
 		</tr>
+		<tr>
+			<td>10276</td><td>News feed is not allowed</td>
+			<td>The API client is not permissioned for receiving WSH news feed.</td>
+		</tr>
+		<tr>
+			<td>10277</td><td>News feed permissions required</td>
+			<td>The API client is not subscribed to receive WSH news feed</td>
+		</tr>
+		<tr>
+			<td>10278</td><td>Duplicate WSH metadata request</td>
+			<td>A request is already pending for the same API client.</td>
+		</tr>
+		<tr>
+			<td>10279</td><td>Failed request WSH metadata</td>
+			<td>A general error occurred when processing the request.</td>
+		</tr>
+		<tr>
+			<td>10280</td><td>Failed cancel WSH metadata</td>
+			<td>A general error occurred when processing the request.</td>
+		</tr>
+		<tr>
+			<td>10281</td><td>Duplicate WSH event data request</td>
+			<td>A request is already pending for the same API client.</td>
+		</tr>
+		<tr>
+			<td>10282</td><td>WSH metadata not requested</td>
+			<td>WSH metadata was not requested by first sending a reqWshMetaData request.</td>
+		</tr>
+		<tr>
+			<td>10283</td><td>Fail request WSH event data</td>
+			<td>A general error occurred when processing the request.</td>
+		</tr>
+		<tr>
+			<td>10284</td><td>Fail cancel WSH event data</td>
+			<td>A general error occurred when processing the request.</td>
+		</tr>
 		
 	</table>
 	

@@ -206,13 +206,17 @@ namespace Samples
 
         private static void wshCalendarOperations(EClientSocket client)
         {
+			//! [reqmetadata]
             client.reqWshMetaData(1100);
+			//! [reqmetadata]
 
             Thread.Sleep(1000);
 
             client.cancelWshMetaData(1100);
 
+			//! [reqeventdata]
             client.reqWshEventData(1101, 8314);
+			//! [reqeventdata]
 
             Thread.Sleep(1000);
 

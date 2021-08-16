@@ -737,15 +737,19 @@ Namespace Samples
         Public Sub replaceFAEnd(reqId As Integer, text As String) Implements IBApi.EWrapper.replaceFAEnd
             Console.WriteLine("replaceFAEnd. ReqId: {0}, Text: {1}", reqId, text)
         End Sub
+		'! [replacefaend]
 
+		'! [wshMetaData]
         Public Sub wshMetaData(reqId As Integer, dataJson As String) Implements EWrapper.wshMetaData
             Console.WriteLine($"WSH Meta Data. Request Id: {reqId}, Data JSON: {dataJson}")
         End Sub
+		'! [wshMetaData]
 
+		'! [wshEventData]
         Public Sub wshEventData(reqId As Integer, dataJson As String) Implements EWrapper.wshEventData
             Console.WriteLine($"WSH Event Data. Request Id: {reqId}, Data JSON: {dataJson}")
         End Sub
-        '! [replacefaend]
+        '! [wshEventData]
 
     End Class
 
