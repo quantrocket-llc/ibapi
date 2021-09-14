@@ -705,7 +705,8 @@ namespace IBSampleApp
             "CMDTY",
             "BSK",
             "ICU",
-            "ICS"});
+            "ICS",
+            "CRYPTO"});
             this.contractSecType.Location = new System.Drawing.Point(82, 50);
             this.contractSecType.Name = "contractSecType";
             this.contractSecType.Size = new System.Drawing.Size(71, 21);
