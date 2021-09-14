@@ -1049,7 +1049,8 @@ namespace IBSampleApp
             "CMDTY",
             "BSK",
             "ICU",
-            "ICS"});
+            "ICS",
+            "CRYPTO"});
             this.comboBox1.Location = new System.Drawing.Point(71, 45);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(68, 21);
@@ -1276,7 +1277,8 @@ namespace IBSampleApp
             "CMDTY",
             "BSK",
             "ICU",
-            "ICS"});
+            "ICS",
+            "CRYPTO"});
             this.comboSecType.Location = new System.Drawing.Point(63, 44);
             this.comboSecType.Name = "comboSecType";
             this.comboSecType.Size = new System.Drawing.Size(68, 21);
@@ -3079,7 +3081,8 @@ namespace IBSampleApp
             "CMDTY",
             "BSK",
             "ICU",
-            "ICS"});
+            "ICS",
+            "CRYPTO"});
             this.conDetSecType.Location = new System.Drawing.Point(86, 48);
             this.conDetSecType.Name = "conDetSecType";
             this.conDetSecType.Size = new System.Drawing.Size(100, 21);
@@ -6527,7 +6530,8 @@ namespace IBSampleApp
             "CMDTY",
             "BSK",
             "ICU",
-            "ICS"});
+            "ICS",
+            "CRYPTO"});
             this.secType_TMD_MDT.Location = new System.Drawing.Point(85, 40);
             this.secType_TMD_MDT.Name = "secType_TMD_MDT";
             this.secType_TMD_MDT.Size = new System.Drawing.Size(100, 21);
