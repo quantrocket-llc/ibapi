@@ -32,6 +32,7 @@ End Type
 
 Public Const MaxLongValue As Long = &H7FFFFFFF
 Public Const MaxDoubleValue As Double = (2 - 2 ^ -52) * 2 ^ 1023
+Public Const MaxDecimalString As String = "79228162514264337593543950335"
 
 ' error codes
 Public Const ERROR_DUPLICATE_TICKER_ID = 322
@@ -241,6 +242,9 @@ End Type
 '===================
 ' public functions
 '===================
+Public Function MaxDecimalValue() As Variant
+    MaxDecimalValue = CDec(MaxDecimalString)
+End Function
 
 Public Function CheckConnected() As Boolean
     If Not IsConnected Then
@@ -307,7 +311,7 @@ Public Function ConvertLongToDateStr(ByVal lSec As Long) As String
     Dim tz As TIME_ZONE_INFORMATION
     
     If lSec > 0 Then
-        ConvertLongToDateStr = Str(DateAdd("s", -(tz.Bias + tz.DaylightBias * IIf(GetTimeZoneInformation(tz) = 2, 1, 0)) * 60, DateAdd("s", lSec, DateSerial(1970, 1, 1))))
+        ConvertLongToDateStr = str(DateAdd("s", -(tz.Bias + tz.DaylightBias * IIf(GetTimeZoneInformation(tz) = 2, 1, 0)) * 60, DateAdd("s", lSec, DateSerial(1970, 1, 1))))
     Else
         ConvertLongToDateStr = STR_EMPTY
     End If
@@ -321,7 +325,7 @@ Public Function GenerateContractIdentifier(contractInfo As TWSLib.IContract)
     s = s & IIf(contractInfo.Strike <> 0#, "_" & contractInfo.Strike, "")
     s = s & IIf(contractInfo.Right <> "", "_" & contractInfo.Right, "")
     s = s & IIf(contractInfo.multiplier <> "", "_" & contractInfo.multiplier, "")
-    s = s & IIf(contractInfo.exchange <> "", "_" & contractInfo.exchange, "")
+    s = s & IIf(contractInfo.Exchange <> "", "_" & contractInfo.Exchange, "")
     s = s & IIf(contractInfo.primaryExchange <> "", "_" & contractInfo.primaryExchange, "")
     s = s & IIf(contractInfo.currency <> "", "_" & contractInfo.currency, "")
     s = s & IIf(contractInfo.localSymbol <> "", "_" & contractInfo.localSymbol, "")
@@ -376,7 +380,7 @@ Public Sub ParseComboLegsIntoStruct(ByVal tempStr As String, ByRef cmbStruct As 
         comboLeg.action = Left(tempStr, InStr(tempStr, STR_UNDERSCORE) - 1)
         tempStr = Right(tempStr, Len(tempStr) - InStr(tempStr, STR_UNDERSCORE))
         
-        comboLeg.exchange = Left(tempStr, InStr(tempStr, STR_UNDERSCORE) - 1)
+        comboLeg.Exchange = Left(tempStr, InStr(tempStr, STR_UNDERSCORE) - 1)
         tempStr = Right(tempStr, Len(tempStr) - InStr(tempStr, STR_UNDERSCORE))
         
         comboLeg.openClose = Val(Left(tempStr, InStr(tempStr, STR_UNDERSCORE) - 1))
@@ -489,7 +493,7 @@ Public Sub FillContractObject(lContractInfo As TWSLib.IContract, contractTable A
         .Strike = IIf(contractTable(id, Col_STRIKE).value = "", 0#, contractTable(id, Col_STRIKE).value)
         .Right = UCase(contractTable(id, Col_RIGHT).value)
         .multiplier = UCase(contractTable(id, Col_MULTIPLIER).value)
-        .exchange = UCase(contractTable(id, Col_EXCH).value)
+        .Exchange = UCase(contractTable(id, Col_EXCH).value)
         .primaryExchange = UCase(contractTable(id, Col_PRIMEXCH).value)
         .currency = UCase(contractTable(id, Col_CURRENCY).value)
         .localSymbol = UCase(contractTable(id, Col_LOCALSYMBOL).value)
@@ -508,7 +512,7 @@ Public Function comboLegsToStr(contract As TWSLib.IContract) As String
                 tempStr = tempStr & "conId=" & .ComboLegs(i).conId
                 tempStr = tempStr & ";action=" & .ComboLegs(i).action
                 tempStr = tempStr & ";ratio=" & .ComboLegs(i).ratio
-                tempStr = tempStr & ";exch=" & .ComboLegs(i).exchange
+                tempStr = tempStr & ";exch=" & .ComboLegs(i).Exchange
                 tempStr = tempStr & "; "
             Next i
         End If
@@ -533,3 +537,18 @@ Public Function deltaNeutralToStr(contract As TWSLib.IContract) As String
     deltaNeutralToStr = tempStr
 End Function
 
+Public Function StringToDecimal(value As String) As Variant
+    If value <> "" Then
+        StringToDecimal = CDec(value)
+    Else
+        StringToDecimal = MaxDecimalValue()
+    End If
+End Function
+
+Public Function DecimalToString(value As Variant) As String
+    If value <> MaxDecimalValue() Then
+        DecimalToString = CStr(value)
+    Else
+        DecimalToString = ""
+    End If
+End Function

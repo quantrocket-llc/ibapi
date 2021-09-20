@@ -102,7 +102,7 @@ public class SimpleWrapper implements EWrapper {
 		logIn("tickPrice");
 	}
 
-	public void tickSize(int tickerId, int field, long size) {
+	public void tickSize(int tickerId, int field, Decimal size) {
 		logIn("tickSize");
 	}
 
@@ -185,12 +185,12 @@ public class SimpleWrapper implements EWrapper {
 		logIn("execDetailsEnd");
 	}
 
-	public void updateMktDepth(int tickerId, int position, int operation, int side, double price, long size) {
+	public void updateMktDepth(int tickerId, int position, int operation, int side, double price, Decimal size) {
 		logIn("updateMktDepth");
 	}
 
 	public void updateMktDepthL2(int tickerId, int position, String marketMaker, int operation,
-			int side, double price, long size, boolean isSmartDepth) {
+			int side, double price, Decimal size, boolean isSmartDepth) {
 		logIn("updateMktDepthL2");
 	}
 
@@ -224,7 +224,7 @@ public class SimpleWrapper implements EWrapper {
 	}
 
 	public void realtimeBar(int reqId, long time, double open, double high, double low, double close, 
-			long volume, double wap, int count) {
+			Decimal volume, Decimal wap, int count) {
 		logIn("realtimeBar");
 	}
 
@@ -518,13 +518,13 @@ public class SimpleWrapper implements EWrapper {
     }
 
     @Override
-    public void tickByTickAllLast(int reqId, int tickType, long time, double price, long size, TickAttribLast tickAttribLast,
+    public void tickByTickAllLast(int reqId, int tickType, long time, double price, Decimal size, TickAttribLast tickAttribLast,
             String exchange, String specialConditions) {
         // TODO Auto-generated method stub
     }
 
     @Override
-    public void tickByTickBidAsk(int reqId, long time, double bidPrice, double askPrice, long bidSize, long askSize,
+    public void tickByTickBidAsk(int reqId, long time, double bidPrice, double askPrice, Decimal bidSize, Decimal askSize,
             TickAttribBidAsk tickAttribBidAsk) {
         // TODO Auto-generated method stub
     }

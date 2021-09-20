@@ -48,7 +48,7 @@ Public Sub RequestContractDetails_Click()
         .Strike = contractTable(id, Col_STRIKE).value
         .Right = UCase(contractTable(id, Col_RIGHT).value)
         .multiplier = UCase(contractTable(id, Col_MULTIPLIER).value)
-        .exchange = UCase(contractTable(id, Col_EXCH).value)
+        .Exchange = UCase(contractTable(id, Col_EXCH).value)
         .primaryExchange = UCase(contractTable(id, Col_PRIMEXCH).value)
         .currency = UCase(contractTable(id, Col_CURRENCY).value)
         .localSymbol = UCase(contractTable(id, Col_LOCALSYMBOL).value)
@@ -100,7 +100,7 @@ Public Sub UpdateContractDetails(ByVal reqId As Long, ByVal ContractDetails As T
         .Cells(5).value = contract.Strike
         .Cells(6).value = contract.Right
         .Cells(7).value = contract.multiplier
-        .Cells(8).value = contract.exchange
+        .Cells(8).value = contract.Exchange
         .Cells(9).value = contract.primaryExchange
         .Cells(10).value = contract.currency
         .Cells(11).value = contract.localSymbol
@@ -128,6 +128,7 @@ Public Sub UpdateContractDetails(ByVal reqId As Long, ByVal ContractDetails As T
         .Cells(33).value = ContractDetails.marketRuleIds
         .Cells(34).value = ContractDetails.realExpirationDate
         .Cells(35).value = ContractDetails.stockType
+        .Cells(36).value = ContractDetails.sizeMinTick
     End With
     
     IncrementSheetRowId sheet
@@ -174,6 +175,7 @@ Private Sub InitialiseSheet(sheet As Worksheet)
     sheet.Cells(2, 33).value = "Market Rule Ids"
     sheet.Cells(2, 34).value = "RealExpirationDate"
     sheet.Cells(2, 35).value = "Stock Type"
+    sheet.Cells(2, 36).value = "Size Min Tick"
 End Sub
 
 
@@ -197,7 +199,7 @@ End Sub
 
 Public Sub ProcessError(ByVal id As Long, ByVal errorCode As Long, ByVal errorMsg As String)
     
-    queryTable(id - ID_CONTRACTDETAILS, Col_STATUS).value = STR_ERROR + STR_COLON + Str(errorCode) + STR_SPACE + errorMsg
+    queryTable(id - ID_CONTRACTDETAILS, Col_STATUS).value = STR_ERROR + STR_COLON + str(errorCode) + STR_SPACE + errorMsg
         
 End Sub
 

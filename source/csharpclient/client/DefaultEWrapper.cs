@@ -38,7 +38,7 @@ namespace IBApi
         {
         }
 
-        public virtual void tickSize(int tickerId, int field, long size)
+        public virtual void tickSize(int tickerId, int field, decimal size)
         {
         }
 
@@ -154,11 +154,11 @@ namespace IBApi
         {
         }
 
-        public virtual void updateMktDepth(int tickerId, int position, int operation, int side, double price, long size)
+        public virtual void updateMktDepth(int tickerId, int position, int operation, int side, double price, decimal size)
         {
         }
 
-        public virtual void updateMktDepthL2(int tickerId, int position, string marketMaker, int operation, int side, double price, long size, bool isSmartDepth)
+        public virtual void updateMktDepthL2(int tickerId, int position, string marketMaker, int operation, int side, double price, decimal size, bool isSmartDepth)
         {
         }
 
@@ -174,7 +174,7 @@ namespace IBApi
         {
         }
 
-        public virtual void realtimeBar(int reqId, long time, double open, double high, double low, double close, long volume, double WAP, int count)
+        public virtual void realtimeBar(int reqId, long time, double open, double high, double low, double close, decimal volume, decimal WAP, int count)
         {
         }
 
@@ -339,11 +339,11 @@ namespace IBApi
         {
         }
 
-        public virtual void tickByTickAllLast(int reqId, int tickType, long time, double price, long size, TickAttribLast tickAttribLast, string exchange, string specialConditions)
+        public virtual void tickByTickAllLast(int reqId, int tickType, long time, double price, decimal size, TickAttribLast tickAttribLast, string exchange, string specialConditions)
         {
         }
 
-        public virtual void tickByTickBidAsk(int reqId, long time, double bidPrice, double askPrice, long bidSize, long askSize, TickAttribBidAsk tickAttribBidAsk)
+        public virtual void tickByTickBidAsk(int reqId, long time, double bidPrice, double askPrice, decimal bidSize, decimal askSize, TickAttribBidAsk tickAttribBidAsk)
         {
         }
 

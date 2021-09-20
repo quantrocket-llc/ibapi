@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using IBApi;
 
 namespace TWSLib
 {
@@ -13,14 +14,14 @@ namespace TWSLib
     public interface IHistogramEntry
     {
         double Price { get; }
-        int Size { get; }
+        string Size { get; }
     }
 
     [ComVisible(true), ClassInterface(ClassInterfaceType.None)]
     public class ComHistogramEntry : ComWrapper<IBApi.HistogramEntry>, IHistogramEntry
     {
         public double Price { get { return data.Price; } }
-        public int Size { get { return (int)data.Size; } }
+        public string Size { get { return Util.DecimalMaxString(data.Size); } }
 
         public static explicit operator IBApi.HistogramEntry(ComHistogramEntry ctv)
         {

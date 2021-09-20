@@ -75,7 +75,7 @@ Private Function getHeaderColumns(whatToShow As String) As Variant()
     ElseIf whatToShow = "TRADES" Then
         getHeaderColumns = Array("Time", "Price", "Size", "PastLimit", "Unreported", "Exchange", "SpecialConditions")
     ElseIf whatToShow = "MIDPOINT" Then
-        getHeaderColumns = Array("Time", "Price")
+        getHeaderColumns = Array("Time", "Price", "Size")
     End If
 End Function
 

@@ -122,6 +122,7 @@ Namespace Samples
         Public Sub printContractDetailsMsg(contractDetails As IBApi.ContractDetails)
             Console.WriteLine(vbTab & "MarketName: " & contractDetails.MarketName)
             Console.WriteLine(vbTab & "MinTick: " & contractDetails.MinTick)
+            Console.WriteLine(vbTab & "SizeMinTick: " & Util.DecimalMaxString(contractDetails.SizeMinTick))
             Console.WriteLine(vbTab & "PriceMagnifier: " & contractDetails.PriceMagnifier)
             Console.WriteLine(vbTab & "OrderTypes: " & contractDetails.OrderTypes)
             Console.WriteLine(vbTab & "ValidExchanges: " & contractDetails.ValidExchanges)
@@ -258,14 +259,14 @@ Namespace Samples
         '! [historicaldata]
         Public Sub historicalData(reqId As Integer, bar As Bar) Implements IBApi.EWrapper.historicalData
             Console.WriteLine("HistoricalData - ReqId [" & reqId & "] Date [" & bar.Time & "] Open [" & bar.Open & "] High [" &
-                          bar.High & "] Low [" & bar.Low & "] Volume [" & bar.Volume & "] Count [" & bar.Count & "]")
+                          bar.High & "] Low [" & bar.Low & "] Volume [" & Util.DecimalMaxString(bar.Volume) & "] Count [" & bar.Count & "] WAP [" & Util.DecimalMaxString(bar.WAP) & "]")
         End Sub
         '! [historicaldata]
 
         '! [historicalDataUpdate]
         Public Sub historicalDataUpdate(reqId As Integer, bar As Bar) Implements IBApi.EWrapper.historicalDataUpdate
             Console.WriteLine("HistoricalDataUpdate - ReqId [" & reqId & "] Date [" & bar.Time & "] Open [" & bar.Open & "] High [" &
-                          bar.High & "] Low [" & bar.Low & "] Volume [" & bar.Volume & "] Count [" & bar.Count & "]")
+                          bar.High & "] Low [" & bar.Low & "] Volume [" & Util.DecimalMaxString(bar.Volume) & "] Count [" & bar.Count & "] WAP [" & Util.DecimalMaxString(bar.WAP) & "]")
         End Sub
         '! [historicalDataUpdate]
 
@@ -342,9 +343,9 @@ Namespace Samples
         '! [positionmultiend]
 
         '! [realtimebar]
-        Public Sub realtimeBar(reqId As Integer, time As Long, open As Double, high As Double, low As Double, close As Double, volume As Long, WAP As Double, count As Integer) Implements IBApi.EWrapper.realtimeBar
+        Public Sub realtimeBar(reqId As Integer, time As Long, open As Double, high As Double, low As Double, close As Double, volume As Decimal, WAP As Decimal, count As Integer) Implements IBApi.EWrapper.realtimeBar
             Console.WriteLine("RealTimeBars. " & reqId & " - Time: " & time & ", Open: " & open & ", High: " & high & ", Low: " & low & ", Close: " &
-        close & ", Volume: " & volume & ", Count: " & count & ", WAP: " & WAP)
+        close & ", Volume: " & Util.DecimalMaxString(volume) & ", Count: " & count & ", WAP: " & Util.DecimalMaxString(WAP))
         End Sub
         '! [realtimebar]
 
@@ -403,8 +404,8 @@ Namespace Samples
         '! [tickprice]
 
         '! [ticksize]
-        Public Sub tickSize(tickerId As Integer, field As Integer, size As Long) Implements IBApi.EWrapper.tickSize
-            Console.WriteLine("Tick Size. Ticker Id:" & CStr(tickerId) & ", Field: " & TickType.getField(field) & ", Size: " & CStr(size))
+        Public Sub tickSize(tickerId As Integer, field As Integer, size As Decimal) Implements IBApi.EWrapper.tickSize
+            Console.WriteLine("Tick Size. Ticker Id:" & CStr(tickerId) & ", Field: " & TickType.getField(field) & ", Size: " & Util.DecimalMaxString(size))
         End Sub
         '! [ticksize]
 
@@ -433,16 +434,16 @@ Namespace Samples
         '! [updateaccountvalue]
 
         '! [updatemktdepth]
-        Public Sub updateMktDepth(tickerId As Integer, position As Integer, operation As Integer, side As Integer, price As Double, size As Long) Implements IBApi.EWrapper.updateMktDepth
+        Public Sub updateMktDepth(tickerId As Integer, position As Integer, operation As Integer, side As Integer, price As Double, size As Decimal) Implements IBApi.EWrapper.updateMktDepth
             Console.WriteLine("UpdateMarketDepth. " & CStr(tickerId) & " - Position: " & CStr(position) & ", Operation: " & CStr(operation) & ", Side: " & CStr(side) &
-                          ", Price: " & CStr(price) & ", Size: " & CStr(size))
+                          ", Price: " & CStr(price) & ", Size: " & Util.DecimalMaxString(size))
         End Sub
         '! [updatemktdepth]
 
         '! [updatemktdepthl2]
-        Public Sub updateMktDepthL2(tickerId As Integer, position As Integer, marketMaker As String, operation As Integer, side As Integer, price As Double, size As Long, isSmartDepth As Boolean) Implements IBApi.EWrapper.updateMktDepthL2
-            Console.WriteLine("UpdateMarketDepthL2. " & CStr(tickerId) & " - Position: " & CStr(position) & ", Operation: " & CStr(operation) & ", Side: " & CStr(side) &
-                          ", Price: " & CStr(price) & ", Size: " & CStr(size) & ", isSmartDepth: " & CStr(isSmartDepth))
+        Public Sub updateMktDepthL2(tickerId As Integer, position As Integer, marketMaker As String, operation As Integer, side As Integer, price As Double, size As Decimal, isSmartDepth As Boolean) Implements IBApi.EWrapper.updateMktDepthL2
+            Console.WriteLine("UpdateMarketDepthL2. " & CStr(tickerId) & " MarketMaker: " & marketMaker & ", Position: " & CStr(position) & ", Operation: " & CStr(operation) & ", Side: " & CStr(side) &
+                          ", Price: " & CStr(price) & ", Size: " & Util.DecimalMaxString(size) & ", isSmartDepth: " & CStr(isSmartDepth))
         End Sub
         '! [updatemktdepthl2]
 
@@ -622,7 +623,7 @@ Namespace Samples
         '! [histogramData]
         Public Sub histogramData(reqId As Integer, data As HistogramEntry()) Implements EWrapper.histogramData
             Console.WriteLine("Histogram data. Request Id: {0}, data size: {1}", reqId, data.Length)
-            data.ToList().ForEach(Sub(i) Console.WriteLine(vbTab & "Price: {0}, Size: {1}", i.Price, i.Size))
+            data.ToList().ForEach(Sub(i) Console.WriteLine(vbTab & "Price: {0}, Size: {1}", i.Price, Util.DecimalMaxString(i.Size)))
         End Sub
         '! [histogramData]
 
@@ -663,7 +664,7 @@ Namespace Samples
 		'! [historicalticks]
         Public Sub historicalTick(reqId As Integer, ticks As HistoricalTick(), done As Boolean) Implements EWrapper.historicalTicks
             For Each tick In ticks
-                Console.WriteLine("Historical Tick. Request Id: {0}, Time: {1}, Price: {2}, Size: {3}", reqId, Util.UnixSecondsToString(tick.Time, "yyyyMMdd-HH:mm:ss zzz"), tick.Price, tick.Size)
+                Console.WriteLine("Historical Tick. Request Id: {0}, Time: {1}, Price: {2}, Size: {3}", reqId, Util.UnixSecondsToString(tick.Time, "yyyyMMdd-HH:mm:ss zzz"), tick.Price, Util.DecimalMaxString(tick.Size))
             Next
         End Sub
 		'! [historicalticks]
@@ -672,7 +673,7 @@ Namespace Samples
         Public Sub historicalTickBidAsk(reqId As Integer, ticks As HistoricalTickBidAsk(), done As Boolean) Implements EWrapper.historicalTicksBidAsk
             For Each tick In ticks
                 Console.WriteLine("Historical Tick Bid/Ask. Request Id: {0}, Time: {1}, Price Bid: {2}, Price Ask: {3}, Size Bid: {4}, Size Ask: {5}, Bid/Ask Tick Attribs: {6}",
-                    reqId, Util.UnixSecondsToString(tick.Time, "yyyyMMdd-HH:mm:ss zzz"), tick.PriceBid, tick.PriceAsk, tick.SizeBid, tick.SizeAsk, tick.TickAttribBidAsk.toString())
+                    reqId, Util.UnixSecondsToString(tick.Time, "yyyyMMdd-HH:mm:ss zzz"), tick.PriceBid, tick.PriceAsk, Util.DecimalMaxString(tick.SizeBid), Util.DecimalMaxString(tick.SizeAsk), tick.TickAttribBidAsk.ToString())
             Next
         End Sub
 		'! [historicalticksbidask]
@@ -681,13 +682,13 @@ Namespace Samples
         Public Sub historicalTickLast(reqId As Integer, ticks As HistoricalTickLast(), done As Boolean) Implements EWrapper.historicalTicksLast
             For Each tick In ticks
                 Console.WriteLine("Historical Tick Last. Request Id: {0}, Time: {1}, Price: {2}, Size: {3}, Exchange: {4}, Special Conditions: {5}, Last Tick Attribs: {6}",
-                    reqId, Util.UnixSecondsToString(tick.Time, "yyyyMMdd-HH:mm:ss zzz"), tick.Price, tick.Size, tick.Exchange, tick.SpecialConditions, tick.TickAttribLast.toString())
+                    reqId, Util.UnixSecondsToString(tick.Time, "yyyyMMdd-HH:mm:ss zzz"), tick.Price, Util.DecimalMaxString(tick.Size), tick.Exchange, tick.SpecialConditions, tick.TickAttribLast.ToString())
             Next
         End Sub
         '! [historicaltickslast]
 
         '! [tickbytickalllast]
-        Public Sub tickByTickAllLast(reqId As Integer, tickType As Integer, time As Long, price As Double, size As Long, tickAttribLast As TickAttribLast, exchange As String, specialConditions As String) Implements EWrapper.tickByTickAllLast
+        Public Sub tickByTickAllLast(reqId As Integer, tickType As Integer, time As Long, price As Double, size As Decimal, tickAttribLast As TickAttribLast, exchange As String, specialConditions As String) Implements EWrapper.tickByTickAllLast
             Dim tickTypeStr As String
             If tickType = 1 Then
                 tickTypeStr = "Last"
@@ -695,14 +696,14 @@ Namespace Samples
                 tickTypeStr = "AllLast"
             End If
             Console.WriteLine("Tick-By-Tick. Request Id: {0}, TickType: {1}, Time: {2}, Price: {3}, Size: {4}, Exchange: {5}, Special Conditions: {6}, PastLimit: {7}, Unreported: {8}",
-                reqId, tickTypeStr, Util.UnixSecondsToString(time, "yyyyMMdd-HH:mm:ss zzz"), price, size, exchange, specialConditions, tickAttribLast.PastLimit, tickAttribLast.Unreported)
+                reqId, tickTypeStr, Util.UnixSecondsToString(time, "yyyyMMdd-HH:mm:ss zzz"), price, Util.DecimalMaxString(size), exchange, specialConditions, tickAttribLast.PastLimit, tickAttribLast.Unreported)
         End Sub
         '! [tickbytickalllast]
 
         '! [tickbytickbidask]
-        Public Sub tickByTickBidAsk(reqId As Integer, time As Long, bidPrice As Double, askPrice As Double, bidSize As Long, askSize As Long, tickAttribBidAsk As TickAttribBidAsk) Implements EWrapper.tickByTickBidAsk
+        Public Sub tickByTickBidAsk(reqId As Integer, time As Long, bidPrice As Double, askPrice As Double, bidSize As Decimal, askSize As Decimal, tickAttribBidAsk As TickAttribBidAsk) Implements EWrapper.tickByTickBidAsk
             Console.WriteLine("Tick-By-Tick. Request Id: {0}, TickType: BidAsk, Time: {1}, BidPrice: {2}, AskPrice: {3}, BidSize: {4}, AskSize: {5}, BidPastLow: {6}, AskPastHigh: {7}",
-                reqId, Util.UnixSecondsToString(time, "yyyyMMdd-HH:mm:ss zzz"), bidPrice, askPrice, bidSize, askSize, tickAttribBidAsk.BidPastLow, tickAttribBidAsk.AskPastHigh)
+                reqId, Util.UnixSecondsToString(time, "yyyyMMdd-HH:mm:ss zzz"), bidPrice, askPrice, Util.DecimalMaxString(bidSize), Util.DecimalMaxString(askSize), tickAttribBidAsk.BidPastLow, tickAttribBidAsk.AskPastHigh)
         End Sub
         '! [tickbytickbidask]
 

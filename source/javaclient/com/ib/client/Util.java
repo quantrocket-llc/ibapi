@@ -18,6 +18,14 @@ import com.ib.controller.ApiController.IContractDetailsHandler;
 public class Util {
     public static final String SPACE_SYMBOL = " ";
     public static final String EQUALS_SIGN = "=";
+
+    public static String decimalToStringNoZero(Decimal value) {
+        return Decimal.isValidNotZeroValue(value) ? value.toString() : ""; 
+    }
+    
+	public static boolean isValidValue(double value) {
+		return value != Double.MAX_VALUE && !Double.isNaN(value) && !Double.isInfinite(value);
+	}
     
 	public static boolean StringIsEmpty(String str) {
 		return str == null || str.length() == 0;

@@ -111,6 +111,7 @@ namespace IBSampleApp.ui
             ContractDetailsGrid[18, ContractDetailsGrid.Rows.Count - 1].Value = contractDetailsMessage.ContractDetails.LastTradeTime;
             ContractDetailsGrid[19, ContractDetailsGrid.Rows.Count - 1].Value = contractDetailsMessage.ContractDetails.TimeZoneId;
             ContractDetailsGrid[20, ContractDetailsGrid.Rows.Count - 1].Value = contractDetailsMessage.ContractDetails.StockType;
+            ContractDetailsGrid[21, ContractDetailsGrid.Rows.Count - 1].Value = Util.DecimalMaxString(contractDetailsMessage.ContractDetails.SizeMinTick);
 
             UpdateMakretRuleIdsComboBox(contractDetailsMessage.ContractDetails.MarketRuleIds);
         }

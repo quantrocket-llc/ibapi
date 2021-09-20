@@ -93,8 +93,8 @@ namespace IBSampleApp.ui
             gridView[2, gridView.Rows.Count - 1].Value = bar.High;
             gridView[3, gridView.Rows.Count - 1].Value = bar.Low;
             gridView[4, gridView.Rows.Count - 1].Value = bar.Close;
-            gridView[5, gridView.Rows.Count - 1].Value = bar.Volume;
-            gridView[6, gridView.Rows.Count - 1].Value = bar.Wap;
+            gridView[5, gridView.Rows.Count - 1].Value = Util.DecimalMaxString(bar.Volume);
+            gridView[6, gridView.Rows.Count - 1].Value = Util.DecimalMaxString(bar.Wap);
         }
     }
 }

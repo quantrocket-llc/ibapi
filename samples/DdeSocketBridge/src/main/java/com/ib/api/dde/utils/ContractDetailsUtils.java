@@ -41,6 +41,7 @@ public class ContractDetailsUtils {
         item.add(Utils.toString(contractDetails.contract().tradingClass()));
         item.add(Utils.toString(contractDetails.contract().conid()));
         item.add(Utils.toString(contractDetails.minTick()));
+        item.add(contractDetails.sizeMinTick().toString());
         item.add(Utils.toString(contractDetails.mdSizeMultiplier()));
         item.add(Utils.toString(contractDetails.contract().multiplier()));
         if (Utils.isNotNull(contractDetails.orderTypes())) {

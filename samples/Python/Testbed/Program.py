@@ -13,9 +13,10 @@ import time
 import os.path
 
 from ibapi import wrapper
-from ibapi import utils
 from ibapi.client import EClient
+from ibapi.utils import decimalMaxString
 from ibapi.utils import iswrapper
+from ibapi.utils import longToStr
 
 # types
 from ibapi.common import * # @UnusedWildImport
@@ -71,7 +72,7 @@ def printWhenExecuting(fn):
 
 def printinstance(inst:Object):
     attrs = vars(inst)
-    print(', '.join("%s: %s" % item for item in attrs.items()))
+    print(', '.join('{}:{}'.format(key, decimalMaxString(value) if type(value) is Decimal else value) for key, value in attrs.items()))
 
 class Activity(Object):
     def __init__(self, reqMsgId, ansMsgId, ansEndMsgId, reqId):
@@ -768,9 +769,9 @@ class TestApp(TestWrapper, TestClient):
 
     @iswrapper
     # ! [ticksize]
-    def tickSize(self, reqId: TickerId, tickType: TickType, size: int):
+    def tickSize(self, reqId: TickerId, tickType: TickType, size: Decimal):
         super().tickSize(reqId, tickType, size)
-        print("TickSize. TickerId:", reqId, "TickType:", tickType, "Size:", size)
+        print("TickSize. TickerId:", reqId, "TickType:", tickType, "Size: ", decimalMaxString(size))
     # ! [ticksize]
 
     @iswrapper
@@ -854,7 +855,7 @@ class TestApp(TestWrapper, TestClient):
     @iswrapper
     # ! [tickbytickalllast]
     def tickByTickAllLast(self, reqId: int, tickType: int, time: int, price: float,
-                          size: int, tickAtrribLast: TickAttribLast, exchange: str,
+                          size: Decimal, tickAtrribLast: TickAttribLast, exchange: str,
                           specialConditions: str):
         super().tickByTickAllLast(reqId, tickType, time, price, size, tickAtrribLast,
                                   exchange, specialConditions)
@@ -864,20 +865,20 @@ class TestApp(TestWrapper, TestClient):
             print("AllLast.", end='')
         print(" ReqId:", reqId,
               "Time:", datetime.datetime.fromtimestamp(time).strftime("%Y%m%d %H:%M:%S"),
-              "Price:", price, "Size:", size, "Exch:" , exchange,
+              "Price:", price, "Size:", decimalMaxString(size), "Exch:" , exchange,
               "Spec Cond:", specialConditions, "PastLimit:", tickAtrribLast.pastLimit, "Unreported:", tickAtrribLast.unreported)
     # ! [tickbytickalllast]
 
     @iswrapper
     # ! [tickbytickbidask]
     def tickByTickBidAsk(self, reqId: int, time: int, bidPrice: float, askPrice: float,
-                         bidSize: int, askSize: int, tickAttribBidAsk: TickAttribBidAsk):
+                         bidSize: Decimal, askSize: Decimal, tickAttribBidAsk: TickAttribBidAsk):
         super().tickByTickBidAsk(reqId, time, bidPrice, askPrice, bidSize,
                                  askSize, tickAttribBidAsk)
         print("BidAsk. ReqId:", reqId,
               "Time:", datetime.datetime.fromtimestamp(time).strftime("%Y%m%d %H:%M:%S"),
-              "BidPrice:", bidPrice, "AskPrice:", askPrice, "BidSize:", bidSize,
-              "AskSize:", askSize, "BidPastLow:", tickAttribBidAsk.bidPastLow, "AskPastHigh:", tickAttribBidAsk.askPastHigh)
+              "BidPrice:", bidPrice, "AskPrice:", askPrice, "BidSize:", decimalMaxString(bidSize),
+              "AskSize:", decimalMaxString(askSize), "BidPastLow:", tickAttribBidAsk.bidPastLow, "AskPastHigh:", tickAttribBidAsk.askPastHigh)
     # ! [tickbytickbidask]
 
     # ! [tickbytickmidpoint]
@@ -916,20 +917,20 @@ class TestApp(TestWrapper, TestClient):
     @iswrapper
     # ! [updatemktdepth]
     def updateMktDepth(self, reqId: TickerId, position: int, operation: int,
-                       side: int, price: float, size: int):
+                       side: int, price: float, size: Decimal):
         super().updateMktDepth(reqId, position, operation, side, price, size)
         print("UpdateMarketDepth. ReqId:", reqId, "Position:", position, "Operation:",
-              operation, "Side:", side, "Price:", price, "Size:", size)
+              operation, "Side:", side, "Price:", price, "Size:", decimalMaxString(size))
     # ! [updatemktdepth]
 
     @iswrapper
     # ! [updatemktdepthl2]
     def updateMktDepthL2(self, reqId: TickerId, position: int, marketMaker: str,
-                         operation: int, side: int, price: float, size: int, isSmartDepth: bool):
+                         operation: int, side: int, price: float, size: Decimal, isSmartDepth: bool):
         super().updateMktDepthL2(reqId, position, marketMaker, operation, side,
                                  price, size, isSmartDepth)
         print("UpdateMarketDepthL2. ReqId:", reqId, "Position:", position, "MarketMaker:", marketMaker, "Operation:",
-              operation, "Side:", side, "Price:", price, "Size:", size, "isSmartDepth:", isSmartDepth)
+              operation, "Side:", side, "Price:", price, "Size:", decimalMaxString(size), "isSmartDepth:", isSmartDepth)
 
     # ! [updatemktdepthl2]
 
@@ -950,7 +951,7 @@ class TestApp(TestWrapper, TestClient):
     @iswrapper
     # ! [realtimebar]
     def realtimeBar(self, reqId: TickerId, time:int, open_: float, high: float, low: float, close: float,
-                        volume: int, wap: float, count: int):
+                        volume: Decimal, wap: Decimal, count: int):
         super().realtimeBar(reqId, time, open_, high, low, close, volume, wap, count)
         print("RealTimeBar. TickerId:", reqId, RealTimeBar(time, -1, open_, high, low, close, volume, wap, count))
     # ! [realtimebar]
@@ -1130,6 +1131,7 @@ class TestApp(TestWrapper, TestClient):
         self.reqContractDetails(213, ContractSamples.FuturesOnOptions())
         self.reqContractDetails(214, ContractSamples.SimpleFuture())
         self.reqContractDetails(215, ContractSamples.USStockAtSmart())
+        self.reqContractDetails(216, ContractSamples.CryptoContract())
         # ! [reqcontractdetails]
 
         # ! [reqmatchingsymbols]
@@ -1909,7 +1911,7 @@ class TestApp(TestWrapper, TestClient):
     def completedOrder(self, contract: Contract, order: Order,
                   orderState: OrderState):
         super().completedOrder(contract, order, orderState)
-        print("CompletedOrder. PermId:", order.permId, "ParentPermId:", utils.longToStr(order.parentPermId), "Account:", order.account, 
+        print("CompletedOrder. PermId:", order.permId, "ParentPermId:", longToStr(order.parentPermId), "Account:", order.account, 
               "Symbol:", contract.symbol, "SecType:", contract.secType, "Exchange:", contract.exchange, 
               "Action:", order.action, "OrderType:", order.orderType, "TotalQty:", order.totalQuantity, 
               "CashQty:", order.cashQty, "FilledQty:", order.filledQuantity, 

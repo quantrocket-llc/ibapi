@@ -48,7 +48,7 @@ Public Sub RequestBondContractDetails_Click()
     With lContractInfo
         .Symbol = UCase(contractTable(id, Col_CUSIP).value)
         .SecType = UCase(contractTable(id, Col_SECTYPE).value)
-        .exchange = UCase(contractTable(id, Col_EXCH).value)
+        .Exchange = UCase(contractTable(id, Col_EXCH).value)
         .currency = UCase(contractTable(id, Col_CURRENCY).value)
     End With
 
@@ -100,7 +100,7 @@ Public Sub UpdateBondContractDetails(ByVal reqId As Long, ByVal ContractDetails 
         .Cells(11).value = ContractDetails.callable
         .Cells(12).value = ContractDetails.putable
         .Cells(13).value = ContractDetails.descAppend
-        .Cells(14).value = contract.exchange
+        .Cells(14).value = contract.Exchange
         .Cells(15).value = contract.currency
         .Cells(16).value = ContractDetails.marketName
         .Cells(17).value = contract.tradingClass
@@ -181,7 +181,7 @@ End Sub
 
 Public Sub ProcessError(ByVal id As Long, ByVal errorCode As Long, ByVal errorMsg As String)
     
-    contractTable(id - ID_BONDCONTRACTDETAILS, Col_STATUS).value = STR_ERROR + STR_COLON + Str(errorCode) + STR_SPACE + errorMsg
+    contractTable(id - ID_BONDCONTRACTDETAILS, Col_STATUS).value = STR_ERROR + STR_COLON + str(errorCode) + STR_SPACE + errorMsg
         
 End Sub
 
@@ -190,7 +190,7 @@ Private Function GenerateSheetName(contractInfo As TWSLib.IContract)
     s = "Details"
     s = s & IIf(contractInfo.Symbol <> "", "_" & contractInfo.Symbol, "")
     s = s & IIf(contractInfo.SecType <> "", "_" & contractInfo.SecType, "")
-    s = s & IIf(contractInfo.exchange <> "", "_" & contractInfo.exchange, "")
+    s = s & IIf(contractInfo.Exchange <> "", "_" & contractInfo.Exchange, "")
     s = s & IIf(contractInfo.currency <> "", "_" & contractInfo.currency, "")
     GenerateSheetName = Left(s, 31)
 End Function

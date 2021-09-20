@@ -516,7 +516,7 @@ class EDecoder implements ObjectInput {
             tickAttribLast.unreported(mask.get(1));
             
             double price = readDouble();
-            long size = readLong();
+            Decimal size = readDecimal();
             String exchange = readStr(),
                    specialConditions = readStr();
 
@@ -543,8 +543,8 @@ class EDecoder implements ObjectInput {
             
             double priceBid = readDouble(),
                    priceAsk = readDouble();
-            long sizeBid = readLong(),
-                 sizeAsk = readLong();
+            Decimal sizeBid = readDecimal(),
+                    sizeAsk = readDecimal();
 
             ticks.add(new HistoricalTickBidAsk(time, tickAttribBidAsk, priceBid, priceAsk, sizeBid, sizeAsk));
         }
@@ -564,7 +564,7 @@ class EDecoder implements ObjectInput {
             long time = readLong();
             readInt();//for consistency
             double price = readDouble();
-            long size = readLong();
+            Decimal size = readDecimal();
             
             ticks.add(new HistoricalTick(time, price, size));
         }
@@ -615,8 +615,8 @@ class EDecoder implements ObjectInput {
         double close = readDouble();
         double high = readDouble();
         double low = readDouble();
-        double WAP = readDouble();
-        long volume = readLong();
+        Decimal WAP = readDecimal();
+        Decimal volume = readDecimal();
 
         m_EWrapper.historicalDataUpdate(reqId, new Bar(date, open, high, low, close, volume, barCount, WAP));
     }
@@ -664,7 +664,7 @@ class EDecoder implements ObjectInput {
     	List<HistogramEntry> items = new ArrayList<>(n);
     	
     	for (int i = 0; i < n; i++) {
-    		items.add(new HistogramEntry(readDouble(), readLong()));
+    		items.add(new HistogramEntry(readDouble(), readDecimal()));
     	}
     	
     	m_EWrapper.histogramData(reqId, items);
@@ -968,8 +968,8 @@ class EDecoder implements ObjectInput {
 		double high = readDouble();
 		double low = readDouble();
 		double close = readDouble();
-		long volume = readLong();
-		double wap = readDouble();
+		Decimal volume = readDecimal();
+		Decimal wap = readDecimal();
 		int count = readInt();
 		m_EWrapper.realtimeBar(reqId, time, open, high, low, close, volume, wap, count);
 	}
@@ -1008,8 +1008,8 @@ class EDecoder implements ObjectInput {
 	        double high = readDouble();
 	        double low = readDouble();
 	        double close = readDouble();
-            long volume = m_serverVersion < EClient.MIN_SERVER_VER_SYNT_REALTIME_BARS ? readInt() : readLong();
-	        double WAP = readDouble();
+            Decimal volume = readDecimal();
+	        Decimal WAP = readDecimal();
 	        
 	        if (m_serverVersion < EClient.MIN_SERVER_VER_SYNT_REALTIME_BARS) {	        
 	            /*String hasGaps = */readStr();
@@ -1061,7 +1061,7 @@ class EDecoder implements ObjectInput {
 		int operation = readInt();
 		int side = readInt();
 		double price = readDouble();
-		long size = readLong();
+		Decimal size = readDecimal();
 		
 		boolean isSmartDepth = false;
 		if (m_serverVersion >= EClient.MIN_SERVER_VER_SMART_DEPTH) {
@@ -1080,7 +1080,7 @@ class EDecoder implements ObjectInput {
 		int operation = readInt();
 		int side = readInt();
 		double price = readDouble();
-		long size = readLong();
+		Decimal size = readDecimal();
 
 		m_EWrapper.updateMktDepth(id, position, operation,
 		                side, price, size);
@@ -1313,7 +1313,10 @@ class EDecoder implements ObjectInput {
 		if (m_serverVersion >= EClient.MIN_SERVER_VER_STOCK_TYPE) {
 		    contract.stockType(readStr());
 		}
-
+		if (m_serverVersion >= EClient.MIN_SERVER_VER_FRACTIONAL_SIZE_SUPPORT) {
+		    contract.sizeMinTick(readDecimal());
+		}
+		
 		m_EWrapper.contractDetails( reqId, contract);
 	}
 
@@ -1708,7 +1711,7 @@ class EDecoder implements ObjectInput {
 		/*int version =*/ readInt();
 		int tickerId = readInt();
 		int tickType = readInt();
-		long size = readLong();
+		Decimal size = readDecimal();
 
 		m_EWrapper.tickSize( tickerId, tickType, size);
 	}
@@ -1718,11 +1721,11 @@ class EDecoder implements ObjectInput {
 		int tickerId = readInt();
 		int tickType = readInt();
 		double price = readDouble();
-		long size = 0;
+		Decimal size = Decimal.INVALID;
 		TickAttrib attribs = new TickAttrib();
 		
 		if( version >= 2) {
-		    size = readLong();
+		    size = readDecimal();
 		}
 		
 		if (version >= 3) {		
@@ -1861,7 +1864,7 @@ class EDecoder implements ObjectInput {
             case 1: // Last
             case 2: // AllLast
                 double price = readDouble();
-                long size = readLong();
+                Decimal size = readDecimal();
                 mask = new BitMask(readInt());
                 TickAttribLast tickAttribLast = new TickAttribLast();
                 tickAttribLast.pastLimit(mask.get(0));
@@ -1873,8 +1876,8 @@ class EDecoder implements ObjectInput {
             case 3: // BidAsk
                 double bidPrice = readDouble();
                 double askPrice = readDouble();
-                long bidSize = readLong();
-                long askSize = readLong();
+                Decimal bidSize = readDecimal();
+                Decimal askSize = readDecimal();
                 mask = new BitMask(readInt());
                 TickAttribBidAsk tickAttribBidAsk = new TickAttribBidAsk();
                 tickAttribBidAsk.bidPastLow(mask.get(0));
@@ -2051,6 +2054,14 @@ class EDecoder implements ObjectInput {
         	                                      : Double.parseDouble( str);
     }
 
+    public Decimal readDecimal() throws IOException {
+        String str = readStr();
+        return (str == null || str.isEmpty() || 
+                str.equals(String.valueOf(Long.MAX_VALUE)) ||
+                str.equals(String.valueOf(Integer.MAX_VALUE)) ||
+                str.equals(String.valueOf(Double.MAX_VALUE))) ? Decimal.INVALID : Decimal.parse(str);
+    }
+    
     /** Message reader interface */
     private interface IMessageReader extends Closeable {
     	String readStr() throws IOException;

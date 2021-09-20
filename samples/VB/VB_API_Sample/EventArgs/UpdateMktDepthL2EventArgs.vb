@@ -15,7 +15,7 @@ Class UpdateMktDepthL2EventArgs
 
     Property price As Double
 
-    Property size As Long
+    Property size As Decimal
 
     Property isSmartDepth As Boolean
 

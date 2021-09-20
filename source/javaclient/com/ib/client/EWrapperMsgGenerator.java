@@ -21,7 +21,7 @@ public class EWrapperMsgGenerator {
         (field == TickType.BID.index() || field == TickType.ASK.index() ? " preOpen = " + attribs.preOpen() : "");
     }
 	
-    public static String tickSize( int tickerId, int field, long size) {
+    public static String tickSize( int tickerId, int field, Decimal size) {
     	return "id=" + tickerId + "  " + TickType.getField( field) + "=" + size;
     }
     
@@ -113,6 +113,7 @@ public class EWrapperMsgGenerator {
     private static String contractDetailsMsg(ContractDetails contractDetails) {
 		return "marketName = " + contractDetails.marketName() + "\n"
         + "minTick = " + contractDetails.minTick() + "\n"
+        + "sizeMinTick = " + contractDetails.sizeMinTick() + "\n"
         + "price magnifier = " + contractDetails.priceMagnifier() + "\n"
         + "orderTypes = " + contractDetails.orderTypes() + "\n"
         + "validExchanges = " + contractDetails.validExchanges() + "\n"
@@ -243,12 +244,12 @@ public class EWrapperMsgGenerator {
     }
     
     public static String updateMktDepth( int tickerId, int position, int operation, int side,
-    									 double price, long size) {
+    									 double price, Decimal size) {
     	return "updateMktDepth: " + tickerId + " " + position + " " + operation + " " + side + " " + price + " " + size;
     }
     
     public static String updateMktDepthL2( int tickerId, int position, String marketMaker,
-    									   int operation, int side, double price, long size, boolean isSmartDepth) {
+    									   int operation, int side, double price, Decimal size, boolean isSmartDepth) {
     	return "updateMktDepth: " + tickerId + " " + position + " " + marketMaker + " " + operation + " " + side + " " + price + " " + size + " " + isSmartDepth;
     }
     
@@ -265,7 +266,7 @@ public class EWrapperMsgGenerator {
     }
     
     public static String historicalData(int reqId, String date, double open, double high, double low,
-                      					double close, long volume, int count, double WAP) {
+                      					double close, Decimal volume, int count, Decimal WAP) {
     	return "id=" + reqId +
         " date = " + date +
         " open=" + open +
@@ -283,7 +284,7 @@ public class EWrapperMsgGenerator {
     }
     
 	public static String realtimeBar(int reqId, long time, double open,
-			double high, double low, double close, long volume, double wap, int count) {
+			double high, double low, double close, Decimal volume, Decimal wap, int count) {
         return "id=" + reqId +
         " time = " + time +
         " open=" + open +
@@ -620,26 +621,26 @@ public class EWrapperMsgGenerator {
 		return "Daily PnL Single. Req Id: " + reqId + ", pos: " + pos + ", daily PnL: " + dailyPnL + ", unrealizedPnL: " + unrealizedPnL + ", realizedPnL: " + realizedPnL + ", value: " + value;
     }
 
-    public static String historicalTick(int reqId, long time, double price, long size) {
+    public static String historicalTick(int reqId, long time, double price, Decimal size) {
         return "Historical Tick. Req Id: " + reqId + ", time: " + Util.UnixSecondsToString(time, "yyyyMMdd-HH:mm:ss zzz") + ", price: " + price + ", size: " 
                 + size;
     }
 
     public static String historicalTickBidAsk(int reqId, long time, TickAttribBidAsk tickAttribBidAsk, double priceBid, double priceAsk,
-            long sizeBid, long sizeAsk) {
+    		Decimal sizeBid, Decimal sizeAsk) {
         return "Historical Tick Bid/Ask. Req Id: " + reqId + ", time: " + Util.UnixSecondsToString(time, "yyyyMMdd-HH:mm:ss zzz") + ", bid price: " + priceBid 
                 + ", ask price: " + priceAsk + ", bid size: " + sizeBid + ", ask size: " + sizeAsk 
                 + ", tick attribs: " + (tickAttribBidAsk.bidPastLow() ? "bidPastLow " : "") + (tickAttribBidAsk.askPastHigh() ? "askPastHigh " : "");
     }
 
-    public static String historicalTickLast(int reqId, long time, TickAttribLast tickAttribLast, double price, long size, String exchange,
+    public static String historicalTickLast(int reqId, long time, TickAttribLast tickAttribLast, double price, Decimal size, String exchange,
             String specialConditions) {        
         return "Historical Tick Last. Req Id: " + reqId + ", time: " + Util.UnixSecondsToString(time, "yyyyMMdd-HH:mm:ss zzz") + ", price: " + price + ", size: " 
                 + size + ", exchange: " + exchange + ", special conditions:" + specialConditions 
                 + ", tick attribs: " + (tickAttribLast.pastLimit() ? "pastLimit " : "") + (tickAttribLast.unreported() ? "unreported " : "");
     }
     
-    public static String tickByTickAllLast(int reqId, int tickType, long time, double price, long size, TickAttribLast tickAttribLast, 
+    public static String tickByTickAllLast(int reqId, int tickType, long time, double price, Decimal size, TickAttribLast tickAttribLast, 
             String exchange, String specialConditions){
         return (tickType == 1 ? "Last." : "AllLast.") +
                 " Req Id: " + reqId + " Time: " + Util.UnixSecondsToString(time, "yyyyMMdd-HH:mm:ss zzz") + " Price: " + price + " Size: " + size +
@@ -647,7 +648,7 @@ public class EWrapperMsgGenerator {
                 (tickType == 1 ? "" : (tickAttribLast.unreported() ? "unreported " : ""));
     }
     
-    public static String tickByTickBidAsk(int reqId, long time, double bidPrice, double askPrice, long bidSize, long askSize,
+    public static String tickByTickBidAsk(int reqId, long time, double bidPrice, double askPrice, Decimal bidSize, Decimal askSize,
             TickAttribBidAsk tickAttribBidAsk){
         return "BidAsk. Req Id: " + reqId + " Time: " + Util.UnixSecondsToString(time, "yyyyMMdd-HH:mm:ss zzz") + " BidPrice: " + bidPrice + 
                 " AskPrice: " + askPrice + " BidSize: " + bidSize + " AskSize: " + askSize + " Tick Attibs: " + 

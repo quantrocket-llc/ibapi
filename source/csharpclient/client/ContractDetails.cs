@@ -37,6 +37,17 @@ namespace IBApi
         }
 
         /**
+        * @brief The minimum allowed size variation.
+        */
+        public decimal SizeMinTick
+        {
+            //! @cond
+            get;
+            set;
+            //! @endcond
+        }
+
+        /**
         * @brief The minimum allowed price variation.
          * Note that many securities vary their minimum tick size according to their price. This value will only show the smallest of the different minimum tick sizes regardless of the product's price. Full information about the minimum increment price structure can be obtained with the reqMarketRule function or the IB Contract and Security Search site. 
         */

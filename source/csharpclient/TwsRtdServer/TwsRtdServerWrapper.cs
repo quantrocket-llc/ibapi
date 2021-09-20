@@ -124,7 +124,14 @@ namespace TwsRtdServer
             if (topic != null)
             {
                 // set topic's new value
-                topic.TopicValue(value);
+                if (value is decimal)
+                {
+                    topic.TopicValue(Util.DecimalMaxString((decimal)value));
+                } 
+                else 
+                {
+                    topic.TopicValue(value);
+                }
 
                 m_server.AddUpdatedTopicId(topic.TopicId());  // add topic to updatedTopicIds array
             }
@@ -172,7 +179,7 @@ namespace TwsRtdServer
             SetTopicValue(tickerId, field, price);
         }
 
-        public void tickSize(int tickerId, int field, long size) 
+        public void tickSize(int tickerId, int field, decimal size) 
         { 
             SetTopicValue(tickerId, field, size);
         }
@@ -228,12 +235,12 @@ namespace TwsRtdServer
         public void historicalDataUpdate(int reqId, Bar bar) { }
         public void historicalDataEnd(int reqId, string start, string end) { }
         public void marketDataType(int reqId, int marketDataType) { }
-        public void updateMktDepth(int tickerId, int position, int operation, int side, double price, long size) { }
-        public void updateMktDepthL2(int tickerId, int position, string marketMaker, int operation, int side, double price, long size, bool isSmartDepth) { }
+        public void updateMktDepth(int tickerId, int position, int operation, int side, double price, decimal size) { }
+        public void updateMktDepthL2(int tickerId, int position, string marketMaker, int operation, int side, double price, decimal size, bool isSmartDepth) { }
         public void updateNewsBulletin(int msgId, int msgType, String message, String origExchange) { }
         public void position(string account, Contract contract, double pos, double avgCost) { }
         public void positionEnd() { }
-        public void realtimeBar(int reqId, long time, double open, double high, double low, double close, long volume, double WAP, int count) { }
+        public void realtimeBar(int reqId, long time, double open, double high, double low, double close, decimal volume, decimal WAP, int count) { }
         public void scannerParameters(string xml) { }
         public void scannerData(int reqId, int rank, ContractDetails contractDetails, string distance, string benchmark, string projection, string legsStr) { }
         public void scannerDataEnd(int reqId) { }
@@ -283,8 +290,8 @@ namespace TwsRtdServer
         public void historicalTicks(int reqId, HistoricalTick[] ticks, bool done) { }
         public void historicalTicksBidAsk(int reqId, HistoricalTickBidAsk[] ticks, bool done) { }
         public void historicalTicksLast(int reqId, HistoricalTickLast[] ticks, bool done) { }
-        public void tickByTickAllLast(int reqId, int tickType, long time, double price, long size, TickAttribLast tickAttribLast, string exchange, string specialConditions) { }
-        public void tickByTickBidAsk(int reqId, long time, double bidPrice, double askPrice, long bidSize, long askSize, TickAttribBidAsk tickAttribBidAsk) { }
+        public void tickByTickAllLast(int reqId, int tickType, long time, double price, decimal size, TickAttribLast tickAttribLast, string exchange, string specialConditions) { }
+        public void tickByTickBidAsk(int reqId, long time, double bidPrice, double askPrice, decimal bidSize, decimal askSize, TickAttribBidAsk tickAttribBidAsk) { }
         public void tickByTickMidPoint(int reqId, long time, double midPoint) { }
         public void orderBound(long orderId, int apiClientId, int apiOrderId) { }
         public void completedOrder(Contract contract, Order order, OrderState orderState) { }

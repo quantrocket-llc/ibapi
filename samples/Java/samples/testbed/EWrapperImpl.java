@@ -10,6 +10,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import com.ib.client.*;
+import com.ib.controller.Formats;
 
 //! [ewrapperimpl]
 public class EWrapperImpl implements EWrapper {
@@ -49,7 +50,7 @@ public class EWrapperImpl implements EWrapper {
 	
 	//! [ticksize]
 	@Override
-	public void tickSize(int tickerId, int field, long size) {
+	public void tickSize(int tickerId, int field, Decimal size) {
 		System.out.println("Tick Size. Ticker Id:" + tickerId + ", Field: " + field + ", Size: " + size);
 	}
 	//! [ticksize]
@@ -189,7 +190,7 @@ public class EWrapperImpl implements EWrapper {
 	//! [updatemktdepth]
 	@Override
 	public void updateMktDepth(int tickerId, int position, int operation,
-			int side, double price, long size) {
+			int side, double price, Decimal size) {
 		System.out.println("UpdateMarketDepth. "+tickerId+" - Position: "+position+", Operation: "+operation+", Side: "+side+", Price: "+price+", Size: "+size+"");
 	}
 	//! [updatemktdepth]
@@ -197,7 +198,7 @@ public class EWrapperImpl implements EWrapper {
 	//! [updatemktdepthl2]
 	@Override
 	public void updateMktDepthL2(int tickerId, int position,
-			String marketMaker, int operation, int side, double price, long size, boolean isSmartDepth) {
+			String marketMaker, int operation, int side, double price, Decimal size, boolean isSmartDepth) {
 		System.out.println("UpdateMarketDepthL2. "+tickerId+" - Position: "+position+", Operation: "+operation+", Side: "+side+", Price: "+price+", Size: "+size+", isSmartDepth: "+isSmartDepth);
 	}
 	//! [updatemktdepthl2]
@@ -266,7 +267,7 @@ public class EWrapperImpl implements EWrapper {
 	//! [realtimebar]
 	@Override
 	public void realtimeBar(int reqId, long time, double open, double high,
-			double low, double close, long volume, double wap, int count) {
+			double low, double close, Decimal volume, Decimal wap, int count) {
 		System.out.println("RealTimeBars. " + reqId + " - Time: " + time + ", Open: " + open + ", High: " + high + ", Low: " + low + ", Close: " + close + ", Volume: " + volume + ", Count: " + count + ", WAP: " + wap);
 	}
 	//! [realtimebar]
@@ -520,7 +521,7 @@ public class EWrapperImpl implements EWrapper {
 	//! [tickReqParams]
 	@Override
 	public void tickReqParams(int tickerId, double minTick, String bboExchange, int snapshotPermissions) {
-		System.out.println("Tick req params. Ticker Id:" + tickerId + ", Min tick: " + minTick + ", bbo exchange: " + bboExchange + ", Snapshot permissions: " + snapshotPermissions);
+		System.out.println("Tick req params. Ticker Id:" + tickerId + ", Min tick: " + Formats.fmt8(minTick) + ", bbo exchange: " + bboExchange + ", Snapshot permissions: " + snapshotPermissions);
 	}
 	//! [tickReqParams]
 
@@ -649,7 +650,7 @@ public class EWrapperImpl implements EWrapper {
 
     //! [tickbytickalllast]
    @Override
-    public void tickByTickAllLast(int reqId, int tickType, long time, double price, long size, TickAttribLast tickAttribLast,
+    public void tickByTickAllLast(int reqId, int tickType, long time, double price, Decimal size, TickAttribLast tickAttribLast,
             String exchange, String specialConditions) {
         System.out.println(EWrapperMsgGenerator.tickByTickAllLast(reqId, tickType, time, price, size, tickAttribLast, exchange, specialConditions));
     }
@@ -657,7 +658,7 @@ public class EWrapperImpl implements EWrapper {
 
     //! [tickbytickbidask]
     @Override
-    public void tickByTickBidAsk(int reqId, long time, double bidPrice, double askPrice, long bidSize, long askSize,
+    public void tickByTickBidAsk(int reqId, long time, double bidPrice, double askPrice, Decimal bidSize, Decimal askSize,
             TickAttribBidAsk tickAttribBidAsk) {
         System.out.println(EWrapperMsgGenerator.tickByTickBidAsk(reqId, time, bidPrice, askPrice, bidSize, askSize, tickAttribBidAsk));
     }

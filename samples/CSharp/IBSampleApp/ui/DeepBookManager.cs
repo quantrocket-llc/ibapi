@@ -69,13 +69,13 @@ namespace IBSampleApp.ui
             if (entry.Side == 1)
             {
                 grid[BID_MAKER_IDX, entry.Position].Value = entry.MarketMaker;
-                grid[BID_SIZE_IDX, entry.Position].Value = entry.Size;
+                grid[BID_SIZE_IDX, entry.Position].Value = Util.DecimalMaxString(entry.Size);
                 grid[BID_PRICE_IDX, entry.Position].Value = entry.Price;
             }
             else
             {
                 grid[ASK_MAKER_IDX, entry.Position].Value = entry.MarketMaker;
-                grid[ASK_SIZE_IDX, entry.Position].Value = entry.Size;
+                grid[ASK_SIZE_IDX, entry.Position].Value = Util.DecimalMaxString(entry.Size);
                 grid[ASK_PRICE_IDX, entry.Position].Value = entry.Price;
             }
         }

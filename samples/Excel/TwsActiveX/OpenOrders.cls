@@ -81,7 +81,7 @@ Sub UpdateOpenOrder(orderId As Long, contract As TWSLib.IContract, order As TWSL
         contractTable(rowId, Col_STRIKE).value = .Strike
         contractTable(rowId, Col_RIGHT).value = .Right
         contractTable(rowId, Col_MULTIPLIER).value = .multiplier
-        contractTable(rowId, Col_EXCH).value = .exchange
+        contractTable(rowId, Col_EXCH).value = .Exchange
         contractTable(rowId, Col_PRIMEXCH).value = .primaryExchange
         contractTable(rowId, Col_CURRENCY).value = .currency
         contractTable(rowId, Col_LOCALSYMBOL).value = .localSymbol

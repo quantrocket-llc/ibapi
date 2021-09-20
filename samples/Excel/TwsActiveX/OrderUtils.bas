@@ -266,7 +266,7 @@ Private Sub PlaceModifyOrder( _
         .Strike = contractDescriptionTable(orderIndex, Col_STRIKE).value
         .Right = UCase(contractDescriptionTable(orderIndex, Col_RIGHT).value)
         .multiplier = UCase(contractDescriptionTable(orderIndex, Col_MULTIPLIER).value)
-        .exchange = UCase(contractDescriptionTable(orderIndex, Col_EXCH).value)
+        .Exchange = UCase(contractDescriptionTable(orderIndex, Col_EXCH).value)
         .primaryExchange = UCase(contractDescriptionTable(orderIndex, Col_PRIMEXCH).value)
         .currency = UCase(contractDescriptionTable(orderIndex, Col_CURRENCY).value)
         .localSymbol = UCase(contractDescriptionTable(orderIndex, Col_LOCALSYMBOL).value)
@@ -449,7 +449,7 @@ Public Sub ProcessError(orderStatusTable As Range, ByVal orderId As Long, ByVal 
     i = FindOrderRowIndex(orderId, orderStatusTable)
     If i = 0 Then Exit Sub
     
-    orderStatusTable(i, Col_ORDERSTATUS).value = STR_ERROR + STR_COLON + Str(errorCode) + STR_SPACE + errorMsg
+    orderStatusTable(i, Col_ORDERSTATUS).value = STR_ERROR + STR_COLON + str(errorCode) + STR_SPACE + errorMsg
 End Sub
 
 ' update order status

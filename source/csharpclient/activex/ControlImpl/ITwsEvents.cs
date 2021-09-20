@@ -18,7 +18,7 @@ namespace TWSLib
         [DispId(1)]
         void tickPrice(int id, int tickType, double price, bool canAutoExecute, bool pastLimit, bool preOpen);
         [DispId(2)]
-        void tickSize(int id, int tickType, long size);
+        void tickSize(int id, int tickType, string size);
         [DispId(3)]
         void connectionClosed();
         [DispId(4)]
@@ -44,9 +44,9 @@ namespace TWSLib
         [DispId(15)]
         void execDetails(int id, string symbol, string secType, string lastTradeDate, double strike, string right, string cExchange, string curency, string localSymbol, string execId, string time, string acctNumber, string eExchange, string side, double shares, double price, int permId, int clientId, int isLiquidation, string lastLiquidity);
         [DispId(16)]
-        void updateMktDepth(int id, int position, int operation, int side, double price, long size);
+        void updateMktDepth(int id, int position, int operation, int side, double price, string size);
         [DispId(17)]
-        void updateMktDepthL2(int id, int position, string marketMaker, int operation, int side, double price, long size, bool isSmartDepth);
+        void updateMktDepthL2(int id, int position, string marketMaker, int operation, int side, double price, string size, bool isSmartDepth);
         [DispId(18)]
         void updateNewsBulletin(short msgId, short msgType, string message, string origExchange);
         [DispId(19)]
@@ -56,7 +56,7 @@ namespace TWSLib
         [DispId(21)]
         void receiveFA(int faDataType, string cxml);
         [DispId(22)]
-        void historicalData(int reqId, string date, double open, double high, double low, double close, int volume, int barCount, double WAP, int hasGaps);
+        void historicalData(int reqId, string date, double open, double high, double low, double close, string volume, int barCount, string WAP, int hasGaps);
         [DispId(23)]
         void openOrder4(int id, string symbol, string secType, string lastTradeDate, double strike, string right, string exchange, string curency, string localSymbol, string action, double quantity, string orderType, double lmtPrice, double auxPrice, string tif, string ocaGroup, string account, string openClose, int origin, string orderRef, int clientId, int permId, string sharesAllocation, string faGroup, string faMethod, string faPercentage, string faProfile, string goodAfterTime, string goodTillDate, int ocaType, string rule80A, string settlingFirm, int allOrNone, int minQty, double percentOffset, int eTradeOnly, int firmQuoteOnly, double nbboPriceCap, int auctionStrategy, double startingPrice, double stockRefPrice, double delta, double stockRangeLower, double stockRangeUpper, int blockOrder, int sweepToFill, int ignoreRth, int hidden, double discretionaryAmt, int displaySize, int parentId, int triggerMethod, int shortSaleSlot, string designatedLocation, double volatility, int volatilityType, string deltaNeutralOrderType, double deltaNeutralAuxPrice, int continuousUpdate, int referencePriceType, double trailStopPrice, double basisPoints, int basisPointsType, string legsStr, int scaleInitLevelSize, int scaleSubsLevelSize, double scalePriceIncrement);
         [DispId(24)]
@@ -77,7 +77,7 @@ namespace TWSLib
                      double dividendsToLastTradeDate);
         [DispId(31)]
         void realtimeBar(int tickerId, int time, double open, double high, double low, double close,
-                         int volume, double WAP, int count);
+                         string volume, string WAP, int count);
         [DispId(32)]
         void currentTime(int time);
         [DispId(33)]
@@ -146,14 +146,7 @@ namespace TWSLib
         [DispId(122)]
         void accountUpdateMultiEnd(int requestId);
         [DispId(123)]
-        void securityDefinitionOptionParameter(
-            int reqId, 
-            string exchange, 
-            int underlyingConId, 
-            string tradingClass, 
-            string multiplier,             
-            string expirations,
-            string strikes);
+        void securityDefinitionOptionParameter(int reqId, string exchange, int underlyingConId, string tradingClass, string multiplier, string expirations, string strikes);
         [DispId(124)]
         void securityDefinitionOptionParameterEnd(int reqId);
         [DispId(125)]
@@ -199,9 +192,9 @@ namespace TWSLib
         [DispId(145)]
         void historicalTicksLast(int reqId, IHistoricalTickLastList ticks, bool done);
         [DispId(146)]
-        void tickByTickAllLast(int reqId, int tickType, string time, double price, long size, ITickAttribLast tickAttribLast, string exchange, string specialConditions);
+        void tickByTickAllLast(int reqId, int tickType, string time, double price, string size, ITickAttribLast tickAttribLast, string exchange, string specialConditions);
         [DispId(147)]
-        void tickByTickBidAsk(int reqId, string time, double bidPrice, double askPrice, long bidSize, long askSize, ITickAttribBidAsk tickAttribBidAsk);
+        void tickByTickBidAsk(int reqId, string time, double bidPrice, double askPrice, string bidSize, string askSize, ITickAttribBidAsk tickAttribBidAsk);
         [DispId(148)]
         void tickByTickMidPoint(int reqId, string time, double midPoint);
         [DispId(149)]

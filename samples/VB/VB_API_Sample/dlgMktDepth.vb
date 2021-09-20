@@ -5,6 +5,7 @@
 Option Explicit On
 
 Imports System.Collections.Generic
+Imports IBApi
 
 Friend Class dlgMktDepth
     Inherits System.Windows.Forms.Form
@@ -296,7 +297,7 @@ Friend Class dlgMktDepth
         '
         'AvgPricBide
         '
-        DataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        DataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
         DataGridViewCellStyle7.Format = "0.000000"
         DataGridViewCellStyle7.NullValue = Nothing
         Me.AvgPricBide.DefaultCellStyle = DataGridViewCellStyle7
@@ -349,7 +350,7 @@ Friend Class dlgMktDepth
         '
         'AvgPriceAsk
         '
-        DataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        DataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
         DataGridViewCellStyle15.Format = "0.000000"
         DataGridViewCellStyle15.NullValue = Nothing
         Me.AvgPriceAsk.DefaultCellStyle = DataGridViewCellStyle15
@@ -430,9 +431,9 @@ Friend Class dlgMktDepth
     Private Class ModelEntry
         Friend MarketMaker As String
         Friend Price As Double
-        Friend Size As Integer
-        Friend CumSize As Integer
-        Friend TotalPrice As Double
+        Friend Size As Decimal
+        Friend CumSize As Decimal
+        Friend TotalPrice As Decimal
     End Class
 
     ' member variables
@@ -456,7 +457,7 @@ Friend Class dlgMktDepth
     '--------------------------------------------------------------------------------
     ' Adds the market depth row to the book
     '--------------------------------------------------------------------------------
-    Public Sub updateMktDepth(tickerId As Integer, rowId As Integer, marketMaker As String, operation As OperationType, side As Side, price As Double, size As Integer, isSmartDepth As Boolean)
+    Public Sub updateMktDepth(tickerId As Integer, rowId As Integer, marketMaker As String, operation As OperationType, side As Side, price As Double, size As Decimal, isSmartDepth As Boolean)
         Select Case side
             Case side.Bid
                 updateDepth(m_bids, DataGridViewBid, rowId, marketMaker, operation, side, price, size)
@@ -509,7 +510,7 @@ Friend Class dlgMktDepth
     End Function
 
 
-    Private Sub updateDepth(model As List(Of ModelEntry), bookEntries As DataGridView, rowId As Integer, marketMaker As String, operation As OperationType, side As Side, price As Double, size As Integer)
+    Private Sub updateDepth(model As List(Of ModelEntry), bookEntries As DataGridView, rowId As Integer, marketMaker As String, operation As OperationType, side As Side, price As Double, size As Decimal)
         Select Case operation
             Case OperationType.Insert
                 model.Insert(rowId, New ModelEntry() With {.MarketMaker = marketMaker, .Price = price, .Size = size})
@@ -528,8 +529,9 @@ Friend Class dlgMktDepth
     End Sub
 
     Private Sub updateList(model As List(Of ModelEntry), bookEntries As DataGridView, baseRow As Integer)
-        Dim totalPrice = 0.0
-        Dim cumSize = 0
+        Dim totalPrice = 0.0D
+        Dim cumSize = 0.0D
+        Dim avgPrice = 0.0D
         If baseRow > 0 Then
             Dim entry = model(baseRow - 1)
             cumSize = model(baseRow - 1).CumSize
@@ -538,20 +540,21 @@ Friend Class dlgMktDepth
 
         For i = baseRow To model.Count - 1
             With model(i)
-                cumSize = cumSize + .Size
-                .CumSize = cumSize
-                totalPrice = totalPrice + (.Price * .Size)
-                .TotalPrice = totalPrice
-
-                Dim avgPrice = totalPrice / cumSize
+                If .Size <> Decimal.MaxValue Then
+                    cumSize = cumSize + .Size
+                    .CumSize = cumSize
+                    totalPrice = totalPrice + (.Price * .Size)
+                    .TotalPrice = totalPrice
+                    avgPrice = totalPrice / cumSize
+                End If
 
                 If i > (bookEntries.Rows.Count - 1) Then bookEntries.Rows.Add()
                 Dim row = bookEntries.Rows(i)
                 row.Cells(Cell.MarketMaker).Value = .MarketMaker
                 row.Cells(Cell.Price).Value = .Price
-                row.Cells(Cell.Size).Value = .Size
-                row.Cells(Cell.CumSize).Value = cumSize
-                row.Cells(Cell.AvgPrice).Value = avgPrice
+                row.Cells(Cell.Size).Value = Util.DecimalMaxString(.Size)
+                row.Cells(Cell.CumSize).Value = Util.DecimalMaxStringNoZero(cumSize)
+                row.Cells(Cell.AvgPrice).Value = Util.DecimalMaxStringNoZero(avgPrice)
             End With
         Next
     End Sub

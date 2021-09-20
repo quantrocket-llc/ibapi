@@ -98,5 +98,8 @@ namespace TWSLib
         string lastTradeTime { get; }
         [DispId(44)]
         string stockType { get; }
+        [DispId(45)]
+        string sizeMinTick { get; }
+
     }
 }

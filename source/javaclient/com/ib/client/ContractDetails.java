@@ -9,6 +9,7 @@ public class ContractDetails {
     private Contract m_contract;
     private String   m_marketName;
     private double   m_minTick;
+    private Decimal  m_sizeMinTick;
     private int      m_priceMagnifier;
     private String   m_orderTypes;
     private String   m_validExchanges;
@@ -55,6 +56,7 @@ public class ContractDetails {
     public Contract contract()          { return m_contract; }
     public String marketName()          { return m_marketName; }
     public double minTick()             { return m_minTick; }
+    public Decimal sizeMinTick()        { return m_sizeMinTick; }
     public int priceMagnifier()         { return m_priceMagnifier; }
     public String orderTypes()          { return m_orderTypes; }
     public String validExchanges()      { return m_validExchanges; }
@@ -99,6 +101,7 @@ public class ContractDetails {
     public void contract(Contract contract)         { m_contract = contract; }
     public void marketName(String marketName)       { m_marketName = marketName; }
     public void minTick(double minTick)             { m_minTick = minTick; }
+    public void sizeMinTick(Decimal sizeMinTick)    { m_sizeMinTick = sizeMinTick; }
     public void priceMagnifier(int priceMagnifier)  { m_priceMagnifier = priceMagnifier; }
     public void orderTypes(String orderTypes)       { m_orderTypes = orderTypes; }
     public void validExchanges(String validExchanges) { m_validExchanges = validExchanges; }
@@ -152,7 +155,7 @@ public class ContractDetails {
     	    String p_timeZoneId, String	p_tradingHours, String p_liquidHours,
     	    String p_evRule, double p_evMultiplier, int p_mdSizeMultiplier, int p_aggGroup,
     	    String p_underSymbol, String p_underSecType, String p_marketRuleIds, String p_realExpirationDate, String p_lastTradeTime,
-    	    String p_stockType) {
+    	    String p_stockType, Decimal p_sizeMinTick) {
         m_contract = p_contract;
     	m_marketName = p_marketName;
     	m_minTick = p_minTick;
@@ -177,6 +180,7 @@ public class ContractDetails {
         m_realExpirationDate = p_realExpirationDate;
         m_lastTradeTime = p_lastTradeTime;
         m_stockType = p_stockType;
+        m_sizeMinTick = p_sizeMinTick;
     }
 
     @Override public String toString() {
@@ -184,6 +188,7 @@ public class ContractDetails {
 
         add( sb, "marketName", m_marketName);
         add( sb, "minTick", m_minTick);
+        add( sb, "sizeMinTick", m_sizeMinTick);
         add( sb, "priceMagnifier", m_priceMagnifier);
         add( sb, "orderTypes", m_orderTypes);
         add( sb, "validExchanges", m_validExchanges);

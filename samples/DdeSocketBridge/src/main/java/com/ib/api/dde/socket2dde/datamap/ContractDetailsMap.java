@@ -13,6 +13,7 @@ public class ContractDetailsMap extends BaseListDataMap<ContractDetails> {
     public final static String VALID_EXCHANGES = "validExchanges"; 
     public final static String CON_ID = "conid"; 
     public final static String MIN_TICK = "minTick"; 
+    public final static String SIZE_MIN_TICK = "sizeMinTick"; 
     public final static String MULTIPLIER = "multiplier"; 
     public final static String MARKET_NAME = "marketName"; 
     public final static String TRADING_CLASS = "tradingClass"; 
@@ -54,6 +55,9 @@ public class ContractDetailsMap extends BaseListDataMap<ContractDetails> {
             }
             if (tickType.equalsIgnoreCase(MIN_TICK)) {
                 return contractDetails.minTick();
+            }
+            if (tickType.equalsIgnoreCase(SIZE_MIN_TICK)) {
+                return contractDetails.sizeMinTick().toString();
             }
             if (tickType.equalsIgnoreCase(MULTIPLIER)) {
                 return contractDetails.contract().multiplier();

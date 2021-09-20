@@ -93,7 +93,7 @@ Private Sub ReqHistoricalData(reqType As Integer)
         .Strike = IIf(contractTable(id, Col_STRIKE).value = "", 0#, contractTable(id, Col_STRIKE).value)
         .Right = UCase(contractTable(id, Col_RIGHT).value)
         .multiplier = UCase(contractTable(id, Col_MULTIPLIER).value)
-        .exchange = UCase(contractTable(id, Col_EXCH).value)
+        .Exchange = UCase(contractTable(id, Col_EXCH).value)
         .primaryExchange = UCase(contractTable(id, Col_PRIMEXCH).value)
         .currency = UCase(contractTable(id, Col_CURRENCY).value)
         .localSymbol = UCase(contractTable(id, Col_LOCALSYMBOL).value)
@@ -181,7 +181,7 @@ Private Sub ReqHistoricalData(reqType As Integer)
 End Sub
 
 ' update historical data table
-Public Sub UpdateHistoricalData(reqId As Long, histDate As String, histOpen As Double, histHigh As Double, histLow As Double, histClose As Double, histVolume As Long, barCount As Long, WAP As Double, hasGaps As Long)
+Public Sub UpdateHistoricalData(reqId As Long, histDate As String, histOpen As Double, histHigh As Double, histLow As Double, histClose As Double, histVolume As Variant, barCount As Long, WAP As Variant, hasGaps As Long)
     
     reqId = reqId - ID_HISTDATA
     
@@ -204,9 +204,9 @@ Public Sub UpdateHistoricalData(reqId As Long, histDate As String, histOpen As D
         .Cells(3).value = histHigh
         .Cells(4).value = histLow
         .Cells(5).value = histClose
-        .Cells(6).value = histVolume
+        .Cells(6).value = Util.DecimalToString(histVolume)
         .Cells(7).value = barCount
-        .Cells(8).value = WAP
+        .Cells(8).value = Util.DecimalToString(WAP)
         .Cells(9).value = hasGaps
     End With
     
@@ -292,7 +292,7 @@ Private Function GenerateSheetName(contractInfo As TWSLib.IContract, endDateTime
 End Function
 
 Public Sub ProcessError(ByVal id As Long, ByVal errorCode As Long, ByVal errorMsg As String)
-    queryTable(id - ID_HISTDATA, Col_HIST_STATUS).value = STR_ERROR + STR_COLON + Str(errorCode) + STR_SPACE + errorMsg
+    queryTable(id - ID_HISTDATA, Col_HIST_STATUS).value = STR_ERROR + STR_COLON + str(errorCode) + STR_SPACE + errorMsg
 End Sub
 
 Public Sub Initialise()
@@ -362,8 +362,8 @@ Public Sub UpdateHistoricalTicksLast(ByVal reqId As Long, ByVal ticks As TWSLib.
         With sheet.Rows(rowId)
             .Cells(1).value = histTickLast.time
             .Cells(2).value = histTickLast.price
-            .Cells(3).value = histTickLast.size
-            .Cells(4).value = histTickLast.exchange
+            .Cells(3).value = histTickLast.Size
+            .Cells(4).value = histTickLast.Exchange
             .Cells(5).value = histTickLast.specialConditions
             .Cells(6).value = GenerateTickAttribLastString(histTickLast.tickAttribLast)
         End With
@@ -439,7 +439,7 @@ Public Sub UpdateHistoricalTicks(ByVal reqId As Long, ByVal ticks As TWSLib.IHis
         With sheet.Rows(rowId)
             .Cells(1).value = histTick.time
             .Cells(2).value = histTick.price
-            .Cells(3).value = histTick.size
+            .Cells(3).value = histTick.Size
         End With
         IncrementSheetRowId sheet
     Next i

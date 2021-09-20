@@ -71,6 +71,7 @@ public class Testbed {
 		//whatIfSamples(wrapper.getClient(), wrapper.getCurrentOrderId());
 		//historicalTicks(wrapper.getClient());
 		financialAdvisorOperations(wrapper.getClient());
+		//realTimeBars(wrapper.getClient());
 
 		Thread.sleep(100000);
 		m_client.eDisconnect();
@@ -534,6 +535,7 @@ public class Testbed {
 		client.reqContractDetails(213, ContractSamples.FuturesOnOptions());
 		client.reqContractDetails(214, ContractSamples.SimpleFuture());
 		client.reqContractDetails(215, ContractSamples.USStockAtSmart());
+		client.reqContractDetails(216, ContractSamples.CryptoContract());
 		//! [reqcontractdetails]
 
 		//! [reqmatchingsymbols]

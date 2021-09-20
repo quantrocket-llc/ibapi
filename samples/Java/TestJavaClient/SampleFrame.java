@@ -1163,7 +1163,7 @@ class SampleFrame extends JFrame implements EWrapper {
         m_tickers.add( msg );
     }
 
-    public void tickSize( int tickerId, int field, long size) {
+    public void tickSize( int tickerId, int field, Decimal size) {
         // received size tick
     	String msg = EWrapperMsgGenerator.tickSize( tickerId, field, size);
         m_tickers.add( msg);
@@ -1276,7 +1276,7 @@ class SampleFrame extends JFrame implements EWrapper {
     }
 
     public void updateMktDepth( int tickerId, int position, int operation,
-                    int side, double price, long size) {
+                    int side, double price, Decimal size) {
 
         MktDepthDlg depthDialog = m_mapRequestToMktDepthDlg.get(tickerId);
         if ( depthDialog != null ) {
@@ -1289,7 +1289,7 @@ class SampleFrame extends JFrame implements EWrapper {
     }
 
     public void updateMktDepthL2( int tickerId, int position, String marketMaker,
-                    int operation, int side, double price, long size, boolean isSmartDepth) {
+                    int operation, int side, double price, Decimal size, boolean isSmartDepth) {
         MktDepthDlg depthDialog = null;
         
         if (isSmartDepth) {
@@ -1409,7 +1409,7 @@ class SampleFrame extends JFrame implements EWrapper {
     	m_tickers.add( msg );
     }
     
-	public void realtimeBar(int reqId, long time, double open, double high, double low, double close, long volume, double wap, int count) {
+	public void realtimeBar(int reqId, long time, double open, double high, double low, double close, Decimal volume, Decimal wap, int count) {
 		String msg = EWrapperMsgGenerator.realtimeBar(reqId, time, open, high, low, close, volume, wap, count);
         m_tickers.add( msg );
 	}
@@ -1807,7 +1807,7 @@ class SampleFrame extends JFrame implements EWrapper {
     }
 
     @Override
-    public void tickByTickAllLast(int reqId, int tickType, long time, double price, long size, TickAttribLast tickAttribLast,
+    public void tickByTickAllLast(int reqId, int tickType, long time, double price, Decimal size, TickAttribLast tickAttribLast,
             String exchange, String specialConditions) {
         String msg = EWrapperMsgGenerator.tickByTickAllLast(reqId, tickType, time, price, size, tickAttribLast, exchange, specialConditions);
 
@@ -1815,7 +1815,7 @@ class SampleFrame extends JFrame implements EWrapper {
     }
 
     @Override
-    public void tickByTickBidAsk(int reqId, long time, double bidPrice, double askPrice, long bidSize, long askSize,
+    public void tickByTickBidAsk(int reqId, long time, double bidPrice, double askPrice, Decimal bidSize, Decimal askSize,
             TickAttribBidAsk tickAttribBidAsk) {
         String msg = EWrapperMsgGenerator.tickByTickBidAsk(reqId, time, bidPrice, askPrice, bidSize, askSize, tickAttribBidAsk);
 

@@ -276,27 +276,6 @@ namespace IBSampleApp
             this.contractInfoTab = new System.Windows.Forms.TabControl();
             this.contractDetailsPage = new System.Windows.Forms.TabPage();
             this.contractDetailsGrid = new System.Windows.Forms.DataGridView();
-            this.conResSymbol = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.conResLocalSymbol = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.conResSecType = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.conResCurrency = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.conResExchange = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.conResPrimaryExch = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.conResLastTradeDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.conResMultiplier = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.conResStrike = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.conResRight = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.conResConId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.conResMdSizeMultiplier = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.conResAggGroup = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.conResUnderSymbol = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.conResUnderSecType = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.conResMarketRuleIds = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.conResRealExpirationDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.conResContractMonth = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.conResLastTradeTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.conResTimeZoneId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.conResStockType = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.fundamentalsPage = new System.Windows.Forms.TabPage();
             this.fundamentalsOutput = new System.Windows.Forms.TextBox();
             this.optionChainPage = new System.Windows.Forms.TabPage();
@@ -717,6 +696,28 @@ namespace IBSampleApp
             this.label22 = new System.Windows.Forms.Label();
             this.button6 = new System.Windows.Forms.Button();
             this.dataGridViewWsh = new System.Windows.Forms.DataGridView();
+            this.conResSymbol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.conResLocalSymbol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.conResSecType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.conResCurrency = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.conResExchange = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.conResPrimaryExch = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.conResLastTradeDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.conResMultiplier = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.conResStrike = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.conResRight = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.conResConId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.conResMdSizeMultiplier = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.conResAggGroup = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.conResUnderSymbol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.conResUnderSecType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.conResMarketRuleIds = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.conResRealExpirationDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.conResContractMonth = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.conResLastTradeTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.conResTimeZoneId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.conResStockType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.conResSizeMinTick = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.comboTab.SuspendLayout();
             this.comboDeltaNeutralBox.SuspendLayout();
             this.comboLegsBox.SuspendLayout();
@@ -3246,131 +3247,13 @@ namespace IBSampleApp
             this.conResContractMonth,
             this.conResLastTradeTime,
             this.conResTimeZoneId,
-            this.conResStockType});
+            this.conResStockType,
+            this.conResSizeMinTick});
             this.contractDetailsGrid.Location = new System.Drawing.Point(6, 6);
             this.contractDetailsGrid.Name = "contractDetailsGrid";
             this.contractDetailsGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.contractDetailsGrid.Size = new System.Drawing.Size(1216, 231);
             this.contractDetailsGrid.TabIndex = 0;
-            // 
-            // conResSymbol
-            // 
-            this.conResSymbol.HeaderText = "Symbol";
-            this.conResSymbol.Name = "conResSymbol";
-            this.conResSymbol.ReadOnly = true;
-            // 
-            // conResLocalSymbol
-            // 
-            this.conResLocalSymbol.HeaderText = "Local Symbol";
-            this.conResLocalSymbol.Name = "conResLocalSymbol";
-            this.conResLocalSymbol.ReadOnly = true;
-            // 
-            // conResSecType
-            // 
-            this.conResSecType.HeaderText = "Type";
-            this.conResSecType.Name = "conResSecType";
-            this.conResSecType.ReadOnly = true;
-            // 
-            // conResCurrency
-            // 
-            this.conResCurrency.HeaderText = "Currency";
-            this.conResCurrency.Name = "conResCurrency";
-            this.conResCurrency.ReadOnly = true;
-            // 
-            // conResExchange
-            // 
-            this.conResExchange.HeaderText = "Exchange";
-            this.conResExchange.Name = "conResExchange";
-            this.conResExchange.ReadOnly = true;
-            // 
-            // conResPrimaryExch
-            // 
-            this.conResPrimaryExch.HeaderText = "Primary Exch.";
-            this.conResPrimaryExch.Name = "conResPrimaryExch";
-            this.conResPrimaryExch.ReadOnly = true;
-            // 
-            // conResLastTradeDate
-            // 
-            this.conResLastTradeDate.HeaderText = "LastTradeDate";
-            this.conResLastTradeDate.Name = "conResLastTradeDate";
-            this.conResLastTradeDate.ReadOnly = true;
-            this.conResLastTradeDate.Width = 150;
-            // 
-            // conResMultiplier
-            // 
-            this.conResMultiplier.HeaderText = "Multiplier";
-            this.conResMultiplier.Name = "conResMultiplier";
-            this.conResMultiplier.ReadOnly = true;
-            // 
-            // conResStrike
-            // 
-            this.conResStrike.HeaderText = "Strike";
-            this.conResStrike.Name = "conResStrike";
-            this.conResStrike.ReadOnly = true;
-            // 
-            // conResRight
-            // 
-            this.conResRight.HeaderText = "P/C";
-            this.conResRight.Name = "conResRight";
-            this.conResRight.ReadOnly = true;
-            // 
-            // conResConId
-            // 
-            this.conResConId.HeaderText = "ConId";
-            this.conResConId.Name = "conResConId";
-            this.conResConId.ReadOnly = true;
-            // 
-            // conResMdSizeMultiplier
-            // 
-            this.conResMdSizeMultiplier.HeaderText = "MD Size Mult";
-            this.conResMdSizeMultiplier.Name = "conResMdSizeMultiplier";
-            // 
-            // conResAggGroup
-            // 
-            this.conResAggGroup.HeaderText = "Agg Group";
-            this.conResAggGroup.Name = "conResAggGroup";
-            // 
-            // conResUnderSymbol
-            // 
-            this.conResUnderSymbol.HeaderText = "Under Symb";
-            this.conResUnderSymbol.Name = "conResUnderSymbol";
-            // 
-            // conResUnderSecType
-            // 
-            this.conResUnderSecType.HeaderText = "Under SecType";
-            this.conResUnderSecType.Name = "conResUnderSecType";
-            this.conResUnderSecType.Width = 120;
-            // 
-            // conResMarketRuleIds
-            // 
-            this.conResMarketRuleIds.HeaderText = "Market Rule Ids";
-            this.conResMarketRuleIds.Name = "conResMarketRuleIds";
-            this.conResMarketRuleIds.Width = 300;
-            // 
-            // conResRealExpirationDate
-            // 
-            this.conResRealExpirationDate.HeaderText = "Real Exp Date";
-            this.conResRealExpirationDate.Name = "conResRealExpirationDate";
-            // 
-            // conResContractMonth
-            // 
-            this.conResContractMonth.HeaderText = "Contract Month";
-            this.conResContractMonth.Name = "conResContractMonth";
-            // 
-            // conResLastTradeTime
-            // 
-            this.conResLastTradeTime.HeaderText = "Last Trade Time";
-            this.conResLastTradeTime.Name = "conResLastTradeTime";
-            // 
-            // conResTimeZoneId
-            // 
-            this.conResTimeZoneId.HeaderText = "Time Zone";
-            this.conResTimeZoneId.Name = "conResTimeZoneId";
-            // 
-            // conResStockType
-            // 
-            this.conResStockType.HeaderText = "Stock Type";
-            this.conResStockType.Name = "conResStockType";
             // 
             // fundamentalsPage
             // 
@@ -7436,6 +7319,130 @@ namespace IBSampleApp
             this.dataGridViewWsh.Size = new System.Drawing.Size(593, 442);
             this.dataGridViewWsh.TabIndex = 9;
             // 
+            // conResSymbol
+            // 
+            this.conResSymbol.HeaderText = "Symbol";
+            this.conResSymbol.Name = "conResSymbol";
+            this.conResSymbol.ReadOnly = true;
+            // 
+            // conResLocalSymbol
+            // 
+            this.conResLocalSymbol.HeaderText = "Local Symbol";
+            this.conResLocalSymbol.Name = "conResLocalSymbol";
+            this.conResLocalSymbol.ReadOnly = true;
+            // 
+            // conResSecType
+            // 
+            this.conResSecType.HeaderText = "Type";
+            this.conResSecType.Name = "conResSecType";
+            this.conResSecType.ReadOnly = true;
+            // 
+            // conResCurrency
+            // 
+            this.conResCurrency.HeaderText = "Currency";
+            this.conResCurrency.Name = "conResCurrency";
+            this.conResCurrency.ReadOnly = true;
+            // 
+            // conResExchange
+            // 
+            this.conResExchange.HeaderText = "Exchange";
+            this.conResExchange.Name = "conResExchange";
+            this.conResExchange.ReadOnly = true;
+            // 
+            // conResPrimaryExch
+            // 
+            this.conResPrimaryExch.HeaderText = "Primary Exch.";
+            this.conResPrimaryExch.Name = "conResPrimaryExch";
+            this.conResPrimaryExch.ReadOnly = true;
+            // 
+            // conResLastTradeDate
+            // 
+            this.conResLastTradeDate.HeaderText = "LastTradeDate";
+            this.conResLastTradeDate.Name = "conResLastTradeDate";
+            this.conResLastTradeDate.ReadOnly = true;
+            this.conResLastTradeDate.Width = 150;
+            // 
+            // conResMultiplier
+            // 
+            this.conResMultiplier.HeaderText = "Multiplier";
+            this.conResMultiplier.Name = "conResMultiplier";
+            this.conResMultiplier.ReadOnly = true;
+            // 
+            // conResStrike
+            // 
+            this.conResStrike.HeaderText = "Strike";
+            this.conResStrike.Name = "conResStrike";
+            this.conResStrike.ReadOnly = true;
+            // 
+            // conResRight
+            // 
+            this.conResRight.HeaderText = "P/C";
+            this.conResRight.Name = "conResRight";
+            this.conResRight.ReadOnly = true;
+            // 
+            // conResConId
+            // 
+            this.conResConId.HeaderText = "ConId";
+            this.conResConId.Name = "conResConId";
+            this.conResConId.ReadOnly = true;
+            // 
+            // conResMdSizeMultiplier
+            // 
+            this.conResMdSizeMultiplier.HeaderText = "MD Size Mult";
+            this.conResMdSizeMultiplier.Name = "conResMdSizeMultiplier";
+            // 
+            // conResAggGroup
+            // 
+            this.conResAggGroup.HeaderText = "Agg Group";
+            this.conResAggGroup.Name = "conResAggGroup";
+            // 
+            // conResUnderSymbol
+            // 
+            this.conResUnderSymbol.HeaderText = "Under Symb";
+            this.conResUnderSymbol.Name = "conResUnderSymbol";
+            // 
+            // conResUnderSecType
+            // 
+            this.conResUnderSecType.HeaderText = "Under SecType";
+            this.conResUnderSecType.Name = "conResUnderSecType";
+            this.conResUnderSecType.Width = 120;
+            // 
+            // conResMarketRuleIds
+            // 
+            this.conResMarketRuleIds.HeaderText = "Market Rule Ids";
+            this.conResMarketRuleIds.Name = "conResMarketRuleIds";
+            this.conResMarketRuleIds.Width = 300;
+            // 
+            // conResRealExpirationDate
+            // 
+            this.conResRealExpirationDate.HeaderText = "Real Exp Date";
+            this.conResRealExpirationDate.Name = "conResRealExpirationDate";
+            // 
+            // conResContractMonth
+            // 
+            this.conResContractMonth.HeaderText = "Contract Month";
+            this.conResContractMonth.Name = "conResContractMonth";
+            // 
+            // conResLastTradeTime
+            // 
+            this.conResLastTradeTime.HeaderText = "Last Trade Time";
+            this.conResLastTradeTime.Name = "conResLastTradeTime";
+            // 
+            // conResTimeZoneId
+            // 
+            this.conResTimeZoneId.HeaderText = "Time Zone";
+            this.conResTimeZoneId.Name = "conResTimeZoneId";
+            // 
+            // conResStockType
+            // 
+            this.conResStockType.HeaderText = "Stock Type";
+            this.conResStockType.Name = "conResStockType";
+            // 
+            // conResSizeMinTick
+            // 
+            this.conResSizeMinTick.HeaderText = "Size Min Tick";
+            this.conResSizeMinTick.Name = "conResSizeMinTick";
+            // 
             // IBSampleAppDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -8288,6 +8295,14 @@ namespace IBSampleApp
         private System.Windows.Forms.DataGridViewTextBoxColumn completedOrdersBoxColumn11;
         private System.Windows.Forms.DataGridViewTextBoxColumn completedOrdersBoxColumn12;
         private System.Windows.Forms.DataGridViewTextBoxColumn completedOrdersBoxColumn13;
+        private System.Windows.Forms.TabPage wshTab;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.TextBox textBoxWshConId;
+        private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.DataGridView dataGridViewWsh;
         private System.Windows.Forms.DataGridViewTextBoxColumn conResSymbol;
         private System.Windows.Forms.DataGridViewTextBoxColumn conResLocalSymbol;
         private System.Windows.Forms.DataGridViewTextBoxColumn conResSecType;
@@ -8309,14 +8324,7 @@ namespace IBSampleApp
         private System.Windows.Forms.DataGridViewTextBoxColumn conResLastTradeTime;
         private System.Windows.Forms.DataGridViewTextBoxColumn conResTimeZoneId;
         private System.Windows.Forms.DataGridViewTextBoxColumn conResStockType;
-        private System.Windows.Forms.TabPage wshTab;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.TextBox textBoxWshConId;
-        private System.Windows.Forms.Label label22;
-        private System.Windows.Forms.Button button6;
-        private System.Windows.Forms.DataGridView dataGridViewWsh;
+        private System.Windows.Forms.DataGridViewTextBoxColumn conResSizeMinTick;
     }
 }
 

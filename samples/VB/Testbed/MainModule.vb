@@ -458,6 +458,7 @@ Module MainModule
         client.reqContractDetails(212, ContractSamples.FuturesOnOptions())
         client.reqContractDetails(213, ContractSamples.SimpleFuture())
         client.reqContractDetails(214, ContractSamples.USStockAtSmart())
+        client.reqContractDetails(215, ContractSamples.CryptoContract())
         '! [reqcontractdetails]
 
         '! [reqcontractdetailsnews]

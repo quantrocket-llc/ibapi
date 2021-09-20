@@ -509,7 +509,7 @@ namespace IBApi
                 case 1: // Last
                 case 2: // AllLast
                     double price = ReadDouble();
-                    long size = ReadLong();
+                    decimal size = ReadDecimal();
                     mask = new BitMask(ReadInt());
                     TickAttribLast tickAttribLast = new TickAttribLast();
                     tickAttribLast.PastLimit = mask[0];
@@ -521,8 +521,8 @@ namespace IBApi
                 case 3: // BidAsk
                     double bidPrice = ReadDouble();
                     double askPrice = ReadDouble();
-                    long bidSize = ReadLong();
-                    long askSize = ReadLong();
+                    decimal bidSize = ReadDecimal();
+                    decimal askSize = ReadDecimal();
                     mask = new BitMask(ReadInt());
                     TickAttribBidAsk tickAttribBidAsk = new TickAttribBidAsk();
                     tickAttribBidAsk.BidPastLow = mask[0];
@@ -550,7 +550,7 @@ namespace IBApi
                 tickAttribLast.PastLimit = mask[0];
                 tickAttribLast.Unreported = mask[1];
                 var price = ReadDouble();
-                var size = ReadLong();
+                var size = ReadDecimal();
                 var exchange = ReadString();
                 var specialConditions = ReadString();
 
@@ -577,8 +577,8 @@ namespace IBApi
                 tickAttribBidAsk.BidPastLow = mask[1];
                 var priceBid = ReadDouble();
                 var priceAsk = ReadDouble();
-                var sizeBid = ReadLong();
-                var sizeAsk = ReadLong();
+                var sizeBid = ReadDecimal();
+                var sizeAsk = ReadDecimal();
 
                 ticks[i] = new HistoricalTickBidAsk(time, tickAttribBidAsk, priceBid, priceAsk, sizeBid, sizeAsk);
             }
@@ -599,7 +599,7 @@ namespace IBApi
                 var time = ReadLong();
                 ReadInt();// for consistency
                 var price = ReadDouble();
-                var size = ReadLong();
+                var size = ReadDecimal();
 
                 ticks[i] = new HistoricalTick(time, price, size);
             }
@@ -655,8 +655,8 @@ namespace IBApi
             double close = ReadDouble();
             double high = ReadDouble();
             double low = ReadDouble();
-            double WAP = ReadDouble();
-            long volume = ReadLong();
+            decimal WAP = ReadDecimal();
+            decimal volume = ReadDecimal();
 
             eWrapper.historicalDataUpdate(requestId, new Bar(date, open, high, low,
                                     close, volume, barCount, WAP));
@@ -715,7 +715,7 @@ namespace IBApi
             for (int i = 0; i < n; i++)
             {
                 data[i].Price = ReadDouble();
-                data[i].Size = ReadLong();
+                data[i].Size = ReadDecimal();
             }
 
             eWrapper.histogramData(reqId, data);
@@ -1004,10 +1004,10 @@ namespace IBApi
             int requestId = ReadInt();
             int tickType = ReadInt();
             double price = ReadDouble();
-            long size = 0;
+            decimal size = 0;
 
             if (msgVersion >= 2)
-                size = ReadLong();
+                size = ReadDecimal();
 
             TickAttrib attr = new TickAttrib();
 
@@ -1070,7 +1070,7 @@ namespace IBApi
             int msgVersion = ReadInt();
             int requestId = ReadInt();
             int tickType = ReadInt();
-            long size = ReadLong();
+            decimal size = ReadDecimal();
             eWrapper.tickSize(requestId, tickType, size);
         }
 
@@ -1639,6 +1639,10 @@ namespace IBApi
             {
                 contract.StockType = ReadString();
             }
+            if (serverVersion >= MinServerVer.FRACTIONAL_SIZE_SUPPORT)
+            {
+                contract.SizeMinTick = ReadDecimal();
+            }
 
             eWrapper.contractDetails(requestId, contract);
         }
@@ -1790,8 +1794,8 @@ namespace IBApi
                 double high = ReadDouble();
                 double low = ReadDouble();
                 double close = ReadDouble();
-                long volume = serverVersion < MinServerVer.SYNT_REALTIME_BARS ? ReadInt() : ReadLong();
-                double WAP = ReadDouble();
+                decimal volume = ReadDecimal();
+                decimal WAP = ReadDecimal();
 
                 if (serverVersion < MinServerVer.SYNT_REALTIME_BARS)
                 {
@@ -1830,7 +1834,7 @@ namespace IBApi
             int operation = ReadInt();
             int side = ReadInt();
             double price = ReadDouble();
-            long size = ReadLong();
+            decimal size = ReadDecimal();
             eWrapper.updateMktDepth(requestId, position, operation, side, price, size);
         }
 
@@ -1843,7 +1847,7 @@ namespace IBApi
             int operation = ReadInt();
             int side = ReadInt();
             double price = ReadDouble();
-            long size = ReadLong();
+            decimal size = ReadDecimal();
 
             bool isSmartDepth = false;
             if (serverVersion >= MinServerVer.SMART_DEPTH)
@@ -1906,8 +1910,8 @@ namespace IBApi
             double high = ReadDouble();
             double low = ReadDouble();
             double close = ReadDouble();
-            long volume = ReadLong();
-            double wap = ReadDouble();
+            decimal volume = ReadDecimal();
+            decimal wap = ReadDecimal();
             int count = ReadInt();
             eWrapper.realtimeBar(requestId, time, open, high, low, close, volume, wap, count);
         }
@@ -2048,6 +2052,12 @@ namespace IBApi
         {
             string str = ReadString();
             return string.IsNullOrEmpty(str) ? double.MaxValue : double.Parse(str, System.Globalization.NumberFormatInfo.InvariantInfo);
+        }
+
+        public decimal ReadDecimal()
+        {
+            string str = ReadString();
+            return Util.StringToDecimal(str);
         }
 
         public long ReadLong()

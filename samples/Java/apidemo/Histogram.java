@@ -3,6 +3,7 @@
 
 package apidemo;
 
+import com.ib.client.Decimal;
 import com.ib.client.HistogramEntry;
 
 import java.awt.Color;
@@ -27,12 +28,12 @@ public class Histogram extends JComponent {
 	
 	@Override protected void paintComponent(Graphics g) {
 		int y = 0;
-		long max = getMax();
+		Decimal max = getMax();
 
 		int width = getWidth() - m_x0;
 		
 		for (HistogramEntry bar : m_rows) {
-			int x1 = (int)((bar.size() * width) / max);
+			int x1 = (int)(bar.size().multiply(width).divide(max).longValue());
 
 			String label = bar.price() + "";
 			
@@ -46,8 +47,8 @@ public class Histogram extends JComponent {
 		}
 	}
 
-	long getMax() {
-		return m_rows.stream().map(entry -> entry.size()).max(Long::compare).orElse((long) -1);
+	Decimal getMax() {
+		return m_rows.stream().map(entry -> entry.size()).max(Decimal::compare).orElse(Decimal.MINUS_ONE);
 	}
 		
 	@Override public Dimension getPreferredSize() {// why on main screen 1 is okay but not here?

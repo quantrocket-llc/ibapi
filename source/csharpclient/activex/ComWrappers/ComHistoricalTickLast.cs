@@ -24,9 +24,9 @@ namespace TWSLib
             get { return data != null ? data.Price : default(double); }
         }
 
-        long Size
+        string Size
         {
-            get { return data != null ? data.Size : default(long); }
+            get { return data != null ? Util.DecimalMaxString(data.Size) : default(string); }
         }
 
         string Exchange
@@ -58,9 +58,9 @@ namespace TWSLib
             get { return Price; }
         }
 
-        int TWSLib.IHistoricalTickLast.size
+        string TWSLib.IHistoricalTickLast.size
         {
-            get { return (int)Size; }
+            get { return Size; }
         }
 
         string TWSLib.IHistoricalTickLast.exchange

@@ -461,7 +461,7 @@ public class ApiController implements EWrapper {
 	// ---------------------------------------- Top Market Data handling ----------------------------------------
 	public interface ITopMktDataHandler {
 		void tickPrice(TickType tickType, double price, TickAttrib attribs);
-		void tickSize(TickType tickType, long size);
+		void tickSize(TickType tickType, Decimal size);
 		void tickString(TickType tickType, String value);
 		void tickSnapshotEnd();
 		void marketDataType(int marketDataType);
@@ -479,7 +479,7 @@ public class ApiController implements EWrapper {
 	public static class TopMktDataAdapter implements ITopMktDataHandler {
 		@Override public void tickPrice(TickType tickType, double price, TickAttrib attribs) {
 		}
-		@Override public void tickSize(TickType tickType, long size) {
+		@Override public void tickSize(TickType tickType, Decimal size) {
 		}
 		@Override public void tickString(TickType tickType, String value) {
 		}
@@ -588,7 +588,7 @@ public class ApiController implements EWrapper {
 		recEOM();
 	}
 
-	@Override public void tickSize(int reqId, int tickType, long size) {
+	@Override public void tickSize(int reqId, int tickType, Decimal size) {
 		ITopMktDataHandler handler = m_topMktDataMap.get( reqId);
 		if (handler != null) {
 			handler.tickSize( TickType.get( tickType), size);
@@ -631,7 +631,7 @@ public class ApiController implements EWrapper {
 
 	// ---------------------------------------- Deep Market Data handling ----------------------------------------
 	public interface IDeepMktDataHandler {
-		void updateMktDepth(int position, String marketMaker, DeepType operation, DeepSide side, double price, long size);
+		void updateMktDepth(int position, String marketMaker, DeepType operation, DeepSide side, double price, Decimal size);
 	}
 
     public void reqDeepMktData( Contract contract, int numRows, boolean isSmartDepth, IDeepMktDataHandler handler) {
@@ -656,7 +656,7 @@ public class ApiController implements EWrapper {
     	}
     }
 
-	@Override public void updateMktDepth(int reqId, int position, int operation, int side, double price, long size) {
+	@Override public void updateMktDepth(int reqId, int position, int operation, int side, double price, Decimal size) {
 		IDeepMktDataHandler handler = m_deepMktDataMap.get( reqId);
 		if (handler != null) {
 			handler.updateMktDepth( position, null, DeepType.get( operation), DeepSide.get( side), price, size);
@@ -664,7 +664,7 @@ public class ApiController implements EWrapper {
 		recEOM();
 	}
 
-	@Override public void updateMktDepthL2(int reqId, int position, String marketMaker, int operation, int side, double price, long size, boolean isSmartDepth) {
+	@Override public void updateMktDepthL2(int reqId, int position, String marketMaker, int operation, int side, double price, Decimal size, boolean isSmartDepth) {
 		IDeepMktDataHandler handler = m_deepMktDataMap.get( reqId);
 		if (handler != null) {
 			handler.updateMktDepth( position, marketMaker, DeepType.get( operation), DeepSide.get( side), price, size);
@@ -1109,7 +1109,7 @@ public class ApiController implements EWrapper {
     	}
     }
 
-    @Override public void realtimeBar(int reqId, long time, double open, double high, double low, double close, long volume, double wap, int count) {
+    @Override public void realtimeBar(int reqId, long time, double open, double high, double low, double close, Decimal volume, Decimal wap, int count) {
     	IRealTimeBarHandler handler = m_realTimeBarMap.get( reqId);
 		if (handler != null) {
 			Bar bar = new Bar( time, high, low, open, close, wap, volume, count);
@@ -1861,8 +1861,8 @@ public class ApiController implements EWrapper {
     }
 
     public interface ITickByTickDataHandler {
-        void tickByTickAllLast(int reqId, int tickType, long time, double price, long size, TickAttribLast tickAttribLast, String exchange, String specialConditions);
-        void tickByTickBidAsk(int reqId, long time, double bidPrice, double askPrice, long bidSize, long askSize, TickAttribBidAsk tickAttribBidAsk);
+        void tickByTickAllLast(int reqId, int tickType, long time, double price, Decimal size, TickAttribLast tickAttribLast, String exchange, String specialConditions);
+        void tickByTickBidAsk(int reqId, long time, double bidPrice, double askPrice, Decimal bidSize, Decimal askSize, TickAttribBidAsk tickAttribBidAsk);
         void tickByTickMidPoint(int reqId, long time, double midPoint);
         void tickByTickHistoricalTickAllLast(int reqId, List<HistoricalTickLast> ticks);
         void tickByTickHistoricalTickBidAsk(int reqId, List<HistoricalTickBidAsk> ticks);        
@@ -1892,7 +1892,7 @@ public class ApiController implements EWrapper {
     }
 
     @Override
-    public void tickByTickAllLast(int reqId, int tickType, long time, double price, long size, TickAttribLast tickAttribLast,
+    public void tickByTickAllLast(int reqId, int tickType, long time, double price, Decimal size, TickAttribLast tickAttribLast,
             String exchange, String specialConditions) {
         ITickByTickDataHandler handler = m_tickByTickDataMap.get(reqId);
 
@@ -1904,7 +1904,7 @@ public class ApiController implements EWrapper {
     }
 
     @Override
-    public void tickByTickBidAsk(int reqId, long time, double bidPrice, double askPrice, long bidSize, long askSize,
+    public void tickByTickBidAsk(int reqId, long time, double bidPrice, double askPrice, Decimal bidSize, Decimal askSize,
             TickAttribBidAsk tickAttribBidAsk) {
         ITickByTickDataHandler handler = m_tickByTickDataMap.get(reqId);
 

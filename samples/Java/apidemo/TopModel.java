@@ -4,6 +4,7 @@
 package apidemo;
 
 import static com.ib.controller.Formats.fmt;
+import static com.ib.controller.Formats.fmt8;
 import static com.ib.controller.Formats.fmtPct;
 import static com.ib.controller.Formats.fmtTime;
 
@@ -13,6 +14,7 @@ import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
 import com.ib.client.Contract;
+import com.ib.client.Decimal;
 import com.ib.client.MarketDataType;
 import com.ib.client.TickAttrib;
 import com.ib.client.TickType;
@@ -135,8 +137,8 @@ class TopModel extends AbstractTableModel {
 			case 13: return fmt( row.m_last);
 			case 14: return fmtTime( row.m_lastTime);
 			case 15: return row.change();
-			case 16: return Formats.fmt0( row.m_volume);
-			case 17: return row.m_minTick;
+			case 16: return row.m_volume;
+			case 17: return fmt8(row.m_minTick);
 			case 18: return row.m_bboExch;
 			case 19: return row.m_snapshotPermissions;
 			case 20: return fmt( row.m_close);
@@ -173,10 +175,10 @@ class TopModel extends AbstractTableModel {
 		double m_ask;
 		double m_last;
 		long m_lastTime;
-		long m_bidSize;
-		long m_askSize;
+		Decimal m_bidSize;
+		Decimal m_askSize;
 		double m_close;
-		long m_volume;
+		Decimal m_volume;
 		double m_open;
 		boolean m_cancel;
 		String m_marketDataType = MarketDataType.getField(MarketDataType.REALTIME);
@@ -188,9 +190,9 @@ class TopModel extends AbstractTableModel {
 		String m_bboExch;
 		int m_snapshotPermissions;
 		int m_bidMask, m_askMask;
-		long m_futuresOpenInterest;
-		long m_avgOptVolume;
-		long m_shortableShares;
+		Decimal m_futuresOpenInterest;
+		Decimal m_avgOptVolume;
+		Decimal m_shortableShares;
 		
 		TopRow( AbstractTableModel model, String description, MarketDataPanel parentPanel) {
 			m_model = model;
@@ -244,7 +246,7 @@ class TopModel extends AbstractTableModel {
 			m_model.fireTableDataChanged(); // should use a timer to be more efficient
 		}
 
-		@Override public void tickSize( TickType tickType, long size) {
+		@Override public void tickSize( TickType tickType, Decimal size) {
 			if ( m_marketDataType.equalsIgnoreCase(MarketDataType.getField(MarketDataType.REALTIME)) &&
 					(tickType == TickType.DELAYED_BID_SIZE || 
 					tickType == TickType.DELAYED_ASK_SIZE ||

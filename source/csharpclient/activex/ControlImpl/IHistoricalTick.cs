@@ -14,6 +14,6 @@ namespace TWSLib
         [DispId(2)]
         double price { get; }
         [DispId(3)]
-        int size { get; }
+        string size { get; }
     }
 }

@@ -266,7 +266,7 @@ namespace IBSampleApp
         private void UpdateUI(TickByTickBidAskMessage msg)
         {
             dataGridViewTickByTick.DataSource = tickByTickBidAskTable;
-            tickByTickBidAskTable.Rows.Add(Util.UnixSecondsToString(msg.Time, "yyyyMMdd-HH:mm:ss zzz"), msg.BidPrice, msg.AskPrice, msg.BidSize, msg.AskSize, msg.TickAttribBidAsk.BidPastLow, msg.TickAttribBidAsk.AskPastHigh);
+            tickByTickBidAskTable.Rows.Add(Util.UnixSecondsToString(msg.Time, "yyyyMMdd-HH:mm:ss zzz"), msg.BidPrice, msg.AskPrice, Util.DecimalMaxString(msg.BidSize), Util.DecimalMaxString(msg.AskSize), msg.TickAttribBidAsk.BidPastLow, msg.TickAttribBidAsk.AskPastHigh);
         }
 
         private void UpdateUI(TickByTickAllLastMessage msg)
@@ -274,12 +274,12 @@ namespace IBSampleApp
             if (msg.TickType == 1)
             {
                 dataGridViewTickByTick.DataSource = tickByTickLastTable;
-                tickByTickLastTable.Rows.Add(Util.UnixSecondsToString(msg.Time, "yyyyMMdd-HH:mm:ss zzz"), msg.Price, msg.Size, msg.Exchange, msg.SpecialConditions, msg.TickAttribLast.PastLimit);
+                tickByTickLastTable.Rows.Add(Util.UnixSecondsToString(msg.Time, "yyyyMMdd-HH:mm:ss zzz"), msg.Price, Util.DecimalMaxString(msg.Size), msg.Exchange, msg.SpecialConditions, msg.TickAttribLast.PastLimit);
             }
             else if (msg.TickType == 2)
             {
                 dataGridViewTickByTick.DataSource = tickByTickAllLastTable;
-                tickByTickAllLastTable.Rows.Add(Util.UnixSecondsToString(msg.Time, "yyyyMMdd-HH:mm:ss zzz"), msg.Price, msg.Size, msg.Exchange, msg.SpecialConditions, msg.TickAttribLast.PastLimit, msg.TickAttribLast.Unreported);
+                tickByTickAllLastTable.Rows.Add(Util.UnixSecondsToString(msg.Time, "yyyyMMdd-HH:mm:ss zzz"), msg.Price, Util.DecimalMaxString(msg.Size), msg.Exchange, msg.SpecialConditions, msg.TickAttribLast.PastLimit, msg.TickAttribLast.Unreported);
             }
         }
 
@@ -287,32 +287,32 @@ namespace IBSampleApp
         {
             dataGridViewHistoricalTicks.DataSource = historicalTickLastTable;
 
-            historicalTickLastTable.Rows.Add(Util.UnixSecondsToString(msg.Time, "yyyyMMdd-HH:mm:ss zzz"), msg.Price, msg.Size, msg.Exchange, msg.SpecialConditions, msg.TickAttribLast);
+            historicalTickLastTable.Rows.Add(Util.UnixSecondsToString(msg.Time, "yyyyMMdd-HH:mm:ss zzz"), msg.Price, Util.DecimalMaxString(msg.Size), msg.Exchange, msg.SpecialConditions, msg.TickAttribLast);
         }
 
         private void UpdateUI(HistoricalTickBidAskMessage msg)
         {
             dataGridViewHistoricalTicks.DataSource = historicalTickBidAskTable;
 
-            historicalTickBidAskTable.Rows.Add(Util.UnixSecondsToString(msg.Time, "yyyyMMdd-HH:mm:ss zzz"), msg.PriceBid, msg.PriceAsk, msg.SizeBid, msg.SizeAsk, msg.TickAttribBidAsk);
+            historicalTickBidAskTable.Rows.Add(Util.UnixSecondsToString(msg.Time, "yyyyMMdd-HH:mm:ss zzz"), msg.PriceBid, msg.PriceAsk, Util.DecimalMaxString(msg.SizeBid), Util.DecimalMaxString(msg.SizeAsk), msg.TickAttribBidAsk);
         }
 
         private void UpdateUI(HistoricalTickMessage msg)
         {
             dataGridViewHistoricalTicks.DataSource = historicalTickTable;
 
-            historicalTickTable.Rows.Add(Util.UnixSecondsToString(msg.Time, "yyyyMMdd-HH:mm:ss zzz"), msg.Price, msg.Size);
+            historicalTickTable.Rows.Add(Util.UnixSecondsToString(msg.Time, "yyyyMMdd-HH:mm:ss zzz"), msg.Price, Util.DecimalMaxString(msg.Size));
         }
 
         private void UpdateUI(HistogramDataMessage obj)
         {
             if (histogramSubscriptionList.Contains(obj.ReqId))
-                obj.Data.ToList().ForEach(i => histogramDataGridView.Rows.Add(new object[] { obj.ReqId, i.Price, i.Size }));
+                obj.Data.ToList().ForEach(i => histogramDataGridView.Rows.Add(new object[] { obj.ReqId, i.Price, Util.DecimalMaxString(i.Size) }));
         }
 
         void ibClient_Tick(TickSizeMessage msg)
         {
-            addTextToBox("Tick Size. Ticker Id:" + msg.RequestId + ", Type: " + TickType.getField(msg.Field) + ", Size: " + msg.Size + "\n");
+            addTextToBox("Tick Size. Ticker Id:" + msg.RequestId + ", Type: " + TickType.getField(msg.Field) + ", Size: " + Util.DecimalMaxString(msg.Size) + "\n");
 
             if (msg.RequestId < OptionsManager.OPTIONS_ID_BASE)
             {

@@ -175,7 +175,7 @@ namespace IBSampleApp
 
         public event Action<TickSizeMessage> TickSize;
 
-        void EWrapper.tickSize(int tickerId, int field, long size)
+        void EWrapper.tickSize(int tickerId, int field, decimal size)
         {
             var tmp = TickSize;
 
@@ -447,7 +447,7 @@ namespace IBSampleApp
 
         public event Action<DeepBookMessage> UpdateMktDepth;
 
-        void EWrapper.updateMktDepth(int tickerId, int position, int operation, int side, double price, long size)
+        void EWrapper.updateMktDepth(int tickerId, int position, int operation, int side, double price, decimal size)
         {
             var tmp = UpdateMktDepth;
 
@@ -457,7 +457,7 @@ namespace IBSampleApp
 
         public event Action<DeepBookMessage> UpdateMktDepthL2;
 
-        void EWrapper.updateMktDepthL2(int tickerId, int position, string marketMaker, int operation, int side, double price, long size, bool isSmartDepth)
+        void EWrapper.updateMktDepthL2(int tickerId, int position, string marketMaker, int operation, int side, double price, decimal size, bool isSmartDepth)
         {
             var tmp = UpdateMktDepthL2;
 
@@ -497,7 +497,7 @@ namespace IBSampleApp
 
         public event Action<RealTimeBarMessage> RealtimeBar;
 
-        void EWrapper.realtimeBar(int reqId, long time, double open, double high, double low, double close, long volume, double WAP, int count)
+        void EWrapper.realtimeBar(int reqId, long time, double open, double high, double low, double close, decimal volume, decimal WAP, int count)
         {
             var tmp = RealtimeBar;
 
@@ -906,7 +906,7 @@ namespace IBSampleApp
 
         public event Action<TickByTickAllLastMessage> tickByTickAllLast;
 
-        void EWrapper.tickByTickAllLast(int reqId, int tickType, long time, double price, long size, TickAttribLast tickAttribLast, string exchange, string specialConditions)
+        void EWrapper.tickByTickAllLast(int reqId, int tickType, long time, double price, decimal size, TickAttribLast tickAttribLast, string exchange, string specialConditions)
         {
             var tmp = tickByTickAllLast;
 
@@ -916,7 +916,7 @@ namespace IBSampleApp
 
         public event Action<TickByTickBidAskMessage> tickByTickBidAsk;
 
-        void EWrapper.tickByTickBidAsk(int reqId, long time, double bidPrice, double askPrice, long bidSize, long askSize, TickAttribBidAsk tickAttribBidAsk)
+        void EWrapper.tickByTickBidAsk(int reqId, long time, double bidPrice, double askPrice, decimal bidSize, decimal askSize, TickAttribBidAsk tickAttribBidAsk)
         {
             var tmp = tickByTickBidAsk;
 

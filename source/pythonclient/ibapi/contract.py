@@ -10,8 +10,9 @@ Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is su
 	CLOSE_POS   = close
 	UNKNOWN_POS = unknown
 """
+import ibapi
 
-
+from decimal import Decimal
 from ibapi.object_implem import Object
 
 
@@ -114,6 +115,7 @@ class ContractDetails(Object):
         self.contract = Contract()
         self.marketName = ""
         self.minTick = 0.
+        self.sizeMinTick = Decimal(0)
         self.orderTypes = ""
         self.validExchanges = ""
         self.priceMagnifier = 0
@@ -159,6 +161,7 @@ class ContractDetails(Object):
             str(self.contract),
             str(self.marketName),
             str(self.minTick),
+            ibapi.utils.decimalMaxString(self.sizeMinTick),
             str(self.orderTypes),
             str(self.validExchanges),
             str(self.priceMagnifier),

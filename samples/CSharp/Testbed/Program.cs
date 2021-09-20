@@ -542,6 +542,7 @@ namespace Samples
             client.reqContractDetails(212, ContractSamples.FuturesOnOptions());
             client.reqContractDetails(213, ContractSamples.SimpleFuture());
             client.reqContractDetails(214, ContractSamples.USStockAtSmart());
+            client.reqContractDetails(215, ContractSamples.CryptoContract());
             //! [reqcontractdetails]
 
             Thread.Sleep(2000);

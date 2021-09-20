@@ -623,4 +623,16 @@ public class ContractSamples {
 		//! [ibkrats_contract]
 		return contract;
 	}
+	
+	public static Contract CryptoContract() {
+		//! [crypto_contract]
+		Contract contract = new Contract();
+		contract.symbol("ETH");
+		contract.secType("CRYPTO");
+		contract.exchange("PAXOS"); 
+		contract.currency("USD");    
+		//! [crypto_contract]
+		return contract;
+	}
+	
 }

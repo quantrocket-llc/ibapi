@@ -84,7 +84,7 @@ class EWrapper:
         self.logAnswer(current_fn_name(), vars())
 
 
-    def tickSize(self, reqId:TickerId, tickType:TickType, size:int):
+    def tickSize(self, reqId:TickerId, tickType:TickType, size:Decimal):
         """Market data tick size callback. Handles all size-related ticks."""
 
         self.logAnswer(current_fn_name(), vars())
@@ -261,7 +261,7 @@ class EWrapper:
 
 
     def updateMktDepth(self, reqId:TickerId , position:int, operation:int,
-                        side:int, price:float, size:int):
+                        side:int, price:float, size:Decimal):
         """Returns the order book.
 
         tickerId -  the request's identifier
@@ -278,7 +278,7 @@ class EWrapper:
 
 
     def updateMktDepthL2(self, reqId:TickerId , position:int, marketMaker:str,
-                          operation:int, side:int, price:float, size:int, isSmartDepth:bool):
+                          operation:int, side:int, price:float, size:Decimal, isSmartDepth:bool):
         """Returns the order book.
 
         tickerId -  the request's identifier
@@ -383,7 +383,7 @@ class EWrapper:
 
 
     def realtimeBar(self, reqId: TickerId, time:int, open_: float, high: float, low: float, close: float,
-                        volume: int, wap: float, count: int):
+                        volume: Decimal, wap: Decimal, count: int):
 
         """ Updates the real time 5 seconds bars
 
@@ -682,13 +682,13 @@ class EWrapper:
         self.logAnswer(current_fn_name(), vars())
 
     def tickByTickAllLast(self, reqId: int, tickType: int, time: int, price: float,
-                          size: int, tickAttribLast: TickAttribLast, exchange: str,
+                          size: Decimal, tickAttribLast: TickAttribLast, exchange: str,
                           specialConditions: str):
         """returns tick-by-tick data for tickType = "Last" or "AllLast" """
         self.logAnswer(current_fn_name(), vars())
 
     def tickByTickBidAsk(self, reqId: int, time: int, bidPrice: float, askPrice: float,
-                         bidSize: int, askSize: int, tickAttribBidAsk: TickAttribBidAsk):
+                         bidSize: Decimal, askSize: Decimal, tickAttribBidAsk: TickAttribBidAsk):
         """returns tick-by-tick data for tickType = "BidAsk" """
         self.logAnswer(current_fn_name(), vars())
 

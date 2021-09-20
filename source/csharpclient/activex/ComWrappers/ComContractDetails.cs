@@ -47,6 +47,15 @@ namespace TWSLib
         }
 
         /**
+        * @brief The minimum allowed size variation.
+        */
+        string SizeMinTick
+        {
+            get { return data != null ? Util.DecimalMaxString(data.SizeMinTick) : default(string); }
+            set { if (data != null) data.SizeMinTick = Util.StringToDecimal(value); }
+        }
+
+        /**
         * @brief Allows execution and strike prices to be reported consistently with market data, historical data and the order price, i.e. Z on LIFFE is reported in Index points and not GBP.
         */
         int PriceMagnifier
@@ -415,6 +424,11 @@ namespace TWSLib
         double TWSLib.IContractDetails.minTick
         {
             get { return MinTick; }
+        }
+
+        string TWSLib.IContractDetails.sizeMinTick
+        {
+            get { return SizeMinTick; }
         }
 
         int TWSLib.IContractDetails.priceMagnifier

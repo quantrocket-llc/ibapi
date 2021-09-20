@@ -90,6 +90,16 @@ namespace IBApi
             return (value == double.MaxValue) ? "" : "" + value;
         }
 
+        public static string DecimalMaxString(decimal value)
+        {
+            return (value == decimal.MaxValue) ? "" : "" + value;
+        }
+
+        public static string DecimalMaxStringNoZero(decimal value)
+        {
+            return (value == decimal.MaxValue || value == 0) ? "" : "" + value;
+        }
+
         public static string UnixSecondsToString(long seconds, string format)
         {
             return new DateTime(1970, 1, 1, 0, 0, 0).AddSeconds(Convert.ToDouble(seconds)).ToString(format);
@@ -113,5 +123,10 @@ namespace IBApi
 
             return tagValuesStr.ToString();
         }
+        public static decimal StringToDecimal(string str)
+        {
+                    return !string.IsNullOrEmpty(str) && !str.Equals("9223372036854775807") && !str.Equals("2147483647") && !str.Equals("1.7976931348623157E308") ? Decimal.Parse(str) : decimal.MaxValue;
+        }
+
     }
 }

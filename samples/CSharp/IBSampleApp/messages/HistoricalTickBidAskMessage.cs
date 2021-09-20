@@ -12,10 +12,10 @@ namespace IBSampleApp.messages
         public TickAttribBidAsk TickAttribBidAsk { get; set; }
         public double PriceBid { get; set; }
         public double PriceAsk { get; set; }
-        public long SizeBid { get; set; }
-        public long SizeAsk { get; set; }
+        public decimal SizeBid { get; set; }
+        public decimal SizeAsk { get; set; }
 
-        public HistoricalTickBidAskMessage(int reqId, long time, TickAttribBidAsk tickAttribBidAsk, double priceBid, double priceAsk, long sizeBid, long sizeAsk)
+        public HistoricalTickBidAskMessage(int reqId, long time, TickAttribBidAsk tickAttribBidAsk, double priceBid, double priceAsk, decimal sizeBid, decimal sizeAsk)
         {
             ReqId = reqId;
             Time = time;

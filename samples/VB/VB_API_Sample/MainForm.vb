@@ -2142,12 +2142,12 @@ Friend Class MainForm
             tickTypeStr = "AllLast"
         End If
         m_utils.addListItem(Utils.ListType.MarketData, String.Format("Tick-By-Tick. Request Id: {0}, TickType: {1}, Time: {2}, Price: {3}, Size: {4}, Exchange: {5}, Special Conditions: {6}, PastLimit: {7}, Unreported: {8}",
-                                                                          e.reqId, tickTypeStr, Util.UnixSecondsToString(e.time, "yyyyMMdd-HH:mm:ss zzz"), e.price, e.size, e.exchange, e.specialConditions, e.tickAttribLast.PastLimit, e.tickAttribLast.Unreported))
+                                                                          e.reqId, tickTypeStr, Util.UnixSecondsToString(e.time, "yyyyMMdd-HH:mm:ss zzz"), e.price, Util.DecimalMaxString(e.size), e.exchange, e.specialConditions, e.tickAttribLast.PastLimit, e.tickAttribLast.Unreported))
     End Sub
 
     Private Sub m_apiEvents_TickByTickBidAsk(sender As Object, e As TickByTickBidAskEventArgs) Handles m_apiEvents.TickByTickBidAsk
         m_utils.addListItem(Utils.ListType.MarketData, String.Format("Tick-By-Tick. Request Id: {0}, TickType: BidAsk, Time: {1}, BidPrice: {2}, AskPrice: {3}, BidSize: {4}, AskSize: {5}, BidPastLow: {6}, AskPastHigh: {7}",
-                                                                          e.reqId, Util.UnixSecondsToString(e.time, "yyyyMMdd-HH:mm:ss zzz"), e.bidPrice, e.askPrice, e.bidSize, e.askSize, e.tickAttribBidAsk.BidPastLow, e.tickAttribBidAsk.AskPastHigh))
+                                                                          e.reqId, Util.UnixSecondsToString(e.time, "yyyyMMdd-HH:mm:ss zzz"), e.bidPrice, e.askPrice, Util.DecimalMaxString(e.bidSize), Util.DecimalMaxString(e.askSize), e.tickAttribBidAsk.BidPastLow, e.tickAttribBidAsk.AskPastHigh))
     End Sub
 
     Private Sub m_apiEvents_TickByTickMidPoint(sender As Object, e As TickByTickMidPointEventArgs) Handles m_apiEvents.TickByTickMidPoint
@@ -2157,21 +2157,21 @@ Friend Class MainForm
 
     Private Sub m_apiEvents_HistoricalTicks(sender As Object, e As HistoricalTicksEventArgs) Handles m_apiEvents.HistoricalTicks
         For Each tick In e.ticks
-            m_utils.addListItem(Utils.ListType.ServerResponses, String.Format("Historical Tick. Request Id: {0}, Time: {1}, Price: {2}, Size: {3}", e.reqId, Util.UnixSecondsToString(tick.Time, "yyyyMMdd-HH:mm:ss zzz"), tick.Price, tick.Size))
+            m_utils.addListItem(Utils.ListType.ServerResponses, String.Format("Historical Tick. Request Id: {0}, Time: {1}, Price: {2}, Size: {3}", e.reqId, Util.UnixSecondsToString(tick.Time, "yyyyMMdd-HH:mm:ss zzz"), tick.Price, Util.DecimalMaxString(tick.Size)))
         Next
     End Sub
 
     Private Sub m_apiEvents_HistoricalTicksBidAsk(sender As Object, e As HistoricalTicksBidAskEventArgs) Handles m_apiEvents.HistoricalTicksBidAsk
         For Each tick In e.ticks
             m_utils.addListItem(Utils.ListType.ServerResponses, String.Format("Historical Tick Bid/Ask. Request Id: {0}, Time: {1}, Price Bid: {2}, Price Ask: {3}, Size Bid: {4}, Size Ask: {5}, Bid/Ask Tick Attribs: {6}",
-                    e.reqId, Util.UnixSecondsToString(tick.Time, "yyyyMMdd-HH:mm:ss zzz"), tick.PriceBid, tick.PriceAsk, tick.SizeBid, tick.SizeAsk, tick.TickAttribBidAsk.ToString()))
+                    e.reqId, Util.UnixSecondsToString(tick.Time, "yyyyMMdd-HH:mm:ss zzz"), tick.PriceBid, tick.PriceAsk, Util.DecimalMaxString(tick.SizeBid), Util.DecimalMaxString(tick.SizeAsk), tick.TickAttribBidAsk.ToString()))
         Next
     End Sub
 
     Private Sub m_apiEvents_HistoricalTicksLast(sender As Object, e As HistoricalTicksLastEventArgs) Handles m_apiEvents.HistoricalTicksLast
         For Each tick In e.ticks
             m_utils.addListItem(Utils.ListType.ServerResponses, String.Format("Historical Tick Last. Request Id: {0}, Time: {1}, Price: {2}, Size: {3}, Exchange: {4}, Special Conditions: {5}, Last Tick Attribs: {6}",
-                    e.reqId, Util.UnixSecondsToString(tick.Time, "yyyyMMdd-HH:mm:ss zzz"), tick.Price, tick.Size, tick.Exchange, tick.SpecialConditions, tick.TickAttribLast.ToString()))
+                    e.reqId, Util.UnixSecondsToString(tick.Time, "yyyyMMdd-HH:mm:ss zzz"), tick.Price, Util.DecimalMaxString(tick.Size), tick.Exchange, tick.SpecialConditions, tick.TickAttribLast.ToString()))
         Next
     End Sub
 
@@ -2247,7 +2247,7 @@ Friend Class MainForm
     ' Market data size tick event - triggered by the reqMktData() method
     '--------------------------------------------------------------------------------
     Private Sub Api_tickSize(sender As Object, e As TickSizeEventArgs) Handles m_apiEvents.TickSize
-        Dim mktDataStr = "id=" & e.id & " " & m_utils.getField(e.tickType) & "=" & e.size
+        Dim mktDataStr = "id=" & e.id & " " & m_utils.getField(e.tickType) & "=" & Util.DecimalMaxString(e.size)
         m_utils.addListItem(Utils.ListType.MarketData, mktDataStr)
 
         ' move into view
@@ -2330,8 +2330,8 @@ Friend Class MainForm
     '--------------------------------------------------------------------------------
     Private Sub Api_historicalData(sender As Object, e As HistoricalDataEventArgs) Handles m_apiEvents.HistoricalData
         Dim mktDataStr = "id=" & e.reqId & " date=" & e.date & " open=" & e.open & " high=" & e.high &
-                     " low=" & e.low & " close=" & e.close & " volume=" & e.volume &
-                     " barCount=" & e.count & " WAP=" & e.WAP
+                     " low=" & e.low & " close=" & e.close & " volume=" & Util.DecimalMaxString(e.volume) &
+                     " barCount=" & e.count & " WAP=" & Util.DecimalMaxString(e.WAP)
 
         m_utils.addListItem(Utils.ListType.MarketData, mktDataStr)
 
@@ -2356,7 +2356,7 @@ Friend Class MainForm
     Private Sub Api_realtimeBar(sender As Object, e As RealtimeBarEventArgs) Handles m_apiEvents.RealtimeBar
 
         Dim mktDataStr = "id=" & e.reqId & " time=" & e.time & " open=" & e.open & " high=" & e.high &
-                     " low=" & e.low & " close=" & e.close & " volume=" & e.volume & " WAP=" & e.WAP & " count=" & e.count
+                     " low=" & e.low & " close=" & e.close & " volume=" & Util.DecimalMaxString(e.volume) & " WAP=" & Util.DecimalMaxString(e.WAP) & " count=" & e.count
 
         m_utils.addListItem(Utils.ListType.MarketData, mktDataStr)
 
@@ -2473,6 +2473,7 @@ Friend Class MainForm
         m_utils.addListItem(Utils.ListType.ServerResponses, "Details:")
         m_utils.addListItem(Utils.ListType.ServerResponses, "  marketName = " & contractDetails.MarketName)
         m_utils.addListItem(Utils.ListType.ServerResponses, "  minTick = " & contractDetails.MinTick)
+        m_utils.addListItem(Utils.ListType.ServerResponses, "  sizeMinTick = " & Util.DecimalMaxString(contractDetails.SizeMinTick))
         m_utils.addListItem(Utils.ListType.ServerResponses, "  priceMagnifier = " & contractDetails.PriceMagnifier)
         m_utils.addListItem(Utils.ListType.ServerResponses, "  orderTypes = " & contractDetails.OrderTypes)
         m_utils.addListItem(Utils.ListType.ServerResponses, "  validExchanges = " & contractDetails.ValidExchanges)
@@ -3225,7 +3226,7 @@ Friend Class MainForm
         Dim displayString = New StringBuilder
 
         displayString.AppendFormat("Histogram data. Request Id: {0}, data size: {1}" & vbNewLine, e.requestId, e.data.Length)
-        e.data.ToList().ForEach(Sub(i) displayString.AppendFormat(vbTab & "Price: {0}, Size: {1}", i.Price, i.Size))
+        e.data.ToList().ForEach(Sub(i) displayString.AppendFormat(vbTab & "Price: {0}, Size: {1}", i.Price, Util.DecimalMaxString(i.Size)))
         m_utils.addListItem(Utils.ListType.ServerResponses, displayString.ToString())
     End Sub
 

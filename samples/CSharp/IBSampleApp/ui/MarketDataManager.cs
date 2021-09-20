@@ -209,46 +209,46 @@ namespace IBSampleApp.ui
                 case TickType.DELAYED_BID_SIZE:
                     {
                         //BID SIZE, DELAYED_BID_SIZE
-                        grid[BID_SIZE_INDEX, GetIndex(dataMessage.RequestId)].Value = dataMessage.Size;
+                        grid[BID_SIZE_INDEX, GetIndex(dataMessage.RequestId)].Value = Util.DecimalMaxString(dataMessage.Size);
                         break;
                     }
                 case TickType.ASK_SIZE:
                 case TickType.DELAYED_ASK_SIZE:
                     {
                         //ASK SIZE, DELAYED_ASK_SIZE
-                        grid[ASK_SIZE_INDEX, GetIndex(dataMessage.RequestId)].Value = dataMessage.Size;
+                        grid[ASK_SIZE_INDEX, GetIndex(dataMessage.RequestId)].Value = Util.DecimalMaxString(dataMessage.Size);
                         break;
                     }
                 case TickType.LAST_SIZE:
                 case TickType.DELAYED_LAST_SIZE:
                     {
                         //LAST_SIZE, DELAYED_LAST_SIZE
-                        grid[LAST_SIZE_INDEX, GetIndex(dataMessage.RequestId)].Value = dataMessage.Size;
+                        grid[LAST_SIZE_INDEX, GetIndex(dataMessage.RequestId)].Value = Util.DecimalMaxString(dataMessage.Size);
                         break;
                     }
                 case TickType.VOLUME:
                 case TickType.DELAYED_VOLUME:
                     {
                         //VOLUME, DELAYED_VOLUME
-                        grid[VOLUME_SIZE_INDEX, GetIndex(dataMessage.RequestId)].Value = dataMessage.Size;
+                        grid[VOLUME_SIZE_INDEX, GetIndex(dataMessage.RequestId)].Value = Util.DecimalMaxString(dataMessage.Size);
                         break;
                     }
                 case TickType.FUTURES_OPEN_INTEREST:
                     {
                         //FUTURES_OPEN_INTEREST
-                        grid[FUTURES_OPEN_INTEREST_INDEX, GetIndex(dataMessage.RequestId)].Value = dataMessage.Size;
+                        grid[FUTURES_OPEN_INTEREST_INDEX, GetIndex(dataMessage.RequestId)].Value = Util.DecimalMaxString(dataMessage.Size);
                         break;
                     }
                 case TickType.AVG_OPT_VOLUME:
                     {
                         //AVG_OPT_VOLUME
-                        grid[AVG_OPT_VOLUME_INDEX, GetIndex(dataMessage.RequestId)].Value = dataMessage.Size;
+                        grid[AVG_OPT_VOLUME_INDEX, GetIndex(dataMessage.RequestId)].Value = Util.DecimalMaxString(dataMessage.Size);
                         break;
                     }
                 case TickType.SHORTABLE_SHARES:
                     {
                         //SHORTABLE_SHARES
-                        grid[SHORTABLE_SHARES_INDEX, GetIndex(dataMessage.RequestId)].Value = dataMessage.Size;
+                        grid[SHORTABLE_SHARES_INDEX, GetIndex(dataMessage.RequestId)].Value = Util.DecimalMaxString(dataMessage.Size);
                         break;
                     }
             }
