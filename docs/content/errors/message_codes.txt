@@ -1145,10 +1145,10 @@
             <td>10186</td><td>Requested market data is not subscribed. Delayed market data is not enabled</td><td>See @ref market_data_type on how to enable delayed data.</td>
         </tr>
 		<tr>
-            <td>10197</td><td>Bust event occurred, current subscription is deactivated. Please resubscribe real-time bars immediately</td>
+            <td>10197</td><td>No market data during competing session</td><td>Indicates that the user is logged into the paper account and live account simultaneously trying to request live market data using both the accounts. In such a scenario preference would be given to the live account, for more details please refer: https://ibkr.info/node/1719</td>
         </tr>
 		<tr>
-            <td>10225</td><td>No market data during competing session</td><td>Indicates that the user is logged into the paper account and live account simultaneously trying to request live market data using both the accounts. In such a scenario preference would be given to the live account, for more details please refer: https://ibkr.info/node/1719</td>
+            <td>10225</td><td>Bust event occurred, current subscription is deactivated. Please resubscribe real-time bars immediately</td><td></td>
         </tr>
 		<tr>
             <td>10230</td><td>You have unsaved FA changes. Please retry 'request FA' operation later, when 'replace FA' operation is complete</td><td>There are pending Financial Advisor configuration changes. See @ref financial_advisor</td>
