@@ -182,14 +182,14 @@ class MktDepthModel extends AbstractTableModel {
         if (baseRow > 0) {
             tmpRow = m_allData.get(baseRow - 1);
             cumSize = tmpRow.m_cumSize;
-            totalPrice = cumSize.multiply(tmpRow.m_price);
+            totalPrice = cumSize.multiply(Decimal.get(tmpRow.m_price));
         }
 
         for (int ctr = baseRow ; ctr < m_allData.size() ; ctr++)
         {
             tmpRow = m_allData.get(ctr);
             cumSize = cumSize.add(tmpRow.m_size);
-            totalPrice = totalPrice.add(tmpRow.m_size.multiply(tmpRow.m_price));
+            totalPrice = totalPrice.add(tmpRow.m_size.multiply(Decimal.get(tmpRow.m_price)));
             tmpRow.m_cumSize = cumSize;
             tmpRow.m_avgPrice = totalPrice.divide(cumSize);
             fireTableCellUpdated(ctr, 3);

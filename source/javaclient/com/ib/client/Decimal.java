@@ -5,6 +5,7 @@ package com.ib.client;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
+import java.text.DecimalFormat;
 
 public class Decimal implements Comparable<Decimal>{
     
@@ -19,7 +20,6 @@ public class Decimal implements Comparable<Decimal>{
         @Override public long longValue() { return Long.MAX_VALUE; }
         @Override public String toString() { return NAN_STRING;  }
     };
-    private static final BigDecimal BD_ONE_HUNDRED = BigDecimal.valueOf(100);
 
     // vars
     private final BigDecimal m_value;
@@ -42,12 +42,48 @@ public class Decimal implements Comparable<Decimal>{
         }
         return result;
     }
+    
+    public static final Decimal get(final double v) {
+        Decimal result;
+        if (v == Double.MAX_VALUE) {
+            result = INVALID;
+        } else if (v == 0) {
+            result = ZERO;
+        } else if (Double.isNaN(v) || Double.isInfinite(v)) {
+            result = NaN;
+        } else {
+            DecimalFormat df = new DecimalFormat("#");
+            df.setMaximumFractionDigits(16);
+            result = Decimal.parse(df.format(v));
+        }
+        return result;
+    }
+    
+    public static Decimal get(final long v) {
+        Decimal result;
+        if (v == Long.MAX_VALUE) {
+            result = INVALID;
+        } else if (v == 0) {
+            result = ZERO;
+        } else {
+            result = new Decimal(v);
+        }
+        return result;
+    }
 
+    private Decimal( double value ) {
+        BigDecimal bd = new BigDecimal( value, MATH_CONTEXT );
+        m_value = bd.setScale( 16, MATH_CONTEXT.getRoundingMode() );
+    }
+    
+    private Decimal( long value ) {
+        BigDecimal bd = new BigDecimal( value, MATH_CONTEXT );
+        m_value = bd.setScale( 16, MATH_CONTEXT.getRoundingMode() );
+    }    
+    
     private Decimal( BigDecimal value ) {
         m_value = value.setScale( 16, MATH_CONTEXT.getRoundingMode() );
     }
-    
-    private static BigDecimal toBigDecimal(final double value) { return value == 100.0 ? BD_ONE_HUNDRED : BigDecimal.valueOf( value ); }
     
     public static boolean isValidNotZeroValue(Decimal value) { return isValid( value ) && !value.isZero(); }
     public static boolean isValid(Decimal value) { return value != null && value.isValid(); }
@@ -81,7 +117,7 @@ public class Decimal implements Comparable<Decimal>{
                 : get(m_value.add(another.value()));
     }
 
-    public Decimal divide( final Decimal another ) {
+    public Decimal divide(final Decimal another) {
         Decimal result;
         if (Decimal.ONE.equals(another) || isZero()) {
             result = this;
@@ -98,24 +134,13 @@ public class Decimal implements Comparable<Decimal>{
         return result;
     }
     
-    public Decimal multiply( long value ) {
-        return  (value == 1 || isZero() || !isValid())   
-            ? this
-            : value == 0 
-                ? Decimal.ZERO
-                : value != Long.MAX_VALUE 
-                    ? get( m_value.multiply( toBigDecimal(value) ) )
-                    : INVALID; 
-    }
-    
-    public Decimal multiply(final double value) {
-        return value == 1.0 || Decimal.ZERO.equals(this) 
-            ? this 
-            : value == 0.0
-                ? Decimal.ZERO
-                    : Util.isValidValue(value) 
-                        ? get(m_value.multiply(toBigDecimal(value)))
-                        : INVALID;
+    public Decimal multiply(final Decimal another) {
+        return another == null ? null 
+            : isZero() || another.isZero() ? ZERO 
+                : isValid() && another.isValid() 
+                    ? ONE.equals(another) ? this
+                        : get(m_value.multiply(another.value()))
+                            : INVALID; 
     }
     
     @Override public boolean equals( Object another ) {

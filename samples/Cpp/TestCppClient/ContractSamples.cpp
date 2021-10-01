@@ -713,3 +713,14 @@ Contract ContractSamples::IBKRATSContract(){
 	//! [ibkrats_contract]
 	return contract;
 }
+
+Contract ContractSamples::CryptoContract() {
+	//! [crypto_contract]
+	Contract contract;
+	contract.symbol = "BTC";
+	contract.secType = "CRYPTO";
+	contract.exchange = "PAXOS";
+	contract.currency = "USD";
+	//! [crypto_contract]
+	return contract;
+}

@@ -35,7 +35,7 @@ const char* EDecoder::processTickPriceMsg(const char* ptr, const char* endPtr) {
 	int tickTypeInt;
 	double price;
 
-	long long size;
+	Decimal size;
 	int attrMask;
 
 	DECODE_FIELD( version);
@@ -100,7 +100,7 @@ const char* EDecoder::processTickSizeMsg(const char* ptr, const char* endPtr) {
 	int version;
 	int tickerId;
 	int tickTypeInt;
-	long long size;
+	Decimal size;
 
 	DECODE_FIELD( version);
 	DECODE_FIELD( tickerId);
@@ -622,6 +622,9 @@ const char* EDecoder::processContractDataMsg(const char* ptr, const char* endPtr
 	if (m_serverVersion >= MIN_SERVER_VER_STOCK_TYPE) {
 		DECODE_FIELD( contract.stockType);
 	}
+	if (m_serverVersion >= MIN_SERVER_VER_FRACTIONAL_SIZE_SUPPORT) {
+		DECODE_FIELD(contract.sizeMinTick);
+	}
 
 	m_pEWrapper->contractDetails( reqId, contract);
 
@@ -791,7 +794,7 @@ const char* EDecoder::processMarketDepthMsg(const char* ptr, const char* endPtr)
 	int operation;
 	int side;
 	double price;
-	long long size;
+	Decimal size;
 
 	DECODE_FIELD( version);
 	DECODE_FIELD( id);
@@ -814,7 +817,7 @@ const char* EDecoder::processMarketDepthL2Msg(const char* ptr, const char* endPt
 	int operation;
 	int side;
 	double price;
-	long long size;
+	Decimal size;
 	bool isSmartDepth = false;
 
 	DECODE_FIELD( version);
@@ -910,17 +913,7 @@ const char* EDecoder::processHistoricalDataMsg(const char* ptr, const char* endP
 		DECODE_FIELD( bar.high);
 		DECODE_FIELD( bar.low);
 		DECODE_FIELD( bar.close);
-
-        int vol;
-
-        if (m_serverVersion < MIN_SERVER_VER_SYNT_REALTIME_BARS) {
-		    DECODE_FIELD( vol);
-
-            bar.volume = vol;
-        } else {
-            DECODE_FIELD( bar.volume);
-        }
-
+        DECODE_FIELD( bar.volume);
 		DECODE_FIELD( bar.wap);
 
         if (m_serverVersion < MIN_SERVER_VER_SYNT_REALTIME_BARS) {
@@ -1057,8 +1050,8 @@ const char* EDecoder::processRealTimeBarsMsg(const char* ptr, const char* endPtr
 	double high;
 	double low;
 	double close;
-	int volume;
-	double average;
+	Decimal volume;
+	Decimal wap;
 	int count;
 
 	DECODE_FIELD( version);
@@ -1069,11 +1062,11 @@ const char* EDecoder::processRealTimeBarsMsg(const char* ptr, const char* endPtr
 	DECODE_FIELD( low);
 	DECODE_FIELD( close);
 	DECODE_FIELD( volume);
-	DECODE_FIELD( average);
+	DECODE_FIELD( wap);
 	DECODE_FIELD( count);
 
 	m_pEWrapper->realtimeBar( reqId, time, open, high, low, close,
-		volume, average, count);
+		volume, wap, count);
 
 	return ptr;
 }
@@ -2039,7 +2032,7 @@ const char* EDecoder::processTickByTickDataMsg(const char* ptr, const char* endP
 
     if (tickType == 1 || tickType == 2) { // Last/AllLast
             double price;
-            long long size;
+            Decimal size;
             int attrMask;
             TickAttribLast tickAttribLast = {};
             std::string exchange;
@@ -2061,8 +2054,8 @@ const char* EDecoder::processTickByTickDataMsg(const char* ptr, const char* endP
     } else if (tickType == 3) { // BidAsk
             double bidPrice;
             double askPrice;
-            long long bidSize;
-            long long askSize;
+            Decimal bidSize;
+            Decimal askSize;
             int attrMask;
             DECODE_FIELD(bidPrice);
             DECODE_FIELD(askPrice);
@@ -2694,6 +2687,19 @@ bool EDecoder::DecodeField(char& charValue,
 	if( !fieldEnd)
 		return false;
 	charValue = fieldBeg[0]; // better way?
+	ptr = ++fieldEnd;
+	return true;
+}
+
+bool EDecoder::DecodeField(Decimal& decimalValue, const char*& ptr, const char* endPtr)
+{
+	if (!CheckOffset(ptr, endPtr))
+		return false;
+	const char* fieldBeg = ptr;
+	const char* fieldEnd = FindFieldEnd(fieldBeg, endPtr);
+	if (!fieldEnd)
+		return false;
+	decimalValue = stringToDecimal(fieldBeg);
 	ptr = ++fieldEnd;
 	return true;
 }

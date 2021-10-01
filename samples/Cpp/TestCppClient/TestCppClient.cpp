@@ -449,6 +449,10 @@ void TestCppClient::tickDataOperation()
 	m_pClient->reqMktData(1017, ContractSamples::etf(), "mdoff,576,577,578,614,623", false, false, TagValueListSPtr());
 	//! [reqetfticks]
 
+	//! [reqmktdatacrypto]
+	m_pClient->reqMktData(1018, ContractSamples::CryptoContract(), "", false, false, TagValueListSPtr());
+	//! [reqmktdatacrypto]
+
 	std::this_thread::sleep_for(std::chrono::seconds(1));
 	/*** Canceling the market data subscription ***/
 	//! [cancelmktdata]
@@ -459,6 +463,7 @@ void TestCppClient::tickDataOperation()
 	m_pClient->cancelMktData(1015);
 	m_pClient->cancelMktData(1016);
 	m_pClient->cancelMktData(1017);
+	m_pClient->cancelMktData(1018);
 	//! [cancelmktdata]
 
 	m_state = ST_TICKDATAOPERATION_ACK;
@@ -626,6 +631,10 @@ void TestCppClient::contractOperations()
 	//! [reqcontractdetailsnews]
 	m_pClient->reqContractDetails(211, ContractSamples::NewsFeedForQuery());
 	//! [reqcontractdetailsnews]
+
+	//! [reqcontractdetailscrypto]
+	m_pClient->reqContractDetails(217, ContractSamples::CryptoContract());
+	//! [reqcontractdetailscrypto]
 
 	m_state = ST_CONTRACTOPERATION_ACK;
 }
@@ -1412,7 +1421,7 @@ void TestCppClient::nextValidId( OrderId orderId)
 	//! [nextvalidid]
 
     //m_state = ST_TICKOPTIONCOMPUTATIONOPERATION; 
-    //m_state = ST_TICKDATAOPERATION; 
+    m_state = ST_TICKDATAOPERATION; 
     //m_state = ST_OPTIONSOPERATIONS;
     //m_state = ST_REQTICKBYTICKDATA; 
     //m_state = ST_REQHISTORICALTICKS; 
@@ -1453,7 +1462,7 @@ void TestCppClient::nextValidId( OrderId orderId)
 	//m_state = ST_MARKETRULE;
 	//m_state = ST_PING;
 	//m_state = ST_WHATIFSAMPLES;
-	m_state = ST_WSH;
+	//m_state = ST_WSH;
 }
 
 
@@ -1485,8 +1494,8 @@ void TestCppClient::tickPrice( TickerId tickerId, TickType field, double price, 
 //! [tickprice]
 
 //! [ticksize]
-void TestCppClient::tickSize( TickerId tickerId, TickType field, long long size) {
-	printf( "Tick Size. Ticker Id: %ld, Field: %d, Size: %lld\n", tickerId, (int)field, size);
+void TestCppClient::tickSize( TickerId tickerId, TickType field, Decimal size) {
+	printf( "Tick Size. Ticker Id: %ld, Field: %d, Size: %s\n", tickerId, (int)field, decimalStringToDisplay(size).c_str());
 }
 //! [ticksize]
 
@@ -1605,6 +1614,7 @@ void TestCppClient::printContractMsg(const Contract& contract) {
 void TestCppClient::printContractDetailsMsg(const ContractDetails& contractDetails) {
 	printf("\tMarketName: %s\n", contractDetails.marketName.c_str());
 	printf("\tMinTick: %g\n", contractDetails.minTick);
+	printf("\tSizeMinTick: %s\n", decimalStringToDisplay(contractDetails.sizeMinTick).c_str());
 	printf("\tPriceMagnifier: %ld\n", contractDetails.priceMagnifier);
 	printf("\tOrderTypes: %s\n", contractDetails.orderTypes.c_str());
 	printf("\tValidExchanges: %s\n", contractDetails.validExchanges.c_str());
@@ -1699,15 +1709,15 @@ void TestCppClient::execDetailsEnd( int reqId) {
 
 //! [updatemktdepth]
 void TestCppClient::updateMktDepth(TickerId id, int position, int operation, int side,
-                                   double price, long long size) {
-	printf( "UpdateMarketDepth. %ld - Position: %d, Operation: %d, Side: %d, Price: %g, Size: %lld\n", id, position, operation, side, price, size);
+                                   double price, Decimal size) {
+	printf( "UpdateMarketDepth. %ld - Position: %d, Operation: %d, Side: %d, Price: %g, Size: %s\n", id, position, operation, side, price, decimalStringToDisplay(size).c_str());
 }
 //! [updatemktdepth]
 
 //! [updatemktdepthl2]
 void TestCppClient::updateMktDepthL2(TickerId id, int position, const std::string& marketMaker, int operation,
-                                     int side, double price, long long size, bool isSmartDepth) {
-	printf( "UpdateMarketDepthL2. %ld - Position: %d, Operation: %d, Side: %d, Price: %g, Size: %lld, isSmartDepth: %d\n", id, position, operation, side, price, size, isSmartDepth);
+                                     int side, double price, Decimal size, bool isSmartDepth) {
+	printf( "UpdateMarketDepthL2. %ld - Position: %d, Operation: %d, Side: %d, Price: %g, Size: %s, isSmartDepth: %d\n", id, position, operation, side, price, decimalStringToDisplay(size).c_str(), isSmartDepth);
 }
 //! [updatemktdepthl2]
 
@@ -1731,7 +1741,7 @@ void TestCppClient::receiveFA(faDataType pFaDataType, const std::string& cxml) {
 
 //! [historicaldata]
 void TestCppClient::historicalData(TickerId reqId, const Bar& bar) {
-	printf( "HistoricalData. ReqId: %ld - Date: %s, Open: %g, High: %g, Low: %g, Close: %g, Volume: %lld, Count: %d, WAP: %g\n", reqId, bar.time.c_str(), bar.open, bar.high, bar.low, bar.close, bar.volume, bar.count, bar.wap);
+	printf( "HistoricalData. ReqId: %ld - Date: %s, Open: %g, High: %g, Low: %g, Close: %g, Volume: %s, Count: %d, WAP: %s\n", reqId, bar.time.c_str(), bar.open, bar.high, bar.low, bar.close, decimalStringToDisplay(bar.volume).c_str(), bar.count, decimalStringToDisplay(bar.wap).c_str());
 }
 //! [historicaldata]
 
@@ -1763,8 +1773,8 @@ void TestCppClient::scannerDataEnd(int reqId) {
 
 //! [realtimebar]
 void TestCppClient::realtimeBar(TickerId reqId, long time, double open, double high, double low, double close,
-                                long volume, double wap, int count) {
-	printf( "RealTimeBars. %ld - Time: %ld, Open: %g, High: %g, Low: %g, Close: %g, Volume: %ld, Count: %d, WAP: %g\n", reqId, time, open, high, low, close, volume, count, wap);
+                                Decimal volume, Decimal wap, int count) {
+	printf( "RealTimeBars. %ld - Time: %ld, Open: %g, High: %g, Low: %g, Close: %g, Volume: %s, Count: %d, WAP: %s\n", reqId, time, open, high, low, close, decimalStringToDisplay(volume).c_str(), count, decimalStringToDisplay(wap).c_str());
 }
 //! [realtimebar]
 
@@ -2024,14 +2034,14 @@ void TestCppClient::histogramData(int reqId, const HistogramDataVector& data) {
 	printf("Histogram. ReqId: %d, data length: %lu\n", reqId, data.size());
 
 	for (auto item : data) {
-		printf("\t price: %f, size: %lld\n", item.price, item.size);
+		printf("\t price: %f, size: %s\n", item.price, decimalStringToDisplay(item.size).c_str());
 	}
 }
 //! [histogramData]
 
 //! [historicalDataUpdate]
 void TestCppClient::historicalDataUpdate(TickerId reqId, const Bar& bar) {
-	printf( "HistoricalDataUpdate. ReqId: %ld - Date: %s, Open: %g, High: %g, Low: %g, Close: %g, Volume: %lld, Count: %d, WAP: %g\n", reqId, bar.time.c_str(), bar.open, bar.high, bar.low, bar.close, bar.volume, bar.count, bar.wap);
+	printf( "HistoricalDataUpdate. ReqId: %ld - Date: %s, Open: %g, High: %g, Low: %g, Close: %g, Volume: %s, Count: %d, WAP: %s\n", reqId, bar.time.c_str(), bar.open, bar.high, bar.low, bar.close, decimalStringToDisplay(bar.volume).c_str(), bar.count, decimalStringToDisplay(bar.wap).c_str());
 }
 //! [historicalDataUpdate]
 
@@ -2072,7 +2082,7 @@ void TestCppClient::pnlSingle(int reqId, int pos, double dailyPnL, double unreal
 void TestCppClient::historicalTicks(int reqId, const std::vector<HistoricalTick>& ticks, bool done) {
     for (HistoricalTick tick : ticks) {
 	std::time_t t = tick.time;
-        std::cout << "Historical tick. ReqId: " << reqId << ", time: " << ctime(&t) << ", price: "<< tick.price << ", size: " << tick.size << std::endl;
+        std::cout << "Historical tick. ReqId: " << reqId << ", time: " << ctime(&t) << ", price: "<< tick.price << ", size: " << decimalStringToDisplay(tick.size).c_str() << std::endl;
     }
 }
 //! [historicalticks]
@@ -2082,7 +2092,7 @@ void TestCppClient::historicalTicksBidAsk(int reqId, const std::vector<Historica
     for (HistoricalTickBidAsk tick : ticks) {
 	std::time_t t = tick.time;
         std::cout << "Historical tick bid/ask. ReqId: " << reqId << ", time: " << ctime(&t) << ", price bid: "<< tick.priceBid <<
-            ", price ask: "<< tick.priceAsk << ", size bid: " << tick.sizeBid << ", size ask: " << tick.sizeAsk <<
+            ", price ask: "<< tick.priceAsk << ", size bid: " << decimalStringToDisplay(tick.sizeBid).c_str() << ", size ask: " << decimalStringToDisplay(tick.sizeAsk).c_str() <<
             ", bidPastLow: " << tick.tickAttribBidAsk.bidPastLow << ", askPastHigh: " << tick.tickAttribBidAsk.askPastHigh << std::endl;
     }
 }
@@ -2093,23 +2103,23 @@ void TestCppClient::historicalTicksLast(int reqId, const std::vector<HistoricalT
     for (HistoricalTickLast tick : ticks) {
 	std::time_t t = tick.time;
         std::cout << "Historical tick last. ReqId: " << reqId << ", time: " << ctime(&t) << ", price: "<< tick.price <<
-            ", size: " << tick.size << ", exchange: " << tick.exchange << ", special conditions: " << tick.specialConditions <<
+            ", size: " << decimalStringToDisplay(tick.size).c_str() << ", exchange: " << tick.exchange << ", special conditions: " << tick.specialConditions <<
             ", unreported: " << tick.tickAttribLast.unreported << ", pastLimit: " << tick.tickAttribLast.pastLimit << std::endl;
     }
 }
 //! [historicaltickslast]
 
 //! [tickbytickalllast]
-void TestCppClient::tickByTickAllLast(int reqId, int tickType, time_t time, double price, long long size, const TickAttribLast& tickAttribLast, const std::string& exchange, const std::string& specialConditions) {
-    printf("Tick-By-Tick. ReqId: %d, TickType: %s, Time: %s, Price: %g, Size: %lld, PastLimit: %d, Unreported: %d, Exchange: %s, SpecialConditions:%s\n", 
-        reqId, (tickType == 1 ? "Last" : "AllLast"), ctime(&time), price, size, tickAttribLast.pastLimit, tickAttribLast.unreported, exchange.c_str(), specialConditions.c_str());
+void TestCppClient::tickByTickAllLast(int reqId, int tickType, time_t time, double price, Decimal size, const TickAttribLast& tickAttribLast, const std::string& exchange, const std::string& specialConditions) {
+    printf("Tick-By-Tick. ReqId: %d, TickType: %s, Time: %s, Price: %g, Size: %s, PastLimit: %d, Unreported: %d, Exchange: %s, SpecialConditions:%s\n", 
+        reqId, (tickType == 1 ? "Last" : "AllLast"), ctime(&time), price, decimalStringToDisplay(size).c_str(), tickAttribLast.pastLimit, tickAttribLast.unreported, exchange.c_str(), specialConditions.c_str());
 }
 //! [tickbytickalllast]
 
 //! [tickbytickbidask]
-void TestCppClient::tickByTickBidAsk(int reqId, time_t time, double bidPrice, double askPrice, long long bidSize, long long askSize, const TickAttribBidAsk& tickAttribBidAsk) {
-    printf("Tick-By-Tick. ReqId: %d, TickType: BidAsk, Time: %s, BidPrice: %g, AskPrice: %g, BidSize: %lld, AskSize: %lld, BidPastLow: %d, AskPastHigh: %d\n", 
-        reqId, ctime(&time), bidPrice, askPrice, bidSize, askSize, tickAttribBidAsk.bidPastLow, tickAttribBidAsk.askPastHigh);
+void TestCppClient::tickByTickBidAsk(int reqId, time_t time, double bidPrice, double askPrice, Decimal bidSize, Decimal askSize, const TickAttribBidAsk& tickAttribBidAsk) {
+    printf("Tick-By-Tick. ReqId: %d, TickType: BidAsk, Time: %s, BidPrice: %g, AskPrice: %g, BidSize: %s, AskSize: %s, BidPastLow: %d, AskPastHigh: %d\n", 
+        reqId, ctime(&time), bidPrice, askPrice, decimalStringToDisplay(bidSize).c_str(), decimalStringToDisplay(askSize).c_str(), tickAttribBidAsk.bidPastLow, tickAttribBidAsk.askPastHigh);
 }
 //! [tickbytickbidask]
 

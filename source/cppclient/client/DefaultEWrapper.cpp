@@ -5,7 +5,7 @@
 #include "DefaultEWrapper.h"
 
 void DefaultEWrapper::tickPrice( TickerId tickerId, TickType field, double price, const TickAttrib& attribs) { }
-void DefaultEWrapper::tickSize( TickerId tickerId, TickType field, long long size) { }
+void DefaultEWrapper::tickSize( TickerId tickerId, TickType field, Decimal size) { }
 void DefaultEWrapper::tickOptionComputation( TickerId tickerId, TickType tickType, int tickAttrib, double impliedVol, double delta,
 	   double optPrice, double pvDividend, double gamma, double vega, double theta, double undPrice) { }
 void DefaultEWrapper::tickGeneric(TickerId tickerId, TickType tickType, double value) { }
@@ -34,9 +34,9 @@ void DefaultEWrapper::execDetails( int reqId, const Contract& contract, const Ex
 void DefaultEWrapper::execDetailsEnd( int reqId) { }
 void DefaultEWrapper::error(int id, int errorCode, const std::string& errorString) { }
 void DefaultEWrapper::updateMktDepth(TickerId id, int position, int operation, int side,
-	double price, long long size) { }
+	double price, Decimal size) { }
 void DefaultEWrapper::updateMktDepthL2(TickerId id, int position, const std::string& marketMaker, int operation,
-      int side, double price, long long size, bool isSmartDepth) { }
+      int side, double price, Decimal size, bool isSmartDepth) { }
 void DefaultEWrapper::updateNewsBulletin(int msgId, int msgType, const std::string& newsMessage, const std::string& originExch) { }
 void DefaultEWrapper::managedAccounts( const std::string& accountsList) { }
 void DefaultEWrapper::receiveFA(faDataType pFaDataType, const std::string& cxml) { }
@@ -48,7 +48,7 @@ void DefaultEWrapper::scannerData(int reqId, int rank, const ContractDetails& co
 	   const std::string& legsStr) { }
 void DefaultEWrapper::scannerDataEnd(int reqId) { }
 void DefaultEWrapper::realtimeBar(TickerId reqId, long time, double open, double high, double low, double close,
-	   long volume, double wap, int count) { }
+	   Decimal volume, Decimal wap, int count) { }
 void DefaultEWrapper::currentTime(long time) { }
 void DefaultEWrapper::fundamentalData(TickerId reqId, const std::string& data) { }
 void DefaultEWrapper::deltaNeutralValidation(int reqId, const DeltaNeutralContract& deltaNeutralContract) { }
@@ -95,8 +95,8 @@ void DefaultEWrapper::pnlSingle(int reqId, int pos, double dailyPnL, double unre
 void DefaultEWrapper::historicalTicks(int reqId, const std::vector<HistoricalTick>& ticks, bool done) { }
 void DefaultEWrapper::historicalTicksBidAsk(int reqId, const std::vector<HistoricalTickBidAsk>& ticks, bool done) { }
 void DefaultEWrapper::historicalTicksLast(int reqId, const std::vector<HistoricalTickLast>& ticks, bool done) { }
-void DefaultEWrapper::tickByTickAllLast(int reqId, int tickType, time_t time, double price, long long size, const TickAttribLast& tickAttribLast, const std::string& exchange, const std::string& specialConditions) { }
-void DefaultEWrapper::tickByTickBidAsk(int reqId, time_t time, double bidPrice, double askPrice, long long bidSize, long long askSize, const TickAttribBidAsk& tickAttribBidAsk) { }
+void DefaultEWrapper::tickByTickAllLast(int reqId, int tickType, time_t time, double price, Decimal size, const TickAttribLast& tickAttribLast, const std::string& exchange, const std::string& specialConditions) { }
+void DefaultEWrapper::tickByTickBidAsk(int reqId, time_t time, double bidPrice, double askPrice, Decimal bidSize, Decimal askSize, const TickAttribBidAsk& tickAttribBidAsk) { }
 void DefaultEWrapper::tickByTickMidPoint(int reqId, time_t time, double midPoint) { }
 void DefaultEWrapper::orderBound(long long orderId, int apiClientId, int apiOrderId) { }
 void DefaultEWrapper::completedOrder(const Contract& contract, const Order& order, const OrderState& orderState) { }

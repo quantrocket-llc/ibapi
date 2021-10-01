@@ -6,6 +6,7 @@
 #define TWS_API_CLIENT_CONTRACT_H
 
 #include "TagValue.h"
+#include "Decimal.h"
 
 /*
 	SAME_POS    = open/close leg value is same as combo
@@ -129,6 +130,7 @@ struct ContractDetails
 	Contract	contract;
 	std::string	marketName;
 	double		minTick;
+	Decimal		sizeMinTick;
 	std::string	orderTypes;
 	std::string	validExchanges;
 	long		priceMagnifier;

@@ -10,6 +10,7 @@
 #include "HistoricalTick.h"
 #include "HistoricalTickBidAsk.h"
 #include "HistoricalTickLast.h"
+#include "Decimal.h"
 
 
 
@@ -118,12 +119,13 @@ const int MIN_SERVER_VER_MARKET_DATA_IN_SHARES      = 159;
 const int MIN_SERVER_VER_POST_TO_ATS                = 160;
 const int MIN_SERVER_VER_WSHE_CALENDAR              = 161;
 const int MIN_SERVER_VER_AUTO_CANCEL_PARENT         = 162;
+const int MIN_SERVER_VER_FRACTIONAL_SIZE_SUPPORT    = 163;
 
 /* 100+ messaging */
 // 100 = enhanced handshake, msg length prefixes
 
 const int MIN_CLIENT_VER = 100;
-const int MAX_CLIENT_VER = MIN_SERVER_VER_AUTO_CANCEL_PARENT;
+const int MAX_CLIENT_VER = MIN_SERVER_VER_FRACTIONAL_SIZE_SUPPORT;
 
 
 // incoming msg id's
@@ -354,6 +356,7 @@ public:
     static bool DecodeField(double&, const char*& ptr, const char* endPtr);
     static bool DecodeField(std::string&, const char*& ptr, const char* endPtr);
     static bool DecodeField(char&, const char*& ptr, const char* endPtr);
+    static bool DecodeField(Decimal&, const char*& ptr, const char* endPtr);
 
     static bool DecodeFieldTime(time_t&, const char*& ptr, const char* endPtr);
 

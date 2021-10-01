@@ -33,7 +33,7 @@ public class Histogram extends JComponent {
 		int width = getWidth() - m_x0;
 		
 		for (HistogramEntry bar : m_rows) {
-			int x1 = (int)(bar.size().multiply(width).divide(max).longValue());
+			int x1 = (int)(bar.size().multiply(Decimal.get(width)).divide(max).longValue());
 
 			String label = bar.price() + "";
 			

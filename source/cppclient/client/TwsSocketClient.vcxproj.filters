@@ -246,5 +246,8 @@
     <ClInclude Include="EClientException.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Decimal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
