@@ -8,7 +8,7 @@
 
 Notes:
 - This product includes Intel® Decimal Floating-Point Math Library developed by the Intel Corporation under its license which can be found here https://github.com/InteractiveBrokers/tws-api/blob/master/source/cppclient/client/lib/eula.txt
-Link to Intel® Decimal Floating-Point Math Library https://software.intel.com/content/www/us/en/develop/articles/intel-decimal-floating-point-math-library.html
+- Link to Intel® Decimal Floating-Point Math Library https://software.intel.com/content/www/us/en/develop/articles/intel-decimal-floating-point-math-library.html
 
 Notes for Windows download: 
  - An installer is provided that will create a C:\TWS API\ folder with API components and source
