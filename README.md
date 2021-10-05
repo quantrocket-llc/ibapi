@@ -7,7 +7,7 @@
  - [Release Notes](https://www.interactivebrokers.com/en/index.php?f=24356)
 
 Notes:
-- This product includes Intel® Decimal Floating-Point Math Library developed by the Intel Corporation under its license which can be found here https://github.com/InteractiveBrokers/tws-api/blob/master/source/cppclient/client/lib/eula.txt
+- This product includes Intel® Decimal Floating-Point Math Library (in binary form) developed by the Intel Corporation under its license which can be found here https://github.com/InteractiveBrokers/tws-api/blob/master/source/cppclient/client/lib/eula.txt
 - Link to Intel® Decimal Floating-Point Math Library https://software.intel.com/content/www/us/en/develop/articles/intel-decimal-floating-point-math-library.html
 
 Notes for Windows download: 
