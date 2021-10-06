@@ -73,6 +73,9 @@
 	facilities in a simulated environment using real market conditions. Using a Paper Trading Account will allow you not only to get familiar with the TWS API but also to test your trading
 	strategies without risking your capital. Note the paper trading environment has inherent <a href="https://www.interactivebrokers.com/en/software/am/am/manageaccount/paper_trading_limitations.htm" target="_blank">limitations</a>.
 	
+	\subsection intel_library Intel® Decimal Floating-Point Math Library
+	This product includes Intel® Decimal Floating-Point Math Library (in binary form) developed by the Intel Corporation under its license which can be found <a href="https://github.com/InteractiveBrokers/tws-api/blob/master/source/cppclient/client/lib/eula.txt" target="_blank">here</a>.
+
 	\image html linkarrow_external.png Links pointing to sources out of this documentation are indicated it as such
 	
 	<br><br>
