@@ -4,6 +4,7 @@
 using IBSampleApp.messages;
 using System.Windows.Forms;
 using IBSampleApp.util;
+using IBApi;
 
 namespace IBSampleApp.ui
 {
@@ -56,7 +57,7 @@ namespace IBSampleApp.ui
                     PositionsMultiGrid[1, i].Value.Equals(positionMultiMessage.ModelCode == null ? "" : positionMultiMessage.ModelCode)
                     )
                 {
-                    PositionsMultiGrid[3, i].Value = positionMultiMessage.Position;
+                    PositionsMultiGrid[3, i].Value = Util.DecimalMaxString(positionMultiMessage.Position);
                     PositionsMultiGrid[4, i].Value = positionMultiMessage.AverageCost;
                     return;
                 }
@@ -66,7 +67,7 @@ namespace IBSampleApp.ui
             PositionsMultiGrid[0, PositionsMultiGrid.Rows.Count - 1].Value = positionMultiMessage.Account;
             PositionsMultiGrid[1, PositionsMultiGrid.Rows.Count - 1].Value = (positionMultiMessage.ModelCode == null) ? "" : positionMultiMessage.ModelCode;
             PositionsMultiGrid[2, PositionsMultiGrid.Rows.Count - 1].Value = Utils.ContractToString(positionMultiMessage.Contract);
-            PositionsMultiGrid[3, PositionsMultiGrid.Rows.Count - 1].Value = positionMultiMessage.Position;
+            PositionsMultiGrid[3, PositionsMultiGrid.Rows.Count - 1].Value = Util.DecimalMaxString(positionMultiMessage.Position);
             PositionsMultiGrid[4, PositionsMultiGrid.Rows.Count - 1].Value = positionMultiMessage.AverageCost;
         }
 

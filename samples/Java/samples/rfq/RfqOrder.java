@@ -3,6 +3,7 @@
 
 package samples.rfq;
 
+import com.ib.client.Decimal;
 import com.ib.client.Order;
 import com.ib.client.OrderType;
 
@@ -13,7 +14,7 @@ public class RfqOrder extends Order {
       clientId(clientId);
       orderId(id);
       permId(id);
-      totalQuantity(size);
+      totalQuantity(Decimal.get(size));
       orderType(OrderType.QUOTE);
 
       /*

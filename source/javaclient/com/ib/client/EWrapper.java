@@ -22,13 +22,13 @@ public interface EWrapper {
 	void tickEFP(int tickerId, int tickType, double basisPoints,
 			String formattedBasisPoints, double impliedFuture, int holdDays,
 			String futureLastTradeDate, double dividendImpact, double dividendsToLastTradeDate);
-    void orderStatus( int orderId, String status, double filled, double remaining,
+    void orderStatus( int orderId, String status, Decimal filled, Decimal remaining,
             double avgFillPrice, int permId, int parentId, double lastFillPrice,
             int clientId, String whyHeld, double mktCapPrice);
     void openOrder( int orderId, Contract contract, Order order, OrderState orderState);
     void openOrderEnd();
     void updateAccountValue(String key, String value, String currency, String accountName);
-    void updatePortfolio(Contract contract, double position, double marketPrice, double marketValue,
+    void updatePortfolio(Contract contract, Decimal position, double marketPrice, double marketValue,
             double averageCost, double unrealizedPNL, double realizedPNL, String accountName);
     void updateAccountTime(String timeStamp);
     void accountDownloadEnd(String accountName);
@@ -56,7 +56,7 @@ public interface EWrapper {
     void tickSnapshotEnd(int reqId);
     void marketDataType(int reqId, int marketDataType);
     void commissionReport(CommissionReport commissionReport);
-    void position(String account, Contract contract, double pos, double avgCost);
+    void position(String account, Contract contract, Decimal pos, double avgCost);
     void positionEnd();
     void accountSummary(int reqId, String account, String tag, String value, String currency);
     void accountSummaryEnd(int reqId);
@@ -71,7 +71,7 @@ public interface EWrapper {
     void error(int id, int errorCode, String errorMsg);
     void connectionClosed();
     void connectAck();
-    void positionMulti( int reqId, String account, String modelCode, Contract contract, double pos, double avgCost);
+    void positionMulti( int reqId, String account, String modelCode, Contract contract, Decimal pos, double avgCost);
     void positionMultiEnd( int reqId);
     void accountUpdateMulti( int reqId, String account, String modelCode, String key, String value, String currency);
     void accountUpdateMultiEnd( int reqId);
@@ -96,7 +96,7 @@ public interface EWrapper {
 	void rerouteMktDepthReq(int reqId, int conId, String exchange);
     void marketRule(int marketRuleId, PriceIncrement[] priceIncrements);
 	void pnl(int reqId, double dailyPnL, double unrealizedPnL, double realizedPnL);
-	void pnlSingle(int reqId, int pos, double dailyPnL, double unrealizedPnL, double realizedPnL, double value);
+	void pnlSingle(int reqId, Decimal pos, double dailyPnL, double unrealizedPnL, double realizedPnL, double value);
     void historicalTicks(int reqId, List<HistoricalTick> ticks, boolean done);
     void historicalTicksBidAsk(int reqId, List<HistoricalTickBidAsk> ticks, boolean done);
     void historicalTicksLast(int reqId, List<HistoricalTickLast> ticks, boolean done);

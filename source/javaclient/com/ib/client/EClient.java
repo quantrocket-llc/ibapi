@@ -1699,9 +1699,9 @@ public abstract class EClient {
             b.send( order.getAction());
             
 			if (m_serverVersion >= MIN_SERVER_VER_FRACTIONAL_POSITIONS)
-				b.send(order.totalQuantity());
+				b.send(order.totalQuantity().toString());
 			else
-				b.send((int) order.totalQuantity());
+				b.send((int) order.totalQuantity().longValue());
             
 			b.send( order.getOrderType());
             if (m_serverVersion < MIN_SERVER_VER_ORDER_COMBO_LEGS_PRICE) {

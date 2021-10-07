@@ -202,7 +202,7 @@ namespace IBSampleApp
             if (!lmtPrice.Text.Equals(""))
                 order.LmtPrice = double.Parse(lmtPrice.Text);
             if (!quantity.Text.Equals(""))
-                order.TotalQuantity = double.Parse(quantity.Text);
+                order.TotalQuantity = Util.StringToDecimal(quantity.Text);
             order.Account = account.Text;
             order.ModelCode = modelCode.Text;
             order.Tif = timeInForce.Text;
@@ -442,7 +442,7 @@ namespace IBSampleApp
             action.Text = order.Action;
             orderType.Text = order.OrderType;
             lmtPrice.Text = doubleToStr(order.LmtPrice);
-            quantity.Text = doubleToStr(order.TotalQuantity);
+            quantity.Text = Util.DecimalMaxString(order.TotalQuantity);
             account.Text = order.Account;
             modelCode.Text = order.ModelCode;
             timeInForce.Text = order.Tif;

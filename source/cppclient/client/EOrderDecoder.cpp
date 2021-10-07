@@ -54,13 +54,7 @@ bool EOrderDecoder::decodeAction(const char*& ptr, const char* endPtr) {
 }
 
 bool EOrderDecoder::decodeTotalQuantity(const char*& ptr, const char* endPtr) {
-    if (m_serverVersion >= MIN_SERVER_VER_FRACTIONAL_POSITIONS)	{
-        DECODE_FIELD( m_order->totalQuantity);
-    } else {
-        long lTotalQuantity;
-        DECODE_FIELD(lTotalQuantity);
-        m_order->totalQuantity = lTotalQuantity;
-    }
+    DECODE_FIELD( m_order->totalQuantity);
 
     return true;
 }

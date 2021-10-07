@@ -237,7 +237,8 @@ class TestApp(TestWrapper, TestClient):
     # ! [nextvalidid]
 
         # we can start now
-        self.start()
+        if hasattr(self, 'account'):
+            self.start()
 
     def start(self):
         if self.started:
@@ -334,7 +335,7 @@ class TestApp(TestWrapper, TestClient):
         print("OpenOrder. PermId: ", order.permId, "ClientId:", order.clientId, " OrderId:", orderId, 
               "Account:", order.account, "Symbol:", contract.symbol, "SecType:", contract.secType,
               "Exchange:", contract.exchange, "Action:", order.action, "OrderType:", order.orderType,
-              "TotalQty:", order.totalQuantity, "CashQty:", order.cashQty, 
+              "TotalQty:", decimalMaxString(order.totalQuantity), "CashQty:", order.cashQty, 
               "LmtPrice:", order.lmtPrice, "AuxPrice:", order.auxPrice, "Status:", orderState.status)
 
         order.contract = contract
@@ -352,14 +353,14 @@ class TestApp(TestWrapper, TestClient):
 
     @iswrapper
     # ! [orderstatus]
-    def orderStatus(self, orderId: OrderId, status: str, filled: float,
-                    remaining: float, avgFillPrice: float, permId: int,
+    def orderStatus(self, orderId: OrderId, status: str, filled: Decimal,
+                    remaining: Decimal, avgFillPrice: float, permId: int,
                     parentId: int, lastFillPrice: float, clientId: int,
                     whyHeld: str, mktCapPrice: float):
         super().orderStatus(orderId, status, filled, remaining,
                             avgFillPrice, permId, parentId, lastFillPrice, clientId, whyHeld, mktCapPrice)
-        print("OrderStatus. Id:", orderId, "Status:", status, "Filled:", filled,
-              "Remaining:", remaining, "AvgFillPrice:", avgFillPrice,
+        print("OrderStatus. Id:", orderId, "Status:", status, "Filled:", decimalMaxString(filled),
+              "Remaining:", decimalMaxString(remaining), "AvgFillPrice:", avgFillPrice,
               "PermId:", permId, "ParentId:", parentId, "LastFillPrice:",
               lastFillPrice, "ClientId:", clientId, "WhyHeld:",
               whyHeld, "MktCapPrice:", mktCapPrice)
@@ -489,6 +490,9 @@ class TestApp(TestWrapper, TestClient):
         # ! [managedaccounts]
 
         self.account = accountsList.split(",")[0]
+        
+        if self.nextValidOrderId is not None:
+            self.start()
 
     @iswrapper
     # ! [accountsummary]
@@ -517,14 +521,14 @@ class TestApp(TestWrapper, TestClient):
 
     @iswrapper
     # ! [updateportfolio]
-    def updatePortfolio(self, contract: Contract, position: float,
+    def updatePortfolio(self, contract: Contract, position: Decimal,
                         marketPrice: float, marketValue: float,
                         averageCost: float, unrealizedPNL: float,
                         realizedPNL: float, accountName: str):
         super().updatePortfolio(contract, position, marketPrice, marketValue,
                                 averageCost, unrealizedPNL, realizedPNL, accountName)
         print("UpdatePortfolio.", "Symbol:", contract.symbol, "SecType:", contract.secType, "Exchange:",
-              contract.exchange, "Position:", position, "MarketPrice:", marketPrice,
+              contract.exchange, "Position:", decimalMaxString(position), "MarketPrice:", marketPrice,
               "MarketValue:", marketValue, "AverageCost:", averageCost,
               "UnrealizedPNL:", unrealizedPNL, "RealizedPNL:", realizedPNL,
               "AccountName:", accountName)
@@ -546,12 +550,12 @@ class TestApp(TestWrapper, TestClient):
 
     @iswrapper
     # ! [position]
-    def position(self, account: str, contract: Contract, position: float,
+    def position(self, account: str, contract: Contract, position: Decimal,
                  avgCost: float):
         super().position(account, contract, position, avgCost)
         print("Position.", "Account:", account, "Symbol:", contract.symbol, "SecType:",
               contract.secType, "Currency:", contract.currency,
-              "Position:", position, "Avg cost:", avgCost)
+              "Position:", decimalMaxString(position), "Avg cost:", avgCost)
     # ! [position]
 
     @iswrapper
@@ -564,12 +568,12 @@ class TestApp(TestWrapper, TestClient):
     @iswrapper
     # ! [positionmulti]
     def positionMulti(self, reqId: int, account: str, modelCode: str,
-                      contract: Contract, pos: float, avgCost: float):
+                      contract: Contract, pos: Decimal, avgCost: float):
         super().positionMulti(reqId, account, modelCode, contract, pos, avgCost)
         print("PositionMulti. RequestId:", reqId, "Account:", account,
               "ModelCode:", modelCode, "Symbol:", contract.symbol, "SecType:",
               contract.secType, "Currency:", contract.currency, ",Position:",
-              pos, "AvgCost:", avgCost)
+              decimalMaxString(pos), "AvgCost:", avgCost)
     # ! [positionmulti]
 
     @iswrapper
@@ -617,10 +621,10 @@ class TestApp(TestWrapper, TestClient):
 
     @iswrapper
     # ! [pnlsingle]
-    def pnlSingle(self, reqId: int, pos: int, dailyPnL: float,
+    def pnlSingle(self, reqId: int, pos: Decimal, dailyPnL: float,
                   unrealizedPnL: float, realizedPnL: float, value: float):
         super().pnlSingle(reqId, pos, dailyPnL, unrealizedPnL, realizedPnL, value)
-        print("Daily PnL Single. ReqId:", reqId, "Position:", pos,
+        print("Daily PnL Single. ReqId:", reqId, "Position:", decimalMaxString(pos),
               "DailyPnL:", dailyPnL, "UnrealizedPnL:", unrealizedPnL,
               "RealizedPnL:", realizedPnL, "Value:", value)
     # ! [pnlsingle]
@@ -1838,6 +1842,11 @@ class TestApp(TestWrapper, TestClient):
         self.reqCompletedOrders(False)
         # ! [reqcompletedorders]
         
+        # Placing crypto order
+        # ! [cryptoplaceorder]
+        self.placeOrder(self.nextOrderId(), ContractSamples.CryptoContract(), OrderSamples.LimitOrder("BUY", Decimal("0.00001234"), 3370))
+        # ! [cryptoplaceorder]
+        
 
     def orderOperations_cancel(self):
         if self.simplePlaceOid is not None:
@@ -1913,8 +1922,8 @@ class TestApp(TestWrapper, TestClient):
         super().completedOrder(contract, order, orderState)
         print("CompletedOrder. PermId:", order.permId, "ParentPermId:", longToStr(order.parentPermId), "Account:", order.account, 
               "Symbol:", contract.symbol, "SecType:", contract.secType, "Exchange:", contract.exchange, 
-              "Action:", order.action, "OrderType:", order.orderType, "TotalQty:", order.totalQuantity, 
-              "CashQty:", order.cashQty, "FilledQty:", order.filledQuantity, 
+              "Action:", order.action, "OrderType:", order.orderType, "TotalQty:", decimalMaxString(order.totalQuantity), 
+              "CashQty:", order.cashQty, "FilledQty:", decimalMaxString(order.filledQuantity), 
               "LmtPrice:", order.lmtPrice, "AuxPrice:", order.auxPrice, "Status:", orderState.status,
               "Completed time:", orderState.completedTime, "Completed Status:" + orderState.completedStatus)
     # ! [completedorder]

@@ -8,12 +8,14 @@
 #include "TagValue.h"
 #include "OrderCondition.h"
 #include "SoftDollarTier.h"
+#include "Decimal.h"
 #include <float.h>
 #include <limits.h>
 
 #define UNSET_DOUBLE DBL_MAX
 #define UNSET_INTEGER INT_MAX
 #define UNSET_LONG LLONG_MAX
+#define UNSET_DECIMAL ULLONG_MAX
 
 enum Origin { CUSTOMER,
               FIRM,
@@ -54,7 +56,7 @@ struct Order
 
 	// main order fields
 	std::string action;
-	double     totalQuantity = 0;
+	Decimal  totalQuantity = UNSET_DECIMAL;
 	std::string orderType;
 	double   lmtPrice = UNSET_DOUBLE;
 	double   auxPrice = UNSET_DOUBLE;
@@ -222,7 +224,7 @@ struct Order
 	bool discretionaryUpToLimitPrice = false;
 
 	std::string autoCancelDate = "";
-	double filledQuantity = UNSET_DOUBLE;
+	Decimal filledQuantity = UNSET_DECIMAL;
 	int refFuturesConId = UNSET_INTEGER;
 	bool autoCancelParent = false;
 	std::string shareholder = "";

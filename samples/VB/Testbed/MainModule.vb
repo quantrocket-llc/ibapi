@@ -755,6 +755,9 @@ Module MainModule
         client.reqCompletedOrders(False)
         '! [reqcompletedorders]
 
+        '! [crypto_order_submission]
+        client.placeOrder(increment(nextOrderId), ContractSamples.CryptoContract(), OrderSamples.LimitOrder("BUY", Util.StringToDecimal("0.00001234"), 3370))
+        '! [crypto_order_submission]
     End Sub
 
     Private Sub newsOperations(client As EClientSocket)

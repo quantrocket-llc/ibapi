@@ -125,7 +125,7 @@ namespace IBApi
         }
         public static decimal StringToDecimal(string str)
         {
-                    return !string.IsNullOrEmpty(str) && !str.Equals("9223372036854775807") && !str.Equals("2147483647") && !str.Equals("1.7976931348623157E308") ? Decimal.Parse(str) : decimal.MaxValue;
+            return !string.IsNullOrEmpty(str) && !str.Equals("9223372036854775807") && !str.Equals("2147483647") && !str.Equals("1.7976931348623157E308") ? Decimal.Parse(str) : decimal.MaxValue;
         }
 
     }

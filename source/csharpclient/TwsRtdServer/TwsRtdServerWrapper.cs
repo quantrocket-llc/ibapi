@@ -217,11 +217,11 @@ namespace TwsRtdServer
         public void accountSummaryEnd(int reqId) { }
         public void bondContractDetails(int reqId, ContractDetails contract) { }
         public void updateAccountValue(string key, string value, string currency, string accountName) { }
-        public void updatePortfolio(Contract contract, double position, double marketPrice, double marketValue,
+        public void updatePortfolio(Contract contract, decimal position, double marketPrice, double marketValue,
             double averageCost, double unrealizedPNL, double realizedPNL, string accountName) { }
         public void updateAccountTime(string timestamp) { }
         public void accountDownloadEnd(string account) { }
-        public void orderStatus(int orderId, string status, double filled, double remaining, double avgFillPrice,
+        public void orderStatus(int orderId, string status, decimal filled, decimal remaining, double avgFillPrice,
             int permId, int parentId, double lastFillPrice, int clientId, string whyHeld, double mktCapPrice) { }
         public void openOrder(int orderId, Contract contract, Order order, OrderState orderState) { }
         public void openOrderEnd() { }
@@ -238,7 +238,7 @@ namespace TwsRtdServer
         public void updateMktDepth(int tickerId, int position, int operation, int side, double price, decimal size) { }
         public void updateMktDepthL2(int tickerId, int position, string marketMaker, int operation, int side, double price, decimal size, bool isSmartDepth) { }
         public void updateNewsBulletin(int msgId, int msgType, String message, String origExchange) { }
-        public void position(string account, Contract contract, double pos, double avgCost) { }
+        public void position(string account, Contract contract, decimal pos, double avgCost) { }
         public void positionEnd() { }
         public void realtimeBar(int reqId, long time, double open, double high, double low, double close, decimal volume, decimal WAP, int count) { }
         public void scannerParameters(string xml) { }
@@ -252,7 +252,7 @@ namespace TwsRtdServer
         public void displayGroupList(int reqId, string groups) { }
         public void displayGroupUpdated(int reqId, string contractInfo) { }
         public void connectAck() { }
-        public void positionMulti(int requestId, string account, string modelCode, Contract contract, double pos, double avgCost) { }
+        public void positionMulti(int requestId, string account, string modelCode, Contract contract, decimal pos, double avgCost) { }
         public void positionMultiEnd(int requestId) { }
         public void accountUpdateMulti(int requestId, string account, string modelCode, string key, string value, string currency) { }
         public void accountUpdateMultiEnd(int requestId) { }
@@ -286,7 +286,7 @@ namespace TwsRtdServer
         public void rerouteMktDepthReq(int reqId, int conId, string exchange) { }
         public void marketRule(int marketRuleId, PriceIncrement[] priceIncrements) { }
         public void pnl(int reqId, double dailyPnL, double unrealizedPnL, double realizedPnL) { }
-        public void pnlSingle(int reqId, int pos, double dailyPnL, double unrealizedPnL, double realizedPnL, double value) { }
+        public void pnlSingle(int reqId, decimal pos, double dailyPnL, double unrealizedPnL, double realizedPnL, double value) { }
         public void historicalTicks(int reqId, HistoricalTick[] ticks, bool done) { }
         public void historicalTicksBidAsk(int reqId, HistoricalTickBidAsk[] ticks, bool done) { }
         public void historicalTicksLast(int reqId, HistoricalTickLast[] ticks, bool done) { }

@@ -109,7 +109,7 @@ public class Test implements EWrapper {
 		System.out.println(EWrapperMsgGenerator.tickEFP( tickerId, tickType, basisPoints, formattedBasisPoints, impliedFuture, holdDays, futureLastTradeDate, dividendImpact, dividendsToLastTradeDate));
 	}
 
-	@Override public void orderStatus(int orderId, String status, double filled, double remaining, double avgFillPrice, int permId, int parentId, double lastFillPrice, int clientId, String whyHeld, double mktCapPrice) {
+	@Override public void orderStatus(int orderId, String status, Decimal filled, Decimal remaining, double avgFillPrice, int permId, int parentId, double lastFillPrice, int clientId, String whyHeld, double mktCapPrice) {
 		System.out.println(EWrapperMsgGenerator.orderStatus( orderId,  status, filled, remaining, avgFillPrice, permId, parentId, lastFillPrice, clientId, whyHeld, mktCapPrice));
 	}
 
@@ -125,7 +125,7 @@ public class Test implements EWrapper {
 		System.out.println(EWrapperMsgGenerator.updateAccountValue( key, value, currency, accountName));
 	}
 
-	@Override public void updatePortfolio(Contract contract, double position, double marketPrice, double marketValue, double averageCost, double unrealizedPNL, double realizedPNL, String accountName) {
+	@Override public void updatePortfolio(Contract contract, Decimal position, double marketPrice, double marketValue, double averageCost, double unrealizedPNL, double realizedPNL, String accountName) {
 		System.out.println(EWrapperMsgGenerator.updatePortfolio( contract, position, marketPrice, marketValue, averageCost, unrealizedPNL, realizedPNL, accountName));
 	}
 
@@ -221,7 +221,7 @@ public class Test implements EWrapper {
 		System.out.println(EWrapperMsgGenerator.commissionReport( commissionReport));
 	}
 
-	@Override public void position(String account, Contract contract, double pos, double avgCost) {
+	@Override public void position(String account, Contract contract, Decimal pos, double avgCost) {
 		System.out.println(EWrapperMsgGenerator.position( account,  contract,  pos,  avgCost));
 	}
 
@@ -255,7 +255,7 @@ public class Test implements EWrapper {
 	@Override public void displayGroupUpdated( int reqId, String contractInfo){
 	}
 	
-	@Override public void positionMulti( int reqId, String account, String modelCode, Contract contract, double pos, double avgCost) {
+	@Override public void positionMulti( int reqId, String account, String modelCode, Contract contract, Decimal pos, double avgCost) {
 		System.out.println(EWrapperMsgGenerator.positionMulti( reqId, account, modelCode, contract, pos, avgCost));
 	}
 
@@ -382,7 +382,7 @@ public class Test implements EWrapper {
     }
 
     @Override
-    public void pnlSingle(int reqId, int pos, double dailyPnL, double unrealizedPnL, double realizedPnL, double value) {
+    public void pnlSingle(int reqId, Decimal pos, double dailyPnL, double unrealizedPnL, double realizedPnL, double value) {
         System.out.println(EWrapperMsgGenerator.pnlSingle(reqId, pos, dailyPnL, unrealizedPnL, realizedPnL, value));
     }
     

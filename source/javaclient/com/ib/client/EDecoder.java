@@ -623,7 +623,7 @@ class EDecoder implements ObjectInput {
 
     private void processPnLSingleMsg() throws IOException {
     	int reqId = readInt();
-    	int pos = readInt();
+    	Decimal pos = readDecimal();
     	double dailyPnL = readDouble();
     	double unrealizedPnL = Double.MAX_VALUE;
         double realizedPnL = Double.MAX_VALUE;
@@ -1127,12 +1127,7 @@ class EDecoder implements ObjectInput {
 		exec.acctNumber(readStr());
 		exec.exchange(readStr());
 		exec.side(readStr());
-		
-		if (m_serverVersion >= EClient.MIN_SERVER_VER_FRACTIONAL_POSITIONS)			
-			exec.shares(readDouble());
-		else
-			exec.shares(readInt());
-				
+		exec.shares(readDecimal());
 		exec.price(readDouble());
 		if ( version >= 2 ) {
 		    exec.permId(readInt());
@@ -1144,7 +1139,7 @@ class EDecoder implements ObjectInput {
 		    exec.liquidation(readInt());
 		}
 		if (version >= 6) {
-			exec.cumQty(readDouble());
+			exec.cumQty(readDecimal());
 			exec.avgPrice(readDouble());
 		}
 		if (version >= 8) {
@@ -1489,7 +1484,7 @@ class EDecoder implements ObjectInput {
 		    contract.tradingClass(readStr());
 		}
 
-		double position = m_serverVersion >= EClient.MIN_SERVER_VER_FRACTIONAL_POSITIONS ? readDouble() : readInt();
+		Decimal position = readDecimal();
 		double marketPrice = readDouble();
 		double marketValue = readDouble();
 		double  averageCost = 0.0;
@@ -1530,8 +1525,8 @@ class EDecoder implements ObjectInput {
 		int version = m_serverVersion >= EClient.MIN_SERVER_VER_MARKET_CAP_PRICE ? Integer.MAX_VALUE : readInt();
 		int id = readInt();
 		String status = readStr();
-		double filled = m_serverVersion >= EClient.MIN_SERVER_VER_FRACTIONAL_POSITIONS ? readDouble() : readInt();
-		double remaining = m_serverVersion >= EClient.MIN_SERVER_VER_FRACTIONAL_POSITIONS ? readDouble() : readInt();
+		Decimal filled = readDecimal();
+		Decimal remaining = readDecimal();
 		double avgFillPrice = readDouble();
 
 		int permId = 0;
@@ -1698,7 +1693,7 @@ class EDecoder implements ObjectInput {
 			contract.tradingClass(readStr());
 		}
 
-		double pos = m_serverVersion >= EClient.MIN_SERVER_VER_FRACTIONAL_POSITIONS ? readDouble() : readInt();
+		Decimal pos = readDecimal();
 		double avgCost = 0;
 		if (version >= 3) {
 			avgCost = readDouble();
@@ -1794,7 +1789,7 @@ class EDecoder implements ObjectInput {
         contract.currency(readStr());
         contract.localSymbol(readStr());
         contract.tradingClass(readStr());
-        double pos = readDouble();
+        Decimal pos = readDecimal();
         double avgCost = readDouble();
         String modelCode = readStr();
 

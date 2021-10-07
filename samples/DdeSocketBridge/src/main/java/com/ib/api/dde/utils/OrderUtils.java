@@ -74,9 +74,9 @@ public class OrderUtils {
         
         if (completedOrderData.order() != null) {
             item.add(Utils.toString(completedOrderData.order().getAction()));
-            item.add(Utils.toString(completedOrderData.order().totalQuantity()));
+            item.add(completedOrderData.order().totalQuantity().toString());
             item.add(Utils.toString(completedOrderData.order().cashQty()));
-            item.add(Utils.toString(completedOrderData.order().filledQuantity()));
+            item.add(completedOrderData.order().filledQuantity().toString());
             item.add(Utils.toString(completedOrderData.order().getOrderType()));
             item.add(Utils.toString(completedOrderData.order().lmtPrice()));
             item.add(Utils.toString(completedOrderData.order().auxPrice()));
@@ -222,7 +222,7 @@ public class OrderUtils {
         
         if (openOrderData.order() != null) {
             item.add(Utils.toString(openOrderData.order().getAction()));
-            item.add(Utils.toString(openOrderData.order().totalQuantity()));
+            item.add(openOrderData.order().totalQuantity().toString());
             item.add(Utils.toString(openOrderData.order().getOrderType()));
             item.add(Utils.toString(openOrderData.order().lmtPrice()));
             item.add(Utils.toString(openOrderData.order().auxPrice()));
@@ -238,8 +238,8 @@ public class OrderUtils {
          
         if (openOrderData.orderStatus() != null) {
             item.add(Utils.toString(openOrderData.orderStatus().status()));
-            item.add(Utils.toString(openOrderData.orderStatus().filled(), "0"));
-            item.add(Utils.toString(openOrderData.orderStatus().remaining(), "0"));
+            item.add(openOrderData.orderStatus().filled().toString());
+            item.add(openOrderData.orderStatus().remaining().toString());
             item.add(Utils.toString(openOrderData.orderStatus().avgFillPrice()));
             item.add(Utils.toString(openOrderData.orderStatus().lastFillPrice()));
             if (isNew) {
@@ -438,10 +438,10 @@ public class OrderUtils {
                 ret = orderStatus.status();
                 break;
             case FILLED:
-                ret = Utils.toString(orderStatus.filled());
+                ret = orderStatus.filled().toString();
                 break;
             case REMAINING:
-                ret = Utils.toString(orderStatus.remaining());
+                ret = orderStatus.remaining().toString();
                 break;
             case AVG_FILL_PRICE:
                 ret = Utils.toString(orderStatus.avgFillPrice());

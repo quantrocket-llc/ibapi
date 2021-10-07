@@ -56,11 +56,7 @@ public class EOrderDecoder {
     }
 
     public void readTotalQuantity() throws IOException {
-        if (m_serverVersion >= EClient.MIN_SERVER_VER_FRACTIONAL_POSITIONS) {     
-            m_order.totalQuantity(m_eDecoder.readDouble());
-        } else {
-            m_order.totalQuantity(m_eDecoder.readInt());
-        }
+        m_order.totalQuantity(m_eDecoder.readDecimal());
     }
 
     public void readOrderType() throws IOException {
@@ -626,7 +622,7 @@ public class EOrderDecoder {
     }
 
     public void readFilledQuantity() throws IOException {
-        m_order.filledQuantity(m_eDecoder.readDoubleMax());
+        m_order.filledQuantity(m_eDecoder.readDecimal());
     }
 
     public void readRefFuturesConId() throws IOException {

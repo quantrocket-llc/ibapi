@@ -53,8 +53,8 @@ public class DefaultEWrapper implements EWrapper {
 	}
 
 	@Override
-	public void orderStatus(int orderId, String status, double filled,
-			double remaining, double avgFillPrice, int permId, int parentId,
+	public void orderStatus(int orderId, String status, Decimal filled,
+			Decimal remaining, double avgFillPrice, int permId, int parentId,
 			double lastFillPrice, int clientId, String whyHeld, double mktCapPrice) {
 		// TODO Auto-generated method stub
 		
@@ -81,7 +81,7 @@ public class DefaultEWrapper implements EWrapper {
 	}
 
 	@Override
-	public void updatePortfolio(Contract contract, double position,
+	public void updatePortfolio(Contract contract, Decimal position,
 			double marketPrice, double marketValue, double averageCost,
 			double unrealizedPNL, double realizedPNL, String accountName) {
 		// TODO Auto-generated method stub
@@ -239,7 +239,7 @@ public class DefaultEWrapper implements EWrapper {
 	}
 
 	@Override
-	public void position(String account, Contract contract, double pos,
+	public void position(String account, Contract contract, Decimal pos,
 			double avgCost) {
 		// TODO Auto-generated method stub
 		
@@ -331,7 +331,7 @@ public class DefaultEWrapper implements EWrapper {
 	}
 	
 	@Override
-	public void positionMulti( int reqId, String account, String modelCode, Contract contract, double pos, double avgCost) {
+	public void positionMulti( int reqId, String account, String modelCode, Contract contract, Decimal pos, double avgCost) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -483,7 +483,7 @@ public class DefaultEWrapper implements EWrapper {
 	}
 
     @Override
-    public void pnlSingle(int reqId, int pos, double dailyPnL, double unrealizedPnL, double realizedPnL, double value) {
+    public void pnlSingle(int reqId, Decimal pos, double dailyPnL, double unrealizedPnL, double realizedPnL, double value) {
         // TODO Auto-generated method stub
         
     }

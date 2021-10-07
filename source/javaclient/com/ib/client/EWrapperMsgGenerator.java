@@ -58,7 +58,7 @@ public class EWrapperMsgGenerator {
 		" dividends to expiry = "	+ dividendsToLastTradeDate;
     }
     
-    public static String orderStatus( int orderId, String status, double filled, double remaining,
+    public static String orderStatus( int orderId, String status, Decimal filled, Decimal remaining,
             double avgFillPrice, int permId, int parentId, double lastFillPrice,
             int clientId, String whyHeld, double mktCapPrice) {
     	return "order status: orderId=" + orderId + " clientId=" + clientId + " permId=" + permId +
@@ -82,7 +82,7 @@ public class EWrapperMsgGenerator {
     	return "updateAccountValue: " + key + " " + value + " " + currency + " " + accountName;
     }
     
-    public static String updatePortfolio(Contract contract, double position, double marketPrice,
+    public static String updatePortfolio(Contract contract, Decimal position, double marketPrice,
     									 double marketValue, double averageCost, double unrealizedPNL,
     									 double realizedPNL, String accountName) {
 		return "updatePortfolio: "
@@ -359,11 +359,11 @@ public class EWrapperMsgGenerator {
         " yieldRedemptionDate=" + Util.IntMaxString(commissionReport.yieldRedemptionDate());
     }
     
-    public static String position( String account, Contract contract, double pos, double avgCost) {
+    public static String position( String account, Contract contract, Decimal pos, double avgCost) {
 		return " ---- Position begin ----\n"
         + "account = " + account + "\n"
         + contractMsg(contract)
-        + "position = " + Util.DoubleMaxString(pos) + "\n"
+        + "position = " + pos + "\n"
         + "avgCost = " + Util.DoubleMaxString(avgCost) + "\n"
         + " ---- Position end ----\n";
     }    
@@ -386,13 +386,13 @@ public class EWrapperMsgGenerator {
     	return "id=" + reqId + " =============== end ===============";
     }
 
-    public static String positionMulti( int reqId, String account, String modelCode, Contract contract, double pos, double avgCost) {
+    public static String positionMulti( int reqId, String account, String modelCode, Contract contract, Decimal pos, double avgCost) {
 		return " ---- Position begin ----\n"
         + "id = " + reqId + "\n"
         + "account = " + account + "\n"
         + "modelCode = " + modelCode + "\n"
         + contractMsg(contract)
-        + "position = " + Util.DoubleMaxString(pos) + "\n"
+        + "position = " + pos + "\n"
         + "avgCost = " + Util.DoubleMaxString(avgCost) + "\n"
         + " ---- Position end ----\n";
     }    
@@ -617,7 +617,7 @@ public class EWrapperMsgGenerator {
 		return "Daily PnL. Req Id: " + reqId + ", daily PnL: " + dailyPnL + ", unrealizedPnL: " + unrealizedPnL + ", realizedPnL: " + realizedPnL;
     }
     
-    public static String pnlSingle(int reqId, int pos, double dailyPnL, double unrealizedPnL, double realizedPnL, double value) {
+    public static String pnlSingle(int reqId, Decimal pos, double dailyPnL, double unrealizedPnL, double realizedPnL, double value) {
 		return "Daily PnL Single. Req Id: " + reqId + ", pos: " + pos + ", daily PnL: " + dailyPnL + ", unrealizedPnL: " + unrealizedPnL + ", realizedPnL: " + realizedPnL + ", value: " + value;
     }
 
@@ -690,7 +690,7 @@ public class EWrapperMsgGenerator {
             boolean isOpenOrder) {
         Util.appendValidIntValue(sb, "orderId", orderId);
         Util.appendNonEmptyString(sb, "action", order.getAction());
-        Util.appendPositiveDoubleValue(sb, "quantity", order.totalQuantity());
+        Util.appendNonEmptyString(sb, "quantity", order.totalQuantity().toString());
         Util.appendPositiveDoubleValue(sb, "cashQty", order.cashQty());
         Util.appendPositiveIntValue(sb, "conid", contract.conid());
         Util.appendNonEmptyString(sb, "symbol", contract.symbol());
@@ -875,7 +875,7 @@ public class EWrapperMsgGenerator {
 
         
         Util.appendNonEmptyString(sb, "autoCancelDate", order.autoCancelDate());
-        Util.appendValidDoubleValue(sb, "filledQuantity", order.filledQuantity());
+        Util.appendNonEmptyString(sb, "filledQuantity", order.filledQuantity().toString());
         Util.appendPositiveIntValue(sb, "refFuturesConId", order.refFuturesConId());
         Util.appendBooleanFlag(sb, "autoCancelParent", order.autoCancelParent());
         Util.appendNonEmptyString(sb, "shareholder", order.shareholder());

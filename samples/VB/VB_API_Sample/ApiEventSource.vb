@@ -43,7 +43,7 @@ Friend Class ApiEventSource
                          End Sub)
     End Sub
 
-    Private Sub EWrapper_PnLSingle(reqId As Integer, pos As Integer, dailyPnL As Double, unrealizedPnL As Double, realizedPnL As Double, value As Double) Implements EWrapper.pnlSingle
+    Private Sub EWrapper_PnLSingle(reqId As Integer, pos As Decimal, dailyPnL As Double, unrealizedPnL As Double, realizedPnL As Double, value As Double) Implements EWrapper.pnlSingle
         InvokeIfRequired(Sub()
                              RaiseEvent PnLSingle(Me, New PnLSingleEventArgs With {
                                  .requestId = reqId,
@@ -279,7 +279,7 @@ Friend Class ApiEventSource
                          End Sub)
     End Sub
 
-    Private Sub EWrapper_OrderStatus(orderId As Integer, status As String, filled As Double, remaining As Double, avgFillPrice As Double, permId As Integer, parentId As Integer, lastFillPrice As Double, clientId As Integer, whyHeld As String, mktCapPrice As Double) Implements IBApi.EWrapper.orderStatus
+    Private Sub EWrapper_OrderStatus(orderId As Integer, status As String, filled As Decimal, remaining As Decimal, avgFillPrice As Double, permId As Integer, parentId As Integer, lastFillPrice As Double, clientId As Integer, whyHeld As String, mktCapPrice As Double) Implements IBApi.EWrapper.orderStatus
         InvokeIfRequired(Sub()
                              RaiseEvent OrderStatus(Me, New OrderStatusEventArgs With {
                                                                      .orderId = orderId,
@@ -297,7 +297,7 @@ Friend Class ApiEventSource
                          End Sub)
     End Sub
 
-    Private Sub EWrapper_Position(account As String, contract As IBApi.Contract, pos As Double, avgCost As Double) Implements IBApi.EWrapper.position
+    Private Sub EWrapper_Position(account As String, contract As IBApi.Contract, pos As Decimal, avgCost As Double) Implements IBApi.EWrapper.position
         InvokeIfRequired(Sub()
                              RaiseEvent Position(Me, New PositionEventArgs With {
                                                                      .account = account,
@@ -493,7 +493,7 @@ Friend Class ApiEventSource
                          End Sub)
     End Sub
 
-    Private Sub EWrapper_UpdatePortfolio(contract As IBApi.Contract, position As Double, marketPrice As Double, marketValue As Double, averageCost As Double, unrealizedPNL As Double, realizedPNL As Double, accountName As String) Implements IBApi.EWrapper.updatePortfolio
+    Private Sub EWrapper_UpdatePortfolio(contract As IBApi.Contract, position As Decimal, marketPrice As Double, marketValue As Double, averageCost As Double, unrealizedPNL As Double, realizedPNL As Double, accountName As String) Implements IBApi.EWrapper.updatePortfolio
         InvokeIfRequired(Sub()
                              RaiseEvent UpdatePortfolio(Me, New UpdatePortfolioEventArgs With {
                                                                      .contract = contract,
@@ -549,7 +549,7 @@ Friend Class ApiEventSource
         End If
     End Sub
 
-    Private Sub EWrapper_PositionMulti(reqId As Integer, account As String, modelCode As String, contract As IBApi.Contract, pos As Double, avgCost As Double) Implements IBApi.EWrapper.positionMulti
+    Private Sub EWrapper_PositionMulti(reqId As Integer, account As String, modelCode As String, contract As IBApi.Contract, pos As Decimal, avgCost As Double) Implements IBApi.EWrapper.positionMulti
         InvokeIfRequired(Sub()
                              RaiseEvent PositionMulti(Me, New PositionMultiEventArgs With {
                                                            .reqId = reqId,

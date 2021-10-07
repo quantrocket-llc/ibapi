@@ -18,6 +18,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.AbstractTableModel;
 
 import com.ib.client.Contract;
+import com.ib.client.Decimal;
 import com.ib.client.Order;
 import com.ib.client.OrderState;
 import com.ib.client.OrderStatus;
@@ -214,7 +215,7 @@ public class OrdersPanel extends JPanel {
 		@Override public void openOrderEnd() {
 		}
 		
-		@Override public void orderStatus(int orderId, OrderStatus status, double filled, double remaining, double avgFillPrice, int permId, int parentId, double lastFillPrice, int clientId, String whyHeld, double mktCapPrice) {
+		@Override public void orderStatus(int orderId, OrderStatus status, Decimal filled, Decimal remaining, double avgFillPrice, int permId, int parentId, double lastFillPrice, int clientId, String whyHeld, double mktCapPrice) {
 			OrderRow full = m_map.get( permId);
 			if (full != null) {
 				full.m_state.status( status);

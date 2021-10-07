@@ -232,7 +232,7 @@ namespace IBSampleApp
             ibClient.RerouteMktDepthReq += (reqId, conId, exchange) => addTextToBox("Re-route market depth request. ReqId: " + reqId + ", ConId: " + conId + ", Exchange: " + exchange + "\n");
             ibClient.MarketRule += contractManager.HandleMarketRuleMessage;
             ibClient.pnl += msg => pnldataTable.Rows.Add(msg.DailyPnL, msg.UnrealizedPnL, msg.RealizedPnL);
-            ibClient.pnlSingle += msg => pnlSingledataTable.Rows.Add(msg.Pos, msg.DailyPnL, msg.UnrealizedPnL, msg.RealizedPnL, msg.Value);
+            ibClient.pnlSingle += msg => pnlSingledataTable.Rows.Add(Util.DecimalMaxString(msg.Pos), msg.DailyPnL, msg.UnrealizedPnL, msg.RealizedPnL, msg.Value);
             ibClient.historicalTick += UpdateUI;
             ibClient.historicalTickBidAsk += UpdateUI;
             ibClient.historicalTickLast += UpdateUI;

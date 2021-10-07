@@ -666,7 +666,7 @@ namespace IBApi
         private void PnLSingleEvent()
         {
             int reqId = ReadInt();
-            int pos = ReadInt();
+            decimal pos = ReadDecimal();
             double dailyPnL = ReadDouble();
             double unrealizedPnL = double.MaxValue;
             double realizedPnL = double.MaxValue;
@@ -1365,7 +1365,7 @@ namespace IBApi
                 contract.TradingClass = ReadString();
             }
 
-            var position = serverVersion >= MinServerVer.FRACTIONAL_POSITIONS ? ReadDouble() : ReadInt();
+            decimal position = ReadDecimal();
             double marketPrice = ReadDouble();
             double marketValue = ReadDouble();
             double averageCost = 0.0;
@@ -1412,8 +1412,8 @@ namespace IBApi
             int msgVersion = serverVersion >= MinServerVer.MARKET_CAP_PRICE ? int.MaxValue : ReadInt();
             int id = ReadInt();
             string status = ReadString();
-            double filled = serverVersion >= MinServerVer.FRACTIONAL_POSITIONS ? ReadDouble() : ReadInt();
-            double remaining = serverVersion >= MinServerVer.FRACTIONAL_POSITIONS ? ReadDouble() : ReadInt();
+            decimal filled = ReadDecimal();
+            decimal remaining = ReadDecimal();
             double avgFillPrice = ReadDouble();
 
             int permId = 0;
@@ -1697,7 +1697,7 @@ namespace IBApi
             exec.AcctNumber = ReadString();
             exec.Exchange = ReadString();
             exec.Side = ReadString();
-            exec.Shares = serverVersion >= MinServerVer.FRACTIONAL_POSITIONS ? ReadDouble() : ReadInt();
+            exec.Shares = ReadDecimal();
             exec.Price = ReadDouble();
             if (msgVersion >= 2)
             {
@@ -1713,7 +1713,7 @@ namespace IBApi
             }
             if (msgVersion >= 6)
             {
-                exec.CumQty = ReadDouble();
+                exec.CumQty = ReadDecimal();
                 exec.AvgPrice = ReadDouble();
             }
             if (msgVersion >= 8)
@@ -1888,7 +1888,7 @@ namespace IBApi
                 contract.TradingClass = ReadString();
             }
 
-            var pos = serverVersion >= MinServerVer.FRACTIONAL_POSITIONS ? ReadDouble() : ReadInt();
+            decimal pos = ReadDecimal();
             double avgCost = 0;
             if (msgVersion >= 3)
                 avgCost = ReadDouble();
@@ -1983,7 +1983,7 @@ namespace IBApi
             contract.Currency = ReadString();
             contract.LocalSymbol = ReadString();
             contract.TradingClass = ReadString();
-            var pos = ReadDouble();
+            decimal pos = ReadDecimal();
             double avgCost = ReadDouble();
             string modelCode = ReadString();
             eWrapper.positionMulti(requestId, account, modelCode, contract, pos, avgCost);

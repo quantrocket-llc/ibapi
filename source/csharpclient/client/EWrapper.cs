@@ -342,7 +342,7 @@ namespace IBApi
          * @param marketValue total market value of the instrument.
          * @sa updateAccountTime, accountDownloadEnd, updateAccountValue, EClientSocket::reqAccountUpdates
          */
-        void updatePortfolio(Contract contract, double position, double marketPrice, double marketValue,
+        void updatePortfolio(Contract contract, decimal position, double marketPrice, double marketValue,
             double averageCost, double unrealizedPNL, double realizedPNL, string accountName);
 
         /**
@@ -382,7 +382,7 @@ namespace IBApi
 		 * @param mktCapPrice If an order has been capped, this indicates the current capped price. Requires TWS 967+ and API v973.04+. Python API specifically requires API v973.06+.
          * @sa openOrder, openOrderEnd, EClientSocket::placeOrder, EClientSocket::reqAllOpenOrders, EClientSocket::reqAutoOpenOrders
          */
-        void orderStatus(int orderId, string status, double filled, double remaining, double avgFillPrice,
+        void orderStatus(int orderId, string status, decimal filled, decimal remaining, double avgFillPrice,
             int permId, int parentId, double lastFillPrice, int clientId, string whyHeld, double mktCapPrice);
 
         /**
@@ -528,7 +528,7 @@ namespace IBApi
          * @Param avgCost the average cost of the position.
          * @sa positionEnd, EClientSocket::reqPositions
          */
-        void position(string account, Contract contract, double pos, double avgCost);
+        void position(string account, Contract contract, decimal pos, double avgCost);
 
         /**
          * @brief Indicates all the positions have been transmitted.
@@ -641,7 +641,7 @@ namespace IBApi
          * @param avgCost the average cost of the position.
          * @sa positionMultiEnd, EClientSocket::reqPositionsMulti
          */
-        void positionMulti(int requestId, string account, string modelCode, Contract contract, double pos, double avgCost);
+        void positionMulti(int requestId, string account, string modelCode, Contract contract, decimal pos, double avgCost);
 
         /**
          * @brief Indicates all the positions have been transmitted.
@@ -840,7 +840,7 @@ namespace IBApi
 		* @param value current market value of the position
 		* @sa EClient::reqSinglePnL
 		*/
-        void pnlSingle(int reqId, int pos, double dailyPnL, double unrealizedPnL, double realizedPnL, double value);
+        void pnlSingle(int reqId, decimal pos, double dailyPnL, double unrealizedPnL, double realizedPnL, double value);
 			
 		/**
 		* @brief

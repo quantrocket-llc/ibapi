@@ -353,8 +353,8 @@ public class EWrapperImpl implements EWrapper {
     }
 
     @Override
-    public void orderStatus(int orderId, String status, double filled, 
-            double remaining, double avgFillPrice, int permId, int parentId, 
+    public void orderStatus(int orderId, String status, Decimal filled, 
+    		Decimal remaining, double avgFillPrice, int permId, int parentId, 
             double lastFillPrice, int clientId, String whyHeld, double mktCapPrice) {
         System.out.println("orderStatus OrderId [" + orderId + "] Status [" + status + "] Filled [" + filled + "] "
                 + "Remaining [" + remaining + "] AvgFillPrice [" + avgFillPrice + "] PermId [" + permId + "]"
@@ -414,7 +414,7 @@ public class EWrapperImpl implements EWrapper {
     }
 
     @Override
-    public void position(String account, Contract contract, double pos, double avgCost) {
+    public void position(String account, Contract contract, Decimal pos, double avgCost) {
         System.out.println("position Account [" + account + "] Contract [" + Utils.shortContractString(contract) + "] Position [" + pos + "] AvgCost [" + avgCost + "]");
         m_twsService.updatePositionData(new PositionData(0, account, "", contract, pos, avgCost), DdeRequestType.REQ_POSITIONS);
     }
@@ -431,7 +431,7 @@ public class EWrapperImpl implements EWrapper {
     }
 
     @Override
-    public void positionMulti(int reqId, String account, String modelCode, Contract contract, double pos, double avgCost) {
+    public void positionMulti(int reqId, String account, String modelCode, Contract contract, Decimal pos, double avgCost) {
         System.out.println("positionMulti ReqId [" + reqId + "] Account [" + account + "] ModelCode [" + modelCode + "] Contract [" + Utils.shortContractString(contract) + "] Position [" + pos + "] AvgCost [" + avgCost + "]");
         m_twsService.updatePositionData(new PositionData(reqId, account, modelCode, contract, pos, avgCost), DdeRequestType.REQ_POSITIONS_MULTI);
     }
@@ -488,7 +488,7 @@ public class EWrapperImpl implements EWrapper {
     }
 
     @Override
-    public void updatePortfolio(Contract contract, double position, 
+    public void updatePortfolio(Contract contract, Decimal position, 
             double marketPrice, double marketValue, double averageCost, 
             double unrealizedPNL, double realizedPNL, String accountName) {
         System.out.println("updatePortfolio Contract [" + Utils.shortContractString(contract) + "] Position [" + position + "] MarketPrice [" + marketPrice + 
@@ -785,7 +785,7 @@ public class EWrapperImpl implements EWrapper {
     }
 
     @Override
-    public void pnlSingle(int reqId, int pos, double dailyPnL, double unrealizedPnL, double realizedPnL, double value) {
+    public void pnlSingle(int reqId, Decimal pos, double dailyPnL, double unrealizedPnL, double realizedPnL, double value) {
         System.out.println("pnlSingle ReqId [" + reqId + "] Position [" + pos + "] DailyPnL [" + dailyPnL + "] UnrealizedPnL [" + unrealizedPnL + "] "
                 + "RealizedPnL [" + realizedPnL + "] Value [" + value + "]");
         m_twsService.updatePnL(reqId, Utils.POSITION, pos, DdeRequestStatus.SUBSCRIBED);

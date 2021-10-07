@@ -90,10 +90,10 @@ public class EWrapperImpl implements EWrapper {
 	}
 	//! [orderstatus]
 	@Override
-	public void orderStatus(int orderId, String status, double filled,
-			double remaining, double avgFillPrice, int permId, int parentId,
+	public void orderStatus(int orderId, String status, Decimal filled,
+			Decimal remaining, double avgFillPrice, int permId, int parentId,
 			double lastFillPrice, int clientId, String whyHeld, double mktCapPrice) {
-		System.out.println("OrderStatus. Id: "+orderId+", Status: "+status+", Filled"+filled+", Remaining: "+remaining
+		System.out.println("OrderStatus. Id: "+orderId+", Status: "+status+", Filled: "+filled+", Remaining: "+remaining
                 +", AvgFillPrice: "+avgFillPrice+", PermId: "+permId+", ParentId: "+parentId+", LastFillPrice: "+lastFillPrice+
                 ", ClientId: "+clientId+", WhyHeld: "+whyHeld+", MktCapPrice: "+mktCapPrice);
 	}
@@ -124,7 +124,7 @@ public class EWrapperImpl implements EWrapper {
 	
 	//! [updateportfolio]
 	@Override
-	public void updatePortfolio(Contract contract, double position,
+	public void updatePortfolio(Contract contract, Decimal position,
 			double marketPrice, double marketValue, double averageCost,
 			double unrealizedPNL, double realizedPNL, String accountName) {
 		System.out.println("UpdatePortfolio. "+contract.symbol()+", "+contract.secType()+" @ "+contract.exchange()
@@ -176,7 +176,7 @@ public class EWrapperImpl implements EWrapper {
 	@Override
 	public void execDetails(int reqId, Contract contract, Execution execution) {
 		System.out.println("ExecDetails. "+reqId+" - ["+contract.symbol()+"], ["+contract.secType()+"], ["+contract.currency()+"], ["+execution.execId()+
-		        "], ["+execution.orderId()+"], ["+execution.shares()+"]"  + ", [" + execution.lastLiquidity() + "]");
+		        "], ["+execution.orderId()+"], ["+execution.shares()+"]"  + ", ["+execution.cumQty()+"]"  + ", [" + execution.lastLiquidity() + "]");
 	}
 	//! [execdetails]
 	
@@ -308,7 +308,7 @@ public class EWrapperImpl implements EWrapper {
 	
 	//! [position]
 	@Override
-	public void position(String account, Contract contract, double pos,
+	public void position(String account, Contract contract, Decimal pos,
 			double avgCost) {
 		System.out.println("Position. "+account+" - Symbol: "+contract.symbol()+", SecType: "+contract.secType()+", Currency: "+contract.currency()+", Position: "+pos+", Avg cost: "+avgCost);
 	}
@@ -400,7 +400,7 @@ public class EWrapperImpl implements EWrapper {
 	//! [positionmulti]
 	@Override
 	public void positionMulti(int reqId, String account, String modelCode,
-			Contract contract, double pos, double avgCost) {
+			Contract contract, Decimal pos, double avgCost) {
 		System.out.println("Position Multi. Request: " + reqId + ", Account: " + account + ", ModelCode: " + modelCode + ", Symbol: " + contract.symbol() + ", SecType: " + contract.secType() + ", Currency: " + contract.currency() + ", Position: " + pos + ", Avg cost: " + avgCost + "\n");
 	}
 	//! [positionmulti]
@@ -614,7 +614,7 @@ public class EWrapperImpl implements EWrapper {
 	
 	//! [pnlsingle]
     @Override
-    public void pnlSingle(int reqId, int pos, double dailyPnL, double unrealizedPnL, double realizedPnL, double value) {
+    public void pnlSingle(int reqId, Decimal pos, double dailyPnL, double unrealizedPnL, double realizedPnL, double value) {
         System.out.println(EWrapperMsgGenerator.pnlSingle(reqId, pos, dailyPnL, unrealizedPnL, realizedPnL, value));                
     }
     //! [pnlsingle]

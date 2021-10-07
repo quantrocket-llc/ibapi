@@ -453,7 +453,7 @@ Public Sub ProcessError(orderStatusTable As Range, ByVal orderId As Long, ByVal 
 End Sub
 
 ' update order status
-Public Sub UpdateOrderStatus(orderStatusTable As Range, orderId As Long, status As String, filled As Double, remaining As Double, avgFillPrice As Double, parentId As Long, lastFillPrice As Double)
+Public Sub UpdateOrderStatus(orderStatusTable As Range, orderId As Long, status As String, filled As String, remaining As String, avgFillPrice As Double, parentId As Long, lastFillPrice As Double)
     ' find row to update by using orderId
     Dim rowId As Long
     rowId = FindOrderRowIndex(orderId, orderStatusTable)

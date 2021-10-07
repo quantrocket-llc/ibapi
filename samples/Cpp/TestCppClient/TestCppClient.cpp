@@ -850,6 +850,10 @@ void TestCppClient::orderOperations()
 	m_pClient->reqCompletedOrders(false);
 	//! [reqcompletedorders]
 
+	//! [order_submission]
+	m_pClient->placeOrder(m_orderId++, ContractSamples::CryptoContract(), OrderSamples::LimitOrder("BUY", stringToDecimal("0.12345678"), 3700));
+	//! [order_submission]
+
 	m_state = ST_ORDEROPERATIONS_ACK;
 }
 
@@ -1525,19 +1529,19 @@ void TestCppClient::tickEFP(TickerId tickerId, TickType tickType, double basisPo
 }
 
 //! [orderstatus]
-void TestCppClient::orderStatus(OrderId orderId, const std::string& status, double filled,
-		double remaining, double avgFillPrice, int permId, int parentId,
+void TestCppClient::orderStatus(OrderId orderId, const std::string& status, Decimal filled,
+		Decimal remaining, double avgFillPrice, int permId, int parentId,
 		double lastFillPrice, int clientId, const std::string& whyHeld, double mktCapPrice){
-	printf("OrderStatus. Id: %ld, Status: %s, Filled: %g, Remaining: %g, AvgFillPrice: %g, PermId: %d, LastFillPrice: %g, ClientId: %d, WhyHeld: %s, MktCapPrice: %g\n", orderId, status.c_str(), filled, remaining, avgFillPrice, permId, lastFillPrice, clientId, whyHeld.c_str(), mktCapPrice);
+	printf("OrderStatus. Id: %ld, Status: %s, Filled: %s, Remaining: %s, AvgFillPrice: %g, PermId: %d, LastFillPrice: %g, ClientId: %d, WhyHeld: %s, MktCapPrice: %g\n", orderId, status.c_str(), decimalStringToDisplay(filled).c_str(), decimalStringToDisplay(remaining).c_str(), avgFillPrice, permId, lastFillPrice, clientId, whyHeld.c_str(), mktCapPrice);
 }
 //! [orderstatus]
 
 //! [openorder]
 void TestCppClient::openOrder( OrderId orderId, const Contract& contract, const Order& order, const OrderState& orderState) {
-	printf( "OpenOrder. PermId: %i, ClientId: %ld, OrderId: %ld, Account: %s, Symbol: %s, SecType: %s, Exchange: %s:, Action: %s, OrderType:%s, TotalQty: %g, CashQty: %g, "
+	printf( "OpenOrder. PermId: %i, ClientId: %ld, OrderId: %ld, Account: %s, Symbol: %s, SecType: %s, Exchange: %s:, Action: %s, OrderType:%s, TotalQty: %s, CashQty: %g, "
 	"LmtPrice: %g, AuxPrice: %g, Status: %s\n", 
 		order.permId, order.clientId, orderId, order.account.c_str(), contract.symbol.c_str(), contract.secType.c_str(), contract.exchange.c_str(), 
-		order.action.c_str(), order.orderType.c_str(), order.totalQuantity, order.cashQty == UNSET_DOUBLE ? 0 : order.cashQty, order.lmtPrice, order.auxPrice, orderState.status.c_str());
+		order.action.c_str(), order.orderType.c_str(), decimalStringToDisplay(order.totalQuantity).c_str(), order.cashQty == UNSET_DOUBLE ? 0 : order.cashQty, order.lmtPrice, order.auxPrice, orderState.status.c_str());
 }
 //! [openorder]
 
@@ -1560,10 +1564,10 @@ void TestCppClient::updateAccountValue(const std::string& key, const std::string
 //! [updateaccountvalue]
 
 //! [updateportfolio]
-void TestCppClient::updatePortfolio(const Contract& contract, double position,
+void TestCppClient::updatePortfolio(const Contract& contract, Decimal position,
                                     double marketPrice, double marketValue, double averageCost,
                                     double unrealizedPNL, double realizedPNL, const std::string& accountName){
-	printf("UpdatePortfolio. %s, %s @ %s: Position: %g, MarketPrice: %g, MarketValue: %g, AverageCost: %g, UnrealizedPNL: %g, RealizedPNL: %g, AccountName: %s\n", (contract.symbol).c_str(), (contract.secType).c_str(), (contract.primaryExchange).c_str(), position, marketPrice, marketValue, averageCost, unrealizedPNL, realizedPNL, accountName.c_str());
+	printf("UpdatePortfolio. %s, %s @ %s: Position: %s, MarketPrice: %g, MarketValue: %g, AverageCost: %g, UnrealizedPNL: %g, RealizedPNL: %g, AccountName: %s\n", (contract.symbol).c_str(), (contract.secType).c_str(), (contract.primaryExchange).c_str(), decimalStringToDisplay(position).c_str(), marketPrice, marketValue, averageCost, unrealizedPNL, realizedPNL, accountName.c_str());
 }
 //! [updateportfolio]
 
@@ -1697,7 +1701,7 @@ void TestCppClient::contractDetailsEnd( int reqId) {
 
 //! [execdetails]
 void TestCppClient::execDetails( int reqId, const Contract& contract, const Execution& execution) {
-	printf( "ExecDetails. ReqId: %d - %s, %s, %s - %s, %ld, %g, %d\n", reqId, contract.symbol.c_str(), contract.secType.c_str(), contract.currency.c_str(), execution.execId.c_str(), execution.orderId, execution.shares, execution.lastLiquidity);
+	printf( "ExecDetails. ReqId: %d - %s, %s, %s - %s, %ld, %s, %s, %d\n", reqId, contract.symbol.c_str(), contract.secType.c_str(), contract.currency.c_str(), execution.execId.c_str(), execution.orderId, decimalStringToDisplay(execution.shares).c_str(), decimalStringToDisplay(execution.cumQty).c_str(), execution.lastLiquidity);
 }
 //! [execdetails]
 
@@ -1807,8 +1811,8 @@ void TestCppClient::commissionReport( const CommissionReport& commissionReport) 
 //! [commissionreport]
 
 //! [position]
-void TestCppClient::position( const std::string& account, const Contract& contract, double position, double avgCost) {
-	printf( "Position. %s - Symbol: %s, SecType: %s, Currency: %s, Position: %g, Avg Cost: %g\n", account.c_str(), contract.symbol.c_str(), contract.secType.c_str(), contract.currency.c_str(), position, avgCost);
+void TestCppClient::position( const std::string& account, const Contract& contract, Decimal position, double avgCost) {
+	printf( "Position. %s - Symbol: %s, SecType: %s, Currency: %s, Position: %s, Avg Cost: %g\n", account.c_str(), contract.symbol.c_str(), contract.secType.c_str(), contract.currency.c_str(), decimalStringToDisplay(position).c_str(), avgCost);
 }
 //! [position]
 
@@ -1861,8 +1865,8 @@ void TestCppClient::displayGroupUpdated( int reqId, const std::string& contractI
 //! [displaygroupupdated]
 
 //! [positionmulti]
-void TestCppClient::positionMulti( int reqId, const std::string& account,const std::string& modelCode, const Contract& contract, double pos, double avgCost) {
-	printf("Position Multi. Request: %d, Account: %s, ModelCode: %s, Symbol: %s, SecType: %s, Currency: %s, Position: %g, Avg Cost: %g\n", reqId, account.c_str(), modelCode.c_str(), contract.symbol.c_str(), contract.secType.c_str(), contract.currency.c_str(), pos, avgCost);
+void TestCppClient::positionMulti( int reqId, const std::string& account,const std::string& modelCode, const Contract& contract, Decimal pos, double avgCost) {
+	printf("Position Multi. Request: %d, Account: %s, ModelCode: %s, Symbol: %s, SecType: %s, Currency: %s, Position: %s, Avg Cost: %g\n", reqId, account.c_str(), modelCode.c_str(), contract.symbol.c_str(), contract.secType.c_str(), contract.currency.c_str(), decimalStringToDisplay(pos).c_str(), avgCost);
 }
 //! [positionmulti]
 
@@ -2073,8 +2077,8 @@ void TestCppClient::pnl(int reqId, double dailyPnL, double unrealizedPnL, double
 //! [pnl]
 
 //! [pnlsingle]
-void TestCppClient::pnlSingle(int reqId, int pos, double dailyPnL, double unrealizedPnL, double realizedPnL, double value) {
-	printf("PnL Single. ReqId: %d, pos: %d, daily PnL: %g, unrealized PnL: %g, realized PnL: %g, value: %g\n", reqId, pos, dailyPnL, unrealizedPnL, realizedPnL, value);
+void TestCppClient::pnlSingle(int reqId, Decimal pos, double dailyPnL, double unrealizedPnL, double realizedPnL, double value) {
+	printf("PnL Single. ReqId: %d, pos: %s, daily PnL: %g, unrealized PnL: %g, realized PnL: %g, value: %g\n", reqId, decimalStringToDisplay(pos).c_str(), dailyPnL, unrealizedPnL, realizedPnL, value);
 }
 //! [pnlsingle]
 
@@ -2137,10 +2141,10 @@ void TestCppClient::orderBound(long long orderId, int apiClientId, int apiOrderI
 
 //! [completedorder]
 void TestCppClient::completedOrder(const Contract& contract, const Order& order, const OrderState& orderState) {
-	printf( "CompletedOrder. PermId: %i, ParentPermId: %lld, Account: %s, Symbol: %s, SecType: %s, Exchange: %s:, Action: %s, OrderType: %s, TotalQty: %g, CashQty: %g, FilledQty: %g, "
+	printf( "CompletedOrder. PermId: %i, ParentPermId: %lld, Account: %s, Symbol: %s, SecType: %s, Exchange: %s:, Action: %s, OrderType: %s, TotalQty: %s, CashQty: %g, FilledQty: %s, "
 		"LmtPrice: %g, AuxPrice: %g, Status: %s, CompletedTime: %s, CompletedStatus: %s\n", 
 		order.permId, order.parentPermId == UNSET_LONG ? 0 : order.parentPermId, order.account.c_str(), contract.symbol.c_str(), contract.secType.c_str(), contract.exchange.c_str(), 
-		order.action.c_str(), order.orderType.c_str(), order.totalQuantity, order.cashQty == UNSET_DOUBLE ? 0 : order.cashQty, order.filledQuantity, 
+		order.action.c_str(), order.orderType.c_str(), decimalStringToDisplay(order.totalQuantity).c_str(), order.cashQty == UNSET_DOUBLE ? 0 : order.cashQty, decimalStringToDisplay(order.filledQuantity).c_str(),
 		order.lmtPrice, order.auxPrice, orderState.status.c_str(), orderState.completedTime.c_str(), orderState.completedStatus.c_str());
 }
 //! [completedorder]

@@ -183,7 +183,7 @@ namespace IBSampleApp.ui
             tradeLogGrid[2, index].Value = message.Execution.AcctNumber;
             tradeLogGrid[3, index].Value = message.Execution.ModelCode;
             tradeLogGrid[4, index].Value = message.Execution.Side;
-            tradeLogGrid[5, index].Value = message.Execution.Shares;
+            tradeLogGrid[5, index].Value = Util.DecimalMaxString(message.Execution.Shares);
             tradeLogGrid[6, index].Value = message.Contract.Symbol + " " + message.Contract.SecType + " " + message.Contract.Exchange;
             tradeLogGrid[7, index].Value = message.Execution.Price;
             tradeLogGrid["LastLiquidity", index].Value = message.Execution.LastLiquidity;
@@ -247,7 +247,7 @@ namespace IBSampleApp.ui
             liveOrdersGrid[3, rowIndex].Value = orderMessage.Order.Account;
             liveOrdersGrid[4, rowIndex].Value = orderMessage.Order.ModelCode;
             liveOrdersGrid[5, rowIndex].Value = orderMessage.Order.Action;
-            liveOrdersGrid[6, rowIndex].Value = orderMessage.Order.TotalQuantity;
+            liveOrdersGrid[6, rowIndex].Value = Util.DecimalMaxString(orderMessage.Order.TotalQuantity);
             liveOrdersGrid[7, rowIndex].Value = orderMessage.Contract.Symbol+" "+orderMessage.Contract.SecType+" "+orderMessage.Contract.Exchange;
             liveOrdersGrid[8, rowIndex].Value = orderMessage.OrderState.Status;
             liveOrdersGrid[9, rowIndex].Value = (orderMessage.Order.CashQty != double.MaxValue ? orderMessage.Order.CashQty.ToString() : "");
@@ -259,9 +259,9 @@ namespace IBSampleApp.ui
             completedOrdersGrid[1, rowIndex].Value = Util.LongMaxString(completedOrderMessage.Order.ParentPermId);
             completedOrdersGrid[2, rowIndex].Value = completedOrderMessage.Order.Account;
             completedOrdersGrid[3, rowIndex].Value = completedOrderMessage.Order.Action;
-            completedOrdersGrid[4, rowIndex].Value = completedOrderMessage.Order.TotalQuantity;
+            completedOrdersGrid[4, rowIndex].Value = Util.DecimalMaxString(completedOrderMessage.Order.TotalQuantity);
             completedOrdersGrid[5, rowIndex].Value = completedOrderMessage.Order.CashQty;
-            completedOrdersGrid[6, rowIndex].Value = completedOrderMessage.Order.FilledQuantity;
+            completedOrdersGrid[6, rowIndex].Value = Util.DecimalMaxString(completedOrderMessage.Order.FilledQuantity);
             completedOrdersGrid[7, rowIndex].Value = completedOrderMessage.Order.LmtPrice;
             completedOrdersGrid[8, rowIndex].Value = completedOrderMessage.Order.AuxPrice;
             completedOrdersGrid[9, rowIndex].Value = completedOrderMessage.Contract.Symbol + " " + completedOrderMessage.Contract.SecType + " " + completedOrderMessage.Contract.Exchange;

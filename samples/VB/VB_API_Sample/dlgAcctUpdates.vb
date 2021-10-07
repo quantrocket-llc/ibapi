@@ -216,14 +216,14 @@ Friend Class dlgAcctUpdates
     ' ========================================================
     ' Button Events
     ' ========================================================
-    Private Sub cmdSubscribe_Click(sender As Object, e As EventArgs)
+    Private Sub cmdSubscribe_Click(sender As Object, e As EventArgs) Handles cmdSubscribe.Click
         m_acctCode = txtAcctCode.Text
         m_subscribe = True
         m_ok = True
         Me.Hide()
     End Sub
 
-    Private Sub cmdUnSubscribe_Click(sender As Object, e As EventArgs)
+    Private Sub cmdUnSubscribe_Click(sender As Object, e As EventArgs) Handles cmdUnSubscribe.Click
         m_acctCode = txtAcctCode.Text
         m_subscribe = False
         m_ok = True

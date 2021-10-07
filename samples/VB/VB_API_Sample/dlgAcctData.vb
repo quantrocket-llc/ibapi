@@ -1,8 +1,10 @@
 ﻿' Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
 ' and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable.
 
-
 Option Explicit On
+
+Imports IBApi
+
 Friend Class dlgAcctData
     Inherits System.Windows.Forms.Form
 #Region "Windows Form Designer generated code "
@@ -245,13 +247,13 @@ Friend Class dlgAcctData
     '--------------------------------------------------------------------------------
     ' Updates a portfolio position details
     '--------------------------------------------------------------------------------
-    Public Sub updatePortfolio(contract As IBApi.Contract, position As Integer, marketPrice As Double, marketValue As Double, averageCost As Double, unrealizedPNL As Double, realizedPNL As Double, accountName As String)
+    Public Sub updatePortfolio(contract As IBApi.Contract, position As Decimal, marketPrice As Double, marketValue As Double, averageCost As Double, unrealizedPNL As Double, realizedPNL As Double, accountName As String)
         Dim msg As String
 
         With contract
             msg = "conId=" & .ConId & " symbol=" & .Symbol & " secType=" & .SecType & " lastTradeDate=" & .LastTradeDateOrContractMonth & " strike=" & .Strike _
             & " right=" & .Right & " multiplier=" & .Multiplier & " primaryExch=" & .PrimaryExch & " currency=" & .Currency _
-            & " localSymbol=" & .LocalSymbol & " tradingClass=" & .TradingClass & " position=" & position & " mktPrice=" & marketPrice & " mktValue=" & marketValue _
+            & " localSymbol=" & .LocalSymbol & " tradingClass=" & .TradingClass & " position=" & Util.DecimalMaxString(position) & " mktPrice=" & marketPrice & " mktValue=" & marketValue _
             & " avgCost=" & averageCost & " unrealizedPNL=" & unrealizedPNL & " realizedPNL=" & realizedPNL & " account=" & accountName
         End With
         m_utils.addListItem(Utils.ListType.PortfolioData, msg)

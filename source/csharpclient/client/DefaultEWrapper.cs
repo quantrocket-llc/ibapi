@@ -94,7 +94,7 @@ namespace IBApi
         {
         }
 
-        public virtual void updatePortfolio(Contract contract, double position, double marketPrice, double marketValue, double averageCost, double unrealizedPNL, double realizedPNL, string accountName)
+        public virtual void updatePortfolio(Contract contract, decimal position, double marketPrice, double marketValue, double averageCost, double unrealizedPNL, double realizedPNL, string accountName)
         {
         }
 
@@ -106,7 +106,7 @@ namespace IBApi
         {
         }
 
-        public virtual void orderStatus(int orderId, string status, double filled, double remaining, double avgFillPrice, int permId, int parentId, double lastFillPrice, int clientId, string whyHeld, double mktCapPrice)
+        public virtual void orderStatus(int orderId, string status, decimal filled, decimal remaining, double avgFillPrice, int permId, int parentId, double lastFillPrice, int clientId, string whyHeld, double mktCapPrice)
         {
         }
 
@@ -166,7 +166,7 @@ namespace IBApi
         {
         }
 
-        public virtual void position(string account, Contract contract, double pos, double avgCost)
+        public virtual void position(string account, Contract contract, decimal pos, double avgCost)
         {
         }
 
@@ -222,7 +222,7 @@ namespace IBApi
         {
         }
 
-        public virtual void positionMulti(int requestId, string account, string modelCode, Contract contract, double pos, double avgCost)
+        public virtual void positionMulti(int requestId, string account, string modelCode, Contract contract, decimal pos, double avgCost)
         {
         }
 
@@ -322,7 +322,7 @@ namespace IBApi
 
         }
 
-        public virtual void pnlSingle(int reqId, int pos, double dailyPnL, double realizedPnL, double value, double unrealizedPnL)
+        public virtual void pnlSingle(int reqId, decimal pos, double dailyPnL, double realizedPnL, double value, double unrealizedPnL)
         {
 
         }

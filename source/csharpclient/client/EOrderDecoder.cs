@@ -63,7 +63,7 @@ namespace IBApi
 
         public void readTotalQuantity()
         {
-            order.TotalQuantity = serverVersion >= MinServerVer.FRACTIONAL_POSITIONS ? eDecoder.ReadDouble() : eDecoder.ReadInt();
+            order.TotalQuantity = eDecoder.ReadDecimal();
         }
 
         public void readOrderType()
@@ -781,7 +781,7 @@ namespace IBApi
 
         public void readFilledQuantity() 
         {
-            order.FilledQuantity = eDecoder.ReadDoubleMax();
+            order.FilledQuantity = eDecoder.ReadDecimal();
         }
 
         public void readRefFuturesConId() 

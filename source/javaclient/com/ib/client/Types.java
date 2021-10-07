@@ -191,7 +191,7 @@ public class Types {
 	}
 
 	public enum TimeInForce implements IApiEnum {
-		DAY, GTC, OPG, IOC, GTD, GTT, AUC, FOK, GTX, DTC;
+		DAY, GTC, OPG, IOC, GTD, GTT, AUC, FOK, GTX, DTC, Minutes;
 
         public static TimeInForce get(String apiString) {
             return getValueOf(apiString, values(), null);

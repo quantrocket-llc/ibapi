@@ -182,7 +182,7 @@ namespace TWSLib
             var order = new Order()
             {
                 Action = action,
-                TotalQuantity = quantity,
+                TotalQuantity = Convert.ToDecimal(quantity),
                 OrderType = orderType,
                 LmtPrice = lmtPrice,
                 AuxPrice = auxPrice,
@@ -343,7 +343,7 @@ namespace TWSLib
             Order order = new Order();
 
             order.Action = action;
-            order.TotalQuantity = quantity;
+            order.TotalQuantity = Convert.ToDecimal(quantity);
             order.OrderType = orderType;
             order.LmtPrice = lmtPrice;
             order.AuxPrice = auxPrice;
@@ -1146,7 +1146,7 @@ namespace TWSLib
                 sc.Post(state => t_openOrder2(
                                 orderId,
                                 order.Action,
-                                order.TotalQuantity,
+                                Decimal.ToDouble(order.TotalQuantity),
                                 order.OrderType,
                                 order.LmtPrice,
                                 order.AuxPrice,
@@ -1172,7 +1172,7 @@ namespace TWSLib
                                 contract.Currency,
                                 contract.LocalSymbol,
                                 order.Action,
-                                order.TotalQuantity,
+                                Decimal.ToDouble(order.TotalQuantity),
                                 order.OrderType,
                                 order.LmtPrice,
                                 order.AuxPrice,
@@ -1206,7 +1206,7 @@ namespace TWSLib
                                 contract.Currency,
                                 contract.LocalSymbol,
                                 order.Action,
-                                order.TotalQuantity,
+                                Decimal.ToDouble(order.TotalQuantity),
                                 order.OrderType,
                                 order.LmtPrice,
                                 order.AuxPrice,
@@ -1329,13 +1329,13 @@ namespace TWSLib
         }
 
 
-        public delegate void updatePortfolioDelegate(string symbol, string secType, string lastTradeDate, double strike, string right, string curency, string localSymbol, double position, double marketPrice, double marketValue, double averageCost, double unrealizedPNL, double realizedPNL, string accountName);
+        public delegate void updatePortfolioDelegate(string symbol, string secType, string lastTradeDate, double strike, string right, string curency, string localSymbol, int position, double marketPrice, double marketValue, double averageCost, double unrealizedPNL, double realizedPNL, string accountName);
         public event updatePortfolioDelegate updatePortfolio;
 
-        public delegate void updatePortfolioExDelegate(IContract contract, double position, double marketPrice,
+        public delegate void updatePortfolioExDelegate(IContract contract, string position, double marketPrice,
             double marketValue, double averageCost, double unrealizedPNL, double realizedPNL, string accountName);
         public event updatePortfolioExDelegate updatePortfolioEx;
-        void EWrapper.updatePortfolio(Contract contract, double position, double marketPrice, double marketValue, double averageCost, double unrealizedPNL, double realizedPNL, string accountName)
+        void EWrapper.updatePortfolio(Contract contract, decimal position, double marketPrice, double marketValue, double averageCost, double unrealizedPNL, double realizedPNL, string accountName)
         {
             var t_updatePortfolio = this.updatePortfolio;
             if (t_updatePortfolio != null)
@@ -1347,7 +1347,7 @@ namespace TWSLib
                                 contract.Right,
                                 contract.Currency,
                                 contract.LocalSymbol,
-                                position,
+                                position != decimal.MaxValue ? Decimal.ToInt32(Decimal.Round(position)) : int.MaxValue,
                                 marketPrice,
                                 marketValue,
                                 averageCost,
@@ -1357,16 +1357,16 @@ namespace TWSLib
 
             var t_updatePortfolioEx = this.updatePortfolioEx;
             if (t_updatePortfolioEx != null)
-                sc.Post(state => t_updatePortfolioEx((ComContract)contract, position, marketPrice, marketValue, averageCost, unrealizedPNL, realizedPNL, accountName), null);
+                sc.Post(state => t_updatePortfolioEx((ComContract)contract, Util.DecimalMaxString(position), marketPrice, marketValue, averageCost, unrealizedPNL, realizedPNL, accountName), null);
         }
 
-        public delegate void orderStatusDelegate(int id, string status, double filled, double remaining, double avgFillPrice, int permId, int parentId, double lastFillPrice, int clientId, string whyHeld, double mktCapPrice);
+        public delegate void orderStatusDelegate(int id, string status, string filled, string remaining, double avgFillPrice, int permId, int parentId, double lastFillPrice, int clientId, string whyHeld, double mktCapPrice);
         public event orderStatusDelegate orderStatus;
-        void EWrapper.orderStatus(int orderId, string status, double filled, double remaining, double avgFillPrice, int permId, int parentId, double lastFillPrice, int clientId, string whyHeld, double mktCapPrice)
+        void EWrapper.orderStatus(int orderId, string status, decimal filled, decimal remaining, double avgFillPrice, int permId, int parentId, double lastFillPrice, int clientId, string whyHeld, double mktCapPrice)
         {
             var t_orderStatus = this.orderStatus;
             if (t_orderStatus != null)
-                sc.Post(state => t_orderStatus(orderId, status, filled, remaining, avgFillPrice, permId, parentId, lastFillPrice, clientId, whyHeld, mktCapPrice), null);
+                sc.Post(state => t_orderStatus(orderId, status, Util.DecimalMaxString(filled), Util.DecimalMaxString(remaining), avgFillPrice, permId, parentId, lastFillPrice, clientId, whyHeld, mktCapPrice), null);
         }
 
         public delegate void contractDetailsDelegate(string symbol, string secType, string lastTradeDate, double strike, string right, string exchange, string curency, string localSymbol, string marketName, string tradingClass, int conId, double minTick, int priceMagnifier, string multiplier, string orderTypes, string validExchanges);
@@ -1425,7 +1425,7 @@ namespace TWSLib
                                 execution.AcctNumber,
                                 execution.Exchange,
                                 execution.Side,
-                                execution.Shares,
+                                Decimal.ToDouble(execution.Shares),
                                 execution.Price,
                                 execution.PermId,
                                 execution.ClientId,
@@ -1710,13 +1710,13 @@ namespace TWSLib
                 sc.Post(state => t_commissionReport((ComCommissionReport)commissionReport), null);
         }
 
-        public delegate void positionDelegate(string account, IContract contract, double position, double avgCost);
+        public delegate void positionDelegate(string account, IContract contract, string position, double avgCost);
         public event positionDelegate position;
-        void EWrapper.position(string account, Contract contract, double pos, double avgCost)
+        void EWrapper.position(string account, Contract contract, decimal pos, double avgCost)
         {
             var t_position = this.position;
             if (t_position != null)
-                sc.Post(state => t_position(account, (ComContract)contract, pos, avgCost), null);
+                sc.Post(state => t_position(account, (ComContract)contract, Util.DecimalMaxString(pos), avgCost), null);
         }
 
         public delegate void positionEndDelegate();
@@ -1809,13 +1809,13 @@ namespace TWSLib
                 sc.Post(state => t_connectAck(), null);
         }
 
-        public delegate void positionMultiDelegate(int requestId, string account, string modelCode, IContract contract, double position, double avgCost);
+        public delegate void positionMultiDelegate(int requestId, string account, string modelCode, IContract contract, string position, double avgCost);
         public event positionMultiDelegate positionMulti;
-        void EWrapper.positionMulti(int requestId, string account, string modelCode, Contract contract, double pos, double avgCost)
+        void EWrapper.positionMulti(int requestId, string account, string modelCode, Contract contract, decimal pos, double avgCost)
         {
             var t_positionMulti = this.positionMulti;
             if (t_positionMulti != null)
-                sc.Post(state => t_positionMulti(requestId, account, modelCode, (ComContract)contract, pos, avgCost), null);
+                sc.Post(state => t_positionMulti(requestId, account, modelCode, (ComContract)contract, Util.DecimalMaxString(pos), avgCost), null);
         }
 
         public delegate void positionMultiEndDelegate(int requestId);
@@ -2079,14 +2079,14 @@ namespace TWSLib
                 sc.Post(state => tmp(reqId, dailyPnL, unrealizedPnL, realizedPnL), null);
         }
 
-        public delegate void PnLSingleDelegate(int reqId, int pos, double dailyPnL, double unrealizedPnL, double realizedPnL, double value);
+        public delegate void PnLSingleDelegate(int reqId, string pos, double dailyPnL, double unrealizedPnL, double realizedPnL, double value);
         public event PnLSingleDelegate pnlSingle;
-        void EWrapper.pnlSingle(int reqId, int pos, double dailyPnL, double unrealizedPnL, double realizedPnL, double value)
+        void EWrapper.pnlSingle(int reqId, decimal pos, double dailyPnL, double unrealizedPnL, double realizedPnL, double value)
         {
             var tmp = this.pnlSingle;
 
             if (tmp != null)
-                sc.Post(state => tmp(reqId, pos, dailyPnL, unrealizedPnL, realizedPnL, value), null);
+                sc.Post(state => tmp(reqId, Util.DecimalMaxString(pos), dailyPnL, unrealizedPnL, realizedPnL, value), null);
         }
 
         public delegate void HistoricalTicksDelegate(int reqId, IHistoricalTickList ticks, bool done);

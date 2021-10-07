@@ -24,6 +24,7 @@ import javax.swing.table.AbstractTableModel;
 import com.ib.client.ComboLeg;
 import com.ib.client.Contract;
 import com.ib.client.ContractDetails;
+import com.ib.client.Decimal;
 import com.ib.client.DeltaNeutralContract;
 import com.ib.client.Order;
 import com.ib.client.OrderState;
@@ -242,7 +243,7 @@ public class ComboPanel extends JPanel implements INewTab {
 
 		protected void onPlaceOrder() {
 			Order o = new Order();
-			o.totalQuantity( 1);
+			o.totalQuantity( Decimal.ONE);
 
 			Contract c = getComboContractFromLegs();
 			TicketDlg dlg = new TicketDlg( c, o);
@@ -481,7 +482,7 @@ public class ComboPanel extends JPanel implements INewTab {
 
 		protected void onPlaceOrder() {
 			Order o = new Order();
-			o.totalQuantity( 1);
+			o.totalQuantity( Decimal.ONE);
 
 			Contract c = getComboContractFromLegs();
 			TicketDlg dlg = new TicketDlg( c, o);

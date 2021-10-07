@@ -11,7 +11,7 @@ Class PositionMultiEventArgs
 
     Property contract As IBApi.Contract
 
-    Property pos As Integer
+    Property pos As Decimal
 
     Property avgCost As Double
 

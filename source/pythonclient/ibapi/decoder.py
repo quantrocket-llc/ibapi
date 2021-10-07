@@ -106,17 +106,8 @@ class Decoder(Object):
             decode(int, fields)
         orderId = decode(int, fields)
         status = decode(str, fields)
-
-        if self.serverVersion >= MIN_SERVER_VER_FRACTIONAL_POSITIONS:
-            filled = decode(float, fields)
-        else:
-            filled = decode(int, fields)
-
-        if self.serverVersion >= MIN_SERVER_VER_FRACTIONAL_POSITIONS:
-            remaining = decode(float, fields)
-        else:
-            remaining = decode(int, fields)
-
+        filled = decode(Decimal, fields)
+        remaining = decode(Decimal, fields)
         avgFillPrice = decode(float, fields)
 
         permId = decode(int, fields) # ver 2 field
@@ -250,10 +241,7 @@ class Decoder(Object):
         if version >= 8:
             contract.tradingClass = decode(str, fields)
 
-        if self.serverVersion >= MIN_SERVER_VER_FRACTIONAL_POSITIONS:
-            position = decode(float, fields)
-        else:
-            position = decode(int, fields)
+        position = decode(Decimal, fields)
 
         marketPrice = decode(float, fields)
         marketValue = decode(float, fields)
@@ -477,19 +465,14 @@ class Decoder(Object):
         execution.acctNumber = decode(str, fields)
         execution.exchange = decode(str, fields)
         execution.side = decode(str, fields)
-
-        if self.serverVersion >= MIN_SERVER_VER_FRACTIONAL_POSITIONS:
-                execution.shares = decode(float, fields)
-        else:
-                execution.shares = decode(int, fields)
-
+        execution.shares = decode(Decimal, fields)
         execution.price = decode(float, fields)
         execution.permId = decode(int, fields) # ver 2 field
         execution.clientId = decode(int, fields)  # ver 3 field
         execution.liquidation = decode(int, fields) # ver 4 field
 
         if version >= 6:
-            execution.cumQty = decode(float, fields)
+            execution.cumQty = decode(Decimal, fields)
             execution.avgPrice = decode(float, fields)
 
         if version >= 8:
@@ -687,10 +670,7 @@ class Decoder(Object):
         if version >= 2:
             contract.tradingClass = decode(str, fields)
 
-        if self.serverVersion >= MIN_SERVER_VER_FRACTIONAL_POSITIONS:
-            position = decode(float, fields)
-        else:
-            position = decode(int, fields)
+        position = decode(Decimal, fields)
 
         avgCost = 0.
         if version >= 3:
@@ -718,7 +698,7 @@ class Decoder(Object):
         contract.currency = decode(str, fields)
         contract.localSymbol = decode(str, fields)
         contract.tradingClass = decode(str, fields)
-        position = decode(float, fields)
+        position = decode(Decimal, fields)
         avgCost = decode(float, fields)
         modelCode = decode(str, fields)
 
@@ -969,7 +949,7 @@ class Decoder(Object):
     def processPnLSingleMsg(self, fields):
         next(fields)
         reqId = decode(int, fields)
-        pos = decode(int, fields)
+        pos = decode(Decimal, fields)
         dailyPnL = decode(float, fields)
         unrealizedPnL = None
         realizedPnL = None

@@ -431,6 +431,7 @@ protected:
 
 template<> void EClient::EncodeField<bool>(std::ostream& os, bool);
 template<> void EClient::EncodeField<double>(std::ostream& os, double);
+template<> void EClient::EncodeField<Decimal>(std::ostream& os, Decimal);
 template<> void EClient::EncodeField<std::string> (std::ostream& os, std::string);
 
 #define ENCODE_CONTRACT(x) EClient::EncodeContract(msg, x);

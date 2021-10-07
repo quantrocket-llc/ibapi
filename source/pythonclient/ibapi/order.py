@@ -4,7 +4,7 @@ Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is su
 """
 
 
-from ibapi.common import UNSET_INTEGER, UNSET_DOUBLE
+from ibapi.common import UNSET_INTEGER, UNSET_DOUBLE, UNSET_DECIMAL
 from ibapi.object_implem import Object
 from ibapi.softdollartier import SoftDollarTier
 
@@ -34,7 +34,7 @@ class Order(Object):
 
         # main order fields
         self.action = ""
-        self.totalQuantity = 0
+        self.totalQuantity = UNSET_DECIMAL
         self.orderType = ""
         self.lmtPrice      = UNSET_DOUBLE
         self.auxPrice      = UNSET_DOUBLE
@@ -198,7 +198,7 @@ class Order(Object):
         self.discretionaryUpToLimitPrice = False
 
         self.autoCancelDate = ""
-        self.filledQuantity = UNSET_DOUBLE
+        self.filledQuantity = UNSET_DECIMAL
         self.refFuturesConId = 0
         self.autoCancelParent = False
         self.shareholder = ""

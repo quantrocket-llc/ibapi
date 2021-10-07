@@ -242,7 +242,7 @@ Namespace Samples
         '! [execdetails]
         Public Sub execDetails(reqId As Integer, contract As IBApi.Contract, execution As IBApi.Execution) Implements IBApi.EWrapper.execDetails
             Console.WriteLine("ExecDetails - ReqId [" & reqId & "] Contract [" & contract.Symbol & ", " & contract.SecType &
-                          "] Execution [Price: " & execution.Price & ", Exchange: " & execution.Exchange & ", Last Liquidity: " & execution.LastLiquidity.ToString() & "]")
+                          "] Execution [Price: " & execution.Price & ", Exchange: " & execution.Exchange & ", Last Liquidity: " & execution.LastLiquidity.ToString() & ", Shares: " & Util.DecimalMaxString(execution.Shares) & ", Cum Qty: " & Util.DecimalMaxString(execution.CumQty) & "]")
         End Sub
         '! [execdetails]
         '! [execdetailsend]
@@ -299,7 +299,7 @@ Namespace Samples
         Public Sub openOrder(orderId As Integer, contract As IBApi.Contract, order As IBApi.Order, orderState As IBApi.OrderState) Implements IBApi.EWrapper.openOrder
             Console.WriteLine("OpenOrder. PermID: " & order.PermId & ", ClientId: " & order.ClientId & ", OrderId: " & orderId & ", Account: " & order.Account &
                 ", Symbol: " & contract.Symbol & ", SecType: " & contract.SecType & " , Exchange: " & contract.Exchange & ", Action: " & order.Action & ", OrderType: " & order.OrderType &
-                ", TotalQty: " & order.TotalQuantity & ", CashQty: " & order.CashQty & ", LmtPrice: " & order.LmtPrice & ", AuxPrice: " & order.AuxPrice & ", Status: " & orderState.Status)
+                ", TotalQty: " & Util.DecimalMaxString(order.TotalQuantity) & ", CashQty: " & order.CashQty & ", LmtPrice: " & order.LmtPrice & ", AuxPrice: " & order.AuxPrice & ", Status: " & orderState.Status)
         End Sub
         '! [openorder]
 
@@ -310,35 +310,35 @@ Namespace Samples
         '! [openorderend]
 
         '! [orderstatus]
-        Public Sub orderStatus(orderId As Integer, status As String, filled As Double, remaining As Double, avgFillPrice As Double, permId As Integer, parentId As Integer, lastFillPrice As Double, clientId As Integer, whyHeld As String, mktCapPrice As Double) Implements IBApi.EWrapper.orderStatus
-            Console.WriteLine("OrderStatus. Id: " & orderId & ", Status: " & status & ", Filled: " & filled & ", Remaining: " & remaining &
+        Public Sub orderStatus(orderId As Integer, status As String, filled As Decimal, remaining As Decimal, avgFillPrice As Double, permId As Integer, parentId As Integer, lastFillPrice As Double, clientId As Integer, whyHeld As String, mktCapPrice As Double) Implements IBApi.EWrapper.orderStatus
+            Console.WriteLine("OrderStatus. Id: " & orderId & ", Status: " & status & ", Filled: " & Util.DecimalMaxString(filled) & ", Remaining: " & Util.DecimalMaxString(remaining) &
                 ", AvgFillPrice: " & avgFillPrice & ", PermId: " & permId & ", ParentId: " & parentId & ", LastFillPrice: " & lastFillPrice &
                 ", ClientId: " & clientId & ", WhyHeld: " & whyHeld & ", mktCapPrice: " & mktCapPrice)
         End Sub
         '! [orderstatus]
 
         '! [position]
-        Public Sub position(account As String, contract As IBApi.Contract, pos As Double, avgCost As Double) Implements IBApi.EWrapper.position
+        Public Sub position(account As String, contract As IBApi.Contract, pos As Decimal, avgCost As Double) Implements IBApi.EWrapper.position
             Console.WriteLine("Position. " & account & " - Symbol: " & contract.Symbol & ", SecType: " & contract.SecType & ", Currency: " &
-                          contract.Currency & ", Position: " & pos & ", Avg cost: " & avgCost)
+                          contract.Currency & ", Position: " & Util.DecimalMaxString(pos) & ", Avg cost: " & avgCost)
         End Sub
         '! [position]
 
         '! [positionend]
         Public Sub positionEnd() Implements IBApi.EWrapper.positionEnd
-            Console.WriteLine("PositionEnd \n")
+            Console.WriteLine("PositionEnd")
         End Sub
         '! [positionend]
 
         '! [positionmulti]
-        Public Sub positionMulti(requestId As Integer, account As String, modelCode As String, contract As Contract, pos As Double, avgCost As Double) Implements IBApi.EWrapper.positionMulti
-            Console.WriteLine("positionMulti. Id: " & requestId & ", Account: " & account & ", ModelCode: " & modelCode & ", Contract: " & contract.Symbol & ", pos: " & pos & ", avgCost: " & avgCost)
+        Public Sub positionMulti(requestId As Integer, account As String, modelCode As String, contract As Contract, pos As Decimal, avgCost As Double) Implements IBApi.EWrapper.positionMulti
+            Console.WriteLine("PositionMulti. Id: " & requestId & ", Account: " & account & ", ModelCode: " & modelCode & ", Contract: " & contract.Symbol & ", pos: " & Util.DecimalMaxString(pos) & ", avgCost: " & avgCost)
         End Sub
         '! [positionmulti]
 
         '! [positionmultiend]
         Public Sub positionMultiEnd(requestId As Integer) Implements IBApi.EWrapper.positionMultiEnd
-            Console.WriteLine("positionMultiEnd \n")
+            Console.WriteLine("PositionMultiEnd")
         End Sub
         '! [positionmultiend]
 
@@ -454,9 +454,9 @@ Namespace Samples
         '! [updatenewsbulletin]
 
         '! [updateportfolio]
-        Public Sub updatePortfolio(contract As IBApi.Contract, position As Double, marketPrice As Double, marketValue As Double, averageCost As Double, unrealizedPNL As Double, realizedPNL As Double, accountName As String) Implements IBApi.EWrapper.updatePortfolio
+        Public Sub updatePortfolio(contract As IBApi.Contract, position As Decimal, marketPrice As Double, marketValue As Double, averageCost As Double, unrealizedPNL As Double, realizedPNL As Double, accountName As String) Implements IBApi.EWrapper.updatePortfolio
             Console.WriteLine("UpdatePortfolio. " & contract.Symbol & ", " & contract.SecType & " @ " & contract.Exchange &
-                ": Position: " & position & ", MarketPrice: " & marketPrice & ", MarketValue: " & marketValue & ", AverageCost: " & averageCost &
+                ": Position: " & Util.DecimalMaxString(position) & ", MarketPrice: " & marketPrice & ", MarketValue: " & marketValue & ", AverageCost: " & averageCost &
                 ", UnrealizedPNL: " & unrealizedPNL & ", RealizedPNL: " & realizedPNL & ", AccountName: " & accountName)
         End Sub
         '! [updateportfolio]
@@ -653,15 +653,15 @@ Namespace Samples
         Public Sub pnl(reqId As Integer, dailyPnL As Double, unrealizedPnL As Double, realizedPnL As Double) Implements EWrapper.pnl
             Console.WriteLine("PnL. Request Id: {0}, daily PnL: {1}, unrealized PnL: {2}, realized PnL: {3}", reqId, dailyPnL, unrealizedPnL, realizedPnL)
         End Sub
-		'! [pnl]
-		
-		'! [pnlsingle]
-        Public Sub pnlSingle(reqId As Integer, pos As Integer, dailyPnL As Double, unrealizedPnL As Double, realizedPnL As Double, value As Double) Implements EWrapper.pnlSingle
-            Console.WriteLine("PnL Single. Request Id: {0}, pos: {1}, daily PnL: {2}, unrealized PnL: {3}, realized PnL: {4}, value: {5}", reqId, pos, dailyPnL, unrealizedPnL, realizedPnL, value)
+        '! [pnl]
+
+        '! [pnlsingle]
+        Public Sub pnlSingle(reqId As Integer, pos As Decimal, dailyPnL As Double, unrealizedPnL As Double, realizedPnL As Double, value As Double) Implements EWrapper.pnlSingle
+            Console.WriteLine("PnL Single. Request Id: {0}, pos: {1}, daily PnL: {2}, unrealized PnL: {3}, realized PnL: {4}, value: {5}", reqId, Util.DecimalMaxString(pos), dailyPnL, unrealizedPnL, realizedPnL, value)
         End Sub
-		'! [pnlsingle]
-		
-		'! [historicalticks]
+        '! [pnlsingle]
+
+        '! [historicalticks]
         Public Sub historicalTick(reqId As Integer, ticks As HistoricalTick(), done As Boolean) Implements EWrapper.historicalTicks
             For Each tick In ticks
                 Console.WriteLine("Historical Tick. Request Id: {0}, Time: {1}, Price: {2}, Size: {3}", reqId, Util.UnixSecondsToString(tick.Time, "yyyyMMdd-HH:mm:ss zzz"), tick.Price, Util.DecimalMaxString(tick.Size))
@@ -722,8 +722,8 @@ Namespace Samples
 
         '! [completedorder]
         Public Sub completedOrder(contract As IBApi.Contract, order As IBApi.Order, orderState As IBApi.OrderState) Implements IBApi.EWrapper.completedOrder
-            Console.WriteLine("CompletedOrder. PermID: " & order.PermId & ", ParentPermID: " & Util.LongMaxString(order.ParentPermId) & ", Account: " & order.Account & ", Symbol: " & contract.Symbol & ", SecType: " & contract.SecType & " , Exchange: " & contract.Exchange & ", Action: " & order.Action & ", OrderType: " & order.OrderType & ", TotalQty: " & order.TotalQuantity &
-                ", CashQty: " & order.CashQty & ", FilledQty: " & order.FilledQuantity & ", LmtPrice: " & order.LmtPrice & ", AuxPrice: " & order.AuxPrice & ", Status: " & orderState.Status &
+            Console.WriteLine("CompletedOrder. PermID: " & order.PermId & ", ParentPermID: " & Util.LongMaxString(order.ParentPermId) & ", Account: " & order.Account & ", Symbol: " & contract.Symbol & ", SecType: " & contract.SecType & " , Exchange: " & contract.Exchange & ", Action: " & order.Action & ", OrderType: " & order.OrderType & ", TotalQty: " & Util.DecimalMaxString(order.TotalQuantity) &
+                ", CashQty: " & order.CashQty & ", FilledQty: " & Util.DecimalMaxString(order.FilledQuantity) & ", LmtPrice: " & order.LmtPrice & ", AuxPrice: " & order.AuxPrice & ", Status: " & orderState.Status &
                 ", CompletedTime: " & orderState.CompletedTime & ", CompletedStatus: " & orderState.CompletedStatus)
         End Sub
         '! [completedorder]

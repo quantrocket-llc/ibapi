@@ -128,8 +128,8 @@ class EWrapper:
         self.logAnswer(current_fn_name(), vars())
 
 
-    def orderStatus(self, orderId:OrderId , status:str, filled:float,
-                    remaining:float, avgFillPrice:float, permId:int,
+    def orderStatus(self, orderId:OrderId , status:str, filled:Decimal,
+                    remaining:Decimal, avgFillPrice:float, permId:int,
                     parentId:int, lastFillPrice:float, clientId:int,
                     whyHeld:str, mktCapPrice: float):
         """This event is called whenever the status of an order changes. It is
@@ -195,7 +195,7 @@ class EWrapper:
         self.logAnswer(current_fn_name(), vars())
 
 
-    def updatePortfolio(self, contract:Contract, position:float,
+    def updatePortfolio(self, contract:Contract, position:Decimal,
                         marketPrice:float, marketValue:float,
                         averageCost:float, unrealizedPNL:float,
                         realizedPNL:float, accountName:str):
@@ -436,7 +436,7 @@ class EWrapper:
         self.logAnswer(current_fn_name(), vars())
 
 
-    def position(self, account:str, contract:Contract, position:float,
+    def position(self, account:str, contract:Contract, position:Decimal,
                  avgCost:float):
         """This event returns real-time positions for all accounts in
         response to the reqPositions() method."""
@@ -516,7 +516,7 @@ class EWrapper:
 
 
     def positionMulti(self, reqId:int, account:str, modelCode:str,
-                      contract:Contract, pos:float, avgCost:float):
+                      contract:Contract, pos:Decimal, avgCost:float):
         """same as position() except it can be for a certain
         account/model"""
 
@@ -665,7 +665,7 @@ class EWrapper:
         """returns the daily PnL for the account"""
         self.logAnswer(current_fn_name(), vars())
 
-    def pnlSingle(self, reqId: int, pos: int, dailyPnL: float, unrealizedPnL: float, realizedPnL: float, value: float):
+    def pnlSingle(self, reqId: int, pos: Decimal, dailyPnL: float, unrealizedPnL: float, realizedPnL: float, value: float):
         """returns the daily PnL for a single position in the account"""
         self.logAnswer(current_fn_name(), vars())
 

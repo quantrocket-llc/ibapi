@@ -129,7 +129,7 @@ namespace IBSampleApp.ui
                     if (positionsGrid[POS_CONTRACT_IDX, i].Value.Equals(Utils.ContractToString(positionMessage.Contract)))
                     {
                         positionsGrid[POS_ACCOUNT_IDX, i].Value = positionMessage.AccountName;
-                        positionsGrid[POS_POSITION_IDX, i].Value = positionMessage.Position;
+                        positionsGrid[POS_POSITION_IDX, i].Value = Util.DecimalMaxString(positionMessage.Position);
                         positionsGrid[POS_MARKET_PRICE_IDX, i].Value = positionMessage.MarketPrice;
                         positionsGrid[POS_MARKET_VALUE_IDX, i].Value = positionMessage.MarketValue;
                         positionsGrid[POS_AVG_COST_IDX, i].Value = positionMessage.AverageCost;
@@ -142,7 +142,7 @@ namespace IBSampleApp.ui
                 positionsGrid.Rows.Add(1);
                 positionsGrid[0, positionsGrid.Rows.Count - 1].Value = Utils.ContractToString(positionMessage.Contract);
                 positionsGrid[1, positionsGrid.Rows.Count - 1].Value = positionMessage.AccountName;
-                positionsGrid[2, positionsGrid.Rows.Count - 1].Value = positionMessage.Position;
+                positionsGrid[2, positionsGrid.Rows.Count - 1].Value = Util.DecimalMaxString(positionMessage.Position);
                 positionsGrid[3, positionsGrid.Rows.Count - 1].Value = positionMessage.AverageCost;
                 currentOptionsPositions.Add(positionMessage.Contract);
             }

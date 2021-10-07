@@ -78,7 +78,7 @@ End Function
 ' public methods
 '=================
 ' position multi
-Public Sub PositionMulti(ByVal requestId As Long, ByVal Account As String, ByVal modelCode As String, ByVal contract As TWSLib.IContract, ByVal position As Double, ByVal avgCost As Double)
+Public Sub PositionMulti(ByVal requestId As Long, ByVal Account As String, ByVal modelCode As String, ByVal contract As TWSLib.IContract, ByVal position As String, ByVal avgCost As Double)
     Dim rowId As Long
     Dim conId As String
     conId = CStr(contract.conId)

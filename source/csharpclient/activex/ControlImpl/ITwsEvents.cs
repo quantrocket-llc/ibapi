@@ -38,7 +38,7 @@ namespace TWSLib
         [DispId(12)]
         void updatePortfolio(string symbol, string secType, string lastTradeDate, double strike, string right, string curency, string localSymbol, double position, double marketPrice, double marketValue, double averageCost, double unrealizedPNL, double realizedPNL, string accountName);
         [DispId(13)]
-        void orderStatus(int id, string status, double filled, double remaining, double avgFillPrice, int permId, int parentId, double lastFillPrice, int clientId, string whyHeld, double mktCapPrice);
+        void orderStatus(int id, string status, string filled, string remaining, double avgFillPrice, int permId, int parentId, double lastFillPrice, int clientId, string whyHeld, double mktCapPrice);
         [DispId(14)]
         void contractDetails(string symbol, string secType, string lastTradeDate, double strike, string right, string exchange, string curency, string localSymbol, string marketName, string tradingClass, int conId, double minTick, int priceMagnifier, string multiplier, string orderTypes, string validExchanges);
         [DispId(15)]
@@ -105,14 +105,14 @@ namespace TWSLib
         [DispId(102)]
         void execDetailsEx(int reqId, IContract contract, IExecution execution);
         [DispId(103)]
-        void updatePortfolioEx(IContract contract, double position, double marketPrice,
+        void updatePortfolioEx(IContract contract, string position, double marketPrice,
             double marketValue, double averageCost, double unrealizedPNL, double realizedPNL, string accountName);
         [DispId(104)]
         void scannerDataEx(int reqId, int rank, IContractDetails contractDetails, string distance, string benchmark, string projection, string legsStr);
         [DispId(105)]
         void commissionReport(ICommissionReport commissionReport);
         [DispId(106)]
-        void position(string account, IContract contract, double position, double avgCost);
+        void position(string account, IContract contract, string position, double avgCost);
         [DispId(107)]
         void positionEnd();
         [DispId(108)]
@@ -138,7 +138,7 @@ namespace TWSLib
         [DispId(118)]
         void connectAck();
         [DispId(119)]
-        void positionMulti(int requestId, string account, string modelCode, IContract contract, double position, double avgCost);
+        void positionMulti(int requestId, string account, string modelCode, IContract contract, string position, double avgCost);
         [DispId(120)]
         void positionMultiEnd(int requestId);
         [DispId(121)]
@@ -184,7 +184,7 @@ namespace TWSLib
         [DispId(141)]
         void pnl(int reqId, double dailyPnL, double unrealizedPnL, double realizedPnL);
         [DispId(142)]
-        void pnlSingle(int reqId, int pos, double dailyPnL, double unrealizedPnL, double realizedPnL, double value);
+        void pnlSingle(int reqId, string pos, double dailyPnL, double unrealizedPnL, double realizedPnL, double value);
         [DispId(143)]
         void historicalTicks(int reqId, IHistoricalTickList ticks, bool done);
         [DispId(144)]

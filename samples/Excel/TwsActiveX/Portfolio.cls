@@ -107,7 +107,7 @@ End Function
 '=================
 
 ' update portfolio
-Public Sub UpdatePortfolio(contract As TWSLib.IContract, position As Double, marketPrice As Double, marketValue As Double, averageCost As Double, unrealizedPNL As Double, realizedPNL As Double, accountName As String)
+Public Sub UpdatePortfolio(contract As TWSLib.IContract, position As String, marketPrice As Double, marketValue As Double, averageCost As Double, unrealizedPNL As Double, realizedPNL As Double, accountName As String)
     Dim id As Long
     id = FindRowByConId(contract.conId)
     

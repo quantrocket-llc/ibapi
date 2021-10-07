@@ -830,6 +830,9 @@ namespace Samples
             client.reqCompletedOrders(false);
             //! [reqcompletedorders]
 
+            //! [crypto_order_submission]
+            client.placeOrder(nextOrderId++, ContractSamples.CryptoContract(), OrderSamples.LimitOrder("BUY", Util.StringToDecimal("0.00001234"), 3370));
+            //! [crypto_order_submission]
         }
 
         private static void newsOperations(EClientSocket client)

@@ -136,7 +136,7 @@ Public Sub UpdatePnL(ByVal reqId As Long, ByVal dailyPnL As Double, ByVal unreal
     
 End Sub
 
-Public Sub UpdatePnLSingle(ByVal reqId As Long, ByVal pos As Long, ByVal dailyPnL As Double, ByVal unrealizedPNL As Double, ByVal realizedPNL As Double, ByVal value As Double)
+Public Sub UpdatePnLSingle(ByVal reqId As Long, ByVal pos As String, ByVal dailyPnL As Double, ByVal unrealizedPNL As Double, ByVal realizedPNL As Double, ByVal value As Double)
     Dim rowId As Long
     
     rowId = Util.GetSheetRowId(ActiveSheet)

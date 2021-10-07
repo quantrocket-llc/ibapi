@@ -230,7 +230,7 @@ public class ApiController implements EWrapper {
 		recEOM();
 	}
 
-	@Override public void updatePortfolio(Contract contract, double positionIn, double marketPrice, double marketValue, double averageCost, double unrealizedPNL, double realizedPNL, String account) {
+	@Override public void updatePortfolio(Contract contract, Decimal positionIn, double marketPrice, double marketValue, double averageCost, double unrealizedPNL, double realizedPNL, String account) {
 		contract.exchange( contract.primaryExch());
 
 		Position position = new Position( contract, account, positionIn, marketPrice, marketValue, averageCost, unrealizedPNL, realizedPNL);
@@ -340,7 +340,7 @@ public class ApiController implements EWrapper {
 
 	// ---------------------------------------- Position handling ----------------------------------------
 	public interface IPositionHandler {
-		void position( String account, Contract contract, double pos, double avgCost);
+		void position( String account, Contract contract, Decimal pos, double avgCost);
 		void positionEnd();
 	}
 
@@ -362,7 +362,7 @@ public class ApiController implements EWrapper {
 		sendEOM();
 	}
 
-	@Override public void position(String account, Contract contract, double pos, double avgCost) {
+	@Override public void position(String account, Contract contract, Decimal pos, double avgCost) {
 		for (IPositionHandler handler : m_positionHandlers) {
 			handler.position( account, contract, pos, avgCost);
 		}
@@ -414,8 +414,8 @@ public class ApiController implements EWrapper {
 		}
 
 		@Override
-		public void orderStatus(OrderStatus status, double filled,
-				double remaining, double avgFillPrice, int permId,
+		public void orderStatus(OrderStatus status, Decimal filled,
+				Decimal remaining, double avgFillPrice, int permId,
 				int parentId, double lastFillPrice, int clientId, String whyHeld, double mktCapPrice) {
 			// TODO Auto-generated method stub
 			
@@ -842,7 +842,7 @@ public class ApiController implements EWrapper {
 	 *  Compare to ILiveOrderHandler. */
 	public interface IOrderHandler {
 		void orderState(OrderState orderState);
-		void orderStatus(OrderStatus status, double filled, double remaining, double avgFillPrice, int permId, int parentId, double lastFillPrice, int clientId, String whyHeld, double mktCapPrice);
+		void orderStatus(OrderStatus status, Decimal filled, Decimal remaining, double avgFillPrice, int permId, int parentId, double lastFillPrice, int clientId, String whyHeld, double mktCapPrice);
 		void handle(int errorCode, String errorMsg);
 	}
 
@@ -897,7 +897,7 @@ public class ApiController implements EWrapper {
 	public interface ILiveOrderHandler {
 		void openOrder(Contract contract, Order order, OrderState orderState);
 		void openOrderEnd();
-		void orderStatus(int orderId, OrderStatus status, double filled, double remaining, double avgFillPrice, int permId, int parentId, double lastFillPrice, int clientId, String whyHeld, double mktCapPrice);
+		void orderStatus(int orderId, OrderStatus status, Decimal filled, Decimal remaining, double avgFillPrice, int permId, int parentId, double lastFillPrice, int clientId, String whyHeld, double mktCapPrice);
 		void handle(int orderId, int errorCode, String errorMsg);  // add permId?
 	}
 
@@ -953,7 +953,7 @@ public class ApiController implements EWrapper {
 		recEOM();
 	}
 
-	@Override public void orderStatus(int orderId, String status, double filled, double remaining, double avgFillPrice, int permId, int parentId, double lastFillPrice, int clientId, String whyHeld, double mktCapPrice) {
+	@Override public void orderStatus(int orderId, String status, Decimal filled, Decimal remaining, double avgFillPrice, int permId, int parentId, double lastFillPrice, int clientId, String whyHeld, double mktCapPrice) {
 		IOrderHandler handler = m_orderHandlers.get( orderId);
 		if (handler != null) {
 			handler.orderStatus( OrderStatus.valueOf( status), filled, remaining, avgFillPrice, permId, parentId, lastFillPrice, clientId, whyHeld, mktCapPrice);
@@ -1197,7 +1197,7 @@ public class ApiController implements EWrapper {
 
 	// ---------------------------------------- Position Multi handling ----------------------------------------
 	public interface IPositionMultiHandler {
-		void positionMulti( String account, String modelCode, Contract contract, double pos, double avgCost);
+		void positionMulti( String account, String modelCode, Contract contract, Decimal pos, double avgCost);
 		void positionMultiEnd();
 	}
 
@@ -1222,7 +1222,7 @@ public class ApiController implements EWrapper {
 		}
 	}
 
-	@Override public void positionMulti( int reqId, String account, String modelCode, Contract contract, double pos, double avgCost) {
+	@Override public void positionMulti( int reqId, String account, String modelCode, Contract contract, Decimal pos, double avgCost) {
 		IPositionMultiHandler handler = m_positionMultiMap.get( reqId);
 		if (handler != null) {
 			handler.positionMulti( account, modelCode, contract, pos, avgCost);
@@ -1750,7 +1750,7 @@ public class ApiController implements EWrapper {
     
     public interface IPnLSingleHandler {
 
-        void pnlSingle(int reqId, int pos, double dailyPnL, double unrealizedPnL, double realizedPnL, double value);
+        void pnlSingle(int reqId, Decimal pos, double dailyPnL, double unrealizedPnL, double realizedPnL, double value);
         
     }
 
@@ -1778,7 +1778,7 @@ public class ApiController implements EWrapper {
     }    
 
     @Override
-    public void pnlSingle(int reqId, int pos, double dailyPnL, double unrealizedPnL, double realizedPnL, double value) {
+    public void pnlSingle(int reqId, Decimal pos, double dailyPnL, double unrealizedPnL, double realizedPnL, double value) {
         IPnLSingleHandler handler = m_pnlSingleMap.get(reqId);
         
         if (handler != null) {

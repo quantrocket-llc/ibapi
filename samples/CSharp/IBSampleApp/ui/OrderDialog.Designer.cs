@@ -407,7 +407,8 @@ namespace IBSampleApp
             "AUC",
             "FOK",
             "GTX",
-            "DTC"});
+            "DTC",
+            "Minutes"});
             this.timeInForce.Location = new System.Drawing.Point(121, 242);
             this.timeInForce.Name = "timeInForce";
             this.timeInForce.Size = new System.Drawing.Size(89, 21);

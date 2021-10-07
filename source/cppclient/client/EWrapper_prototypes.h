@@ -15,8 +15,8 @@ virtual void tickGeneric(TickerId tickerId, TickType tickType, double value) EWR
 virtual void tickString(TickerId tickerId, TickType tickType, const std::string& value) EWRAPPER_VIRTUAL_IMPL;
 virtual void tickEFP(TickerId tickerId, TickType tickType, double basisPoints, const std::string& formattedBasisPoints,
 	double totalDividends, int holdDays, const std::string& futureLastTradeDate, double dividendImpact, double dividendsToLastTradeDate) EWRAPPER_VIRTUAL_IMPL;
-virtual void orderStatus( OrderId orderId, const std::string& status, double filled,
-	double remaining, double avgFillPrice, int permId, int parentId,
+virtual void orderStatus( OrderId orderId, const std::string& status, Decimal filled,
+	Decimal remaining, double avgFillPrice, int permId, int parentId,
 	double lastFillPrice, int clientId, const std::string& whyHeld, double mktCapPrice) EWRAPPER_VIRTUAL_IMPL;
 virtual void openOrder( OrderId orderId, const Contract&, const Order&, const OrderState&) EWRAPPER_VIRTUAL_IMPL;
 virtual void openOrderEnd() EWRAPPER_VIRTUAL_IMPL;
@@ -24,7 +24,7 @@ virtual void winError( const std::string& str, int lastError) EWRAPPER_VIRTUAL_I
 virtual void connectionClosed() EWRAPPER_VIRTUAL_IMPL;
 virtual void updateAccountValue(const std::string& key, const std::string& val,
 const std::string& currency, const std::string& accountName) EWRAPPER_VIRTUAL_IMPL;
-virtual void updatePortfolio( const Contract& contract, double position,
+virtual void updatePortfolio( const Contract& contract, Decimal position,
 	double marketPrice, double marketValue, double averageCost,
 	double unrealizedPNL, double realizedPNL, const std::string& accountName) EWRAPPER_VIRTUAL_IMPL;
 virtual void updateAccountTime(const std::string& timeStamp) EWRAPPER_VIRTUAL_IMPL;
@@ -58,7 +58,7 @@ virtual void deltaNeutralValidation(int reqId, const DeltaNeutralContract& delta
 virtual void tickSnapshotEnd( int reqId) EWRAPPER_VIRTUAL_IMPL;
 virtual void marketDataType( TickerId reqId, int marketDataType) EWRAPPER_VIRTUAL_IMPL;
 virtual void commissionReport( const CommissionReport& commissionReport) EWRAPPER_VIRTUAL_IMPL;
-virtual void position( const std::string& account, const Contract& contract, double position, double avgCost) EWRAPPER_VIRTUAL_IMPL;
+virtual void position( const std::string& account, const Contract& contract, Decimal position, double avgCost) EWRAPPER_VIRTUAL_IMPL;
 virtual void positionEnd() EWRAPPER_VIRTUAL_IMPL;
 virtual void accountSummary( int reqId, const std::string& account, const std::string& tag, const std::string& value, const std::string& curency) EWRAPPER_VIRTUAL_IMPL;
 virtual void accountSummaryEnd( int reqId) EWRAPPER_VIRTUAL_IMPL;
@@ -69,7 +69,7 @@ virtual void displayGroupUpdated( int reqId, const std::string& contractInfo) EW
 virtual void verifyAndAuthMessageAPI( const std::string& apiData, const std::string& xyzChallange) EWRAPPER_VIRTUAL_IMPL;
 virtual void verifyAndAuthCompleted( bool isSuccessful, const std::string& errorText) EWRAPPER_VIRTUAL_IMPL;
 virtual void connectAck() EWRAPPER_VIRTUAL_IMPL;
-virtual void positionMulti( int reqId, const std::string& account,const std::string& modelCode, const Contract& contract, double pos, double avgCost) EWRAPPER_VIRTUAL_IMPL;
+virtual void positionMulti( int reqId, const std::string& account,const std::string& modelCode, const Contract& contract, Decimal pos, double avgCost) EWRAPPER_VIRTUAL_IMPL;
 virtual void positionMultiEnd( int reqId) EWRAPPER_VIRTUAL_IMPL;
 virtual void accountUpdateMulti( int reqId, const std::string& account, const std::string& modelCode, const std::string& key, const std::string& value, const std::string& currency) EWRAPPER_VIRTUAL_IMPL;
 virtual void accountUpdateMultiEnd( int reqId) EWRAPPER_VIRTUAL_IMPL;
@@ -94,7 +94,7 @@ virtual void rerouteMktDataReq(int reqId, int conid, const std::string& exchange
 virtual void rerouteMktDepthReq(int reqId, int conid, const std::string& exchange) EWRAPPER_VIRTUAL_IMPL;
 virtual void marketRule(int marketRuleId, const std::vector<PriceIncrement> &priceIncrements) EWRAPPER_VIRTUAL_IMPL;
 virtual void pnl(int reqId, double dailyPnL, double unrealizedPnL, double realizedPnL) EWRAPPER_VIRTUAL_IMPL;
-virtual void pnlSingle(int reqId, int pos, double dailyPnL, double unrealizedPnL, double realizedPnL, double value) EWRAPPER_VIRTUAL_IMPL;
+virtual void pnlSingle(int reqId, Decimal pos, double dailyPnL, double unrealizedPnL, double realizedPnL, double value) EWRAPPER_VIRTUAL_IMPL;
 virtual void historicalTicks(int reqId, const std::vector<HistoricalTick> &ticks, bool done) EWRAPPER_VIRTUAL_IMPL;
 virtual void historicalTicksBidAsk(int reqId, const std::vector<HistoricalTickBidAsk> &ticks, bool done) EWRAPPER_VIRTUAL_IMPL;
 virtual void historicalTicksLast(int reqId, const std::vector<HistoricalTickLast> &ticks, bool done) EWRAPPER_VIRTUAL_IMPL;

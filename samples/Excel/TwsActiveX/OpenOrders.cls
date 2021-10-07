@@ -218,7 +218,7 @@ Sub UpdateOpenOrder(orderId As Long, contract As TWSLib.IContract, order As TWSL
 End Sub
 
 ' update order status
-Public Sub UpdateOrderStatus(orderId As Long, status As String, filled As Double, remaining As Double, avgFillPrice As Double, parentId As Long, permId As Long, lastFillPrice As Double)
+Public Sub UpdateOrderStatus(orderId As Long, status As String, filled As String, remaining As String, avgFillPrice As Double, parentId As Long, permId As Long, lastFillPrice As Double)
     ' find row to update by using orderId
     Dim id As Long
     id = OrderUtils.FindOrderRowIndexByPermId(permId, orderStatusTable)

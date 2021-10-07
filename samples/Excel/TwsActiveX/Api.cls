@@ -170,7 +170,7 @@ End Sub
 '-----------------------------
 ' orders events
 '-----------------------------
-Private Sub m_Tws_orderStatus(ByVal id As Long, ByVal status As String, ByVal filled As Double, ByVal remaining As Double, ByVal avgFillPrice As Double, ByVal permId As Long, ByVal parentId As Long, ByVal lastFillPrice As Double, ByVal clientId As Long, ByVal whyHeld As String, ByVal mktCapPrice As Double)
+Private Sub m_Tws_orderStatus(ByVal id As Long, ByVal status As String, ByVal filled As String, ByVal remaining As String, ByVal avgFillPrice As Double, ByVal permId As Long, ByVal parentId As Long, ByVal lastFillPrice As Double, ByVal clientId As Long, ByVal whyHeld As String, ByVal mktCapPrice As Double)
     On Error Resume Next
     ' update Orders sheet data
         
@@ -205,7 +205,7 @@ Private Sub m_Tws_pnl(ByVal reqId As Long, ByVal dailyPnL As Double, ByVal unrea
     AcctUpdMulti.UpdatePnL reqId, dailyPnL, unrealizedPNL, realizedPNL
 End Sub
 
-Private Sub m_Tws_pnlSingle(ByVal reqId As Long, ByVal pos As Long, ByVal dailyPnL As Double, ByVal unrealizedPNL As Double, ByVal realizedPNL As Double, ByVal value As Double)
+Private Sub m_Tws_pnlSingle(ByVal reqId As Long, ByVal pos As String, ByVal dailyPnL As Double, ByVal unrealizedPNL As Double, ByVal realizedPNL As Double, ByVal value As Double)
     On Error Resume Next
     AcctUpdMulti.UpdatePnLSingle reqId, pos, dailyPnL, unrealizedPNL, realizedPNL, value
 End Sub
@@ -347,7 +347,7 @@ Private Sub m_Tws_updateAccountValue(ByVal key As String, ByVal value As String,
     Account.UpdateAccountValue key, value, curency, accountName
 End Sub
 
-Private Sub m_Tws_updatePortfolioEx(ByVal contract As TWSLib.IContract, ByVal position As Double, ByVal marketPrice As Double, ByVal marketValue As Double, ByVal averageCost As Double, ByVal unrealizedPNL As Double, ByVal realizedPNL As Double, ByVal accountName As String)
+Private Sub m_Tws_updatePortfolioEx(ByVal contract As TWSLib.IContract, ByVal position As String, ByVal marketPrice As Double, ByVal marketValue As Double, ByVal averageCost As Double, ByVal unrealizedPNL As Double, ByVal realizedPNL As Double, ByVal accountName As String)
     On Error Resume Next
     Portfolio.UpdatePortfolio contract, position, marketPrice, marketValue, averageCost, unrealizedPNL, realizedPNL, accountName
 End Sub
@@ -453,7 +453,7 @@ End Sub
 '-----------------------------
 ' positions  multi
 '-----------------------------
-Private Sub m_Tws_positionMulti(ByVal requestId As Long, ByVal Account As String, ByVal modelCode As String, ByVal contract As TWSLib.IContract, ByVal position As Double, ByVal avgCost As Double)
+Private Sub m_Tws_positionMulti(ByVal requestId As Long, ByVal Account As String, ByVal modelCode As String, ByVal contract As TWSLib.IContract, ByVal position As String, ByVal avgCost As Double)
     On Error Resume Next
     PositionsMulti.PositionMulti requestId, Account, modelCode, contract, position, avgCost
 End Sub

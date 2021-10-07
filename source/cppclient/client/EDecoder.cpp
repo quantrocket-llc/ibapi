@@ -254,8 +254,8 @@ const char* EDecoder::processOrderStatusMsg(const char* ptr, const char* endPtr)
     int version = INT_MAX;
 	int orderId;
 	std::string status;
-	double filled;
-	double remaining;
+	Decimal filled;
+	Decimal remaining;
 	double avgFillPrice;
 	int permId;
 	int parentId;
@@ -270,35 +270,9 @@ const char* EDecoder::processOrderStatusMsg(const char* ptr, const char* endPtr)
 	
     DECODE_FIELD( orderId);
 	DECODE_FIELD( status);
-
-	if (m_serverVersion >= MIN_SERVER_VER_FRACTIONAL_POSITIONS)
-	{
-		DECODE_FIELD( filled);
-	}
-	else
-	{
-		int iFilled;
-
-		DECODE_FIELD(iFilled);
-
-		filled = iFilled;
-	}
-
-	if (m_serverVersion >= MIN_SERVER_VER_FRACTIONAL_POSITIONS)
-	{
-		DECODE_FIELD( remaining);
-	}
-	else
-	{
-		int iRemaining;
-
-		DECODE_FIELD(iRemaining);
-
-		remaining = iRemaining;
-	}
-
+	DECODE_FIELD( filled);
+	DECODE_FIELD( remaining);
 	DECODE_FIELD( avgFillPrice);
-
 	DECODE_FIELD( permId); // ver 2 field
 	DECODE_FIELD( parentId); // ver 3 field
 	DECODE_FIELD( lastFillPrice); // ver 4 field
@@ -478,26 +452,14 @@ const char* EDecoder::processPortfolioValueMsg(const char* ptr, const char* endP
 		DECODE_FIELD( contract.tradingClass);
 	}
 
-	double  position;
+	Decimal  position;
 	double  marketPrice;
 	double  marketValue;
 	double  averageCost;
 	double  unrealizedPNL;
 	double  realizedPNL;
 
-	if (m_serverVersion >= MIN_SERVER_VER_FRACTIONAL_POSITIONS)
-	{
-		DECODE_FIELD( position);
-	}
-	else
-	{
-		int iPosition;
-
-		DECODE_FIELD(iPosition);
-
-		position = iPosition;
-	}
-
+	DECODE_FIELD( position);
 	DECODE_FIELD( marketPrice);
 	DECODE_FIELD( marketValue);
 	DECODE_FIELD( averageCost); // ver 3 field
@@ -744,18 +706,7 @@ const char* EDecoder::processExecutionDetailsMsg(const char* ptr, const char* en
 	DECODE_FIELD( exec.acctNumber);
 	DECODE_FIELD( exec.exchange);
 	DECODE_FIELD( exec.side);
-
-	if (m_serverVersion >= MIN_SERVER_VER_FRACTIONAL_POSITIONS) {
-		DECODE_FIELD( exec.shares)
-	} 
-	else {
-		int iShares;
-
-		DECODE_FIELD(iShares);
-
-		exec.shares = iShares;
-	}
-
+	DECODE_FIELD( exec.shares)
 	DECODE_FIELD( exec.price);
 	DECODE_FIELD( exec.permId); // ver 2 field
 	DECODE_FIELD( exec.clientId); // ver 3 field
@@ -1195,7 +1146,7 @@ const char* EDecoder::processCommissionReportMsg(const char* ptr, const char* en
 const char* EDecoder::processPositionDataMsg(const char* ptr, const char* endPtr) {
 	int version;
 	std::string account;
-	double position;
+	Decimal position;
 	double avgCost = 0;
 
 	DECODE_FIELD( version);
@@ -1216,20 +1167,7 @@ const char* EDecoder::processPositionDataMsg(const char* ptr, const char* endPtr
 	if (version >= 2) {
 		DECODE_FIELD( contract.tradingClass);
 	}
-
-	if (m_serverVersion >= MIN_SERVER_VER_FRACTIONAL_POSITIONS)
-	{
-		DECODE_FIELD( position);
-	}
-	else
-	{
-		int iPosition;
-
-		DECODE_FIELD(iPosition);
-
-		position = iPosition;
-	}
-
+	DECODE_FIELD( position);
 	if (version >= 3) {
 		DECODE_FIELD( avgCost);
 	}
@@ -1372,7 +1310,7 @@ const char* EDecoder::processPositionMultiMsg(const char* ptr, const char* endPt
 	int reqId;
 	std::string account;
 	std::string modelCode;
-	double position;
+	Decimal position;
 	double avgCost = 0;
 
 	DECODE_FIELD( version);
@@ -1906,7 +1844,7 @@ const char* EDecoder::processPnLMsg(const char* ptr, const char* endPtr) {
 
 const char* EDecoder::processPnLSingleMsg(const char* ptr, const char* endPtr) {
     int reqId;
-    int pos;
+    Decimal pos;
     double dailyPnL;
     double unrealizedPnL = DBL_MAX;
     double realizedPnL = DBL_MAX;

@@ -85,10 +85,10 @@ namespace TWSLib
         /**
          * @brief The number of shares filled.
          */
-        double Shares
+        string Shares
         {
-            get { return data != null ? data.Shares : default(double); }
-            set { if (data != null) data.Shares = value; }
+            get { return data != null ? Util.DecimalMaxString(data.Shares) : default(string); }
+            set { if (data != null) data.Shares = Util.StringToDecimal(value); }
         }
 
         /**
@@ -122,10 +122,10 @@ namespace TWSLib
          * @brief Cumulative quantity. 
          * Used in regular trades, combo trades and legs of the combo.
          */
-        double CumQty
+        string CumQty
         {
-            get { return data != null ? data.CumQty : default(double); }
-            set { if (data != null) data.CumQty = value; }
+            get { return data != null ? Util.DecimalMaxString(data.CumQty) : default(string); }
+            set { if (data != null) data.CumQty = Util.StringToDecimal(value); }
         }
 
         /**
@@ -242,7 +242,7 @@ namespace TWSLib
             get { return Side; }
         }
 
-        double TWSLib.IExecution.shares
+        string TWSLib.IExecution.shares
         {
             get { return Shares; }
         }
@@ -257,7 +257,7 @@ namespace TWSLib
             get { return Liquidation; }
         }
 
-        double TWSLib.IExecution.cumQty
+        string TWSLib.IExecution.cumQty
         {
             get { return CumQty; }
         }

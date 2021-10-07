@@ -2180,7 +2180,7 @@ Friend Class MainForm
     End Sub
 
     Private Sub m_apiEvents_PnLSingle(sender As ApiEventSource, e As PnLSingleEventArgs) Handles m_apiEvents.PnLSingle
-        m_utils.addListItem(Utils.ListType.ServerResponses, String.Format("PnL Single, req id: {0}, Pos:{1}, Daily PnL: {2}, Unrealized PnL: {3}, Realized PnL: {4}, Value: {5}", e.requestId, e.pos, e.dailyPnL, e.unrealizedPnL, e.realizedPnL, e.value))
+        m_utils.addListItem(Utils.ListType.ServerResponses, String.Format("PnL Single, req id: {0}, Pos:{1}, Daily PnL: {2}, Unrealized PnL: {3}, Realized PnL: {4}, Value: {5}", e.requestId, Util.DecimalMaxString(e.pos), e.dailyPnL, e.unrealizedPnL, e.realizedPnL, e.value))
     End Sub
 
     '--------------------------------------------------------------------------------
@@ -2436,7 +2436,7 @@ Friend Class MainForm
     Private Sub Api_orderStatus(sender As Object, e As OrderStatusEventArgs) Handles m_apiEvents.OrderStatus
         Dim offset = lstServerResponses.Items.Count
         Dim msg = "order status: orderId=" & e.orderId & " client id=" & e.clientId & " permId=" & e.permId &
-              " status=" & e.status & " filled=" & e.filled & " remaining=" & e.remaining &
+              " status=" & e.status & " filled=" & Util.DecimalMaxString(e.filled) & " remaining=" & Util.DecimalMaxString(e.remaining) &
               " avgFillPrice=" & e.avgFillPrice & " lastFillPrice=" & e.lastFillPrice &
               " parentId=" & e.parentId & " whyHeld=" & e.whyHeld & " mktCapPrice=" & e.mktCapPrice
 
@@ -2664,10 +2664,10 @@ Friend Class MainForm
             m_utils.addListItem(Utils.ListType.ServerResponses, "  modelCode = " & .ModelCode)
             m_utils.addListItem(Utils.ListType.ServerResponses, "  exchange = " & .Exchange)
             m_utils.addListItem(Utils.ListType.ServerResponses, "  side = " & .Side)
-            m_utils.addListItem(Utils.ListType.ServerResponses, "  shares = " & .Shares)
+            m_utils.addListItem(Utils.ListType.ServerResponses, "  shares = " & Util.DecimalMaxString(.Shares))
             m_utils.addListItem(Utils.ListType.ServerResponses, "  price = " & .Price)
             m_utils.addListItem(Utils.ListType.ServerResponses, "  liquidation = " & .Liquidation)
-            m_utils.addListItem(Utils.ListType.ServerResponses, "  cumQty = " & .CumQty)
+            m_utils.addListItem(Utils.ListType.ServerResponses, "  cumQty = " & Util.DecimalMaxString(.CumQty))
             m_utils.addListItem(Utils.ListType.ServerResponses, "  avgPrice = " & .AvgPrice)
             m_utils.addListItem(Utils.ListType.ServerResponses, "  orderRef = " & .OrderRef)
             m_utils.addListItem(Utils.ListType.ServerResponses, "  evRule = " & .EvRule)
@@ -2794,7 +2794,7 @@ Friend Class MainForm
             m_utils.addListItem(Utils.ListType.ServerResponses, "  tradingClass=" & .TradingClass)
         End With
 
-        m_utils.addListItem(Utils.ListType.ServerResponses, "position=" & IntMaxStr(e.pos))
+        m_utils.addListItem(Utils.ListType.ServerResponses, "position=" & Util.DecimalMaxString(e.pos))
         m_utils.addListItem(Utils.ListType.ServerResponses, "avgCost=" & DblMaxStr(e.avgCost))
         m_utils.addListItem(Utils.ListType.ServerResponses, " ---- Position End ----")
 
@@ -2880,7 +2880,7 @@ Friend Class MainForm
             m_utils.addListItem(Utils.ListType.ServerResponses, "  tradingClass=" & .TradingClass)
         End With
 
-        m_utils.addListItem(Utils.ListType.ServerResponses, "position=" & IntMaxStr(e.pos))
+        m_utils.addListItem(Utils.ListType.ServerResponses, "position=" & Util.DecimalMaxString(e.pos))
         m_utils.addListItem(Utils.ListType.ServerResponses, "avgCost=" & DblMaxStr(e.avgCost))
         m_utils.addListItem(Utils.ListType.ServerResponses, " ---- Position Multi End ----")
 
@@ -3485,7 +3485,7 @@ Friend Class MainForm
     Private Sub appendOrderFields(contract As Contract, order As Order, orderState As OrderState)
         appendValidIntValue(Utils.ListType.ServerResponses, "orderId", order.OrderId)
         appendNonEmptyString(Utils.ListType.ServerResponses, "action", order.Action)
-        appendPositiveDoubleValue(Utils.ListType.ServerResponses, "totalQty", order.TotalQuantity)
+        appendNonEmptyString(Utils.ListType.ServerResponses, "totalQty", Util.DecimalMaxString(order.TotalQuantity))
         appendPositiveDoubleValue(Utils.ListType.ServerResponses, "cashQty", order.CashQty)
 
         appendPositiveIntValue(Utils.ListType.ServerResponses, "conId", contract.ConId)
@@ -3673,7 +3673,7 @@ Friend Class MainForm
         End If
 
         appendNonEmptyString(Utils.ListType.ServerResponses, "autoCancelDate", order.AutoCancelDate)
-        appendValidDoubleValue(Utils.ListType.ServerResponses, "filledQuantity", order.FilledQuantity)
+        appendNonEmptyString(Utils.ListType.ServerResponses, "filledQuantity", Util.DecimalMaxString(order.FilledQuantity))
         appendPositiveIntValue(Utils.ListType.ServerResponses, "refFuturesConId", order.RefFuturesConId)
         appendBooleanFlag(Utils.ListType.ServerResponses, "autoCancelParent", order.AutoCancelParent)
         appendNonEmptyString(Utils.ListType.ServerResponses, "shareholder", order.Shareholder)

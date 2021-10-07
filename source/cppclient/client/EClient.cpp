@@ -53,6 +53,15 @@ void EClient::EncodeField<double>(std::ostream& os, double doubleValue)
     EncodeField<const char*>(os, str);
 }
 
+template<>
+void EClient::EncodeField<Decimal>(std::ostream& os, Decimal decimalValue)
+{
+    char str[128];
+    snprintf(str, sizeof(str), "%s", decimalToString(decimalValue).c_str());
+
+    EncodeField<const char*>(os, str);
+}
+
 template<class T>
 void EClient::EncodeField(std::ostream& os, T value)
 {

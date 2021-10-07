@@ -12,8 +12,8 @@ void DefaultEWrapper::tickGeneric(TickerId tickerId, TickType tickType, double v
 void DefaultEWrapper::tickString(TickerId tickerId, TickType tickType, const std::string& value) { }
 void DefaultEWrapper::tickEFP(TickerId tickerId, TickType tickType, double basisPoints, const std::string& formattedBasisPoints,
 	   double totalDividends, int holdDays, const std::string& futureLastTradeDate, double dividendImpact, double dividendsToLastTradeDate) { }
-void DefaultEWrapper::orderStatus( OrderId orderId, const std::string& status, double filled,
-	   double remaining, double avgFillPrice, int permId, int parentId,
+void DefaultEWrapper::orderStatus( OrderId orderId, const std::string& status, Decimal filled,
+	   Decimal remaining, double avgFillPrice, int permId, int parentId,
 	   double lastFillPrice, int clientId, const std::string& whyHeld, double mktCapPrice) { }
 void DefaultEWrapper::openOrder( OrderId orderId, const Contract&, const Order&, const OrderState&) { }
 void DefaultEWrapper::openOrderEnd() { }
@@ -21,7 +21,7 @@ void DefaultEWrapper::winError( const std::string& str, int lastError) { }
 void DefaultEWrapper::connectionClosed() { }
 void DefaultEWrapper::updateAccountValue(const std::string& key, const std::string& val,
    const std::string& currency, const std::string& accountName) { }
-void DefaultEWrapper::updatePortfolio( const Contract& contract, double position,
+void DefaultEWrapper::updatePortfolio( const Contract& contract, Decimal position,
       double marketPrice, double marketValue, double averageCost,
       double unrealizedPNL, double realizedPNL, const std::string& accountName) { }
 void DefaultEWrapper::updateAccountTime(const std::string& timeStamp) { }
@@ -55,7 +55,7 @@ void DefaultEWrapper::deltaNeutralValidation(int reqId, const DeltaNeutralContra
 void DefaultEWrapper::tickSnapshotEnd( int reqId) { }
 void DefaultEWrapper::marketDataType( TickerId reqId, int marketDataType) { }
 void DefaultEWrapper::commissionReport( const CommissionReport& commissionReport) { }
-void DefaultEWrapper::position( const std::string& account, const Contract& contract, double position, double avgCost) { }
+void DefaultEWrapper::position( const std::string& account, const Contract& contract, Decimal position, double avgCost) { }
 void DefaultEWrapper::positionEnd() { }
 void DefaultEWrapper::accountSummary( int reqId, const std::string& account, const std::string& tag, const std::string& value, const std::string& curency) { }
 void DefaultEWrapper::accountSummaryEnd( int reqId) { }
@@ -66,7 +66,7 @@ void DefaultEWrapper::displayGroupUpdated( int reqId, const std::string& contrac
 void DefaultEWrapper::verifyAndAuthMessageAPI( const std::string& apiData, const std::string& xyzChallange) { }
 void DefaultEWrapper::verifyAndAuthCompleted( bool isSuccessful, const std::string& errorText) { }
 void DefaultEWrapper::connectAck() { }
-void DefaultEWrapper::positionMulti( int reqId, const std::string& account,const std::string& modelCode, const Contract& contract, double pos, double avgCost) { }
+void DefaultEWrapper::positionMulti( int reqId, const std::string& account,const std::string& modelCode, const Contract& contract, Decimal pos, double avgCost) { }
 void DefaultEWrapper::positionMultiEnd( int reqId) { }
 void DefaultEWrapper::accountUpdateMulti( int reqId, const std::string& account, const std::string& modelCode, const std::string& key, const std::string& value, const std::string& currency) { }
 void DefaultEWrapper::accountUpdateMultiEnd( int reqId) { }
@@ -91,7 +91,7 @@ void DefaultEWrapper::rerouteMktDataReq(int reqId, int conid, const std::string&
 void DefaultEWrapper::rerouteMktDepthReq(int reqId, int conid, const std::string& exchange) { }
 void DefaultEWrapper::marketRule(int marketRuleId, const std::vector<PriceIncrement> &priceIncrements) { }
 void DefaultEWrapper::pnl(int reqId, double dailyPnL, double unrealizedPnL, double realizedPnL) { }
-void DefaultEWrapper::pnlSingle(int reqId, int pos, double dailyPnL, double unrealizedPnL, double realizedPnL, double value) { }
+void DefaultEWrapper::pnlSingle(int reqId, Decimal pos, double dailyPnL, double unrealizedPnL, double realizedPnL, double value) { }
 void DefaultEWrapper::historicalTicks(int reqId, const std::vector<HistoricalTick>& ticks, bool done) { }
 void DefaultEWrapper::historicalTicksBidAsk(int reqId, const std::vector<HistoricalTickBidAsk>& ticks, bool done) { }
 void DefaultEWrapper::historicalTicksLast(int reqId, const std::vector<HistoricalTickLast>& ticks, bool done) { }

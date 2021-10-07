@@ -297,7 +297,7 @@ namespace IBSampleApp
 
         public event Action<UpdatePortfolioMessage> UpdatePortfolio;
 
-        void EWrapper.updatePortfolio(Contract contract, double position, double marketPrice, double marketValue, double averageCost, double unrealizedPNL, double realizedPNL, string accountName)
+        void EWrapper.updatePortfolio(Contract contract, decimal position, double marketPrice, double marketValue, double averageCost, double unrealizedPNL, double realizedPNL, string accountName)
         {
             var tmp = UpdatePortfolio;
 
@@ -327,7 +327,7 @@ namespace IBSampleApp
 
         public event Action<OrderStatusMessage> OrderStatus;
 
-        void EWrapper.orderStatus(int orderId, string status, double filled, double remaining, double avgFillPrice, int permId, int parentId, double lastFillPrice, int clientId, string whyHeld, double mktCapPrice)
+        void EWrapper.orderStatus(int orderId, string status, decimal filled, decimal remaining, double avgFillPrice, int permId, int parentId, double lastFillPrice, int clientId, string whyHeld, double mktCapPrice)
         {
             var tmp = OrderStatus;
 
@@ -477,7 +477,7 @@ namespace IBSampleApp
 
         public event Action<PositionMessage> Position;
 
-        void EWrapper.position(string account, Contract contract, double pos, double avgCost)
+        void EWrapper.position(string account, Contract contract, decimal pos, double avgCost)
         {
             var tmp = Position;
 
@@ -623,7 +623,7 @@ namespace IBSampleApp
 
         public event Action<PositionMultiMessage> PositionMulti;
 
-        void EWrapper.positionMulti(int reqId, string account, string modelCode, Contract contract, double pos, double avgCost)
+        void EWrapper.positionMulti(int reqId, string account, string modelCode, Contract contract, decimal pos, double avgCost)
         {
             var tmp = PositionMulti;
 
@@ -864,7 +864,7 @@ namespace IBSampleApp
 
         public event Action<PnLSingleMessage> pnlSingle;
 
-        void EWrapper.pnlSingle(int reqId, int pos, double dailyPnL, double unrealizedPnL, double realizedPnL, double value)
+        void EWrapper.pnlSingle(int reqId, decimal pos, double dailyPnL, double unrealizedPnL, double realizedPnL, double value)
         {
             var tmp = pnlSingle;
 

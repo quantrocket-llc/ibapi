@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using IBSampleApp.messages;
 using System.Windows.Forms;
 using IBSampleApp.util;
+using IBApi;
 
 namespace IBSampleApp.ui
 {
@@ -84,7 +85,7 @@ namespace IBSampleApp.ui
             {
                 if (AccountPortfolioGrid[0, i].Value.Equals(Utils.ContractToString(updatePortfolioMessage.Contract)))
                 {
-                    AccountPortfolioGrid[1, i].Value = updatePortfolioMessage.Position;
+                    AccountPortfolioGrid[1, i].Value = Util.DecimalMaxString(updatePortfolioMessage.Position);
                     AccountPortfolioGrid[2, i].Value = updatePortfolioMessage.MarketPrice;
                     AccountPortfolioGrid[3, i].Value = updatePortfolioMessage.MarketValue;
                     AccountPortfolioGrid[4, i].Value = updatePortfolioMessage.AverageCost;
@@ -96,7 +97,7 @@ namespace IBSampleApp.ui
             
             AccountPortfolioGrid.Rows.Add(1);
             AccountPortfolioGrid[0, AccountPortfolioGrid.Rows.Count - 1].Value = Utils.ContractToString(updatePortfolioMessage.Contract); ;
-            AccountPortfolioGrid[1, AccountPortfolioGrid.Rows.Count - 1].Value = updatePortfolioMessage.Position;
+            AccountPortfolioGrid[1, AccountPortfolioGrid.Rows.Count - 1].Value = Util.DecimalMaxString(updatePortfolioMessage.Position);
             AccountPortfolioGrid[2, AccountPortfolioGrid.Rows.Count - 1].Value = updatePortfolioMessage.MarketPrice;
             AccountPortfolioGrid[3, AccountPortfolioGrid.Rows.Count - 1].Value = updatePortfolioMessage.MarketValue;
             AccountPortfolioGrid[4, AccountPortfolioGrid.Rows.Count - 1].Value = updatePortfolioMessage.AverageCost;
@@ -111,7 +112,7 @@ namespace IBSampleApp.ui
                 if (PositionsGrid[0, i].Value.Equals(Utils.ContractToString(positionMessage.Contract)))
                 {
                     PositionsGrid[1, i].Value = positionMessage.Account;
-                    PositionsGrid[2, i].Value = positionMessage.Position;
+                    PositionsGrid[2, i].Value = Util.DecimalMaxString(positionMessage.Position);
                     PositionsGrid[3, i].Value = positionMessage.AverageCost;
                     return;
                 }
@@ -120,7 +121,7 @@ namespace IBSampleApp.ui
             PositionsGrid.Rows.Add(1);
             PositionsGrid[0, PositionsGrid.Rows.Count - 1].Value = Utils.ContractToString(positionMessage.Contract);
             PositionsGrid[1, PositionsGrid.Rows.Count - 1].Value = positionMessage.Account;
-            PositionsGrid[2, PositionsGrid.Rows.Count - 1].Value = positionMessage.Position;
+            PositionsGrid[2, PositionsGrid.Rows.Count - 1].Value = Util.DecimalMaxString(positionMessage.Position);
             PositionsGrid[3, PositionsGrid.Rows.Count - 1].Value = positionMessage.AverageCost;
         }
 
