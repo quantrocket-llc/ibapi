@@ -753,6 +753,7 @@ INPUT					+= ./content/historical_data
 INPUT					+= ./content/contracts
 INPUT					+= ./content/news
 INPUT					+= ./content/options
+INPUT					+= ./content/cryptocurrency
 INPUT					+= ./content/account_portfolio
 INPUT					+= ./content/misc
 INPUT					+= ./content/third_party

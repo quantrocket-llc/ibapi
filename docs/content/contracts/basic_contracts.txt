@@ -1,4 +1,4 @@
-/*! \page basic_contracts Basic Contracts 
+/*! \page basic_contracts Basic Contracts
 
 	\section cash FX Pairs
 	<ul id="tab">
@@ -18,7 +18,26 @@
 			\snippet ContractSamples.py cashcontract
 		</li>
 	</ul>
-	
+
+	\section cryptocurrency Cryptocurrency
+	<ul id="tab">
+		<li class="active">
+		 \snippet ContractSamples.cs crypto_contract
+		</li>
+		<li>
+			\snippet ContractSamples.java crypto_contract
+		</li>
+		<li>
+			\snippet ContractSamples.vb crypto_contract
+		</li>
+		<li>
+			\snippet ContractSamples.cpp crypto_contract
+		</li>
+		<li>
+			\snippet ContractSamples.py crypto_contract
+		</li>
+	</ul>
+
 	\section stk Stocks
 	<ul id="tab">
 		<li class="active">
@@ -37,9 +56,9 @@
 			\snippet ContractSamples.py stkcontract
 		</li>
 	</ul>
-	
+
 	For certain smart-routed stock contracts that have the same <b>symbol</b>, <b>currency</b> and <b>exchange</b>, you would also need to specify the <b>primary exchange</b> attribute to uniquely define the contract. This should be defined as the native exchange of a contract, and is good practice to include for all stocks:
-	
+
 	<ul id="tab">
 		<li class="active">
 		 \snippet ContractSamples.cs stkcontractwithprimary
@@ -57,12 +76,12 @@
 			\snippet ContractSamples.py stkcontractwithprimary
 		</li>
 	</ul>
-	
+
 	For the purpose of requesting market data, the routing exchange and primary exchange can be specified in a single 'exchange' field if they are separated by a valid component exchange separator, for instance exchange =  "SMART:ARCA". The default separators available are colon ":" and slash "/". Other component exchange separators can be defined using the field defined in TWS Global Configuration under API -> Settings. The component exchange separator syntax in TWS versions prior to 971 can only be used to request market data and not to place orders.
-	
+
 	\section ind Indexes
 	ISINs for indices which are available in IB's database are available in the API as of TWS 965+.
-	
+
 	<ul id="tab">
 		<li class="active">
 		 \snippet ContractSamples.cs indcontract
@@ -80,9 +99,9 @@
 			\snippet ContractSamples.py indcontract
 		</li>
 	</ul>
-	
+
 	\section cfd CFDs
-	
+
 	<ul id="tab">
 		<li class="active">
 		 \snippet ContractSamples.cs cfdcontract
@@ -100,11 +119,11 @@
 			\snippet ContractSamples.py cfdcontract
 		</li>
 	</ul>
-	
+
 	\section fut Futures
 
-	A regular futures contract is commonly defined using an expiry and the symbol field defined as the symbol of the underlying. Historical data for futures is available up to 2 years after they expire by setting the includeExpired flag within the Contract class to True. 
-	
+	A regular futures contract is commonly defined using an expiry and the symbol field defined as the symbol of the underlying. Historical data for futures is available up to 2 years after they expire by setting the includeExpired flag within the Contract class to True.
+
 	<ul id="tab">
 		<li class="active">
 		 \snippet ContractSamples.cs futcontract
@@ -122,10 +141,10 @@
 			\snippet ContractSamples.py futcontract
 		</li>
 	</ul>
-	
+
 	By contract the 'local symbol' field is IB's symbol for the future itself (the Symbol within the TWS' Contract Description dialog).
 	Since a local symbol uniquely defines a future, an expiry is not necessary.
-	
+
 	<ul id="tab">
 		<li class="active">
 		 \snippet ContractSamples.cs futcontract_local_symbol
@@ -143,10 +162,10 @@
 			\snippet ContractSamples.py futcontract_local_symbol
 		</li>
 	</ul>
-	
+
 	Occasionally, you can expect to have more than a single future contract for the same underlying with the same expiry. To rule out the
 	ambiguity, the contract's <b>multiplier</b> can be given as shown below:
-	
+
 	<ul id="tab">
 		<li class="active">
 		 \snippet ContractSamples.cs futcontract_multiplier
@@ -165,8 +184,8 @@
 		</li>
 	</ul>
 
-	Continuous futures are available from the API with <b>TWS v971</b> and higher. Continuous futures cannot be used with real time data or to place orders, but only for historical data. 
-	
+	Continuous futures are available from the API with <b>TWS v971</b> and higher. Continuous futures cannot be used with real time data or to place orders, but only for historical data.
+
 	<ul id="tab">
 		<li class="active">
 		 \snippet ContractSamples.cs continuousfuturescontract
@@ -184,10 +203,10 @@
 			\snippet ContractSamples.py continuousfuturescontract
 		</li>
 	</ul>
-	
-	The security type "FUT+CONTFUT" can be used to request contract details about the futures and continuous futures on an underlying. 
+
+	The security type "FUT+CONTFUT" can be used to request contract details about the futures and continuous futures on an underlying.
 	This security type cannot be used with other functionality.
-	
+
 	<ul id="tab">
 		<li class="active">
 		 \snippet ContractSamples.cs contandexpiringfut
@@ -205,12 +224,12 @@
 			\snippet ContractSamples.py contandexpiringfut
 		</li>
 	</ul>
-	
-	
+
+
 	\section opt Options
-	
+
 	Options, like futures, also require an expiration date plus a <b>strike</b> and a <b>multiplier</b>:
-	
+
 	<ul id="tab">
 		<li class="active">
 			\snippet ContractSamples.cs optcontract
@@ -228,10 +247,10 @@
 			\snippet ContractSamples.py optcontract
 		</li>
 	</ul>
-	
+
 	It is not unusual to find many option contracts with an almost identical description (i.e. underlying symbol, strike, last trading date, multiplier, etc.).
 	Adding more details such as the <b>trading class</b> will help:
-	
+
 	<ul id="tab">
 		<li class="active">
 			\snippet ContractSamples.cs optcontract_tradingclass
@@ -249,9 +268,9 @@
 			\snippet ContractSamples.py optcontract_tradingclass
 		</li>
 	</ul>
-	
-	The OCC options symbol can be used to define an option contract in the API through the option's 'local symbol' field. 
-	
+
+	The OCC options symbol can be used to define an option contract in the API through the option's 'local symbol' field.
+
 	<ul id="tab">
 		<li class="active">
 			\snippet ContractSamples.cs optcontract_localsymbol
@@ -269,15 +288,15 @@
 			\snippet ContractSamples.py optcontract_localsymbol
 		</li>
 	</ul>
-	
+
 	\section fop Futures Options
-	
+
 	<b>Important: In TWS versions prior to 972</b>, if defining a futures option that has a price magnifier using the strike price, the strike will be the strike price displayed in TWS divided by the price magnifier.
 	(e.g. displayed in dollars not cents for ZW@ECBOT)<br>
 	In <b>TWS versions 972 and greater</b>, the strike prices will be shown in TWS and the API the same way (without a price magnifier applied)
 	<br>
-	For some futures options (e.g GE) it will be necessary to define a trading class, or use the local symbol, or conId. 
-	
+	For some futures options (e.g GE) it will be necessary to define a trading class, or use the local symbol, or conId.
+
 	<ul id="tab">
 		<li class="active">
 			\snippet ContractSamples.cs fopcontract
@@ -295,11 +314,11 @@
 			\snippet ContractSamples.py fopcontract
 		</li>
 	</ul>
-	
+
 	\section Bonds
-	
+
 	Bonds can be specified by defining the symbol as the CUSIP or ISIN.
-	
+
 	<ul id="tab">
 		<li class="active">
 			\snippet ContractSamples.cs bondwithcusip
@@ -317,9 +336,9 @@
 			\snippet ContractSamples.py bondwithcusip
 		</li>
 	</ul>
-	
-	Bonds can also be defined with the conId and exchange as with any security type. 
-	
+
+	Bonds can also be defined with the conId and exchange as with any security type.
+
 	<ul id="tab">
 		<li class="active">
 			\snippet ContractSamples.cs bond
@@ -337,12 +356,12 @@
 			\snippet ContractSamples.py bond
 		</li>
 	</ul>
-	
+
 	\section funds Mutual Funds
-	
-	Trading Mutual Funds is <b>not</b> currently fully-supported from the API. 
+
+	Trading Mutual Funds is <b>not</b> currently fully-supported from the API.
 	Note: Mutual Funds orders cannot be placed in paper accounts from any trading system.
-	
+
 	<ul id="tab">
 		<li class="active">
 			\snippet ContractSamples.cs fundcontract
@@ -360,9 +379,9 @@
 			\snippet ContractSamples.py fundcontract
 		</li>
 	</ul>
-	
+
 	\section Commodities
-	
+
 	<ul id="tab">
 		<li class="active">
 			\snippet ContractSamples.cs commoditycontract
@@ -380,11 +399,11 @@
 			\snippet ContractSamples.py commoditycontract
 		</li>
 	</ul>
-	
+
 	\section warrant Standard Warrants
-	
-	Warrants, like options, require an <b>expiration date</b>, a <b>right</b>, a <b>strike</b> and a <b>multiplier</b>. For some warrants it will be necessary to define a localSymbol or conId to uniquely identify the contract.  
-	
+
+	Warrants, like options, require an <b>expiration date</b>, a <b>right</b>, a <b>strike</b> and a <b>multiplier</b>. For some warrants it will be necessary to define a localSymbol or conId to uniquely identify the contract.
+
 	<ul id="tab">
 		<li class="active">
 			\snippet ContractSamples.cs warcontract
@@ -402,13 +421,13 @@
 			\snippet ContractSamples.py warcontract
 		</li>
 	</ul>
-	
+
 	\section iopts Dutch Warrants and Structured Products
-	
+
 	To unambiguously define a Dutch Warrant or Structured Product (IOPTs) the conId or localSymbol field must be used.
 	- It is important to note that if reqContractDetails is used with an incompletely-defined IOPT contract definition, that thousands of results can be returned and the API connection broken.
-	- IOPT contract definitions will often change and it will be necessary to restart TWS or IB Gateway to download the new contract definition. 
-	
+	- IOPT contract definitions will often change and it will be necessary to restart TWS or IB Gateway to download the new contract definition.
+
 	<ul id="tab">
 		<li class="active">
 			\snippet ContractSamples.cs ioptcontract
@@ -426,7 +445,7 @@
 			\snippet ContractSamples.py ioptcontract
 		</li>
 	</ul>
-	
+
 	<br><br>
 
 */
