@@ -124,13 +124,16 @@ struct ContractDetails
 		, coupon(0)
 		, convertible(false)
 		, nextOptionPartial(false)
+		, minSize(UNSET_DECIMAL)
+		, sizeIncrement(UNSET_DECIMAL)
+		, suggestedSizeIncrement(UNSET_DECIMAL)
+		, minCashQtySize(UNSET_DECIMAL)
 	{
 	}
 
 	Contract	contract;
 	std::string	marketName;
 	double		minTick;
-	Decimal		sizeMinTick;
 	std::string	orderTypes;
 	std::string	validExchanges;
 	long		priceMagnifier;
@@ -145,7 +148,6 @@ struct ContractDetails
 	std::string	liquidHours;
 	std::string	evRule;
 	double		evMultiplier;
-	int			mdSizeMultiplier;
 	int			aggGroup;
 	std::string	underSymbol;
 	std::string	underSecType;
@@ -153,6 +155,10 @@ struct ContractDetails
 	std::string realExpirationDate;
 	std::string lastTradeTime;
 	std::string stockType;
+	Decimal		minSize;
+	Decimal		sizeIncrement;
+	Decimal		suggestedSizeIncrement;
+	Decimal		minCashQtySize;
 
 	TagValueListSPtr secIdList;
 

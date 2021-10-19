@@ -1162,7 +1162,10 @@ class EDecoder implements ObjectInput {
 	}
 
 	private void processBondContractDataMsg() throws IOException {
-		int version = readInt();
+		int version = 6;
+		if (m_serverVersion < EClient.MIN_SERVER_VER_SIZE_RULES) {
+			version = readInt();
+		}
 
 		int reqId = -1;
 		if (version >= 3) {
@@ -1190,8 +1193,8 @@ class EDecoder implements ObjectInput {
 		contract.contract().tradingClass(readStr());
 		contract.contract().conid(readInt());
 		contract.minTick(readDouble());
-		if (m_serverVersion >= EClient.MIN_SERVER_VER_MD_SIZE_MULTIPLIER) {
-			contract.mdSizeMultiplier(readInt());
+		if (m_serverVersion >= EClient.MIN_SERVER_VER_MD_SIZE_MULTIPLIER && m_serverVersion < EClient.MIN_SERVER_VER_SIZE_RULES) {
+			readInt(); // mdSizeMultiplier - not used anymore
 		}
 		contract.orderTypes(readStr());
 		contract.validExchanges(readStr());
@@ -1226,12 +1229,21 @@ class EDecoder implements ObjectInput {
 		if (m_serverVersion >= EClient.MIN_SERVER_VER_MARKET_RULES) {
 			contract.marketRuleIds(readStr());
 		}
+		if (m_serverVersion >= EClient.MIN_SERVER_VER_SIZE_RULES) {
+		    contract.minSize(readDecimal());
+		    contract.sizeIncrement(readDecimal());
+		    contract.suggestedSizeIncrement(readDecimal());
+		    contract.minCashQtySize(readDecimal());
+		}
 		
 		m_EWrapper.bondContractDetails( reqId, contract);
 	}
 
 	private void processContractDataMsg() throws IOException {
-		int version = readInt();
+		int version = 8;
+		if (m_serverVersion < EClient.MIN_SERVER_VER_SIZE_RULES) {
+			version = readInt();
+		}
 
 		int reqId = -1;
 		if (version >= 3) {
@@ -1251,8 +1263,8 @@ class EDecoder implements ObjectInput {
 		contract.contract().tradingClass(readStr());
 		contract.contract().conid(readInt());
 		contract.minTick(readDouble());
-		if (m_serverVersion >= EClient.MIN_SERVER_VER_MD_SIZE_MULTIPLIER) {
-			contract.mdSizeMultiplier(readInt());
+		if (m_serverVersion >= EClient.MIN_SERVER_VER_MD_SIZE_MULTIPLIER && m_serverVersion < EClient.MIN_SERVER_VER_SIZE_RULES) {
+			readInt(); // mdSizeMultiplier - not used anymore
 		}
 		contract.contract().multiplier(readStr());
 		contract.orderTypes(readStr());
@@ -1308,8 +1320,14 @@ class EDecoder implements ObjectInput {
 		if (m_serverVersion >= EClient.MIN_SERVER_VER_STOCK_TYPE) {
 		    contract.stockType(readStr());
 		}
-		if (m_serverVersion >= EClient.MIN_SERVER_VER_FRACTIONAL_SIZE_SUPPORT) {
-		    contract.sizeMinTick(readDecimal());
+		if (m_serverVersion >= EClient.MIN_SERVER_VER_FRACTIONAL_SIZE_SUPPORT && m_serverVersion < EClient.MIN_SERVER_VER_SIZE_RULES) {
+		    readDecimal(); // sizeMinTick - not used anymore
+		}
+		if (m_serverVersion >= EClient.MIN_SERVER_VER_SIZE_RULES) {
+		    contract.minSize(readDecimal());
+		    contract.sizeIncrement(readDecimal());
+		    contract.suggestedSizeIncrement(readDecimal());
+		    contract.minCashQtySize(readDecimal());
 		}
 		
 		m_EWrapper.contractDetails( reqId, contract);

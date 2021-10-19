@@ -54,8 +54,8 @@ class BarData(Object):
         self.high = 0.
         self.low = 0.
         self.close = 0.
-        self.volume = Decimal(0)
-        self.wap = Decimal(0)
+        self.volume = UNSET_DECIMAL
+        self.wap = UNSET_DECIMAL
         self.barCount = 0
 
     def __str__(self):
@@ -64,7 +64,7 @@ class BarData(Object):
 
 
 class RealTimeBar(Object):
-    def __init__(self, time = 0, endTime = -1, open_ = 0., high = 0., low = 0., close = 0., volume = Decimal(0), wap = Decimal(0), count = 0):
+    def __init__(self, time = 0, endTime = -1, open_ = 0., high = 0., low = 0., close = 0., volume = UNSET_DECIMAL, wap = UNSET_DECIMAL, count = 0):
         self.time = time
         self.endTime = endTime
         self.open_ = open_
@@ -83,7 +83,7 @@ class RealTimeBar(Object):
 class HistogramData(Object):
     def __init__(self):
         self.price = 0.
-        self.size = Decimal(0)
+        self.size = UNSET_DECIMAL
 
     def __str__(self):
         return "Price: %f, Size: %s" % (self.price, ibapi.utils.decimalMaxString(self.size))
@@ -174,7 +174,7 @@ class HistoricalTick(Object):
     def __init__(self):
         self.time = 0
         self.price = 0.
-        self.size = Decimal(0)
+        self.size = UNSET_DECIMAL
 
     def __str__(self):
         return "Time: %d, Price: %f, Size: %s" % (self.time, self.price, ibapi.utils.decimalMaxString(self.size))
@@ -186,8 +186,8 @@ class HistoricalTickBidAsk(Object):
         self.tickAttribBidAsk = TickAttribBidAsk()
         self.priceBid = 0.
         self.priceAsk = 0.
-        self.sizeBid = Decimal(0)
-        self.sizeAsk = Decimal(0)
+        self.sizeBid = UNSET_DECIMAL
+        self.sizeAsk = UNSET_DECIMAL
 
     def __str__(self):
         return "Time: %d, TickAttriBidAsk: %s, PriceBid: %f, PriceAsk: %f, SizeBid: %s, SizeAsk: %s" % (self.time, self.tickAttribBidAsk, self.priceBid, self.priceAsk, ibapi.utils.decimalMaxString(self.sizeBid), ibapi.utils.decimalMaxString(self.sizeAsk))
@@ -198,7 +198,7 @@ class HistoricalTickLast(Object):
         self.time = 0
         self.tickAttribLast = TickAttribLast()
         self.price = 0.
-        self.size = Decimal(0)
+        self.size = UNSET_DECIMAL
         self.exchange = ""
         self.specialConditions = ""
 

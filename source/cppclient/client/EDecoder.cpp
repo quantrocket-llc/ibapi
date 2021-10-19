@@ -505,8 +505,10 @@ const char* EDecoder::processNextValidIdMsg(const char* ptr, const char* endPtr)
 }
 
 const char* EDecoder::processContractDataMsg(const char* ptr, const char* endPtr) {
-	int version;
-	DECODE_FIELD( version);
+	int version = 8;
+	if (m_serverVersion < MIN_SERVER_VER_SIZE_RULES) {
+		DECODE_FIELD(version);
+	}
 
 	int reqId = -1;
 	if( version >= 3) {
@@ -526,8 +528,9 @@ const char* EDecoder::processContractDataMsg(const char* ptr, const char* endPtr
 	DECODE_FIELD( contract.contract.tradingClass);
 	DECODE_FIELD( contract.contract.conId);
 	DECODE_FIELD( contract.minTick);
-	if (m_serverVersion >= MIN_SERVER_VER_MD_SIZE_MULTIPLIER) {
-		DECODE_FIELD( contract.mdSizeMultiplier);
+	if (m_serverVersion >= MIN_SERVER_VER_MD_SIZE_MULTIPLIER && m_serverVersion < MIN_SERVER_VER_SIZE_RULES) {
+		int mdSizeMultiplier;
+		DECODE_FIELD( mdSizeMultiplier); // not used anymore
 	}
 	DECODE_FIELD( contract.contract.multiplier);
 	DECODE_FIELD( contract.orderTypes);
@@ -584,8 +587,15 @@ const char* EDecoder::processContractDataMsg(const char* ptr, const char* endPtr
 	if (m_serverVersion >= MIN_SERVER_VER_STOCK_TYPE) {
 		DECODE_FIELD( contract.stockType);
 	}
-	if (m_serverVersion >= MIN_SERVER_VER_FRACTIONAL_SIZE_SUPPORT) {
-		DECODE_FIELD(contract.sizeMinTick);
+	if (m_serverVersion >= MIN_SERVER_VER_FRACTIONAL_SIZE_SUPPORT && m_serverVersion < MIN_SERVER_VER_SIZE_RULES) {
+		Decimal sizeMinTick;
+		DECODE_FIELD(sizeMinTick); // not used anymore
+	}
+	if (m_serverVersion >= MIN_SERVER_VER_SIZE_RULES) {
+		DECODE_FIELD(contract.minSize);
+		DECODE_FIELD(contract.sizeIncrement);
+		DECODE_FIELD(contract.suggestedSizeIncrement);
+		DECODE_FIELD(contract.minCashQtySize);
 	}
 
 	m_pEWrapper->contractDetails( reqId, contract);
@@ -594,8 +604,10 @@ const char* EDecoder::processContractDataMsg(const char* ptr, const char* endPtr
 }
 
 const char* EDecoder::processBondContractDataMsg(const char* ptr, const char* endPtr) {
-	int version;
-	DECODE_FIELD( version);
+	int version = 6;
+	if (m_serverVersion < MIN_SERVER_VER_SIZE_RULES) {
+		DECODE_FIELD(version);
+	}
 
 	int reqId = -1;
 	if( version >= 3) {
@@ -622,8 +634,9 @@ const char* EDecoder::processBondContractDataMsg(const char* ptr, const char* en
 	DECODE_FIELD( contract.contract.tradingClass);
 	DECODE_FIELD( contract.contract.conId);
 	DECODE_FIELD( contract.minTick);
-	if (m_serverVersion >= MIN_SERVER_VER_MD_SIZE_MULTIPLIER) {
-		DECODE_FIELD( contract.mdSizeMultiplier);
+	if (m_serverVersion >= MIN_SERVER_VER_MD_SIZE_MULTIPLIER && m_serverVersion < MIN_SERVER_VER_SIZE_RULES) {
+		int mdSizeMultiplier;
+		DECODE_FIELD( mdSizeMultiplier); // not used anymore
 	}
 	DECODE_FIELD( contract.orderTypes);
 	DECODE_FIELD( contract.validExchanges);
@@ -658,6 +671,12 @@ const char* EDecoder::processBondContractDataMsg(const char* ptr, const char* en
 	}
 	if (m_serverVersion >= MIN_SERVER_VER_MARKET_RULES) {
 		DECODE_FIELD( contract.marketRuleIds);
+	}
+	if (m_serverVersion >= MIN_SERVER_VER_SIZE_RULES) {
+		DECODE_FIELD(contract.minSize);
+		DECODE_FIELD(contract.sizeIncrement);
+		DECODE_FIELD(contract.suggestedSizeIncrement);
+		DECODE_FIELD(contract.minCashQtySize);
 	}
 
 	m_pEWrapper->bondContractDetails( reqId, contract);

@@ -14,6 +14,7 @@ import ibapi
 
 from decimal import Decimal
 from ibapi.object_implem import Object
+from ibapi.common import UNSET_DECIMAL
 
 
 (SAME_POS, OPEN_POS, CLOSE_POS, UNKNOWN_POS) = range(4)
@@ -115,7 +116,6 @@ class ContractDetails(Object):
         self.contract = Contract()
         self.marketName = ""
         self.minTick = 0.
-        self.sizeMinTick = Decimal(0)
         self.orderTypes = ""
         self.validExchanges = ""
         self.priceMagnifier = 0
@@ -130,7 +130,6 @@ class ContractDetails(Object):
         self.liquidHours = ""
         self.evRule = ""
         self.evMultiplier = 0
-        self.mdSizeMultiplier = 0
         self.aggGroup = 0
         self.underSymbol = ""
         self.underSecType = ""
@@ -139,6 +138,10 @@ class ContractDetails(Object):
         self.realExpirationDate = ""
         self.lastTradeTime = ""
         self.stockType = ""
+        self.minSize = UNSET_DECIMAL
+        self.sizeIncrement = UNSET_DECIMAL
+        self.suggestedSizeIncrement = UNSET_DECIMAL
+        self.minCashQtySize = UNSET_DECIMAL
         # BOND values
         self.cusip = ""
         self.ratings = ""
@@ -161,7 +164,6 @@ class ContractDetails(Object):
             str(self.contract),
             str(self.marketName),
             str(self.minTick),
-            ibapi.utils.decimalMaxString(self.sizeMinTick),
             str(self.orderTypes),
             str(self.validExchanges),
             str(self.priceMagnifier),
@@ -176,7 +178,6 @@ class ContractDetails(Object):
             str(self.liquidHours),
             str(self.evRule),
             str(self.evMultiplier),
-            str(self.mdSizeMultiplier),
             str(self.underSymbol),
             str(self.underSecType),
             str(self.marketRuleIds),
@@ -198,7 +199,12 @@ class ContractDetails(Object):
             str(self.nextOptionDate),
             str(self.nextOptionType),
             str(self.nextOptionPartial),
-            str(self.notes)))
+            str(self.notes),
+            ibapi.utils.decimalMaxString(self.minSize),
+            ibapi.utils.decimalMaxString(self.sizeIncrement),
+            ibapi.utils.decimalMaxString(self.suggestedSizeIncrement),
+            ibapi.utils.decimalMaxString(self.minCashQtySize)))
+            
         return s
 
 

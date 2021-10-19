@@ -117,5 +117,6 @@ namespace IBApi
         public const int WSHE_CALENDAR = 161;
         public const int AUTO_CANCEL_PARENT = 162;
         public const int FRACTIONAL_SIZE_SUPPORT = 163;
+        public const int SIZE_RULES = 164;
     }
 }

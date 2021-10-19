@@ -113,7 +113,6 @@ public class EWrapperMsgGenerator {
     private static String contractDetailsMsg(ContractDetails contractDetails) {
 		return "marketName = " + contractDetails.marketName() + "\n"
         + "minTick = " + contractDetails.minTick() + "\n"
-        + "sizeMinTick = " + contractDetails.sizeMinTick() + "\n"
         + "price magnifier = " + contractDetails.priceMagnifier() + "\n"
         + "orderTypes = " + contractDetails.orderTypes() + "\n"
         + "validExchanges = " + contractDetails.validExchanges() + "\n"
@@ -128,7 +127,6 @@ public class EWrapperMsgGenerator {
         + "liquidHours = " + contractDetails.liquidHours() + "\n"
         + "evRule = " + contractDetails.evRule() + "\n"
         + "evMultiplier = " + contractDetails.evMultiplier() + "\n"
-        + "mdSizeMultiplier = " + contractDetails.mdSizeMultiplier() + "\n"
         + "aggGroup = " + contractDetails.aggGroup() + "\n"
         + "underSymbol = " + contractDetails.underSymbol() + "\n"
         + "underSecType = " + contractDetails.underSecType() + "\n"
@@ -136,6 +134,10 @@ public class EWrapperMsgGenerator {
         + "realExpirationDate = " + contractDetails.realExpirationDate() + "\n"
         + "lastTradeTime = " + contractDetails.lastTradeTime() + "\n"
         + "stockType = " + contractDetails.stockType() + "\n"
+        + "minSize = " + contractDetails.minSize() + "\n"
+        + "sizeIncrement = " + contractDetails.sizeIncrement() + "\n"
+        + "suggestedSizeIncrement = " + contractDetails.suggestedSizeIncrement() + "\n"
+        + "minCashQtySize = " + contractDetails.minCashQtySize() + "\n"
         + contractDetailsSecIdList(contractDetails);
     }
     
@@ -186,11 +188,14 @@ public class EWrapperMsgGenerator {
         + "longName = " + contractDetails.longName() + "\n"
         + "evRule = " + contractDetails.evRule() + "\n"
         + "evMultiplier = " + contractDetails.evMultiplier() + "\n"
-        + "mdSizeMultiplier = " + contractDetails.mdSizeMultiplier() + "\n"
         + "aggGroup = " + contractDetails.aggGroup() + "\n"
         + "marketRuleIds = " + contractDetails.marketRuleIds() + "\n"
         + "timeZoneId = " + contractDetails.timeZoneId() + "\n"
         + "lastTradeTime = " + contractDetails.lastTradeTime() + "\n"
+        + "minSize = " + contractDetails.minSize() + "\n"
+        + "sizeIncrement = " + contractDetails.sizeIncrement() + "\n"
+        + "suggestedSizeIncrement = " + contractDetails.suggestedSizeIncrement() + "\n"
+        + "minCashQtySize = " + contractDetails.minCashQtySize() + "\n"
         + contractDetailsSecIdList(contractDetails)
         + " ---- Bond Contract Details End ----\n";
     }

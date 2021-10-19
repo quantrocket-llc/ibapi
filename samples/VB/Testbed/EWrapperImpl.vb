@@ -122,7 +122,6 @@ Namespace Samples
         Public Sub printContractDetailsMsg(contractDetails As IBApi.ContractDetails)
             Console.WriteLine(vbTab & "MarketName: " & contractDetails.MarketName)
             Console.WriteLine(vbTab & "MinTick: " & contractDetails.MinTick)
-            Console.WriteLine(vbTab & "SizeMinTick: " & Util.DecimalMaxString(contractDetails.SizeMinTick))
             Console.WriteLine(vbTab & "PriceMagnifier: " & contractDetails.PriceMagnifier)
             Console.WriteLine(vbTab & "OrderTypes: " & contractDetails.OrderTypes)
             Console.WriteLine(vbTab & "ValidExchanges: " & contractDetails.ValidExchanges)
@@ -137,7 +136,6 @@ Namespace Samples
             Console.WriteLine(vbTab & "LiquidHours: " & contractDetails.LiquidHours)
             Console.WriteLine(vbTab & "EvRule: " & contractDetails.EvRule)
             Console.WriteLine(vbTab & "EvMultiplier: " & contractDetails.EvMultiplier)
-            Console.WriteLine(vbTab & "MdSizeMultiplier: " & contractDetails.MdSizeMultiplier)
             Console.WriteLine(vbTab & "AggGroup: " & contractDetails.AggGroup)
             Console.WriteLine(vbTab & "UnderSymbol: " & contractDetails.UnderSymbol)
             Console.WriteLine(vbTab & "UnderSecType: " & contractDetails.UnderSecType)
@@ -145,6 +143,10 @@ Namespace Samples
             Console.WriteLine(vbTab & "RealExpirationDate: " & contractDetails.RealExpirationDate)
             Console.WriteLine(vbTab & "LastTradeTime: " & contractDetails.LastTradeTime)
             Console.WriteLine(vbTab & "StockType: " & contractDetails.StockType)
+            Console.WriteLine(vbTab & "MinSize: " & Util.DecimalMaxString(contractDetails.MinSize))
+            Console.WriteLine(vbTab & "SizeIncrement: " & Util.DecimalMaxString(contractDetails.SizeIncrement))
+            Console.WriteLine(vbTab & "SuggestedSizeIncrement: " & Util.DecimalMaxString(contractDetails.SuggestedSizeIncrement))
+            Console.WriteLine(vbTab & "MinCashQtySize: " & Util.DecimalMaxString(contractDetails.MinCashQtySize))
             printContractDetailsSecIdList(contractDetails.SecIdList)
         End Sub
 
@@ -178,7 +180,6 @@ Namespace Samples
             Console.WriteLine(vbTab & "TradingClass: " & contractDetails.Contract.TradingClass)
             Console.WriteLine(vbTab & "ConId: " & contractDetails.Contract.ConId)
             Console.WriteLine(vbTab & "MinTick: " & contractDetails.MinTick)
-            Console.WriteLine(vbTab & "MdSizeMultiplier: " & contractDetails.MdSizeMultiplier)
             Console.WriteLine(vbTab & "OrderTypes: " & contractDetails.OrderTypes)
             Console.WriteLine(vbTab & "ValidExchanges: " & contractDetails.ValidExchanges)
             Console.WriteLine(vbTab & "NextOptionDate: " & contractDetails.NextOptionDate)
@@ -192,6 +193,10 @@ Namespace Samples
             Console.WriteLine(vbTab & "MarketRuleIds: " & contractDetails.MarketRuleIds)
             Console.WriteLine(vbTab & "LastTradeTime: " & contractDetails.LastTradeTime)
             Console.WriteLine(vbTab & "TimeZoneId: " & contractDetails.TimeZoneId)
+            Console.WriteLine(vbTab & "MinSize: " & Util.DecimalMaxString(contractDetails.MinSize))
+            Console.WriteLine(vbTab & "SizeIncrement: " & Util.DecimalMaxString(contractDetails.SizeIncrement))
+            Console.WriteLine(vbTab & "SuggestedSizeIncrement: " & Util.DecimalMaxString(contractDetails.SuggestedSizeIncrement))
+            Console.WriteLine(vbTab & "MinCashQtySize: " & Util.DecimalMaxString(contractDetails.MinCashQtySize))
             printContractDetailsSecIdList(contractDetails.SecIdList)
         End Sub
 

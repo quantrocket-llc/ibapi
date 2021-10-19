@@ -2473,7 +2473,6 @@ Friend Class MainForm
         m_utils.addListItem(Utils.ListType.ServerResponses, "Details:")
         m_utils.addListItem(Utils.ListType.ServerResponses, "  marketName = " & contractDetails.MarketName)
         m_utils.addListItem(Utils.ListType.ServerResponses, "  minTick = " & contractDetails.MinTick)
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  sizeMinTick = " & Util.DecimalMaxString(contractDetails.SizeMinTick))
         m_utils.addListItem(Utils.ListType.ServerResponses, "  priceMagnifier = " & contractDetails.PriceMagnifier)
         m_utils.addListItem(Utils.ListType.ServerResponses, "  orderTypes = " & contractDetails.OrderTypes)
         m_utils.addListItem(Utils.ListType.ServerResponses, "  validExchanges = " & contractDetails.ValidExchanges)
@@ -2491,7 +2490,6 @@ Friend Class MainForm
         End If
         m_utils.addListItem(Utils.ListType.ServerResponses, "  evRule = " & contractDetails.EvRule)
         m_utils.addListItem(Utils.ListType.ServerResponses, "  evMultiplier = " & contractDetails.EvMultiplier)
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  mdSizeMultiplier = " & contractDetails.MdSizeMultiplier)
         m_utils.addListItem(Utils.ListType.ServerResponses, "  aggGroup = " & contractDetails.AggGroup)
         m_utils.addListItem(Utils.ListType.ServerResponses, "  underSymbol = " & contractDetails.UnderSymbol)
         m_utils.addListItem(Utils.ListType.ServerResponses, "  underSecType = " & contractDetails.UnderSecType)
@@ -2499,6 +2497,10 @@ Friend Class MainForm
         m_utils.addListItem(Utils.ListType.ServerResponses, "  realExpirationDate = " & contractDetails.RealExpirationDate)
         m_utils.addListItem(Utils.ListType.ServerResponses, "  lastTradeTime = " & contractDetails.LastTradeTime)
         m_utils.addListItem(Utils.ListType.ServerResponses, "  stockType = " & contractDetails.StockType)
+        m_utils.addListItem(Utils.ListType.ServerResponses, "  minSize = " & Util.DecimalMaxString(contractDetails.MinSize))
+        m_utils.addListItem(Utils.ListType.ServerResponses, "  sizeIncrement = " & Util.DecimalMaxString(contractDetails.SizeIncrement))
+        m_utils.addListItem(Utils.ListType.ServerResponses, "  suggestedSizeIncrement = " & Util.DecimalMaxString(contractDetails.SuggestedSizeIncrement))
+        m_utils.addListItem(Utils.ListType.ServerResponses, "  minCashQtySize = " & Util.DecimalMaxString(contractDetails.MinCashQtySize))
 
         If (contract.SecType = "BOND") Then
 
@@ -3024,11 +3026,14 @@ Friend Class MainForm
         m_utils.addListItem(Utils.ListType.ServerResponses, "  longName = " & contractDetails.LongName)
         m_utils.addListItem(Utils.ListType.ServerResponses, "  evRule = " & contractDetails.EvRule)
         m_utils.addListItem(Utils.ListType.ServerResponses, "  evMultiplier = " & contractDetails.EvMultiplier)
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  mdSizeMultiplier = " & contractDetails.MdSizeMultiplier)
         m_utils.addListItem(Utils.ListType.ServerResponses, "  aggGroup = " & contractDetails.AggGroup)
         m_utils.addListItem(Utils.ListType.ServerResponses, "  marketRuleIds = " & contractDetails.MarketRuleIds)
         m_utils.addListItem(Utils.ListType.ServerResponses, "  timeZoneId = " & contractDetails.TimeZoneId)
         m_utils.addListItem(Utils.ListType.ServerResponses, "  lastTradeTime = " & contractDetails.LastTradeTime)
+        m_utils.addListItem(Utils.ListType.ServerResponses, "  minSize = " & Util.DecimalMaxString(contractDetails.MinSize))
+        m_utils.addListItem(Utils.ListType.ServerResponses, "  sizeIncrement = " & Util.DecimalMaxString(contractDetails.SizeIncrement))
+        m_utils.addListItem(Utils.ListType.ServerResponses, "  suggestedSizeIncrement = " & Util.DecimalMaxString(contractDetails.SuggestedSizeIncrement))
+        m_utils.addListItem(Utils.ListType.ServerResponses, "  minCashQtySize = " & Util.DecimalMaxString(contractDetails.MinCashQtySize))
 
         m_utils.addListItem(Utils.ListType.ServerResponses, "Bond Details:")
         m_utils.addListItem(Utils.ListType.ServerResponses, "  cusip = " & contractDetails.Cusip)

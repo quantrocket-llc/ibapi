@@ -15,7 +15,6 @@
 #define UNSET_DOUBLE DBL_MAX
 #define UNSET_INTEGER INT_MAX
 #define UNSET_LONG LLONG_MAX
-#define UNSET_DECIMAL ULLONG_MAX
 
 enum Origin { CUSTOMER,
               FIRM,

@@ -40,7 +40,7 @@ public class ContractSamples {
 	public static Contract Bond() {
 		//! [bond]
 		Contract contract = new Contract();
-		contract.conid(285191782);
+		contract.conid(107179906);
 		contract.exchange("SMART");
 		//! [bond]
 		return contract;

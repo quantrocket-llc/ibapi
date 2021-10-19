@@ -9,7 +9,6 @@ public class ContractDetails {
     private Contract m_contract;
     private String   m_marketName;
     private double   m_minTick;
-    private Decimal  m_sizeMinTick;
     private int      m_priceMagnifier;
     private String   m_orderTypes;
     private String   m_validExchanges;
@@ -24,7 +23,6 @@ public class ContractDetails {
     private String   m_liquidHours;
     private String   m_evRule;
     private double   m_evMultiplier;
-    private int      m_mdSizeMultiplier;
     private List<TagValue> m_secIdList; // CUSIP/ISIN/etc.
     private int      m_aggGroup;
     private String   m_underSymbol;
@@ -33,6 +31,10 @@ public class ContractDetails {
     private String   m_realExpirationDate;
     private String   m_lastTradeTime;
     private String   m_stockType; // COMMON, ETF, ADR etc.
+    private Decimal  m_minSize;
+    private Decimal  m_sizeIncrement;
+    private Decimal  m_suggestedSizeIncrement;
+    private Decimal  m_minCashQtySize;
 
     // BOND values
     private String   m_cusip;
@@ -56,7 +58,6 @@ public class ContractDetails {
     public Contract contract()          { return m_contract; }
     public String marketName()          { return m_marketName; }
     public double minTick()             { return m_minTick; }
-    public Decimal sizeMinTick()        { return m_sizeMinTick; }
     public int priceMagnifier()         { return m_priceMagnifier; }
     public String orderTypes()          { return m_orderTypes; }
     public String validExchanges()      { return m_validExchanges; }
@@ -71,7 +72,6 @@ public class ContractDetails {
     public String liquidHours()         { return m_liquidHours; }
     public String evRule()              { return m_evRule; }
     public double evMultiplier()        { return m_evMultiplier; }
-    public int mdSizeMultiplier()       { return m_mdSizeMultiplier; }
     public List<TagValue> secIdList()   { return m_secIdList; }
     public int aggGroup()               { return m_aggGroup; }
     public String underSymbol()         { return m_underSymbol; }
@@ -80,6 +80,10 @@ public class ContractDetails {
     public String realExpirationDate()  { return m_realExpirationDate; }
     public String lastTradeTime()       { return m_lastTradeTime; }
     public String stockType()           { return m_stockType; }
+    public Decimal minSize()            { return m_minSize; }
+    public Decimal sizeIncrement()      { return m_sizeIncrement; }
+    public Decimal suggestedSizeIncrement() { return m_suggestedSizeIncrement; }
+    public Decimal minCashQtySize()     { return m_minCashQtySize; }
     
     public String cusip()               { return m_cusip; }
     public String ratings()             { return m_ratings; }
@@ -101,7 +105,6 @@ public class ContractDetails {
     public void contract(Contract contract)         { m_contract = contract; }
     public void marketName(String marketName)       { m_marketName = marketName; }
     public void minTick(double minTick)             { m_minTick = minTick; }
-    public void sizeMinTick(Decimal sizeMinTick)    { m_sizeMinTick = sizeMinTick; }
     public void priceMagnifier(int priceMagnifier)  { m_priceMagnifier = priceMagnifier; }
     public void orderTypes(String orderTypes)       { m_orderTypes = orderTypes; }
     public void validExchanges(String validExchanges) { m_validExchanges = validExchanges; }
@@ -116,7 +119,6 @@ public class ContractDetails {
     public void liquidHours(String liquidHours)     { m_liquidHours = liquidHours; }
     public void evRule(String evRule)               { m_evRule = evRule; }
     public void evMultiplier(double evMultiplier)   { m_evMultiplier = evMultiplier; }
-    public void mdSizeMultiplier(int mdSizeMultiplier) { m_mdSizeMultiplier = mdSizeMultiplier; }
     public void secIdList(List<TagValue> secIdList) { m_secIdList = secIdList; }
     public void aggGroup(int aggGroup)              { m_aggGroup = aggGroup; }
     public void underSymbol(String underSymbol)     { m_underSymbol = underSymbol; }
@@ -125,6 +127,10 @@ public class ContractDetails {
     public void realExpirationDate(String realExpirationDate) { m_realExpirationDate = realExpirationDate; }
     public void  lastTradeTime(String lastTradeTime) { m_lastTradeTime = lastTradeTime; }
     public void stockType(String stockType)         { m_stockType = stockType; }
+    public void minSize(Decimal minSize)            { m_minSize = minSize; }
+    public void sizeIncrement(Decimal sizeIncrement) { m_sizeIncrement = sizeIncrement; }
+    public void suggestedSizeIncrement(Decimal suggestedSizeIncrement) { m_suggestedSizeIncrement = suggestedSizeIncrement; }
+    public void minCashQtySize(Decimal minCashQtySize) { m_minCashQtySize = minCashQtySize; }
     
     public void cusip(String cusip)             { m_cusip = cusip; }
     public void ratings(String ratings)         { m_ratings = ratings; }
@@ -153,9 +159,9 @@ public class ContractDetails {
     		double p_minTick, String p_orderTypes, String p_validExchanges, int p_underConId, String p_longName,
     	    String p_contractMonth, String p_industry, String p_category, String p_subcategory,
     	    String p_timeZoneId, String	p_tradingHours, String p_liquidHours,
-    	    String p_evRule, double p_evMultiplier, int p_mdSizeMultiplier, int p_aggGroup,
+    	    String p_evRule, double p_evMultiplier, int p_aggGroup,
     	    String p_underSymbol, String p_underSecType, String p_marketRuleIds, String p_realExpirationDate, String p_lastTradeTime,
-    	    String p_stockType, Decimal p_sizeMinTick) {
+    	    String p_stockType, Decimal p_minSize, Decimal p_sizeIncrement, Decimal p_suggestedSizeIncrement, Decimal p_minCashQtySize) {
         m_contract = p_contract;
     	m_marketName = p_marketName;
     	m_minTick = p_minTick;
@@ -172,7 +178,6 @@ public class ContractDetails {
         m_liquidHours = p_liquidHours;
         m_evRule = p_evRule;
         m_evMultiplier = p_evMultiplier;
-        m_mdSizeMultiplier = p_mdSizeMultiplier;
         m_aggGroup = p_aggGroup;
         m_underSymbol = p_underSymbol;
         m_underSecType = p_underSecType;
@@ -180,7 +185,10 @@ public class ContractDetails {
         m_realExpirationDate = p_realExpirationDate;
         m_lastTradeTime = p_lastTradeTime;
         m_stockType = p_stockType;
-        m_sizeMinTick = p_sizeMinTick;
+        m_minSize = p_minSize;
+        m_sizeIncrement = p_sizeIncrement;
+        m_suggestedSizeIncrement = p_suggestedSizeIncrement;
+        m_minCashQtySize = p_minCashQtySize;
     }
 
     @Override public String toString() {
@@ -188,7 +196,6 @@ public class ContractDetails {
 
         add( sb, "marketName", m_marketName);
         add( sb, "minTick", m_minTick);
-        add( sb, "sizeMinTick", m_sizeMinTick);
         add( sb, "priceMagnifier", m_priceMagnifier);
         add( sb, "orderTypes", m_orderTypes);
         add( sb, "validExchanges", m_validExchanges);
@@ -203,7 +210,6 @@ public class ContractDetails {
         add( sb, "liquidHours", m_liquidHours);
         add( sb, "evRule", m_evRule);
         add( sb, "evMultiplier", m_evMultiplier);
-        add( sb, "mdSizeMultiplier", m_mdSizeMultiplier);
         add( sb, "aggGroup", m_aggGroup);
         add( sb, "underSymbol", m_underSymbol);
         add( sb, "underSecType", m_underSecType);
@@ -211,6 +217,10 @@ public class ContractDetails {
         add( sb, "realExpirationDate", m_realExpirationDate);
         add( sb, "lastTradeTime", m_lastTradeTime);
         add( sb, "stockType", m_stockType);
+        add( sb, "minSize", m_minSize);
+        add( sb, "sizeIncrement", m_sizeIncrement);
+        add( sb, "suggestedSizeIncrement", m_suggestedSizeIncrement);
+        add( sb, "minCashQtySize", m_minCashQtySize);
 
         add( sb, "cusip", m_cusip);
         add( sb, "ratings", m_ratings);

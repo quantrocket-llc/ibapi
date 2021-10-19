@@ -121,14 +121,16 @@ Public Sub UpdateContractDetails(ByVal reqId As Long, ByVal ContractDetails As T
         .Cells(26).value = ContractDetails.liquidHours
         .Cells(27).value = ContractDetails.evRule
         .Cells(28).value = ContractDetails.evMultiplier
-        .Cells(29).value = ContractDetails.mdSizeMultiplier
-        .Cells(30).value = ContractDetails.aggGroup
-        .Cells(31).value = ContractDetails.underSymbol
-        .Cells(32).value = ContractDetails.underSecType
-        .Cells(33).value = ContractDetails.marketRuleIds
-        .Cells(34).value = ContractDetails.realExpirationDate
-        .Cells(35).value = ContractDetails.stockType
-        .Cells(36).value = ContractDetails.sizeMinTick
+        .Cells(29).value = ContractDetails.aggGroup
+        .Cells(30).value = ContractDetails.underSymbol
+        .Cells(31).value = ContractDetails.underSecType
+        .Cells(32).value = ContractDetails.marketRuleIds
+        .Cells(33).value = ContractDetails.realExpirationDate
+        .Cells(34).value = ContractDetails.stockType
+        .Cells(35).value = ContractDetails.minSize
+        .Cells(36).value = ContractDetails.sizeIncrement
+        .Cells(37).value = ContractDetails.suggestedSizeIncrement
+        .Cells(38).value = ContractDetails.minCashQtySize
     End With
     
     IncrementSheetRowId sheet
@@ -168,14 +170,16 @@ Private Sub InitialiseSheet(sheet As Worksheet)
     sheet.Cells(2, 26).value = "Liquid Hours"
     sheet.Cells(2, 27).value = "EvRule"
     sheet.Cells(2, 28).value = "EvMultiplier"
-    sheet.Cells(2, 29).value = "MD Size Multiplier"
-    sheet.Cells(2, 30).value = "Agg Group"
-    sheet.Cells(2, 31).value = "Under Symbol"
-    sheet.Cells(2, 32).value = "Under SecType"
-    sheet.Cells(2, 33).value = "Market Rule Ids"
-    sheet.Cells(2, 34).value = "RealExpirationDate"
-    sheet.Cells(2, 35).value = "Stock Type"
-    sheet.Cells(2, 36).value = "Size Min Tick"
+    sheet.Cells(2, 29).value = "Agg Group"
+    sheet.Cells(2, 30).value = "Under Symbol"
+    sheet.Cells(2, 31).value = "Under SecType"
+    sheet.Cells(2, 32).value = "Market Rule Ids"
+    sheet.Cells(2, 33).value = "RealExpirationDate"
+    sheet.Cells(2, 34).value = "Stock Type"
+    sheet.Cells(2, 35).value = "Min Size"
+    sheet.Cells(2, 36).value = "Size Incr"
+    sheet.Cells(2, 37).value = "Sugg Size Incr"
+    sheet.Cells(2, 38).value = "Min Cash Qty Size"
 End Sub
 
 

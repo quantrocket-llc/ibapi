@@ -303,9 +303,10 @@ public abstract class EClient {
     protected static final int MIN_SERVER_VER_WSHE_CALENDAR = 161;
     protected static final int MIN_SERVER_VER_AUTO_CANCEL_PARENT = 162;
     protected static final int MIN_SERVER_VER_FRACTIONAL_SIZE_SUPPORT = 163;
+    protected static final int MIN_SERVER_VER_SIZE_RULES = 164;
     
     public static final int MIN_VERSION = 100; // envelope encoding, applicable to useV100Plus mode only
-    public static final int MAX_VERSION = MIN_SERVER_VER_FRACTIONAL_SIZE_SUPPORT; // ditto
+    public static final int MAX_VERSION = MIN_SERVER_VER_SIZE_RULES; // ditto
 
     protected EReaderSignal m_signal;
     protected EWrapper m_eWrapper;    // msg handler

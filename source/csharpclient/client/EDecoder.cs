@@ -1262,7 +1262,11 @@ namespace IBApi
 
         private void BondContractDetailsEvent()
         {
-            int msgVersion = ReadInt();
+            int msgVersion = 6;
+            if (serverVersion < MinServerVer.SIZE_RULES) 
+            {
+                msgVersion = ReadInt();
+            }
             int requestId = -1;
             if (msgVersion >= 3)
             {
@@ -1290,9 +1294,9 @@ namespace IBApi
             contract.Contract.TradingClass = ReadString();
             contract.Contract.ConId = ReadInt();
             contract.MinTick = ReadDouble();
-            if (serverVersion >= MinServerVer.MD_SIZE_MULTIPLIER)
+            if (serverVersion >= MinServerVer.MD_SIZE_MULTIPLIER && serverVersion < MinServerVer.SIZE_RULES)
             {
-                contract.MdSizeMultiplier = ReadInt();
+                ReadInt(); // MdSizeMultiplier - not used anymore
             }
             contract.OrderTypes = ReadString();
             contract.ValidExchanges = ReadString();
@@ -1334,6 +1338,13 @@ namespace IBApi
             if (serverVersion >= MinServerVer.MARKET_RULES)
             {
                 contract.MarketRuleIds = ReadString();
+            }
+            if (serverVersion >= MinServerVer.SIZE_RULES)
+            {
+                contract.MinSize = ReadDecimal();
+                contract.SizeIncrement = ReadDecimal();
+                contract.SuggestedSizeIncrement = ReadDecimal();
+                contract.MinCashQtySize = ReadDecimal();
             }
 
             eWrapper.bondContractDetails(requestId, contract);
@@ -1551,7 +1562,11 @@ namespace IBApi
 
         private void ContractDataEvent()
         {
-            int msgVersion = ReadInt();
+            int msgVersion = 8;
+            if (serverVersion < MinServerVer.SIZE_RULES)
+            {
+                msgVersion = ReadInt();
+            }
             int requestId = -1;
             if (msgVersion >= 3)
                 requestId = ReadInt();
@@ -1568,9 +1583,9 @@ namespace IBApi
             contract.Contract.TradingClass = ReadString();
             contract.Contract.ConId = ReadInt();
             contract.MinTick = ReadDouble();
-            if (serverVersion >= MinServerVer.MD_SIZE_MULTIPLIER)
+            if (serverVersion >= MinServerVer.MD_SIZE_MULTIPLIER && serverVersion < MinServerVer.SIZE_RULES)
             {
-                contract.MdSizeMultiplier = ReadInt();
+                ReadInt(); // MdSizeMultiplier - not used anymore
             }
             contract.Contract.Multiplier = ReadString();
             contract.OrderTypes = ReadString();
@@ -1639,9 +1654,16 @@ namespace IBApi
             {
                 contract.StockType = ReadString();
             }
-            if (serverVersion >= MinServerVer.FRACTIONAL_SIZE_SUPPORT)
+            if (serverVersion >= MinServerVer.FRACTIONAL_SIZE_SUPPORT && serverVersion < MinServerVer.SIZE_RULES)
             {
-                contract.SizeMinTick = ReadDecimal();
+                ReadDecimal(); // SizeMinTick - not used anymore
+            }
+            if (serverVersion >= MinServerVer.SIZE_RULES)
+            {
+                contract.MinSize = ReadDecimal();
+                contract.SizeIncrement = ReadDecimal();
+                contract.SuggestedSizeIncrement = ReadDecimal();
+                contract.MinCashQtySize = ReadDecimal();
             }
 
             eWrapper.contractDetails(requestId, contract);

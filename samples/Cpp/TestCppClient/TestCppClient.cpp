@@ -1618,7 +1618,6 @@ void TestCppClient::printContractMsg(const Contract& contract) {
 void TestCppClient::printContractDetailsMsg(const ContractDetails& contractDetails) {
 	printf("\tMarketName: %s\n", contractDetails.marketName.c_str());
 	printf("\tMinTick: %g\n", contractDetails.minTick);
-	printf("\tSizeMinTick: %s\n", decimalStringToDisplay(contractDetails.sizeMinTick).c_str());
 	printf("\tPriceMagnifier: %ld\n", contractDetails.priceMagnifier);
 	printf("\tOrderTypes: %s\n", contractDetails.orderTypes.c_str());
 	printf("\tValidExchanges: %s\n", contractDetails.validExchanges.c_str());
@@ -1633,7 +1632,6 @@ void TestCppClient::printContractDetailsMsg(const ContractDetails& contractDetai
 	printf("\tLiquidHours: %s\n", contractDetails.liquidHours.c_str());
 	printf("\tEvRule: %s\n", contractDetails.evRule.c_str());
 	printf("\tEvMultiplier: %g\n", contractDetails.evMultiplier);
-	printf("\tMdSizeMultiplier: %d\n", contractDetails.mdSizeMultiplier);
 	printf("\tAggGroup: %d\n", contractDetails.aggGroup);
 	printf("\tUnderSymbol: %s\n", contractDetails.underSymbol.c_str());
 	printf("\tUnderSecType: %s\n", contractDetails.underSecType.c_str());
@@ -1641,6 +1639,10 @@ void TestCppClient::printContractDetailsMsg(const ContractDetails& contractDetai
 	printf("\tRealExpirationDate: %s\n", contractDetails.realExpirationDate.c_str());
 	printf("\tLastTradeTime: %s\n", contractDetails.lastTradeTime.c_str());
 	printf("\tStockType: %s\n", contractDetails.stockType.c_str());
+	printf("\tMinSize: %s\n", decimalStringToDisplay(contractDetails.minSize).c_str());
+	printf("\tSizeIncrement: %s\n", decimalStringToDisplay(contractDetails.sizeIncrement).c_str());
+	printf("\tSuggestedSizeIncrement: %s\n", decimalStringToDisplay(contractDetails.suggestedSizeIncrement).c_str());
+	printf("\tMinCashQtySize: %s\n", decimalStringToDisplay(contractDetails.minCashQtySize).c_str());
 	printContractDetailsSecIdList(contractDetails.secIdList);
 }
 
@@ -1676,7 +1678,6 @@ void TestCppClient::printBondContractDetailsMsg(const ContractDetails& contractD
 	printf("\tTradingClass: %s\n", contractDetails.contract.tradingClass.c_str());
 	printf("\tConId: %ld\n", contractDetails.contract.conId);
 	printf("\tMinTick: %g\n", contractDetails.minTick);
-	printf("\tMdSizeMultiplier: %d\n", contractDetails.mdSizeMultiplier);
 	printf("\tOrderTypes: %s\n", contractDetails.orderTypes.c_str());
 	printf("\tValidExchanges: %s\n", contractDetails.validExchanges.c_str());
 	printf("\tNextOptionDate: %s\n", contractDetails.nextOptionDate.c_str());
@@ -1690,6 +1691,10 @@ void TestCppClient::printBondContractDetailsMsg(const ContractDetails& contractD
 	printf("\tMarketRuleIds: %s\n", contractDetails.marketRuleIds.c_str());
 	printf("\tTimeZoneId: %s\n", contractDetails.timeZoneId.c_str());
 	printf("\tLastTradeTime: %s\n", contractDetails.lastTradeTime.c_str());
+	printf("\tMinSize: %s\n", decimalStringToDisplay(contractDetails.minSize).c_str());
+	printf("\tSizeIncrement: %s\n", decimalStringToDisplay(contractDetails.sizeIncrement).c_str());
+	printf("\tSuggestedSizeIncrement: %s\n", decimalStringToDisplay(contractDetails.suggestedSizeIncrement).c_str());
+	printf("\tMinCashQtySize: %s\n", decimalStringToDisplay(contractDetails.minCashQtySize).c_str());
 	printContractDetailsSecIdList(contractDetails.secIdList);
 }
 

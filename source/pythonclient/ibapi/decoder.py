@@ -262,7 +262,9 @@ class Decoder(Object):
     def processContractDataMsg(self, fields):
 
         next(fields)
-        version = decode(int, fields)
+        version = 8
+        if self.serverVersion < MIN_SERVER_VER_SIZE_RULES:
+            version = decode(int, fields)
 
         reqId = -1
         if version >= 3:
@@ -281,8 +283,8 @@ class Decoder(Object):
         contract.contract.tradingClass = decode(str, fields)
         contract.contract.conId = decode(int, fields)
         contract.minTick = decode(float, fields)
-        if self.serverVersion >= MIN_SERVER_VER_MD_SIZE_MULTIPLIER:
-            contract.mdSizeMultiplier = decode(int, fields)
+        if self.serverVersion >= MIN_SERVER_VER_MD_SIZE_MULTIPLIER and self.serverVersion < MIN_SERVER_VER_SIZE_RULES:
+            decode(int, fields) # mdSizeMultiplier - not used anymore
         contract.contract.multiplier = decode(str, fields)
         contract.orderTypes = decode(str, fields)
         contract.validExchanges = decode(str, fields)
@@ -329,8 +331,14 @@ class Decoder(Object):
         if self.serverVersion >= MIN_SERVER_VER_STOCK_TYPE:
             contract.stockType = decode(str, fields)
 
-        if self.serverVersion >= MIN_SERVER_VER_FRACTIONAL_SIZE_SUPPORT:
-            contract.sizeMinTick = decode(Decimal, fields)
+        if self.serverVersion >= MIN_SERVER_VER_FRACTIONAL_SIZE_SUPPORT and self.serverVersion < MIN_SERVER_VER_SIZE_RULES:
+            decode(Decimal, fields) # sizeMinTick - not used anymore
+
+        if self.serverVersion >= MIN_SERVER_VER_SIZE_RULES:
+            contract.minSize = decode(Decimal, fields)
+            contract.sizeIncrement = decode(Decimal, fields)
+            contract.suggestedSizeIncrement = decode(Decimal, fields)
+            contract.minCashQtySize = decode(Decimal, fields)
 
         self.wrapper.contractDetails(reqId, contract)
 
@@ -338,7 +346,9 @@ class Decoder(Object):
     def processBondContractDataMsg(self, fields):
 
         next(fields)
-        version = decode(int, fields)
+        version = 6;
+        if self.serverVersion < MIN_SERVER_VER_SIZE_RULES:
+            version = decode(int, fields)
 
         reqId = -1
         if version >= 3:
@@ -364,8 +374,8 @@ class Decoder(Object):
         contract.contract.tradingClass = decode(str, fields)
         contract.contract.conId = decode(int, fields)
         contract.minTick = decode(float, fields)
-        if self.serverVersion >= MIN_SERVER_VER_MD_SIZE_MULTIPLIER:
-            contract.mdSizeMultiplier = decode(int, fields)
+        if self.serverVersion >= MIN_SERVER_VER_MD_SIZE_MULTIPLIER and self.serverVersion < MIN_SERVER_VER_SIZE_RULES:
+            decode(int, fields) # mdSizeMultiplier - not used anymore
         contract.orderTypes = decode(str, fields)
         contract.validExchanges = decode(str, fields)
         contract.nextOptionDate = decode(str, fields) # ver 2 field
@@ -392,6 +402,12 @@ class Decoder(Object):
 
         if self.serverVersion >= MIN_SERVER_VER_MARKET_RULES:
             contract.marketRuleIds = decode(str, fields)
+
+        if self.serverVersion >= MIN_SERVER_VER_SIZE_RULES:
+            contract.minSize = decode(Decimal, fields)
+            contract.sizeIncrement = decode(Decimal, fields)
+            contract.suggestedSizeIncrement = decode(Decimal, fields)
+            contract.minCashQtySize = decode(Decimal, fields)
 
         self.wrapper.bondContractDetails(reqId, contract)
 

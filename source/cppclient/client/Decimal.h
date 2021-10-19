@@ -10,6 +10,8 @@
 // Decimal type
 typedef unsigned long long Decimal;
 
+#define UNSET_DECIMAL ULLONG_MAX
+
 // external functions
 extern "C" Decimal __bid64_add(Decimal, Decimal, unsigned int, unsigned int*);
 extern "C" Decimal __bid64_sub(Decimal, Decimal, unsigned int, unsigned int*);
@@ -58,7 +60,7 @@ static std::string decimalStringToDisplay(Decimal value) {
     // convert string with scientific notation to string with decimal notation (e.g. +1E-2 to 0.01)
     std::string tempStr = decimalToString(value);
 
-    if (tempStr.compare(std::string{ "+NaN" }) == 0) {
+    if (tempStr.compare(std::string{ "+NaN" }) == 0 || tempStr.compare(std::string{ "-SNaN" }) == 0) {
         return ""; // if is invalid, then return empty string
     }
 

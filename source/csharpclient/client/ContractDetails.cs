@@ -37,17 +37,6 @@ namespace IBApi
         }
 
         /**
-        * @brief The minimum allowed size variation.
-        */
-        public decimal SizeMinTick
-        {
-            //! @cond
-            get;
-            set;
-            //! @endcond
-        }
-
-        /**
         * @brief The minimum allowed price variation.
          * Note that many securities vary their minimum tick size according to their price. This value will only show the smallest of the different minimum tick sizes regardless of the product's price. Full information about the minimum increment price structure can be obtained with the reqMarketRule function or the IB Contract and Security Search site. 
         */
@@ -218,17 +207,6 @@ namespace IBApi
          * It cannot be used to get market value by multiplying the price by the approximate multiplier.
         */
         public double EvMultiplier
-        {
-            //! @cond
-            get;
-            set;
-            //! @endcond
-        }
-
-        /**
-        * @brief MD Size Multiplier. Returns the size multiplier for values returned to tickSize from a market data request. Generally 100 for US stocks and 1 for other instruments. 
-        */
-        public int MdSizeMultiplier
         {
             //! @cond
             get;
@@ -519,12 +497,61 @@ namespace IBApi
             //! @endcond
         }
 
+        /**
+        * @brief Order's minimal size
+        */
+        public decimal MinSize
+        {
+            //! @cond
+            get;
+            set;
+            //! @endcond
+        }
+
+        /**
+        * @brief Order's size increment
+        */
+        public decimal SizeIncrement
+        {
+            //! @cond
+            get;
+            set;
+            //! @endcond
+        }
+
+        /**
+        * @brief Order's suggested size increment
+        */
+        public decimal SuggestedSizeIncrement
+        {
+            //! @cond
+            get;
+            set;
+            //! @endcond
+        }
+
+        /**
+        * @brief Order's minimal cash quantity size
+        */
+        public decimal MinCashQtySize
+        {
+            //! @cond
+            get;
+            set;
+            //! @endcond
+        }
+
+
         public ContractDetails()
         {
             Contract = new Contract();
             MinTick = 0;
             UnderConId = 0;
             EvMultiplier = 0;
+            MinSize = decimal.MaxValue;
+            SizeIncrement = decimal.MaxValue;
+            SuggestedSizeIncrement = decimal.MaxValue;
+            MinCashQtySize = decimal.MaxValue;
         }
 
         public ContractDetails(Contract summary, string marketName,

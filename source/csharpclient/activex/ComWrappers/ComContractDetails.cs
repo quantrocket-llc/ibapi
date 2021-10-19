@@ -47,15 +47,6 @@ namespace TWSLib
         }
 
         /**
-        * @brief The minimum allowed size variation.
-        */
-        string SizeMinTick
-        {
-            get { return data != null ? Util.DecimalMaxString(data.SizeMinTick) : default(string); }
-            set { if (data != null) data.SizeMinTick = Util.StringToDecimal(value); }
-        }
-
-        /**
         * @brief Allows execution and strike prices to be reported consistently with market data, historical data and the order price, i.e. Z on LIFFE is reported in Index points and not GBP.
         */
         int PriceMagnifier
@@ -183,15 +174,6 @@ namespace TWSLib
         {
             get { return data != null ? data.EvMultiplier : default(double); }
             set { if (data != null) data.EvMultiplier = value; }
-        }
-
-        /**
-        * @brief MD Size Multiplier
-        */
-        int MdSizeMultiplier
-        {
-            get { return data != null ? data.MdSizeMultiplier : default(int); }
-            set { if (data != null) data.MdSizeMultiplier = value; }
         }
 
         /**
@@ -415,7 +397,44 @@ namespace TWSLib
             get { return data != null ? data.Notes : default(string); }
             set { if (data != null) data.Notes = value; }
         }
-        
+
+        /**
+        * @brief Order's minimal size
+        */
+        string MinSize
+        {
+            get { return data != null ? Util.DecimalMaxString(data.MinSize) : default(string); }
+            set { if (data != null) data.MinSize = Util.StringToDecimal(value); }
+        }
+
+        /**
+        * @brief Order's size increment
+        */
+        string SizeIncrement
+        {
+            get { return data != null ? Util.DecimalMaxString(data.SizeIncrement) : default(string); }
+            set { if (data != null) data.SizeIncrement = Util.StringToDecimal(value); }
+        }
+
+        /**
+        * @brief Order's suggested size increment
+        */
+        string SuggestedSizeIncrement
+        {
+            get { return data != null ? Util.DecimalMaxString(data.SuggestedSizeIncrement) : default(string); }
+            set { if (data != null) data.SuggestedSizeIncrement = Util.StringToDecimal(value); }
+        }
+
+
+        /**
+        * @brief Order's minimal cash quantity size
+        */
+        string MinCashQtySize
+        {
+            get { return data != null ? Util.DecimalMaxString(data.MinCashQtySize) : default(string); }
+            set { if (data != null) data.MinCashQtySize = Util.StringToDecimal(value); }
+        }
+
         string TWSLib.IContractDetails.marketName
         {
             get { return MarketName; }
@@ -424,11 +443,6 @@ namespace TWSLib
         double TWSLib.IContractDetails.minTick
         {
             get { return MinTick; }
-        }
-
-        string TWSLib.IContractDetails.sizeMinTick
-        {
-            get { return SizeMinTick; }
         }
 
         int TWSLib.IContractDetails.priceMagnifier
@@ -586,11 +600,6 @@ namespace TWSLib
             get { return EvMultiplier; }
         }
 
-        int TWSLib.IContractDetails.mdSizeMultiplier
-        {
-            get { return MdSizeMultiplier; }
-        }
-
         int TWSLib.IContractDetails.aggGroup
         {
             get { return AggGroup; }
@@ -624,6 +633,26 @@ namespace TWSLib
         string TWSLib.IContractDetails.stockType
         {
             get { return StockType; }
+        }
+
+        string TWSLib.IContractDetails.minSize
+        {
+            get { return MinSize; }
+        }
+
+        string TWSLib.IContractDetails.sizeIncrement
+        {
+            get { return SizeIncrement; }
+        }
+
+        string TWSLib.IContractDetails.suggestedSizeIncrement
+        {
+            get { return SuggestedSizeIncrement; }
+        }
+
+        string TWSLib.IContractDetails.minCashQtySize
+        {
+            get { return MinCashQtySize; }
         }
 
         public static explicit operator ComContractDetails(ContractDetails cd)

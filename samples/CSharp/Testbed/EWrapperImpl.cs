@@ -237,7 +237,6 @@ namespace Samples
         {
             Console.WriteLine("\tMarketName: " + contractDetails.MarketName);
             Console.WriteLine("\tMinTick: " + contractDetails.MinTick);
-            Console.WriteLine("\tSizeMinTick: " + Util.DecimalMaxString(contractDetails.SizeMinTick));
             Console.WriteLine("\tPriceMagnifier: " + contractDetails.PriceMagnifier);
             Console.WriteLine("\tOrderTypes: " + contractDetails.OrderTypes);
             Console.WriteLine("\tValidExchanges: " + contractDetails.ValidExchanges);
@@ -252,7 +251,6 @@ namespace Samples
             Console.WriteLine("\tLiquidHours: " + contractDetails.LiquidHours);
             Console.WriteLine("\tEvRule: " + contractDetails.EvRule);
             Console.WriteLine("\tEvMultiplier: " + contractDetails.EvMultiplier);
-            Console.WriteLine("\tMdSizeMultiplier: " + contractDetails.MdSizeMultiplier);
             Console.WriteLine("\tAggGroup: " + contractDetails.AggGroup);
             Console.WriteLine("\tUnderSymbol: " + contractDetails.UnderSymbol);
             Console.WriteLine("\tUnderSecType: " + contractDetails.UnderSecType);
@@ -260,6 +258,10 @@ namespace Samples
             Console.WriteLine("\tRealExpirationDate: " + contractDetails.RealExpirationDate);
             Console.WriteLine("\tLastTradeTime: " + contractDetails.LastTradeTime);
             Console.WriteLine("\tStock Type: " + contractDetails.StockType);
+            Console.WriteLine("\tMinSize: " + Util.DecimalMaxString(contractDetails.MinSize));
+            Console.WriteLine("\tSizeIncrement: " + Util.DecimalMaxString(contractDetails.SizeIncrement));
+            Console.WriteLine("\tSuggestedSizeIncrement: " + Util.DecimalMaxString(contractDetails.SuggestedSizeIncrement));
+            Console.WriteLine("\tMinCashQtySize: " + Util.DecimalMaxString(contractDetails.MinCashQtySize));
             printContractDetailsSecIdList(contractDetails.SecIdList);
         }
 
@@ -296,7 +298,6 @@ namespace Samples
             Console.WriteLine("\tTradingClass: " + contractDetails.Contract.TradingClass);
             Console.WriteLine("\tConId: " + contractDetails.Contract.ConId);
             Console.WriteLine("\tMinTick: " + contractDetails.MinTick);
-            Console.WriteLine("\tMdSizeMultiplier: " + contractDetails.MdSizeMultiplier);
             Console.WriteLine("\tOrderTypes: " + contractDetails.OrderTypes);
             Console.WriteLine("\tValidExchanges: " + contractDetails.ValidExchanges);
             Console.WriteLine("\tNextOptionDate: " + contractDetails.NextOptionDate);
@@ -310,6 +311,10 @@ namespace Samples
             Console.WriteLine("\tMarketRuleIds: " + contractDetails.MarketRuleIds);
             Console.WriteLine("\tLastTradeTime: " + contractDetails.LastTradeTime);
             Console.WriteLine("\tTimeZoneId: " + contractDetails.TimeZoneId);
+            Console.WriteLine("\tMinSize: " + Util.DecimalMaxString(contractDetails.MinSize));
+            Console.WriteLine("\tSizeIncrement: " + Util.DecimalMaxString(contractDetails.SizeIncrement));
+            Console.WriteLine("\tSuggestedSizeIncrement: " + Util.DecimalMaxString(contractDetails.SuggestedSizeIncrement));
+            Console.WriteLine("\tMinCashQtySize: " + Util.DecimalMaxString(contractDetails.MinCashQtySize));
             printContractDetailsSecIdList(contractDetails.SecIdList);
         }
 

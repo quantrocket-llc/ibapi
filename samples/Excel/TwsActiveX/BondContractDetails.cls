@@ -106,18 +106,21 @@ Public Sub UpdateBondContractDetails(ByVal reqId As Long, ByVal ContractDetails 
         .Cells(17).value = contract.tradingClass
         .Cells(18).value = contract.conId
         .Cells(19).value = ContractDetails.minTick
-        .Cells(20).value = ContractDetails.mdSizeMultiplier
-        .Cells(21).value = ContractDetails.orderTypes
-        .Cells(22).value = ContractDetails.validExchanges
-        .Cells(23).value = ContractDetails.nextOptionDate
-        .Cells(24).value = ContractDetails.nextOptionType
-        .Cells(25).value = ContractDetails.nextOptionPartial
-        .Cells(26).value = ContractDetails.Notes
-        .Cells(27).value = ContractDetails.longName
-        .Cells(28).value = ContractDetails.evRule
-        .Cells(29).value = ContractDetails.evMultiplier
-        .Cells(30).value = ContractDetails.aggGroup
-        .Cells(31).value = ContractDetails.priceMagnifier
+        .Cells(20).value = ContractDetails.orderTypes
+        .Cells(21).value = ContractDetails.validExchanges
+        .Cells(22).value = ContractDetails.nextOptionDate
+        .Cells(23).value = ContractDetails.nextOptionType
+        .Cells(24).value = ContractDetails.nextOptionPartial
+        .Cells(25).value = ContractDetails.Notes
+        .Cells(26).value = ContractDetails.longName
+        .Cells(27).value = ContractDetails.evRule
+        .Cells(28).value = ContractDetails.evMultiplier
+        .Cells(29).value = ContractDetails.aggGroup
+        .Cells(30).value = ContractDetails.priceMagnifier
+        .Cells(31).value = ContractDetails.minSize
+        .Cells(32).value = ContractDetails.sizeIncrement
+        .Cells(33).value = ContractDetails.suggestedSizeIncrement
+        .Cells(34).value = ContractDetails.minCashQtySize
     End With
 
     IncrementSheetRowId sheet
@@ -148,18 +151,22 @@ Private Sub InitialiseSheet(sheet As Worksheet)
     sheet.Cells(2, 17).value = "Trading Class"
     sheet.Cells(2, 18).value = "ConId"
     sheet.Cells(2, 19).value = "Min Tick"
-    sheet.Cells(2, 20).value = "MD Size Multiplier"
-    sheet.Cells(2, 21).value = "Order Types"
-    sheet.Cells(2, 22).value = "Valid Exchanges"
-    sheet.Cells(2, 23).value = "Next Option Date"
-    sheet.Cells(2, 24).value = "Next Option Type"
-    sheet.Cells(2, 25).value = "Next Option Partial"
-    sheet.Cells(2, 26).value = "Notes"
-    sheet.Cells(2, 27).value = "Long Name"
-    sheet.Cells(2, 28).value = "EvRule"
-    sheet.Cells(2, 29).value = "EvMultiplier"
-    sheet.Cells(2, 30).value = "Agg Group"
-    sheet.Cells(2, 31).value = "Price Magnifier"
+    sheet.Cells(2, 20).value = "Order Types"
+    sheet.Cells(2, 21).value = "Valid Exchanges"
+    sheet.Cells(2, 22).value = "Next Option Date"
+    sheet.Cells(2, 23).value = "Next Option Type"
+    sheet.Cells(2, 24).value = "Next Option Partial"
+    sheet.Cells(2, 25).value = "Notes"
+    sheet.Cells(2, 26).value = "Long Name"
+    sheet.Cells(2, 27).value = "EvRule"
+    sheet.Cells(2, 28).value = "EvMultiplier"
+    sheet.Cells(2, 29).value = "Agg Group"
+    sheet.Cells(2, 30).value = "Price Magnifier"
+    sheet.Cells(2, 31).value = "Min Size"
+    sheet.Cells(2, 32).value = "Size Incr"
+    sheet.Cells(2, 33).value = "Sugg Size Incr"
+    sheet.Cells(2, 34).value = "Min Cash Qty Size"
+    
 End Sub
 
 Public Sub ContractDetailsEnd(ByVal reqId As Long)
