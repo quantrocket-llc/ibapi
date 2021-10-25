@@ -137,7 +137,6 @@ public class EWrapperMsgGenerator {
         + "minSize = " + contractDetails.minSize() + "\n"
         + "sizeIncrement = " + contractDetails.sizeIncrement() + "\n"
         + "suggestedSizeIncrement = " + contractDetails.suggestedSizeIncrement() + "\n"
-        + "minCashQtySize = " + contractDetails.minCashQtySize() + "\n"
         + contractDetailsSecIdList(contractDetails);
     }
     
@@ -195,7 +194,6 @@ public class EWrapperMsgGenerator {
         + "minSize = " + contractDetails.minSize() + "\n"
         + "sizeIncrement = " + contractDetails.sizeIncrement() + "\n"
         + "suggestedSizeIncrement = " + contractDetails.suggestedSizeIncrement() + "\n"
-        + "minCashQtySize = " + contractDetails.minCashQtySize() + "\n"
         + contractDetailsSecIdList(contractDetails)
         + " ---- Bond Contract Details End ----\n";
     }

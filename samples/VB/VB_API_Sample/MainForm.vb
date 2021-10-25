@@ -2500,7 +2500,6 @@ Friend Class MainForm
         m_utils.addListItem(Utils.ListType.ServerResponses, "  minSize = " & Util.DecimalMaxString(contractDetails.MinSize))
         m_utils.addListItem(Utils.ListType.ServerResponses, "  sizeIncrement = " & Util.DecimalMaxString(contractDetails.SizeIncrement))
         m_utils.addListItem(Utils.ListType.ServerResponses, "  suggestedSizeIncrement = " & Util.DecimalMaxString(contractDetails.SuggestedSizeIncrement))
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  minCashQtySize = " & Util.DecimalMaxString(contractDetails.MinCashQtySize))
 
         If (contract.SecType = "BOND") Then
 
@@ -3033,7 +3032,6 @@ Friend Class MainForm
         m_utils.addListItem(Utils.ListType.ServerResponses, "  minSize = " & Util.DecimalMaxString(contractDetails.MinSize))
         m_utils.addListItem(Utils.ListType.ServerResponses, "  sizeIncrement = " & Util.DecimalMaxString(contractDetails.SizeIncrement))
         m_utils.addListItem(Utils.ListType.ServerResponses, "  suggestedSizeIncrement = " & Util.DecimalMaxString(contractDetails.SuggestedSizeIncrement))
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  minCashQtySize = " & Util.DecimalMaxString(contractDetails.MinCashQtySize))
 
         m_utils.addListItem(Utils.ListType.ServerResponses, "Bond Details:")
         m_utils.addListItem(Utils.ListType.ServerResponses, "  cusip = " & contractDetails.Cusip)

@@ -1642,7 +1642,6 @@ void TestCppClient::printContractDetailsMsg(const ContractDetails& contractDetai
 	printf("\tMinSize: %s\n", decimalStringToDisplay(contractDetails.minSize).c_str());
 	printf("\tSizeIncrement: %s\n", decimalStringToDisplay(contractDetails.sizeIncrement).c_str());
 	printf("\tSuggestedSizeIncrement: %s\n", decimalStringToDisplay(contractDetails.suggestedSizeIncrement).c_str());
-	printf("\tMinCashQtySize: %s\n", decimalStringToDisplay(contractDetails.minCashQtySize).c_str());
 	printContractDetailsSecIdList(contractDetails.secIdList);
 }
 
@@ -1694,7 +1693,6 @@ void TestCppClient::printBondContractDetailsMsg(const ContractDetails& contractD
 	printf("\tMinSize: %s\n", decimalStringToDisplay(contractDetails.minSize).c_str());
 	printf("\tSizeIncrement: %s\n", decimalStringToDisplay(contractDetails.sizeIncrement).c_str());
 	printf("\tSuggestedSizeIncrement: %s\n", decimalStringToDisplay(contractDetails.suggestedSizeIncrement).c_str());
-	printf("\tMinCashQtySize: %s\n", decimalStringToDisplay(contractDetails.minCashQtySize).c_str());
 	printContractDetailsSecIdList(contractDetails.secIdList);
 }
 

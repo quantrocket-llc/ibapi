@@ -120,7 +120,6 @@ Public Sub UpdateBondContractDetails(ByVal reqId As Long, ByVal ContractDetails 
         .Cells(31).value = ContractDetails.minSize
         .Cells(32).value = ContractDetails.sizeIncrement
         .Cells(33).value = ContractDetails.suggestedSizeIncrement
-        .Cells(34).value = ContractDetails.minCashQtySize
     End With
 
     IncrementSheetRowId sheet
@@ -165,7 +164,6 @@ Private Sub InitialiseSheet(sheet As Worksheet)
     sheet.Cells(2, 31).value = "Min Size"
     sheet.Cells(2, 32).value = "Size Incr"
     sheet.Cells(2, 33).value = "Sugg Size Incr"
-    sheet.Cells(2, 34).value = "Min Cash Qty Size"
     
 End Sub
 

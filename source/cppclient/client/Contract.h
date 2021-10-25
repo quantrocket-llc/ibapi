@@ -127,7 +127,6 @@ struct ContractDetails
 		, minSize(UNSET_DECIMAL)
 		, sizeIncrement(UNSET_DECIMAL)
 		, suggestedSizeIncrement(UNSET_DECIMAL)
-		, minCashQtySize(UNSET_DECIMAL)
 	{
 	}
 
@@ -158,7 +157,6 @@ struct ContractDetails
 	Decimal		minSize;
 	Decimal		sizeIncrement;
 	Decimal		suggestedSizeIncrement;
-	Decimal		minCashQtySize;
 
 	TagValueListSPtr secIdList;
 

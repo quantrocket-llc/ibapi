@@ -261,7 +261,6 @@ namespace Samples
             Console.WriteLine("\tMinSize: " + Util.DecimalMaxString(contractDetails.MinSize));
             Console.WriteLine("\tSizeIncrement: " + Util.DecimalMaxString(contractDetails.SizeIncrement));
             Console.WriteLine("\tSuggestedSizeIncrement: " + Util.DecimalMaxString(contractDetails.SuggestedSizeIncrement));
-            Console.WriteLine("\tMinCashQtySize: " + Util.DecimalMaxString(contractDetails.MinCashQtySize));
             printContractDetailsSecIdList(contractDetails.SecIdList);
         }
 
@@ -314,7 +313,6 @@ namespace Samples
             Console.WriteLine("\tMinSize: " + Util.DecimalMaxString(contractDetails.MinSize));
             Console.WriteLine("\tSizeIncrement: " + Util.DecimalMaxString(contractDetails.SizeIncrement));
             Console.WriteLine("\tSuggestedSizeIncrement: " + Util.DecimalMaxString(contractDetails.SuggestedSizeIncrement));
-            Console.WriteLine("\tMinCashQtySize: " + Util.DecimalMaxString(contractDetails.MinCashQtySize));
             printContractDetailsSecIdList(contractDetails.SecIdList);
         }
 

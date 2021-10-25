@@ -689,7 +689,6 @@ namespace IBSampleApp
             this.conResMinSize = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.conResSizeIncrement = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.conResSuggestedSizeIncrement = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.conResMinCashQtySize = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.bondContractDetailsConId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.bondContractDetailsSymbol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.bondContractDetailsExchange = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -722,7 +721,6 @@ namespace IBSampleApp
             this.bondContractDetailsMinSize = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.bondContractDetailsSizeIncrement = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.bondContractDetailsSuggestedSizeIncrement = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.bondContractDetailsMinCashQtySize = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.comboTab.SuspendLayout();
             this.comboDeltaNeutralBox.SuspendLayout();
             this.comboLegsBox.SuspendLayout();
@@ -3254,8 +3252,7 @@ namespace IBSampleApp
             this.conResStockType,
             this.conResMinSize,
             this.conResSizeIncrement,
-            this.conResSuggestedSizeIncrement,
-            this.conResMinCashQtySize});
+            this.conResSuggestedSizeIncrement});
             this.contractDetailsGrid.Location = new System.Drawing.Point(6, 6);
             this.contractDetailsGrid.Name = "contractDetailsGrid";
             this.contractDetailsGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -3648,8 +3645,7 @@ namespace IBSampleApp
             this.bondContractDetsilsTimeZoneId,
             this.bondContractDetailsMinSize,
             this.bondContractDetailsSizeIncrement,
-            this.bondContractDetailsSuggestedSizeIncrement,
-            this.bondContractDetailsMinCashQtySize});
+            this.bondContractDetailsSuggestedSizeIncrement});
             this.bondContractDetailsGrid.Location = new System.Drawing.Point(6, 6);
             this.bondContractDetailsGrid.Name = "bondContractDetailsGrid";
             this.bondContractDetailsGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -7307,11 +7303,6 @@ namespace IBSampleApp
             this.conResSuggestedSizeIncrement.HeaderText = "Sugg Size Incr";
             this.conResSuggestedSizeIncrement.Name = "conResSuggestedSizeIncrement";
             // 
-            // conResMinCashQtySize
-            // 
-            this.conResMinCashQtySize.HeaderText = "Min Cash Qty Size";
-            this.conResMinCashQtySize.Name = "conResMinCashQtySize";
-            // 
             // bondContractDetailsConId
             // 
             this.bondContractDetailsConId.HeaderText = "ConId";
@@ -7472,11 +7463,6 @@ namespace IBSampleApp
             // 
             this.bondContractDetailsSuggestedSizeIncrement.HeaderText = "Sugg Size Incr";
             this.bondContractDetailsSuggestedSizeIncrement.Name = "bondContractDetailsSuggestedSizeIncrement";
-            // 
-            // bondContractDetailsMinCashQtySize
-            // 
-            this.bondContractDetailsMinCashQtySize.HeaderText = "Min Cash Qty Size";
-            this.bondContractDetailsMinCashQtySize.Name = "bondContractDetailsMinCashQtySize";
             // 
             // IBSampleAppDialog
             // 
@@ -8331,7 +8317,6 @@ namespace IBSampleApp
         private System.Windows.Forms.DataGridViewTextBoxColumn conResMinSize;
         private System.Windows.Forms.DataGridViewTextBoxColumn conResSizeIncrement;
         private System.Windows.Forms.DataGridViewTextBoxColumn conResSuggestedSizeIncrement;
-        private System.Windows.Forms.DataGridViewTextBoxColumn conResMinCashQtySize;
         private System.Windows.Forms.DataGridViewTextBoxColumn bondContractDetailsConId;
         private System.Windows.Forms.DataGridViewTextBoxColumn bondContractDetailsSymbol;
         private System.Windows.Forms.DataGridViewTextBoxColumn bondContractDetailsExchange;
@@ -8364,7 +8349,6 @@ namespace IBSampleApp
         private System.Windows.Forms.DataGridViewTextBoxColumn bondContractDetailsMinSize;
         private System.Windows.Forms.DataGridViewTextBoxColumn bondContractDetailsSizeIncrement;
         private System.Windows.Forms.DataGridViewTextBoxColumn bondContractDetailsSuggestedSizeIncrement;
-        private System.Windows.Forms.DataGridViewTextBoxColumn bondContractDetailsMinCashQtySize;
     }
 }
 

@@ -141,7 +141,6 @@ class ContractDetails(Object):
         self.minSize = UNSET_DECIMAL
         self.sizeIncrement = UNSET_DECIMAL
         self.suggestedSizeIncrement = UNSET_DECIMAL
-        self.minCashQtySize = UNSET_DECIMAL
         # BOND values
         self.cusip = ""
         self.ratings = ""
@@ -202,8 +201,7 @@ class ContractDetails(Object):
             str(self.notes),
             ibapi.utils.decimalMaxString(self.minSize),
             ibapi.utils.decimalMaxString(self.sizeIncrement),
-            ibapi.utils.decimalMaxString(self.suggestedSizeIncrement),
-            ibapi.utils.decimalMaxString(self.minCashQtySize)))
+            ibapi.utils.decimalMaxString(self.suggestedSizeIncrement)))
             
         return s
 

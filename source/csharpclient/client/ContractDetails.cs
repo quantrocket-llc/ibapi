@@ -530,18 +530,6 @@ namespace IBApi
             //! @endcond
         }
 
-        /**
-        * @brief Order's minimal cash quantity size
-        */
-        public decimal MinCashQtySize
-        {
-            //! @cond
-            get;
-            set;
-            //! @endcond
-        }
-
-
         public ContractDetails()
         {
             Contract = new Contract();
@@ -551,7 +539,6 @@ namespace IBApi
             MinSize = decimal.MaxValue;
             SizeIncrement = decimal.MaxValue;
             SuggestedSizeIncrement = decimal.MaxValue;
-            MinCashQtySize = decimal.MaxValue;
         }
 
         public ContractDetails(Contract summary, string marketName,

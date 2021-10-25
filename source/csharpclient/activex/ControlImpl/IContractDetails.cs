@@ -102,7 +102,5 @@ namespace TWSLib
         string sizeIncrement { get; }
         [DispId(48)]
         string suggestedSizeIncrement { get; }
-        [DispId(49)]
-        string minCashQtySize { get; }
     }
 }

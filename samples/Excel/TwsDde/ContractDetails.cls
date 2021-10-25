@@ -70,14 +70,14 @@ Private Function getHeaderColumns() As Variant()
     getHeaderColumns = Array("Symbol", "SecType", "LastTradeDate", "Strike", "Right", "Exchange", "Currency", "LocalSymbol", "MarketName", "TradingClass", "ConId", "MinTick", _
                             "Multiplier", "OrderTypes", "ValidExchanges", "PriceMagnifier", "UnderConId", "LongName", "PrimExchange", "ContractMonth", _
                             "Industry", "Category", "Subcategory", "TimeZoneId", "TradingHours", "LiquidHours", "EvRule", "EvMultiplier", "SecIdList", "AggGroup", _
-                            "UnderSymbol", "UnderSecType", "MarketRuleIds", "RealExpirationDate", "StockType", "MinSize", "SizeIncrement", "SuggestedSizeIncrement", "MinCashQtySize")
+                            "UnderSymbol", "UnderSecType", "MarketRuleIds", "RealExpirationDate", "StockType", "MinSize", "SizeIncrement", "SuggestedSizeIncrement")
 End Function
 
 Private Function getHeaderColumnsFixedIncome() As Variant()
     getHeaderColumnsFixedIncome = Array("Symbol", "SecType", "Cusip", "Coupon", "Maturity", "LastTradeTime", "TimeZoneId", "IssueDate", "Ratings", "BondType", "CouponType", "Convertible", _
                             "Callable", "Putable", "DescAppend", "Exchange", "Currency", "MarketName", "TradingClass", "ConId", "MinTick", "OrderTypes", _
                             "ValidExchanges", "NextOptionDate", "NextOptionType", "NextOptionPartial", "Notes", "LongName", "EvRule", "EvMultiplier", "SecIdList", "AggGroup", _
-                            "MarketRuleIds", "MinSize", "SizeIncrement", "SuggestedSizeIncrement", "MinCashQtySize")
+                            "MarketRuleIds", "MinSize", "SizeIncrement", "SuggestedSizeIncrement")
                             
 End Function
 

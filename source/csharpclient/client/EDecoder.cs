@@ -1344,7 +1344,7 @@ namespace IBApi
                 contract.MinSize = ReadDecimal();
                 contract.SizeIncrement = ReadDecimal();
                 contract.SuggestedSizeIncrement = ReadDecimal();
-                contract.MinCashQtySize = ReadDecimal();
+                ReadDecimal(); // minCashQtySize - not sent yet
             }
 
             eWrapper.bondContractDetails(requestId, contract);
@@ -1663,7 +1663,7 @@ namespace IBApi
                 contract.MinSize = ReadDecimal();
                 contract.SizeIncrement = ReadDecimal();
                 contract.SuggestedSizeIncrement = ReadDecimal();
-                contract.MinCashQtySize = ReadDecimal();
+                ReadDecimal(); // minCashQtySize - not sent yet
             }
 
             eWrapper.contractDetails(requestId, contract);

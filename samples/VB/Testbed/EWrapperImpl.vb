@@ -146,7 +146,6 @@ Namespace Samples
             Console.WriteLine(vbTab & "MinSize: " & Util.DecimalMaxString(contractDetails.MinSize))
             Console.WriteLine(vbTab & "SizeIncrement: " & Util.DecimalMaxString(contractDetails.SizeIncrement))
             Console.WriteLine(vbTab & "SuggestedSizeIncrement: " & Util.DecimalMaxString(contractDetails.SuggestedSizeIncrement))
-            Console.WriteLine(vbTab & "MinCashQtySize: " & Util.DecimalMaxString(contractDetails.MinCashQtySize))
             printContractDetailsSecIdList(contractDetails.SecIdList)
         End Sub
 
@@ -196,7 +195,6 @@ Namespace Samples
             Console.WriteLine(vbTab & "MinSize: " & Util.DecimalMaxString(contractDetails.MinSize))
             Console.WriteLine(vbTab & "SizeIncrement: " & Util.DecimalMaxString(contractDetails.SizeIncrement))
             Console.WriteLine(vbTab & "SuggestedSizeIncrement: " & Util.DecimalMaxString(contractDetails.SuggestedSizeIncrement))
-            Console.WriteLine(vbTab & "MinCashQtySize: " & Util.DecimalMaxString(contractDetails.MinCashQtySize))
             printContractDetailsSecIdList(contractDetails.SecIdList)
         End Sub
 

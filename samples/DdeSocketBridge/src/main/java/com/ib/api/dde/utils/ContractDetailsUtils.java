@@ -79,7 +79,6 @@ public class ContractDetailsUtils {
         item.add(Utils.toString(contractDetails.minSize()));
         item.add(Utils.toString(contractDetails.sizeIncrement()));
         item.add(Utils.toString(contractDetails.suggestedSizeIncrement()));
-        item.add(Utils.toString(contractDetails.minCashQtySize()));
         
         return item;
     }
@@ -129,7 +128,6 @@ public class ContractDetailsUtils {
         item.add(Utils.toString(contractDetails.minSize()));
         item.add(Utils.toString(contractDetails.sizeIncrement()));
         item.add(Utils.toString(contractDetails.suggestedSizeIncrement()));
-        item.add(Utils.toString(contractDetails.minCashQtySize()));
         
         return item;
     }

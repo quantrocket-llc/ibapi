@@ -34,7 +34,6 @@ public class ContractDetails {
     private Decimal  m_minSize;
     private Decimal  m_sizeIncrement;
     private Decimal  m_suggestedSizeIncrement;
-    private Decimal  m_minCashQtySize;
 
     // BOND values
     private String   m_cusip;
@@ -83,7 +82,6 @@ public class ContractDetails {
     public Decimal minSize()            { return m_minSize; }
     public Decimal sizeIncrement()      { return m_sizeIncrement; }
     public Decimal suggestedSizeIncrement() { return m_suggestedSizeIncrement; }
-    public Decimal minCashQtySize()     { return m_minCashQtySize; }
     
     public String cusip()               { return m_cusip; }
     public String ratings()             { return m_ratings; }
@@ -130,7 +128,6 @@ public class ContractDetails {
     public void minSize(Decimal minSize)            { m_minSize = minSize; }
     public void sizeIncrement(Decimal sizeIncrement) { m_sizeIncrement = sizeIncrement; }
     public void suggestedSizeIncrement(Decimal suggestedSizeIncrement) { m_suggestedSizeIncrement = suggestedSizeIncrement; }
-    public void minCashQtySize(Decimal minCashQtySize) { m_minCashQtySize = minCashQtySize; }
     
     public void cusip(String cusip)             { m_cusip = cusip; }
     public void ratings(String ratings)         { m_ratings = ratings; }
@@ -188,7 +185,6 @@ public class ContractDetails {
         m_minSize = p_minSize;
         m_sizeIncrement = p_sizeIncrement;
         m_suggestedSizeIncrement = p_suggestedSizeIncrement;
-        m_minCashQtySize = p_minCashQtySize;
     }
 
     @Override public String toString() {
@@ -220,7 +216,6 @@ public class ContractDetails {
         add( sb, "minSize", m_minSize);
         add( sb, "sizeIncrement", m_sizeIncrement);
         add( sb, "suggestedSizeIncrement", m_suggestedSizeIncrement);
-        add( sb, "minCashQtySize", m_minCashQtySize);
 
         add( sb, "cusip", m_cusip);
         add( sb, "ratings", m_ratings);

@@ -36,7 +36,6 @@ public class ContractDetailsMap extends BaseListDataMap<ContractDetails> {
     public final static String MIN_SIZE = "minSize";
     public final static String SIZE_INCREMENT = "sizeIncrement";
     public final static String SUGGESTED_SIZE_INCREMENT = "suggestedSizeIncrement";
-    public final static String MIN_CASH_QTY_SIZE = "minCashQtySize";
     
     public ContractDetailsMap(DdeRequest ddeRequest){
         super(ddeRequest);
@@ -123,9 +122,6 @@ public class ContractDetailsMap extends BaseListDataMap<ContractDetails> {
             }
             if (tickType.equalsIgnoreCase(SUGGESTED_SIZE_INCREMENT)) {
                 return Utils.toString(contractDetails.suggestedSizeIncrement());
-            }
-            if (tickType.equalsIgnoreCase(MIN_CASH_QTY_SIZE)) {
-                return Utils.toString(contractDetails.minCashQtySize());
             }
         }
         return null;

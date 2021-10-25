@@ -425,16 +425,6 @@ namespace TWSLib
             set { if (data != null) data.SuggestedSizeIncrement = Util.StringToDecimal(value); }
         }
 
-
-        /**
-        * @brief Order's minimal cash quantity size
-        */
-        string MinCashQtySize
-        {
-            get { return data != null ? Util.DecimalMaxString(data.MinCashQtySize) : default(string); }
-            set { if (data != null) data.MinCashQtySize = Util.StringToDecimal(value); }
-        }
-
         string TWSLib.IContractDetails.marketName
         {
             get { return MarketName; }
@@ -648,11 +638,6 @@ namespace TWSLib
         string TWSLib.IContractDetails.suggestedSizeIncrement
         {
             get { return SuggestedSizeIncrement; }
-        }
-
-        string TWSLib.IContractDetails.minCashQtySize
-        {
-            get { return MinCashQtySize; }
         }
 
         public static explicit operator ComContractDetails(ContractDetails cd)
