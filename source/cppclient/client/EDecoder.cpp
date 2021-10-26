@@ -595,8 +595,6 @@ const char* EDecoder::processContractDataMsg(const char* ptr, const char* endPtr
 		DECODE_FIELD(contract.minSize);
 		DECODE_FIELD(contract.sizeIncrement);
 		DECODE_FIELD(contract.suggestedSizeIncrement);
-		Decimal minCashQtySize; // not sent yet
-		DECODE_FIELD(minCashQtySize);
 	}
 
 	m_pEWrapper->contractDetails( reqId, contract);
@@ -677,8 +675,6 @@ const char* EDecoder::processBondContractDataMsg(const char* ptr, const char* en
 		DECODE_FIELD(contract.minSize);
 		DECODE_FIELD(contract.sizeIncrement);
 		DECODE_FIELD(contract.suggestedSizeIncrement);
-		Decimal minCashQtySize; // not sent yet
-		DECODE_FIELD(minCashQtySize);
 	}
 
 	m_pEWrapper->bondContractDetails( reqId, contract);

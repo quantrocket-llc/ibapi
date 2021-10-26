@@ -158,7 +158,7 @@ public class ContractDetails {
     	    String p_timeZoneId, String	p_tradingHours, String p_liquidHours,
     	    String p_evRule, double p_evMultiplier, int p_aggGroup,
     	    String p_underSymbol, String p_underSecType, String p_marketRuleIds, String p_realExpirationDate, String p_lastTradeTime,
-    	    String p_stockType, Decimal p_minSize, Decimal p_sizeIncrement, Decimal p_suggestedSizeIncrement, Decimal p_minCashQtySize) {
+    	    String p_stockType, Decimal p_minSize, Decimal p_sizeIncrement, Decimal p_suggestedSizeIncrement) {
         m_contract = p_contract;
     	m_marketName = p_marketName;
     	m_minTick = p_minTick;
