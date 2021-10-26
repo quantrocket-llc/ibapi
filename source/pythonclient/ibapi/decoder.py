@@ -338,7 +338,6 @@ class Decoder(Object):
             contract.minSize = decode(Decimal, fields)
             contract.sizeIncrement = decode(Decimal, fields)
             contract.suggestedSizeIncrement = decode(Decimal, fields)
-            decode(Decimal, fields) # minCashQtySize - not sent yet
 
         self.wrapper.contractDetails(reqId, contract)
 
@@ -407,7 +406,6 @@ class Decoder(Object):
             contract.minSize = decode(Decimal, fields)
             contract.sizeIncrement = decode(Decimal, fields)
             contract.suggestedSizeIncrement = decode(Decimal, fields)
-            decode(Decimal, fields) # minCashQtySize - not sent yet
 
         self.wrapper.bondContractDetails(reqId, contract)
 

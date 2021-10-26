@@ -1233,7 +1233,6 @@ class EDecoder implements ObjectInput {
 		    contract.minSize(readDecimal());
 		    contract.sizeIncrement(readDecimal());
 		    contract.suggestedSizeIncrement(readDecimal());
-		    readDecimal(); // minCashQtySize - not sent yet
 		}
 		
 		m_EWrapper.bondContractDetails( reqId, contract);
@@ -1327,7 +1326,6 @@ class EDecoder implements ObjectInput {
 		    contract.minSize(readDecimal());
 		    contract.sizeIncrement(readDecimal());
 		    contract.suggestedSizeIncrement(readDecimal());
-		    readDecimal(); // minCashQtySize - not sent yet
 		}
 		
 		m_EWrapper.contractDetails( reqId, contract);
