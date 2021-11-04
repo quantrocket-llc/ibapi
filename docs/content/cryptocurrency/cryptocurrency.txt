@@ -50,6 +50,7 @@
 
 	Cryptocurrency supports only @ref market and @ref limitorder order types.<br>
 	TimeInForce (Tif) for Market (MKT) order is only valid value for Cryptocurrency is IOC (Immediate or Cancel).<br>
+	When placing a BUY MKT order <b>cashQty</b> must be specified.<br>
 	Limit (LMT) Order supports IOC (Immediate or Cancel) and <b>Minutes</b> Tif. Minutes: Order are canceled if not filled in 5 minutes.<br>
 	Please review @ref order_submission page for order placement information.
 
