@@ -20,7 +20,7 @@ public class Decimal implements Comparable<Decimal>{
         @Override public long longValue() { return Long.MAX_VALUE; }
         @Override public String toString() { return NAN_STRING;  }
     };
-    public static final Decimal ONE_HUNDRED = new Decimal( BigDecimal.valueOf(1000) );
+    public static final Decimal ONE_HUNDRED = new Decimal( BigDecimal.valueOf(100) );
 
     // vars
     private final BigDecimal m_value;
