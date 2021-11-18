@@ -176,9 +176,9 @@ Sub UpdateCompletedOrder(contract As TWSLib.IContract, order As TWSLib.IOrder, o
 
     With order
         completedOrderDescriptionTable(rowId, Col_ACTION).value = .action
-        completedOrderDescriptionTable(rowId, Col_TOTALQTY).value = .totalQuantity
+        completedOrderDescriptionTable(rowId, Col_TOTALQTY).value = Util.DecimalToString(.totalQuantity)
         completedOrderDescriptionTable(rowId, Col_CASH_QTY).value = Util.DblMaxStr(.cashQty)
-        completedOrderDescriptionTable(rowId, Col_FILLEDQTY).value = .filledQuantity
+        completedOrderDescriptionTable(rowId, Col_FILLEDQTY).value = Util.DecimalToString(.filledQuantity)
         completedOrderDescriptionTable(rowId, Col_ORDERTYPE).value = .orderType
         completedOrderDescriptionTable(rowId, Col_LMTPRICE).value = Util.DblMaxStr(.lmtPrice)
         completedOrderDescriptionTable(rowId, Col_AUXPRICE).value = Util.DblMaxStr(.auxPrice)

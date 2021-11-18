@@ -30,14 +30,14 @@ namespace TWSLib
             get { return data != null ? data.PriceAsk : default(double); }
         }
 
-        string SizeBid
+        object SizeBid
         {
-            get { return data != null ? Util.DecimalMaxString(data.SizeBid) : default(string); }
+            get { return data != null ? data.SizeBid : default(object); }
         }
 
-        string SizeAsk
+        object SizeAsk
         {
-            get { return data != null ? Util.DecimalMaxString(data.SizeAsk) : default(string); }
+            get { return data != null ? data.SizeAsk : default(object); }
         }
 
         public ComHistoricalTickBidAsk()
@@ -64,12 +64,12 @@ namespace TWSLib
             get { return PriceAsk; }
         }
 
-        string TWSLib.IHistoricalTickBidAsk.sizeBid
+        object TWSLib.IHistoricalTickBidAsk.sizeBid
         {
             get { return SizeBid; }
         }
 
-        string TWSLib.IHistoricalTickBidAsk.sizeAsk
+        object TWSLib.IHistoricalTickBidAsk.sizeAsk
         {
             get { return SizeAsk; }
         }

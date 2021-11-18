@@ -141,7 +141,7 @@ Private Sub processOrder(i As Long)
 End Sub
 
 ' update order status
-Public Sub UpdateOrderStatus(id As Long, status As String, filled As String, remaining As String, avgFillPrice As Double, parentId As Long, lastFillPrice As Double)
+Public Sub UpdateOrderStatus(id As Long, status As String, filled As Variant, remaining As Variant, avgFillPrice As Double, parentId As Long, lastFillPrice As Double)
     OrderUtils.UpdateOrderStatus orderStatusTable, id, status, filled, remaining, avgFillPrice, parentId, lastFillPrice
 End Sub
 

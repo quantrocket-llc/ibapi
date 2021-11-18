@@ -93,7 +93,7 @@ Sub UpdateOpenOrder(orderId As Long, contract As TWSLib.IContract, order As TWSL
     With order
         orderStatusTable(rowId, Col_ORDERID).value = orderId
         orderDescriptionTable(rowId, Col_ACTION).value = .action
-        orderDescriptionTable(rowId, Col_TOTALQTY).value = .totalQuantity
+        orderDescriptionTable(rowId, Col_TOTALQTY).value = Util.DecimalToString(.totalQuantity)
         orderDescriptionTable(rowId, Col_CASH_QTY).value = Util.DblMaxStr(.cashQty)
         orderDescriptionTable(rowId, Col_ORDERTYPE).value = .orderType
         orderDescriptionTable(rowId, Col_LMTPRICE).value = Util.DblMaxStr(.lmtPrice)
@@ -218,13 +218,13 @@ Sub UpdateOpenOrder(orderId As Long, contract As TWSLib.IContract, order As TWSL
 End Sub
 
 ' update order status
-Public Sub UpdateOrderStatus(orderId As Long, status As String, filled As String, remaining As String, avgFillPrice As Double, parentId As Long, permId As Long, lastFillPrice As Double)
+Public Sub UpdateOrderStatus(orderId As Long, status As String, filled As Variant, remaining As Variant, avgFillPrice As Double, parentId As Long, permId As Long, lastFillPrice As Double)
     ' find row to update by using orderId
     Dim id As Long
     id = OrderUtils.FindOrderRowIndexByPermId(permId, orderStatusTable)
     If id <> 0 Then
-        orderStatusTable(id, Col_ORDERSTATUS).value = status
-        orderStatusTable(id, Col_FILLED).value = filled
+        orderStatusTable(id, Col_ORDERSTATUS).value = Util.DecimalToString(status)
+        orderStatusTable(id, Col_FILLED).value = Util.DecimalToString(filled)
         orderStatusTable(id, Col_REMAINING).value = remaining
         orderStatusTable(id, Col_AVGFILLPRICE).value = avgFillPrice
         orderStatusTable(id, Col_LASTFILLPRICE).value = lastFillPrice

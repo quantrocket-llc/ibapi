@@ -4,7 +4,7 @@ Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} ScrollableMsgBox
    ClientHeight    =   7635
    ClientLeft      =   45
    ClientTop       =   435
-   ClientWidth     =   9660
+   ClientWidth     =   9660.001
    OleObjectBlob   =   "ScrollableMsgBox.frx":0000
    StartUpPosition =   1  'CenterOwner
 End
@@ -26,10 +26,6 @@ Private Sub buttonOK_Click()
     
     ' hide form
     ScrollableMsgBox.Hide
-End Sub
-
-Private Sub scrollabeTextBox_Change()
-
 End Sub
 
 ' set focus and scrolling position during form activation

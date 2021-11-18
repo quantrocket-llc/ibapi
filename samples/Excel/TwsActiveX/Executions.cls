@@ -119,8 +119,8 @@ Public Sub UpdateExecution(ByVal orderId As Long, ByVal contract As TWSLib.ICont
             executionsTable(rowId, Col_ACCOUNT).value = .acctNumber
             executionsTable(rowId, Col_EXCHANGE).value = .Exchange
             executionsTable(rowId, Col_SIDE).value = .side
-            executionsTable(rowId, Col_QUANTITY).value = .shares
-            executionsTable(rowId, Col_CUMQTY).value = .cumQty
+            executionsTable(rowId, Col_QUANTITY).value = Util.DecimalToString(.shares)
+            executionsTable(rowId, Col_CUMQTY).value = Util.DecimalToString(.cumQty)
             executionsTable(rowId, Col_PRICE).value = .price
             executionsTable(rowId, Col_AVGPRICE).value = .avgPrice
             executionsTable(rowId, Col_PERMID).value = .permId

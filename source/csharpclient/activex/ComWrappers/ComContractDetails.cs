@@ -401,28 +401,28 @@ namespace TWSLib
         /**
         * @brief Order's minimal size
         */
-        string MinSize
+        object MinSize
         {
-            get { return data != null ? Util.DecimalMaxString(data.MinSize) : default(string); }
-            set { if (data != null) data.MinSize = Util.StringToDecimal(value); }
+            get { return data != null ? data.MinSize : default(object); }
+            set { if (data != null) data.MinSize = Util.GetDecimal(value); }
         }
 
         /**
         * @brief Order's size increment
         */
-        string SizeIncrement
+        object SizeIncrement
         {
-            get { return data != null ? Util.DecimalMaxString(data.SizeIncrement) : default(string); }
-            set { if (data != null) data.SizeIncrement = Util.StringToDecimal(value); }
+            get { return data != null ? data.SizeIncrement : default(object); }
+            set { if (data != null) data.SizeIncrement = Util.GetDecimal(value); }
         }
 
         /**
         * @brief Order's suggested size increment
         */
-        string SuggestedSizeIncrement
+        object SuggestedSizeIncrement
         {
-            get { return data != null ? Util.DecimalMaxString(data.SuggestedSizeIncrement) : default(string); }
-            set { if (data != null) data.SuggestedSizeIncrement = Util.StringToDecimal(value); }
+            get { return data != null ? data.SuggestedSizeIncrement : default(object); }
+            set { if (data != null) data.SuggestedSizeIncrement = Util.GetDecimal(value); }
         }
 
         string TWSLib.IContractDetails.marketName
@@ -625,17 +625,17 @@ namespace TWSLib
             get { return StockType; }
         }
 
-        string TWSLib.IContractDetails.minSize
+        object TWSLib.IContractDetails.minSize
         {
             get { return MinSize; }
         }
 
-        string TWSLib.IContractDetails.sizeIncrement
+        object TWSLib.IContractDetails.sizeIncrement
         {
             get { return SizeIncrement; }
         }
 
-        string TWSLib.IContractDetails.suggestedSizeIncrement
+        object TWSLib.IContractDetails.suggestedSizeIncrement
         {
             get { return SuggestedSizeIncrement; }
         }

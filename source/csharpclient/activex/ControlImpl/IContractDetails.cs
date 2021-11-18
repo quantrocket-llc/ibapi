@@ -97,10 +97,10 @@ namespace TWSLib
         [DispId(44)]
         string stockType { get; }
         [DispId(46)]
-        string minSize { get; }
+        object minSize { get; }
         [DispId(47)]
-        string sizeIncrement { get; }
+        object sizeIncrement { get; }
         [DispId(48)]
-        string suggestedSizeIncrement { get; }
+        object suggestedSizeIncrement { get; }
     }
 }

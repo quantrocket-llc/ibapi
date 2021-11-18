@@ -14,14 +14,14 @@ namespace TWSLib
     public interface IHistogramEntry
     {
         double Price { get; }
-        string Size { get; }
+        object Size { get; }
     }
 
     [ComVisible(true), ClassInterface(ClassInterfaceType.None)]
     public class ComHistogramEntry : ComWrapper<IBApi.HistogramEntry>, IHistogramEntry
     {
         public double Price { get { return data.Price; } }
-        public string Size { get { return Util.DecimalMaxString(data.Size); } }
+        public object Size { get { return data.Size; } }
 
         public static explicit operator IBApi.HistogramEntry(ComHistogramEntry ctv)
         {

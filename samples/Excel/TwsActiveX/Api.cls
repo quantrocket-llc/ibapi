@@ -125,7 +125,7 @@ End Sub
 
 Private Sub m_Tws_histogramData(ByVal reqId As Long, ByVal data As TWSLib.IHistogramEntry)
     On Error Resume Next
-    Histogram.UpdateHistogramData reqId, data.price, Util.StringToDecimal(data.Size)
+    Histogram.UpdateHistogramData reqId, data.price, data.Size
 End Sub
 
 Private Sub m_Tws_historicalDataEnd(ByVal reqId As Long, ByVal startDate As String, ByVal endDate As String)
@@ -170,7 +170,7 @@ End Sub
 '-----------------------------
 ' orders events
 '-----------------------------
-Private Sub m_Tws_orderStatus(ByVal id As Long, ByVal status As String, ByVal filled As String, ByVal remaining As String, ByVal avgFillPrice As Double, ByVal permId As Long, ByVal parentId As Long, ByVal lastFillPrice As Double, ByVal clientId As Long, ByVal whyHeld As String, ByVal mktCapPrice As Double)
+Private Sub m_Tws_orderStatus(ByVal id As Long, ByVal status As String, ByVal filled As Variant, ByVal remaining As Variant, ByVal avgFillPrice As Double, ByVal permId As Long, ByVal parentId As Long, ByVal lastFillPrice As Double, ByVal clientId As Long, ByVal whyHeld As String, ByVal mktCapPrice As Double)
     On Error Resume Next
     ' update Orders sheet data
         
@@ -205,7 +205,7 @@ Private Sub m_Tws_pnl(ByVal reqId As Long, ByVal dailyPnL As Double, ByVal unrea
     AcctUpdMulti.UpdatePnL reqId, dailyPnL, unrealizedPNL, realizedPNL
 End Sub
 
-Private Sub m_Tws_pnlSingle(ByVal reqId As Long, ByVal pos As String, ByVal dailyPnL As Double, ByVal unrealizedPNL As Double, ByVal realizedPNL As Double, ByVal value As Double)
+Private Sub m_Tws_pnlSingle(ByVal reqId As Long, ByVal pos As Variant, ByVal dailyPnL As Double, ByVal unrealizedPNL As Double, ByVal realizedPNL As Double, ByVal value As Double)
     On Error Resume Next
     AcctUpdMulti.UpdatePnLSingle reqId, pos, dailyPnL, unrealizedPNL, realizedPNL, value
 End Sub
@@ -213,9 +213,9 @@ End Sub
 '-----------------------------
 ' real time bars events
 '-----------------------------
-Private Sub m_Tws_realtimeBar(ByVal rtbTickerId As Long, ByVal rtbTime As Long, ByVal rtbOpen As Double, ByVal rtbHigh As Double, ByVal rtbLow As Double, ByVal rtbClose As Double, ByVal rtbVolume As String, ByVal rtbWAP As String, ByVal rtbCount As Long)
+Private Sub m_Tws_realtimeBar(ByVal rtbTickerId As Long, ByVal rtbTime As Long, ByVal rtbOpen As Double, ByVal rtbHigh As Double, ByVal rtbLow As Double, ByVal rtbClose As Double, ByVal rtbVolume As Variant, ByVal rtbWAP As Variant, ByVal rtbCount As Long)
     On Error Resume Next
-    RealTimeBars.UpdateRealTimeBars rtbTickerId, rtbTime, rtbOpen, rtbHigh, rtbLow, rtbClose, Util.StringToDecimal(rtbVolume), Util.StringToDecimal(rtbWAP), rtbCount
+    RealTimeBars.UpdateRealTimeBars rtbTickerId, rtbTime, rtbOpen, rtbHigh, rtbLow, rtbClose, rtbVolume, rtbWAP, rtbCount
 End Sub
 
 Private Sub m_Tws_replaceFAEnd(ByVal reqId As Long, ByVal text As String)
@@ -288,10 +288,10 @@ Private Sub m_Tws_tickPrice(ByVal id As Long, ByVal tickType As Long, ByVal pric
     Tickers.UpdateTickersSheetWithPrice id, tickType, price, CanAutoExecute, PastLimit, PreOpen
 End Sub
 
-Private Sub m_Tws_tickSize(ByVal id As Long, ByVal tickType As Long, ByVal Size As String)
+Private Sub m_Tws_tickSize(ByVal id As Long, ByVal tickType As Long, ByVal Size As Variant)
     'update Tickers sheet with new size
     On Error Resume Next
-    Tickers.UpdateTickersSheetWithSize id, tickType, Util.StringToDecimal(Size)
+    Tickers.UpdateTickersSheetWithSize id, tickType, Size
 End Sub
 
 Private Sub m_Tws_tickString(ByVal id As Long, ByVal tickType As Long, ByVal value As String)
@@ -308,16 +308,16 @@ End Sub
 '-----------------------------
 ' market depth events
 '-----------------------------
-Private Sub m_Tws_updateMktDepth(ByVal id As Long, ByVal position As Long, ByVal operation As Long, ByVal side As Long, ByVal price As Double, ByVal Size As String)
+Private Sub m_Tws_updateMktDepth(ByVal id As Long, ByVal position As Long, ByVal operation As Long, ByVal side As Long, ByVal price As Double, ByVal Size As Variant)
     ' update Market Depth sheet with new data
     On Error Resume Next
-    MarketDepth.UpdateMarketDepth id, position, STR_EMPTY, operation, side, price, Util.StringToDecimal(Size)
+    MarketDepth.UpdateMarketDepth id, position, STR_EMPTY, operation, side, price, Size
 End Sub
 
-Private Sub m_Tws_updateMktDepthL2(ByVal id As Long, ByVal position As Long, ByVal marketMaker As String, ByVal operation As Long, ByVal side As Long, ByVal price As Double, ByVal Size As String, ByVal isSmartDepth As Boolean)
+Private Sub m_Tws_updateMktDepthL2(ByVal id As Long, ByVal position As Long, ByVal marketMaker As String, ByVal operation As Long, ByVal side As Long, ByVal price As Double, ByVal Size As Variant, ByVal isSmartDepth As Boolean)
     ' update Market Depth sheet with new data
     On Error Resume Next
-    MarketDepth.UpdateMarketDepth id, position, marketMaker, operation, side, price, Util.StringToDecimal(Size)
+    MarketDepth.UpdateMarketDepth id, position, marketMaker, operation, side, price, Size
 End Sub
 
 '-----------------------------
@@ -347,7 +347,7 @@ Private Sub m_Tws_updateAccountValue(ByVal key As String, ByVal value As String,
     Account.UpdateAccountValue key, value, curency, accountName
 End Sub
 
-Private Sub m_Tws_updatePortfolioEx(ByVal contract As TWSLib.IContract, ByVal position As String, ByVal marketPrice As Double, ByVal marketValue As Double, ByVal averageCost As Double, ByVal unrealizedPNL As Double, ByVal realizedPNL As Double, ByVal accountName As String)
+Private Sub m_Tws_updatePortfolioEx(ByVal contract As TWSLib.IContract, ByVal position As Variant, ByVal marketPrice As Double, ByVal marketValue As Double, ByVal averageCost As Double, ByVal unrealizedPNL As Double, ByVal realizedPNL As Double, ByVal accountName As String)
     On Error Resume Next
     Portfolio.UpdatePortfolio contract, position, marketPrice, marketValue, averageCost, unrealizedPNL, realizedPNL, accountName
 End Sub
@@ -371,9 +371,9 @@ End Sub
 '-----------------------------
 ' historical data events
 '-----------------------------
-Private Sub m_Tws_historicalData(ByVal reqId As Long, ByVal histDate As String, ByVal histOpen As Double, ByVal histHigh As Double, ByVal histLow As Double, ByVal histClose As Double, ByVal histVolume As String, ByVal barCount As Long, ByVal WAP As String, ByVal hasGaps As Long)
+Private Sub m_Tws_historicalData(ByVal reqId As Long, ByVal histDate As String, ByVal histOpen As Double, ByVal histHigh As Double, ByVal histLow As Double, ByVal histClose As Double, ByVal histVolume As Variant, ByVal barCount As Long, ByVal WAP As Variant, ByVal hasGaps As Long)
     On Error Resume Next
-    HistoricalData.UpdateHistoricalData reqId, histDate, histOpen, histHigh, histLow, histClose, Util.StringToDecimal(histVolume), barCount, Util.StringToDecimal(WAP), hasGaps
+    HistoricalData.UpdateHistoricalData reqId, histDate, histOpen, histHigh, histLow, histClose, histVolume, barCount, WAP, hasGaps
 End Sub
 
 '---------------------------------------
@@ -453,7 +453,7 @@ End Sub
 '-----------------------------
 ' positions  multi
 '-----------------------------
-Private Sub m_Tws_positionMulti(ByVal requestId As Long, ByVal Account As String, ByVal modelCode As String, ByVal contract As TWSLib.IContract, ByVal position As String, ByVal avgCost As Double)
+Private Sub m_Tws_positionMulti(ByVal requestId As Long, ByVal Account As String, ByVal modelCode As String, ByVal contract As TWSLib.IContract, ByVal position As Variant, ByVal avgCost As Double)
     On Error Resume Next
     PositionsMulti.PositionMulti requestId, Account, modelCode, contract, position, avgCost
 End Sub
@@ -485,17 +485,17 @@ End Sub
 '-----------------------------
 ' tick-by-tick all last
 '-----------------------------
-Private Sub m_Tws_tickByTickAllLast(ByVal reqId As Long, ByVal tickType As Long, ByVal time As String, ByVal price As Double, ByVal Size As String, ByVal tickAttribLast As TWSLib.ITickAttribLast, ByVal Exchange As String, ByVal specialConditions As String)
+Private Sub m_Tws_tickByTickAllLast(ByVal reqId As Long, ByVal tickType As Long, ByVal time As String, ByVal price As Double, ByVal Size As Variant, ByVal tickAttribLast As TWSLib.ITickAttribLast, ByVal Exchange As String, ByVal specialConditions As String)
     On Error Resume Next
-    TickByTick.TickByTickAllLast reqId, tickType, time, price, Util.StringToDecimal(Size), tickAttribLast, Exchange, specialConditions
+    TickByTick.TickByTickAllLast reqId, tickType, time, price, Size, tickAttribLast, Exchange, specialConditions
 End Sub
 
 '-----------------------------
 ' tick-by-tick bid ask
 '-----------------------------
-Private Sub m_Tws_tickByTickBidAsk(ByVal reqId As Long, ByVal time As String, ByVal bidPrice As Double, ByVal askPrice As Double, ByVal bidSize As String, ByVal askSize As String, ByVal tickAttribBidAsk As TWSLib.ITickAttribBidAsk)
+Private Sub m_Tws_tickByTickBidAsk(ByVal reqId As Long, ByVal time As String, ByVal bidPrice As Double, ByVal askPrice As Double, ByVal bidSize As Variant, ByVal askSize As Variant, ByVal tickAttribBidAsk As TWSLib.ITickAttribBidAsk)
     On Error Resume Next
-    TickByTick.TickByTickBidAsk reqId, time, bidPrice, askPrice, Util.StringToDecimal(bidSize), Util.StringToDecimal(askSize), tickAttribBidAsk
+    TickByTick.TickByTickBidAsk reqId, time, bidPrice, askPrice, bidSize, askSize, tickAttribBidAsk
 End Sub
 
 '-----------------------------

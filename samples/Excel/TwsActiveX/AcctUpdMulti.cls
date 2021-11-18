@@ -136,7 +136,7 @@ Public Sub UpdatePnL(ByVal reqId As Long, ByVal dailyPnL As Double, ByVal unreal
     
 End Sub
 
-Public Sub UpdatePnLSingle(ByVal reqId As Long, ByVal pos As String, ByVal dailyPnL As Double, ByVal unrealizedPNL As Double, ByVal realizedPNL As Double, ByVal value As Double)
+Public Sub UpdatePnLSingle(ByVal reqId As Long, ByVal pos As Variant, ByVal dailyPnL As Double, ByVal unrealizedPNL As Double, ByVal realizedPNL As Double, ByVal value As Double)
     Dim rowId As Long
     
     rowId = Util.GetSheetRowId(ActiveSheet)
@@ -146,7 +146,7 @@ Public Sub UpdatePnLSingle(ByVal reqId As Long, ByVal pos As String, ByVal daily
     pnlTable(rowId, Col_DAILY_PNL).value = dailyPnL
     pnlTable(rowId, Col_UNREALIZED_PNL).value = unrealizedPNL
     pnlTable(rowId, Col_REALIZED_PNL).value = realizedPNL
-    pnlTable(rowId, Col_POS).value = pos
+    pnlTable(rowId, Col_POS).value = Util.DecimalToString(pos)
     pnlTable(rowId, Col_VALUE).value = value
 End Sub
 

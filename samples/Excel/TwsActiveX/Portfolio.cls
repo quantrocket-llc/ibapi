@@ -107,7 +107,7 @@ End Function
 '=================
 
 ' update portfolio
-Public Sub UpdatePortfolio(contract As TWSLib.IContract, position As String, marketPrice As Double, marketValue As Double, averageCost As Double, unrealizedPNL As Double, realizedPNL As Double, accountName As String)
+Public Sub UpdatePortfolio(contract As TWSLib.IContract, position As Variant, marketPrice As Double, marketValue As Double, averageCost As Double, unrealizedPNL As Double, realizedPNL As Double, accountName As String)
     Dim id As Long
     id = FindRowByConId(contract.conId)
     
@@ -129,7 +129,7 @@ Public Sub UpdatePortfolio(contract As TWSLib.IContract, position As String, mar
         contractTable(id, Col_MULTIPLIER).value = .multiplier
     End With
      
-    portfolioTable(id, Col_PORTF_POS).value = position
+    portfolioTable(id, Col_PORTF_POS).value = Util.DecimalToString(position)
     portfolioTable(id, Col_PORTF_MKTPRICE).value = marketPrice
     portfolioTable(id, Col_PORTF_MKTVAL).value = marketValue
     portfolioTable(id, Col_PORTF_AVGCOST).value = averageCost

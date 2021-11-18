@@ -78,7 +78,7 @@ End Function
 ' public methods
 '=================
 ' position multi
-Public Sub PositionMulti(ByVal requestId As Long, ByVal Account As String, ByVal modelCode As String, ByVal contract As TWSLib.IContract, ByVal position As String, ByVal avgCost As Double)
+Public Sub PositionMulti(ByVal requestId As Long, ByVal Account As String, ByVal modelCode As String, ByVal contract As TWSLib.IContract, ByVal position As Variant, ByVal avgCost As Double)
     Dim rowId As Long
     Dim conId As String
     conId = CStr(contract.conId)
@@ -87,7 +87,7 @@ Public Sub PositionMulti(ByVal requestId As Long, ByVal Account As String, ByVal
     dataTable(rowId, Col_POSITIONS_CONID).value = conId
     dataTable(rowId, Col_ACCOUNT).value = Account
     dataTable(rowId, Col_MODELCODE).value = modelCode
-    dataTable(rowId, Col_POSITIONS_POSITION).value = position
+    dataTable(rowId, Col_POSITIONS_POSITION).value = Util.DecimalToString(position)
     dataTable(rowId, Col_POSITIONS_AVGCOST).value = avgCost
 End Sub
 

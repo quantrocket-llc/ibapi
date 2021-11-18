@@ -2,7 +2,9 @@
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace IBApi
@@ -126,6 +128,11 @@ namespace IBApi
         public static decimal StringToDecimal(string str)
         {
             return !string.IsNullOrEmpty(str) && !str.Equals("9223372036854775807") && !str.Equals("2147483647") && !str.Equals("1.7976931348623157E308") ? Decimal.Parse(str) : decimal.MaxValue;
+        }
+
+        public static decimal GetDecimal(object value)
+        {
+            return Convert.ToDecimal(((IEnumerable)value).Cast<object>().ToArray()[0]);
         }
 
     }

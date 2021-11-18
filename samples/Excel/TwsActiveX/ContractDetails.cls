@@ -127,9 +127,9 @@ Public Sub UpdateContractDetails(ByVal reqId As Long, ByVal ContractDetails As T
         .Cells(32).value = ContractDetails.marketRuleIds
         .Cells(33).value = ContractDetails.realExpirationDate
         .Cells(34).value = ContractDetails.stockType
-        .Cells(35).value = ContractDetails.minSize
-        .Cells(36).value = ContractDetails.sizeIncrement
-        .Cells(37).value = ContractDetails.suggestedSizeIncrement
+        .Cells(35).value = Util.DecimalToString(ContractDetails.minSize)
+        .Cells(36).value = Util.DecimalToString(ContractDetails.sizeIncrement)
+        .Cells(37).value = Util.DecimalToString(ContractDetails.suggestedSizeIncrement)
     End With
     
     IncrementSheetRowId sheet

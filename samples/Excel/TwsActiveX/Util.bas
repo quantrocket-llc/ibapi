@@ -552,3 +552,13 @@ Public Function DecimalToString(value As Variant) As String
         DecimalToString = ""
     End If
 End Function
+
+Public Function SetVariantDecimal(value As String) As Object
+    If value = "" Then
+        value = "0"
+    End If
+    Dim collection As New collection
+    collection.Add CDec(value)
+    Set SetVariantDecimal = collection
+End Function
+

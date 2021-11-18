@@ -362,7 +362,7 @@ Public Sub UpdateHistoricalTicksLast(ByVal reqId As Long, ByVal ticks As TWSLib.
         With sheet.Rows(rowId)
             .Cells(1).value = histTickLast.time
             .Cells(2).value = histTickLast.price
-            .Cells(3).value = histTickLast.Size
+            .Cells(3).value = Util.DecimalToString(histTickLast.Size)
             .Cells(4).value = histTickLast.Exchange
             .Cells(5).value = histTickLast.specialConditions
             .Cells(6).value = GenerateTickAttribLastString(histTickLast.tickAttribLast)
@@ -401,8 +401,8 @@ Public Sub UpdateHistoricalTicksBidAsk(ByVal reqId As Long, ByVal ticks As TWSLi
             .Cells(1).value = histTickBidAsk.time
             .Cells(2).value = histTickBidAsk.priceBid
             .Cells(3).value = histTickBidAsk.priceAsk
-            .Cells(4).value = histTickBidAsk.sizeBid
-            .Cells(5).value = histTickBidAsk.sizeAsk
+            .Cells(4).value = Util.DecimalToString(histTickBidAsk.sizeBid)
+            .Cells(5).value = Util.DecimalToString(histTickBidAsk.sizeAsk)
             .Cells(6).value = GenerateTickAttribBidAskString(histTickBidAsk.tickAttribBidAsk)
         End With
         IncrementSheetRowId sheet
@@ -439,7 +439,7 @@ Public Sub UpdateHistoricalTicks(ByVal reqId As Long, ByVal ticks As TWSLib.IHis
         With sheet.Rows(rowId)
             .Cells(1).value = histTick.time
             .Cells(2).value = histTick.price
-            .Cells(3).value = histTick.Size
+            .Cells(3).value = Util.DecimalToString(histTick.Size)
         End With
         IncrementSheetRowId sheet
     Next i
