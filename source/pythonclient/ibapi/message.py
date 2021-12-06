@@ -97,6 +97,7 @@ class IN:
     REPLACE_FA_END            = 103
     WSH_META_DATA             = 104
     WSH_EVENT_DATA            = 105
+    HISTORICAL_SCHEDULE       = 106
 
 # outgoing msg id's
 class OUT:

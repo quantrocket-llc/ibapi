@@ -57,7 +57,7 @@ public class Testbed {
 		//fundamentals(wrapper.getClient());
 		//marketScanners(wrapper.getClient());
 		//marketDataType(wrapper.getClient());
-		//historicalDataRequests(wrapper.getClient());
+		historicalDataRequests(wrapper.getClient());
 		//accountOperations(wrapper.getClient());
 		//newsOperations(wrapper.getClient());
 		//marketDepthOperations(wrapper.getClient());
@@ -70,7 +70,7 @@ public class Testbed {
 		//histogram(wrapper.getClient());
 		//whatIfSamples(wrapper.getClient(), wrapper.getCurrentOrderId());
 		//historicalTicks(wrapper.getClient());
-		financialAdvisorOperations(wrapper.getClient());
+		//financialAdvisorOperations(wrapper.getClient());
 		//realTimeBars(wrapper.getClient());
 
 		Thread.sleep(100000);
@@ -345,13 +345,15 @@ public class Testbed {
 		String formatted = form.format(cal.getTime());
 		client.reqHistoricalData(4001, ContractSamples.EurGbpFx(), formatted, "1 M", "1 day", "MIDPOINT", 1, 1, false, null);
 		client.reqHistoricalData(4002, ContractSamples.EuropeanStock(), formatted, "10 D", "1 min", "TRADES", 1, 1, false, null);
+        client.reqHistoricalData(4003, ContractSamples.USStockAtSmart(), formatted, "1 M", "1 day", "SCHEDULE", 1, 1, false, null);
 		Thread.sleep(2000);
 		/*** Canceling historical data requests ***/
 		client.cancelHistoricalData(4001);
         client.cancelHistoricalData(4002);
+        client.cancelHistoricalData(4003);
 		//! [reqhistoricaldata]
-		return;
-		//! [reqHistogramData]
+
+        //! [reqHistogramData]
 		/*client.reqHistogramData(4004, ContractSamples.USStock(), false, "3 days");
         //! [reqHistogramData]
 		Thread.sleep(5);

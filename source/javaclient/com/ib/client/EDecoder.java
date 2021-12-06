@@ -100,6 +100,7 @@ class EDecoder implements ObjectInput {
     private static final int REPLACE_FA_END = 103;
     private static final int WSH_META_DATA = 104;
     private static final int WSH_EVENT_DATA = 105;
+    private static final int HISTORICAL_SCHEDULE = 106;
 
     static final int MAX_MSG_LENGTH = 0xffffff;
     private static final int REDIRECT_MSG_ID = -1;
@@ -491,7 +492,11 @@ class EDecoder implements ObjectInput {
             case WSH_EVENT_DATA:
             	processWshEventData();
             	break;
-                
+
+            case HISTORICAL_SCHEDULE:
+                processHistoricalSchedule();
+                break;
+
             default: {
                 m_EWrapper.error( EClientErrors.NO_VALID_ID, EClientErrors.UNKNOWN_ID.code(), EClientErrors.UNKNOWN_ID.msg());
                 return 0;
@@ -2007,6 +2012,24 @@ class EDecoder implements ObjectInput {
     	String dataJson = readStr();
     	
     	m_EWrapper.wshEventData(reqId, dataJson);
+    }
+
+    private void processHistoricalSchedule() throws IOException {
+        int reqId = readInt();
+        String startDateTime = readStr();
+        String endDateTime = readStr();
+        String timeZone = readStr();
+
+        int sessionsCount = readInt();
+        List<HistoricalSession> sessions = new ArrayList<>();
+        for (int i = 0; i < sessionsCount; i++) {
+            String sessionStartDateTime = readStr();
+            String sessionEndDateTime = readStr();
+            String sessionRefDate = readStr();
+            sessions.add(new HistoricalSession(sessionStartDateTime, sessionEndDateTime, sessionRefDate));
+        }
+
+        m_EWrapper.historicalSchedule(reqId, startDateTime, endDateTime, timeZone, sessions);
     }
     
     private void readLastTradeDate(ContractDetails contract, boolean isBond) throws IOException {

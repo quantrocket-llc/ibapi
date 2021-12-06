@@ -530,6 +530,14 @@ void EClient::reqHistoricalData(TickerId tickerId, const Contract& contract,
         }
     }
 
+    if (m_serverVersion < MIN_SERVER_VER_HISTORICAL_SCHEDULE) {
+        if (!whatToShow.empty() && !whatToShow.compare("SCHEDULE")) {
+            m_pEWrapper->error(tickerId, UPDATE_TWS.code(), UPDATE_TWS.msg() +
+                "  It does not support requesting of historical schedule.");
+            return;
+        }
+    }
+
     std::stringstream msg;
     prepareBuffer(msg);
 

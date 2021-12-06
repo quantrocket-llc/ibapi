@@ -1772,6 +1772,12 @@ namespace IBApi
                     return;
             }
 
+            if (!IsEmpty(whatToShow) && whatToShow.Equals("SCHEDULE"))
+            {
+                if (!CheckServerVersion(tickerId, MinServerVer.HISTORICAL_SCHEDULE, " It does not support requesting of historical schedule."))
+                    return;
+            }
+
             const int VERSION = 6;
             var paramsList = new BinaryWriter(new MemoryStream());
             var lengthPos = prepareBuffer(paramsList);

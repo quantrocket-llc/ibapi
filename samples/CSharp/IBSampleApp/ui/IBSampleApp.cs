@@ -243,6 +243,7 @@ namespace IBSampleApp
             ibClient.CompletedOrder += orderManager.handleCompletedOrder;
             ibClient.WshMetaData += (reqId, dataJson) => wshMetaDataTable.Rows.Add(reqId, dataJson);
             ibClient.WshEventData += (reqId, dataJson) => wshEventDataTable.Rows.Add(reqId, dataJson);
+            ibClient.HistoricalSchedule += UpdateUI;
             //ibClient.CompletedOrderEnd += (do nothing)
         }
 
@@ -308,6 +309,12 @@ namespace IBSampleApp
         {
             if (histogramSubscriptionList.Contains(obj.ReqId))
                 obj.Data.ToList().ForEach(i => histogramDataGridView.Rows.Add(new object[] { obj.ReqId, i.Price, Util.DecimalMaxString(i.Size) }));
+        }
+
+        private void UpdateUI(HistoricalScheduleMessage obj)
+        {
+            historicalScheduleOutput.Text = $"Start: {obj.StartDateTime}, End: {obj.EndDateTime}, Time Zone: {obj.TimeZone}";
+            obj.Sessions.ToList().ForEach(i => historicalScheduleGrid.Rows.Add(new object[] { i.StartDateTime, i.EndDateTime, i.RefDate }));
         }
 
         void ibClient_Tick(TickSizeMessage msg)
@@ -1390,6 +1397,27 @@ namespace IBSampleApp
         private void buttonCancelWshEventData_Click(object sender, EventArgs e)
         {
             wshMgr.CancelEventData();
+        }
+
+        private void linkLabelClearHistoricalSchedule_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            labelHistoricalSchedule.Text = "Historical Schedule";
+            historicalScheduleOutput.Clear();
+            historicalScheduleGrid.Rows.Clear();
+        }
+
+        private void histScheduleButton_Click(object sender, EventArgs e)
+        {
+            if (IsConnected)
+            {
+                Contract contract = GetMDContract();
+                string endTime = hdRequest_EndTime.Text.Trim();
+                string duration = hdRequest_Duration.Text.Trim() + " " + hdRequest_TimeUnit.Text.Trim();
+                int outsideRTH = contractMDRTH.Checked ? 1 : 0;
+                historicalDataManager.AddRequest(contract, endTime, duration, "1 day", "SCHEDULE", outsideRTH, 1, false);
+                labelHistoricalSchedule.Text = $"Historical Schedule: {Utils.ContractToString(contract)}";
+                ShowTab(marketData_MDT, tabHistoricalSchedule);
+            }
         }
 
         WshManager wshMgr;

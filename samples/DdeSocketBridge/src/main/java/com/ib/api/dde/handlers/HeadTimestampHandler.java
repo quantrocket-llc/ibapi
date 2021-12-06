@@ -23,7 +23,7 @@ import com.ib.client.EClientSocket;
 
 /** Class handles head timestamp related requests, data and messages */
 public class HeadTimestampHandler extends BaseHandler {
-    // parserSystem.out.println
+    // parser
     private HeadTimestampRequestParser m_requestParser = new HeadTimestampRequestParser();
 
     // head timestamp requests

@@ -20,9 +20,11 @@ import java.util.Set;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.table.AbstractTableModel;
@@ -40,6 +42,7 @@ import com.ib.controller.ApiController.IDeepMktDataHandler;
 import com.ib.controller.ApiController.IHeadTimestampHandler;
 import com.ib.controller.ApiController.IHistogramDataHandler;
 import com.ib.controller.ApiController.IHistoricalDataHandler;
+import com.ib.controller.ApiController.IHistoricalScheduleHandler;
 import com.ib.controller.ApiController.IRealTimeBarHandler;
 import com.ib.controller.ApiController.IScannerHandler;
 import com.ib.controller.ApiController.ISecDefOptParamsReqHandler;
@@ -720,7 +723,13 @@ class MarketDataPanel extends JPanel {
                     onHistoricalTick();
                 }
 			};
-			
+
+            HtmlButton bReqHistoricalSchedule = new HtmlButton("Request historical schedule") {
+                @Override protected void actionPerformed() {
+                    onHistoricalSchedule();
+                }
+            };
+
 	    	VerticalPanel paramPanel = new VerticalPanel();
 	    	paramPanel.add("Begin", m_begin);
 			paramPanel.add("End", m_end);
@@ -737,6 +746,7 @@ class MarketDataPanel extends JPanel {
 			butPanel.add(bReqHistoricalData);
 			butPanel.add(bReqHistogramData);
 			butPanel.add(bReqHistoricalTick);
+			butPanel.add(bReqHistoricalSchedule);
 			
 			JPanel rightPanel = new StackPanel();
 			rightPanel.add(paramPanel);
@@ -748,7 +758,15 @@ class MarketDataPanel extends JPanel {
 			add(Box.createHorizontalStrut(20) );
 			add(rightPanel);
 		}
-	
+
+        protected void onHistoricalSchedule() {
+            m_contractPanel.onOK();
+            HistoricalScheduleResultsPanel panel = new HistoricalScheduleResultsPanel();
+            ApiDemo.INSTANCE.controller().reqHistoricalSchedule(m_contract, m_end.getText(), m_duration.getInt(), 
+                    m_durationUnit.getSelectedItem(), m_rthOnly.isSelected(), panel);
+            m_resultsPanel.addTab("Historical schedule " + m_contract.symbol(), panel, true, true);
+        }
+		
 		protected void onHistoricalTick() {
 		    m_contractPanel.onOK();
 		    
@@ -907,6 +925,80 @@ class MarketDataPanel extends JPanel {
 		}
 
 	}
+
+    class HistoricalScheduleResultsPanel extends NewTabPanel implements IHistoricalScheduleHandler {
+        final HistoricalSessionModel m_model = new HistoricalSessionModel();
+        final List<HistoricalSession> m_rows = new ArrayList<>();
+        JLabel m_label = new JLabel();
+        JTextArea m_text = new JTextArea();
+
+        HistoricalScheduleResultsPanel() {
+            JTable m_tab = new JTable( m_model);
+            JScrollPane m_scroll = new JScrollPane( m_tab) {
+                public Dimension getPreferredSize() {
+                    Dimension d = super.getPreferredSize();
+                    d.width = 200;
+                    return d;
+                }
+            };
+            setLayout( new BorderLayout() );
+            add( m_text, BorderLayout.NORTH);
+            add( m_scroll, BorderLayout.CENTER);
+        }
+
+        @Override public void historicalSchedule(int reqId, String startDateTime, String endDateTime, String timeZone, List<HistoricalSession> sessions) {
+            // set label
+            m_label.setText("Historical schedule");
+
+            // set text
+            m_text.setText("Start: " + startDateTime + " End: " + endDateTime + " TimeZone: " + timeZone);
+
+            for (HistoricalSession session: sessions) {
+                m_rows.add(session);		
+                SwingUtilities.invokeLater(() -> {
+                    m_model.fireTableRowsInserted(0, m_rows.size() - 1);
+                });
+            }
+        }
+
+        /** Called when the tab is first visited. */
+        @Override public void activated() { /* not supported */ }
+
+        /** Called when the tab is closed by clicking the X. */
+        @Override public void closed() {
+             ApiDemo.INSTANCE.controller().cancelHistoricalSchedule(this);
+        }
+
+        class HistoricalSessionModel extends AbstractTableModel {
+            @Override public int getRowCount() {
+                return m_rows.size();
+            }
+
+            @Override public int getColumnCount() {
+                return 3;
+            }
+
+            @Override public String getColumnName(int col) {
+                switch( col) {
+                    case 0: return "Start";
+                    case 1: return "End";
+                    case 2: return "Ref Date";
+                    default: return null;
+                }
+            }
+
+            @Override public Object getValueAt(int rowIn, int col) {
+                HistoricalSession row = m_rows.get( rowIn);
+
+                switch( col) {
+                    case 0: return row.startDateTime();
+                    case 1: return row.endDateTime();
+                    case 2: return row.refDate();
+                    default: return null;
+                }
+            }
+        }
+    }
 
 	static class HistogramResultsPanel extends NewTabPanel implements IHistogramDataHandler {
 		final HistogramModel m_model = new HistogramModel();

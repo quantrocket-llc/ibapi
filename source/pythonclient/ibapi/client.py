@@ -2472,6 +2472,12 @@ class EClient(object):
                     UPDATE_TWS.msg() + "  It does not support conId and tradingClass parameters in reqHistoricalData.")
                 return
 
+        if self.serverVersion() < MIN_SERVER_VER_HISTORICAL_SCHEDULE:
+            if whatToShow == "SCHEDULE":
+                self.wrapper.error(reqId, UPDATE_TWS.code(),
+                    UPDATE_TWS.msg() + "  It does not support requesting of historical schedule.")
+                return
+
         try:
                 
             VERSION = 6

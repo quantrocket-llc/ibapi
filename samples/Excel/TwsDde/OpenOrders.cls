@@ -37,7 +37,7 @@ Const OPEN_ORDERS_TABLE_RANGE = "A" & OPEN_ORDERS_START_ROW & ":DZ" & OPEN_ORDER
 ' Subscribes to open orders when button is pressed
 ' ========================================================
 Sub subscribeOpenOrders()
-    If CStr(Worksheets(STR_SHEET_NAME).range(CELL_SUBSCRIPTION_CONTROL).value) = util.STR_EMPTY Then ' only if not subscribed
+    If CStr(Worksheets(STR_SHEET_NAME).Range(CELL_SUBSCRIPTION_CONTROL).value) = util.STR_EMPTY Then ' only if not subscribed
         requestOpenOrders
     End If
 End Sub
@@ -46,7 +46,7 @@ End Sub
 ' Re-subscribes to open orders when workbook is opened
 ' ========================================================
 Sub resubscribeOpenOrders()
-    If CStr(Worksheets(STR_SHEET_NAME).range(CELL_SUBSCRIPTION_CONTROL).value) = util.STR_CANCELLED Then ' re-subscribe only if cancelled
+    If CStr(Worksheets(STR_SHEET_NAME).Range(CELL_SUBSCRIPTION_CONTROL).value) = util.STR_CANCELLED Then ' re-subscribe only if cancelled
         requestOpenOrders
     End If
 End Sub
@@ -69,10 +69,10 @@ Sub requestOpenOrders()
     End If
     
     With Worksheets(STR_SHEET_NAME)
-        .range(CELL_SUBSCRIPTION_CONTROL).Formula = util.composeLink(server, request, util.IDENTIFIER_ZERO, STR_OPEN_ORDERS) ' subscription control
+        .Range(CELL_SUBSCRIPTION_CONTROL).Formula = util.composeLink(server, request, util.IDENTIFIER_ZERO, STR_OPEN_ORDERS) ' subscription control
             
-        If util.cleanOnError(.range(CELL_SUBSCRIPTION_CONTROL)) Then
-            .range(CELL_SUBSCRIPTION_CONTROL).value = util.STR_EMPTY
+        If util.cleanOnError(.Range(CELL_SUBSCRIPTION_CONTROL)) Then
+            .Range(CELL_SUBSCRIPTION_CONTROL).value = util.STR_EMPTY
             Exit Sub
         End If
     End With
@@ -84,7 +84,7 @@ End Sub
 ' ========================================================
 Sub clearOpenOrdersTable()
     ' clear open orders table
-    Worksheets(STR_SHEET_NAME).range(OPEN_ORDERS_TABLE_RANGE).ClearContents
+    Worksheets(STR_SHEET_NAME).Range(OPEN_ORDERS_TABLE_RANGE).ClearContents
 End Sub
 
 ' ========================================================
@@ -128,12 +128,12 @@ End Sub
 ' ========================================================
 Sub cancelOpenOrders(controlValue As String)
     With Worksheets(STR_SHEET_NAME)
-        If .range(CELL_SUBSCRIPTION_CONTROL).value = util.STR_SUBSCRIBED Then
+        If .Range(CELL_SUBSCRIPTION_CONTROL).value = util.STR_SUBSCRIBED Then
             Dim server As String
             server = util.getServerVal(STR_SHEET_NAME, CELL_SERVER_NAME)
             If server = util.STR_EMPTY Then Exit Sub
             
-            .range(CELL_SUBSCRIPTION_CONTROL).Formula = controlValue ' subscription control
+            .Range(CELL_SUBSCRIPTION_CONTROL).Formula = controlValue ' subscription control
             util.sendRequest server, STR_CANCEL_OPEN_ORDERS, util.IDENTIFIER_ZERO
         End If
     End With
@@ -146,7 +146,7 @@ End Sub
 Private Sub Worksheet_Calculate()
     If Not util.sheetExists(STR_SHEET_NAME) Then Exit Sub
     With Worksheets(STR_SHEET_NAME)
-        If CStr(.range(CELL_SUBSCRIPTION_CONTROL).value) = util.STR_RECEIVED Then
+        If CStr(.Range(CELL_SUBSCRIPTION_CONTROL).value) = util.STR_RECEIVED Then
             Dim server As String, id As String
             Dim openOrdersArray() As Variant
             server = util.getServerVal(STR_SHEET_NAME, CELL_SERVER_NAME)
@@ -199,7 +199,7 @@ Private Function findOpenOrderRow(permId As String) As Integer
     Dim row As Integer, i As Integer
     Dim arr1 As Variant
     With Worksheets(STR_SHEET_NAME)
-        arr1 = .range(.Cells(OPEN_ORDERS_START_ROW, COLUMN_PERM_ID), .Cells(OPEN_ORDERS_END_ROW, COLUMN_PERM_ID)).value
+        arr1 = .Range(.Cells(OPEN_ORDERS_START_ROW, COLUMN_PERM_ID), .Cells(OPEN_ORDERS_END_ROW, COLUMN_PERM_ID)).value
         
         For i = 1 To OPEN_ORDERS_END_ROW - OPEN_ORDERS_START_ROW + 1
             If CStr(arr1(i, 1)) = util.STR_EMPTY Or CStr(arr1(i, 1)) = permId Then

@@ -76,6 +76,7 @@ public class ApiController implements EWrapper {
     private final Map<Integer, ITickByTickDataHandler> m_tickByTickDataMap = new HashMap<>();
     private final Map<Integer, IWshMetaDataHandler> m_wshMetaDataMap = new HashMap<>();
     private final Map<Integer, IWshEventDataHandler> m_wshEventDataMap = new HashMap<>();
+    private final Map<Integer, IHistoricalScheduleHandler> m_historicalScheduleMap = new HashMap<>();
 	private boolean m_connected = false;
 
 	public ApiConnection client() { return m_client; }
@@ -2034,5 +2035,44 @@ public class ApiController implements EWrapper {
         }
 
         recEOM();       
+    }
+
+    // ---------------------------------------- Historical Schedule ----------------------------------------
+    public interface IHistoricalScheduleHandler {
+        void historicalSchedule(int reqId, String startDateTime, String endDateTime, String timeZone, List<HistoricalSession> sessions);
+    }
+
+    public void reqHistoricalSchedule(Contract contract, String endDateTime, int duration, DurationUnit durationUnit, boolean rthOnly, IHistoricalScheduleHandler handler) {
+        if (!checkConnection())
+            return;
+
+        int reqId = m_reqId++;
+        m_historicalScheduleMap.put(reqId, handler);
+            String durationStr = duration + " " + durationUnit.toString().charAt( 0);
+        m_client.reqHistoricalData(reqId, contract, endDateTime, durationStr, BarSize._1_day.toString(), WhatToShow.SCHEDULE.name(), rthOnly ? 1 : 0, 2, false, Collections.emptyList());
+
+        sendEOM();
+    }
+
+    public void cancelHistoricalSchedule(IHistoricalScheduleHandler handler) {
+        if (!checkConnection())
+            return;
+
+        Integer reqId = getAndRemoveKey(m_historicalScheduleMap, handler);
+        if (reqId != null) {
+            m_client.cancelHistoricalData(reqId);
+
+            sendEOM();
+        }
+    }
+
+    @Override public void historicalSchedule(int reqId, String startDateTime, String endDateTime, String timeZone, List<HistoricalSession> sessions) {
+        IHistoricalScheduleHandler handler = m_historicalScheduleMap.get(reqId);
+
+        if (handler != null) {
+            handler.historicalSchedule(reqId, startDateTime, endDateTime, timeZone, sessions);
+        }
+
+        recEOM();
     }
 }

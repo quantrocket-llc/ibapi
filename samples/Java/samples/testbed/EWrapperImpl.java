@@ -712,4 +712,11 @@ public class EWrapperImpl implements EWrapper {
         System.out.println(EWrapperMsgGenerator.wshEventData(reqId, dataJson));
 	}
     //! [wshEventData]
+
+    //! [historicalSchedule]
+    @Override
+    public void historicalSchedule(int reqId, String startDateTime, String endDateTime, String timeZone, List<HistoricalSession> sessions) {
+        System.out.println(EWrapperMsgGenerator.historicalSchedule(reqId, startDateTime, endDateTime, timeZone, sessions));
+    }
+    //! [historicalSchedule]
 }

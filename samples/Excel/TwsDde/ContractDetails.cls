@@ -164,14 +164,14 @@ Private Sub Worksheet_Calculate()
     With Worksheets(STR_SHEET_NAME)
     
         ' market rule error
-        If CStr(.range(CELL_MARKET_RULE_CONTROL).value) = util.STR_ERROR_UPPER And CStr(.range(CELL_MARKET_RULE_ERROR).value) = util.STR_EMPTY Then
+        If CStr(.Range(CELL_MARKET_RULE_CONTROL).value) = util.STR_ERROR_UPPER And CStr(.Range(CELL_MARKET_RULE_ERROR).value) = util.STR_EMPTY Then
             server = util.getServerVal(STR_SHEET_NAME, CELL_SERVER_NAME)
             If server = util.STR_EMPTY Then Exit Sub
-            .range(CELL_MARKET_RULE_ERROR).Formula = util.composeLink(server, STR_REQ_MARKET_RULE_ERROR, util.IDENTIFIER_ZERO, util.STR_EMPTY)
+            .Range(CELL_MARKET_RULE_ERROR).Formula = util.composeLink(server, STR_REQ_MARKET_RULE_ERROR, util.IDENTIFIER_ZERO, util.STR_EMPTY)
         End If
     
         ' market rule
-        If CStr(.range(CELL_MARKET_RULE_CONTROL).value) = util.STR_RECEIVED Then
+        If CStr(.Range(CELL_MARKET_RULE_CONTROL).value) = util.STR_RECEIVED Then
             Dim priceIncrementArray() As Variant
             server = util.getServerVal(STR_SHEET_NAME, CELL_SERVER_NAME)
             If server = util.STR_EMPTY Then Exit Sub
@@ -245,7 +245,7 @@ End Sub
 ' Requests market rule when button is pressed
 ' ========================================================
 Sub requestMarketRule()
-    If CStr(Worksheets(STR_SHEET_NAME).range(CELL_MARKET_RULE_CONTROL).value) = util.STR_EMPTY Then ' only if not subscribed
+    If CStr(Worksheets(STR_SHEET_NAME).Range(CELL_MARKET_RULE_CONTROL).value) = util.STR_EMPTY Then ' only if not subscribed
         With Worksheets(STR_SHEET_NAME)
             clearMarketRuleTable
     
@@ -253,10 +253,10 @@ Sub requestMarketRule()
             server = util.getServerVal(STR_SHEET_NAME, CELL_SERVER_NAME)
             If server = util.STR_EMPTY Then Exit Sub
             Dim marketRuleId As Integer
-            marketRuleId = .range(CELL_MARKET_RULE_ID).value
+            marketRuleId = .Range(CELL_MARKET_RULE_ID).value
     
-            .range(CELL_MARKET_RULE_CONTROL).Formula = util.composeLink(server, STR_REQ_MARKET_RULE, util.IDENTIFIER_ZERO, marketRuleId) ' subscription control
-            If util.cleanOnError(.range(CELL_MARKET_RULE_CONTROL)) Then
+            .Range(CELL_MARKET_RULE_CONTROL).Formula = util.composeLink(server, STR_REQ_MARKET_RULE, util.IDENTIFIER_ZERO, marketRuleId) ' subscription control
+            If util.cleanOnError(.Range(CELL_MARKET_RULE_CONTROL)) Then
                 Exit Sub
             End If
         End With
@@ -270,9 +270,9 @@ End Sub
 Sub clearMarketRuleTable()
     ' clear market rule table
     With Worksheets(STR_SHEET_NAME)
-        .range(PRICE_INCREMENT_TABLE_RANGE).ClearContents
-        .range(CELL_MARKET_RULE_CONTROL).ClearContents
-        .range(CELL_MARKET_RULE_ERROR).ClearContents
+        .Range(PRICE_INCREMENT_TABLE_RANGE).ClearContents
+        .Range(CELL_MARKET_RULE_CONTROL).ClearContents
+        .Range(CELL_MARKET_RULE_ERROR).ClearContents
     End With
 End Sub
 

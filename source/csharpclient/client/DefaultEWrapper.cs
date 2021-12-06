@@ -374,5 +374,9 @@ namespace IBApi
         public void wshEventData(int reqId, string dataJson)
         {
         }
+
+        public void historicalSchedule(int reqId, string startDateTime, string endDateTime, string timeZone, HistoricalSession[] sessions)
+        {
+        }
     }
 }

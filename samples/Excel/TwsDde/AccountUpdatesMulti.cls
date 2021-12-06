@@ -71,12 +71,12 @@ Sub requestFA()
         server = util.getServerVal(STR_SHEET_NAME, CELL_SERVER_NAME)
         If server = util.STR_EMPTY Then Exit Sub
         
-        faDataType = .range(CELL_REQ_FA_TYPE).value
+        faDataType = .Range(CELL_REQ_FA_TYPE).value
 
-        .range(CELL_REQ_FA_CONTROL).Formula = util.composeLink(server, STR_REQ_FA, util.IDENTIFIER_ZERO, faDataType) ' subscription control
-        If util.cleanOnError(.range(CELL_REQ_FA_CONTROL)) Then
-            .range(CELL_REQ_FA_CONTROL).value = util.STR_EMPTY
-            .range(CELL_REQ_FA_ERROR).value = util.STR_EMPTY
+        .Range(CELL_REQ_FA_CONTROL).Formula = util.composeLink(server, STR_REQ_FA, util.IDENTIFIER_ZERO, faDataType) ' subscription control
+        If util.cleanOnError(.Range(CELL_REQ_FA_CONTROL)) Then
+            .Range(CELL_REQ_FA_CONTROL).value = util.STR_EMPTY
+            .Range(CELL_REQ_FA_ERROR).value = util.STR_EMPTY
             Exit Sub
         End If
          
@@ -89,11 +89,11 @@ End Sub
 Sub clearFATable()
     ' clear FA table
     With Worksheets(STR_SHEET_NAME)
-        .range(CELL_REQ_FA_CONTROL).value = util.STR_EMPTY
-        .range(CELL_REQ_FA_ERROR).value = util.STR_EMPTY
-        .range(CELL_REPLACE_FA_CONTROL).value = util.STR_EMPTY
-        .range(CELL_REPLACE_FA_ERROR).value = util.STR_EMPTY
-        .range(FA_TABLE_RANGE).ClearContents
+        .Range(CELL_REQ_FA_CONTROL).value = util.STR_EMPTY
+        .Range(CELL_REQ_FA_ERROR).value = util.STR_EMPTY
+        .Range(CELL_REPLACE_FA_CONTROL).value = util.STR_EMPTY
+        .Range(CELL_REPLACE_FA_ERROR).value = util.STR_EMPTY
+        .Range(FA_TABLE_RANGE).ClearContents
     End With
 End Sub
 
@@ -106,7 +106,7 @@ Sub replaceFA()
         server = util.getServerVal(STR_SHEET_NAME, CELL_SERVER_NAME)
         If server = util.STR_EMPTY Then Exit Sub
         
-        faDataType = .range(CELL_REPLACE_FA_TYPE).value
+        faDataType = .Range(CELL_REPLACE_FA_TYPE).value
 
         ' range to poke
         Dim endRow As Integer
@@ -115,15 +115,15 @@ Sub replaceFA()
         Next endRow
 EndFor:
         
-        Dim rangeToPoke As range
-        Set rangeToPoke = .range(.Cells(FA_START_ROW, COLUMN_FA), .Cells(endRow, COLUMN_FA))
+        Dim rangeToPoke As Range
+        Set rangeToPoke = .Range(.Cells(FA_START_ROW, COLUMN_FA), .Cells(endRow, COLUMN_FA))
         
         
         ' fill status column with formula
-        .range(CELL_REPLACE_FA_CONTROL).Formula = util.composeLink(server, STR_REPLACE_FA, util.IDENTIFIER_ZERO, "") ' subscription control
-        If util.cleanOnError(.range(CELL_REPLACE_FA_CONTROL)) Then
-            .range(CELL_REPLACE_FA_CONTROL).value = util.STR_EMPTY
-            .range(CELL_REPLACE_FA_ERROR).value = util.STR_EMPTY
+        .Range(CELL_REPLACE_FA_CONTROL).Formula = util.composeLink(server, STR_REPLACE_FA, util.IDENTIFIER_ZERO, "") ' subscription control
+        If util.cleanOnError(.Range(CELL_REPLACE_FA_CONTROL)) Then
+            .Range(CELL_REPLACE_FA_CONTROL).value = util.STR_EMPTY
+            .Range(CELL_REPLACE_FA_ERROR).value = util.STR_EMPTY
             Exit Sub
         End If
     
@@ -142,7 +142,7 @@ Sub requestManagedAccounts()
         server = util.getServerVal(STR_SHEET_NAME, CELL_SERVER_NAME)
         If server = util.STR_EMPTY Then Exit Sub
 
-        .range(CELL_MANAGED_ACCOUNTS).Formula = util.composeLink(server, STR_REQ_MANAGED_ACCOUNTS, util.IDENTIFIER_ZERO, util.STR_EMPTY) ' subscription control
+        .Range(CELL_MANAGED_ACCOUNTS).Formula = util.composeLink(server, STR_REQ_MANAGED_ACCOUNTS, util.IDENTIFIER_ZERO, util.STR_EMPTY) ' subscription control
     End With
 End Sub
 
@@ -150,7 +150,7 @@ End Sub
 ' Cancel family codes when button is pressed
 ' ========================================================
 Sub cancelFamilyCodes()
-    Worksheets(STR_SHEET_NAME).range(CELL_FAMILY_CODES_REQUEST_CONTROL).value = ""
+    Worksheets(STR_SHEET_NAME).Range(CELL_FAMILY_CODES_REQUEST_CONTROL).value = ""
     clearFamilyCodesTable
 End Sub
 
@@ -159,7 +159,7 @@ End Sub
 ' ========================================================
 Sub requestFamilyCodes()
     With Worksheets(STR_SHEET_NAME)
-        If CStr(.range(CELL_FAMILY_CODES_REQUEST_CONTROL).value) = util.STR_EMPTY Then ' only if not subscribed
+        If CStr(.Range(CELL_FAMILY_CODES_REQUEST_CONTROL).value) = util.STR_EMPTY Then ' only if not subscribed
     
         clearFamilyCodesTable
 
@@ -167,8 +167,8 @@ Sub requestFamilyCodes()
         server = util.getServerVal(STR_SHEET_NAME, CELL_SERVER_NAME)
         If server = util.STR_EMPTY Then Exit Sub
 
-            .range(CELL_FAMILY_CODES_REQUEST_CONTROL).Formula = util.composeLink(server, STR_REQ_FAMILY_CODES, util.IDENTIFIER_ZERO, util.STR_EMPTY) ' subscription control
-            If util.cleanOnError(.range(CELL_FAMILY_CODES_REQUEST_CONTROL)) Then
+            .Range(CELL_FAMILY_CODES_REQUEST_CONTROL).Formula = util.composeLink(server, STR_REQ_FAMILY_CODES, util.IDENTIFIER_ZERO, util.STR_EMPTY) ' subscription control
+            If util.cleanOnError(.Range(CELL_FAMILY_CODES_REQUEST_CONTROL)) Then
                 Exit Sub
             End If
 
@@ -181,7 +181,7 @@ End Sub
 ' Subscribes to account updates multi when button is pressed
 ' ========================================================
 Sub subscribeAccountUpdatesMulti()
-    If CStr(Worksheets(STR_SHEET_NAME).range(CELL_SUBSCRIPTION_CONTROL).value) = util.STR_EMPTY Then ' only if not subscribed
+    If CStr(Worksheets(STR_SHEET_NAME).Range(CELL_SUBSCRIPTION_CONTROL).value) = util.STR_EMPTY Then ' only if not subscribed
         requestAccountUpdatesMulti
     End If
 End Sub
@@ -190,7 +190,7 @@ End Sub
 ' Re-subscribes to account updates multi when workbook is opened
 ' ========================================================
 Sub resubscribeAccountUpdatesMulti()
-    If CStr(Worksheets(STR_SHEET_NAME).range(CELL_SUBSCRIPTION_CONTROL).value) = util.STR_CANCELLED Then ' re-subscribe only if cancelled
+    If CStr(Worksheets(STR_SHEET_NAME).Range(CELL_SUBSCRIPTION_CONTROL).value) = util.STR_CANCELLED Then ' re-subscribe only if cancelled
         requestAccountUpdatesMulti
     End If
 End Sub
@@ -209,18 +209,18 @@ Sub requestAccountUpdatesMulti()
     Dim id As String, account As String, modelCode As String, ledgerAndNLV As String
     id = util.getIDpost(genId, util.ID_REQ_ACCOUNT_UPDATES_MULTI)
     With Worksheets(STR_SHEET_NAME)
-        .range(CELL_ID).value = id
-        account = .range(CELL_ACCOUNT).value
-        modelCode = .range(CELL_MODEL_CODE).value
-        ledgerAndNLV = .range(CELL_LEDGER_AND_NLV).value
+        .Range(CELL_ID).value = id
+        account = .Range(CELL_ACCOUNT).value
+        modelCode = .Range(CELL_MODEL_CODE).value
+        ledgerAndNLV = .Range(CELL_LEDGER_AND_NLV).value
         
-        .range(CELL_SUBSCRIPTION_CONTROL).Formula = util.composeLink(server, STR_REQ_ACCOUNT_UPDATES_MULTI, id, account & util.UNDERSCORE & modelCode & util.UNDERSCORE & ledgerAndNLV) ' subscription control
-        If util.cleanOnError(.range(CELL_SUBSCRIPTION_CONTROL)) Then
-            .range(CELL_ID).value = util.STR_EMPTY
+        .Range(CELL_SUBSCRIPTION_CONTROL).Formula = util.composeLink(server, STR_REQ_ACCOUNT_UPDATES_MULTI, id, account & util.UNDERSCORE & modelCode & util.UNDERSCORE & ledgerAndNLV) ' subscription control
+        If util.cleanOnError(.Range(CELL_SUBSCRIPTION_CONTROL)) Then
+            .Range(CELL_ID).value = util.STR_EMPTY
             Exit Sub
         End If
         
-        .range(CELL_ACCOUNT_UPDATE_TIME).Formula = util.composeLink(server, STR_REQ_ACCOUNT_UPDATE_TIME, util.IDENTIFIER_ZERO, util.STR_EMPTY)
+        .Range(CELL_ACCOUNT_UPDATE_TIME).Formula = util.composeLink(server, STR_REQ_ACCOUNT_UPDATE_TIME, util.IDENTIFIER_ZERO, util.STR_EMPTY)
     End With
 End Sub
 
@@ -229,7 +229,7 @@ End Sub
 ' ========================================================
 Sub clearFamilyCodesTable()
     ' clear family codes table
-    Worksheets(STR_SHEET_NAME).range(FAMILY_CODES_TABLE_RANGE).ClearContents
+    Worksheets(STR_SHEET_NAME).Range(FAMILY_CODES_TABLE_RANGE).ClearContents
 End Sub
 
 ' ========================================================
@@ -237,8 +237,8 @@ End Sub
 ' ========================================================
 Sub clearAccountUpdatesMultiTable()
     ' clear account updates table
-    Worksheets(STR_SHEET_NAME).range(ACCOUNT_UPDATES_TABLE_RANGE).ClearContents
-    Worksheets(STR_SHEET_NAME).range(CELL_ACCOUNT_UPDATE_TIME).value = util.STR_EMPTY
+    Worksheets(STR_SHEET_NAME).Range(ACCOUNT_UPDATES_TABLE_RANGE).ClearContents
+    Worksheets(STR_SHEET_NAME).Range(CELL_ACCOUNT_UPDATE_TIME).value = util.STR_EMPTY
 End Sub
 
 ' ========================================================
@@ -260,11 +260,11 @@ End Sub
 ' ========================================================
 Sub cancelAccountUpdatesMulti(controlValue As String)
     With Worksheets(STR_SHEET_NAME)
-        If .range(CELL_SUBSCRIPTION_CONTROL).value = util.STR_SUBSCRIBED Or .range(CELL_SUBSCRIPTION_CONTROL).value = util.STR_ERROR_UPPER Then
+        If .Range(CELL_SUBSCRIPTION_CONTROL).value = util.STR_SUBSCRIBED Or .Range(CELL_SUBSCRIPTION_CONTROL).value = util.STR_ERROR_UPPER Then
             Dim id As String
-            id = .range(CELL_ID).value
+            id = .Range(CELL_ID).value
     
-            If .range(CELL_SUBSCRIPTION_CONTROL).value = util.STR_SUBSCRIBED Then
+            If .Range(CELL_SUBSCRIPTION_CONTROL).value = util.STR_SUBSCRIBED Then
                 Dim server As String
                 server = util.getServerVal(STR_SHEET_NAME, CELL_SERVER_NAME)
                 If server = util.STR_EMPTY Then Exit Sub
@@ -272,9 +272,9 @@ Sub cancelAccountUpdatesMulti(controlValue As String)
                 util.sendRequest server, STR_CANCEL_ACCOUNT_UPDATES_MULTI, id
             End If
             
-            .range(CELL_SUBSCRIPTION_CONTROL).value = controlValue ' subscription control
-            .range(CELL_ID).value = util.STR_EMPTY
-            .range(CELL_ERROR).value = util.STR_EMPTY
+            .Range(CELL_SUBSCRIPTION_CONTROL).value = controlValue ' subscription control
+            .Range(CELL_ID).value = util.STR_EMPTY
+            .Range(CELL_ERROR).value = util.STR_EMPTY
     
         End If
     End With
@@ -294,7 +294,7 @@ Private Sub Worksheet_Calculate()
     With Worksheets(STR_SHEET_NAME)
     
         ' request FA
-        If CStr(.range(CELL_REQ_FA_CONTROL).value) = util.STR_RECEIVED Then
+        If CStr(.Range(CELL_REQ_FA_CONTROL).value) = util.STR_RECEIVED Then
             server = util.getServerVal(STR_SHEET_NAME, CELL_SERVER_NAME)
             If server = util.STR_EMPTY Then Exit Sub
             
@@ -317,21 +317,21 @@ Private Sub Worksheet_Calculate()
         End If
         
         ' request FA error
-        If CStr(.range(CELL_REQ_FA_CONTROL).value) = util.STR_ERROR_UPPER And CStr(.range(CELL_REQ_FA_ERROR).value) = util.STR_EMPTY Then
+        If CStr(.Range(CELL_REQ_FA_CONTROL).value) = util.STR_ERROR_UPPER And CStr(.Range(CELL_REQ_FA_ERROR).value) = util.STR_EMPTY Then
             server = util.getServerVal(STR_SHEET_NAME, CELL_SERVER_NAME)
             If server = util.STR_EMPTY Then Exit Sub
-            .range(CELL_REQ_FA_ERROR).Formula = util.composeLink(server, STR_REQ_FA_ERROR, util.IDENTIFIER_ZERO, util.STR_EMPTY)
+            .Range(CELL_REQ_FA_ERROR).Formula = util.composeLink(server, STR_REQ_FA_ERROR, util.IDENTIFIER_ZERO, util.STR_EMPTY)
         End If
 
         ' replace FA error
-        If CStr(.range(CELL_REPLACE_FA_CONTROL).value) = util.STR_ERROR_UPPER And CStr(.range(CELL_REPLACE_FA_ERROR).value) = util.STR_EMPTY Then
+        If CStr(.Range(CELL_REPLACE_FA_CONTROL).value) = util.STR_ERROR_UPPER And CStr(.Range(CELL_REPLACE_FA_ERROR).value) = util.STR_EMPTY Then
             server = util.getServerVal(STR_SHEET_NAME, CELL_SERVER_NAME)
             If server = util.STR_EMPTY Then Exit Sub
-            .range(CELL_REPLACE_FA_ERROR).Formula = util.composeLink(server, STR_REPLACE_FA_ERROR, util.IDENTIFIER_ZERO, util.STR_EMPTY)
+            .Range(CELL_REPLACE_FA_ERROR).Formula = util.composeLink(server, STR_REPLACE_FA_ERROR, util.IDENTIFIER_ZERO, util.STR_EMPTY)
         End If
 
         ' managed accounts
-        If CStr(.range(CELL_MANAGED_ACCOUNTS).value) = util.STR_LONGVALUE Then
+        If CStr(.Range(CELL_MANAGED_ACCOUNTS).value) = util.STR_LONGVALUE Then
             ' request long values
             ' some values lengths are longer than 255 symbols, DDE cannot send/receive such values, so we have to split long values into chunks and then merge them
             ' here we request array with splitted long value and then merge and display in cell
@@ -341,11 +341,11 @@ Private Sub Worksheet_Calculate()
             Dim managedAccountsArray() As Variant
             ' send request and receive managed accounts table/array
             managedAccountsArray = util.sendRequest(server, STR_REQ_MANAGED_ACCOUNTS, util.IDENTIFIER_ZERO) ' returned array can be 1-Dimension or 2-Dimension
-            .range(CELL_MANAGED_ACCOUNTS).value = util.createLongValue(managedAccountsArray)
+            .Range(CELL_MANAGED_ACCOUNTS).value = util.createLongValue(managedAccountsArray)
         End If
     
         ' family codes
-        If CStr(.range(CELL_FAMILY_CODES_REQUEST_CONTROL).value) = util.STR_RECEIVED Then
+        If CStr(.Range(CELL_FAMILY_CODES_REQUEST_CONTROL).value) = util.STR_RECEIVED Then
             Dim familyCodesArray() As Variant
             server = util.getServerVal(STR_SHEET_NAME, CELL_SERVER_NAME)
             If server = util.STR_EMPTY Then Exit Sub
@@ -368,25 +368,25 @@ Private Sub Worksheet_Calculate()
         End If
     
         ' account updates error
-        If CStr(.range(CELL_SUBSCRIPTION_CONTROL).value) = util.STR_ERROR_UPPER And CStr(.range(CELL_ERROR).value) = util.STR_EMPTY Then
+        If CStr(.Range(CELL_SUBSCRIPTION_CONTROL).value) = util.STR_ERROR_UPPER And CStr(.Range(CELL_ERROR).value) = util.STR_EMPTY Then
             server = util.getServerVal(STR_SHEET_NAME, CELL_SERVER_NAME)
             If server = util.STR_EMPTY Then Exit Sub
-            id = .range(CELL_ID).value
-            .range(CELL_ERROR).Formula = util.composeLink(server, STR_REQ_ACCOUNT_UPDATES_MULTI_ERROR, id, util.STR_EMPTY)
+            id = .Range(CELL_ID).value
+            .Range(CELL_ERROR).Formula = util.composeLink(server, STR_REQ_ACCOUNT_UPDATES_MULTI_ERROR, id, util.STR_EMPTY)
         End If
         
         ' account updates
-        If CStr(.range(CELL_SUBSCRIPTION_CONTROL).value) = util.STR_RECEIVED Then
+        If CStr(.Range(CELL_SUBSCRIPTION_CONTROL).value) = util.STR_RECEIVED Then
             Dim accountUpdatesMultiArray() As Variant
             server = util.getServerVal(STR_SHEET_NAME, CELL_SERVER_NAME)
             If server = util.STR_EMPTY Then Exit Sub
             
-            id = .range(CELL_ID).value
+            id = .Range(CELL_ID).value
     
             Dim account As String, modelCode As String, ledgerAndNLV As String
-            account = .range(CELL_ACCOUNT).value
-            modelCode = .range(CELL_MODEL_CODE).value
-            ledgerAndNLV = .range(CELL_LEDGER_AND_NLV).value
+            account = .Range(CELL_ACCOUNT).value
+            modelCode = .Range(CELL_MODEL_CODE).value
+            ledgerAndNLV = .Range(CELL_LEDGER_AND_NLV).value
     
             ' send request and receive account updates multi table/array
             accountUpdatesMultiArray = util.sendRequest(server, STR_REQ_ACCOUNT_UPDATES_MULTI, id & util.QMARK & account & util.UNDERSCORE & modelCode & util.UNDERSCORE & ledgerAndNLV) ' returned array can be 1-Dimension or 2-Dimension
@@ -456,10 +456,10 @@ Private Function findAccountUpdateRow(account As String, modelCode As String, ke
     Dim row As Integer, i As Integer
     Dim arr1 As Variant, arr2 As Variant, arr3 As Variant, arr4 As Variant
     With Worksheets(STR_SHEET_NAME)
-        arr1 = .range(.Cells(ACCOUNT_UPDATES_START_ROW, COLUMN_ACCOUNT_UPDATE), .Cells(ACCOUNT_UPDATES_END_ROW, COLUMN_ACCOUNT_UPDATE)).value
-        arr2 = .range(.Cells(ACCOUNT_UPDATES_START_ROW, COLUMN_MODEL_CODE_UPDATE), .Cells(ACCOUNT_UPDATES_END_ROW, COLUMN_MODEL_CODE_UPDATE)).value
-        arr3 = .range(.Cells(ACCOUNT_UPDATES_START_ROW, COLUMN_KEY_UPDATE), .Cells(ACCOUNT_UPDATES_END_ROW, COLUMN_KEY_UPDATE)).value
-        arr4 = .range(.Cells(ACCOUNT_UPDATES_START_ROW, COLUMN_CURRENCY_UPDATE), .Cells(ACCOUNT_UPDATES_END_ROW, COLUMN_CURRENCY_UPDATE)).value
+        arr1 = .Range(.Cells(ACCOUNT_UPDATES_START_ROW, COLUMN_ACCOUNT_UPDATE), .Cells(ACCOUNT_UPDATES_END_ROW, COLUMN_ACCOUNT_UPDATE)).value
+        arr2 = .Range(.Cells(ACCOUNT_UPDATES_START_ROW, COLUMN_MODEL_CODE_UPDATE), .Cells(ACCOUNT_UPDATES_END_ROW, COLUMN_MODEL_CODE_UPDATE)).value
+        arr3 = .Range(.Cells(ACCOUNT_UPDATES_START_ROW, COLUMN_KEY_UPDATE), .Cells(ACCOUNT_UPDATES_END_ROW, COLUMN_KEY_UPDATE)).value
+        arr4 = .Range(.Cells(ACCOUNT_UPDATES_START_ROW, COLUMN_CURRENCY_UPDATE), .Cells(ACCOUNT_UPDATES_END_ROW, COLUMN_CURRENCY_UPDATE)).value
         For i = 1 To ACCOUNT_UPDATES_END_ROW - ACCOUNT_UPDATES_START_ROW + 1
             If CStr(arr1(i, 1)) = util.STR_EMPTY And CStr(arr2(i, 1)) = util.STR_EMPTY And CStr(arr3(i, 1)) = util.STR_EMPTY And CStr(arr4(i, 1)) = util.STR_EMPTY Or _
                 CStr(arr1(i, 1)) = account And CStr(arr2(i, 1)) = modelCode And CStr(arr3(i, 1)) = key And CStr(arr4(i, 1)) = curr Then

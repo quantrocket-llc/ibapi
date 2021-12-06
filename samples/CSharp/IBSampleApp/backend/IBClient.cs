@@ -993,5 +993,16 @@ namespace IBSampleApp
             if (tmp != null)
                 sc.Post(t => tmp(reqId, dataJson), null);
         }
+
+        public event Action<HistoricalScheduleMessage> HistoricalSchedule;
+
+        public void historicalSchedule(int reqId, string startDateTime, string endDateTime, string timeZone, HistoricalSession[] sessions)
+        {
+            var tmp = HistoricalSchedule;
+
+            if (tmp != null)
+                sc.Post(t => tmp(new HistoricalScheduleMessage(reqId, startDateTime, endDateTime, timeZone, sessions)), null);
+        }
+
     }
 }

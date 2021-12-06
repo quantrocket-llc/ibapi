@@ -3290,6 +3290,12 @@ Friend Class MainForm
         m_utils.addListItem(Utils.ListType.MarketData, $"WSH Event Data. Request Id: {e.reqId}, Data JSON: {e.dataJson}")
     End Sub
 
+    Private Sub m_apiEvents_HistoricalSchedule(sender As Object, e As HistoricalScheduleEventArgs) Handles m_apiEvents.HistoricalSchedule
+        m_utils.addListItem(Utils.ListType.ServerResponses, $"Historical Schedule. Request Id: {e.reqId}, Start: {e.startDateTime}, End: {e.endDateTime}, Time Zone: {e.timeZone}")
+        For Each session As HistoricalSession In e.sessions
+            m_utils.addListItem(Utils.ListType.ServerResponses, $"{Chr(9)} Session. Start: {session.StartDateTime}, End:{session.EndDateTime}, Ref Date: {session.RefDate}")
+        Next
+    End Sub
 
 #End Region
 

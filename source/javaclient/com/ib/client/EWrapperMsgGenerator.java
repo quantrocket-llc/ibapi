@@ -688,7 +688,26 @@ public class EWrapperMsgGenerator {
     public static String wshEventData(int reqId, String dataJson) {
     	return "wshEventData. id = " + reqId + " dataJson= " + dataJson;
     } 
-    
+
+    public static String historicalSchedule(int reqId, String startDateTime, String endDateTime, String timeZone, List<HistoricalSession> sessions) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("==== Historical Schedule Begin (ReqId=").append(reqId).append(") ====\n");
+        sb.append("Start: ").append(startDateTime);
+        sb.append(" End: ").append(endDateTime);
+        sb.append(" Time Zone: ").append(timeZone);
+        sb.append("\n");
+
+        for (HistoricalSession session: sessions) {
+            sb.append("Session: ");
+            sb.append("Start: ").append(session.startDateTime());
+            sb.append(" End: ").append(session.endDateTime());
+            sb.append(" Ref Date: ").append(session.refDate());
+            sb.append("\n");
+        }
+        sb.append("==== Historical Schedule End (ReqId=").append(reqId).append(") ====\n");
+        return sb.toString();
+    }
+
     private static void appendOrderFields(StringBuilder sb, int orderId, Contract contract, Order order, OrderState orderState,
             boolean isOpenOrder) {
         Util.appendValidIntValue(sb, "orderId", orderId);

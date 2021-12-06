@@ -1863,4 +1863,10 @@ class SampleFrame extends JFrame implements EWrapper {
 		String msg = EWrapperMsgGenerator.wshEventData(reqId, dataJson);
         m_TWS.add(msg);
 	}
+
+    @Override
+    public void historicalSchedule(int reqId, String startDateTime, String endDateTime, String timeZone, List<HistoricalSession> sessions) {
+        String msg = EWrapperMsgGenerator.historicalSchedule(reqId, startDateTime, endDateTime, timeZone, sessions);
+        m_TWS.add(msg);
+    }
 }

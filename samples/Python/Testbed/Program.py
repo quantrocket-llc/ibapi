@@ -258,7 +258,7 @@ class TestApp(TestWrapper, TestClient):
             #self.tickOptionComputations_req()
             #self.marketDepthOperations_req()
             #self.realTimeBarsOperations_req()
-            #self.historicalDataOperations_req()
+            self.historicalDataOperations_req()
             #self.optionsOperations_req()
             #self.marketScannersOperations_req()
             #self.fundamentalsOperations_req()
@@ -277,7 +277,7 @@ class TestApp(TestWrapper, TestClient):
             #self.historicalTicksOperations()
             #self.tickByTickOperations_req()
             #self.whatIfOrderOperations()
-            self.wshCalendarOperations()
+            #self.wshCalendarOperations()
             
             print("Executing requests ... finished")
 
@@ -982,6 +982,8 @@ class TestApp(TestWrapper, TestClient):
                                "10 D", "1 min", "TRADES", 1, 1, False, [])
         self.reqHistoricalData(4104, ContractSamples.EurGbpFx(), "",
                                "1 M", "1 day", "MIDPOINT", 1, 1, True, [])
+        self.reqHistoricalData(4103, ContractSamples.USStockAtSmart(), queryTime,
+                               "1 M", "1 day", "SCHEDULE", 1, 1, False, [])
         # ! [reqhistoricaldata]
 
     @printWhenExecuting
@@ -1956,6 +1958,15 @@ class TestApp(TestWrapper, TestClient):
         print("WshEventData.", "ReqId:", reqId, "Data JSON:", dataJson)
     # ! [wsheventdata]
 
+    @iswrapper
+    # ! [historicalschedule]
+    def historicalSchedule(self, reqId: int, startDateTime: str, endDateTime: str, timeZone: str, sessions: ListOfHistoricalSessions):
+        super().historicalSchedule(reqId, startDateTime, endDateTime, timeZone, sessions)
+        print("HistoricalSchedule. ReqId:", reqId, "Start:", startDateTime, "End:", endDateTime, "TimeZone:", timeZone)
+
+        for session in sessions:
+            print("\tSession. Start:", session.startDateTime, "End:", session.endDateTime, "Ref Date:", session.refDate)
+    # ! [historicalschedule]
 
 def main():
     SetupLogger()

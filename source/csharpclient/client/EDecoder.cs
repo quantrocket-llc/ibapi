@@ -398,6 +398,10 @@ namespace IBApi
                     ProcessWshEventData();
                     break;
 
+                case IncomingMessage.HistoricalSchedule:
+                    ProcessHistoricalScheduleEvent();
+                    break;
+
                 default:
                     eWrapper.error(IncomingMessage.NotValid, EClientErrors.UNKNOWN_ID.Code, EClientErrors.UNKNOWN_ID.Message);
                     return false;
@@ -2055,6 +2059,28 @@ namespace IBApi
             int reqId = ReadInt();
             string dataJson = ReadString();
             eWrapper.wshEventData(reqId, dataJson);
+        }
+
+        private void ProcessHistoricalScheduleEvent()
+        {
+            int reqId = ReadInt();
+            string startDateTime = ReadString();
+            string endDateTime = ReadString();
+            string timeZone = ReadString();
+
+            int sessionsCount = ReadInt();
+            HistoricalSession[] sessions = new HistoricalSession[sessionsCount];
+
+            for (int i = 0; i < sessionsCount; i++)
+            {
+                var sessionStartDateTime = ReadString();
+                var sessionEndDateTime = ReadString();
+                var sessionRefDate = ReadString();
+
+                sessions[i] = new HistoricalSession(sessionStartDateTime, sessionEndDateTime, sessionRefDate);
+            }
+
+            eWrapper.historicalSchedule(reqId, startDateTime, endDateTime, timeZone, sessions);
         }
 
         public double ReadDouble()

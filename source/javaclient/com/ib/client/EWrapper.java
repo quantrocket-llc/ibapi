@@ -109,5 +109,6 @@ public interface EWrapper {
     void replaceFAEnd(int reqId, String text);
 	void wshMetaData(int reqId, String dataJson);
 	void wshEventData(int reqId, String dataJson);
+    void historicalSchedule(int reqId, String startDateTime, String endDateTime, String timeZone, List<HistoricalSession> sessions);
 }
 

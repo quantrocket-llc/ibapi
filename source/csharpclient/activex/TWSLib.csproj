@@ -139,6 +139,9 @@
     <Compile Include="..\client\HistogramEntry.cs">
       <Link>CSharpAPI\HistogramEntry.cs</Link>
     </Compile>
+    <Compile Include="..\client\HistoricalSession.cs">
+      <Link>CSharpAPI\HistoricalSession.cs</Link>
+    </Compile>
     <Compile Include="..\client\HistoricalTick.cs">
       <Link>CSharpAPI\HistoricalTick.cs</Link>
     </Compile>
@@ -236,6 +239,7 @@
     <Compile Include="ComWrappers\comExecutionFilter.cs" />
     <Compile Include="ComWrappers\ComFamilyCode.cs" />
     <Compile Include="ComWrappers\ComHistogramEntry.cs" />
+    <Compile Include="ComWrappers\ComHistoricalSession.cs" />
     <Compile Include="ComWrappers\ComList.cs" />
     <Compile Include="ComWrappers\ComNewsProvider.cs" />
     <Compile Include="ComWrappers\comOrder.cs" />
@@ -256,6 +260,8 @@
     <Compile Include="ComWrappers\ComSmartComponent.cs" />
     <Compile Include="ComWrappers\ComSmartComponentList.cs" />
     <Compile Include="ControlImpl\IComList.cs" />
+    <Compile Include="ControlImpl\IHistoricalSession.cs" />
+    <Compile Include="ControlImpl\IHistoricalSessionList.cs" />
     <Compile Include="ControlImpl\ISoftDollarTier.cs" />
     <Compile Include="ComWrappers\ComSoftDollarTierList.cs" />
     <Compile Include="ControlImpl\ITickAtrribBidAsk.cs" />

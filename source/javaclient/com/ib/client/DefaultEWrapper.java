@@ -555,4 +555,11 @@ public class DefaultEWrapper implements EWrapper {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void historicalSchedule(int reqId, String startDateTime, String endDateTime, String timeZone,
+			List<HistoricalSession> sessions) {
+		// TODO Auto-generated method stub
+		
+	}
 }

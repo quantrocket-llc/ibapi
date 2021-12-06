@@ -8,6 +8,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import com.ib.client.Types.SecType;
+import com.ib.client.Types.WhatToShow;
 
 public abstract class EClient {
 
@@ -304,9 +305,10 @@ public abstract class EClient {
     protected static final int MIN_SERVER_VER_AUTO_CANCEL_PARENT = 162;
     protected static final int MIN_SERVER_VER_FRACTIONAL_SIZE_SUPPORT = 163;
     protected static final int MIN_SERVER_VER_SIZE_RULES = 164;
+    protected static final int MIN_SERVER_VER_HISTORICAL_SCHEDULE = 165;
     
     public static final int MIN_VERSION = 100; // envelope encoding, applicable to useV100Plus mode only
-    public static final int MAX_VERSION = MIN_SERVER_VER_SIZE_RULES; // ditto
+    public static final int MAX_VERSION = MIN_SERVER_VER_HISTORICAL_SCHEDULE; // ditto
 
     protected EReaderSignal m_signal;
     protected EWrapper m_eWrapper;    // msg handler
@@ -805,6 +807,14 @@ public abstract class EClient {
               if (!IsEmpty(contract.tradingClass()) || (contract.conid() > 0)) {
                   error(tickerId, EClientErrors.UPDATE_TWS,
                       "  It does not support conId and tradingClass parameters in reqHistoricalData.");
+                  return;
+              }
+          }
+
+          if (m_serverVersion < MIN_SERVER_VER_HISTORICAL_SCHEDULE) {
+              if (!IsEmpty(whatToShow) && whatToShow.equalsIgnoreCase(WhatToShow.SCHEDULE.name())) {
+                  error(tickerId, EClientErrors.UPDATE_TWS,
+                      "  It does not support requesting of historical schedule.");
                   return;
               }
           }

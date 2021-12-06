@@ -2205,6 +2205,17 @@ namespace TWSLib
                 sc.Post(state => tmp(reqId, dataJson), null);
         }
 
+        public delegate void historicalScheduleDelegate(int reqId, string startDateTime, string endDateTime, string timeZone, IHistoricalSessionList sessions);
+        public event historicalScheduleDelegate historicalSchedule;
+        void EWrapper.historicalSchedule(int reqId, string startDateTime, string endDateTime, string timeZone, HistoricalSession[] sessions)
+        {
+            var tmp = this.historicalSchedule;
+
+            if (tmp != null)
+                sc.Post(state => tmp(reqId, startDateTime, endDateTime, timeZone, sessions.Length > 0 ? new ComHistoricalSessionList(sessions) : null), null);
+        }
+
+
         #endregion
 
         List<ComboLeg> comboLegs = new List<ComboLeg>();

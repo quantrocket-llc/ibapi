@@ -141,6 +141,7 @@ Private Sub m_Tws_historicalNewsEnd(ByVal requestId As Long, ByVal hasMore As Bo
     News.HistoricalNewsEnd requestId, hasMore
 End Sub
 
+
 ' market data type responce
 Private Sub m_Tws_marketDataType(ByVal reqId As Long, ByVal marketDataType As Long)
     On Error Resume Next
@@ -399,7 +400,6 @@ Private Sub m_Tws_contractDetailsEnd(ByVal reqId As Long)
     End If
 End Sub
 
-
 '-----------------------------
 ' current time events
 '-----------------------------
@@ -543,6 +543,14 @@ End Sub
 Private Sub m_Tws_completedOrder(ByVal contract As TWSLib.IContract, ByVal order As TWSLib.IOrder, ByVal orderState As TWSLib.IOrderState)
     On Error Resume Next
     CompletedOrders.UpdateCompletedOrder contract, order, orderState
+End Sub
+
+'-----------------------------
+' historical schedule
+'-----------------------------
+Private Sub m_Tws_historicalSchedule(ByVal reqId As Long, ByVal startDateTime As String, ByVal endDateTime As String, ByVal timeZone As String, ByVal sessions As TWSLib.IHistoricalSessionList)
+    On Error Resume Next
+    HistoricalData.UpdateHistoricalSchedule reqId, startDateTime, endDateTime, timeZone, sessions
 End Sub
 
 

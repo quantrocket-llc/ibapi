@@ -949,5 +949,16 @@ namespace IBApi
          * @sa EClient::reqWshEventData
          */
         void wshEventData(int reqId, string dataJson);
+
+        /**
+         * @brief returns historical schedule
+         * @param reqId the id of request
+         * @param startDateTime 
+         * @param endDateTime 
+         * @param timeZone
+         * @param sessions
+         * @sa EClient::reqHistoricalData with whatToShow=SCHEDULE
+         */
+        void historicalSchedule(int reqId, string startDateTime, string endDateTime, string timeZone, HistoricalSession[] sessions);
     }
 }

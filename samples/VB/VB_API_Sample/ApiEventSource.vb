@@ -871,6 +871,18 @@ Friend Class ApiEventSource
                                                               })
                          End Sub)
     End Sub
+
+    Private Sub EWrapper_historicalSchedule(reqId As Integer, startDateTime As String, endDateTime As String, timeZone As String, sessions As HistoricalSession()) Implements EWrapper.historicalSchedule
+        InvokeIfRequired(Sub()
+                             RaiseEvent HistoricalSchedule(Me, New HistoricalScheduleEventArgs With {
+                                                              .reqId = reqId,
+                                                              .startDateTime = startDateTime,
+                                                              .endDateTime = endDateTime,
+                                                              .timeZone = timeZone,
+                                                             .sessions = sessions
+                                                              })
+                         End Sub)
+    End Sub
 #End Region
 
 #Region "Event declarations"
@@ -958,6 +970,7 @@ Friend Class ApiEventSource
     Event ReplaceFAEnd(sender As Object, e As ReplaceFAEndEventArgs)
     Event WshMetaData(sender As Object, e As WshMetaDataEventArgs)
     Event WshEventData(sender As Object, e As WshEventDataEventArgs)
+    Event HistoricalSchedule(sender As Object, e As HistoricalScheduleEventArgs)
 
 
 

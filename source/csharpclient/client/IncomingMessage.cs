@@ -86,5 +86,6 @@ namespace IBApi
         public const int ReplaceFAEnd = 103;
         public const int WshMetaData = 104;
         public const int WshEventData = 105;
+        public const int HistoricalSchedule = 106;
     }
 }

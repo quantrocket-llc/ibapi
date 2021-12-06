@@ -54,6 +54,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="messages\HistoricalScheduleMessage.cs" />
     <Compile Include="messages\CompletedOrderMessage.cs" />
     <Compile Include="messages\OrderBoundMessage.cs" />
     <Compile Include="messages\TickByTickMidPointMessage.cs" />

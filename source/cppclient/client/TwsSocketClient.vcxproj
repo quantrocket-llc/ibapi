@@ -212,6 +212,7 @@
     <ClInclude Include="FamilyCode.h" />
     <ClInclude Include="EClientException.h" />
     <ClInclude Include="HistogramEntry.h" />
+    <ClInclude Include="HistoricalSession.h" />
     <ClInclude Include="HistoricalTick.h" />
     <ClInclude Include="HistoricalTickBidAsk.h" />
     <ClInclude Include="HistoricalTickLast.h" />

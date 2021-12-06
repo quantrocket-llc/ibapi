@@ -2173,6 +2173,31 @@ const char* EDecoder::processWshMetaData(const char* ptr, const char* endPtr) {
 	return ptr;
 }
 
+const char* EDecoder::processHistoricalSchedule(const char* ptr, const char* endPtr) {
+	int reqId, sessionsCount;
+	std::string startDateTime;
+	std::string endDateTime;
+	std::string timeZone;
+
+	DECODE_FIELD(reqId);
+	DECODE_FIELD(startDateTime);
+	DECODE_FIELD(endDateTime);
+	DECODE_FIELD(timeZone);
+
+	DECODE_FIELD(sessionsCount);
+
+	std::vector<HistoricalSession> sessions(sessionsCount);
+	for (int i = 0; i < sessionsCount; i++) {
+		HistoricalSession& session = sessions[i];
+		DECODE_FIELD(session.startDateTime);
+		DECODE_FIELD(session.endDateTime);
+		DECODE_FIELD(session.refDate);
+	}
+
+	m_pEWrapper->historicalSchedule(reqId, startDateTime, endDateTime, timeZone, sessions);
+
+	return ptr;
+}
 
 int EDecoder::parseAndProcessMsg(const char*& beginPtr, const char* endPtr) {
 	// process a single message from the buffer;
@@ -2509,6 +2534,10 @@ int EDecoder::parseAndProcessMsg(const char*& beginPtr, const char* endPtr) {
 
 		case WSH_EVENT_DATA:
 			ptr = processWshEventData(ptr, endPtr);
+			break;
+
+		case HISTORICAL_SCHEDULE:
+			ptr = processHistoricalSchedule(ptr, endPtr);
 			break;
 
 		default:

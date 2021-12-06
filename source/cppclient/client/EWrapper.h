@@ -23,6 +23,7 @@
 #include "HistoricalTickBidAsk.h"
 #include "HistoricalTickLast.h"
 #include "Decimal.h"
+#include "HistoricalSession.h"
 
 enum TickType { BID_SIZE, BID, ASK, ASK_SIZE, LAST, LAST_SIZE,
 				HIGH, LOW, VOLUME, CLOSE,

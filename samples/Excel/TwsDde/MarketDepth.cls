@@ -74,9 +74,9 @@ Sub requestMktDepthExchanges()
     If server = util.STR_EMPTY Then Exit Sub
 
     With Worksheets(STR_SHEET_NAME)
-        .range(CELL_MKT_DEPTH_EXCHANGES_CONTROL).Formula = util.composeLink(server, STR_REQ_MKT_DEPTH_EXCHANGES, util.IDENTIFIER_ZERO, util.STR_EMPTY) ' subscription control
-        If util.cleanOnError(.range(CELL_MKT_DEPTH_EXCHANGES_CONTROL)) Then
-            .range(CELL_MKT_DEPTH_EXCHANGES_CONTROL).value = util.STR_EMPTY
+        .Range(CELL_MKT_DEPTH_EXCHANGES_CONTROL).Formula = util.composeLink(server, STR_REQ_MKT_DEPTH_EXCHANGES, util.IDENTIFIER_ZERO, util.STR_EMPTY) ' subscription control
+        If util.cleanOnError(.Range(CELL_MKT_DEPTH_EXCHANGES_CONTROL)) Then
+            .Range(CELL_MKT_DEPTH_EXCHANGES_CONTROL).value = util.STR_EMPTY
             Exit Sub
         End If
     End With
@@ -87,7 +87,7 @@ End Sub
 ' cancel market depth exchanges
 ' ========================================================
 Sub cancelMktDepthExchanges()
-    Worksheets(STR_SHEET_NAME).range(CELL_MKT_DEPTH_EXCHANGES_CONTROL).Formula = util.STR_EMPTY
+    Worksheets(STR_SHEET_NAME).Range(CELL_MKT_DEPTH_EXCHANGES_CONTROL).Formula = util.STR_EMPTY
     clearMktDepthExchanges
 End Sub
 
@@ -95,14 +95,14 @@ End Sub
 ' clear market depth exchanges
 ' ========================================================
 Sub clearMktDepthExchanges()
-    Worksheets(STR_SHEET_NAME).range(MKT_DEPTH_EXCHANGES_TABLE_RANGE).ClearContents
+    Worksheets(STR_SHEET_NAME).Range(MKT_DEPTH_EXCHANGES_TABLE_RANGE).ClearContents
 End Sub
 
 ' ========================================================
 ' cancel market depth for active row when button is pressed
 ' ========================================================
 Sub cancelMarketDepth()
-    Dim server As String, id As String, i As Integer, isSmartDepth As String, row As range
+    Dim server As String, id As String, i As Integer, isSmartDepth As String, row As Range
 
     server = util.getServerVal(STR_SHEET_NAME, CELL_SERVER_NAME)
     If server = util.STR_EMPTY Then Exit Sub
@@ -130,7 +130,7 @@ Continue:
     End With
 End Sub
 
-Sub clearMarketDepthColumns(numOfRows As Integer, cell As range)
+Sub clearMarketDepthColumns(numOfRows As Integer, cell As Range)
     Dim i As Integer
     
     With Worksheets(STR_SHEET_NAME)
@@ -154,7 +154,7 @@ End Sub
 ' request market depth for active row when button is pressed
 ' ========================================================
 Sub requestMarketDepth()
-    Dim row As range, server As String
+    Dim row As Range, server As String
 
     server = util.getServerVal(STR_SHEET_NAME, CELL_SERVER_NAME)
     If server = STR_EMPTY Then Exit Sub
@@ -173,7 +173,7 @@ End Sub
 ' ========================================================
 ' request market depth for row
 ' ========================================================
-Sub sendMarketDepthRequest(server As String, cell As range)
+Sub sendMarketDepthRequest(server As String, cell As Range)
 
     ' get id
     Dim id As String, isSmartDepth As String
@@ -215,7 +215,7 @@ End Sub
 ' cancel all market depth for all rows (called when workbook is closed)
 ' ========================================================
 Sub cancelAllMktDepth()
-    Dim rng As range, row As range, cell As range
+    Dim rng As Range, row As Range, cell As Range
     Dim server As String
     Dim isSmartDepth As String
 
@@ -223,7 +223,7 @@ Sub cancelAllMktDepth()
     If server = util.STR_EMPTY Then Exit Sub
 
     With Worksheets(STR_SHEET_NAME)
-        Set rng = .range(.Cells(dataStartRowIndex, idColumnIndex), .Cells(dataEndRowIndex, idColumnIndex))
+        Set rng = .Range(.Cells(dataStartRowIndex, idColumnIndex), .Cells(dataEndRowIndex, idColumnIndex))
         For Each row In rng.rows
             For Each cell In row.Cells
             If InStr(cell.value, STR_ID) <> 0 Then
@@ -243,10 +243,10 @@ Sub requestAllMktDepth()
     server = util.getServerVal(STR_SHEET_NAME, CELL_SERVER_NAME)
     If server = util.STR_EMPTY Then Exit Sub
 
-    Dim rng As range
+    Dim rng As Range
     With Worksheets(STR_SHEET_NAME)
-        Set rng = .range(.Cells(dataStartRowIndex, idColumnIndex), .Cells(dataEndRowIndex, idColumnIndex))
-        Dim row As range, cell As range
+        Set rng = .Range(.Cells(dataStartRowIndex, idColumnIndex), .Cells(dataEndRowIndex, idColumnIndex))
+        Dim row As Range, cell As Range
         For Each row In rng.rows
             For Each cell In row.Cells
             If InStr(cell.value, STR_ID) <> 0 Then
@@ -271,7 +271,7 @@ Private Sub Worksheet_Calculate()
 
     With Worksheets(STR_SHEET_NAME)
     
-        If CStr(.range(CELL_MKT_DEPTH_EXCHANGES_CONTROL)) = util.STR_RECEIVED Then
+        If CStr(.Range(CELL_MKT_DEPTH_EXCHANGES_CONTROL)) = util.STR_RECEIVED Then
             Dim mktDepthExchangesArray() As Variant, dimension As Integer
             mktDepthExchangesArray = util.sendRequest(server, STR_REQ_MKT_DEPTH_EXCHANGES, util.IDENTIFIER_ZERO) ' returned array can be 1-Dimension or 2-Dimension
                 

@@ -1232,6 +1232,25 @@ class Decoder(Object):
 
         self.wrapper.wshEventData(reqId, dataJson)
 
+    def processHistoricalSchedule(self, fields):
+        next(fields)
+        reqId = decode(int, fields)
+        startDateTime = decode(str, fields)
+        endDateTime = decode(str, fields)
+        timeZone = decode(str, fields)
+        sessionsCount = decode(int, fields)
+
+        sessions = []
+
+        for _ in range(sessionsCount):
+            historicalSession = HistoricalSession()
+            historicalSession.startDateTime = decode(str, fields)
+            historicalSession.endDateTime = decode(str, fields)
+            historicalSession.refDate = decode(str, fields)
+            sessions.append(historicalSession)
+
+        self.wrapper.historicalSchedule(reqId, startDateTime, endDateTime, timeZone, sessions)
+
     ######################################################################
 
     def readLastTradeDate(self, fields, contract: ContractDetails, isBond: bool):
@@ -1424,7 +1443,8 @@ class Decoder(Object):
         IN.COMPLETED_ORDERS_END: HandleInfo(proc=processCompletedOrdersEndMsg),
         IN.REPLACE_FA_END: HandleInfo(proc=processReplaceFAEndMsg),
         IN.WSH_META_DATA: HandleInfo(proc=processWshMetaDataMsg),
-        IN.WSH_EVENT_DATA: HandleInfo(proc=processWshEventDataMsg)
+        IN.WSH_EVENT_DATA: HandleInfo(proc=processWshEventDataMsg),
+        IN.HISTORICAL_SCHEDULE: HandleInfo(proc=processHistoricalSchedule)
 }
 
 

@@ -827,6 +827,18 @@ namespace Samples
         {
             Console.WriteLine($"WSH Event Data. Request Id: {reqId}, Data JSON: {dataJson}\n");
         }
-		//! [wshEventData]
+        //! [wshEventData]
+
+        //! [historicalSchedule]
+        public void historicalSchedule(int reqId, string startDateTime, string endDateTime, string timeZone, HistoricalSession[] sessions)
+        {
+            Console.WriteLine($"Historical Schedule. ReqId: {reqId}, Start: {startDateTime}, End: {endDateTime}, Time Zone: {timeZone}");
+
+            foreach (var session in sessions)
+            {
+                Console.WriteLine($"\tSession. Start: {session.StartDateTime}, End: {session.EndDateTime}, Ref Date: {session.RefDate}");
+            }
+        }
+        //! [historicalSchedule]
     }
 }

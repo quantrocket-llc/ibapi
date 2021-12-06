@@ -18,6 +18,7 @@ import com.ib.client.EWrapper;
 import com.ib.client.Execution;
 import com.ib.client.FamilyCode;
 import com.ib.client.HistogramEntry;
+import com.ib.client.HistoricalSession;
 import com.ib.client.HistoricalTick;
 import com.ib.client.HistoricalTickBidAsk;
 import com.ib.client.HistoricalTickLast;
@@ -264,6 +265,12 @@ public class EWrapperImpl implements EWrapper {
         // 2600001-2700000 - reqHistogramData
         if (id >= 2600001 && id <= 2700000) {
             m_twsService.updateHistogramDataRequestError(id, errorMsgStr);
+        }
+     
+        // reqHistoricalSchedule errors
+        // 2700001-2800000 - reqHistoricalSchedule
+        if (id >= 2700001 && id <= 2800000) {
+            m_twsService.updateHistoricalScheduleRequestError(id, errorMsgStr);
         }
         
     }
@@ -929,15 +936,16 @@ public class EWrapperImpl implements EWrapper {
         m_twsService.replaceFAEnd(reqId, text);
     }
 
-	@Override
-	public void wshMetaData(int reqId, String dataJson) {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public void wshMetaData(int reqId, String dataJson) { /* not supported */ }
 
-	@Override
-	public void wshEventData(int reqId, String dataJson) {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public void wshEventData(int reqId, String dataJson) { /* not supported */ }
+
+    @Override
+    public void historicalSchedule(int reqId, String startDateTime, String endDateTime, String timeZone, List<HistoricalSession> sessions) {
+        System.out.println("historicalSchedule ReqId [" + reqId + "] StartDateTime [" + startDateTime + "] EndDateTime [" + endDateTime + 
+                "] TimeZone [" + timeZone + "]");
+        m_twsService.updateHistoricalSchedule(reqId, startDateTime, endDateTime, timeZone, sessions);
+    }
 }

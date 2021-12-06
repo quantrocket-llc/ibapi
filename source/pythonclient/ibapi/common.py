@@ -45,6 +45,7 @@ ListOfPriceIncrements = list
 ListOfHistoricalTick = list
 ListOfHistoricalTickBidAsk = list
 ListOfHistoricalTickLast = list
+ListOfHistoricalSessions = list
 
 
 class BarData(Object):
@@ -205,4 +206,12 @@ class HistoricalTickLast(Object):
     def __str__(self):
         return "Time: %d, TickAttribLast: %s, Price: %f, Size: %s, Exchange: %s, SpecialConditions: %s" % (self.time, self.tickAttribLast, self.price, ibapi.utils.decimalMaxString(self.size), self.exchange, self.specialConditions)
 
+class HistoricalSession(Object):
+    def __init__(self):
+        self.startDateTime = ""
+        self.endDateTime = ""
+        self.refDate = ""
+
+    def __str__(self):
+        return "Start: %s, End: %s, Ref Date: %s" % (self.startDateTime, self.endDateTime, self.refDate)
 

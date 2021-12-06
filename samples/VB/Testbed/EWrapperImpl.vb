@@ -652,7 +652,7 @@ Namespace Samples
         End Sub
         '! [marketRule]
 
-		'! [pnl]
+        '! [pnl]
         Public Sub pnl(reqId As Integer, dailyPnL As Double, unrealizedPnL As Double, realizedPnL As Double) Implements EWrapper.pnl
             Console.WriteLine("PnL. Request Id: {0}, daily PnL: {1}, unrealized PnL: {2}, realized PnL: {3}", reqId, dailyPnL, unrealizedPnL, realizedPnL)
         End Sub
@@ -670,18 +670,18 @@ Namespace Samples
                 Console.WriteLine("Historical Tick. Request Id: {0}, Time: {1}, Price: {2}, Size: {3}", reqId, Util.UnixSecondsToString(tick.Time, "yyyyMMdd-HH:mm:ss zzz"), tick.Price, Util.DecimalMaxString(tick.Size))
             Next
         End Sub
-		'! [historicalticks]
+        '! [historicalticks]
 
-		'! [historicalticksbidask]
+        '! [historicalticksbidask]
         Public Sub historicalTickBidAsk(reqId As Integer, ticks As HistoricalTickBidAsk(), done As Boolean) Implements EWrapper.historicalTicksBidAsk
             For Each tick In ticks
                 Console.WriteLine("Historical Tick Bid/Ask. Request Id: {0}, Time: {1}, Price Bid: {2}, Price Ask: {3}, Size Bid: {4}, Size Ask: {5}, Bid/Ask Tick Attribs: {6}",
                     reqId, Util.UnixSecondsToString(tick.Time, "yyyyMMdd-HH:mm:ss zzz"), tick.PriceBid, tick.PriceAsk, Util.DecimalMaxString(tick.SizeBid), Util.DecimalMaxString(tick.SizeAsk), tick.TickAttribBidAsk.ToString())
             Next
         End Sub
-		'! [historicalticksbidask]
+        '! [historicalticksbidask]
 
-		'! [historicaltickslast]
+        '! [historicaltickslast]
         Public Sub historicalTickLast(reqId As Integer, ticks As HistoricalTickLast(), done As Boolean) Implements EWrapper.historicalTicksLast
             For Each tick In ticks
                 Console.WriteLine("Historical Tick Last. Request Id: {0}, Time: {1}, Price: {2}, Size: {3}, Exchange: {4}, Special Conditions: {5}, Last Tick Attribs: {6}",
@@ -741,19 +741,28 @@ Namespace Samples
         Public Sub replaceFAEnd(reqId As Integer, text As String) Implements IBApi.EWrapper.replaceFAEnd
             Console.WriteLine("replaceFAEnd. ReqId: {0}, Text: {1}", reqId, text)
         End Sub
-		'! [replacefaend]
+        '! [replacefaend]
 
-		'! [wshMetaData]
+        '! [wshMetaData]
         Public Sub wshMetaData(reqId As Integer, dataJson As String) Implements EWrapper.wshMetaData
             Console.WriteLine($"WSH Meta Data. Request Id: {reqId}, Data JSON: {dataJson}")
         End Sub
-		'! [wshMetaData]
+        '! [wshMetaData]
 
-		'! [wshEventData]
+        '! [wshEventData]
         Public Sub wshEventData(reqId As Integer, dataJson As String) Implements EWrapper.wshEventData
             Console.WriteLine($"WSH Event Data. Request Id: {reqId}, Data JSON: {dataJson}")
         End Sub
         '! [wshEventData]
+
+        '! [historicalSchedule]
+        Public Sub historicalSchedule(reqId As Integer, startDateTime As String, endDateTime As String, timeZone As String, sessions As HistoricalSession()) Implements EWrapper.historicalSchedule
+            Console.WriteLine($"Historical Schedule. ReqId: {reqId}, Start: {startDateTime}, End: {endDateTime}, Time Zone: {timeZone}")
+            For Each session In sessions
+                Console.WriteLine($"{Chr(9)}Session. Start: {session.StartDateTime}, End: {session.EndDateTime}, Ref Date: {session.RefDate}")
+            Next
+        End Sub
+        '! [historicalSchedule]
 
     End Class
 

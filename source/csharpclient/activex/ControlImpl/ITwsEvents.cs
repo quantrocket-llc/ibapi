@@ -207,5 +207,11 @@ namespace TWSLib
         void completedOrdersEnd();
         [DispId(153)]
         void replaceFAEnd(int reqId, string text);
+        [DispId(154)]
+        void wshMetaData(int reqId, string dataJson);
+        [DispId(155)]
+        void wshEventData(int reqId, string dataJson);
+        [DispId(156)]
+        void historicalSchedule(int reqId, string startDateTime, string endDateTime, string timeZone, IHistoricalSessionList sessions);
     }
 }

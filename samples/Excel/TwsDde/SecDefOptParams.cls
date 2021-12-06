@@ -97,7 +97,7 @@ End Sub
 ' ========================================================
 ' sends security definition option parameters request for cell
 ' ========================================================
-Sub sendSecDefOptParamsRequest(server As String, cell As range)
+Sub sendSecDefOptParamsRequest(server As String, cell As Range)
 
     ' get id
     Dim id As String
@@ -108,8 +108,8 @@ Sub sendSecDefOptParamsRequest(server As String, cell As range)
         .Cells(cell.row, idColumnIndex).value = id
 
         ' range to poke
-        Dim rangeToPoke As range
-        Set rangeToPoke = .range(.Cells(cell.row, startOfRequestColumns), .Cells(cell.row, sheetNameColumnIndex - 1))
+        Dim rangeToPoke As Range
+        Set rangeToPoke = .Range(.Cells(cell.row, startOfRequestColumns), .Cells(cell.row, sheetNameColumnIndex - 1))
 
         ' fill status column with formula
         .Cells(cell.row, statusColumnIndex).Formula = util.composeLink(server, STR_REQ_SEC_DEF_OPT_PARAMS_TICK, id, util.STR_STATUS)

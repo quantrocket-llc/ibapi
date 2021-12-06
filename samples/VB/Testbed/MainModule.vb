@@ -94,7 +94,7 @@ Module MainModule
         '*********************************
         '** Historical Data operations ***
         '*********************************
-        'historicalDataRequests(client)
+        historicalDataRequests(client)
 
         '************************
         '** Options Specifics ***
@@ -134,7 +134,7 @@ Module MainModule
         '***********************************
         '** Financial Advisor Exclusive Operations ***
         '***********************************
-        financialAdvisorOperations(client)
+        'financialAdvisorOperations(client)
 
         '*******************
         '** Miscellaneous ***
@@ -413,12 +413,14 @@ Module MainModule
         Dim queryTime As String = DateTime.Now.AddMonths(-6).ToString("yyyyMMdd HH:mm:ss")
         client.reqHistoricalData(4001, ContractSamples.EurGbpFx(), queryTime, "1 M", "1 day", "MIDPOINT", 1, 1, False, Nothing)
         client.reqHistoricalData(4002, ContractSamples.EuropeanStock(), queryTime, "10 D", "1 min", "TRADES", 1, 1, False, Nothing)
+        client.reqHistoricalData(4003, ContractSamples.USStockAtSmart(), queryTime, "1 M", "1 day", "SCHEDULE", 1, 1, False, Nothing)
         '! [reqhistoricaldata]
         Thread.Sleep(2000)
         '** Canceling historical data requests ***
         '! [cancelhistoricaldata]
         client.cancelHistoricalData(4001)
         client.cancelHistoricalData(4002)
+        client.cancelHistoricalData(4003)
         '! [cancelhistoricaldata]
     End Sub
 

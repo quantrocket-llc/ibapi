@@ -455,4 +455,9 @@ public class Test implements EWrapper {
     public void wshEventData(int reqId, String dataJson) {
         System.out.println(EWrapperMsgGenerator.wshEventData(reqId, dataJson));
     }
+
+    @Override
+    public void historicalSchedule(int reqId, String startDateTime, String endDateTime, String timeZone, List<HistoricalSession> sessions) {
+        System.out.println(EWrapperMsgGenerator.historicalSchedule(reqId, startDateTime, endDateTime, timeZone, sessions));
+    }
 }

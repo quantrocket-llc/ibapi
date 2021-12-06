@@ -54,7 +54,7 @@ End Function
 ' ========================================================
 ' checks that row has request data for historical news request
 ' ========================================================
-Public Function hasRequestData(cell As range) As Boolean
+Public Function hasRequestData(cell As Range) As Boolean
     Dim ret As Boolean
     ret = False
 
@@ -77,7 +77,7 @@ End Function
 ' Re-subscribes to news bulletins when workbook is opened
 ' ========================================================
 Sub resubscribeNewsBulletins()
-    If CStr(Worksheets(STR_SHEET_NAME).range(CELL_NEWS_BULLETINS_SUBSCRIPTION_CONTROL).value) = util.STR_CANCELLED Then ' re-subscribe only if cancelled
+    If CStr(Worksheets(STR_SHEET_NAME).Range(CELL_NEWS_BULLETINS_SUBSCRIPTION_CONTROL).value) = util.STR_CANCELLED Then ' re-subscribe only if cancelled
         requestNewsBulletins
     End If
 End Sub
@@ -86,7 +86,7 @@ End Sub
 ' Subscribes to newsBulletins when button is pressed
 ' ========================================================
 Sub subscribeNewsBulletins()
-    If CStr(Worksheets(STR_SHEET_NAME).range(CELL_NEWS_BULLETINS_SUBSCRIPTION_CONTROL).value) = util.STR_EMPTY Then ' only if not subscribed
+    If CStr(Worksheets(STR_SHEET_NAME).Range(CELL_NEWS_BULLETINS_SUBSCRIPTION_CONTROL).value) = util.STR_EMPTY Then ' only if not subscribed
         requestNewsBulletins
     End If
 End Sub
@@ -110,8 +110,8 @@ End Sub
 ' ========================================================
 Sub cancelNewsBulletins(controlValue As String)
     With Worksheets(STR_SHEET_NAME)
-        If .range(CELL_NEWS_BULLETINS_SUBSCRIPTION_CONTROL).value = util.STR_SUBSCRIBED Or .range(CELL_NEWS_BULLETINS_SUBSCRIPTION_CONTROL).value = util.STR_ERROR_UPPER Then
-            Worksheets(STR_SHEET_NAME).range(CELL_NEWS_BULLETINS_SUBSCRIPTION_CONTROL).value = controlValue
+        If .Range(CELL_NEWS_BULLETINS_SUBSCRIPTION_CONTROL).value = util.STR_SUBSCRIBED Or .Range(CELL_NEWS_BULLETINS_SUBSCRIPTION_CONTROL).value = util.STR_ERROR_UPPER Then
+            Worksheets(STR_SHEET_NAME).Range(CELL_NEWS_BULLETINS_SUBSCRIPTION_CONTROL).value = controlValue
         End If
     End With
 End Sub
@@ -127,10 +127,10 @@ Sub requestNewsBulletins()
         server = util.getServerVal(STR_SHEET_NAME, CELL_SERVER_NAME)
         If server = util.STR_EMPTY Then Exit Sub
         Dim allMessages As Boolean
-        allMessages = .range(CELL_NEWS_BULLETINS_ALL_MESSAGES).value
+        allMessages = .Range(CELL_NEWS_BULLETINS_ALL_MESSAGES).value
 
-        .range(CELL_NEWS_BULLETINS_SUBSCRIPTION_CONTROL).Formula = util.composeLink(server, STR_REQ_NEWS_BULLETINS, util.IDENTIFIER_ZERO, allMessages) ' subscription control
-        If util.cleanOnError(.range(CELL_NEWS_BULLETINS_SUBSCRIPTION_CONTROL)) Then
+        .Range(CELL_NEWS_BULLETINS_SUBSCRIPTION_CONTROL).Formula = util.composeLink(server, STR_REQ_NEWS_BULLETINS, util.IDENTIFIER_ZERO, allMessages) ' subscription control
+        If util.cleanOnError(.Range(CELL_NEWS_BULLETINS_SUBSCRIPTION_CONTROL)) Then
             Exit Sub
         End If
     End With
@@ -141,7 +141,7 @@ End Sub
 ' ========================================================
 Sub clearNewsBulletinsTable()
     ' clear news bulletins table
-    Worksheets(STR_SHEET_NAME).range(NEWS_BULLETINS_TABLE_RANGE).ClearContents
+    Worksheets(STR_SHEET_NAME).Range(NEWS_BULLETINS_TABLE_RANGE).ClearContents
 End Sub
 
 
@@ -149,7 +149,7 @@ End Sub
 ' Cancel news providers when button is pressed
 ' ========================================================
 Sub cancelNewsProviders()
-    Worksheets(STR_SHEET_NAME).range(CELL_NEWS_PROVIDERS_REQUEST_CONTROL).value = ""
+    Worksheets(STR_SHEET_NAME).Range(CELL_NEWS_PROVIDERS_REQUEST_CONTROL).value = ""
     clearNewsProvidersTable
 End Sub
 
@@ -158,7 +158,7 @@ End Sub
 ' ========================================================
 Sub requestNewsProviders()
     With Worksheets(STR_SHEET_NAME)
-        If CStr(.range(CELL_NEWS_PROVIDERS_REQUEST_CONTROL).value) = util.STR_EMPTY Then ' only if not subscribed
+        If CStr(.Range(CELL_NEWS_PROVIDERS_REQUEST_CONTROL).value) = util.STR_EMPTY Then ' only if not subscribed
 
         clearNewsProvidersTable
 
@@ -166,8 +166,8 @@ Sub requestNewsProviders()
         server = util.getServerVal(STR_SHEET_NAME, CELL_SERVER_NAME)
         If server = util.STR_EMPTY Then Exit Sub
 
-            .range(CELL_NEWS_PROVIDERS_REQUEST_CONTROL).Formula = util.composeLink(server, STR_REQ_NEWS_PROVIDERS, util.IDENTIFIER_ZERO, util.STR_EMPTY) ' subscription control
-            If util.cleanOnError(.range(CELL_NEWS_PROVIDERS_REQUEST_CONTROL)) Then
+            .Range(CELL_NEWS_PROVIDERS_REQUEST_CONTROL).Formula = util.composeLink(server, STR_REQ_NEWS_PROVIDERS, util.IDENTIFIER_ZERO, util.STR_EMPTY) ' subscription control
+            If util.cleanOnError(.Range(CELL_NEWS_PROVIDERS_REQUEST_CONTROL)) Then
                 Exit Sub
             End If
 
@@ -180,7 +180,7 @@ End Sub
 ' ========================================================
 Sub clearNewsProvidersTable()
     ' clear news providers table
-    Worksheets(STR_SHEET_NAME).range(NEWS_PROVIDERS_TABLE_RANGE).ClearContents
+    Worksheets(STR_SHEET_NAME).Range(NEWS_PROVIDERS_TABLE_RANGE).ClearContents
 End Sub
 
 
@@ -208,7 +208,7 @@ End Sub
 ' ========================================================
 ' sends historical news request for cell
 ' ========================================================
-Sub sendHistoricalNewsRequest(server As String, cell As range)
+Sub sendHistoricalNewsRequest(server As String, cell As Range)
 
     If Not hasRequestData(cell) Then Exit Sub
 
@@ -221,8 +221,8 @@ Sub sendHistoricalNewsRequest(server As String, cell As range)
         .Cells(cell.row, idColumnIndex).value = id
     
         ' range to poke
-        Dim rangeToPoke As range
-        Set rangeToPoke = .range(.Cells(cell.row, conIdColumnIndex), .Cells(cell.row, sheetNameColumnIndex - 1))
+        Dim rangeToPoke As Range
+        Set rangeToPoke = .Range(.Cells(cell.row, conIdColumnIndex), .Cells(cell.row, sheetNameColumnIndex - 1))
     
         ' fill status column with formula
         .Cells(cell.row, statusColumnIndex).Formula = util.composeLink(server, STR_HISTORICAL_NEWS_TICK, id, util.STR_STATUS)
@@ -283,7 +283,7 @@ Private Sub Worksheet_Calculate()
     With Worksheets(STR_SHEET_NAME)
 
         ' news bulletins
-        If CStr(.range(CELL_NEWS_BULLETINS_SUBSCRIPTION_CONTROL).value) = util.STR_RECEIVED Then
+        If CStr(.Range(CELL_NEWS_BULLETINS_SUBSCRIPTION_CONTROL).value) = util.STR_RECEIVED Then
             Dim newsBulletinsArray() As Variant
             server = util.getServerVal(STR_SHEET_NAME, CELL_SERVER_NAME)
             If server = util.STR_EMPTY Then Exit Sub
@@ -316,7 +316,7 @@ Private Sub Worksheet_Calculate()
         End If
         
         ' news providers
-        If CStr(.range(CELL_NEWS_PROVIDERS_REQUEST_CONTROL).value) = util.STR_RECEIVED Then
+        If CStr(.Range(CELL_NEWS_PROVIDERS_REQUEST_CONTROL).value) = util.STR_RECEIVED Then
             Dim newsProvidersArray() As Variant
             server = util.getServerVal(STR_SHEET_NAME, CELL_SERVER_NAME)
             If server = util.STR_EMPTY Then Exit Sub
@@ -385,7 +385,7 @@ Private Function findNewsBulletinRow() As Integer
     Dim row As Long, i As Long
     Dim arr1 As Variant
     With Worksheets(STR_SHEET_NAME)
-        arr1 = .range(.Cells(dataStartRowIndex, newsBulletinsMsgIdColumnIndex), .Cells(dataEndRowIndex, newsBulletinsMsgIdColumnIndex)).value
+        arr1 = .Range(.Cells(dataStartRowIndex, newsBulletinsMsgIdColumnIndex), .Cells(dataEndRowIndex, newsBulletinsMsgIdColumnIndex)).value
         For i = 1 To dataEndRowIndex - dataStartRowIndex + 1
             If CStr(arr1(i, 1)) = util.STR_EMPTY Then
                 row = i + dataStartRowIndex - 1

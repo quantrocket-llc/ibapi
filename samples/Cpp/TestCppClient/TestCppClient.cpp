@@ -578,11 +578,13 @@ void TestCppClient::historicalDataRequests()
 
 	m_pClient->reqHistoricalData(4001, ContractSamples::EurGbpFx(), queryTime, "1 M", "1 day", "MIDPOINT", 1, 1, false, TagValueListSPtr());
 	m_pClient->reqHistoricalData(4002, ContractSamples::EuropeanStock(), queryTime, "10 D", "1 min", "TRADES", 1, 1, false, TagValueListSPtr());
+	m_pClient->reqHistoricalData(4003, ContractSamples::USStockAtSmart(), queryTime, "1 M", "1 day", "SCHEDULE", 1, 1, false, TagValueListSPtr());
 	//! [reqhistoricaldata]
 	std::this_thread::sleep_for(std::chrono::seconds(2));
 	/*** Canceling historical data requests ***/
 	m_pClient->cancelHistoricalData(4001);
 	m_pClient->cancelHistoricalData(4002);
+	m_pClient->cancelHistoricalData(4003);
 
 	m_state = ST_HISTORICALDATAREQUESTS_ACK;
 }
@@ -1425,7 +1427,7 @@ void TestCppClient::nextValidId( OrderId orderId)
 	//! [nextvalidid]
 
     //m_state = ST_TICKOPTIONCOMPUTATIONOPERATION; 
-    m_state = ST_TICKDATAOPERATION; 
+    //m_state = ST_TICKDATAOPERATION; 
     //m_state = ST_OPTIONSOPERATIONS;
     //m_state = ST_REQTICKBYTICKDATA; 
     //m_state = ST_REQHISTORICALTICKS; 
@@ -1436,7 +1438,7 @@ void TestCppClient::nextValidId( OrderId orderId)
 	//m_state = ST_MARKETDEPTHOPERATION;
 	//m_state = ST_REALTIMEBARS;
 	//m_state = ST_MARKETDATATYPE;
-	//m_state = ST_HISTORICALDATAREQUESTS;
+	m_state = ST_HISTORICALDATAREQUESTS;
 	//m_state = ST_CONTRACTOPERATION;
 	//m_state = ST_MARKETSCANNERS;
 	//m_state = ST_FUNDAMENTALS;
@@ -2175,3 +2177,12 @@ void TestCppClient::wshEventData(int reqId, const std::string& dataJson) {
 	printf("WSH Event Data. ReqId: %d, dataJson: %s\n", reqId, dataJson.c_str());
 }
 //! [wshEventData]
+
+//! [historicalSchedule]
+void TestCppClient::historicalSchedule(int reqId, const std::string& startDateTime, const std::string& endDateTime, const std::string& timeZone, const std::vector<HistoricalSession>& sessions) {
+	printf("Historical Schedule. ReqId: %d, Start: %s, End: %s, TimeZone: %s\n", reqId, startDateTime.c_str(), endDateTime.c_str(), timeZone.c_str());
+	for (unsigned int i = 0; i < sessions.size(); i++) {
+		printf("\tSession. Start: %s, End: %s, RefDate: %s\n", sessions[i].startDateTime.c_str(), sessions[i].endDateTime.c_str(), sessions[i].refDate.c_str());
+	}
+}
+//! [historicalSchedule]
