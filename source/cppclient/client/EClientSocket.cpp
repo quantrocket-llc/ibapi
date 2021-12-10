@@ -312,25 +312,28 @@ void EClientSocket::redirect(const char *host, int port) {
 
 bool EClientSocket::handleSocketError()
 {
+	errno = WSAGetLastError();
+
 	// no error
-	if( errno == 0)
+	if (errno == 0)
 		return true;
 
 	// Socket is already connected
-	if( errno == EISCONN) {
+	if (errno == EISCONN) {
 		return true;
 	}
 
-	if( errno == EWOULDBLOCK)
+	if (errno == EWOULDBLOCK)
 		return false;
 
-	if( errno == ECONNREFUSED) {
-		getWrapper()->error( NO_VALID_ID, CONNECT_FAIL.code(), CONNECT_FAIL.msg());
+	if (errno == ECONNREFUSED) {
+		getWrapper()->error(NO_VALID_ID, CONNECT_FAIL.code(), CONNECT_FAIL.msg());
 	}
 	else {
-		getWrapper()->error( NO_VALID_ID, SOCKET_EXCEPTION.code(),
+		getWrapper()->error(NO_VALID_ID, SOCKET_EXCEPTION.code(),
 			SOCKET_EXCEPTION.msg() + strerror(errno));
 	}
+
 	// reset errno
 	errno = 0;
 	eDisconnect();
