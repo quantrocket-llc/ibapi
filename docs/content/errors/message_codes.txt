@@ -99,6 +99,14 @@
 			<td>2137</td><td>Cross Side Warning</td><td>This warning message occurs in TWS version 955 and higher. It occurs when an order will change the position in an account from long to short or from short to long. 
 			To bypass the warning, a new feature has been added to IB Gateway 956 (or higher) and TWS 957 (or higher) so that once can go to Global Configuration > Messages and disable the "Cross Side Warning".</td>
 		</tr>
+		<tr>
+			<td>2168</td><td>Etrade Only Not Supported Warning</td>
+			<td>The EtradeOnly @ref IBApi::Order attribute is no longer supported. Error received with TWS versions 983+. Remove attribute to place order.</td>
+		</tr>
+		<tr>
+			<td>2169</td><td>Firm Quote Only Not Supported Warning</td>
+			<td>The firmQuoteOnly @ref IBApi::Order attribute is no longer supported. Error received with TWS versions 983+. Remove attribute to place order.</td>
+		</tr>
 	</table>
 	
 	\section client_codes Client Error Codes
