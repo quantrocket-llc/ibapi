@@ -64,7 +64,7 @@ namespace Samples
             baseOrder.AlgoParams.Add(new TagValue("startTime", startTime));
             baseOrder.AlgoParams.Add(new TagValue("endTime", endTime));
             baseOrder.AlgoParams.Add(new TagValue("allowPastEndTime", allowPastEndTime ? "1" : "0"));
-            baseOrder.AlgoParams.Add(new TagValue("monetaryValue", monetaryValue.ToString()));
+            baseOrder.CashQty = monetaryValue;
         }
         //! [twap_params]
 
