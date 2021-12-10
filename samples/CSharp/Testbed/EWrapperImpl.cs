@@ -71,15 +71,15 @@ namespace Samples
         //! [tickprice]
         public virtual void tickPrice(int tickerId, int field, double price, TickAttrib attribs) 
         {
-            Console.WriteLine("Tick Price. Ticker Id:"+tickerId+", Field: "+field+", Price: "+price+", CanAutoExecute: "+attribs.CanAutoExecute + 
+            Console.WriteLine("Tick Price. Ticker Id:" + tickerId + ", Field: " + field + ", Price: " + Util.DoubleMaxString(price) + ", CanAutoExecute: " + attribs.CanAutoExecute + 
                 ", PastLimit: " + attribs.PastLimit + ", PreOpen: " + attribs.PreOpen);
         }
         //! [tickprice]
         
         //! [ticksize]
-        public virtual void tickSize(int tickerId, int field, long size)
+        public virtual void tickSize(int tickerId, int field, decimal size)
         {
-            Console.WriteLine("Tick Size. Ticker Id:" + tickerId + ", Field: " + field + ", Size: " + size);
+            Console.WriteLine("Tick Size. Ticker Id:" + tickerId + ", Field: " + field + ", Size: " + Util.DecimalMaxString(size));
         }
         //! [ticksize]
         
@@ -93,13 +93,15 @@ namespace Samples
         //! [tickgeneric]
         public virtual void tickGeneric(int tickerId, int field, double value)
         {
-            Console.WriteLine("Tick Generic. Ticker Id:" + tickerId + ", Field: " + field + ", Value: " + value);
+            Console.WriteLine("Tick Generic. Ticker Id:" + tickerId + ", Field: " + field + ", Value: " + Util.DoubleMaxString(value));
         }
         //! [tickgeneric]
 
         public virtual void tickEFP(int tickerId, int tickType, double basisPoints, string formattedBasisPoints, double impliedFuture, int holdDays, string futureLastTradeDate, double dividendImpact, double dividendsToLastTradeDate)
         {
-            Console.WriteLine("TickEFP. "+tickerId+", Type: "+tickType+", BasisPoints: "+basisPoints+", FormattedBasisPoints: "+formattedBasisPoints+", ImpliedFuture: "+impliedFuture+", HoldDays: "+holdDays+", FutureLastTradeDate: "+futureLastTradeDate+", DividendImpact: "+dividendImpact+", DividendsToLastTradeDate: "+dividendsToLastTradeDate);
+            Console.WriteLine("TickEFP. " + tickerId + ", Type: " + tickType+", BasisPoints: " + Util.DoubleMaxString(basisPoints) +", FormattedBasisPoints: " + formattedBasisPoints + 
+                ", ImpliedFuture: " + Util.DoubleMaxString(impliedFuture) +", HoldDays: " + Util.IntMaxString(holdDays) + ", FutureLastTradeDate: " + futureLastTradeDate + 
+                ", DividendImpact: " + Util.DoubleMaxString(dividendImpact) + ", DividendsToLastTradeDate: " + Util.DoubleMaxString(dividendsToLastTradeDate));
         }
         
         //! [ticksnapshotend]
@@ -120,7 +122,7 @@ namespace Samples
         //! [deltaneutralvalidation]
         public virtual void deltaNeutralValidation(int reqId, DeltaNeutralContract deltaNeutralContract)
         {
-            Console.WriteLine("DeltaNeutralValidation. " + reqId + ", ConId: " + deltaNeutralContract.ConId + ", Delta: " + deltaNeutralContract.Delta + ", Price: " + deltaNeutralContract.Price);
+            Console.WriteLine("DeltaNeutralValidation. " + reqId + ", ConId: " + deltaNeutralContract.ConId + ", Delta: " + Util.DoubleMaxString(deltaNeutralContract.Delta) + ", Price: " + Util.DoubleMaxString(deltaNeutralContract.Price));
         }
         //! [deltaneutralvalidation]
 
@@ -134,8 +136,9 @@ namespace Samples
         //! [tickoptioncomputation]
         public virtual void tickOptionComputation(int tickerId, int field, int tickAttrib, double impliedVolatility, double delta, double optPrice, double pvDividend, double gamma, double vega, double theta, double undPrice)
         {
-            Console.WriteLine("TickOptionComputation. TickerId: "+tickerId+", field: "+field+", TickAttrib: "+tickAttrib+", ImpliedVolatility: "+impliedVolatility+", Delta: "+delta
-                +", OptionPrice: "+optPrice+", pvDividend: "+pvDividend+", Gamma: "+gamma+", Vega: "+vega+", Theta: "+theta+", UnderlyingPrice: "+undPrice);
+            Console.WriteLine("TickOptionComputation. TickerId: " + tickerId + ", field: " + field + ", TickAttrib: " + Util.IntMaxString(tickAttrib) + ", ImpliedVolatility: " + Util.DoubleMaxString(impliedVolatility) + 
+                ", Delta: " + Util.DoubleMaxString(delta) + ", OptionPrice: " + Util.DoubleMaxString(optPrice) +", pvDividend: " + Util.DoubleMaxString(pvDividend) + 
+                ", Gamma: " + Util.DoubleMaxString(gamma) + ", Vega: " + Util.DoubleMaxString(vega) + ", Theta: " + Util.DoubleMaxString(theta) + ", UnderlyingPrice: " + Util.DoubleMaxString(undPrice));
         }
         //! [tickoptioncomputation]
 
@@ -161,11 +164,12 @@ namespace Samples
         //! [updateaccountvalue]
 
         //! [updateportfolio]
-        public virtual void updatePortfolio(Contract contract, double position, double marketPrice, double marketValue, double averageCost, double unrealizedPNL, double realizedPNL, string accountName)
+        public virtual void updatePortfolio(Contract contract, decimal position, double marketPrice, double marketValue, double averageCost, double unrealizedPNL, double realizedPNL, string accountName)
         {
-            Console.WriteLine("UpdatePortfolio. "+contract.Symbol+", "+contract.SecType+" @ "+contract.Exchange
-                +": Position: "+position+", MarketPrice: "+marketPrice+", MarketValue: "+marketValue+", AverageCost: "+averageCost
-                +", UnrealizedPNL: "+unrealizedPNL+", RealizedPNL: "+realizedPNL+", AccountName: "+accountName);
+            Console.WriteLine("UpdatePortfolio. " + contract.Symbol + ", " + contract.SecType + " @ " + contract.Exchange
+                + ": Position: " + Util.DecimalMaxString(position) + ", MarketPrice: " + Util.DoubleMaxString(marketPrice) + ", MarketValue: " + Util.DoubleMaxString(marketValue) + 
+                ", AverageCost: " + Util.DoubleMaxString(averageCost) + ", UnrealizedPNL: " + Util.DoubleMaxString(unrealizedPNL) + ", RealizedPNL: " + Util.DoubleMaxString(realizedPNL) + 
+                ", AccountName: " + accountName);
         }
         //! [updateportfolio]
 
@@ -184,19 +188,21 @@ namespace Samples
         //! [accountdownloadend]
 
         //! [orderstatus]
-        public virtual void orderStatus(int orderId, string status, double filled, double remaining, double avgFillPrice, int permId, int parentId, double lastFillPrice, int clientId, string whyHeld, double mktCapPrice)
+        public virtual void orderStatus(int orderId, string status, decimal filled, decimal remaining, double avgFillPrice, int permId, int parentId, double lastFillPrice, int clientId, string whyHeld, double mktCapPrice)
         {
-            Console.WriteLine("OrderStatus. Id: " + orderId + ", Status: " + status + ", Filled: " + filled + ", Remaining: " + remaining
-                + ", AvgFillPrice: " + avgFillPrice + ", PermId: " + permId + ", ParentId: " + parentId + ", LastFillPrice: " + lastFillPrice + ", ClientId: " + clientId + ", WhyHeld: " + whyHeld + ", MktCapPrice: " + mktCapPrice);
+            Console.WriteLine("OrderStatus. Id: " + orderId + ", Status: " + status + ", Filled: " + Util.DecimalMaxString(filled) + ", Remaining: " + Util.DecimalMaxString(remaining)
+                + ", AvgFillPrice: " + Util.DoubleMaxString(avgFillPrice) + ", PermId: " + Util.IntMaxString(permId) + ", ParentId: " + Util.IntMaxString(parentId) + 
+                ", LastFillPrice: " + Util.DoubleMaxString(lastFillPrice) + ", ClientId: " + Util.IntMaxString(clientId) + ", WhyHeld: " + whyHeld + ", MktCapPrice: " + Util.DoubleMaxString(mktCapPrice));
         }
         //! [orderstatus]
 
         //! [openorder]
         public virtual void openOrder(int orderId, Contract contract, Order order, OrderState orderState)
         {
-            Console.WriteLine("OpenOrder. PermID: " + order.PermId + ", ClientId: " + order.ClientId + ", OrderId: " + orderId + ", Account: " + order.Account + 
-                ", Symbol: " + contract.Symbol + ", SecType: " + contract.SecType + " , Exchange: " + contract.Exchange + ", Action: " + order.Action + ", OrderType: " + order.OrderType + 
-                ", TotalQty: " + order.TotalQuantity + ", CashQty: " + order.CashQty + ", LmtPrice: " + order.LmtPrice + ", AuxPrice: " + order.AuxPrice + ", Status: " + orderState.Status);
+            Console.WriteLine("OpenOrder. PermID: " + Util.IntMaxString(order.PermId) + ", ClientId: " + Util.IntMaxString(order.ClientId) + ", OrderId: " + Util.IntMaxString(orderId) + 
+                ", Account: " + order.Account + ", Symbol: " + contract.Symbol + ", SecType: " + contract.SecType + " , Exchange: " + contract.Exchange + ", Action: " + order.Action + 
+                ", OrderType: " + order.OrderType + ", TotalQty: " + Util.DecimalMaxString(order.TotalQuantity) + ", CashQty: " + Util.DoubleMaxString(order.CashQty) + 
+                ", LmtPrice: " + Util.DoubleMaxString(order.LmtPrice) + ", AuxPrice: " + Util.DoubleMaxString(order.AuxPrice) + ", Status: " + orderState.Status);
         }
         //! [openorder]
 
@@ -223,7 +229,7 @@ namespace Samples
             Console.WriteLine("\tSymbol: " + contract.Symbol);
             Console.WriteLine("\tSecType: " + contract.SecType);
             Console.WriteLine("\tLastTradeDateOrContractMonth: " + contract.LastTradeDateOrContractMonth);
-            Console.WriteLine("\tStrike: " + contract.Strike);
+            Console.WriteLine("\tStrike: " + Util.DoubleMaxString(contract.Strike));
             Console.WriteLine("\tRight: " + contract.Right);
             Console.WriteLine("\tMultiplier: " + contract.Multiplier);
             Console.WriteLine("\tExchange: " + contract.Exchange);
@@ -236,11 +242,11 @@ namespace Samples
         public void printContractDetailsMsg(ContractDetails contractDetails)
         {
             Console.WriteLine("\tMarketName: " + contractDetails.MarketName);
-            Console.WriteLine("\tMinTick: " + contractDetails.MinTick);
-            Console.WriteLine("\tPriceMagnifier: " + contractDetails.PriceMagnifier);
+            Console.WriteLine("\tMinTick: " + Util.DoubleMaxString(contractDetails.MinTick));
+            Console.WriteLine("\tPriceMagnifier: " + Util.IntMaxString(contractDetails.PriceMagnifier));
             Console.WriteLine("\tOrderTypes: " + contractDetails.OrderTypes);
             Console.WriteLine("\tValidExchanges: " + contractDetails.ValidExchanges);
-            Console.WriteLine("\tUnderConId: " + contractDetails.UnderConId);
+            Console.WriteLine("\tUnderConId: " + Util.IntMaxString(contractDetails.UnderConId));
             Console.WriteLine("\tLongName: " + contractDetails.LongName);
             Console.WriteLine("\tContractMonth: " + contractDetails.ContractMonth);
             Console.WriteLine("\tIndystry: " + contractDetails.Industry);
@@ -250,15 +256,17 @@ namespace Samples
             Console.WriteLine("\tTradingHours: " + contractDetails.TradingHours);
             Console.WriteLine("\tLiquidHours: " + contractDetails.LiquidHours);
             Console.WriteLine("\tEvRule: " + contractDetails.EvRule);
-            Console.WriteLine("\tEvMultiplier: " + contractDetails.EvMultiplier);
-            Console.WriteLine("\tMdSizeMultiplier: " + contractDetails.MdSizeMultiplier);
-            Console.WriteLine("\tAggGroup: " + contractDetails.AggGroup);
+            Console.WriteLine("\tEvMultiplier: " + Util.DoubleMaxString(contractDetails.EvMultiplier));
+            Console.WriteLine("\tAggGroup: " + Util.IntMaxString(contractDetails.AggGroup));
             Console.WriteLine("\tUnderSymbol: " + contractDetails.UnderSymbol);
             Console.WriteLine("\tUnderSecType: " + contractDetails.UnderSecType);
             Console.WriteLine("\tMarketRuleIds: " + contractDetails.MarketRuleIds);
             Console.WriteLine("\tRealExpirationDate: " + contractDetails.RealExpirationDate);
             Console.WriteLine("\tLastTradeTime: " + contractDetails.LastTradeTime);
             Console.WriteLine("\tStock Type: " + contractDetails.StockType);
+            Console.WriteLine("\tMinSize: " + Util.DecimalMaxString(contractDetails.MinSize));
+            Console.WriteLine("\tSizeIncrement: " + Util.DecimalMaxString(contractDetails.SizeIncrement));
+            Console.WriteLine("\tSuggestedSizeIncrement: " + Util.DecimalMaxString(contractDetails.SuggestedSizeIncrement));
             printContractDetailsSecIdList(contractDetails.SecIdList);
         }
 
@@ -279,7 +287,7 @@ namespace Samples
             Console.WriteLine("\tSymbol: " + contractDetails.Contract.Symbol);
             Console.WriteLine("\tSecType: " + contractDetails.Contract.SecType);
             Console.WriteLine("\tCusip: " + contractDetails.Cusip);
-            Console.WriteLine("\tCoupon: " + contractDetails.Coupon);
+            Console.WriteLine("\tCoupon: " + Util.DoubleMaxString(contractDetails.Coupon));
             Console.WriteLine("\tMaturity: " + contractDetails.Maturity);
             Console.WriteLine("\tIssueDate: " + contractDetails.IssueDate);
             Console.WriteLine("\tRatings: " + contractDetails.Ratings);
@@ -294,8 +302,7 @@ namespace Samples
             Console.WriteLine("\tMarketName: " + contractDetails.MarketName);
             Console.WriteLine("\tTradingClass: " + contractDetails.Contract.TradingClass);
             Console.WriteLine("\tConId: " + contractDetails.Contract.ConId);
-            Console.WriteLine("\tMinTick: " + contractDetails.MinTick);
-            Console.WriteLine("\tMdSizeMultiplier: " + contractDetails.MdSizeMultiplier);
+            Console.WriteLine("\tMinTick: " + Util.DoubleMaxString(contractDetails.MinTick));
             Console.WriteLine("\tOrderTypes: " + contractDetails.OrderTypes);
             Console.WriteLine("\tValidExchanges: " + contractDetails.ValidExchanges);
             Console.WriteLine("\tNextOptionDate: " + contractDetails.NextOptionDate);
@@ -304,11 +311,14 @@ namespace Samples
             Console.WriteLine("\tNotes: " + contractDetails.Notes);
             Console.WriteLine("\tLong Name: " + contractDetails.LongName);
             Console.WriteLine("\tEvRule: " + contractDetails.EvRule);
-            Console.WriteLine("\tEvMultiplier: " + contractDetails.EvMultiplier);
-            Console.WriteLine("\tAggGroup: " + contractDetails.AggGroup);
+            Console.WriteLine("\tEvMultiplier: " + Util.DoubleMaxString(contractDetails.EvMultiplier));
+            Console.WriteLine("\tAggGroup: " + Util.IntMaxString(contractDetails.AggGroup));
             Console.WriteLine("\tMarketRuleIds: " + contractDetails.MarketRuleIds);
             Console.WriteLine("\tLastTradeTime: " + contractDetails.LastTradeTime);
             Console.WriteLine("\tTimeZoneId: " + contractDetails.TimeZoneId);
+            Console.WriteLine("\tMinSize: " + Util.DecimalMaxString(contractDetails.MinSize));
+            Console.WriteLine("\tSizeIncrement: " + Util.DecimalMaxString(contractDetails.SizeIncrement));
+            Console.WriteLine("\tSuggestedSizeIncrement: " + Util.DecimalMaxString(contractDetails.SuggestedSizeIncrement));
             printContractDetailsSecIdList(contractDetails.SecIdList);
         }
 
@@ -323,7 +333,8 @@ namespace Samples
         //! [execdetails]
         public virtual void execDetails(int reqId, Contract contract, Execution execution)
         {
-            Console.WriteLine("ExecDetails. "+reqId+" - "+contract.Symbol+", "+contract.SecType+", "+contract.Currency+" - "+execution.ExecId+", "+execution.OrderId+", "+execution.Shares + ", " + execution.LastLiquidity);
+            Console.WriteLine("ExecDetails. " + reqId + " - " + contract.Symbol + ", " + contract.SecType+", " + contract.Currency+" - " + execution.ExecId + ", " + Util.IntMaxString(execution.OrderId) + 
+                ", " + Util.DecimalMaxString(execution.Shares) + ", " + Util.DecimalMaxString(execution.CumQty) + ", " + execution.LastLiquidity);
         }
         //! [execdetails]
 
@@ -337,7 +348,7 @@ namespace Samples
         //! [commissionreport]
         public virtual void commissionReport(CommissionReport commissionReport)
         {
-            Console.WriteLine("CommissionReport. "+commissionReport.ExecId+" - "+commissionReport.Commission+" "+commissionReport.Currency+" RPNL "+commissionReport.RealizedPNL);
+            Console.WriteLine("CommissionReport. " + commissionReport.ExecId + " - " + Util.DoubleMaxString(commissionReport.Commission) + " " + commissionReport.Currency + " RPNL " + Util.DoubleMaxString(commissionReport.RealizedPNL));
         }
         //! [commissionreport]
 
@@ -351,7 +362,9 @@ namespace Samples
         //! [historicaldata]
         public virtual void historicalData(int reqId, Bar bar)
         {
-            Console.WriteLine("HistoricalData. " + reqId + " - Time: " + bar.Time + ", Open: " + bar.Open + ", High: " + bar.High + ", Low: " + bar.Low + ", Close: " + bar.Close + ", Volume: " + bar.Volume + ", Count: " + bar.Count + ", WAP: " + bar.WAP);
+            Console.WriteLine("HistoricalData. " + reqId + " - Time: " + bar.Time + ", Open: " + Util.DoubleMaxString(bar.Open) + ", High: " + Util.DoubleMaxString(bar.High) + 
+                ", Low: " + Util.DoubleMaxString(bar.Low) + ", Close: " + Util.DoubleMaxString(bar.Close) + ", Volume: " + Util.DecimalMaxString(bar.Volume) + 
+                ", Count: " + Util.IntMaxString(bar.Count) + ", WAP: " + Util.DecimalMaxString(bar.WAP));
         }
         //! [historicaldata]
 
@@ -363,16 +376,16 @@ namespace Samples
         //! [marketdatatype]
 
         //! [updatemktdepth]
-        public virtual void updateMktDepth(int tickerId, int position, int operation, int side, double price, long size)
+        public virtual void updateMktDepth(int tickerId, int position, int operation, int side, double price, decimal size)
         {
-            Console.WriteLine("UpdateMarketDepth. " + tickerId + " - Position: " + position + ", Operation: " + operation + ", Side: " + side + ", Price: " + price + ", Size: " + size);
+            Console.WriteLine("UpdateMarketDepth. " + tickerId + " - Position: " + position + ", Operation: " + operation + ", Side: " + side + ", Price: " + Util.DoubleMaxString(price) + ", Size: " + Util.DecimalMaxString(size));
         }
         //! [updatemktdepth]
 
         //! [updatemktdepthl2]
-        public virtual void updateMktDepthL2(int tickerId, int position, string marketMaker, int operation, int side, double price, long size, bool isSmartDepth)
+        public virtual void updateMktDepthL2(int tickerId, int position, string marketMaker, int operation, int side, double price, decimal size, bool isSmartDepth)
         {
-            Console.WriteLine("UpdateMarketDepthL2. " + tickerId + " - Position: " + position + ", Operation: " + operation + ", Side: " + side + ", Price: " + price + ", Size: " + size + ", isSmartDepth: " + isSmartDepth);
+            Console.WriteLine("UpdateMarketDepthL2. " + tickerId + " - Position: " + position + ", Operation: " + operation + ", Side: " + side + ", Price: " + Util.DoubleMaxString(price) + ", Size: " + Util.DecimalMaxString(size) + ", isSmartDepth: " + isSmartDepth);
         }
         //! [updatemktdepthl2]
 
@@ -384,9 +397,10 @@ namespace Samples
         //! [updatenewsbulletin]
 
         //! [position]
-        public virtual void position(string account, Contract contract, double pos, double avgCost)
+        public virtual void position(string account, Contract contract, decimal pos, double avgCost)
         {
-            Console.WriteLine("Position. "+account+" - Symbol: "+contract.Symbol+", SecType: "+contract.SecType+", Currency: "+contract.Currency+", Position: "+pos+", Avg cost: "+avgCost);
+            Console.WriteLine("Position. " + account + " - Symbol: " + contract.Symbol + ", SecType: " + contract.SecType + ", Currency: " + contract.Currency + 
+                ", Position: " + Util.DecimalMaxString(pos) + ", Avg cost: " + Util.DoubleMaxString(avgCost));
         }
         //! [position]
 
@@ -398,9 +412,11 @@ namespace Samples
         //! [positionend]
 
         //! [realtimebar]
-        public virtual void realtimeBar(int reqId, long time, double open, double high, double low, double close, long volume, double WAP, int count)
+        public virtual void realtimeBar(int reqId, long time, double open, double high, double low, double close, decimal volume, decimal WAP, int count)
         {
-            Console.WriteLine("RealTimeBars. " + reqId + " - Time: " + time + ", Open: " + open + ", High: " + high + ", Low: " + low + ", Close: " + close + ", Volume: " + volume + ", Count: " + count + ", WAP: " + WAP);
+            Console.WriteLine("RealTimeBars. " + reqId + " - Time: " + Util.LongMaxString(time) + ", Open: " + Util.DoubleMaxString(open) + ", High: " + Util.DoubleMaxString(high) + 
+                ", Low: " + Util.DoubleMaxString(low) + ", Close: " + Util.DoubleMaxString(close) + ", Volume: " + Util.DecimalMaxString(volume) + ", Count: " + Util.IntMaxString(count) + 
+                ", WAP: " + Util.DecimalMaxString(WAP));
         }
         //! [realtimebar]
 
@@ -478,9 +494,10 @@ namespace Samples
         //! [displaygroupupdated]
 
         //! [positionmulti]
-        public virtual void positionMulti(int reqId, string account, string modelCode, Contract contract, double pos, double avgCost)
+        public virtual void positionMulti(int reqId, string account, string modelCode, Contract contract, decimal pos, double avgCost)
         {
-            Console.WriteLine("Position Multi. Request: " + reqId + ", Account: " + account + ", ModelCode: " + modelCode + ", Symbol: " + contract.Symbol + ", SecType: " + contract.SecType + ", Currency: " + contract.Currency + ", Position: " + pos + ", Avg cost: " + avgCost + "\n");
+            Console.WriteLine("Position Multi. Request: " + reqId + ", Account: " + account + ", ModelCode: " + modelCode + ", Symbol: " + contract.Symbol + ", SecType: " + contract.SecType + 
+                ", Currency: " + contract.Currency + ", Position: " + Util.DecimalMaxString(pos) + ", Avg cost: " + Util.DoubleMaxString(avgCost) + "\n");
         }
         //! [positionmulti]
 
@@ -509,7 +526,7 @@ namespace Samples
         public void securityDefinitionOptionParameter(int reqId, string exchange, int underlyingConId, string tradingClass, string multiplier, HashSet<string> expirations, HashSet<double> strikes)
         {
             Console.WriteLine("Security Definition Option Parameter. Reqest: {0}, Exchange: {1}, Undrelying contract id: {2}, Trading class: {3}, Multiplier: {4}, Expirations: {5}, Strikes: {6}",
-                              reqId, exchange, underlyingConId, tradingClass, multiplier, string.Join(", ", expirations), string.Join(", ", strikes));
+                              reqId, exchange, Util.IntMaxString(underlyingConId), tradingClass, multiplier, string.Join(", ", expirations), string.Join(", ", strikes));
         }
         //! [securityDefinitionOptionParameter]
 
@@ -583,8 +600,7 @@ namespace Samples
                 Console.WriteLine("Depth Market Data Description: Exchange: {0}, Security Type: {1}, Listing Exch: {2}, Service Data Type: {3}, Agg Group: {4}", 
                     depthMktDataDescription.Exchange, depthMktDataDescription.SecType, 
                     depthMktDataDescription.ListingExch, depthMktDataDescription.ServiceDataType,
-                    depthMktDataDescription.AggGroup != Int32.MaxValue ? depthMktDataDescription.AggGroup.ToString() : ""
-                    );
+                    Util.IntMaxString(depthMktDataDescription.AggGroup));
             }
         }
         //! [mktDepthExchanges]
@@ -592,7 +608,7 @@ namespace Samples
         //! [tickNews]
         public void tickNews(int tickerId, long timeStamp, string providerCode, string articleId, string headline, string extraData)
         {
-            Console.WriteLine("Tick News. Ticker Id: {0}, Time Stamp: {1}, Provider Code: {2}, Article Id: {3}, headline: {4}, extraData: {5}", tickerId, timeStamp, providerCode, articleId, headline, extraData);
+            Console.WriteLine("Tick News. Ticker Id: {0}, Time Stamp: {1}, Provider Code: {2}, Article Id: {3}, headline: {4}, extraData: {5}", tickerId, Util.LongMaxString(timeStamp), providerCode, articleId, headline, extraData);
         }
         //! [tickNews]
 
@@ -617,7 +633,7 @@ namespace Samples
         //! [tickReqParams]
         public void tickReqParams(int tickerId, double minTick, string bboExchange, int snapshotPermissions)
         {
-            Console.WriteLine("id={0} minTick = {1} bboExchange = {2} snapshotPermissions = {3}", tickerId, minTick, bboExchange, snapshotPermissions);
+            Console.WriteLine("id={0} minTick = {1} bboExchange = {2} snapshotPermissions = {3}", tickerId, Util.DoubleMaxString(minTick), bboExchange, Util.IntMaxString(snapshotPermissions));
 
             BboExchange = bboExchange;
         }
@@ -674,14 +690,16 @@ namespace Samples
         public void histogramData(int reqId, HistogramEntry[] data)
         {
             Console.WriteLine("Histogram data. Request Id: {0}, data size: {1}", reqId, data.Length);
-            data.ToList().ForEach(i => Console.WriteLine("\tPrice: {0}, Size: {1}", i.Price, i.Size));
+            data.ToList().ForEach(i => Console.WriteLine("\tPrice: {0}, Size: {1}", Util.DoubleMaxString(i.Price), Util.DecimalMaxString(i.Size)));
         }
         //! [histogramData]
 
         //! [historicalDataUpdate]
         public void historicalDataUpdate(int reqId, Bar bar)
         {
-            Console.WriteLine("HistoricalDataUpdate. " + reqId + " - Time: " + bar.Time + ", Open: " + bar.Open + ", High: " + bar.High + ", Low: " + bar.Low + ", Close: " + bar.Close + ", Volume: " + bar.Volume + ", Count: " + bar.Count + ", WAP: " + bar.WAP);
+            Console.WriteLine("HistoricalDataUpdate. " + reqId + " - Time: " + bar.Time + ", Open: " + Util.DoubleMaxString(bar.Open) + ", High: " + Util.DoubleMaxString(bar.High) + 
+                ", Low: " + Util.DoubleMaxString(bar.Low) + ", Close: " + Util.DoubleMaxString(bar.Close) + ", Volume: " + Util.DecimalMaxString(bar.Volume) + 
+                ", Count: " + Util.IntMaxString(bar.Count) + ", WAP: " + Util.DecimalMaxString(bar.WAP));
         }
         //! [historicalDataUpdate]
 
@@ -705,7 +723,7 @@ namespace Samples
             Console.WriteLine("Market Rule Id: " + marketRuleId);
             foreach (var priceIncrement in priceIncrements) 
             {
-                Console.WriteLine("Low Edge: {0}, Increment: {1}", ((decimal)priceIncrement.LowEdge).ToString(), ((decimal)priceIncrement.Increment).ToString());
+                Console.WriteLine("Low Edge: {0}, Increment: {1}", Util.DoubleMaxString(priceIncrement.LowEdge), Util.DoubleMaxString(priceIncrement.Increment));
             }
         }
         //! [marketRule]
@@ -713,14 +731,15 @@ namespace Samples
 		//! [pnl]
         public void pnl(int reqId, double dailyPnL, double unrealizedPnL, double realizedPnL)
         {
-            Console.WriteLine("PnL. Request Id: {0}, Daily PnL: {1}, Unrealized PnL: {2}, Realized PnL: {3}", reqId, dailyPnL, unrealizedPnL, realizedPnL);
+            Console.WriteLine("PnL. Request Id: {0}, Daily PnL: {1}, Unrealized PnL: {2}, Realized PnL: {3}", reqId, Util.DoubleMaxString(dailyPnL), Util.DoubleMaxString(unrealizedPnL), Util.DoubleMaxString(realizedPnL));
         }
 		//! [pnl]
 
 		//! [pnlsingle]
-        public void pnlSingle(int reqId, int pos, double dailyPnL, double unrealizedPnL, double realizedPnL, double value)
+        public void pnlSingle(int reqId, decimal pos, double dailyPnL, double unrealizedPnL, double realizedPnL, double value)
         {
-            Console.WriteLine("PnL Single. Request Id: {0}, Pos {1}, Daily PnL {2}, Unrealized PnL {3}, Realized PnL: {4}, Value: {5}", reqId, pos, dailyPnL, unrealizedPnL, realizedPnL, value);
+            Console.WriteLine("PnL Single. Request Id: {0}, Pos {1}, Daily PnL {2}, Unrealized PnL {3}, Realized PnL: {4}, Value: {5}", reqId, Util.DecimalMaxString(pos), Util.DoubleMaxString(dailyPnL), Util.DoubleMaxString(unrealizedPnL),
+                Util.DoubleMaxString(realizedPnL), Util.DoubleMaxString(value));
         }
 		//! [pnlsingle]
 
@@ -729,7 +748,7 @@ namespace Samples
         {
             foreach (var tick in ticks)
             {
-                Console.WriteLine("Historical Tick. Request Id: {0}, Time: {1}, Price: {2}, Size: {3}", reqId, Util.UnixSecondsToString(tick.Time, "yyyyMMdd-HH:mm:ss zzz"), tick.Price, tick.Size);
+                Console.WriteLine("Historical Tick. Request Id: {0}, Time: {1}, Price: {2}, Size: {3}", reqId, Util.UnixSecondsToString(tick.Time, "yyyyMMdd-HH:mm:ss zzz"), Util.DoubleMaxString(tick.Price), Util.DecimalMaxString(tick.Size));
             }
         }
 		//! [historicalticks]
@@ -740,7 +759,8 @@ namespace Samples
             foreach (var tick in ticks)
             {
                 Console.WriteLine("Historical Tick Bid/Ask. Request Id: {0}, Time: {1}, Price Bid: {2}, Price Ask: {3}, Size Bid: {4}, Size Ask: {5}, Bid/Ask Tick Attribs: {6} ",
-                    reqId, Util.UnixSecondsToString(tick.Time, "yyyyMMdd-HH:mm:ss zzz"), tick.PriceBid, tick.PriceAsk, tick.SizeBid, tick.SizeAsk, tick.TickAttribBidAsk);
+                    reqId, Util.UnixSecondsToString(tick.Time, "yyyyMMdd-HH:mm:ss zzz"), Util.DoubleMaxString(tick.PriceBid), Util.DoubleMaxString(tick.PriceAsk), 
+                    Util.DecimalMaxString(tick.SizeBid), Util.DecimalMaxString(tick.SizeAsk), tick.TickAttribBidAsk);
             }
         }
 		//! [historicalticksbidask]
@@ -751,24 +771,24 @@ namespace Samples
             foreach (var tick in ticks)
             {
                 Console.WriteLine("Historical Tick Last. Request Id: {0}, Time: {1}, Price: {2}, Size: {3}, Exchange: {4}, Special Conditions: {5}, Last Tick Attribs: {6} ",
-                    reqId, Util.UnixSecondsToString(tick.Time, "yyyyMMdd-HH:mm:ss zzz"), tick.Price, tick.Size, tick.Exchange, tick.SpecialConditions, tick.TickAttribLast);
+                    reqId, Util.UnixSecondsToString(tick.Time, "yyyyMMdd-HH:mm:ss zzz"), Util.DoubleMaxString(tick.Price), Util.DecimalMaxString(tick.Size), tick.Exchange, tick.SpecialConditions, tick.TickAttribLast);
             }
         }
 		//! [historicaltickslast]
 
         //! [tickbytickalllast]
-        public void tickByTickAllLast(int reqId, int tickType, long time, double price, long size, TickAttribLast tickAttribLast, string exchange, string specialConditions)
+        public void tickByTickAllLast(int reqId, int tickType, long time, double price, decimal size, TickAttribLast tickAttribLast, string exchange, string specialConditions)
         {
             Console.WriteLine("Tick-By-Tick. Request Id: {0}, TickType: {1}, Time: {2}, Price: {3}, Size: {4}, Exchange: {5}, Special Conditions: {6}, PastLimit: {7}, Unreported: {8}",
-                reqId, tickType == 1 ? "Last" : "AllLast", Util.UnixSecondsToString(time, "yyyyMMdd-HH:mm:ss zzz"), price, size, exchange, specialConditions, tickAttribLast.PastLimit, tickAttribLast.Unreported);
+                reqId, tickType == 1 ? "Last" : "AllLast", Util.UnixSecondsToString(time, "yyyyMMdd-HH:mm:ss zzz"), Util.DoubleMaxString(price), Util.DecimalMaxString(size), exchange, specialConditions, tickAttribLast.PastLimit, tickAttribLast.Unreported);
         }
         //! [tickbytickalllast]
 
         //! [tickbytickbidask]
-        public void tickByTickBidAsk(int reqId, long time, double bidPrice, double askPrice, long bidSize, long askSize, TickAttribBidAsk tickAttribBidAsk)
+        public void tickByTickBidAsk(int reqId, long time, double bidPrice, double askPrice, decimal bidSize, decimal askSize, TickAttribBidAsk tickAttribBidAsk)
         {
             Console.WriteLine("Tick-By-Tick. Request Id: {0}, TickType: BidAsk, Time: {1}, BidPrice: {2}, AskPrice: {3}, BidSize: {4}, AskSize: {5}, BidPastLow: {6}, AskPastHigh: {7}",
-                reqId, Util.UnixSecondsToString(time, "yyyyMMdd-HH:mm:ss zzz"), bidPrice, askPrice, bidSize, askSize, tickAttribBidAsk.BidPastLow, tickAttribBidAsk.AskPastHigh);
+                reqId, Util.UnixSecondsToString(time, "yyyyMMdd-HH:mm:ss zzz"), Util.DoubleMaxString(bidPrice), Util.DoubleMaxString(askPrice), Util.DecimalMaxString(bidSize), Util.DecimalMaxString(askSize), tickAttribBidAsk.BidPastLow, tickAttribBidAsk.AskPastHigh);
         }
         //! [tickbytickbidask]
 
@@ -776,24 +796,24 @@ namespace Samples
         public void tickByTickMidPoint(int reqId, long time, double midPoint)
         {
             Console.WriteLine("Tick-By-Tick. Request Id: {0}, TickType: MidPoint, Time: {1}, MidPoint: {2}",
-                reqId, Util.UnixSecondsToString(time, "yyyyMMdd-HH:mm:ss zzz"), midPoint);
+                reqId, Util.UnixSecondsToString(time, "yyyyMMdd-HH:mm:ss zzz"), Util.DoubleMaxString(midPoint));
         }
         //! [tickbytickmidpoint]
 
         //! [orderbound]
         public void orderBound(long orderId, int apiClientId, int apiOrderId)
         {
-            Console.WriteLine("Order bound. Order Id: {0}, Api Client Id: {1}, Api Order Id: {2}", orderId, apiClientId, apiOrderId);
+            Console.WriteLine("Order bound. Order Id: {0}, Api Client Id: {1}, Api Order Id: {2}", Util.LongMaxString(orderId), Util.IntMaxString(apiClientId), Util.IntMaxString(apiOrderId));
         }
         //! [orderbound]
 
         //! [completedorder]
         public virtual void completedOrder(Contract contract, Order order, OrderState orderState)
         {
-            Console.WriteLine("CompletedOrder. PermID: " + order.PermId + ", ParentPermId: " + Util.LongMaxString(order.ParentPermId) + ", Account: " + order.Account + ", Symbol: " + contract.Symbol + ", SecType: " + contract.SecType + 
-                " , Exchange: " + contract.Exchange + ", Action: " + order.Action + ", OrderType: " + order.OrderType + ", TotalQty: " + order.TotalQuantity + 
-                ", CashQty: " + order.CashQty + ", FilledQty: " + order.FilledQuantity + ", LmtPrice: " + order.LmtPrice + ", AuxPrice: " + order.AuxPrice + ", Status: " + orderState.Status +
-                ", CompletedTime: " + orderState.CompletedTime + ", CompletedStatus: " + orderState.CompletedStatus);
+            Console.WriteLine("CompletedOrder. PermID: " + Util.IntMaxString(order.PermId) + ", ParentPermId: " + Util.LongMaxString(order.ParentPermId) + ", Account: " + order.Account + ", Symbol: " + contract.Symbol + ", SecType: " + contract.SecType + 
+                " , Exchange: " + contract.Exchange + ", Action: " + order.Action + ", OrderType: " + order.OrderType + ", TotalQty: " + Util.DecimalMaxString(order.TotalQuantity) + 
+                ", CashQty: " + Util.DoubleMaxString(order.CashQty) + ", FilledQty: " + Util.DecimalMaxString(order.FilledQuantity) + ", LmtPrice: " + Util.DoubleMaxString(order.LmtPrice) + 
+                ", AuxPrice: " + Util.DoubleMaxString(order.AuxPrice) + ", Status: " + orderState.Status + ", CompletedTime: " + orderState.CompletedTime + ", CompletedStatus: " + orderState.CompletedStatus);
         }
         //! [completedorder]
 
@@ -809,6 +829,32 @@ namespace Samples
         {
             Console.WriteLine("Replace FA End. ReqId: " + reqId + ", Text: " + text + "\n");
         }
-        //! [replacefaend]
+		//! [replacefaend]
+
+		//! [wshMetaData]
+        public void wshMetaData(int reqId, string dataJson)
+        {
+            Console.WriteLine($"WSH Meta Data. Request Id: {reqId}, Data JSON: {dataJson}\n");
+        }
+		//! [wshMetaData]
+
+		//! [wshEventData]
+        public void wshEventData(int reqId, string dataJson)
+        {
+            Console.WriteLine($"WSH Event Data. Request Id: {reqId}, Data JSON: {dataJson}\n");
+        }
+        //! [wshEventData]
+
+        //! [historicalSchedule]
+        public void historicalSchedule(int reqId, string startDateTime, string endDateTime, string timeZone, HistoricalSession[] sessions)
+        {
+            Console.WriteLine($"Historical Schedule. ReqId: {reqId}, Start: {startDateTime}, End: {endDateTime}, Time Zone: {timeZone}");
+
+            foreach (var session in sessions)
+            {
+                Console.WriteLine($"\tSession. Start: {session.StartDateTime}, End: {session.EndDateTime}, Ref Date: {session.RefDate}");
+            }
+        }
+        //! [historicalSchedule]
     }
 }

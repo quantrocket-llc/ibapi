@@ -1,10 +1,12 @@
-/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2021 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 package com.ib.controller;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import com.ib.client.Decimal;
 
 public class Bar {
 	private static final ThreadLocal<SimpleDateFormat> FORMAT_CACHE = ThreadLocal.withInitial(() -> new SimpleDateFormat( "yyyyMMdd HH:mm:ss"));
@@ -14,8 +16,8 @@ public class Bar {
 	private final double m_low;
 	private final double m_open;
 	private final double m_close;
-	private final double m_wap;
-	private final long m_volume;
+	private final Decimal m_wap;
+	private final Decimal m_volume;
 	private final int m_count;
 
 	public long time()		{ return m_time; }
@@ -23,11 +25,11 @@ public class Bar {
 	public double low() 	{ return m_low; }
 	public double open() 	{ return m_open; }
 	public double close() 	{ return m_close; }
-	public double wap() 	{ return m_wap; }
-	public long volume() 	{ return m_volume; }
+	public Decimal wap() 	{ return m_wap; }
+	public Decimal volume() { return m_volume; }
 	public int count() 		{ return m_count; }
 
-	public Bar( long time, double high, double low, double open, double close, double wap, long volume, int count) {
+	public Bar( long time, double high, double low, double open, double close, Decimal wap, Decimal volume, int count) {
 		m_time = time;
 		m_high = high;
 		m_low = low;

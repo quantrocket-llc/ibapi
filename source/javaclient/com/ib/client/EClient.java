@@ -8,6 +8,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import com.ib.client.Types.SecType;
+import com.ib.client.Types.WhatToShow;
 
 public abstract class EClient {
 
@@ -193,6 +194,10 @@ public abstract class EClient {
     private static final int REQ_TICK_BY_TICK_DATA = 97;
     private static final int CANCEL_TICK_BY_TICK_DATA = 98;
     private static final int REQ_COMPLETED_ORDERS = 99;
+    private static final int REQ_WSH_META_DATA = 100;
+    private static final int CANCEL_WSH_META_DATA = 101;
+    private static final int REQ_WSH_EVENT_DATA = 102;
+    private static final int CANCEL_WSH_EVENT_DATA = 103;
 
 	private static final int MIN_SERVER_VER_REAL_TIME_BARS = 34;
 	private static final int MIN_SERVER_VER_SCALE_ORDERS = 35;
@@ -296,9 +301,14 @@ public abstract class EClient {
     protected static final int MIN_SERVER_VER_DURATION = 158;
     protected static final int MIN_SERVER_VER_MARKET_DATA_IN_SHARES = 159;
     protected static final int MIN_SERVER_VER_POST_TO_ATS = 160;
+    protected static final int MIN_SERVER_VER_WSHE_CALENDAR = 161;
+    protected static final int MIN_SERVER_VER_AUTO_CANCEL_PARENT = 162;
+    protected static final int MIN_SERVER_VER_FRACTIONAL_SIZE_SUPPORT = 163;
+    protected static final int MIN_SERVER_VER_SIZE_RULES = 164;
+    protected static final int MIN_SERVER_VER_HISTORICAL_SCHEDULE = 165;
     
     public static final int MIN_VERSION = 100; // envelope encoding, applicable to useV100Plus mode only
-    public static final int MAX_VERSION = MIN_SERVER_VER_POST_TO_ATS; // ditto
+    public static final int MAX_VERSION = MIN_SERVER_VER_HISTORICAL_SCHEDULE; // ditto
 
     protected EReaderSignal m_signal;
     protected EWrapper m_eWrapper;    // msg handler
@@ -797,6 +807,14 @@ public abstract class EClient {
               if (!IsEmpty(contract.tradingClass()) || (contract.conid() > 0)) {
                   error(tickerId, EClientErrors.UPDATE_TWS,
                       "  It does not support conId and tradingClass parameters in reqHistoricalData.");
+                  return;
+              }
+          }
+
+          if (m_serverVersion < MIN_SERVER_VER_HISTORICAL_SCHEDULE) {
+              if (!IsEmpty(whatToShow) && whatToShow.equalsIgnoreCase(WhatToShow.SCHEDULE.name())) {
+                  error(tickerId, EClientErrors.UPDATE_TWS,
+                      "  It does not support requesting of historical schedule.");
                   return;
               }
           }
@@ -1639,6 +1657,12 @@ public abstract class EClient {
             error(id, EClientErrors.UPDATE_TWS, "  It does not support postToAts attribute");
             return;
         }
+
+        if (m_serverVersion < MIN_SERVER_VER_AUTO_CANCEL_PARENT 
+                && order.autoCancelParent()) {
+            error(id, EClientErrors.UPDATE_TWS, "  It does not support autoCancelParent attribute");
+            return;
+        }
         
         int VERSION = (m_serverVersion < MIN_SERVER_VER_NOT_HELD) ? 27 : 45;
 
@@ -1686,9 +1710,9 @@ public abstract class EClient {
             b.send( order.getAction());
             
 			if (m_serverVersion >= MIN_SERVER_VER_FRACTIONAL_POSITIONS)
-				b.send(order.totalQuantity());
+				b.send(order.totalQuantity().toString());
 			else
-				b.send((int) order.totalQuantity());
+				b.send((int) order.totalQuantity().longValue());
             
 			b.send( order.getOrderType());
             if (m_serverVersion < MIN_SERVER_VER_ORDER_COMBO_LEGS_PRICE) {
@@ -2070,6 +2094,10 @@ public abstract class EClient {
 
            if (m_serverVersion >= MIN_SERVER_VER_POST_TO_ATS) {
                b.send(order.postToAts());
+           }
+
+           if (m_serverVersion >= MIN_SERVER_VER_AUTO_CANCEL_PARENT) {
+               b.send(order.autoCancelParent());
            }
            
            closeAndSend(b);
@@ -3956,6 +3984,119 @@ public abstract class EClient {
                    EClientErrors.FAIL_SEND_REQ_COMPLETED_ORDERS, e.toString());
             close();
         }
+    }
+    
+    public synchronized void reqWshMetaData(int reqId) {
+        // not connected?
+        if( !isConnected()) {
+            notConnected();
+            return;
+        }
+
+        if (m_serverVersion < MIN_SERVER_VER_WSHE_CALENDAR) {
+          error(EClientErrors.NO_VALID_ID, EClientErrors.UPDATE_TWS,
+                "  It does not support WSHE Calendar API.");
+          return;
+        }
+
+        try {
+            Builder b = prepareBuffer(); 
+
+            b.send(REQ_WSH_META_DATA);
+            b.send(reqId);
+
+            closeAndSend(b);
+        }
+        catch( Exception e) {
+            error( EClientErrors.NO_VALID_ID,
+                   EClientErrors.FAIL_SEND_REQ_WSH_META_DATA, e.toString());
+            close();
+        }   	
+    }
+    
+    public synchronized void cancelWshMetaData(int reqId) {
+        // not connected?
+        if( !isConnected()) {
+            notConnected();
+            return;
+        }
+
+        if (m_serverVersion < MIN_SERVER_VER_WSHE_CALENDAR) {
+          error(EClientErrors.NO_VALID_ID, EClientErrors.UPDATE_TWS,
+                "  It does not support WSHE Calendar API.");
+          return;
+        }
+
+        try {
+            Builder b = prepareBuffer(); 
+
+            b.send(CANCEL_WSH_META_DATA);
+            b.send(reqId);
+
+            closeAndSend(b);
+        }
+        catch( Exception e) {
+            error( EClientErrors.NO_VALID_ID,
+                   EClientErrors.FAIL_SEND_CAN_WSH_META_DATA, e.toString());
+            close();
+        }   	
+    }
+    
+    public synchronized void reqWshEventData(int reqId, int conId) {
+        // not connected?
+        if( !isConnected()) {
+            notConnected();
+            return;
+        }
+
+        if (m_serverVersion < MIN_SERVER_VER_WSHE_CALENDAR) {
+          error(EClientErrors.NO_VALID_ID, EClientErrors.UPDATE_TWS,
+                "  It does not support WSHE Calendar API.");
+          return;
+        }
+
+        try {
+            Builder b = prepareBuffer(); 
+
+            b.send(REQ_WSH_EVENT_DATA);
+            b.send(reqId);
+            b.send(conId);
+
+            closeAndSend(b);
+        }
+        catch( Exception e) {
+            error( EClientErrors.NO_VALID_ID,
+                   EClientErrors.FAIL_SEND_REQ_WSH_META_DATA, e.toString());
+            close();
+        }   	
+    }
+    
+    public synchronized void cancelWshEventData(int reqId) {
+        // not connected?
+        if( !isConnected()) {
+            notConnected();
+            return;
+        }
+
+        if (m_serverVersion < MIN_SERVER_VER_WSHE_CALENDAR) {
+          error(EClientErrors.NO_VALID_ID, EClientErrors.UPDATE_TWS,
+                "  It does not support WSHE Calendar API.");
+          return;
+        }
+
+        try {
+            Builder b = prepareBuffer(); 
+
+            b.send(CANCEL_WSH_EVENT_DATA);
+            b.send(reqId);
+
+            closeAndSend(b);
+        }
+        catch( Exception e) {
+            error( EClientErrors.NO_VALID_ID,
+                   EClientErrors.FAIL_SEND_CAN_WSH_EVENT_DATA, e.toString());
+            close();
+        }   	
     }
     
     /**

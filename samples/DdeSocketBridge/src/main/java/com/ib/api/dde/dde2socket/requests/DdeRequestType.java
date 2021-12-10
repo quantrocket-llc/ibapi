@@ -240,6 +240,12 @@ public enum DdeRequestType {
     // completed orders
     REQ_COMPLETED_ORDERS("reqCompletedOrders"),
 
+    // historical schedule
+    REQUEST_HISTORICAL_SCHEDULE("reqHistoricalSchedule"),
+    CANCEL_HISTORICAL_SCHEDULE("cancelHistoricalSchedule"),
+    HISTORICAL_SCHEDULE_TICK("historicalScheduleTick"),
+    HISTORICAL_SCHEDULE("historicalSchedule"),
+
     // other old-style requests (not supported anymore)
     PROCESS_RATE("processRate"),
     REFRESH_RATE("refreshRate");

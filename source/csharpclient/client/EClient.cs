@@ -1238,6 +1238,11 @@ namespace IBApi
                 {
                     paramsList.AddParameter(order.PostToAts);
                 }
+
+                if (serverVersion >= MinServerVer.AUTO_CANCEL_PARENT)
+                {
+                    paramsList.AddParameter(order.AutoCancelParent);
+                }
             }
             catch (EClientException e)
             {
@@ -1622,7 +1627,17 @@ namespace IBApi
         }
 
         /**
-		reqFundamentalData is currently deprecated	
+         * @brief Legacy/DEPRECATED. Requests the contract's fundamental data.
+         * Fundamental data is returned at EWrapper::fundamentalData
+         * @param reqId the request's unique identifier.
+         * @param contract the contract's description for which the data will be returned.
+         * @param reportType there are three available report types:
+         *      - ReportSnapshot: Company overview
+         *      - ReportsFinSummary: Financial summary
+                - ReportRatios:	Financial ratios
+                - ReportsFinStatements:	Financial statements
+                - RESC: Analyst estimates
+         * @sa EWrapper::fundamentalData
          */
         public void reqFundamentalData(int reqId, Contract contract, string reportType,
             //reserved for future use, must be blank
@@ -1754,6 +1769,12 @@ namespace IBApi
             if (!IsEmpty(contract.TradingClass) || contract.ConId > 0)
             {
                 if (!CheckServerVersion(tickerId, MinServerVer.TRADING_CLASS, " It does not support conId nor trading class parameters when requesting historical data."))
+                    return;
+            }
+
+            if (!IsEmpty(whatToShow) && whatToShow.Equals("SCHEDULE"))
+            {
+                if (!CheckServerVersion(tickerId, MinServerVer.HISTORICAL_SCHEDULE, " It does not support requesting of historical schedule."))
                     return;
             }
 
@@ -3361,6 +3382,116 @@ namespace IBApi
             CloseAndSend(reqId, paramsList, lengthPos, EClientErrors.FAIL_SEND_REQHISTORICALTICKS);
         }
 
+        /**
+        * @brief Requests metadata from the WSH calendar
+        * @param reqId
+        */
+
+        public void reqWshMetaData(int reqId)
+        {
+            if (!CheckConnection())
+                return;
+
+            if (!CheckServerVersion(MinServerVer.WSHE_CALENDAR,
+                    "  It does not support WSHE Calendar API."))
+                return;
+
+            var paramsList = new BinaryWriter(new MemoryStream());
+            var lengthPos = prepareBuffer(paramsList);
+
+            try
+            {
+                paramsList.AddParameter(OutgoingMessages.ReqWshMetaData);
+                paramsList.AddParameter(reqId);
+            }
+            catch (EClientException e)
+            {
+                wrapper.error(reqId, e.Err.Code, e.Err.Message + e.Text);
+                return;
+            }
+
+            CloseAndSend(reqId, paramsList, lengthPos, EClientErrors.FAIL_SEND_REQ_WSH_META_DATA);
+        }
+
+        /**
+        * @brief Cancels pending request for WSH metadata
+        * @param reqId
+        */
+
+        public void cancelWshMetaData(int reqId)
+        {
+            if (!CheckConnection())
+                return;
+
+            if (!CheckServerVersion(MinServerVer.WSHE_CALENDAR,
+                    "  It does not support WSHE Calendar API."))
+                return;
+
+            var paramsList = new BinaryWriter(new MemoryStream());
+            var lengthPos = prepareBuffer(paramsList);
+
+            paramsList.AddParameter(OutgoingMessages.CancelWshMetaData);
+            paramsList.AddParameter(reqId);
+
+            CloseAndSend(paramsList, lengthPos, EClientErrors.FAIL_SEND_CAN_WSH_META_DATA);
+        }
+
+        /**
+        * @brief Requests event data from the wSH calendar
+        * @param reqId
+        * @param conId contract ID (conId) of contract to receive WSH Event Data for.
+        */
+
+        public void reqWshEventData(int reqId, int conId)
+        {
+            if (!CheckConnection())
+                return;
+
+            if (!CheckServerVersion(MinServerVer.WSHE_CALENDAR,
+                    "  It does not support WSHE Calendar API."))
+                return;
+
+            var paramsList = new BinaryWriter(new MemoryStream());
+            var lengthPos = prepareBuffer(paramsList);
+
+            try
+            {
+                paramsList.AddParameter(OutgoingMessages.ReqWshEventData);
+                paramsList.AddParameter(reqId);
+                paramsList.AddParameter(conId);
+            }
+            catch (EClientException e)
+            {
+                wrapper.error(reqId, e.Err.Code, e.Err.Message + e.Text);
+                return;
+            }
+
+            CloseAndSend(reqId, paramsList, lengthPos, EClientErrors.FAIL_SEND_REQ_WSH_EVENT_DATA);
+        }
+
+        /**
+        * @brief Cancels pending WSH event data request
+        * @param reqId
+        */
+
+        public void cancelWshEventData(int reqId)
+        {
+            if (!CheckConnection())
+                return;
+
+            if (!CheckServerVersion(MinServerVer.WSHE_CALENDAR,
+                    "  It does not support WSHE Calendar API."))
+                return;
+
+            var paramsList = new BinaryWriter(new MemoryStream());
+            var lengthPos = prepareBuffer(paramsList);
+
+            paramsList.AddParameter(OutgoingMessages.CancelWshEventData);
+            paramsList.AddParameter(reqId);
+
+            CloseAndSend(paramsList, lengthPos, EClientErrors.FAIL_SEND_CAN_WSH_EVENT_DATA);
+        }
+
         protected bool CheckServerVersion(int requiredVersion)
         {
             return CheckServerVersion(requiredVersion, "");
@@ -3818,6 +3949,13 @@ namespace IBApi
             if (serverVersion < MinServerVer.POST_TO_ATS && order.PostToAts != int.MaxValue)
             {
                 ReportError(id, EClientErrors.UPDATE_TWS, " It does not support postToAts attribute.");
+
+                return false;
+            }
+
+            if (serverVersion < MinServerVer.AUTO_CANCEL_PARENT && order.AutoCancelParent)
+            {
+                ReportError(id, EClientErrors.UPDATE_TWS, " It does not support autoCancelParent attribute.");
 
                 return false;
             }

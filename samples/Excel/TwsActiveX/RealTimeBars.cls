@@ -103,7 +103,7 @@ Attribute RequestRealTimeBars_Click.VB_ProcData.VB_Invoke_Func = "T\n14"
                 .Strike = contractTable(id, Col_STRIKE).value
                 .Right = IIf(UCase(contractTable(id, Col_RIGHT).value) = "", 0#, UCase(contractTable(id, Col_RIGHT).value))
                 .multiplier = UCase(contractTable(id, Col_MULTIPLIER).value)
-                .exchange = UCase(contractTable(id, Col_EXCH).value)
+                .Exchange = UCase(contractTable(id, Col_EXCH).value)
                 .primaryExchange = UCase(contractTable(id, Col_PRIMEXCH).value)
                 .currency = UCase(contractTable(id, Col_CURRENCY).value)
                 .localSymbol = UCase(contractTable(id, Col_LOCALSYMBOL).value)
@@ -137,23 +137,23 @@ Attribute RequestRealTimeBars_Click.VB_ProcData.VB_Invoke_Func = "T\n14"
 End Sub
 
 ' update table with new data
-Public Sub UpdateRealTimeBars(ByVal tickerId As Long, ByVal rtbTime As Long, ByVal rtbOpen As Double, ByVal rtbHigh As Double, ByVal rtbLow As Double, ByVal rtbClose As Double, ByVal rtbVolume As Long, ByVal rtbWAP As Double, ByVal rtbCount As Long)
+Public Sub UpdateRealTimeBars(ByVal rtbTickerId As Long, ByVal rtbTime As Long, ByVal rtbOpen As Double, ByVal rtbHigh As Double, ByVal rtbLow As Double, ByVal rtbClose As Double, ByVal rtbVolume As Variant, ByVal rtbWAP As Variant, ByVal rtbCount As Long)
     
-    tickerId = tickerId - ID_REALTIMEBARS
-    realtimeBarsTable(tickerId, Col_TIME).value = Util.ConvertLongToDateStr(rtbTime)
-    realtimeBarsTable(tickerId, Col_OPEN).value = rtbOpen
-    realtimeBarsTable(tickerId, Col_HIGH).value = rtbHigh
-    realtimeBarsTable(tickerId, Col_LOW).value = rtbLow
-    realtimeBarsTable(tickerId, Col_CLOSE).value = rtbClose
-    realtimeBarsTable(tickerId, Col_VOLUME).value = rtbVolume
-    realtimeBarsTable(tickerId, Col_WAP).value = rtbWAP
-    realtimeBarsTable(tickerId, Col_COUNT).value = rtbCount
+    rtbTickerId = rtbTickerId - ID_REALTIMEBARS
+    realtimeBarsTable(rtbTickerId, Col_TIME).value = Util.ConvertLongToDateStr(rtbTime)
+    realtimeBarsTable(rtbTickerId, Col_OPEN).value = rtbOpen
+    realtimeBarsTable(rtbTickerId, Col_HIGH).value = rtbHigh
+    realtimeBarsTable(rtbTickerId, Col_LOW).value = rtbLow
+    realtimeBarsTable(rtbTickerId, Col_CLOSE).value = rtbClose
+    realtimeBarsTable(rtbTickerId, Col_VOLUME).value = Util.DecimalToString(rtbVolume)
+    realtimeBarsTable(rtbTickerId, Col_WAP).value = Util.DecimalToString(rtbWAP)
+    realtimeBarsTable(rtbTickerId, Col_COUNT).value = rtbCount
 
 End Sub
 
 Public Sub ProcessError(ByVal id As Long, ByVal errorCode As Long, ByVal errorMsg As String)
     
-    querySpecificationTable(id - ID_REALTIMEBARS, Col_STATUS).value = STR_ERROR + STR_COLON + Str(errorCode) + STR_SPACE + errorMsg
+    querySpecificationTable(id - ID_REALTIMEBARS, Col_STATUS).value = STR_ERROR + STR_COLON + str(errorCode) + STR_SPACE + errorMsg
         
 End Sub
 

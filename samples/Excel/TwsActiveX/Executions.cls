@@ -71,7 +71,7 @@ Private Sub RequestExecutions_Click()
         .time = Range(CELL_EXECFILTER_TIME).value
         .Symbol = Range(CELL_EXECFILTER_SYMBOL).value
         .SecType = Range(CELL_EXECFILTER_SECTYPE).value
-        .exchange = Range(CELL_EXECFILTER_EXCH).value
+        .Exchange = Range(CELL_EXECFILTER_EXCH).value
         .side = Range(CELL_EXECFILTER_SIDE).value
     End With
 
@@ -104,7 +104,7 @@ Public Sub UpdateExecution(ByVal orderId As Long, ByVal contract As TWSLib.ICont
             contractTable(rowId, Col_STRIKE).value = .Strike
             contractTable(rowId, Col_RIGHT).value = .Right
             contractTable(rowId, Col_MULTIPLIER).value = .multiplier
-            contractTable(rowId, Col_EXCH).value = .exchange
+            contractTable(rowId, Col_EXCH).value = .Exchange
             contractTable(rowId, Col_PRIMEXCH).value = .primaryExchange
             contractTable(rowId, Col_CURRENCY).value = .currency
             contractTable(rowId, Col_LOCALSYMBOL).value = .localSymbol
@@ -117,10 +117,10 @@ Public Sub UpdateExecution(ByVal orderId As Long, ByVal contract As TWSLib.ICont
             executionsTable(rowId, Col_EXECID).value = .execId
             executionsTable(rowId, Col_TIME).value = .time
             executionsTable(rowId, Col_ACCOUNT).value = .acctNumber
-            executionsTable(rowId, Col_EXCHANGE).value = .exchange
+            executionsTable(rowId, Col_EXCHANGE).value = .Exchange
             executionsTable(rowId, Col_SIDE).value = .side
-            executionsTable(rowId, Col_QUANTITY).value = .shares
-            executionsTable(rowId, Col_CUMQTY).value = .cumQty
+            executionsTable(rowId, Col_QUANTITY).value = Util.DecimalToString(.shares)
+            executionsTable(rowId, Col_CUMQTY).value = Util.DecimalToString(.cumQty)
             executionsTable(rowId, Col_PRICE).value = .price
             executionsTable(rowId, Col_AVGPRICE).value = .avgPrice
             executionsTable(rowId, Col_PERMID).value = .permId

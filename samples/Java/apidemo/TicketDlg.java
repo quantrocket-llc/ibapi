@@ -19,6 +19,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
 import com.ib.client.Contract;
+import com.ib.client.Decimal;
 import com.ib.client.Order;
 import com.ib.client.OrderState;
 import com.ib.client.OrderStatus;
@@ -75,7 +76,7 @@ class TicketDlg extends JDialog {
 
 		if (order == null) {
 			order = new Order();
-			order.totalQuantity( 100);
+			order.totalQuantity( Decimal.ONE_HUNDRED);
 			order.lmtPrice( 1);
 		}
 		
@@ -162,7 +163,7 @@ class TicketDlg extends JDialog {
 				ApiDemo.INSTANCE.controller().removeOrderHandler( this);
 				SwingUtilities.invokeLater(() -> dispose());
 			}
-			@Override public void orderStatus(OrderStatus status, double filled, double remaining, double avgFillPrice, int permId, int parentId, double lastFillPrice, int clientId, String whyHeld, double mktCapPrice) {
+			@Override public void orderStatus(OrderStatus status, Decimal filled, Decimal remaining, double avgFillPrice, int permId, int parentId, double lastFillPrice, int clientId, String whyHeld, double mktCapPrice) {
 			}
 			@Override public void handle(int errorCode, final String errorMsg) {
 				m_order.orderId( 0);
@@ -182,7 +183,7 @@ class TicketDlg extends JDialog {
 			@Override public void handle(int errorCode, final String errorMsg) {
 				SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog( TicketDlg.this, errorMsg));
 			}
-			@Override public void orderStatus(OrderStatus status, double filled, double remaining, double avgFillPrice, int permId, int parentId, double lastFillPrice, int clientId, String whyHeld, double mktCapPrice) {
+			@Override public void orderStatus(OrderStatus status, Decimal filled, Decimal remaining, double avgFillPrice, int permId, int parentId, double lastFillPrice, int clientId, String whyHeld, double mktCapPrice) {
 			}
 		});
 		
@@ -280,7 +281,7 @@ class TicketDlg extends JDialog {
 			m_account.setSelectedItem( m_order.account() != null ? m_order.account() : ApiDemo.INSTANCE.accountList().get( 0) ); 
 			m_modelCode.setText( m_order.modelCode() );
 			m_action.setSelectedItem( m_order.action() );
-			m_quantity.setText( m_order.totalQuantity());
+			m_quantity.setText( m_order.totalQuantity().toString());
 			m_cashQty.setText( m_order.cashQty());
 			m_displaySize.setText( m_order.displaySize());
 			m_orderType.setSelectedItem( m_order.orderType() );
@@ -327,7 +328,7 @@ class TicketDlg extends JDialog {
 			m_order.account( m_account.getText().toUpperCase() );
 			m_order.modelCode( m_modelCode.getText().trim() );
 			m_order.action( m_action.getSelectedItem() );
-			m_order.totalQuantity( m_quantity.getDouble() );
+			m_order.totalQuantity( Decimal.parse(m_quantity.getText().trim()) );
 			m_order.cashQty( m_cashQty.getDouble() );
 			m_order.displaySize( m_displaySize.getInt() );
 			m_order.orderType( m_orderType.getSelectedItem() );
@@ -413,6 +414,7 @@ class TicketDlg extends JDialog {
         final JCheckBox m_dontUseAutoPriceForHedge = new JCheckBox();
         final JCheckBox m_omsContainer = new JCheckBox();
         final JCheckBox m_discretionaryUpToLimitPrice = new JCheckBox();
+        final JCheckBox m_autoCancelParent = new JCheckBox();
 		
 		
 
@@ -451,6 +453,7 @@ class TicketDlg extends JDialog {
 			right.add("Don't use auto price for hedge", m_dontUseAutoPriceForHedge);
 			right.add("Transmit", m_transmit);
             right.add("OMS Container", m_omsContainer);
+			right.add("Auto Cancel Parent", m_autoCancelParent);
 			
 			HorzPanel checks = new HorzPanel();
 			checks.add( left);
@@ -493,6 +496,7 @@ class TicketDlg extends JDialog {
 			m_dontUseAutoPriceForHedge.setSelected( m_order.dontUseAutoPriceForHedge());
 			m_omsContainer.setSelected(m_order.isOmsContainer());
 			m_discretionaryUpToLimitPrice.setSelected(m_order.discretionaryUpToLimitPrice());
+			m_autoCancelParent.setSelected(m_order.autoCancelParent());
 			
 			ApiDemo.INSTANCE.controller().reqSoftDollarTiers(tiers -> {
                 m_softDollarTiers.invalidate();
@@ -537,6 +541,7 @@ class TicketDlg extends JDialog {
 			m_order.dontUseAutoPriceForHedge( m_dontUseAutoPriceForHedge.isSelected() );
 			m_order.isOmsContainer(m_omsContainer.isSelected());
 			m_order.discretionaryUpToLimitPrice(m_discretionaryUpToLimitPrice.isSelected());
+			m_order.autoCancelParent(m_autoCancelParent.isSelected());
 		}
 	}
 	

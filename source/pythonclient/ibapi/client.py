@@ -1099,6 +1099,10 @@ class EClient(object):
             self.wrapper.error(orderId, UPDATE_TWS.code(), UPDATE_TWS.msg() + " It does not support postToAts attribute")
             return
 
+        if self.serverVersion() < MIN_SERVER_VER_AUTO_CANCEL_PARENT and order.autoCancelParent:
+            self.wrapper.error(orderId, UPDATE_TWS.code(), UPDATE_TWS.msg() + " It does not support autoCancelParent attribute")
+            return
+
         try:
                 
             VERSION = 27 if (self.serverVersion() < MIN_SERVER_VER_NOT_HELD) else 45
@@ -1430,6 +1434,9 @@ class EClient(object):
     
             if self.serverVersion() >= MIN_SERVER_VER_POST_TO_ATS:
                 flds.append(make_field(order.postToAts))
+
+            if self.serverVersion() >= MIN_SERVER_VER_AUTO_CANCEL_PARENT:
+                flds.append(make_field(order.autoCancelParent))
 
             msg = "".join(flds)
             
@@ -2463,6 +2470,12 @@ class EClient(object):
             if contract.tradingClass or contract.conId > 0:
                 self.wrapper.error(reqId, UPDATE_TWS.code(),
                     UPDATE_TWS.msg() + "  It does not support conId and tradingClass parameters in reqHistoricalData.")
+                return
+
+        if self.serverVersion() < MIN_SERVER_VER_HISTORICAL_SCHEDULE:
+            if whatToShow == "SCHEDULE":
+                self.wrapper.error(reqId, UPDATE_TWS.code(),
+                    UPDATE_TWS.msg() + "  It does not support requesting of historical schedule.")
                 return
 
         try:
@@ -3550,3 +3563,87 @@ class EClient(object):
 
         self.sendMsg(msg)
 
+    def reqWshMetaData(self, reqId: int):
+
+        self.logRequest(current_fn_name(), vars())
+
+        if not self.isConnected():
+            self.wrapper.error(NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg())
+            return
+
+        if self.serverVersion() < MIN_SERVER_VER_WSHE_CALENDAR:
+            self.wrapper.error(NO_VALID_ID, UPDATE_TWS.code(), UPDATE_TWS.msg() +
+                    " It does not support WSHE Calendar API.")
+            return
+
+        try:
+            
+            msg = make_field(OUT.REQ_WSH_META_DATA) \
+                + make_field(reqId)
+
+        except ClientException as ex:
+            self.wrapper.error(reqId, ex.code, ex.msg + ex.text)
+            return
+
+        self.sendMsg(msg)
+
+    def cancelWshMetaData(self, reqId: int):
+
+        self.logRequest(current_fn_name(), vars())
+
+        if not self.isConnected():
+            self.wrapper.error(NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg())
+            return
+
+        if self.serverVersion() < MIN_SERVER_VER_WSHE_CALENDAR:
+            self.wrapper.error(NO_VALID_ID, UPDATE_TWS.code(), UPDATE_TWS.msg() +
+                    " It does not support WSHE Calendar API.")
+            return
+
+        msg = make_field(OUT.CANCEL_WSH_META_DATA) \
+            + make_field(reqId)
+
+        self.sendMsg(msg)
+
+    def reqWshEventData(self, reqId: int, conId: int):
+
+        self.logRequest(current_fn_name(), vars())
+
+        if not self.isConnected():
+            self.wrapper.error(NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg())
+            return
+
+        if self.serverVersion() < MIN_SERVER_VER_WSHE_CALENDAR:
+            self.wrapper.error(NO_VALID_ID, UPDATE_TWS.code(), UPDATE_TWS.msg() +
+                    " It does not support WSHE Calendar API.")
+            return
+
+        try:
+            
+            msg = make_field(OUT.REQ_WSH_EVENT_DATA) \
+                + make_field(reqId) \
+                + make_field(conId)
+
+        except ClientException as ex:
+            self.wrapper.error(reqId, ex.code, ex.msg + ex.text)
+            return
+
+        self.sendMsg(msg)
+
+    def cancelWshEventData(self, reqId: int):
+
+        self.logRequest(current_fn_name(), vars())
+
+        if not self.isConnected():
+            self.wrapper.error(NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg())
+            return
+
+        if self.serverVersion() < MIN_SERVER_VER_WSHE_CALENDAR:
+            self.wrapper.error(NO_VALID_ID, UPDATE_TWS.code(), UPDATE_TWS.msg() +
+                    " It does not support WSHE Calendar API.")
+            return
+
+        msg = make_field(OUT.CANCEL_WSH_EVENT_DATA) \
+            + make_field(reqId)
+
+        self.sendMsg(msg)

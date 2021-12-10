@@ -56,7 +56,7 @@ Attribute PlaceModifyOrder_Click.VB_ProcData.VB_Invoke_Func = "P\n14"
 End Sub
 
 ' update order status
-Public Sub UpdateOrderStatus(id As Long, status As String, filled As Double, remaining As Double, avgFillPrice As Double, parentId As Long, lastFillPrice As Double)
+Public Sub UpdateOrderStatus(id As Long, status As String, filled As Variant, remaining As Variant, avgFillPrice As Double, parentId As Long, lastFillPrice As Double)
     OrderUtils.UpdateOrderStatus orderStatusTable, id, status, filled, remaining, avgFillPrice, parentId, lastFillPrice
 End Sub
 
@@ -82,7 +82,7 @@ Public Sub Initialise()
     Set orderTable = Advisors.Range("$N$7:$S$125")
     Set orderStatusTable = Advisors.Range("$T$7:$Z$125")
     Set commissionMarginTable = Advisors.Range("$AA$7:$AK$125")
-    Set extendedAttributeTable = Advisors.Range("$AL$7:$EB$125")
+    Set extendedAttributeTable = Advisors.Range("$AL$7:$EC$125")
 End Sub
 
 Private Sub Worksheet_Activate()

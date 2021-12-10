@@ -84,5 +84,8 @@ namespace IBApi
         public const int CompletedOrder = 101;
         public const int CompletedOrdersEnd = 102;
         public const int ReplaceFAEnd = 103;
+        public const int WshMetaData = 104;
+        public const int WshEventData = 105;
+        public const int HistoricalSchedule = 106;
     }
 }

@@ -138,6 +138,7 @@ Public Enum ExtendedOrderAttributesColumns
     Col_DURATION
     Col_POST_TO_ATS
     Col_NOT_HELD
+    Col_AUTO_CANCEL_PARENT
 End Enum
 
 ' other constants
@@ -265,7 +266,7 @@ Private Sub PlaceModifyOrder( _
         .Strike = contractDescriptionTable(orderIndex, Col_STRIKE).value
         .Right = UCase(contractDescriptionTable(orderIndex, Col_RIGHT).value)
         .multiplier = UCase(contractDescriptionTable(orderIndex, Col_MULTIPLIER).value)
-        .exchange = UCase(contractDescriptionTable(orderIndex, Col_EXCH).value)
+        .Exchange = UCase(contractDescriptionTable(orderIndex, Col_EXCH).value)
         .primaryExchange = UCase(contractDescriptionTable(orderIndex, Col_PRIMEXCH).value)
         .currency = UCase(contractDescriptionTable(orderIndex, Col_CURRENCY).value)
         .localSymbol = UCase(contractDescriptionTable(orderIndex, Col_LOCALSYMBOL).value)
@@ -275,7 +276,7 @@ Private Sub PlaceModifyOrder( _
     ' order info
     With lOrderInfo
         .action = UCase(orderDescriptionTable(orderIndex, Col_ACTION).value)    ' BUY, SELL, SSHORT
-        .totalQuantity = UCase(orderDescriptionTable(orderIndex, Col_TOTALQTY).value)    ' the order quantity
+        Set .totalQuantity = Util.SetVariantDecimal(orderDescriptionTable(orderIndex, Col_TOTALQTY).value) ' the order quantity
         .cashQty = Util.SetNonEmptyValue(orderDescriptionTable(orderIndex, Col_CASH_QTY).value, .cashQty) ' the order cash quantity
         .orderType = UCase(orderDescriptionTable(orderIndex, Col_ORDERTYPE).value) ' MKT, MKTCLS, LMT, LMTCLS, PEGMKT, SCALE, STP, STPLMT, TRAIL, REL, VWAP, TRAILLIMIT
         .lmtPrice = orderDescriptionTable(orderIndex, Col_LMTPRICE).value         ' limit price
@@ -380,6 +381,7 @@ Private Sub PlaceModifyOrder( _
         .duration = Util.SetNonEmptyValue(extendedAttributeTable(orderIndex, Col_DURATION).value, .duration)
         .postToAts = Util.SetNonEmptyValue(extendedAttributeTable(orderIndex, Col_POST_TO_ATS).value, .postToAts)
         .notHeld = Util.SetNonEmptyValue(extendedAttributeTable(orderIndex, Col_NOT_HELD).value, .notHeld)
+        .autoCancelParent = Util.SetNonEmptyValue(extendedAttributeTable(orderIndex, Col_AUTO_CANCEL_PARENT).value, .autoCancelParent)
     End With
 
     ' combo legs
@@ -447,11 +449,11 @@ Public Sub ProcessError(orderStatusTable As Range, ByVal orderId As Long, ByVal 
     i = FindOrderRowIndex(orderId, orderStatusTable)
     If i = 0 Then Exit Sub
     
-    orderStatusTable(i, Col_ORDERSTATUS).value = STR_ERROR + STR_COLON + Str(errorCode) + STR_SPACE + errorMsg
+    orderStatusTable(i, Col_ORDERSTATUS).value = STR_ERROR + STR_COLON + str(errorCode) + STR_SPACE + errorMsg
 End Sub
 
 ' update order status
-Public Sub UpdateOrderStatus(orderStatusTable As Range, orderId As Long, status As String, filled As Double, remaining As Double, avgFillPrice As Double, parentId As Long, lastFillPrice As Double)
+Public Sub UpdateOrderStatus(orderStatusTable As Range, orderId As Long, status As String, filled As Variant, remaining As Variant, avgFillPrice As Double, parentId As Long, lastFillPrice As Double)
     ' find row to update by using orderId
     Dim rowId As Long
     rowId = FindOrderRowIndex(orderId, orderStatusTable)
@@ -459,8 +461,8 @@ Public Sub UpdateOrderStatus(orderStatusTable As Range, orderId As Long, status 
     
     If rowId <= orderStatusTable.Rows.Count Then
         orderStatusTable(rowId, Col_ORDERSTATUS).value = status
-        orderStatusTable(rowId, Col_FILLED).value = filled
-        orderStatusTable(rowId, Col_REMAINING).value = remaining
+        orderStatusTable(rowId, Col_FILLED).value = Util.DecimalToString(filled)
+        orderStatusTable(rowId, Col_REMAINING).value = Util.DecimalToString(remaining)
         orderStatusTable(rowId, Col_AVGFILLPRICE).value = avgFillPrice
         orderStatusTable(rowId, Col_LASTFILLPRICE).value = lastFillPrice
         orderStatusTable(rowId, Col_PARENTID).value = parentId

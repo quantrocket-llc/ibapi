@@ -80,6 +80,8 @@ namespace IBSampleApp
             this.contractCurrency = new System.Windows.Forms.TextBox();
             this.contractExchange = new System.Windows.Forms.TextBox();
             this.extendedOrderTab = new System.Windows.Forms.TabPage();
+            this.postToAts = new System.Windows.Forms.TextBox();
+            this.label26 = new System.Windows.Forms.Label();
             this.duration = new System.Windows.Forms.TextBox();
             this.label25 = new System.Windows.Forms.Label();
             this.relativeDiscretionary = new System.Windows.Forms.CheckBox();
@@ -250,8 +252,7 @@ namespace IBSampleApp
             this.textBox8 = new System.Windows.Forms.TextBox();
             this.checkMarginButton = new System.Windows.Forms.Button();
             this.closeOrderDialogButton = new System.Windows.Forms.Button();
-            this.postToAts = new System.Windows.Forms.TextBox();
-            this.label26 = new System.Windows.Forms.Label();
+            this.autoCancelParent = new System.Windows.Forms.CheckBox();
             this.conditionsTab.SuspendLayout();
             this.orderContractTab.SuspendLayout();
             this.baseGroup.SuspendLayout();
@@ -406,7 +407,8 @@ namespace IBSampleApp
             "AUC",
             "FOK",
             "GTX",
-            "DTC"});
+            "DTC",
+            "Minutes"});
             this.timeInForce.Location = new System.Drawing.Point(121, 242);
             this.timeInForce.Name = "timeInForce";
             this.timeInForce.Size = new System.Drawing.Size(89, 21);
@@ -704,7 +706,8 @@ namespace IBSampleApp
             "CMDTY",
             "BSK",
             "ICU",
-            "ICS"});
+            "ICS",
+            "CRYPTO"});
             this.contractSecType.Location = new System.Drawing.Point(82, 50);
             this.contractSecType.Name = "contractSecType";
             this.contractSecType.Size = new System.Drawing.Size(71, 21);
@@ -792,6 +795,7 @@ namespace IBSampleApp
             // extendedOrderTab
             // 
             this.extendedOrderTab.BackColor = System.Drawing.Color.LightGray;
+            this.extendedOrderTab.Controls.Add(this.autoCancelParent);
             this.extendedOrderTab.Controls.Add(this.postToAts);
             this.extendedOrderTab.Controls.Add(this.label26);
             this.extendedOrderTab.Controls.Add(this.duration);
@@ -850,6 +854,24 @@ namespace IBSampleApp
             this.extendedOrderTab.Size = new System.Drawing.Size(625, 337);
             this.extendedOrderTab.TabIndex = 1;
             this.extendedOrderTab.Text = "Extended Attributes";
+            // 
+            // postToAts
+            // 
+            this.postToAts.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.postToAts.Location = new System.Drawing.Point(560, 90);
+            this.postToAts.Name = "postToAts";
+            this.postToAts.Size = new System.Drawing.Size(55, 20);
+            this.postToAts.TabIndex = 51;
+            // 
+            // label26
+            // 
+            this.label26.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label26.AutoSize = true;
+            this.label26.Location = new System.Drawing.Point(492, 94);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(62, 13);
+            this.label26.TabIndex = 50;
+            this.label26.Text = "Post To Ats";
             // 
             // duration
             // 
@@ -2516,23 +2538,17 @@ namespace IBSampleApp
             this.closeOrderDialogButton.UseVisualStyleBackColor = true;
             this.closeOrderDialogButton.Click += new System.EventHandler(this.closeOrderDialogButton_Click);
             // 
-            // postToAts
+            // autoCancelParent
             // 
-            this.postToAts.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.postToAts.Location = new System.Drawing.Point(560, 90);
-            this.postToAts.Name = "postToAts";
-            this.postToAts.Size = new System.Drawing.Size(55, 20);
-            this.postToAts.TabIndex = 51;
-            // 
-            // label26
-            // 
-            this.label26.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label26.AutoSize = true;
-            this.label26.Location = new System.Drawing.Point(492, 94);
-            this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(62, 13);
-            this.label26.TabIndex = 50;
-            this.label26.Text = "Post To Ats";
+            this.autoCancelParent.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.autoCancelParent.AutoSize = true;
+            this.autoCancelParent.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.autoCancelParent.Location = new System.Drawing.Point(422, 165);
+            this.autoCancelParent.Name = "autoCancelParent";
+            this.autoCancelParent.Size = new System.Drawing.Size(118, 17);
+            this.autoCancelParent.TabIndex = 52;
+            this.autoCancelParent.Text = "Auto Cancel Parent";
+            this.autoCancelParent.UseVisualStyleBackColor = true;
             // 
             // OrderDialog
             // 
@@ -2803,5 +2819,6 @@ namespace IBSampleApp
         private System.Windows.Forms.Label label25;
         private System.Windows.Forms.TextBox postToAts;
         private System.Windows.Forms.Label label26;
+        private System.Windows.Forms.CheckBox autoCancelParent;
     }
 }

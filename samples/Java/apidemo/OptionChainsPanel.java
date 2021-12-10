@@ -32,6 +32,7 @@ import com.ib.client.TickAttrib;
 import com.ib.client.TickType;
 import com.ib.client.Types.Right;
 import com.ib.client.Types.SecType;
+import com.ib.client.Util;
 import com.ib.controller.ApiController.IContractDetailsHandler;
 import com.ib.controller.ApiController.IOptHandler;
 import com.ib.controller.ApiController.TopMktDataAdapter;
@@ -41,7 +42,6 @@ import apidemo.util.NewTabbedPanel;
 import apidemo.util.NewTabbedPanel.NewTabPanel;
 import apidemo.util.TCombo;
 import apidemo.util.UpperField;
-import apidemo.util.Util;
 import apidemo.util.VerticalPanel;
 
 class OptionChainsPanel extends JPanel {
@@ -222,7 +222,7 @@ class OptionChainsPanel extends JPanel {
 				ApiDemo.INSTANCE.controller().reqOptionMktData(contract, "", snapshot, false, row);
 				
 				if (snapshot) {
-					Util.sleep( 11); // try to avoid pacing violation at TWS
+					apidemo.util.Util.sleep( 11); // try to avoid pacing violation at TWS
 				}
 			}
 
@@ -250,10 +250,10 @@ class OptionChainsPanel extends JPanel {
 				ChainRow row = m_list.get( rowIn);
 				switch( col) {
 					case 0: return row.m_c.lastTradeDateOrContractMonth();
-					case 1: return row.m_c.strike();
+					case 1: return Util.DoubleMaxString(row.m_c.strike());
 					case 2: return fmtNz( row.m_bid);
 					case 3: return fmtNz( row.m_ask);
-					case 4: return row.m_tickAttrib;
+					case 4: return Util.IntMaxString(row.m_tickAttrib);
 					case 5: return fmtPct( row.m_impVol);
 					case 6: return fmtNz( row.m_delta);
 					case 7: return fmtNz( row.m_gamma);

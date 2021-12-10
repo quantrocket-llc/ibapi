@@ -46,10 +46,7 @@ class OrderDecoder(Object):
         self.order.action = decode(str, fields)
 
     def decodeTotalQuantity(self, fields):
-        if self.serverVersion >= MIN_SERVER_VER_FRACTIONAL_POSITIONS:
-            self.order.totalQuantity = decode(float, fields)
-        else:
-            self.order.totalQuantity = decode(int, fields)
+        self.order.totalQuantity = decode(Decimal, fields)
 
     def decodeOrderType(self, fields):
         self.order.orderType = decode(str, fields)
@@ -412,13 +409,14 @@ class OrderDecoder(Object):
         self.order.autoCancelDate = decode(str, fields)
 
     def decodeFilledQuantity(self, fields):
-        self.order.filledQuantity = decode(float, fields)
+        self.order.filledQuantity = decode(Decimal, fields)
 
     def decodeRefFuturesConId(self, fields):
         self.order.refFuturesConId = decode(int, fields)
 
-    def decodeAutoCancelParent(self, fields):
-        self.order.autoCancelParent = decode(bool, fields)
+    def decodeAutoCancelParent(self, fields, minVersionAutoCancelParent = MIN_CLIENT_VER):
+        if self.serverVersion >= minVersionAutoCancelParent:
+            self.order.autoCancelParent = decode(bool, fields)
 
     def decodeShareholder(self, fields):
         self.order.shareholder = decode(str, fields)

@@ -20,6 +20,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 import com.ib.client.Contract;
+import com.ib.client.Decimal;
 import com.ib.client.DeltaNeutralContract;
 import com.ib.client.MarketDataType;
 import com.ib.client.Order;
@@ -433,7 +434,7 @@ public class OrderDlg extends JDialog {
 
             // set order fields
             m_order.action(m_action.getText());
-            m_order.totalQuantity(Double.parseDouble( m_totalQuantity.getText() ));
+            m_order.totalQuantity(Decimal.parse( m_totalQuantity.getText().trim() ));
             m_order.orderType(m_orderType.getText());
             m_order.lmtPrice(parseStringToMaxDouble( m_lmtPrice.getText()));
             m_order.auxPrice(parseStringToMaxDouble( m_auxPrice.getText()));

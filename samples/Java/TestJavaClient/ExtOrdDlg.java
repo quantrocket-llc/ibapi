@@ -107,6 +107,7 @@ public class ExtOrdDlg extends JDialog {
     private JCheckBox   m_isOmsConainer = new JCheckBox("OMS Container", false);
     private JCheckBox   m_discretionaryUpToLimitPrice = new JCheckBox("Relative discretionary", false);
     private JCheckBox   m_notHeld = new JCheckBox("Not held", false);
+    private JCheckBox   m_autoCancelParent = new JCheckBox("Auto Cancel Parent", false);
 
     ExtOrdDlg( OrderDlg owner) {
         super( owner, true);
@@ -277,6 +278,7 @@ public class ExtOrdDlg extends JDialog {
         extOrderDetailsPanel.add(m_isOmsConainer);
         extOrderDetailsPanel.add(m_discretionaryUpToLimitPrice);
         extOrderDetailsPanel.add(m_notHeld);
+        extOrderDetailsPanel.add(m_autoCancelParent);
 
         // create button panel
         JPanel buttonPanel = new JPanel();
@@ -388,6 +390,7 @@ public class ExtOrdDlg extends JDialog {
             m_order.isOmsContainer(m_isOmsConainer.isSelected());
             m_order.discretionaryUpToLimitPrice(m_discretionaryUpToLimitPrice.isSelected());
             m_order.notHeld(m_notHeld.isSelected());
+            m_order.autoCancelParent(m_autoCancelParent.isSelected());
         }
         catch( Exception e) {
             Main.inform( this, "Error - " + e);

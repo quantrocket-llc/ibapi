@@ -3,6 +3,7 @@
 
 package samples.dnhedge;
 
+import com.ib.client.Decimal;
 import com.ib.client.Order;
 import com.ib.client.OrderType;
 import com.ib.client.Types.Action;
@@ -21,7 +22,7 @@ public class DNHedgeOrder extends Order {
 
       orderType(OrderType.VOL);
       action(Action.BUY);
-      totalQuantity(size);
+      totalQuantity(Decimal.get(size));
 
       volatility(0.1);
       volatilityType(VolatilityType.Daily);

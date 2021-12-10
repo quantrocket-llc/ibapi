@@ -57,7 +57,7 @@ public class Testbed {
 		//fundamentals(wrapper.getClient());
 		//marketScanners(wrapper.getClient());
 		//marketDataType(wrapper.getClient());
-		//historicalDataRequests(wrapper.getClient());
+		historicalDataRequests(wrapper.getClient());
 		//accountOperations(wrapper.getClient());
 		//newsOperations(wrapper.getClient());
 		//marketDepthOperations(wrapper.getClient());
@@ -70,7 +70,8 @@ public class Testbed {
 		//histogram(wrapper.getClient());
 		//whatIfSamples(wrapper.getClient(), wrapper.getCurrentOrderId());
 		//historicalTicks(wrapper.getClient());
-		financialAdvisorOperations(wrapper.getClient());
+		//financialAdvisorOperations(wrapper.getClient());
+		//realTimeBars(wrapper.getClient());
 
 		Thread.sleep(100000);
 		m_client.eDisconnect();
@@ -144,29 +145,29 @@ public class Testbed {
 		
         /*** Placing/modifying an order - remember to ALWAYS increment the nextValidId after placing an order so it can be used for the next one! ***/
         //! [order_submission]
-        client.placeOrder(nextOrderId++, ContractSamples.USStock(), OrderSamples.LimitOrder("SELL", 1, 50));
+        client.placeOrder(nextOrderId++, ContractSamples.USStock(), OrderSamples.LimitOrder("SELL", Decimal.ONE, 50));
         //! [order_submission]
         
 		//! [place_midprice]
-        client.placeOrder(nextOrderId++, ContractSamples.USStockAtSmart(), OrderSamples.Midprice("BUY", 1, 150));
+        client.placeOrder(nextOrderId++, ContractSamples.USStockAtSmart(), OrderSamples.Midprice("BUY", Decimal.ONE, 150));
         //! [place_midprice]
 		
         //! [faorderoneaccount]
-        Order faOrderOneAccount = OrderSamples.MarketOrder("BUY", 100);
+        Order faOrderOneAccount = OrderSamples.MarketOrder("BUY", Decimal.ONE_HUNDRED);
         // Specify the Account Number directly
         faOrderOneAccount.account("DU119915");
         client.placeOrder(nextOrderId++, ContractSamples.USStock(), faOrderOneAccount);
         //! [faorderoneaccount]
         
         //! [faordergroupequalquantity]
-        Order faOrderGroupEQ = OrderSamples.LimitOrder("SELL", 200, 2000);
+        Order faOrderGroupEQ = OrderSamples.LimitOrder("SELL", Decimal.get(200), 2000);
         faOrderGroupEQ.faGroup("Group_Equal_Quantity");
         faOrderGroupEQ.faMethod("EqualQuantity");
         client.placeOrder(nextOrderId++, ContractSamples.USStock(), faOrderGroupEQ);
         //! [faordergroupequalquantity]
         
         //! [faordergrouppctchange]
-        Order faOrderGroupPC = OrderSamples.MarketOrder("BUY", 0);
+        Order faOrderGroupPC = OrderSamples.MarketOrder("BUY", Decimal.ZERO);
         // You should not specify any order quantity for PctChange allocation method
         faOrderGroupPC.faGroup("Pct_Change");
         faOrderGroupPC.faMethod("PctChange");
@@ -175,13 +176,13 @@ public class Testbed {
         //! [faordergrouppctchange]
         
         //! [faorderprofile]
-        Order faOrderProfile = OrderSamples.LimitOrder("BUY", 200, 100);
+        Order faOrderProfile = OrderSamples.LimitOrder("BUY", Decimal.get(200), 100);
         faOrderProfile.faProfile("Percent_60_40");
 		client.placeOrder(nextOrderId++, ContractSamples.EuropeanStock(), faOrderProfile);
         //! [faorderprofile]
         
 		//! [modelorder]
-        Order modelOrder = OrderSamples.LimitOrder("BUY", 200, 100);
+        Order modelOrder = OrderSamples.LimitOrder("BUY", Decimal.get(200), 100);
 		modelOrder.account("DF12345");  // master FA account number
 		modelOrder.modelCode("Technology"); // model for tech stocks first created in TWS
 		client.placeOrder(nextOrderId++, ContractSamples.USStock(), modelOrder);
@@ -209,6 +210,10 @@ public class Testbed {
         client.reqCompletedOrders(false);
         //! [reqcompletedorders]
 
+        //! [crypto_order_submission]
+        client.placeOrder(nextOrderId++, ContractSamples.CryptoContract(), OrderSamples.LimitOrder("BUY", Decimal.parse("0.00001234"), 3370));
+        //! [crypto_order_submission]
+        
         Thread.sleep(10000);
         
     }
@@ -218,9 +223,9 @@ public class Testbed {
 		//OCA order
 		//! [ocasubmit]
 		List<Order> OcaOrders = new ArrayList<>();
-		OcaOrders.add(OrderSamples.LimitOrder("BUY", 1, 10));
-		OcaOrders.add(OrderSamples.LimitOrder("BUY", 1, 11));
-		OcaOrders.add(OrderSamples.LimitOrder("BUY", 1, 12));
+		OcaOrders.add(OrderSamples.LimitOrder("BUY", Decimal.ONE, 10));
+		OcaOrders.add(OrderSamples.LimitOrder("BUY", Decimal.ONE, 11));
+		OcaOrders.add(OrderSamples.LimitOrder("BUY", Decimal.ONE, 12));
 		OcaOrders = OrderSamples.OneCancelsAll("TestOCA_" + nextOrderId, OcaOrders, 2);
 		for (Order o : OcaOrders) {
 			
@@ -340,13 +345,15 @@ public class Testbed {
 		String formatted = form.format(cal.getTime());
 		client.reqHistoricalData(4001, ContractSamples.EurGbpFx(), formatted, "1 M", "1 day", "MIDPOINT", 1, 1, false, null);
 		client.reqHistoricalData(4002, ContractSamples.EuropeanStock(), formatted, "10 D", "1 min", "TRADES", 1, 1, false, null);
+        client.reqHistoricalData(4003, ContractSamples.USStockAtSmart(), formatted, "1 M", "1 day", "SCHEDULE", 1, 1, false, null);
 		Thread.sleep(2000);
 		/*** Canceling historical data requests ***/
 		client.cancelHistoricalData(4001);
         client.cancelHistoricalData(4002);
+        client.cancelHistoricalData(4003);
 		//! [reqhistoricaldata]
-		return;
-		//! [reqHistogramData]
+
+        //! [reqHistogramData]
 		/*client.reqHistogramData(4004, ContractSamples.USStock(), false, "3 days");
         //! [reqHistogramData]
 		Thread.sleep(5);
@@ -420,7 +427,7 @@ public class Testbed {
         client.reqAccountSummary(9001, "All", "AccountType,NetLiquidation,TotalCashValue,SettledCash,AccruedCash,BuyingPower,EquityWithLoanValue,PreviousEquityWithLoanValue,GrossPositionValue,ReqTEquity,ReqTMargin,SMA,InitMarginReq,MaintMarginReq,AvailableFunds,ExcessLiquidity,Cushion,FullInitMarginReq,FullMaintMarginReq,FullAvailableFunds,FullExcessLiquidity,LookAheadNextChange,LookAheadInitMarginReq ,LookAheadMaintMarginReq,LookAheadAvailableFunds,LookAheadExcessLiquidity,HighestSeverity,DayTradesRemaining,Leverage");
         //! [reqaaccountsummary]
         
-      //! [reqaaccountsummaryledger]
+        //! [reqaaccountsummaryledger]
         client.reqAccountSummary(9002, "All", "$LEDGER");
         //! [reqaaccountsummaryledger]
         Thread.sleep(2000);
@@ -502,7 +509,7 @@ public class Testbed {
 	private static void conditionSamples(EClientSocket client, int nextOrderId) {
 		
 		//! [order_conditioning_activate]
-		Order mkt = OrderSamples.MarketOrder("BUY", 100);
+		Order mkt = OrderSamples.MarketOrder("BUY", Decimal.ONE_HUNDRED);
 		//Order will become active if conditioning criteria is met
 		mkt.conditionsCancelOrder(true);
 		mkt.conditions().add(OrderSamples.PriceCondition(208813720, "SMART", 600, false, false));
@@ -516,7 +523,7 @@ public class Testbed {
 		
 		//Conditions can make the order active or cancel it. Only LMT orders can be conditionally canceled.
 		//! [order_conditioning_cancel]
-		Order lmt = OrderSamples.LimitOrder("BUY", 100, 20);
+		Order lmt = OrderSamples.LimitOrder("BUY", Decimal.ONE_HUNDRED, 20);
 		//The active order will be cancelled if conditioning criteria is met
 		lmt.conditionsCancelOrder(true);
 		lmt.conditions().add(OrderSamples.PriceCondition(208813720, "SMART", 600, false, false));
@@ -534,6 +541,7 @@ public class Testbed {
 		client.reqContractDetails(213, ContractSamples.FuturesOnOptions());
 		client.reqContractDetails(214, ContractSamples.SimpleFuture());
 		client.reqContractDetails(215, ContractSamples.USStockAtSmart());
+		client.reqContractDetails(216, ContractSamples.CryptoContract());
 		//! [reqcontractdetails]
 
 		//! [reqmatchingsymbols]
@@ -555,7 +563,7 @@ public class Testbed {
 		//F Hedge order
 		//! [hedgesubmit]
 		//Parent order on a contract which currency differs from your base currency
-		Order parent = OrderSamples.LimitOrder("BUY", 100, 10);
+		Order parent = OrderSamples.LimitOrder("BUY", Decimal.ONE_HUNDRED, 10);
 		parent.orderId(nextOrderId++);
 		parent.transmit(false);
 		//Hedge on the currency conversion
@@ -571,7 +579,7 @@ public class Testbed {
 	private static void testAlgoSamples(EClientSocket client, int nextOrderId) throws InterruptedException {
 		
 		//! [scale_order]
-		Order scaleOrder = OrderSamples.RelativePeggedToPrimary("BUY",  70000,  189,  0.01);
+		Order scaleOrder = OrderSamples.RelativePeggedToPrimary("BUY",  Decimal.get(70000),  189,  0.01);
 		AvailableAlgoParams.FillScaleParams(scaleOrder, 2000, 500, true, .02, 189.00, 3600, 2.00, true, 10, 40);
 		client.placeOrder(nextOrderId++, ContractSamples.USStockAtSmart(), scaleOrder);
 		//! [scale_order]
@@ -579,7 +587,7 @@ public class Testbed {
 		Thread.sleep(500);
 
 		//! [algo_base_order]
-		Order baseOrder = OrderSamples.LimitOrder("BUY", 1000, 1);
+		Order baseOrder = OrderSamples.LimitOrder("BUY", Decimal.get(1000), 1);
 		//! [algo_base_order]
 		
 		//! [arrivalpx]
@@ -681,7 +689,7 @@ public class Testbed {
 		
 		//BRACKET ORDER
         //! [bracketsubmit]
-		List<Order> bracket = OrderSamples.BracketOrder(nextOrderId++, "BUY", 100, 30, 40, 20);
+		List<Order> bracket = OrderSamples.BracketOrder(nextOrderId++, "BUY", Decimal.ONE_HUNDRED, 30, 40, 20);
 		for(Order o : bracket) {
 			client.placeOrder(o.orderId(), ContractSamples.EuropeanStock(), o);
 		}
@@ -762,6 +770,25 @@ public class Testbed {
         //! [cancelscannersubscription]
 		
 	}
+	
+    private static void wshCalendarOperations(EClientSocket client) throws InterruptedException  {
+
+		//! [reqmetadata]
+        client.reqWshMetaData(1100);
+		//! [reqmetadata]
+        
+        Thread.sleep(1000);
+        
+        client.cancelWshMetaData(1100);
+        
+		//! [reqeventdata]
+        client.reqWshEventData(1101, 8314);
+		//! [reqeventdata]
+        
+        Thread.sleep(1000);
+
+        client.cancelWshEventData(1101);
+    }
 	
 	private static void financialAdvisorOperations(EClientSocket client) {
 		
@@ -952,14 +979,14 @@ public class Testbed {
 		
 		/*** Placing what-if order ***/
 		//! [whatiforder]
-		client.placeOrder(nextOrderId++, ContractSamples.USStockAtSmart(), OrderSamples.WhatIfLimitOrder("BUY", 200, 120));
+		client.placeOrder(nextOrderId++, ContractSamples.USStockAtSmart(), OrderSamples.WhatIfLimitOrder("BUY", Decimal.get(200), 120));
 		//! [whatiforder]
 	}
 	
 	private static void ibkratsSample(EClientSocket client, int nextOrderId) {
 		
 		//! [ibkratssubmit]
-		Order ibkratsOrder = OrderSamples.LimitIBKRATS("BUY", 100, 330);
+		Order ibkratsOrder = OrderSamples.LimitIBKRATS("BUY", Decimal.ONE_HUNDRED, 330);
 		client.placeOrder(nextOrderId++, ContractSamples.IBKRATSContract(), ibkratsOrder);
 		//! [ibkratssubmit]
 		

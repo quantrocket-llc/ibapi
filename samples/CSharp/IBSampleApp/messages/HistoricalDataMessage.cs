@@ -11,9 +11,9 @@ namespace IBSampleApp.messages
         protected double high;
         protected double low;
         protected double close;
-        protected long volume;
+        protected decimal volume;
         protected int count;
-        protected double wap;
+        protected decimal wap;
         protected bool hasGaps;
 
         public int RequestId
@@ -53,7 +53,7 @@ namespace IBSampleApp.messages
             set { close = value; }
         }
         
-        public long Volume
+        public decimal Volume
         {
             get { return volume; }
             set { volume = value; }
@@ -65,7 +65,7 @@ namespace IBSampleApp.messages
             set { count = value; }
         }
 
-        public double Wap
+        public decimal Wap
         {
             get { return wap; }
             set { wap = value; }

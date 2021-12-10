@@ -66,7 +66,7 @@ End Sub
 
 ' update soft dollar tiers table
 Sub UpdateSecDefOptParams(msgId As Long, _
-                          exchange As String, _
+                          Exchange As String, _
                           undrlyingConId As Long, _
                           tradingClass As String, _
                           multiplier As String, _
@@ -81,7 +81,7 @@ Sub UpdateSecDefOptParams(msgId As Long, _
     Next
 
     SecDefOptParamsTable(rowId, Col_MSG_ID).value = msgId
-    SecDefOptParamsTable(rowId, Col_EXCHANGE).value = exchange
+    SecDefOptParamsTable(rowId, Col_EXCHANGE).value = Exchange
     SecDefOptParamsTable(rowId, SecDefOptParamsColumns.Col_UNDERLYING_CON_ID).value = undrlyingConId
     SecDefOptParamsTable(rowId, Col_TRADING_CLASS).value = tradingClass
     SecDefOptParamsTable(rowId, Col_MULTIPLIER).value = multiplier

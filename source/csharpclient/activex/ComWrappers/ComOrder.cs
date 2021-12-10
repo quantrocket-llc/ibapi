@@ -45,7 +45,7 @@ namespace TWSLib
 
         string TWSLib.IOrder.action { get { return data.Action; } set { data.Action = value; } }
 
-        double TWSLib.IOrder.totalQuantity { get { return data.TotalQuantity; } set { data.TotalQuantity = value; } }
+        object TWSLib.IOrder.totalQuantity { get { return data.TotalQuantity; } set { data.TotalQuantity = Util.GetDecimal(value); } }
 
         string TWSLib.IOrder.orderType { get { return data.OrderType; } set { data.OrderType = value; } }
 
@@ -353,7 +353,7 @@ namespace TWSLib
         bool TWSLib.IOrder.isOmsContainer { get { return data.IsOmsContainer; } set { data.IsOmsContainer = value; } }
         bool TWSLib.IOrder.discretionaryUpToLimitPrice { get { return data.DiscretionaryUpToLimitPrice; } set { data.DiscretionaryUpToLimitPrice = value; } }
         string TWSLib.IOrder.autoCancelDate { get { return data.AutoCancelDate; } set { data.AutoCancelDate = value; } }
-        double TWSLib.IOrder.filledQuantity { get { return data.FilledQuantity; } set { data.FilledQuantity = value; } }
+        object TWSLib.IOrder.filledQuantity { get { return data.FilledQuantity; } set { data.FilledQuantity = Util.GetDecimal(value); } }
         int TWSLib.IOrder.refFuturesConId { get { return data.RefFuturesConId; } set { data.RefFuturesConId = value; } }
         bool TWSLib.IOrder.autoCancelParent { get { return data.AutoCancelParent; } set { data.AutoCancelParent = value; } }
         string TWSLib.IOrder.shareholder { get { return data.Shareholder; } set { data.Shareholder = value; } }

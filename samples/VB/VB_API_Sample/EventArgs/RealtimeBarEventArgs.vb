@@ -16,9 +16,9 @@ Class RealtimeBarEventArgs
 
     Property close As Double
 
-    Property volume As Long
+    Property volume As Decimal
 
-    Property WAP As Double
+    Property WAP As Decimal
 
     Property count As Integer
 

@@ -42,7 +42,7 @@ Dim genId As Long
 ' Requests matching symbols when button is pressed
 ' ========================================================
 Sub requestMatchingSymbols()
-    If CStr(Worksheets(STR_SHEET_NAME).range(CELL_SUBSCRIPTION_CONTROL).value) = util.STR_EMPTY Then ' only if not subscribed
+    If CStr(Worksheets(STR_SHEET_NAME).Range(CELL_SUBSCRIPTION_CONTROL).value) = util.STR_EMPTY Then ' only if not subscribed
         clearSymbolSamplesTable
 
         Dim server As String
@@ -53,12 +53,12 @@ Sub requestMatchingSymbols()
         Dim id As String, pattern As String
         id = util.getIDpost(genId, util.ID_REQ_MATCHING_SYMBOLS)
         With Worksheets(STR_SHEET_NAME)
-            .range(CELL_ID).value = id
-            pattern = CStr(.range(CELL_PATTERN).value)
+            .Range(CELL_ID).value = id
+            pattern = CStr(.Range(CELL_PATTERN).value)
 
-            .range(CELL_SUBSCRIPTION_CONTROL).Formula = util.composeLink(server, STR_REQ_MATCHING_SYMBOLS, id, pattern) ' subscription control
-            If util.cleanOnError(.range(CELL_SUBSCRIPTION_CONTROL)) Then
-                .range(CELL_ID).value = util.STR_EMPTY
+            .Range(CELL_SUBSCRIPTION_CONTROL).Formula = util.composeLink(server, STR_REQ_MATCHING_SYMBOLS, id, pattern) ' subscription control
+            If util.cleanOnError(.Range(CELL_SUBSCRIPTION_CONTROL)) Then
+                .Range(CELL_ID).value = util.STR_EMPTY
                 Exit Sub
             End If
         End With
@@ -70,7 +70,7 @@ End Sub
 ' ========================================================
 Sub clearSymbolSamplesTable()
     ' clear symbol samples
-    Worksheets(STR_SHEET_NAME).range(SYMBOL_SAMPLES_TABLE_RANGE).ClearContents
+    Worksheets(STR_SHEET_NAME).Range(SYMBOL_SAMPLES_TABLE_RANGE).ClearContents
 End Sub
 
 ' ========================================================
@@ -78,11 +78,11 @@ End Sub
 ' ========================================================
 Sub cancelSymbolSamples()
     With Worksheets(STR_SHEET_NAME)
-        If .range(CELL_SUBSCRIPTION_CONTROL).value = util.STR_FINISHED Or .range(CELL_SUBSCRIPTION_CONTROL).value = util.STR_ERROR_UPPER Then
+        If .Range(CELL_SUBSCRIPTION_CONTROL).value = util.STR_FINISHED Or .Range(CELL_SUBSCRIPTION_CONTROL).value = util.STR_ERROR_UPPER Then
             Dim id As String
-            id = .range(CELL_ID).value
+            id = .Range(CELL_ID).value
 
-            If .range(CELL_SUBSCRIPTION_CONTROL).value = util.STR_SUBSCRIBED Then
+            If .Range(CELL_SUBSCRIPTION_CONTROL).value = util.STR_SUBSCRIBED Then
                 Dim server As String
                 server = util.getServerVal(STR_SHEET_NAME, CELL_SERVER_NAME)
                 If server = util.STR_EMPTY Then Exit Sub
@@ -90,9 +90,9 @@ Sub cancelSymbolSamples()
                 util.sendRequest server, STR_CANCEL_MATCHING_SYMBOLS, id
             End If
 
-            .range(CELL_SUBSCRIPTION_CONTROL).value = util.STR_EMPTY ' subscription control
-            .range(CELL_ID).value = util.STR_EMPTY
-            .range(CELL_ERROR).value = util.STR_EMPTY
+            .Range(CELL_SUBSCRIPTION_CONTROL).value = util.STR_EMPTY ' subscription control
+            .Range(CELL_ID).value = util.STR_EMPTY
+            .Range(CELL_ERROR).value = util.STR_EMPTY
 
         End If
     End With
@@ -112,23 +112,23 @@ Private Sub Worksheet_Calculate()
     With Worksheets(STR_SHEET_NAME)
     
         ' error
-        If CStr(.range(CELL_SUBSCRIPTION_CONTROL).value) = util.STR_ERROR_UPPER And CStr(.range(CELL_ERROR).value) = util.STR_EMPTY Then
+        If CStr(.Range(CELL_SUBSCRIPTION_CONTROL).value) = util.STR_ERROR_UPPER And CStr(.Range(CELL_ERROR).value) = util.STR_EMPTY Then
             server = util.getServerVal(STR_SHEET_NAME, CELL_SERVER_NAME)
             If server = util.STR_EMPTY Then Exit Sub
-            id = .range(CELL_ID).value
-            .range(CELL_ERROR).Formula = util.composeLink(server, STR_REQ_MATCHING_SYMBOLS_ERROR, id, util.STR_EMPTY)
+            id = .Range(CELL_ID).value
+            .Range(CELL_ERROR).Formula = util.composeLink(server, STR_REQ_MATCHING_SYMBOLS_ERROR, id, util.STR_EMPTY)
         End If
 
         ' symbol samples
-        If CStr(.range(CELL_SUBSCRIPTION_CONTROL).value) = util.STR_RECEIVED Then
+        If CStr(.Range(CELL_SUBSCRIPTION_CONTROL).value) = util.STR_RECEIVED Then
             Dim symbolSamplesArray() As Variant
             server = util.getServerVal(STR_SHEET_NAME, CELL_SERVER_NAME)
             If server = util.STR_EMPTY Then Exit Sub
 
-            id = .range(CELL_ID).value
+            id = .Range(CELL_ID).value
 
             Dim pattern As String
-            pattern = .range(CELL_PATTERN).value
+            pattern = .Range(CELL_PATTERN).value
 
             ' send request and receive symbol samples table/array
             symbolSamplesArray = util.sendRequest(server, STR_REQ_MATCHING_SYMBOLS, id & util.QMARK & pattern) ' returned array can be 1-Dimension or 2-Dimension

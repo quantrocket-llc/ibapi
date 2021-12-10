@@ -5,7 +5,7 @@ Class UpdatePortfolioEventArgs
 
     Property contract As IBApi.Contract
 
-    Property position As Integer
+    Property position As Decimal
 
     Property marketPrice As Double
 

@@ -82,8 +82,6 @@ namespace TWSLib
         string evRule { get; }
         [DispId(36)]
         double evMultiplier { get; }
-        [DispId(37)]
-        int mdSizeMultiplier { get; }
         [DispId(38)]
         int aggGroup { get; }
         [DispId(39)]
@@ -98,5 +96,11 @@ namespace TWSLib
         string lastTradeTime { get; }
         [DispId(44)]
         string stockType { get; }
+        [DispId(46)]
+        object minSize { get; }
+        [DispId(47)]
+        object sizeIncrement { get; }
+        [DispId(48)]
+        object suggestedSizeIncrement { get; }
     }
 }

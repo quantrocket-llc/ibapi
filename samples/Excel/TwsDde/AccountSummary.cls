@@ -44,7 +44,7 @@ Dim genId As Long
 ' Subscribes to account summary when button is pressed
 ' ========================================================
 Sub subscribeAccountSummary()
-    If CStr(Worksheets(STR_SHEET_NAME).range(CELL_SUBSCRIPTION_CONTROL).value) = util.STR_EMPTY Then ' only if not subscribed
+    If CStr(Worksheets(STR_SHEET_NAME).Range(CELL_SUBSCRIPTION_CONTROL).value) = util.STR_EMPTY Then ' only if not subscribed
         requestAccountSummary
     End If
 End Sub
@@ -53,7 +53,7 @@ End Sub
 ' Re-subscribes to account summary when workbook is opened
 ' ========================================================
 Sub resubscribeAccountSummary()
-    If CStr(Worksheets(STR_SHEET_NAME).range(CELL_SUBSCRIPTION_CONTROL).value) = util.STR_CANCELLED Then ' re-subscribe only if cancelled
+    If CStr(Worksheets(STR_SHEET_NAME).Range(CELL_SUBSCRIPTION_CONTROL).value) = util.STR_CANCELLED Then ' re-subscribe only if cancelled
         requestAccountSummary
     End If
 End Sub
@@ -72,15 +72,15 @@ Sub requestAccountSummary()
     Dim id As String, group As String
     id = util.getIDpost(genId, util.ID_REQ_ACCOUNT_SUMMARY)
     With Worksheets(STR_SHEET_NAME)
-        .range(CELL_ID).value = id
-        group = .range(CELL_GROUP).value
+        .Range(CELL_ID).value = id
+        group = .Range(CELL_GROUP).value
         
-        Dim rangeToPoke As range
+        Dim rangeToPoke As Range
         Set rangeToPoke = getRangeToPoke()
     
-        .range(CELL_SUBSCRIPTION_CONTROL).Formula = util.composeLink(server, STR_REQ_ACCOUNT_SUMMARY, id, util.STR_EMPTY) ' subscription control
-        If util.cleanOnError(.range(CELL_SUBSCRIPTION_CONTROL)) Then
-            .range(CELL_ID).value = util.STR_EMPTY
+        .Range(CELL_SUBSCRIPTION_CONTROL).Formula = util.composeLink(server, STR_REQ_ACCOUNT_SUMMARY, id, util.STR_EMPTY) ' subscription control
+        If util.cleanOnError(.Range(CELL_SUBSCRIPTION_CONTROL)) Then
+            .Range(CELL_ID).value = util.STR_EMPTY
             Exit Sub
         End If
         
@@ -95,21 +95,21 @@ End Sub
 ' ========================================================
 Sub clearAccountSummaryTable()
     ' clear account summary table
-    Worksheets(STR_SHEET_NAME).range(ACCOUNT_SUMMARY_TABLE_RANGE).ClearContents
+    Worksheets(STR_SHEET_NAME).Range(ACCOUNT_SUMMARY_TABLE_RANGE).ClearContents
 End Sub
 
 ' ========================================================
 ' Method creates range to send with DDEPoke method
 ' ========================================================
-Function getRangeToPoke() As range
+Function getRangeToPoke() As Range
     Dim tagsArray() As String
     With Worksheets(STR_SHEET_NAME)
-        tagsArray = splitString(.range(CELL_TAGS).value, util.COMMA_CHAR)
-        .Cells(10, 50).value = .range(CELL_GROUP).value ' group
+        tagsArray = splitString(.Range(CELL_TAGS).value, util.COMMA_CHAR)
+        .Cells(10, 50).value = .Range(CELL_GROUP).value ' group
         For i = 0 To UBound(tagsArray)
             .Cells(10, i + 51).value = tagsArray(i) ' tag
         Next i
-        Set getRangeToPoke = .range(.Cells(10, 50), .Cells(10, 51 + i))
+        Set getRangeToPoke = .Range(.Cells(10, 50), .Cells(10, 51 + i))
     End With
 End Function
 
@@ -140,11 +140,11 @@ End Sub
 ' ========================================================
 Sub cancelAccountSummary(controlValue As String)
     With Worksheets(STR_SHEET_NAME)
-        If .range(CELL_SUBSCRIPTION_CONTROL).value = util.STR_SUBSCRIBED Or .range(CELL_SUBSCRIPTION_CONTROL).value = util.STR_ERROR_UPPER Then
+        If .Range(CELL_SUBSCRIPTION_CONTROL).value = util.STR_SUBSCRIBED Or .Range(CELL_SUBSCRIPTION_CONTROL).value = util.STR_ERROR_UPPER Then
             Dim id As String
-            id = .range(CELL_ID).value
+            id = .Range(CELL_ID).value
     
-            If .range(CELL_SUBSCRIPTION_CONTROL).value = util.STR_SUBSCRIBED Then
+            If .Range(CELL_SUBSCRIPTION_CONTROL).value = util.STR_SUBSCRIBED Then
                 Dim server As String
                 server = util.getServerVal(STR_SHEET_NAME, CELL_SERVER_NAME)
                 If server = util.STR_EMPTY Then Exit Sub
@@ -152,9 +152,9 @@ Sub cancelAccountSummary(controlValue As String)
                 util.sendRequest server, STR_CANCEL_ACCOUNT_SUMMARY, id
             End If
     
-            .range(CELL_SUBSCRIPTION_CONTROL).value = controlValue ' subscription control
-            .range(CELL_ID).value = util.STR_EMPTY
-            .range(CELL_ERROR).value = util.STR_EMPTY
+            .Range(CELL_SUBSCRIPTION_CONTROL).value = controlValue ' subscription control
+            .Range(CELL_ID).value = util.STR_EMPTY
+            .Range(CELL_ERROR).value = util.STR_EMPTY
     
         End If
     End With
@@ -170,22 +170,22 @@ Private Sub Worksheet_Calculate()
     Dim server As String, id As String
 
     With Worksheets(STR_SHEET_NAME)
-        If CStr(.range(CELL_SUBSCRIPTION_CONTROL).value) = util.STR_ERROR_UPPER And CStr(.range(CELL_ERROR).value) = util.STR_EMPTY Then
+        If CStr(.Range(CELL_SUBSCRIPTION_CONTROL).value) = util.STR_ERROR_UPPER And CStr(.Range(CELL_ERROR).value) = util.STR_EMPTY Then
             server = util.getServerVal(STR_SHEET_NAME, CELL_SERVER_NAME)
             If server = util.STR_EMPTY Then Exit Sub
-            id = .range(CELL_ID).value
-            .range(CELL_ERROR).Formula = util.composeLink(server, STR_REQ_ACCOUNT_SUMMARY_ERROR, id, util.STR_EMPTY)
+            id = .Range(CELL_ID).value
+            .Range(CELL_ERROR).Formula = util.composeLink(server, STR_REQ_ACCOUNT_SUMMARY_ERROR, id, util.STR_EMPTY)
         End If
     
-        If CStr(.range(CELL_SUBSCRIPTION_CONTROL).value) = util.STR_RECEIVED Then
+        If CStr(.Range(CELL_SUBSCRIPTION_CONTROL).value) = util.STR_RECEIVED Then
             Dim accountSummaryArray() As Variant
             server = util.getServerVal(STR_SHEET_NAME, CELL_SERVER_NAME)
             If server = util.STR_EMPTY Then Exit Sub
     
-            id = .range(CELL_ID).value
+            id = .Range(CELL_ID).value
     
             Dim group As String
-            group = .range(CELL_GROUP).value
+            group = .Range(CELL_GROUP).value
     
             ' send request and receive account summary table/array
             accountSummaryArray = util.sendRequest(server, STR_REQ_ACCOUNT_SUMMARY, id & util.QMARK) ' returned array can be 1-Dimension or 2-Dimension
@@ -247,9 +247,9 @@ Private Function findAccountSummaryRow(account As String, key As String, curr As
     Dim row As Integer, i As Integer
     Dim arr1 As Variant, arr2 As Variant, arr3 As Variant
     With Worksheets(STR_SHEET_NAME)
-        arr1 = .range(.Cells(ACCOUNT_SUMMARY_START_ROW, COLUMN_SUMMARY_ACCOUNT), .Cells(ACCOUNT_SUMMARY_END_ROW, COLUMN_SUMMARY_ACCOUNT)).value
-        arr2 = .range(.Cells(ACCOUNT_SUMMARY_START_ROW, COLUMN_SUMMARY_KEY), .Cells(ACCOUNT_SUMMARY_END_ROW, COLUMN_SUMMARY_KEY)).value
-        arr3 = .range(.Cells(ACCOUNT_SUMMARY_START_ROW, COLUMN_SUMMARY_CURRENCY), .Cells(ACCOUNT_SUMMARY_END_ROW, COLUMN_SUMMARY_CURRENCY)).value
+        arr1 = .Range(.Cells(ACCOUNT_SUMMARY_START_ROW, COLUMN_SUMMARY_ACCOUNT), .Cells(ACCOUNT_SUMMARY_END_ROW, COLUMN_SUMMARY_ACCOUNT)).value
+        arr2 = .Range(.Cells(ACCOUNT_SUMMARY_START_ROW, COLUMN_SUMMARY_KEY), .Cells(ACCOUNT_SUMMARY_END_ROW, COLUMN_SUMMARY_KEY)).value
+        arr3 = .Range(.Cells(ACCOUNT_SUMMARY_START_ROW, COLUMN_SUMMARY_CURRENCY), .Cells(ACCOUNT_SUMMARY_END_ROW, COLUMN_SUMMARY_CURRENCY)).value
         For i = 1 To ACCOUNT_SUMMARY_END_ROW - ACCOUNT_SUMMARY_START_ROW + 1
             If CStr(arr1(i, 1)) = util.STR_EMPTY And CStr(arr2(i, 1)) = util.STR_EMPTY And CStr(arr3(i, 1)) = util.STR_EMPTY Or _
                 CStr(arr1(i, 1)) = account And CStr(arr2(i, 1)) = key And CStr(arr3(i, 1)) = curr Then

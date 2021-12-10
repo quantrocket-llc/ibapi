@@ -170,7 +170,7 @@ Public Sub UpdateScannerData(ByVal reqId As Long, ByVal rank As Long, ByVal Cont
         .Cells(4).value = contract.lastTradeDateOrContractMonth
         .Cells(5).value = contract.Strike
         .Cells(6).value = contract.Right
-        .Cells(7).value = contract.exchange
+        .Cells(7).value = contract.Exchange
     
         .Cells(8).value = contract.currency
         .Cells(9).value = contract.localSymbol
@@ -245,7 +245,7 @@ Public Sub ProcessError(ByVal id As Long, ByVal errorCode As Long, ByVal errorMs
         MsgBox STR_ALREADY_SUBSCRIBED
         controlTable(id - ID_MARKETSCANNER, Col_STATUS).value = STR_SUBSCRIBED
     Else
-        controlTable(id - ID_MARKETSCANNER, Col_STATUS).value = STR_ERROR + STR_COLON + Str(errorCode) + STR_SPACE + errorMsg
+        controlTable(id - ID_MARKETSCANNER, Col_STATUS).value = STR_ERROR + STR_COLON + str(errorCode) + STR_SPACE + errorMsg
     End If
         
 End Sub

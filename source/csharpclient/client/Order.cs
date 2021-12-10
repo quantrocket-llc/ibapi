@@ -1,6 +1,7 @@
 ﻿/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
+using System;
 using System.Collections.Generic;
 
 namespace IBApi
@@ -106,7 +107,7 @@ namespace IBApi
         /**
          * @brief The number of positions being bought/sold.
          */
-        public double TotalQuantity { get; set; }
+        public decimal TotalQuantity { get; set; }
 
         /**
          * @brief The order's type.
@@ -717,7 +718,7 @@ namespace IBApi
 
         public string AutoCancelDate { get; set; }
 
-        public double FilledQuantity { get; set; }
+        public decimal FilledQuantity { get; set; }
 
         public int RefFuturesConId { get; set; }
 
@@ -799,7 +800,7 @@ namespace IBApi
             Mifid2ExecutionAlgo = EMPTY_STR;
             DontUseAutoPriceForHedge = false;
             AutoCancelDate = EMPTY_STR;
-            FilledQuantity = double.MaxValue;
+            FilledQuantity = decimal.MaxValue;
             RefFuturesConId = int.MaxValue;
             AutoCancelParent = false;
             Shareholder = EMPTY_STR;

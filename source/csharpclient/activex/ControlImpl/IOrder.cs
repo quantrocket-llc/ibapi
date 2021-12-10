@@ -21,7 +21,7 @@ namespace TWSLib
         [DispId(4)]
         string action { get; set; }
         [DispId(5)]
-        double totalQuantity { get; set; }
+        object totalQuantity { get; set; }
         [DispId(6)]
         string orderType { get; set; }
         [DispId(7)]
@@ -314,7 +314,7 @@ namespace TWSLib
         string autoCancelDate { get; set; }
 
         [DispId(177)]
-        double filledQuantity { get; set; }
+        object filledQuantity { get; set; }
 
         [DispId(178)]
         int refFuturesConId { get; set; }

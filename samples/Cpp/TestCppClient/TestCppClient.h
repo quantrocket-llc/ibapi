@@ -104,7 +104,9 @@ enum State {
 	ST_WHATIFSAMPLES_ACK,
 	ST_IDLE,
 	ST_IBKRATSSAMPLE,
-	ST_IBKRATSSAMPLE_ACK
+	ST_IBKRATSSAMPLE_ACK,
+	ST_WSH,
+	ST_WSH_ACK
 };
 
 //! [ewrapperimpl]
@@ -168,6 +170,7 @@ private:
     void reqTickByTickData();
 	void whatIfSamples();
 	void ibkratsSample();
+	void wshCalendarOperations();
 
 	void reqCurrentTime();
 

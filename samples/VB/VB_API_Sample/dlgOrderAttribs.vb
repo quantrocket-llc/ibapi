@@ -187,6 +187,7 @@ Public Class dlgOrderAttribs
     Public WithEvents txtPostToAts As TextBox
     Public WithEvents Label30 As Label
     Friend WithEvents checkNotHeld As CheckBox
+    Friend WithEvents checkAutoCancelParent As CheckBox
     Public WithEvents Label41 As System.Windows.Forms.Label
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
@@ -340,6 +341,7 @@ Public Class dlgOrderAttribs
         Me.txtPostToAts = New System.Windows.Forms.TextBox()
         Me.Label30 = New System.Windows.Forms.Label()
         Me.checkNotHeld = New System.Windows.Forms.CheckBox()
+        Me.checkAutoCancelParent = New System.Windows.Forms.CheckBox()
         Me.SuspendLayout()
         '
         'txtHedgeParam
@@ -594,7 +596,7 @@ Public Class dlgOrderAttribs
         Me.cmdOk.Cursor = System.Windows.Forms.Cursors.Default
         Me.cmdOk.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.cmdOk.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.cmdOk.Location = New System.Drawing.Point(345, 635)
+        Me.cmdOk.Location = New System.Drawing.Point(345, 686)
         Me.cmdOk.Name = "cmdOk"
         Me.cmdOk.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.cmdOk.Size = New System.Drawing.Size(73, 25)
@@ -609,7 +611,7 @@ Public Class dlgOrderAttribs
         Me.cmdCancel.Cursor = System.Windows.Forms.Cursors.Default
         Me.cmdCancel.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.cmdCancel.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.cmdCancel.Location = New System.Drawing.Point(456, 635)
+        Me.cmdCancel.Location = New System.Drawing.Point(456, 686)
         Me.cmdCancel.Name = "cmdCancel"
         Me.cmdCancel.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.cmdCancel.Size = New System.Drawing.Size(73, 25)
@@ -790,7 +792,6 @@ Public Class dlgOrderAttribs
         Me.txtOpenClose.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.txtOpenClose.Size = New System.Drawing.Size(85, 13)
         Me.txtOpenClose.TabIndex = 15
-        Me.txtOpenClose.Text = ""
         '
         'txtAccount
         '
@@ -2319,7 +2320,7 @@ Public Class dlgOrderAttribs
         'checkRelativeDiscretionary
         '
         Me.checkRelativeDiscretionary.AutoSize = True
-        Me.checkRelativeDiscretionary.Location = New System.Drawing.Point(549, 635)
+        Me.checkRelativeDiscretionary.Location = New System.Drawing.Point(549, 639)
         Me.checkRelativeDiscretionary.Name = "checkRelativeDiscretionary"
         Me.checkRelativeDiscretionary.Size = New System.Drawing.Size(130, 18)
         Me.checkRelativeDiscretionary.TabIndex = 149
@@ -2392,11 +2393,22 @@ Public Class dlgOrderAttribs
         Me.checkNotHeld.Text = "Not held"
         Me.checkNotHeld.UseVisualStyleBackColor = True
         '
+        'checkAutoCancelParent
+        '
+        Me.checkAutoCancelParent.AutoSize = True
+        Me.checkAutoCancelParent.Location = New System.Drawing.Point(15, 639)
+        Me.checkAutoCancelParent.Name = "checkAutoCancelParent"
+        Me.checkAutoCancelParent.Size = New System.Drawing.Size(119, 18)
+        Me.checkAutoCancelParent.TabIndex = 155
+        Me.checkAutoCancelParent.Text = "Auto Cancel Parent"
+        Me.checkAutoCancelParent.UseVisualStyleBackColor = True
+        '
         'dlgOrderAttribs
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
         Me.BackColor = System.Drawing.Color.Gainsboro
-        Me.ClientSize = New System.Drawing.Size(850, 674)
+        Me.ClientSize = New System.Drawing.Size(850, 725)
+        Me.Controls.Add(Me.checkAutoCancelParent)
         Me.Controls.Add(Me.checkNotHeld)
         Me.Controls.Add(Me.txtPostToAts)
         Me.Controls.Add(Me.Label30)
@@ -2694,6 +2706,8 @@ Public Class dlgOrderAttribs
         checkRelativeDiscretionary.Checked = m_orderInfo.DiscretionaryUpToLimitPrice
         txtDuration.Text = ivalStr(m_orderInfo.Duration)
         txtPostToAts.Text = ivalStr(m_orderInfo.PostToAts)
+        checkNotHeld.Checked = m_orderInfo.NotHeld
+        checkAutoCancelParent.Checked = m_orderInfo.AutoCancelParent
 
     End Sub
 
@@ -2853,6 +2867,7 @@ Public Class dlgOrderAttribs
         m_orderInfo.Duration = ival(txtDuration.Text)
         m_orderInfo.PostToAts = ival(txtPostToAts.Text)
         m_orderInfo.NotHeld = checkNotHeld.Checked
+        m_orderInfo.AutoCancelParent = checkAutoCancelParent.Checked
 
         m_ok = True
         Hide()

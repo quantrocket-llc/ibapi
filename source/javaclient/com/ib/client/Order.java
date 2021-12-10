@@ -40,7 +40,7 @@ public class Order {
 
     // primary attributes
     private String      m_action = "BUY";
-    private double      m_totalQuantity;
+    private Decimal     m_totalQuantity = Decimal.INVALID;
     private int         m_displaySize;
     private String      m_orderType = "LMT";
     private double      m_lmtPrice = Double.MAX_VALUE;
@@ -206,7 +206,7 @@ public class Order {
     private boolean m_discretionaryUpToLimitPrice;
     
     private String  m_autoCancelDate;
-    private double  m_filledQuantity;
+    private Decimal m_filledQuantity;
     private int     m_refFuturesConId;
     private boolean m_autoCancelParent;
     private String  m_shareholder;
@@ -267,7 +267,7 @@ public class Order {
     public int scaleInitPosition()                  { return m_scaleInitPosition; }
     public int scalePriceAdjustInterval()           { return m_scalePriceAdjustInterval; }
     public int scaleSubsLevelSize()                 { return m_scaleSubsLevelSize; }
-    public double totalQuantity()                   { return m_totalQuantity; }
+    public Decimal totalQuantity()                  { return m_totalQuantity; }
     public int permId()                             { return m_permId; }
     public Method faMethod()                        { return Method.get(m_faMethod); }
     public String getFaMethod()                     { return m_faMethod; }
@@ -349,7 +349,7 @@ public class Order {
     public boolean isOmsContainer()                 { return m_isOmsContainer; }
     public boolean discretionaryUpToLimitPrice()    { return m_discretionaryUpToLimitPrice; }
     public String autoCancelDate()                  { return m_autoCancelDate; }
-    public double filledQuantity()                  { return m_filledQuantity; }
+    public Decimal filledQuantity()                 { return m_filledQuantity; }
     public int refFuturesConId()                    { return m_refFuturesConId; }
     public boolean autoCancelParent()               { return m_autoCancelParent; }
     public String shareholder()                     { return m_shareholder; }
@@ -443,7 +443,7 @@ public class Order {
     public void sweepToFill(boolean v)                                  { m_sweepToFill = v; }
     public void tif(TimeInForce v)                                      { m_tif = ( v == null ) ? null : v.getApiString(); }
     public void tif(String v)                                           { m_tif = v; }
-    public void totalQuantity(double v)                                 { m_totalQuantity = v; }
+    public void totalQuantity(Decimal v)                                { m_totalQuantity = v; }
     public void trailingPercent(double v)                               { m_trailingPercent = v; }
     public void trailStopPrice(double v)                                { m_trailStopPrice = v; }
     public void transmit(boolean v)                                     { m_transmit = v; }
@@ -492,7 +492,7 @@ public class Order {
     public void isOmsContainer(boolean v)                               { m_isOmsContainer = v; }
     public void discretionaryUpToLimitPrice(boolean v)                  { m_discretionaryUpToLimitPrice = v; }
     public void autoCancelDate(String v)                                { m_autoCancelDate = v; }
-    public void filledQuantity(double v)                                { m_filledQuantity = v; }
+    public void filledQuantity(Decimal v)                               { m_filledQuantity = v; }
     public void refFuturesConId(int v)                                  { m_refFuturesConId = v; }
     public void autoCancelParent(boolean v)                             { m_autoCancelParent = v; }
     public void shareholder(String v)                                   { m_shareholder = v; }
@@ -541,7 +541,7 @@ public class Order {
         m_isOmsContainer = false;
         m_discretionaryUpToLimitPrice = false;
         m_autoCancelDate = EMPTY_STR;
-        m_filledQuantity = Double.MAX_VALUE;
+        m_filledQuantity = Decimal.INVALID;
         m_refFuturesConId = 0;
         m_autoCancelParent = false;
         m_shareholder = EMPTY_STR;

@@ -29,7 +29,7 @@ Dim errorsStartIndex As Integer
 ' ========================================================
 Sub subscribeErrors()
     With Worksheets(STR_SHEET_NAME)
-        If CStr(.range(CELL_SUBSCRIPTION_CONTROL).value <> util.STR_SUBSCRIBED) Then ' only if not subscribed
+        If CStr(.Range(CELL_SUBSCRIPTION_CONTROL).value <> util.STR_SUBSCRIBED) Then ' only if not subscribed
             errorsStartIndex = 0
     
             clearTable
@@ -39,9 +39,9 @@ Sub subscribeErrors()
             server = util.getServerVal(STR_SHEET_NAME, CELL_SERVER_NAME)
             If server = util.STR_EMPTY Then Exit Sub
             
-            .range(CELL_SUBSCRIPTION_CONTROL).Formula = util.composeLink(server, STR_REQERRORS, util.IDENTIFIER_ZERO, util.STR_ERROR) ' subscription control
-            If util.cleanOnError(.range(CELL_SUBSCRIPTION_CONTROL)) Then
-                .range(CELL_SUBSCRIPTION_CONTROL).value = util.STR_EMPTY
+            .Range(CELL_SUBSCRIPTION_CONTROL).Formula = util.composeLink(server, STR_REQERRORS, util.IDENTIFIER_ZERO, util.STR_ERROR) ' subscription control
+            If util.cleanOnError(.Range(CELL_SUBSCRIPTION_CONTROL)) Then
+                .Range(CELL_SUBSCRIPTION_CONTROL).value = util.STR_EMPTY
                 Exit Sub
             End If
             
@@ -54,7 +54,7 @@ End Sub
 ' ========================================================
 Sub clearTable()
     ' clear table
-    Worksheets(STR_SHEET_NAME).range(TABLE_RANGE).ClearContents
+    Worksheets(STR_SHEET_NAME).Range(TABLE_RANGE).ClearContents
 End Sub
 
 ' ========================================================
@@ -62,7 +62,7 @@ End Sub
 ' ========================================================
 Sub cancelSubscription()
     errorsStartIndex = 0
-    Worksheets(STR_SHEET_NAME).range(CELL_SUBSCRIPTION_CONTROL).Formula = util.STR_EMPTY ' subscription control
+    Worksheets(STR_SHEET_NAME).Range(CELL_SUBSCRIPTION_CONTROL).Formula = util.STR_EMPTY ' subscription control
 End Sub
 
 ' ========================================================
@@ -70,9 +70,9 @@ End Sub
 ' ========================================================
 Sub cancelSubscriptionOnExit()
     With Worksheets(STR_SHEET_NAME)
-        If CStr(.range(CELL_SUBSCRIPTION_CONTROL).value = util.STR_SUBSCRIBED) Then ' only if subscribed
+        If CStr(.Range(CELL_SUBSCRIPTION_CONTROL).value = util.STR_SUBSCRIBED) Then ' only if subscribed
             errorsStartIndex = 0
-            .range(CELL_SUBSCRIPTION_CONTROL).Formula = util.STR_CANCELLED ' subscription control
+            .Range(CELL_SUBSCRIPTION_CONTROL).Formula = util.STR_CANCELLED ' subscription control
         End If
     End With
 End Sub
@@ -81,7 +81,7 @@ End Sub
 '
 ' ========================================================
 Sub startSubscription()
-    If CStr(Worksheets(STR_SHEET_NAME).range(CELL_SUBSCRIPTION_CONTROL).value) = util.STR_CANCELLED Then
+    If CStr(Worksheets(STR_SHEET_NAME).Range(CELL_SUBSCRIPTION_CONTROL).value) = util.STR_CANCELLED Then
         subscribeErrors
     End If
 End Sub
@@ -94,7 +94,7 @@ Private Sub Worksheet_Calculate()
     If Not util.sheetExists(STR_SHEET_NAME) Then Exit Sub
     
     With Worksheets(STR_SHEET_NAME)
-        If CStr(.range(CELL_SUBSCRIPTION_CONTROL).value) = util.STR_SUBSCRIBED Then
+        If CStr(.Range(CELL_SUBSCRIPTION_CONTROL).value) = util.STR_SUBSCRIBED Then
             Dim server As String, id As String
             Dim errorsArray() As Variant
             server = util.getServerVal(STR_SHEET_NAME, CELL_SERVER_NAME)

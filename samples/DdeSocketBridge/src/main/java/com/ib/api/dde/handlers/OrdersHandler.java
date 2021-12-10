@@ -29,6 +29,7 @@ import com.ib.api.dde.socket2dde.notifications.DdeNotificationEvent;
 import com.ib.api.dde.utils.OrderUtils;
 import com.ib.api.dde.utils.Utils;
 import com.ib.client.Contract;
+import com.ib.client.Decimal;
 import com.ib.client.EClientSocket;
 import com.ib.client.ExecutionCondition;
 import com.ib.client.MarginCondition;
@@ -143,7 +144,7 @@ public class OrdersHandler extends BaseHandler {
                     
             System.out.println("Placing order: id=" + request.requestId() + " for contract=" + Utils.shortContractString(request.contract()) + " order=" + Utils.shortOrderString(request.order()));
             
-            OrderStatusData orderStatus = new OrderStatusData(request.requestId(), "Sent", 0, 
+            OrderStatusData orderStatus = new OrderStatusData(request.requestId(), "Sent", Decimal.INVALID, 
                     request.order().totalQuantity(), 0, request.order().permId(), request.order().parentId(), 
                     0, request.order().clientId(), "", 0); 
             OpenOrderData openOrderData = new OpenOrderData(request.requestId(), request.contract(), request.order(), null, orderStatus, false);
@@ -478,7 +479,7 @@ public class OrdersHandler extends BaseHandler {
                 order.action(table1.get(16));
             }
             if (Utils.isNotNull(table1.get(17))) {
-                order.totalQuantity(getDoubleFromString(table1.get(17)));
+                order.totalQuantity(Decimal.parse(table1.get(17)));
             }
             if (Utils.isNotNull(table1.get(18))) {
                 order.orderType(table1.get(18));
@@ -826,6 +827,9 @@ public class OrdersHandler extends BaseHandler {
             }
             if (Utils.isNotNull(table2.get(111))) {
                 order.postToAts(getIntFromString(table2.get(111)));
+            }
+            if (Utils.isNotNull(table2.get(112))) {
+                order.autoCancelParent(getBooleanFromString(table2.get(112)));
             }
             
             return order;

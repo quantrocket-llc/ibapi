@@ -6,6 +6,6 @@ namespace IBApi
     public struct HistogramEntry
     {
         public double Price { get; set; }
-        public long Size { get; set; }
+        public decimal Size { get; set; }
     }
 }

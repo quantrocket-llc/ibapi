@@ -691,6 +691,17 @@ Namespace Samples
             Return contract
         End Function
 
+        Public Shared Function CryptoContract() As Contract
+            '! [crypto_contract]
+            Dim contract As Contract = New Contract()
+            contract.Symbol = "ETH"
+            contract.SecType = "CRYPTO"
+            contract.Exchange = "PAXOS"
+            contract.Currency = "USD"
+            '! [crypto_contract]
+            Return contract
+        End Function
+
     End Class
 
 End Namespace

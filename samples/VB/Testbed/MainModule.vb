@@ -94,7 +94,7 @@ Module MainModule
         '*********************************
         '** Historical Data operations ***
         '*********************************
-        'historicalDataRequests(client)
+        historicalDataRequests(client)
 
         '************************
         '** Options Specifics ***
@@ -134,7 +134,7 @@ Module MainModule
         '***********************************
         '** Financial Advisor Exclusive Operations ***
         '***********************************
-        financialAdvisorOperations(client)
+        'financialAdvisorOperations(client)
 
         '*******************
         '** Miscellaneous ***
@@ -201,6 +201,24 @@ Module MainModule
         Thread.Sleep(15000)
         Console.WriteLine("Done")
         Thread.Sleep(500000)
+    End Sub
+
+    Private Sub wshCalendarOperations(client As EClientSocket)
+		' [reqmetadata]
+        client.reqWshMetaData(1100)
+		' [reqmetadata]
+
+        Thread.Sleep(1000)
+
+        client.cancelWshMetaData(1100)
+
+		' [reqeventdata]
+        client.reqWshEventData(1101, 8314)
+		' [reqeventdata]
+
+        Thread.Sleep(1000)
+
+        client.cancelWshEventData(1101)
     End Sub
 
     Private Sub historicalTicks(client As EClientSocket)
@@ -395,12 +413,14 @@ Module MainModule
         Dim queryTime As String = DateTime.Now.AddMonths(-6).ToString("yyyyMMdd HH:mm:ss")
         client.reqHistoricalData(4001, ContractSamples.EurGbpFx(), queryTime, "1 M", "1 day", "MIDPOINT", 1, 1, False, Nothing)
         client.reqHistoricalData(4002, ContractSamples.EuropeanStock(), queryTime, "10 D", "1 min", "TRADES", 1, 1, False, Nothing)
+        client.reqHistoricalData(4003, ContractSamples.USStockAtSmart(), queryTime, "1 M", "1 day", "SCHEDULE", 1, 1, False, Nothing)
         '! [reqhistoricaldata]
         Thread.Sleep(2000)
         '** Canceling historical data requests ***
         '! [cancelhistoricaldata]
         client.cancelHistoricalData(4001)
         client.cancelHistoricalData(4002)
+        client.cancelHistoricalData(4003)
         '! [cancelhistoricaldata]
     End Sub
 
@@ -440,6 +460,7 @@ Module MainModule
         client.reqContractDetails(212, ContractSamples.FuturesOnOptions())
         client.reqContractDetails(213, ContractSamples.SimpleFuture())
         client.reqContractDetails(214, ContractSamples.USStockAtSmart())
+        client.reqContractDetails(215, ContractSamples.CryptoContract())
         '! [reqcontractdetails]
 
         '! [reqcontractdetailsnews]
@@ -736,6 +757,9 @@ Module MainModule
         client.reqCompletedOrders(False)
         '! [reqcompletedorders]
 
+        '! [crypto_order_submission]
+        client.placeOrder(increment(nextOrderId), ContractSamples.CryptoContract(), OrderSamples.LimitOrder("BUY", Util.StringToDecimal("0.00001234"), 3370))
+        '! [crypto_order_submission]
     End Sub
 
     Private Sub newsOperations(client As EClientSocket)

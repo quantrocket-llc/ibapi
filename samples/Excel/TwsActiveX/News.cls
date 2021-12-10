@@ -169,7 +169,7 @@ Private Sub reqNewsTicks_Click()
     With contractInfo
         .Symbol = UCase(Range(CELL_SYMBOL).value)
         .SecType = UCase(Range(CELL_SECTYPE).value)
-        .exchange = UCase(Range(CELL_EXCHANGE).value)
+        .Exchange = UCase(Range(CELL_EXCHANGE).value)
         .primaryExchange = UCase(Range(CELL_PRIM_EXCHANGE).value)
         .currency = UCase(Range(CELL_CURRENCY).value)
     End With

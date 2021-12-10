@@ -330,7 +330,7 @@ End Function
 ' ========================================================
 ' clears data cells
 ' ========================================================
-Sub clearColumns(cell As range)
+Sub clearColumns(cell As Range)
     Dim i As Integer, j As Integer
     With Worksheets(STR_SHEET_NAME)
         .Cells(cell.row, statusColumnIndex).value = util.STR_EMPTY
@@ -378,7 +378,7 @@ End Sub
 ' cancel market data for active row(s) when button is pressed
 ' ========================================================
 Sub cancelMarketData()
-    Dim server As String, id As String, i As Integer, j As Integer, row As range, lastRowIndex As Integer
+    Dim server As String, id As String, i As Integer, j As Integer, row As Range, lastRowIndex As Integer
     
     server = util.getServerVal(STR_SHEET_NAME, CELL_SERVER_NAME)
     If server = util.STR_EMPTY Then Exit Sub
@@ -420,9 +420,9 @@ Sub requestCurrentTime()
     With Worksheets(STR_SHEET_NAME)
         util.sendRequest server, STR_REQ_CURRENT_TIME, util.IDENTIFIER_ZERO
 
-        .range(CELL_CURRENT_TIME).Formula = util.composeLink(server, STR_REQ_CURRENT_TIME, util.IDENTIFIER_ZERO, util.STR_EMPTY) ' subscription control
-        If util.cleanOnError(.range(CELL_CURRENT_TIME)) Then
-            .range(CELL_CURRENT_TIME).value = util.STR_EMPTY
+        .Range(CELL_CURRENT_TIME).Formula = util.composeLink(server, STR_REQ_CURRENT_TIME, util.IDENTIFIER_ZERO, util.STR_EMPTY) ' subscription control
+        If util.cleanOnError(.Range(CELL_CURRENT_TIME)) Then
+            .Range(CELL_CURRENT_TIME).value = util.STR_EMPTY
             Exit Sub
         End If
     End With
@@ -435,7 +435,7 @@ End Sub
 Sub requestMarketData()
 Attribute requestMarketData.VB_Description = "Request market data"
 Attribute requestMarketData.VB_ProcData.VB_Invoke_Func = "R\n14"
-    Dim row As range, server As String, lastRowIndex As Integer
+    Dim row As Range, server As String, lastRowIndex As Integer
     
     server = util.getServerVal(STR_SHEET_NAME, CELL_SERVER_NAME)
     If server = STR_EMPTY Then Exit Sub
@@ -458,7 +458,7 @@ End Sub
 ' ========================================================
 ' request market data for row
 ' ========================================================
-Sub sendMarketDataRequest(server As String, cell As range)
+Sub sendMarketDataRequest(server As String, cell As Range)
 Attribute sendMarketDataRequest.VB_ProcData.VB_Invoke_Func = "R\n14"
 
     ' get id
@@ -533,7 +533,7 @@ End Sub
 ' cancel all market data for all rows (called when workbook is closed)
 ' ========================================================
 Sub cancelAllMktData()
-    Dim rng As range, row As range, cell As range
+    Dim rng As Range, row As Range, cell As Range
     Dim server As String
     Dim id As String
     
@@ -541,7 +541,7 @@ Sub cancelAllMktData()
     If server = util.STR_EMPTY Then Exit Sub
     
     With Worksheets(STR_SHEET_NAME)
-        Set rng = .range(.Cells(dataStartRowIndex, idColumnIndex), .Cells(dataEndRowIndex, idColumnIndex))
+        Set rng = .Range(.Cells(dataStartRowIndex, idColumnIndex), .Cells(dataEndRowIndex, idColumnIndex))
     
         For Each row In rng.rows
             For Each cell In row.Cells
@@ -561,12 +561,12 @@ Sub requestAllMktData()
     server = util.getServerVal(STR_SHEET_NAME, CELL_SERVER_NAME)
     If server = util.STR_EMPTY Then Exit Sub
 
-    Dim rng As range
+    Dim rng As Range
     
     With Worksheets(STR_SHEET_NAME)
-        Set rng = .range(.Cells(dataStartRowIndex, idColumnIndex), .Cells(dataEndRowIndex, idColumnIndex))
+        Set rng = .Range(.Cells(dataStartRowIndex, idColumnIndex), .Cells(dataEndRowIndex, idColumnIndex))
     
-        Dim row As range, cell As range
+        Dim row As Range, cell As Range
         For Each row In rng.rows
             For Each cell In row.Cells
             If InStr(cell.value, STR_ID) <> 0 Then

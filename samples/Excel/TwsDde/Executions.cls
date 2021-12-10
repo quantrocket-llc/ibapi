@@ -40,7 +40,7 @@ Dim genId As Long
 ' Subscribes to executions when button is pressed
 ' ========================================================
 Sub subscribeExecutions()
-    If CStr(Worksheets(STR_SHEET_NAME).range(CELL_SUBSCRIPTION_CONTROL).value) = util.STR_EMPTY Then ' only if not subscribed
+    If CStr(Worksheets(STR_SHEET_NAME).Range(CELL_SUBSCRIPTION_CONTROL).value) = util.STR_EMPTY Then ' only if not subscribed
         requestExecutions
     End If
 End Sub
@@ -49,7 +49,7 @@ End Sub
 ' Re-subscribes to executions when workbook is opened
 ' ========================================================
 Sub resubscribeExecutions()
-    If CStr(Worksheets(STR_SHEET_NAME).range(CELL_SUBSCRIPTION_CONTROL).value) = util.STR_CANCELLED Then ' re-subscribe only if cancelled
+    If CStr(Worksheets(STR_SHEET_NAME).Range(CELL_SUBSCRIPTION_CONTROL).value) = util.STR_CANCELLED Then ' re-subscribe only if cancelled
         requestExecutions
     End If
 End Sub
@@ -72,12 +72,12 @@ Sub requestExecutions()
     Dim id As String
     id = util.getIDpost(genId, util.ID_REQ_EXECUTIONS)
     With Worksheets(STR_SHEET_NAME)
-        .range(CELL_ID).value = id
+        .Range(CELL_ID).value = id
     
-        .range(CELL_SUBSCRIPTION_CONTROL).Formula = util.composeLink(server, STR_REQ_EXECUTIONS, id, params) ' subscription control
+        .Range(CELL_SUBSCRIPTION_CONTROL).Formula = util.composeLink(server, STR_REQ_EXECUTIONS, id, params) ' subscription control
         
-        If util.cleanOnError(.range(CELL_SUBSCRIPTION_CONTROL)) Then
-            .range(CELL_ID).value = util.STR_EMPTY
+        If util.cleanOnError(.Range(CELL_SUBSCRIPTION_CONTROL)) Then
+            .Range(CELL_ID).value = util.STR_EMPTY
         End If
         
     End With
@@ -110,7 +110,7 @@ End Function
 ' ========================================================
 Sub clearExecutionsTable()
     ' clear positions table
-    Worksheets(STR_SHEET_NAME).range(EXECUTIONS_TABLE_RANGE).ClearContents
+    Worksheets(STR_SHEET_NAME).Range(EXECUTIONS_TABLE_RANGE).ClearContents
 End Sub
 
 ' ========================================================
@@ -132,11 +132,11 @@ End Sub
 ' ========================================================
 Sub cancelExecutions(controlValue As String)
     With Worksheets(STR_SHEET_NAME)
-        If .range(CELL_SUBSCRIPTION_CONTROL).value = util.STR_SUBSCRIBED Or .range(CELL_SUBSCRIPTION_CONTROL).value = util.STR_ERROR_UPPER Then
+        If .Range(CELL_SUBSCRIPTION_CONTROL).value = util.STR_SUBSCRIBED Or .Range(CELL_SUBSCRIPTION_CONTROL).value = util.STR_ERROR_UPPER Then
             Dim id As String
-            id = .range(CELL_ID).value
+            id = .Range(CELL_ID).value
     
-            If .range(CELL_SUBSCRIPTION_CONTROL).value = util.STR_SUBSCRIBED Then
+            If .Range(CELL_SUBSCRIPTION_CONTROL).value = util.STR_SUBSCRIBED Then
                 Dim server As String
                 server = util.getServerVal(STR_SHEET_NAME, CELL_SERVER_NAME)
                 If server = util.STR_EMPTY Then Exit Sub
@@ -144,9 +144,9 @@ Sub cancelExecutions(controlValue As String)
                 util.sendRequest server, STR_CANCEL_EXECUTIONS, id
             End If
     
-            .range(CELL_SUBSCRIPTION_CONTROL).value = controlValue ' subscription control
-            .range(CELL_ID).value = util.STR_EMPTY
-            .range(CELL_ERROR).value = util.STR_EMPTY
+            .Range(CELL_SUBSCRIPTION_CONTROL).value = controlValue ' subscription control
+            .Range(CELL_ID).value = util.STR_EMPTY
+            .Range(CELL_ERROR).value = util.STR_EMPTY
     
         End If
     End With
@@ -162,19 +162,19 @@ Private Sub Worksheet_Calculate()
     Dim server As String, id As String
 
     With Worksheets(STR_SHEET_NAME)
-        If CStr(.range(CELL_SUBSCRIPTION_CONTROL).value) = util.STR_ERROR_UPPER And CStr(.range(CELL_ERROR).value) = util.STR_EMPTY Then
+        If CStr(.Range(CELL_SUBSCRIPTION_CONTROL).value) = util.STR_ERROR_UPPER And CStr(.Range(CELL_ERROR).value) = util.STR_EMPTY Then
             server = util.getServerVal(STR_SHEET_NAME, CELL_SERVER_NAME)
             If server = util.STR_EMPTY Then Exit Sub
-            id = .range(CELL_ID).value
-            .range(CELL_ERROR).Formula = util.composeLink(server, STR_REQ_EXECUTIONS_ERROR, id, util.STR_EMPTY)
+            id = .Range(CELL_ID).value
+            .Range(CELL_ERROR).Formula = util.composeLink(server, STR_REQ_EXECUTIONS_ERROR, id, util.STR_EMPTY)
         End If
     
-        If CStr(.range(CELL_SUBSCRIPTION_CONTROL).value) = util.STR_RECEIVED Then
+        If CStr(.Range(CELL_SUBSCRIPTION_CONTROL).value) = util.STR_RECEIVED Then
             Dim executionsArray() As Variant
             server = util.getServerVal(STR_SHEET_NAME, CELL_SERVER_NAME)
             If server = util.STR_EMPTY Then Exit Sub
     
-            id = .range(CELL_ID).value
+            id = .Range(CELL_ID).value
     
             Dim params As String
             params = getParams()
@@ -217,7 +217,7 @@ Private Function findExecutionRow() As Integer
     Dim row As Integer, i As Integer
     Dim arr1 As Variant
     With Worksheets(STR_SHEET_NAME)
-        arr1 = .range(.Cells(EXECUTIONS_START_ROW, COLUMN_CONID), .Cells(EXECUTIONS_END_ROW, COLUMN_CONID)).value
+        arr1 = .Range(.Cells(EXECUTIONS_START_ROW, COLUMN_CONID), .Cells(EXECUTIONS_END_ROW, COLUMN_CONID)).value
         For i = 1 To EXECUTIONS_END_ROW - EXECUTIONS_START_ROW + 1
             If CStr(arr1(i, 1)) = util.STR_EMPTY Then
                 row = i + EXECUTIONS_START_ROW - 1

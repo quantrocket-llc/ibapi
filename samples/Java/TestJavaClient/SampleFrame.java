@@ -4,11 +4,9 @@
 package TestJavaClient;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -52,6 +50,8 @@ class SampleFrame extends JFrame implements EWrapper {
 	private MarketRuleDlg   m_marketRuleDlg = new MarketRuleDlg(this);
     private PnLDlg     m_pnlDlg = new PnLDlg(this);
     private PnLSingleDlg   m_pnlSingleDlg = new PnLSingleDlg(this);
+    private WSHDlg         m_wshMetaDlg = new WSHDlg(this);
+    private WSHDlg         m_wshEventDlg = new WSHDlg(this);
 
     private List<TagValue> m_mktDataOptions = new ArrayList<>();
     private List<TagValue> m_chartOptions = new ArrayList<>();
@@ -262,6 +262,14 @@ class SampleFrame extends JFrame implements EWrapper {
         butReqCompletedOrders.addActionListener(e -> onReqCompletedOrders());
         JButton butReqAllCompletedOrders = new JButton("Req All Completed Orders");
         butReqAllCompletedOrders.addActionListener(e -> onReqAllCompletedOrders());
+        JButton butReqWshMetaData = new JButton("Req WSH Meta Data");
+        butReqWshMetaData.addActionListener(e -> onReqWshMetaData());
+        JButton butCancelWshMetaData = new JButton("Cancel WSH Meta Data");
+        butCancelWshMetaData.addActionListener(e -> onCancelWshMetaData());
+        JButton butReqWshEventData = new JButton("Req WSH Event Data");
+        butReqWshEventData.addActionListener(e -> onReqWshEventData());
+        JButton butCancelWshEventData = new JButton("Cancel WSH Event Data");
+        butCancelWshEventData.addActionListener(e -> onCancelWshEventData());
 
         JButton butClear = new JButton( "Clear");
         butClear.addActionListener(e -> onClear());
@@ -326,11 +334,41 @@ class SampleFrame extends JFrame implements EWrapper {
         buttonPanel.add(butReqHistoricalTicks);
         pairSlot.add(butReqTickByTickData, butCancelTickByTickData);
         pairSlot.add(butReqCompletedOrders, butReqAllCompletedOrders);
+        pairSlot.add(butReqWshMetaData, butCancelWshMetaData);
+        pairSlot.add(butReqWshEventData, butCancelWshEventData);
 
         buttonPanel.add( new JPanel() );
         pairSlot.add(butClear, butClose);
 
         return buttonPanel;
+    }
+
+    private void onCancelWshEventData() {
+        m_client.cancelWshMetaData(m_wshEventDlg.m_reqId);
+    }
+
+    private void onReqWshEventData() {
+        m_wshEventDlg.setVisible(true);
+
+        if (!m_wshEventDlg.isOk()) {
+            return;
+        }
+
+        m_client.reqWshEventData(m_wshEventDlg.m_reqId, m_wshEventDlg.m_conId);
+    }
+
+    private void onCancelWshMetaData() {
+        m_client.cancelWshMetaData(m_wshMetaDlg.m_reqId);
+    }
+
+    private void onReqWshMetaData() {
+        m_wshMetaDlg.setVisible(true);
+
+        if (!m_wshMetaDlg.isOk()) {
+            return;
+        }
+
+        m_client.reqWshMetaData(m_wshMetaDlg.m_reqId);
     }
 
     class BtnPairSlot {
@@ -1123,7 +1161,7 @@ class SampleFrame extends JFrame implements EWrapper {
         m_tickers.add( msg );
     }
 
-    public void tickSize( int tickerId, int field, long size) {
+    public void tickSize( int tickerId, int field, Decimal size) {
         // received size tick
     	String msg = EWrapperMsgGenerator.tickSize( tickerId, field, size);
         m_tickers.add( msg);
@@ -1155,7 +1193,7 @@ class SampleFrame extends JFrame implements EWrapper {
         m_tickers.add(msg);
     }
 
-    public void orderStatus( int orderId, String status, double filled, double remaining,
+    public void orderStatus( int orderId, String status, Decimal filled, Decimal remaining,
     						 double avgFillPrice, int permId, int parentId,
     						 double lastFillPrice, int clientId, String whyHeld, double mktCapPrice) {
         // received order status
@@ -1236,7 +1274,7 @@ class SampleFrame extends JFrame implements EWrapper {
     }
 
     public void updateMktDepth( int tickerId, int position, int operation,
-                    int side, double price, long size) {
+                    int side, double price, Decimal size) {
 
         MktDepthDlg depthDialog = m_mapRequestToMktDepthDlg.get(tickerId);
         if ( depthDialog != null ) {
@@ -1249,7 +1287,7 @@ class SampleFrame extends JFrame implements EWrapper {
     }
 
     public void updateMktDepthL2( int tickerId, int position, String marketMaker,
-                    int operation, int side, double price, long size, boolean isSmartDepth) {
+                    int operation, int side, double price, Decimal size, boolean isSmartDepth) {
         MktDepthDlg depthDialog = null;
         
         if (isSmartDepth) {
@@ -1329,7 +1367,7 @@ class SampleFrame extends JFrame implements EWrapper {
         m_acctDlg.updateAccountValue(key, value, currency, accountName);
     }
 
-    public void updatePortfolio(Contract contract, double position, double marketPrice,
+    public void updatePortfolio(Contract contract, Decimal position, double marketPrice,
         double marketValue, double averageCost, double unrealizedPNL, double realizedPNL,
         String accountName) {
         m_acctDlg.updatePortfolio(contract, position, marketPrice, marketValue,
@@ -1369,7 +1407,7 @@ class SampleFrame extends JFrame implements EWrapper {
     	m_tickers.add( msg );
     }
     
-	public void realtimeBar(int reqId, long time, double open, double high, double low, double close, long volume, double wap, int count) {
+	public void realtimeBar(int reqId, long time, double open, double high, double low, double close, Decimal volume, Decimal wap, int count) {
 		String msg = EWrapperMsgGenerator.realtimeBar(reqId, time, open, high, low, close, volume, wap, count);
         m_tickers.add( msg );
 	}
@@ -1520,9 +1558,10 @@ class SampleFrame extends JFrame implements EWrapper {
         destOrder.isOmsContainer(srcOrder.isOmsContainer());
         destOrder.discretionaryUpToLimitPrice(srcOrder.discretionaryUpToLimitPrice());
         destOrder.notHeld(srcOrder.notHeld());
+        destOrder.autoCancelParent(srcOrder.autoCancelParent());
     }
 
-    public void position(String account, Contract contract, double pos, double avgCost) {
+    public void position(String account, Contract contract, Decimal pos, double avgCost) {
         String msg = EWrapperMsgGenerator.position(account, contract, pos, avgCost);
         m_TWS.add(msg);
     }
@@ -1542,7 +1581,7 @@ class SampleFrame extends JFrame implements EWrapper {
         m_TWS.add(msg);
     }
 
-    public void positionMulti( int reqId, String account, String modelCode, Contract contract, double pos, double avgCost) {
+    public void positionMulti( int reqId, String account, String modelCode, Contract contract, Decimal pos, double avgCost) {
         String msg = EWrapperMsgGenerator.positionMulti(reqId, account, modelCode, contract, pos, avgCost);
         m_TWS.add(msg);
     }
@@ -1720,7 +1759,7 @@ class SampleFrame extends JFrame implements EWrapper {
     }
 
     @Override
-    public void pnlSingle(int reqId, int pos, double dailyPnL, double unrealizedPnL, double realizedPnL, double value) {
+    public void pnlSingle(int reqId, Decimal pos, double dailyPnL, double unrealizedPnL, double realizedPnL, double value) {
         String msg = EWrapperMsgGenerator.pnlSingle(reqId, pos, dailyPnL, unrealizedPnL, realizedPnL, value);
         
         m_TWS.add(msg);
@@ -1766,7 +1805,7 @@ class SampleFrame extends JFrame implements EWrapper {
     }
 
     @Override
-    public void tickByTickAllLast(int reqId, int tickType, long time, double price, long size, TickAttribLast tickAttribLast,
+    public void tickByTickAllLast(int reqId, int tickType, long time, double price, Decimal size, TickAttribLast tickAttribLast,
             String exchange, String specialConditions) {
         String msg = EWrapperMsgGenerator.tickByTickAllLast(reqId, tickType, time, price, size, tickAttribLast, exchange, specialConditions);
 
@@ -1774,7 +1813,7 @@ class SampleFrame extends JFrame implements EWrapper {
     }
 
     @Override
-    public void tickByTickBidAsk(int reqId, long time, double bidPrice, double askPrice, long bidSize, long askSize,
+    public void tickByTickBidAsk(int reqId, long time, double bidPrice, double askPrice, Decimal bidSize, Decimal askSize,
             TickAttribBidAsk tickAttribBidAsk) {
         String msg = EWrapperMsgGenerator.tickByTickBidAsk(reqId, time, bidPrice, askPrice, bidSize, askSize, tickAttribBidAsk);
 
@@ -1810,6 +1849,24 @@ class SampleFrame extends JFrame implements EWrapper {
     @Override
     public void replaceFAEnd(int reqId, String text) {
         String msg = EWrapperMsgGenerator.replaceFAEnd(reqId, text);
+        m_TWS.add(msg);
+    }
+
+	@Override
+	public void wshMetaData(int reqId, String dataJson) {
+		String msg = EWrapperMsgGenerator.wshMetaData(reqId, dataJson);
+        m_TWS.add(msg);
+	}
+
+	@Override
+	public void wshEventData(int reqId, String dataJson) {
+		String msg = EWrapperMsgGenerator.wshEventData(reqId, dataJson);
+        m_TWS.add(msg);
+	}
+
+    @Override
+    public void historicalSchedule(int reqId, String startDateTime, String endDateTime, String timeZone, List<HistoricalSession> sessions) {
+        String msg = EWrapperMsgGenerator.historicalSchedule(reqId, startDateTime, endDateTime, timeZone, sessions);
         m_TWS.add(msg);
     }
 }

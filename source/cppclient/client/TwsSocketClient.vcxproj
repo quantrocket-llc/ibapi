@@ -97,8 +97,8 @@
       <SubSystem>Windows</SubSystem>
       <ImportLibrary>..\lib\TwsSocketClient.lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
-      <AdditionalDependencies>Ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>libbid.lib;Ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>.\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <Bscmake>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -148,8 +148,8 @@
       <SubSystem>Windows</SubSystem>
       <ImportLibrary>.\Debug/TwsSocketClient.lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
-      <AdditionalDependencies>Ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>libbid.lib;Ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>.\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <Bscmake>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -192,6 +192,7 @@
   <ItemGroup>
     <ClInclude Include="bar.h" />
     <ClInclude Include="ContractCondition.h" />
+    <ClInclude Include="Decimal.h" />
     <ClInclude Include="DepthMktDataDescription.h" />
     <ClInclude Include="EClientMsgSink.h" />
     <ClInclude Include="EMutex.h" />
@@ -211,6 +212,7 @@
     <ClInclude Include="FamilyCode.h" />
     <ClInclude Include="EClientException.h" />
     <ClInclude Include="HistogramEntry.h" />
+    <ClInclude Include="HistoricalSession.h" />
     <ClInclude Include="HistoricalTick.h" />
     <ClInclude Include="HistoricalTickBidAsk.h" />
     <ClInclude Include="HistoricalTickLast.h" />

@@ -109,8 +109,8 @@ Sub requestFundamentalData()
         End If
 
         ' range to poke
-        Dim rangeToPoke As range
-        Set rangeToPoke = .range(.Cells(ActiveCell.row, startOfContractColumns), .Cells(ActiveCell.row, reportTypeColumnIndex))
+        Dim rangeToPoke As Range
+        Set rangeToPoke = .Range(.Cells(ActiveCell.row, startOfContractColumns), .Cells(ActiveCell.row, reportTypeColumnIndex))
 
         ' send request
         util.sendPokeSimple Worksheets(STR_SHEET_NAME), server, STR_REQ_FUNDAMENTAL_DATA, id, rangeToPoke

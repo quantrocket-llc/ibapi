@@ -18,10 +18,12 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.AbstractTableModel;
 
 import com.ib.client.Contract;
+import com.ib.client.Decimal;
 import com.ib.client.Order;
 import com.ib.client.OrderState;
 import com.ib.client.OrderStatus;
 import com.ib.client.OrderType;
+import com.ib.client.Util;
 import com.ib.controller.ApiController.ILiveOrderHandler;
 
 import apidemo.util.HtmlButton;
@@ -214,7 +216,7 @@ public class OrdersPanel extends JPanel {
 		@Override public void openOrderEnd() {
 		}
 		
-		@Override public void orderStatus(int orderId, OrderStatus status, double filled, double remaining, double avgFillPrice, int permId, int parentId, double lastFillPrice, int clientId, String whyHeld, double mktCapPrice) {
+		@Override public void orderStatus(int orderId, OrderStatus status, Decimal filled, Decimal remaining, double avgFillPrice, int permId, int parentId, double lastFillPrice, int clientId, String whyHeld, double mktCapPrice) {
 			OrderRow full = m_map.get( permId);
 			if (full != null) {
 				full.m_state.status( status);
@@ -246,14 +248,14 @@ public class OrdersPanel extends JPanel {
 			OrderRow fullOrder = m_orders.get( row);
 			Order order = fullOrder.m_order;
 			switch( col) {
-				case 0: return order.permId();
-				case 1: return order.clientId();
-				case 2: return order.orderId();
+				case 0: return Util.IntMaxString(order.permId());
+				case 1: return Util.IntMaxString(order.clientId());
+				case 2: return Util.IntMaxString(order.orderId());
 				case 3: return order.account();
 				case 4: return order.modelCode();
 				case 5: return order.action();
 				case 6: return order.totalQuantity();
-				case 7: return (order.cashQty() == Double.MAX_VALUE) ? "" : String.valueOf(order.cashQty());
+				case 7: return Util.DoubleMaxString(order.cashQty());
 				case 8: return fullOrder.m_contract.description();
 				case 9: return fullOrder.m_state.status();
 				default: return null;

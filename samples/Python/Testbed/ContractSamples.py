@@ -677,6 +677,17 @@ class ContractSamples:
         # ! [ibkrats_contract]
         return contract;
 
+    @staticmethod
+    def CryptoContract():
+        # ! [crypto_contract]
+        contract = Contract();
+        contract.symbol = "ETH";
+        contract.secType = "CRYPTO";
+        contract.currency = "USD";
+        contract.exchange = "PAXOS";
+        # ! [crypto_contract]
+        return contract;
+
 def Test():
     from ibapi.utils import ExerciseStaticMethods
     ExerciseStaticMethods(ContractSamples)

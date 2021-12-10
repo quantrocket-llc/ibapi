@@ -11,16 +11,16 @@ Const orderMult = 1000000
 ' variables
 Dim ongoingID As Long, idsCreated As Long
 
-Sub applyTemplate(ByRef orderRange As range, ByVal extendedAttribColumn As Integer)
+Sub applyTemplate(ByRef orderRange As Range, ByVal extendedAttribColumn As Integer)
     Dim orderRowCtr As Integer, extRowCtr As Integer, orderCol As Integer
-    Dim orderRow As range
+    Dim orderRow As Range
     Dim orderSheet As Worksheet
     For Each orderRow In orderRange.rows
         orderRowCtr = orderRow.row
         For extRowCtr = OrderFunctions.FIRST_EXTENDED_ROW To OrderFunctions.LAST_EXTENDED_ROW
             orderCol = extendedAttribColumn + extRowCtr - OrderFunctions.FIRST_EXTENDED_ROW
-            If Worksheets(EXTENDED_WORKSHEET).range(EXTENDED_ATTRIB_COL & CStr(extRowCtr)).value <> orderRow.Worksheet.Cells(orderRowCtr, orderCol).value Then
-                orderRow.Worksheet.Cells(orderRowCtr, orderCol).value = Worksheets(EXTENDED_WORKSHEET).range(EXTENDED_ATTRIB_COL & CStr(extRowCtr)).value
+            If Worksheets(EXTENDED_WORKSHEET).Range(EXTENDED_ATTRIB_COL & CStr(extRowCtr)).value <> orderRow.Worksheet.Cells(orderRowCtr, orderCol).value Then
+                orderRow.Worksheet.Cells(orderRowCtr, orderCol).value = Worksheets(EXTENDED_WORKSHEET).Range(EXTENDED_ATTRIB_COL & CStr(extRowCtr)).value
             End If
         Next extRowCtr
     Next orderRow

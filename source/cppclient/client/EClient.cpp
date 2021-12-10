@@ -53,6 +53,15 @@ void EClient::EncodeField<double>(std::ostream& os, double doubleValue)
     EncodeField<const char*>(os, str);
 }
 
+template<>
+void EClient::EncodeField<Decimal>(std::ostream& os, Decimal decimalValue)
+{
+    char str[128];
+    snprintf(str, sizeof(str), "%s", decimalToString(decimalValue).c_str());
+
+    EncodeField<const char*>(os, str);
+}
+
 template<class T>
 void EClient::EncodeField(std::ostream& os, T value)
 {
@@ -517,6 +526,14 @@ void EClient::reqHistoricalData(TickerId tickerId, const Contract& contract,
         if (!contract.tradingClass.empty() || (contract.conId > 0)) {
             m_pEWrapper->error(tickerId, UPDATE_TWS.code(), UPDATE_TWS.msg() +
                 "  It does not support conId and tradingClass parameters in reqHistoricalData.");
+            return;
+        }
+    }
+
+    if (m_serverVersion < MIN_SERVER_VER_HISTORICAL_SCHEDULE) {
+        if (!whatToShow.empty() && !whatToShow.compare("SCHEDULE")) {
+            m_pEWrapper->error(tickerId, UPDATE_TWS.code(), UPDATE_TWS.msg() +
+                "  It does not support requesting of historical schedule.");
             return;
         }
     }
@@ -1561,6 +1578,15 @@ void EClient::placeOrder( OrderId id, const Contract& contract, const Order& ord
         return;
     }
 
+    if (m_serverVersion < MIN_SERVER_VER_AUTO_CANCEL_PARENT) {
+        if (order.autoCancelParent) {
+            m_pEWrapper->error(id, UPDATE_TWS.code(), UPDATE_TWS.msg() +
+                "  It does not support autoCancelParent parameter.");
+            return;
+        }
+    }
+
+
     std::stringstream msg;
     prepareBuffer( msg);
 
@@ -1986,6 +2012,9 @@ void EClient::placeOrder( OrderId id, const Contract& contract, const Order& ord
             ENCODE_FIELD_MAX(order.postToAts);
         }
 
+        if (m_serverVersion >= MIN_SERVER_VER_AUTO_CANCEL_PARENT) {
+            ENCODE_FIELD(order.autoCancelParent);
+        }
     }
     catch (EClientException& ex) {
         m_pEWrapper->error(id, ex.error().code(), ex.error().msg() + ex.text());
@@ -3570,6 +3599,91 @@ void EClient::reqCompletedOrders(bool apiOnly) {
     ENCODE_FIELD(apiOnly);
 
     closeAndSend(msg.str());    
+}
+
+void EClient::reqWshMetaData(int reqId) {
+    if (!isConnected()) {
+        m_pEWrapper->error(NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg());
+        return;
+    }
+
+    if (m_serverVersion < MIN_SERVER_VER_WSHE_CALENDAR) {
+        m_pEWrapper->error(NO_VALID_ID, UPDATE_TWS.code(), UPDATE_TWS.msg() +
+            "  It does not support WSHE Calendar API.");
+        return;
+    }
+
+    std::stringstream msg;
+    prepareBuffer(msg);
+
+    ENCODE_FIELD(REQ_WSH_META_DATA)
+    ENCODE_FIELD(reqId)
+
+    closeAndSend(msg.str());
+}
+
+void EClient::reqWshEventData(int reqId, int conId) {
+    if (!isConnected()) {
+        m_pEWrapper->error(NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg());
+        return;
+    }
+
+    if (m_serverVersion < MIN_SERVER_VER_WSHE_CALENDAR) {
+        m_pEWrapper->error(NO_VALID_ID, UPDATE_TWS.code(), UPDATE_TWS.msg() +
+            "  It does not support WSHE Calendar API.");
+        return;
+    }
+
+    std::stringstream msg;
+    prepareBuffer(msg);
+
+    ENCODE_FIELD(REQ_WSH_EVENT_DATA)
+    ENCODE_FIELD(reqId)
+    ENCODE_FIELD(conId)
+
+    closeAndSend(msg.str());
+}
+
+void EClient::cancelWshMetaData(int reqId) {
+    if (!isConnected()) {
+        m_pEWrapper->error(NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg());
+        return;
+    }
+
+    if (m_serverVersion < MIN_SERVER_VER_WSHE_CALENDAR) {
+        m_pEWrapper->error(NO_VALID_ID, UPDATE_TWS.code(), UPDATE_TWS.msg() +
+            "  It does not support WSHE Calendar API.");
+        return;
+    }
+
+    std::stringstream msg;
+    prepareBuffer(msg);
+
+    ENCODE_FIELD(CANCEL_WSH_META_DATA)
+    ENCODE_FIELD(reqId)
+
+    closeAndSend(msg.str());
+}
+
+void EClient::cancelWshEventData(int reqId) {
+    if (!isConnected()) {
+        m_pEWrapper->error(NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg());
+        return;
+    }
+
+    if (m_serverVersion < MIN_SERVER_VER_WSHE_CALENDAR) {
+        m_pEWrapper->error(NO_VALID_ID, UPDATE_TWS.code(), UPDATE_TWS.msg() +
+            "  It does not support WSHE Calendar API.");
+        return;
+    }
+
+    std::stringstream msg;
+    prepareBuffer(msg);
+
+    ENCODE_FIELD(CANCEL_WSH_EVENT_DATA)
+    ENCODE_FIELD(reqId)
+
+    closeAndSend(msg.str());
 }
 
 bool EClient::extraAuth() {

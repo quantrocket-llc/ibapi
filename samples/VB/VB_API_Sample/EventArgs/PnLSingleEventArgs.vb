@@ -6,7 +6,7 @@ Class PnLSingleEventArgs
 
     Property requestId As Object
 
-    Property pos As Integer
+    Property pos As Decimal
 
     Property dailyPnL As Double
 

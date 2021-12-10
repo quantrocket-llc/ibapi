@@ -698,5 +698,18 @@ namespace Samples
             //! [ibkrats_contract]
             return contract;
         }
+
+        public static Contract CryptoContract()
+        {
+            //! [crypto_contract]
+            Contract contract = new Contract();
+            contract.Symbol = "ETH";
+            contract.SecType = "CRYPTO";
+            contract.Exchange = "PAXOS";
+            contract.Currency = "USD";
+            //! [crypto_contract]
+            return contract;
+        }
+
     }
 }
