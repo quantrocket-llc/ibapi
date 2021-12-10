@@ -26,7 +26,7 @@
 	
    \subpage market_data_type 
 	
-  Beginning in TWS <b>v969</b> and API <b>v973.04</b>, tick-by-tick data. In TWS, tick-by-tick data is available in the Time & Sales Window. From the API, this corresponds to the function @ref IBApi::EClient::reqTickByTickData. The maximum number of simultaneous tick-by-tick subscriptions allowed for a user is determined by the same formula used to calculate maximum number of market depth subscriptions @ref limitations.
+  Tick-by-tick data has been available since TWS <b>v969</b> and API <b>v973.04</b>. In TWS, tick-by-tick data is available in the Time & Sales Window. From the API, this corresponds to the function @ref IBApi::EClient::reqTickByTickData. The maximum number of simultaneous tick-by-tick subscriptions allowed for a user is determined by the same formula used to calculate maximum number of market depth subscriptions @ref limitations.
    
   - Real time tick-by-tick data is currently not available for options. Historical tick-by-tick data is available.
 	
