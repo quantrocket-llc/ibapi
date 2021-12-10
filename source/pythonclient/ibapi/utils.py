@@ -121,13 +121,14 @@ def ExerciseStaticMethods(klass):
             print(var())
             print()
             
-           
-def floatToStr(val):
-    return str(val) if val != UNSET_DOUBLE else ""
+def floatMaxString(val: float):
+    return "{:.8f}".format(val).rstrip('0').rstrip('.').rstrip(',') if val != UNSET_DOUBLE else ""
 
- 
-def longToStr(val):
+def longMaxString(val):
     return str(val) if val != UNSET_LONG else ""
+
+def intMaxString(val):
+    return str(val) if val != UNSET_INTEGER else ""
 
 def isAsciiPrintable(val):
     return all(ord(c) >=32 and ord(c) < 128 for c in val)

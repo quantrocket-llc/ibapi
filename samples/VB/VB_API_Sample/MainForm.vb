@@ -2130,7 +2130,8 @@ Friend Class MainForm
 #Region "API event handlers"
 
     Private Sub m_apiEvents_OrderBound(sender As Object, e As OrderBoundEventArgs) Handles m_apiEvents.OrderBound
-        m_utils.addListItem(Utils.ListType.ServerResponses, String.Format("Order bound. Order Id: {0}, Api Client Id: {1}, Api Order Id: {2}", e.orderId, e.apiClientId, e.apiOrderId))
+        m_utils.addListItem(Utils.ListType.ServerResponses, String.Format("Order bound. Order Id: {0}, Api Client Id: {1}, Api Order Id: {2}",
+                                                                          Util.LongMaxString(e.orderId), Util.IntMaxString(e.apiClientId), Util.IntMaxString(e.apiOrderId)))
     End Sub
 
     Private Sub m_apiEvents_TickByTickAllLast(sender As Object, e As TickByTickAllLastEventArgs) Handles m_apiEvents.TickByTickAllLast
@@ -2142,45 +2143,52 @@ Friend Class MainForm
             tickTypeStr = "AllLast"
         End If
         m_utils.addListItem(Utils.ListType.MarketData, String.Format("Tick-By-Tick. Request Id: {0}, TickType: {1}, Time: {2}, Price: {3}, Size: {4}, Exchange: {5}, Special Conditions: {6}, PastLimit: {7}, Unreported: {8}",
-                                                                          e.reqId, tickTypeStr, Util.UnixSecondsToString(e.time, "yyyyMMdd-HH:mm:ss zzz"), e.price, Util.DecimalMaxString(e.size), e.exchange, e.specialConditions, e.tickAttribLast.PastLimit, e.tickAttribLast.Unreported))
+                                                                          e.reqId, tickTypeStr, Util.UnixSecondsToString(e.time, "yyyyMMdd-HH:mm:ss zzz"), Util.DoubleMaxString(e.price), Util.DecimalMaxString(e.size),
+                                                                          e.exchange, e.specialConditions, e.tickAttribLast.PastLimit, e.tickAttribLast.Unreported))
     End Sub
 
     Private Sub m_apiEvents_TickByTickBidAsk(sender As Object, e As TickByTickBidAskEventArgs) Handles m_apiEvents.TickByTickBidAsk
         m_utils.addListItem(Utils.ListType.MarketData, String.Format("Tick-By-Tick. Request Id: {0}, TickType: BidAsk, Time: {1}, BidPrice: {2}, AskPrice: {3}, BidSize: {4}, AskSize: {5}, BidPastLow: {6}, AskPastHigh: {7}",
-                                                                          e.reqId, Util.UnixSecondsToString(e.time, "yyyyMMdd-HH:mm:ss zzz"), e.bidPrice, e.askPrice, Util.DecimalMaxString(e.bidSize), Util.DecimalMaxString(e.askSize), e.tickAttribBidAsk.BidPastLow, e.tickAttribBidAsk.AskPastHigh))
+                                                                          e.reqId, Util.UnixSecondsToString(e.time, "yyyyMMdd-HH:mm:ss zzz"), Util.DoubleMaxString(e.bidPrice), Util.DoubleMaxString(e.askPrice),
+                                                                          Util.DecimalMaxString(e.bidSize), Util.DecimalMaxString(e.askSize), e.tickAttribBidAsk.BidPastLow, e.tickAttribBidAsk.AskPastHigh))
     End Sub
 
     Private Sub m_apiEvents_TickByTickMidPoint(sender As Object, e As TickByTickMidPointEventArgs) Handles m_apiEvents.TickByTickMidPoint
         m_utils.addListItem(Utils.ListType.MarketData, String.Format("Tick-By-Tick. Request Id: {0}, TickType: MidPoint, Time: {1}, MidPoint: {2}",
-                                                                          e.reqId, Util.UnixSecondsToString(e.time, "yyyyMMdd-HH:mm:ss zzz"), e.midPoint))
+                                                                          e.reqId, Util.UnixSecondsToString(e.time, "yyyyMMdd-HH:mm:ss zzz"), Util.DoubleMaxString(e.midPoint)))
     End Sub
 
     Private Sub m_apiEvents_HistoricalTicks(sender As Object, e As HistoricalTicksEventArgs) Handles m_apiEvents.HistoricalTicks
         For Each tick In e.ticks
-            m_utils.addListItem(Utils.ListType.ServerResponses, String.Format("Historical Tick. Request Id: {0}, Time: {1}, Price: {2}, Size: {3}", e.reqId, Util.UnixSecondsToString(tick.Time, "yyyyMMdd-HH:mm:ss zzz"), tick.Price, Util.DecimalMaxString(tick.Size)))
+            m_utils.addListItem(Utils.ListType.ServerResponses, String.Format("Historical Tick. Request Id: {0}, Time: {1}, Price: {2}, Size: {3}", e.reqId,
+                                                                              Util.UnixSecondsToString(tick.Time, "yyyyMMdd-HH:mm:ss zzz"), Util.DoubleMaxString(tick.Price), Util.DecimalMaxString(tick.Size)))
         Next
     End Sub
 
     Private Sub m_apiEvents_HistoricalTicksBidAsk(sender As Object, e As HistoricalTicksBidAskEventArgs) Handles m_apiEvents.HistoricalTicksBidAsk
         For Each tick In e.ticks
             m_utils.addListItem(Utils.ListType.ServerResponses, String.Format("Historical Tick Bid/Ask. Request Id: {0}, Time: {1}, Price Bid: {2}, Price Ask: {3}, Size Bid: {4}, Size Ask: {5}, Bid/Ask Tick Attribs: {6}",
-                    e.reqId, Util.UnixSecondsToString(tick.Time, "yyyyMMdd-HH:mm:ss zzz"), tick.PriceBid, tick.PriceAsk, Util.DecimalMaxString(tick.SizeBid), Util.DecimalMaxString(tick.SizeAsk), tick.TickAttribBidAsk.ToString()))
+                    e.reqId, Util.UnixSecondsToString(tick.Time, "yyyyMMdd-HH:mm:ss zzz"), Util.DoubleMaxString(tick.PriceBid), Util.DoubleMaxString(tick.PriceAsk),
+                    Util.DecimalMaxString(tick.SizeBid), Util.DecimalMaxString(tick.SizeAsk), tick.TickAttribBidAsk.ToString()))
         Next
     End Sub
 
     Private Sub m_apiEvents_HistoricalTicksLast(sender As Object, e As HistoricalTicksLastEventArgs) Handles m_apiEvents.HistoricalTicksLast
         For Each tick In e.ticks
             m_utils.addListItem(Utils.ListType.ServerResponses, String.Format("Historical Tick Last. Request Id: {0}, Time: {1}, Price: {2}, Size: {3}, Exchange: {4}, Special Conditions: {5}, Last Tick Attribs: {6}",
-                    e.reqId, Util.UnixSecondsToString(tick.Time, "yyyyMMdd-HH:mm:ss zzz"), tick.Price, Util.DecimalMaxString(tick.Size), tick.Exchange, tick.SpecialConditions, tick.TickAttribLast.ToString()))
+                    e.reqId, Util.UnixSecondsToString(tick.Time, "yyyyMMdd-HH:mm:ss zzz"), Util.DoubleMaxString(tick.Price), Util.DecimalMaxString(tick.Size),
+                    tick.Exchange, tick.SpecialConditions, tick.TickAttribLast.ToString()))
         Next
     End Sub
 
     Private Sub m_apiEvents_PnL(sender As ApiEventSource, e As PnLEventArgs) Handles m_apiEvents.PnL
-        m_utils.addListItem(Utils.ListType.ServerResponses, String.Format("PnL, req id: {0}, Daily PnL: {1}, Unrealized PnL: {2}, Realized PnL: {3}", e.requestId, e.dailyPnL, e.unrealizedPnL, e.realizedPnL))
+        m_utils.addListItem(Utils.ListType.ServerResponses, String.Format("PnL, req id: {0}, Daily PnL: {1}, Unrealized PnL: {2}, Realized PnL: {3}", e.requestId, Util.DoubleMaxString(e.dailyPnL),
+                                                                          Util.DoubleMaxString(e.unrealizedPnL), Util.DoubleMaxString(e.realizedPnL)))
     End Sub
 
     Private Sub m_apiEvents_PnLSingle(sender As ApiEventSource, e As PnLSingleEventArgs) Handles m_apiEvents.PnLSingle
-        m_utils.addListItem(Utils.ListType.ServerResponses, String.Format("PnL Single, req id: {0}, Pos:{1}, Daily PnL: {2}, Unrealized PnL: {3}, Realized PnL: {4}, Value: {5}", e.requestId, Util.DecimalMaxString(e.pos), e.dailyPnL, e.unrealizedPnL, e.realizedPnL, e.value))
+        m_utils.addListItem(Utils.ListType.ServerResponses, String.Format("PnL Single, req id: {0}, Pos:{1}, Daily PnL: {2}, Unrealized PnL: {3}, Realized PnL: {4}, Value: {5}", e.requestId,
+                                                                          Util.DecimalMaxString(e.pos), Util.DoubleMaxString(e.dailyPnL), Util.DoubleMaxString(e.unrealizedPnL), Util.DoubleMaxString(e.realizedPnL), Util.DoubleMaxString(e.value)))
     End Sub
 
     '--------------------------------------------------------------------------------
@@ -2226,7 +2234,7 @@ Friend Class MainForm
     ' Market data price tick event - triggered by the reqMktData() method
     '--------------------------------------------------------------------------------
     Private Sub Api_tickPrice(sender As Object, e As TickPriceEventArgs) Handles m_apiEvents.TickPrice
-        Dim mktDataStr = "id=" & e.id & " " & m_utils.getField(e.tickType) & "=" & e.price
+        Dim mktDataStr = "id=" & e.id & " " & m_utils.getField(e.tickType) & "=" & Util.DoubleMaxString(e.price)
         If (e.attribs.CanAutoExecute <> 0) Then
             mktDataStr = mktDataStr & " canAutoExecute"
         Else
@@ -2260,7 +2268,7 @@ Friend Class MainForm
     Private Sub Api_tickGeneric(sender As Object, e As TickGenericEventArgs) Handles m_apiEvents.TickGeneric
         Dim mktDataStr As String
 
-        mktDataStr = "id=" & e.id & " " & m_utils.getField(e.tickType) & "=" & e.value
+        mktDataStr = "id=" & e.id & " " & m_utils.getField(e.tickType) & "=" & Util.DoubleMaxString(e.value)
         m_utils.addListItem(Utils.ListType.MarketData, mktDataStr)
 
         ' move into view
@@ -2283,11 +2291,10 @@ Friend Class MainForm
     '--------------------------------------------------------------------------------
     Private Sub Api_tickEFP(sender As Object, e As TickEFPEventArgs) Handles m_apiEvents.TickEFP
         Dim mktDataStr = "id=" & e.tickerId & " " & m_utils.getField(e.field) & ":" &
-             e.basisPoints & " / " & e.formattedBasisPoints &
-             " totalDividends=" & e.totalDividends & " holdDays=" & e.holdDays &
-             " futureLastTradeDate=" & e.futureLastTradeDate & " dividendImpact=" & e.dividendImpact &
-             " dividendsToLastTradeDate=" & e.dividendsToLastTradeDate
-
+             Util.DoubleMaxString(e.basisPoints) & " / " & e.formattedBasisPoints &
+             " holdDays=" & Util.IntMaxString(e.holdDays) &
+             " futureLastTradeDate=" & e.futureLastTradeDate & " dividendImpact=" & Util.DoubleMaxString(e.dividendImpact) &
+             " dividendsToLastTradeDate=" & Util.DoubleMaxString(e.dividendsToLastTradeDate) & " impliedFuture=" & Util.DoubleMaxString(e.impliedFuture)
         m_utils.addListItem(Utils.ListType.MarketData, mktDataStr)
 
         ' move into view
@@ -2299,15 +2306,15 @@ Friend Class MainForm
     '--------------------------------------------------------------------------------
     Private Sub Api_tickOptionComputation(sender As Object, e As TickOptionComputationEventArgs) Handles m_apiEvents.TickOptionComputation
         Dim mktDataStr = "id = " & e.tickerId & " " & m_utils.getField(e.tickType) &
-            " tickAttrib = " & e.tickAttrib &
-            " impliedVolatility = " & Utils.DoubleMaxToString(e.impliedVolatility) &
-            " delta = " & Utils.DoubleMaxToString(e.delta) &
-            " gamma = " & Utils.DoubleMaxToString(e.gamma) &
-            " vega = " & Utils.DoubleMaxToString(e.vega) &
-            " theta = " & Utils.DoubleMaxToString(e.theta) &
-            " optPrice = " & Utils.DoubleMaxToString(e.optPrice) &
-            " pvDividend = " & Utils.DoubleMaxToString(e.pvDividend) &
-            " undPrice = " & Utils.DoubleMaxToString(e.undPrice)
+            " tickAttrib = " & Util.IntMaxString(e.tickAttrib) &
+            " impliedVolatility = " & Util.DoubleMaxString(e.impliedVolatility, "N/A") &
+            " delta = " & Util.DoubleMaxString(e.delta, "N/A") &
+            " gamma = " & Util.DoubleMaxString(e.gamma, "N/A") &
+            " vega = " & Util.DoubleMaxString(e.vega, "N/A") &
+            " theta = " & Util.DoubleMaxString(e.theta, "N/A") &
+            " optPrice = " & Util.DoubleMaxString(e.optPrice, "N/A") &
+            " pvDividend = " & Util.DoubleMaxString(e.pvDividend, "N/A") &
+            " undPrice = " & Util.DoubleMaxString(e.undPrice, "N/A")
         m_utils.addListItem(Utils.ListType.MarketData, mktDataStr)
     End Sub
 
@@ -2329,9 +2336,9 @@ Friend Class MainForm
     ' Historical data tick event - triggered by the reqHistoricalData() method
     '--------------------------------------------------------------------------------
     Private Sub Api_historicalData(sender As Object, e As HistoricalDataEventArgs) Handles m_apiEvents.HistoricalData
-        Dim mktDataStr = "id=" & e.reqId & " date=" & e.date & " open=" & e.open & " high=" & e.high &
-                     " low=" & e.low & " close=" & e.close & " volume=" & Util.DecimalMaxString(e.volume) &
-                     " barCount=" & e.count & " WAP=" & Util.DecimalMaxString(e.WAP)
+        Dim mktDataStr = "id=" & e.reqId & " date=" & e.date & " open=" & Util.DoubleMaxString(e.open) & " high=" & Util.DoubleMaxString(e.high) &
+                     " low=" & Util.DoubleMaxString(e.low) & " close=" & Util.DoubleMaxString(e.close) & " volume=" & Util.DecimalMaxString(e.volume) &
+                     " barCount=" & Util.IntMaxString(e.count) & " WAP=" & Util.DecimalMaxString(e.WAP)
 
         m_utils.addListItem(Utils.ListType.MarketData, mktDataStr)
 
@@ -2355,8 +2362,9 @@ Friend Class MainForm
     '--------------------------------------------------------------------------------
     Private Sub Api_realtimeBar(sender As Object, e As RealtimeBarEventArgs) Handles m_apiEvents.RealtimeBar
 
-        Dim mktDataStr = "id=" & e.reqId & " time=" & e.time & " open=" & e.open & " high=" & e.high &
-                     " low=" & e.low & " close=" & e.close & " volume=" & Util.DecimalMaxString(e.volume) & " WAP=" & Util.DecimalMaxString(e.WAP) & " count=" & e.count
+        Dim mktDataStr = "id=" & e.reqId & " time=" & Util.LongMaxString(e.time) & " open=" & Util.DoubleMaxString(e.open) & " high=" & Util.DoubleMaxString(e.high) &
+                     " low=" & Util.DoubleMaxString(e.low) & " close=" & Util.DoubleMaxString(e.close) & " volume=" & Util.DecimalMaxString(e.volume) & " WAP=" & Util.DecimalMaxString(e.WAP) &
+                     " count=" & Util.IntMaxString(e.count)
 
         m_utils.addListItem(Utils.ListType.MarketData, mktDataStr)
 
@@ -2435,10 +2443,10 @@ Friend Class MainForm
     '--------------------------------------------------------------------------------
     Private Sub Api_orderStatus(sender As Object, e As OrderStatusEventArgs) Handles m_apiEvents.OrderStatus
         Dim offset = lstServerResponses.Items.Count
-        Dim msg = "order status: orderId=" & e.orderId & " client id=" & e.clientId & " permId=" & e.permId &
+        Dim msg = "order status: orderId=" & e.orderId & " client id=" & Util.IntMaxString(e.clientId) & " permId=" & Util.IntMaxString(e.permId) &
               " status=" & e.status & " filled=" & Util.DecimalMaxString(e.filled) & " remaining=" & Util.DecimalMaxString(e.remaining) &
-              " avgFillPrice=" & e.avgFillPrice & " lastFillPrice=" & e.lastFillPrice &
-              " parentId=" & e.parentId & " whyHeld=" & e.whyHeld & " mktCapPrice=" & e.mktCapPrice
+              " avgFillPrice=" & Util.DoubleMaxString(e.avgFillPrice) & " lastFillPrice=" & Util.DoubleMaxString(e.lastFillPrice) &
+              " parentId=" & Util.IntMaxString(e.parentId) & " whyHeld=" & e.whyHeld & " mktCapPrice=" & Util.DoubleMaxString(e.mktCapPrice)
 
         m_utils.addListItem(Utils.ListType.ServerResponses, msg)
 
@@ -2460,7 +2468,7 @@ Friend Class MainForm
         m_utils.addListItem(Utils.ListType.ServerResponses, "  symbol = " & contract.Symbol)
         m_utils.addListItem(Utils.ListType.ServerResponses, "  secType = " & contract.SecType)
         m_utils.addListItem(Utils.ListType.ServerResponses, "  lastTradeDate = " & contract.LastTradeDateOrContractMonth)
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  strike = " & contract.Strike)
+        m_utils.addListItem(Utils.ListType.ServerResponses, "  strike = " & Util.DoubleMaxString(contract.Strike))
         m_utils.addListItem(Utils.ListType.ServerResponses, "  right = " & contract.Right)
         m_utils.addListItem(Utils.ListType.ServerResponses, "  multiplier = " & contract.Multiplier)
         m_utils.addListItem(Utils.ListType.ServerResponses, "  exchange = " & contract.Exchange)
@@ -2472,11 +2480,11 @@ Friend Class MainForm
         Dim contractDetails = e.contractDetails
         m_utils.addListItem(Utils.ListType.ServerResponses, "Details:")
         m_utils.addListItem(Utils.ListType.ServerResponses, "  marketName = " & contractDetails.MarketName)
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  minTick = " & contractDetails.MinTick)
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  priceMagnifier = " & contractDetails.PriceMagnifier)
+        m_utils.addListItem(Utils.ListType.ServerResponses, "  minTick = " & Util.DoubleMaxString(contractDetails.MinTick))
+        m_utils.addListItem(Utils.ListType.ServerResponses, "  priceMagnifier = " & Util.IntMaxString(contractDetails.PriceMagnifier))
         m_utils.addListItem(Utils.ListType.ServerResponses, "  orderTypes = " & contractDetails.OrderTypes)
         m_utils.addListItem(Utils.ListType.ServerResponses, "  validExchanges = " & contractDetails.ValidExchanges)
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  underConId = " & contractDetails.UnderConId)
+        m_utils.addListItem(Utils.ListType.ServerResponses, "  underConId = " & Util.IntMaxString(contractDetails.UnderConId))
         m_utils.addListItem(Utils.ListType.ServerResponses, "  longName = " & contractDetails.LongName)
 
         If (contract.SecType <> "BOND") Then
@@ -2489,8 +2497,8 @@ Friend Class MainForm
             m_utils.addListItem(Utils.ListType.ServerResponses, "  liquidHours = " & contractDetails.LiquidHours)
         End If
         m_utils.addListItem(Utils.ListType.ServerResponses, "  evRule = " & contractDetails.EvRule)
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  evMultiplier = " & contractDetails.EvMultiplier)
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  aggGroup = " & contractDetails.AggGroup)
+        m_utils.addListItem(Utils.ListType.ServerResponses, "  evMultiplier = " & Util.DoubleMaxString(contractDetails.EvMultiplier))
+        m_utils.addListItem(Utils.ListType.ServerResponses, "  aggGroup = " & Util.IntMaxString(contractDetails.AggGroup))
         m_utils.addListItem(Utils.ListType.ServerResponses, "  underSymbol = " & contractDetails.UnderSymbol)
         m_utils.addListItem(Utils.ListType.ServerResponses, "  underSecType = " & contractDetails.UnderSecType)
         m_utils.addListItem(Utils.ListType.ServerResponses, "  marketRuleIds = " & contractDetails.MarketRuleIds)
@@ -2511,7 +2519,7 @@ Friend Class MainForm
             m_utils.addListItem(Utils.ListType.ServerResponses, "  couponType = " & contractDetails.CouponType)
             m_utils.addListItem(Utils.ListType.ServerResponses, "  callable = " & contractDetails.Callable)
             m_utils.addListItem(Utils.ListType.ServerResponses, "  putable = " & contractDetails.Putable)
-            m_utils.addListItem(Utils.ListType.ServerResponses, "  coupon = " & contractDetails.Coupon)
+            m_utils.addListItem(Utils.ListType.ServerResponses, "  coupon = " & Util.DoubleMaxString(contractDetails.Coupon))
             m_utils.addListItem(Utils.ListType.ServerResponses, "  convertible = " & contractDetails.Convertible)
             m_utils.addListItem(Utils.ListType.ServerResponses, "  maturity = " & contractDetails.Maturity)
             m_utils.addListItem(Utils.ListType.ServerResponses, "  issueDate = " & contractDetails.IssueDate)
@@ -2585,8 +2593,8 @@ Friend Class MainForm
         If (deltaNeutralContract IsNot Nothing) Then
             With deltaNeutralContract
                 m_utils.addListItem(Utils.ListType.ServerResponses, "  deltaNeutralContract.conId=" & .ConId)
-                m_utils.addListItem(Utils.ListType.ServerResponses, "  deltaNeutralContract.delta=" & .Delta)
-                m_utils.addListItem(Utils.ListType.ServerResponses, "  deltaNeutralContract.delta=" & .Price)
+                m_utils.addListItem(Utils.ListType.ServerResponses, "  deltaNeutralContract.delta=" & Util.DoubleMaxString(.Delta))
+                m_utils.addListItem(Utils.ListType.ServerResponses, "  deltaNeutralContract.delta=" & Util.DoubleMaxString(.Price))
             End With
         End If
     End Sub
@@ -2642,7 +2650,7 @@ Friend Class MainForm
             m_utils.addListItem(Utils.ListType.ServerResponses, "  symbol=" & .Symbol)
             m_utils.addListItem(Utils.ListType.ServerResponses, "  secType=" & .SecType)
             m_utils.addListItem(Utils.ListType.ServerResponses, "  lastTradeDate=" & .LastTradeDateOrContractMonth)
-            m_utils.addListItem(Utils.ListType.ServerResponses, "  strike=" & .Strike)
+            m_utils.addListItem(Utils.ListType.ServerResponses, "  strike=" & Util.DoubleMaxString(.Strike))
             m_utils.addListItem(Utils.ListType.ServerResponses, "  right=" & .Right)
             m_utils.addListItem(Utils.ListType.ServerResponses, "  multiplier=" & .Multiplier)
             m_utils.addListItem(Utils.ListType.ServerResponses, "  exchange=" & .Exchange)
@@ -2657,22 +2665,22 @@ Friend Class MainForm
         With e.execution
 
             m_utils.addListItem(Utils.ListType.ServerResponses, "  execId = " & .ExecId)
-            m_utils.addListItem(Utils.ListType.ServerResponses, "  orderId = " & .OrderId)
-            m_utils.addListItem(Utils.ListType.ServerResponses, "  clientId = " & .ClientId)
-            m_utils.addListItem(Utils.ListType.ServerResponses, "  permId = " & .PermId)
+            m_utils.addListItem(Utils.ListType.ServerResponses, "  orderId = " & Util.IntMaxString(.OrderId))
+            m_utils.addListItem(Utils.ListType.ServerResponses, "  clientId = " & Util.IntMaxString(.ClientId))
+            m_utils.addListItem(Utils.ListType.ServerResponses, "  permId = " & Util.IntMaxString(.PermId))
             m_utils.addListItem(Utils.ListType.ServerResponses, "  time = " & .Time)
             m_utils.addListItem(Utils.ListType.ServerResponses, "  acctNumber = " & .AcctNumber)
             m_utils.addListItem(Utils.ListType.ServerResponses, "  modelCode = " & .ModelCode)
             m_utils.addListItem(Utils.ListType.ServerResponses, "  exchange = " & .Exchange)
             m_utils.addListItem(Utils.ListType.ServerResponses, "  side = " & .Side)
             m_utils.addListItem(Utils.ListType.ServerResponses, "  shares = " & Util.DecimalMaxString(.Shares))
-            m_utils.addListItem(Utils.ListType.ServerResponses, "  price = " & .Price)
-            m_utils.addListItem(Utils.ListType.ServerResponses, "  liquidation = " & .Liquidation)
+            m_utils.addListItem(Utils.ListType.ServerResponses, "  price = " & Util.DoubleMaxString(.Price))
+            m_utils.addListItem(Utils.ListType.ServerResponses, "  liquidation = " & Util.IntMaxString(.Liquidation))
             m_utils.addListItem(Utils.ListType.ServerResponses, "  cumQty = " & Util.DecimalMaxString(.CumQty))
-            m_utils.addListItem(Utils.ListType.ServerResponses, "  avgPrice = " & .AvgPrice)
+            m_utils.addListItem(Utils.ListType.ServerResponses, "  avgPrice = " & Util.DoubleMaxString(.AvgPrice))
             m_utils.addListItem(Utils.ListType.ServerResponses, "  orderRef = " & .OrderRef)
             m_utils.addListItem(Utils.ListType.ServerResponses, "  evRule = " & .EvRule)
-            m_utils.addListItem(Utils.ListType.ServerResponses, "  evMultiplier = " & .EvMultiplier)
+            m_utils.addListItem(Utils.ListType.ServerResponses, "  evMultiplier = " & Util.DoubleMaxString(.EvMultiplier))
             m_utils.addListItem(Utils.ListType.ServerResponses, "  lastLiquidity = " & .LastLiquidity.ToString())
 
         End With
@@ -2755,10 +2763,10 @@ Friend Class MainForm
 
         With e.commissionReport
             m_utils.addListItem(Utils.ListType.ServerResponses, "  execId=" & .ExecId)
-            m_utils.addListItem(Utils.ListType.ServerResponses, "  commission=" & DblMaxStr(.Commission))
+            m_utils.addListItem(Utils.ListType.ServerResponses, "  commission=" & Util.DoubleMaxString(.Commission))
             m_utils.addListItem(Utils.ListType.ServerResponses, "  currency=" & .Currency)
-            m_utils.addListItem(Utils.ListType.ServerResponses, "  realizedPNL=" & DblMaxStr(.RealizedPNL))
-            m_utils.addListItem(Utils.ListType.ServerResponses, "  yield=" & DblMaxStr(.Yield))
+            m_utils.addListItem(Utils.ListType.ServerResponses, "  realizedPNL=" & Util.DoubleMaxString(.RealizedPNL))
+            m_utils.addListItem(Utils.ListType.ServerResponses, "  yield=" & Util.DoubleMaxString(.Yield))
             m_utils.addListItem(Utils.ListType.ServerResponses, "  yieldRedemptionDate=" & IntMaxStr(.YieldRedemptionDate))
 
         End With
@@ -2785,7 +2793,7 @@ Friend Class MainForm
             m_utils.addListItem(Utils.ListType.ServerResponses, "  symbol=" & .Symbol)
             m_utils.addListItem(Utils.ListType.ServerResponses, "  secType=" & .SecType)
             m_utils.addListItem(Utils.ListType.ServerResponses, "  lastTradeDate=" & .LastTradeDateOrContractMonth)
-            m_utils.addListItem(Utils.ListType.ServerResponses, "  strike=" & .Strike)
+            m_utils.addListItem(Utils.ListType.ServerResponses, "  strike=" & Util.DoubleMaxString(.Strike))
             m_utils.addListItem(Utils.ListType.ServerResponses, "  right=" & .Right)
             m_utils.addListItem(Utils.ListType.ServerResponses, "  multiplier=" & .Multiplier)
             m_utils.addListItem(Utils.ListType.ServerResponses, "  exchange=" & .Exchange)
@@ -2796,7 +2804,7 @@ Friend Class MainForm
         End With
 
         m_utils.addListItem(Utils.ListType.ServerResponses, "position=" & Util.DecimalMaxString(e.pos))
-        m_utils.addListItem(Utils.ListType.ServerResponses, "avgCost=" & DblMaxStr(e.avgCost))
+        m_utils.addListItem(Utils.ListType.ServerResponses, "avgCost=" & Util.DoubleMaxString(e.avgCost))
         m_utils.addListItem(Utils.ListType.ServerResponses, " ---- Position End ----")
 
         ' move into view
@@ -2871,7 +2879,7 @@ Friend Class MainForm
             m_utils.addListItem(Utils.ListType.ServerResponses, "  symbol=" & .Symbol)
             m_utils.addListItem(Utils.ListType.ServerResponses, "  secType=" & .SecType)
             m_utils.addListItem(Utils.ListType.ServerResponses, "  lastTradeDate=" & .LastTradeDateOrContractMonth)
-            m_utils.addListItem(Utils.ListType.ServerResponses, "  strike=" & .Strike)
+            m_utils.addListItem(Utils.ListType.ServerResponses, "  strike=" & Util.DoubleMaxString(.Strike))
             m_utils.addListItem(Utils.ListType.ServerResponses, "  right=" & .Right)
             m_utils.addListItem(Utils.ListType.ServerResponses, "  multiplier=" & .Multiplier)
             m_utils.addListItem(Utils.ListType.ServerResponses, "  exchange=" & .Exchange)
@@ -2882,7 +2890,7 @@ Friend Class MainForm
         End With
 
         m_utils.addListItem(Utils.ListType.ServerResponses, "position=" & Util.DecimalMaxString(e.pos))
-        m_utils.addListItem(Utils.ListType.ServerResponses, "avgCost=" & DblMaxStr(e.avgCost))
+        m_utils.addListItem(Utils.ListType.ServerResponses, "avgCost=" & Util.DoubleMaxString(e.avgCost))
         m_utils.addListItem(Utils.ListType.ServerResponses, " ---- Position Multi End ----")
 
         ' move into view
@@ -2936,7 +2944,7 @@ Friend Class MainForm
         Dim displayString = String.Format("reqId: {0}, exchange {1}, underlyingConId: {2}, tradingClass: {3}, multiplier: {4}, expirations: {5}, strikes: {6}",
             e.reqId,
             e.exchange,
-            e.underlyingConId,
+            Util.IntMaxString(e.underlyingConId),
             e.tradingClass,
             e.multiplier,
             String.Join(",", e.expirations),
@@ -3009,7 +3017,7 @@ Friend Class MainForm
         Dim contract = e.contractDetails.Contract
         m_utils.addListItem(Utils.ListType.ServerResponses, " ---- Bond Contract Details Begin ----")
         m_utils.addListItem(Utils.ListType.ServerResponses, "Contract:")
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  conId = " & contract.ConId)
+        m_utils.addListItem(Utils.ListType.ServerResponses, "  conId = " & Util.IntMaxString(contract.ConId))
         m_utils.addListItem(Utils.ListType.ServerResponses, "  symbol = " & contract.Symbol)
         m_utils.addListItem(Utils.ListType.ServerResponses, "  secType = " & contract.SecType)
         m_utils.addListItem(Utils.ListType.ServerResponses, "  exchange = " & contract.Exchange)
@@ -3019,13 +3027,13 @@ Friend Class MainForm
         Dim contractDetails = e.contractDetails
         m_utils.addListItem(Utils.ListType.ServerResponses, "Contract Details:")
         m_utils.addListItem(Utils.ListType.ServerResponses, "  marketName = " & contractDetails.MarketName)
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  minTick = " & contractDetails.MinTick)
+        m_utils.addListItem(Utils.ListType.ServerResponses, "  minTick = " & Util.DoubleMaxString(contractDetails.MinTick))
         m_utils.addListItem(Utils.ListType.ServerResponses, "  orderTypes = " & contractDetails.OrderTypes)
         m_utils.addListItem(Utils.ListType.ServerResponses, "  validExchanges = " & contractDetails.ValidExchanges)
         m_utils.addListItem(Utils.ListType.ServerResponses, "  longName = " & contractDetails.LongName)
         m_utils.addListItem(Utils.ListType.ServerResponses, "  evRule = " & contractDetails.EvRule)
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  evMultiplier = " & contractDetails.EvMultiplier)
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  aggGroup = " & contractDetails.AggGroup)
+        m_utils.addListItem(Utils.ListType.ServerResponses, "  evMultiplier = " & Util.DoubleMaxString(contractDetails.EvMultiplier))
+        m_utils.addListItem(Utils.ListType.ServerResponses, "  aggGroup = " & Util.IntMaxString(contractDetails.AggGroup))
         m_utils.addListItem(Utils.ListType.ServerResponses, "  marketRuleIds = " & contractDetails.MarketRuleIds)
         m_utils.addListItem(Utils.ListType.ServerResponses, "  timeZoneId = " & contractDetails.TimeZoneId)
         m_utils.addListItem(Utils.ListType.ServerResponses, "  lastTradeTime = " & contractDetails.LastTradeTime)
@@ -3041,7 +3049,7 @@ Friend Class MainForm
         m_utils.addListItem(Utils.ListType.ServerResponses, "  couponType = " & contractDetails.CouponType)
         m_utils.addListItem(Utils.ListType.ServerResponses, "  callable = " & contractDetails.Callable)
         m_utils.addListItem(Utils.ListType.ServerResponses, "  putable = " & contractDetails.Putable)
-        m_utils.addListItem(Utils.ListType.ServerResponses, "  coupon = " & contractDetails.Coupon)
+        m_utils.addListItem(Utils.ListType.ServerResponses, "  coupon = " & Util.DoubleMaxString(contractDetails.Coupon))
         m_utils.addListItem(Utils.ListType.ServerResponses, "  convertible = " & contractDetails.Convertible)
         m_utils.addListItem(Utils.ListType.ServerResponses, "  maturity = " & contractDetails.Maturity)
         m_utils.addListItem(Utils.ListType.ServerResponses, "  issueDate = " & contractDetails.IssueDate)
@@ -3085,7 +3093,7 @@ Friend Class MainForm
                                 " secType=" & depthMktDataDescription.SecType &
                                 " listingExch=" & depthMktDataDescription.ListingExch &
                                 " serviceDataType=" & depthMktDataDescription.ServiceDataType &
-                                " aggGroup=" & aggGroup
+                                " aggGroup=" & Util.IntMaxString(aggGroup)
                                 )
             count += 1
         Next
@@ -3117,9 +3125,9 @@ Friend Class MainForm
     Private Sub Api_TickReqParams(sender As Object, e As TickReqParamsEventArgs) Handles m_apiEvents.TickReqParams
         m_utils.addListItem(Utils.ListType.ServerResponses, " ---- Tick Req Params Begin ----")
         m_utils.addListItem(Utils.ListType.ServerResponses, "tickerId=" & e.tickerId)
-        m_utils.addListItem(Utils.ListType.ServerResponses, "minTick=" & e.minTick)
+        m_utils.addListItem(Utils.ListType.ServerResponses, "minTick=" & Util.DoubleMaxString(e.minTick))
         m_utils.addListItem(Utils.ListType.ServerResponses, "bboExchange=" & e.bboExchange)
-        m_utils.addListItem(Utils.ListType.ServerResponses, "snapshotPermissions=" & e.snapshotPermissions)
+        m_utils.addListItem(Utils.ListType.ServerResponses, "snapshotPermissions=" & Util.IntMaxString(e.snapshotPermissions))
         m_utils.addListItem(Utils.ListType.ServerResponses, " ---- Tick Req Params End ----")
     End Sub
 
@@ -3229,7 +3237,7 @@ Friend Class MainForm
         Dim displayString = New StringBuilder
 
         displayString.AppendFormat("Histogram data. Request Id: {0}, data size: {1}" & vbNewLine, e.requestId, e.data.Length)
-        e.data.ToList().ForEach(Sub(i) displayString.AppendFormat(vbTab & "Price: {0}, Size: {1}", i.Price, Util.DecimalMaxString(i.Size)))
+        e.data.ToList().ForEach(Sub(i) displayString.AppendFormat(vbTab & "Price: {0}, Size: {1}", Util.DoubleMaxString(i.Price), Util.DecimalMaxString(i.Size)))
         m_utils.addListItem(Utils.ListType.ServerResponses, displayString.ToString())
     End Sub
 
@@ -3262,7 +3270,7 @@ Friend Class MainForm
         m_utils.addListItem(Utils.ListType.ServerResponses, " ==== Market Rule Begin (marketRuleId=" & e.marketRuleId & ") ====")
         Dim count = 0
         For Each priceIncrement As PriceIncrement In e.priceIncrements
-            m_utils.addListItem(Utils.ListType.ServerResponses, "LowEdge=" & priceIncrement.LowEdge & ", Increment=" & priceIncrement.Increment)
+            m_utils.addListItem(Utils.ListType.ServerResponses, "LowEdge=" & Util.DoubleMaxString(priceIncrement.LowEdge) & ", Increment=" & Util.DoubleMaxString(priceIncrement.Increment))
             count += 1
         Next
         m_utils.addListItem(Utils.ListType.ServerResponses, " ==== Market Rule End (marketRuleId=" & e.marketRuleId & ") ====")
@@ -3405,14 +3413,6 @@ Friend Class MainForm
         End If
     End Function
 
-    Private Function DblMaxStr(dblVal As Double) As String
-        If dblVal = Double.MaxValue Then
-            Return ""
-        Else
-            Return CStr(dblVal)
-        End If
-    End Function
-
     Private Sub appendNonEmptyString(listType As Utils.ListType, name As String, value As String)
         If Utils.isNotEmpty(value) Then
             m_utils.addListItem(listType, "  " & name & "=" & value)
@@ -3445,7 +3445,7 @@ Friend Class MainForm
 
     Private Sub appendValidDoubleValue(listType As Utils.ListType, name As String, value As Double)
         If value <> Double.MaxValue Then
-            m_utils.addListItem(listType, "  " & name & "=" & value)
+            m_utils.addListItem(listType, "  " & name & "=" & Util.DoubleMaxString(value))
         End If
     End Sub
 
@@ -3461,7 +3461,7 @@ Friend Class MainForm
 
     Private Sub appendPositiveDoubleValue(listType As Utils.ListType, name As String, value As Double)
         If value <> Double.MaxValue And value > 0 Then
-            m_utils.addListItem(listType, "  " & name & "=" & value)
+            m_utils.addListItem(listType, "  " & name & "=" & Util.DoubleMaxString(value))
         End If
     End Sub
 
@@ -3631,15 +3631,15 @@ Friend Class MainForm
 
                     If comboLegsCount = orderComboLegsCount Then
                         Dim orderComboLeg = order.OrderComboLegs.Item(i)
-                        orderComboLegPriceStr = " price=" & DblMaxStr(orderComboLeg.Price)
+                        orderComboLegPriceStr = " price=" & Util.DoubleMaxString(orderComboLeg.Price)
                     End If
 
                     m_utils.addListItem(Utils.ListType.ServerResponses,
                                         "    leg " & (i + 1) &
-                                        ": conId=" & comboLeg.ConId & " ratio=" & comboLeg.Ratio & " action=" & comboLeg.Action &
-                                        " exchange = " & comboLeg.Exchange & " openClose=" & comboLeg.OpenClose &
-                                        " shortSaleSlot=" & comboLeg.ShortSaleSlot & " designatedLocation=" & comboLeg.DesignatedLocation &
-                                        " exemptCode=" & comboLeg.ExemptCode & orderComboLegPriceStr)
+                                        ": conId=" & comboLeg.ConId & " ratio=" & Util.IntMaxString(comboLeg.Ratio) & " action=" & comboLeg.Action &
+                                        " exchange = " & comboLeg.Exchange & " openClose=" & Util.IntMaxString(comboLeg.OpenClose) &
+                                        " shortSaleSlot=" & Util.IntMaxString(comboLeg.ShortSaleSlot) & " designatedLocation=" & comboLeg.DesignatedLocation &
+                                        " exemptCode=" & Util.IntMaxString(comboLeg.ExemptCode) & orderComboLegPriceStr)
                     i += 1
                 Next
                 m_utils.addListItem(Utils.ListType.ServerResponses, "  }")

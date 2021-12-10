@@ -58,7 +58,7 @@ namespace IBSampleApp.ui
                     )
                 {
                     PositionsMultiGrid[3, i].Value = Util.DecimalMaxString(positionMultiMessage.Position);
-                    PositionsMultiGrid[4, i].Value = positionMultiMessage.AverageCost;
+                    PositionsMultiGrid[4, i].Value = Util.DoubleMaxString(positionMultiMessage.AverageCost);
                     return;
                 }
             }
@@ -68,7 +68,7 @@ namespace IBSampleApp.ui
             PositionsMultiGrid[1, PositionsMultiGrid.Rows.Count - 1].Value = (positionMultiMessage.ModelCode == null) ? "" : positionMultiMessage.ModelCode;
             PositionsMultiGrid[2, PositionsMultiGrid.Rows.Count - 1].Value = Utils.ContractToString(positionMultiMessage.Contract);
             PositionsMultiGrid[3, PositionsMultiGrid.Rows.Count - 1].Value = Util.DecimalMaxString(positionMultiMessage.Position);
-            PositionsMultiGrid[4, PositionsMultiGrid.Rows.Count - 1].Value = positionMultiMessage.AverageCost;
+            PositionsMultiGrid[4, PositionsMultiGrid.Rows.Count - 1].Value = Util.DoubleMaxString(positionMultiMessage.AverageCost);
         }
 
         public void HandlePositionMultiEnd(PositionMultiEndMessage positionMultiEndMessage)

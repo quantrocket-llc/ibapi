@@ -7,6 +7,9 @@ Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is su
 from ibapi.common import UNSET_INTEGER, UNSET_DOUBLE, UNSET_DECIMAL
 from ibapi.object_implem import Object
 from ibapi.softdollartier import SoftDollarTier
+from ibapi.utils import decimalMaxString
+from ibapi.utils import intMaxString
+from ibapi.utils import floatMaxString
 
 # enum Origin
 (CUSTOMER, FIRM, UNKNOWN) = range(3)
@@ -21,7 +24,7 @@ class OrderComboLeg(Object):
         self.price = UNSET_DOUBLE  # type: float
 
     def __str__(self):
-        return "%f" % self.price
+        return "%s" % floatMaxString(self.price)
 
 
 class Order(Object):
@@ -211,13 +214,13 @@ class Order(Object):
         self.postToAts = UNSET_INTEGER
 
     def __str__(self):
-        s = "%s,%d,%s:" % (self.orderId, self.clientId, self.permId)
+        s = "%s,%s,%s:" % (intMaxString(self.orderId), intMaxString(self.clientId), intMaxString(self.permId))
 
-        s += " %s %s %d@%f" % (
+        s += " %s %s %s@%s" % (
             self.orderType,
             self.action,
-            self.totalQuantity,
-            self.lmtPrice)
+            decimalMaxString(self.totalQuantity),
+            floatMaxString(self.lmtPrice))
 
         s += " %s" % self.tif
 

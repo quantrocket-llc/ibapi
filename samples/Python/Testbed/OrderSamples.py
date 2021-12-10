@@ -158,7 +158,7 @@ class OrderSamples:
         order.lmtPrice = priceCap # optional
         #! [midprice]
         return order
-	
+
     """ <summary>
     #/ A pegged-to-market order is designed to maintain a purchase price relative to the national best offer (NBO) or a sale price 
     #/ relative to the national best bid (NBB). Depending on the width of the quote, this order may be passive or aggressive. 

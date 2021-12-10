@@ -18,6 +18,7 @@ import com.ib.client.Decimal;
 import com.ib.client.MarketDataType;
 import com.ib.client.TickAttrib;
 import com.ib.client.TickType;
+import com.ib.client.Util;
 import com.ib.controller.ApiController.TopMktDataAdapter;
 import com.ib.controller.Formats;
 
@@ -124,13 +125,13 @@ class TopModel extends AbstractTableModel {
 			case 0: return row.m_description;
 			case 1: return row.m_bidSize;
 			case 2: return fmt( row.m_bid);
-			case 3: return row.m_bidMask;
+			case 3: return Util.IntMaxString(row.m_bidMask);
 			case 4: return row.m_bidCanAutoExecute;
 			case 5: return row.m_bidPastLimit;
 			case 6: return row.m_preOpenBid;
 			case 7: return fmt( row.m_ask);
 			case 8: return row.m_askSize;
-			case 9: return row.m_askMask;
+			case 9: return Util.IntMaxString(row.m_askMask);
 			case 10: return row.m_askCanAutoExecute;
 			case 11: return row.m_askPastLimit;
 			case 12: return row.m_preOpenAsk;
@@ -140,7 +141,7 @@ class TopModel extends AbstractTableModel {
 			case 16: return row.m_volume;
 			case 17: return fmt8(row.m_minTick);
 			case 18: return row.m_bboExch;
-			case 19: return row.m_snapshotPermissions;
+			case 19: return Util.IntMaxString(row.m_snapshotPermissions);
 			case 20: return fmt( row.m_close);
 			case 21: return fmt( row.m_open);
 			case 22: return row.m_marketDataType;

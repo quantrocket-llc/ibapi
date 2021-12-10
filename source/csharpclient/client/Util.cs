@@ -89,7 +89,12 @@ namespace IBApi
 
         public static string DoubleMaxString(double value)
         {
-            return (value == double.MaxValue) ? "" : "" + value;
+            return DoubleMaxString(value, "");
+        }
+
+        public static string DoubleMaxString(double d, String def)
+        {
+            return d != double.MaxValue ? d.ToString("0.########") : def;
         }
 
         public static string DecimalMaxString(decimal value)
@@ -109,7 +114,7 @@ namespace IBApi
 
         public static string formatDoubleString(string str)
         {
-            return string.IsNullOrEmpty(str) ? "" : string.Format("{0,0:N2}", double.Parse(str));
+            return string.IsNullOrEmpty(str) ? "" : Util.DoubleMaxString(double.Parse(str));
         }
 
         public static string TagValueListToString(List<TagValue> options)

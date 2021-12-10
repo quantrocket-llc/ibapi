@@ -7,6 +7,8 @@ Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is su
 from ibapi.object_implem import Object
 from ibapi.common import UNSET_DECIMAL
 from ibapi.utils import decimalMaxString
+from ibapi.utils import intMaxString
+from ibapi.utils import floatMaxString
 
 
 class Execution(Object):
@@ -31,11 +33,13 @@ class Execution(Object):
         self.lastLiquidity = 0
 
     def __str__(self):
-        return "ExecId: %s, Time: %s, Account: %s, Exchange: %s, Side: %s, Shares: %s, Price: %f, PermId: %d, " \
-                "ClientId: %d, OrderId: %d, Liquidation: %d, CumQty: %s, AvgPrice: %f, OrderRef: %s, EvRule: %s, " \
-                "EvMultiplier: %f, ModelCode: %s, LastLiquidity: %d" % (self.execId, self.time, self.acctNumber, 
-                self.exchange, self.side, decimalMaxString(self.shares), self.price, self.permId, self.clientId, self.orderId, self.liquidation,
-                decimalMaxString(self.cumQty), self.avgPrice, self.orderRef, self.evRule, self.evMultiplier, self.modelCode, self.lastLiquidity)
+        return "ExecId: %s, Time: %s, Account: %s, Exchange: %s, Side: %s, Shares: %s, Price: %s, PermId: %s, " \
+                "ClientId: %s, OrderId: %s, Liquidation: %s, CumQty: %s, AvgPrice: %s, OrderRef: %s, EvRule: %s, " \
+                "EvMultiplier: %s, ModelCode: %s, LastLiquidity: %s" % (self.execId, self.time, self.acctNumber, 
+                self.exchange, self.side, decimalMaxString(self.shares), floatMaxString(self.price), intMaxString(self.permId), 
+                intMaxString(self.clientId), intMaxString(self.orderId), intMaxString(self.liquidation),
+                decimalMaxString(self.cumQty), floatMaxString(self.avgPrice), self.orderRef, self.evRule, floatMaxString(self.evMultiplier), 
+                self.modelCode, intMaxString(self.lastLiquidity))
 
 
 class ExecutionFilter(Object):

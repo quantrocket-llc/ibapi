@@ -28,6 +28,7 @@ import com.ib.client.Decimal;
 import com.ib.client.DeltaNeutralContract;
 import com.ib.client.Order;
 import com.ib.client.OrderState;
+import com.ib.client.Util;
 import com.ib.client.Types.Action;
 import com.ib.client.Types.SecType;
 import com.ib.controller.ApiController.IContractDetailsHandler;
@@ -533,15 +534,15 @@ public class ComboPanel extends JPanel implements INewTab {
 
 				switch( col) {
 					case 0: return row.m_description;
-					case 1: return row.m_bid;
-					case 2: return row.m_ask;
-					case 3: return row.m_basisPoints;
+					case 1: return Util.DoubleMaxString(row.m_bid);
+					case 2: return Util.DoubleMaxString(row.m_ask);
+					case 3: return Util.DoubleMaxString(row.m_basisPoints);
 					case 4: return row.m_formattedBasisPoints;
-					case 5: return row.m_impliedFuture;
-					case 6: return row.m_holdDays;
+					case 5: return Util.DoubleMaxString(row.m_impliedFuture);
+					case 6: return Util.IntMaxString(row.m_holdDays);
 					case 7: return row.m_futureLastTradeDate;
-					case 8: return row.m_dividendImpact;
-					case 9: return row.m_dividendsToLastTradeDate;
+					case 8: return Util.DoubleMaxString(row.m_dividendImpact);
+					case 9: return Util.DoubleMaxString(row.m_dividendsToLastTradeDate);
 					default: return null;
 				}
 			}
@@ -612,7 +613,7 @@ public class ComboPanel extends JPanel implements INewTab {
 			LegRow row = m_legRows.get( rowIn);
 			switch( col) {
 				case 0: return row.m_leg.action();
-				case 1: return row.m_leg.ratio();
+				case 1: return Util.IntMaxString(row.m_leg.ratio());
 				case 2: return row.m_contract.description();
 				default: return null;
 			}

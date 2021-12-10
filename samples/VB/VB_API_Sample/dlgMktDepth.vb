@@ -551,7 +551,7 @@ Friend Class dlgMktDepth
                 If i > (bookEntries.Rows.Count - 1) Then bookEntries.Rows.Add()
                 Dim row = bookEntries.Rows(i)
                 row.Cells(Cell.MarketMaker).Value = .MarketMaker
-                row.Cells(Cell.Price).Value = .Price
+                row.Cells(Cell.Price).Value = Util.DoubleMaxString(.Price)
                 row.Cells(Cell.Size).Value = Util.DecimalMaxString(.Size)
                 row.Cells(Cell.CumSize).Value = Util.DecimalMaxStringNoZero(cumSize)
                 row.Cells(Cell.AvgPrice).Value = Util.DecimalMaxStringNoZero(avgPrice)

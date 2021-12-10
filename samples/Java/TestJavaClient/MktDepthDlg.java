@@ -259,13 +259,13 @@ class MktDepthModel extends AbstractTableModel {
                 case 0:
                         return m_marketMaker;
                 case 1:
-                        return "" + m_price;
+                        return Util.DoubleMaxString(m_price);
                 case 2:
-                        return "" + Util.decimalToStringNoZero(m_size);
+                        return Util.decimalToStringNoZero(m_size);
                 case 3:
-                        return "" + Util.decimalToStringNoZero(m_cumSize);
+                        return Util.decimalToStringNoZero(m_cumSize);
                 case 4:
-                        return "" + Util.decimalToStringNoZero(m_avgPrice);
+                        return Util.decimalToStringNoZero(m_avgPrice);
                 default:
                         return null;
             }

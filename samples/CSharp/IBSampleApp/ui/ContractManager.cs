@@ -58,11 +58,11 @@ namespace IBSampleApp.ui
             BondContractDetailsGrid[3, BondContractDetailsGrid.Rows.Count - 1].Value = bondContractDetailsMessage.ContractDetails.Contract.Currency;
             BondContractDetailsGrid[4, BondContractDetailsGrid.Rows.Count - 1].Value = bondContractDetailsMessage.ContractDetails.Contract.TradingClass;
             BondContractDetailsGrid[5, BondContractDetailsGrid.Rows.Count - 1].Value = bondContractDetailsMessage.ContractDetails.MarketName;
-            BondContractDetailsGrid[6, BondContractDetailsGrid.Rows.Count - 1].Value = bondContractDetailsMessage.ContractDetails.MinTick;
+            BondContractDetailsGrid[6, BondContractDetailsGrid.Rows.Count - 1].Value = Util.DoubleMaxString(bondContractDetailsMessage.ContractDetails.MinTick);
             BondContractDetailsGrid[7, BondContractDetailsGrid.Rows.Count - 1].Value = bondContractDetailsMessage.ContractDetails.OrderTypes;
             BondContractDetailsGrid[8, BondContractDetailsGrid.Rows.Count - 1].Value = bondContractDetailsMessage.ContractDetails.ValidExchanges;
             BondContractDetailsGrid[9, BondContractDetailsGrid.Rows.Count - 1].Value = bondContractDetailsMessage.ContractDetails.LongName;
-            BondContractDetailsGrid[10, BondContractDetailsGrid.Rows.Count - 1].Value = bondContractDetailsMessage.ContractDetails.AggGroup;
+            BondContractDetailsGrid[10, BondContractDetailsGrid.Rows.Count - 1].Value = Util.IntMaxString(bondContractDetailsMessage.ContractDetails.AggGroup);
             BondContractDetailsGrid[11, BondContractDetailsGrid.Rows.Count - 1].Value = bondContractDetailsMessage.ContractDetails.MarketRuleIds;
             BondContractDetailsGrid[12, BondContractDetailsGrid.Rows.Count - 1].Value = bondContractDetailsMessage.ContractDetails.Cusip;
             BondContractDetailsGrid[13, BondContractDetailsGrid.Rows.Count - 1].Value = bondContractDetailsMessage.ContractDetails.Ratings;
@@ -71,7 +71,7 @@ namespace IBSampleApp.ui
             BondContractDetailsGrid[16, BondContractDetailsGrid.Rows.Count - 1].Value = bondContractDetailsMessage.ContractDetails.CouponType;
             BondContractDetailsGrid[17, BondContractDetailsGrid.Rows.Count - 1].Value = bondContractDetailsMessage.ContractDetails.Callable;
             BondContractDetailsGrid[18, BondContractDetailsGrid.Rows.Count - 1].Value = bondContractDetailsMessage.ContractDetails.Putable;
-            BondContractDetailsGrid[19, BondContractDetailsGrid.Rows.Count - 1].Value = bondContractDetailsMessage.ContractDetails.Coupon;
+            BondContractDetailsGrid[19, BondContractDetailsGrid.Rows.Count - 1].Value = Util.DoubleMaxString(bondContractDetailsMessage.ContractDetails.Coupon);
             BondContractDetailsGrid[20, BondContractDetailsGrid.Rows.Count - 1].Value = bondContractDetailsMessage.ContractDetails.Convertible;
             BondContractDetailsGrid[21, BondContractDetailsGrid.Rows.Count - 1].Value = bondContractDetailsMessage.ContractDetails.Maturity;
             BondContractDetailsGrid[22, BondContractDetailsGrid.Rows.Count - 1].Value = bondContractDetailsMessage.ContractDetails.IssueDate;
@@ -100,10 +100,10 @@ namespace IBSampleApp.ui
             ContractDetailsGrid[5, ContractDetailsGrid.Rows.Count - 1].Value = contractDetailsMessage.ContractDetails.Contract.PrimaryExch;
             ContractDetailsGrid[6, ContractDetailsGrid.Rows.Count - 1].Value = contractDetailsMessage.ContractDetails.Contract.LastTradeDateOrContractMonth;
             ContractDetailsGrid[7, ContractDetailsGrid.Rows.Count - 1].Value = contractDetailsMessage.ContractDetails.Contract.Multiplier;
-            ContractDetailsGrid[8, ContractDetailsGrid.Rows.Count - 1].Value = contractDetailsMessage.ContractDetails.Contract.Strike;
+            ContractDetailsGrid[8, ContractDetailsGrid.Rows.Count - 1].Value = Util.DoubleMaxString(contractDetailsMessage.ContractDetails.Contract.Strike);
             ContractDetailsGrid[9, ContractDetailsGrid.Rows.Count - 1].Value = contractDetailsMessage.ContractDetails.Contract.Right;
             ContractDetailsGrid[10, ContractDetailsGrid.Rows.Count - 1].Value = contractDetailsMessage.ContractDetails.Contract.ConId;
-            ContractDetailsGrid[11, ContractDetailsGrid.Rows.Count - 1].Value = contractDetailsMessage.ContractDetails.AggGroup;
+            ContractDetailsGrid[11, ContractDetailsGrid.Rows.Count - 1].Value = Util.IntMaxString(contractDetailsMessage.ContractDetails.AggGroup);
             ContractDetailsGrid[12, ContractDetailsGrid.Rows.Count - 1].Value = contractDetailsMessage.ContractDetails.UnderSymbol;
             ContractDetailsGrid[13, ContractDetailsGrid.Rows.Count - 1].Value = contractDetailsMessage.ContractDetails.UnderSecType;
             ContractDetailsGrid[14, ContractDetailsGrid.Rows.Count - 1].Value = contractDetailsMessage.ContractDetails.MarketRuleIds;
@@ -127,8 +127,8 @@ namespace IBSampleApp.ui
             for (int i = 0; i < marketRuleMessage.PriceIncrements.Length; i++)
             {
                 DataGridViewMarketRule.Rows.Add(1);
-                DataGridViewMarketRule[0, DataGridViewMarketRule.Rows.Count - 1].Value = marketRuleMessage.PriceIncrements[i].LowEdge;
-                DataGridViewMarketRule[1, DataGridViewMarketRule.Rows.Count - 1].Value = marketRuleMessage.PriceIncrements[i].Increment;
+                DataGridViewMarketRule[0, DataGridViewMarketRule.Rows.Count - 1].Value = Util.DoubleMaxString(marketRuleMessage.PriceIncrements[i].LowEdge);
+                DataGridViewMarketRule[1, DataGridViewMarketRule.Rows.Count - 1].Value = Util.DoubleMaxString(marketRuleMessage.PriceIncrements[i].Increment);
             }
         }
 

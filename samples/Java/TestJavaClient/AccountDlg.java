@@ -250,7 +250,7 @@ class PortfolioTable extends AbstractTableModel {
                 case 3:
                     return m_contract.lastTradeDateOrContractMonth();
                 case 4:
-                    return m_contract.lastTradeDateOrContractMonth() == null ? null : "" + m_contract.strike();
+                    return m_contract.lastTradeDateOrContractMonth() == null ? null : "" + Util.DoubleMaxString(m_contract.strike());
                 case 5:
                     return (m_contract.getRight() != null && m_contract.getRight().equals("???")) ? null : m_contract.getRight();
                 case 6:
@@ -264,17 +264,17 @@ class PortfolioTable extends AbstractTableModel {
                 case 10:
                     return (m_contract.tradingClass() != null ? m_contract.tradingClass() : "");
                 case 11:
-                    return "" + m_position;
+                    return m_position.toString();
                 case 12:
-                    return "" + m_marketPrice;
+                    return Util.DoubleMaxString(m_marketPrice);
                 case 13:
-                    return "" + m_marketValue;
+                    return Util.DoubleMaxString(m_marketValue);
                 case 14:
-                    return "" + m_averageCost;
+                    return Util.DoubleMaxString(m_averageCost);
                 case 15:
-                    return "" + m_unrealizedPNL;
+                    return Util.DoubleMaxString(m_unrealizedPNL);
                 case 16:
-                    return "" + m_realizedPNL;
+                    return Util.DoubleMaxString(m_realizedPNL);
                 case 17:
                     return m_accountName;
                 default:

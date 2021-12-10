@@ -141,7 +141,7 @@ namespace IBSampleApp.ui
                 case TickType.DELAYED_BID:
                     {
                         //BID, DELAYED_BID
-                        grid[BID_PRICE_INDEX, GetIndex(dataMessage.RequestId)].Value = dataMessage.Price;
+                        grid[BID_PRICE_INDEX, GetIndex(dataMessage.RequestId)].Value = Util.DoubleMaxString(dataMessage.Price);
                         grid[PRE_OPEN_BID, GetIndex(dataMessage.RequestId)].Value = dataMessage.Attribs.PreOpen;
                         break;
                     }
@@ -149,7 +149,7 @@ namespace IBSampleApp.ui
                 case TickType.DELAYED_ASK:
                     {
                         //ASK, DELAYED_ASK
-                        grid[ASK_PRICE_INDEX, GetIndex(dataMessage.RequestId)].Value = dataMessage.Price;
+                        grid[ASK_PRICE_INDEX, GetIndex(dataMessage.RequestId)].Value = Util.DoubleMaxString(dataMessage.Price);
                         grid[PRE_OPEN_ASK, GetIndex(dataMessage.RequestId)].Value = dataMessage.Attribs.PreOpen;
                         break;
                     }
@@ -157,35 +157,35 @@ namespace IBSampleApp.ui
                 case TickType.DELAYED_CLOSE:
                     {
                         //CLOSE, DELAYED_CLOSE
-                        grid[CLOSE_PRICE_INDEX, GetIndex(dataMessage.RequestId)].Value = dataMessage.Price;
+                        grid[CLOSE_PRICE_INDEX, GetIndex(dataMessage.RequestId)].Value = Util.DoubleMaxString(dataMessage.Price);
                         break;
                     }
                 case TickType.OPEN:
                 case TickType.DELAYED_OPEN:
                     {
                         //OPEN, DELAYED_OPEN
-                        grid[OPEN_PRICE_INDEX, GetIndex(dataMessage.RequestId)].Value = dataMessage.Price;
+                        grid[OPEN_PRICE_INDEX, GetIndex(dataMessage.RequestId)].Value = Util.DoubleMaxString(dataMessage.Price);
                         break;
                     }
                 case TickType.LAST:
                 case TickType.DELAYED_LAST:
                     {
                         //LAST, DELAYED_LAST
-                        grid[LAST_PRICE_INDEX, GetIndex(dataMessage.RequestId)].Value = dataMessage.Price;
+                        grid[LAST_PRICE_INDEX, GetIndex(dataMessage.RequestId)].Value = Util.DoubleMaxString(dataMessage.Price);
                         break;
                     }
                 case TickType.HIGH:
                 case TickType.DELAYED_HIGH:
                     {
                         //HIGH, DELAYED_HIGH
-                        grid[HIGH_PRICE_INDEX, GetIndex(dataMessage.RequestId)].Value = dataMessage.Price;
+                        grid[HIGH_PRICE_INDEX, GetIndex(dataMessage.RequestId)].Value = Util.DoubleMaxString(dataMessage.Price);
                         break;
                     }
                 case TickType.LOW:
                 case TickType.DELAYED_LOW:
                     {
                         //LOW, DELAYED_LOW
-                        grid[LOW_PRICE_INDEX, GetIndex(dataMessage.RequestId)].Value = dataMessage.Price;
+                        grid[LOW_PRICE_INDEX, GetIndex(dataMessage.RequestId)].Value = Util.DoubleMaxString(dataMessage.Price);
                         break;
                     }
             }

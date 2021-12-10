@@ -70,13 +70,13 @@ namespace IBSampleApp.ui
             {
                 grid[BID_MAKER_IDX, entry.Position].Value = entry.MarketMaker;
                 grid[BID_SIZE_IDX, entry.Position].Value = Util.DecimalMaxString(entry.Size);
-                grid[BID_PRICE_IDX, entry.Position].Value = entry.Price;
+                grid[BID_PRICE_IDX, entry.Position].Value = Util.DoubleMaxString(entry.Price);
             }
             else
             {
                 grid[ASK_MAKER_IDX, entry.Position].Value = entry.MarketMaker;
                 grid[ASK_SIZE_IDX, entry.Position].Value = Util.DecimalMaxString(entry.Size);
-                grid[ASK_PRICE_IDX, entry.Position].Value = entry.Price;
+                grid[ASK_PRICE_IDX, entry.Position].Value = Util.DoubleMaxString(entry.Price);
             }
         }
 
@@ -101,8 +101,7 @@ namespace IBSampleApp.ui
                 MktDepthExchangesGrid[1, MktDepthExchangesGrid.Rows.Count - 1].Value = mktDepthExchangesMessage.Descriptions[i].SecType;
                 MktDepthExchangesGrid[2, MktDepthExchangesGrid.Rows.Count - 1].Value = mktDepthExchangesMessage.Descriptions[i].ListingExch;
                 MktDepthExchangesGrid[3, MktDepthExchangesGrid.Rows.Count - 1].Value = mktDepthExchangesMessage.Descriptions[i].ServiceDataType;
-                MktDepthExchangesGrid[4, MktDepthExchangesGrid.Rows.Count - 1].Value = 
-                    mktDepthExchangesMessage.Descriptions[i].AggGroup != int.MaxValue ? mktDepthExchangesMessage.Descriptions[i].AggGroup.ToString() : "";
+                MktDepthExchangesGrid[4, MktDepthExchangesGrid.Rows.Count - 1].Value = Util.IntMaxString(mktDepthExchangesMessage.Descriptions[i].AggGroup);
             }
         }
 

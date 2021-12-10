@@ -251,10 +251,10 @@ Friend Class dlgAcctData
         Dim msg As String
 
         With contract
-            msg = "conId=" & .ConId & " symbol=" & .Symbol & " secType=" & .SecType & " lastTradeDate=" & .LastTradeDateOrContractMonth & " strike=" & .Strike _
+            msg = "conId=" & .ConId & " symbol=" & .Symbol & " secType=" & .SecType & " lastTradeDate=" & .LastTradeDateOrContractMonth & " strike=" & Util.DoubleMaxString(.Strike) _
             & " right=" & .Right & " multiplier=" & .Multiplier & " primaryExch=" & .PrimaryExch & " currency=" & .Currency _
-            & " localSymbol=" & .LocalSymbol & " tradingClass=" & .TradingClass & " position=" & Util.DecimalMaxString(position) & " mktPrice=" & marketPrice & " mktValue=" & marketValue _
-            & " avgCost=" & averageCost & " unrealizedPNL=" & unrealizedPNL & " realizedPNL=" & realizedPNL & " account=" & accountName
+            & " localSymbol=" & .LocalSymbol & " tradingClass=" & .TradingClass & " position=" & Util.DecimalMaxString(position) & " mktPrice=" & Util.DoubleMaxString(marketPrice) & " mktValue=" & Util.DoubleMaxString(marketValue) _
+            & " avgCost=" & Util.DoubleMaxString(averageCost) & " unrealizedPNL=" & Util.DoubleMaxString(unrealizedPNL) & " realizedPNL=" & Util.DoubleMaxString(realizedPNL) & " account=" & accountName
         End With
         m_utils.addListItem(Utils.ListType.PortfolioData, msg)
     End Sub

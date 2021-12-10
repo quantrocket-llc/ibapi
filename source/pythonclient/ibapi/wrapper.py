@@ -19,8 +19,6 @@ server and client.
 
 """
 
-import logging
-
 from ibapi.common import * # @UnusedWildImport
 from ibapi.utils import * # @UnusedWildImport
 from ibapi.contract import (Contract, ContractDetails, DeltaNeutralContract)

@@ -153,12 +153,12 @@ namespace IBSampleApp
             ibClient.TickPrice += ibClient_Tick;
             ibClient.TickSize += ibClient_Tick;
             ibClient.TickString += (tickerId, tickType, value) => addTextToBox("Tick string. Ticker Id:" + tickerId + ", Type: " + TickType.getField(tickType) + ", Value: " + value + "\n");
-            ibClient.TickGeneric += (tickerId, field, value) => addTextToBox("Tick Generic. Ticker Id:" + tickerId + ", Field: " + TickType.getField(field) + ", Value: " + value + "\n");
-            ibClient.TickEFP += (tickerId, tickType, basisPoints, formattedBasisPoints, impliedFuture, holdDays, futureLastTradeDate, dividendImpact, dividendsToLastTradeDate) => addTextToBox("TickEFP. " + tickerId + ", Type: " + tickType + ", BasisPoints: " + basisPoints + ", FormattedBasisPoints: " + formattedBasisPoints + ", ImpliedFuture: " + impliedFuture + ", HoldDays: " + holdDays + ", FutureLastTradeDate: " + futureLastTradeDate + ", DividendImpact: " + dividendImpact + ", DividendsToLastTradeDate: " + dividendsToLastTradeDate + "\n");
+            ibClient.TickGeneric += (tickerId, field, value) => addTextToBox("Tick Generic. Ticker Id:" + tickerId + ", Field: " + TickType.getField(field) + ", Value: " + Util.DoubleMaxString(value) + "\n");
+            ibClient.TickEFP += (tickerId, tickType, basisPoints, formattedBasisPoints, impliedFuture, holdDays, futureLastTradeDate, dividendImpact, dividendsToLastTradeDate) => addTextToBox("TickEFP. " + tickerId + ", Type: " + tickType + ", BasisPoints: " + Util.DoubleMaxString(basisPoints) + ", FormattedBasisPoints: " + formattedBasisPoints + ", ImpliedFuture: " + Util.DoubleMaxString(impliedFuture) + ", HoldDays: " + Util.IntMaxString(holdDays) + ", FutureLastTradeDate: " + futureLastTradeDate + ", DividendImpact: " + Util.DoubleMaxString(dividendImpact) + ", DividendsToLastTradeDate: " + Util.DoubleMaxString(dividendsToLastTradeDate) + "\n");
             ibClient.TickSnapshotEnd += tickerId => addTextToBox("TickSnapshotEnd: " + tickerId + "\n");
             ibClient.NextValidId += UpdateUI;
             ibClient.DeltaNeutralValidation += (reqId, deltaNeutralContract) =>
-                addTextToBox("DeltaNeutralValidation. " + reqId + ", ConId: " + deltaNeutralContract.ConId + ", Delta: " + deltaNeutralContract.Delta + ", Price: " + deltaNeutralContract.Price + "\n");
+                addTextToBox("DeltaNeutralValidation. " + reqId + ", ConId: " + deltaNeutralContract.ConId + ", Delta: " + Util.DoubleMaxString(deltaNeutralContract.Delta) + ", Price: " + Util.DoubleMaxString(deltaNeutralContract.Price) + "\n");
 
             ibClient.ManagedAccounts += UpdateUI;
             ibClient.TickOptionCommunication += HandleTickMessage;
@@ -231,15 +231,15 @@ namespace IBSampleApp
             ibClient.RerouteMktDataReq += (reqId, conId, exchange) => addTextToBox("Re-route market data request. ReqId: " + reqId + ", ConId: " + conId + ", Exchange: " + exchange + "\n");
             ibClient.RerouteMktDepthReq += (reqId, conId, exchange) => addTextToBox("Re-route market depth request. ReqId: " + reqId + ", ConId: " + conId + ", Exchange: " + exchange + "\n");
             ibClient.MarketRule += contractManager.HandleMarketRuleMessage;
-            ibClient.pnl += msg => pnldataTable.Rows.Add(msg.DailyPnL, msg.UnrealizedPnL, msg.RealizedPnL);
-            ibClient.pnlSingle += msg => pnlSingledataTable.Rows.Add(Util.DecimalMaxString(msg.Pos), msg.DailyPnL, msg.UnrealizedPnL, msg.RealizedPnL, msg.Value);
+            ibClient.pnl += msg => pnldataTable.Rows.Add(Util.DoubleMaxString(msg.DailyPnL), Util.DoubleMaxString(msg.UnrealizedPnL), Util.DoubleMaxString(msg.RealizedPnL));
+            ibClient.pnlSingle += msg => pnlSingledataTable.Rows.Add(Util.DecimalMaxString(msg.Pos), Util.DoubleMaxString(msg.DailyPnL), Util.DoubleMaxString(msg.UnrealizedPnL), Util.DoubleMaxString(msg.RealizedPnL), Util.DoubleMaxString(msg.Value));
             ibClient.historicalTick += UpdateUI;
             ibClient.historicalTickBidAsk += UpdateUI;
             ibClient.historicalTickLast += UpdateUI;
             ibClient.tickByTickAllLast += UpdateUI;
             ibClient.tickByTickBidAsk += UpdateUI;
             ibClient.tickByTickMidPoint += UpdateUI;
-            ibClient.OrderBound += msg => addTextToBox("Order bound. OrderId: " + msg.OrderId + ", ApiClientId: " + msg.ApiClientId + ", ApiOrderId: " + msg.ApiOrderId);
+            ibClient.OrderBound += msg => addTextToBox("Order bound. OrderId: " + Util.LongMaxString(msg.OrderId) + ", ApiClientId: " + Util.IntMaxString(msg.ApiClientId) + ", ApiOrderId: " + Util.IntMaxString(msg.ApiOrderId));
             ibClient.CompletedOrder += orderManager.handleCompletedOrder;
             ibClient.WshMetaData += (reqId, dataJson) => wshMetaDataTable.Rows.Add(reqId, dataJson);
             ibClient.WshEventData += (reqId, dataJson) => wshEventDataTable.Rows.Add(reqId, dataJson);
@@ -261,13 +261,13 @@ namespace IBSampleApp
         private void UpdateUI(TickByTickMidPointMessage msg)
         {
             dataGridViewTickByTick.DataSource = tickByTickMidPointTable;
-            tickByTickMidPointTable.Rows.Add(Util.UnixSecondsToString(msg.Time, "yyyyMMdd-HH:mm:ss zzz"), msg.MidPoint);
+            tickByTickMidPointTable.Rows.Add(Util.UnixSecondsToString(msg.Time, "yyyyMMdd-HH:mm:ss zzz"), Util.DoubleMaxString(msg.MidPoint));
         }
 
         private void UpdateUI(TickByTickBidAskMessage msg)
         {
             dataGridViewTickByTick.DataSource = tickByTickBidAskTable;
-            tickByTickBidAskTable.Rows.Add(Util.UnixSecondsToString(msg.Time, "yyyyMMdd-HH:mm:ss zzz"), msg.BidPrice, msg.AskPrice, Util.DecimalMaxString(msg.BidSize), Util.DecimalMaxString(msg.AskSize), msg.TickAttribBidAsk.BidPastLow, msg.TickAttribBidAsk.AskPastHigh);
+            tickByTickBidAskTable.Rows.Add(Util.UnixSecondsToString(msg.Time, "yyyyMMdd-HH:mm:ss zzz"), Util.DoubleMaxString(msg.BidPrice), Util.DoubleMaxString(msg.AskPrice), Util.DecimalMaxString(msg.BidSize), Util.DecimalMaxString(msg.AskSize), msg.TickAttribBidAsk.BidPastLow, msg.TickAttribBidAsk.AskPastHigh);
         }
 
         private void UpdateUI(TickByTickAllLastMessage msg)
@@ -275,12 +275,12 @@ namespace IBSampleApp
             if (msg.TickType == 1)
             {
                 dataGridViewTickByTick.DataSource = tickByTickLastTable;
-                tickByTickLastTable.Rows.Add(Util.UnixSecondsToString(msg.Time, "yyyyMMdd-HH:mm:ss zzz"), msg.Price, Util.DecimalMaxString(msg.Size), msg.Exchange, msg.SpecialConditions, msg.TickAttribLast.PastLimit);
+                tickByTickLastTable.Rows.Add(Util.UnixSecondsToString(msg.Time, "yyyyMMdd-HH:mm:ss zzz"), Util.DoubleMaxString(msg.Price), Util.DecimalMaxString(msg.Size), msg.Exchange, msg.SpecialConditions, msg.TickAttribLast.PastLimit);
             }
             else if (msg.TickType == 2)
             {
                 dataGridViewTickByTick.DataSource = tickByTickAllLastTable;
-                tickByTickAllLastTable.Rows.Add(Util.UnixSecondsToString(msg.Time, "yyyyMMdd-HH:mm:ss zzz"), msg.Price, Util.DecimalMaxString(msg.Size), msg.Exchange, msg.SpecialConditions, msg.TickAttribLast.PastLimit, msg.TickAttribLast.Unreported);
+                tickByTickAllLastTable.Rows.Add(Util.UnixSecondsToString(msg.Time, "yyyyMMdd-HH:mm:ss zzz"), Util.DoubleMaxString(msg.Price), Util.DecimalMaxString(msg.Size), msg.Exchange, msg.SpecialConditions, msg.TickAttribLast.PastLimit, msg.TickAttribLast.Unreported);
             }
         }
 
@@ -288,27 +288,27 @@ namespace IBSampleApp
         {
             dataGridViewHistoricalTicks.DataSource = historicalTickLastTable;
 
-            historicalTickLastTable.Rows.Add(Util.UnixSecondsToString(msg.Time, "yyyyMMdd-HH:mm:ss zzz"), msg.Price, Util.DecimalMaxString(msg.Size), msg.Exchange, msg.SpecialConditions, msg.TickAttribLast);
+            historicalTickLastTable.Rows.Add(Util.UnixSecondsToString(msg.Time, "yyyyMMdd-HH:mm:ss zzz"), Util.DoubleMaxString(msg.Price), Util.DecimalMaxString(msg.Size), msg.Exchange, msg.SpecialConditions, msg.TickAttribLast);
         }
 
         private void UpdateUI(HistoricalTickBidAskMessage msg)
         {
             dataGridViewHistoricalTicks.DataSource = historicalTickBidAskTable;
 
-            historicalTickBidAskTable.Rows.Add(Util.UnixSecondsToString(msg.Time, "yyyyMMdd-HH:mm:ss zzz"), msg.PriceBid, msg.PriceAsk, Util.DecimalMaxString(msg.SizeBid), Util.DecimalMaxString(msg.SizeAsk), msg.TickAttribBidAsk);
+            historicalTickBidAskTable.Rows.Add(Util.UnixSecondsToString(msg.Time, "yyyyMMdd-HH:mm:ss zzz"), Util.DoubleMaxString(msg.PriceBid), Util.DoubleMaxString(msg.PriceAsk), Util.DecimalMaxString(msg.SizeBid), Util.DecimalMaxString(msg.SizeAsk), msg.TickAttribBidAsk);
         }
 
         private void UpdateUI(HistoricalTickMessage msg)
         {
             dataGridViewHistoricalTicks.DataSource = historicalTickTable;
 
-            historicalTickTable.Rows.Add(Util.UnixSecondsToString(msg.Time, "yyyyMMdd-HH:mm:ss zzz"), msg.Price, Util.DecimalMaxString(msg.Size));
+            historicalTickTable.Rows.Add(Util.UnixSecondsToString(msg.Time, "yyyyMMdd-HH:mm:ss zzz"), Util.DoubleMaxString(msg.Price), Util.DecimalMaxString(msg.Size));
         }
 
         private void UpdateUI(HistogramDataMessage obj)
         {
             if (histogramSubscriptionList.Contains(obj.ReqId))
-                obj.Data.ToList().ForEach(i => histogramDataGridView.Rows.Add(new object[] { obj.ReqId, i.Price, Util.DecimalMaxString(i.Size) }));
+                obj.Data.ToList().ForEach(i => histogramDataGridView.Rows.Add(new object[] { obj.ReqId, Util.DoubleMaxString(i.Price), Util.DecimalMaxString(i.Size) }));
         }
 
         private void UpdateUI(HistoricalScheduleMessage obj)
@@ -334,7 +334,7 @@ namespace IBSampleApp
 
         void ibClient_Tick(TickPriceMessage msg)
         {
-            addTextToBox("Tick Price. Ticker Id:" + msg.RequestId + ", Type: " + TickType.getField(msg.Field) + ", Price: " + msg.Price + ", Pre-Open: " + msg.Attribs.PreOpen + "\n");
+            addTextToBox("Tick Price. Ticker Id:" + msg.RequestId + ", Type: " + TickType.getField(msg.Field) + ", Price: " + Util.DoubleMaxString(msg.Price) + ", Pre-Open: " + msg.Attribs.PreOpen + "\n");
 
             if (msg.RequestId < OptionsManager.OPTIONS_ID_BASE)
             {

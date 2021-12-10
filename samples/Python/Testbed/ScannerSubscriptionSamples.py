@@ -64,7 +64,7 @@ class ScannerSubscriptionSamples(Object):
         scanSub.scanCode = "COMBO_LATEST_TRADE"
         #! [combolatesttrade]
         return scanSub
-		
+
 def Test():
     print(ScannerSubscriptionSamples.HotUSStkByVolume())
     print(ScannerSubscriptionSamples.TopPercentGainersIbis())

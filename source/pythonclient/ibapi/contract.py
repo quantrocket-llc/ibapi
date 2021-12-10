@@ -10,11 +10,12 @@ Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is su
 	CLOSE_POS   = close
 	UNKNOWN_POS = unknown
 """
-import ibapi
 
-from decimal import Decimal
 from ibapi.object_implem import Object
 from ibapi.common import UNSET_DECIMAL
+from ibapi.utils import intMaxString
+from ibapi.utils import floatMaxString
+from ibapi.utils import decimalMaxString
 
 
 (SAME_POS, OPEN_POS, CLOSE_POS, UNKNOWN_POS) = range(4)
@@ -35,14 +36,14 @@ class ComboLeg(Object):
 
     def __str__(self):
         return ",".join((
-            str(self.conId),
-            str(self.ratio),
+            intMaxString(self.conId),
+            intMaxString(self.ratio),
             str(self.action),
             str(self.exchange),
-            str(self.openClose),
-            str(self.shortSaleSlot),
+            intMaxString(self.openClose),
+            intMaxString(self.shortSaleSlot),
             str(self.designatedLocation),
-            str(self.exemptCode)))
+            intMaxString(self.exemptCode)))
 
 
 class DeltaNeutralContract(Object):
@@ -54,8 +55,8 @@ class DeltaNeutralContract(Object):
     def __str__(self):
         return ",".join((
             str(self.conId),
-            str(self.delta),
-            str(self.price)))
+            floatMaxString(self.delta),
+            floatMaxString(self.price)))
 
 
 class Contract(Object):
@@ -88,7 +89,7 @@ class Contract(Object):
             str(self.symbol),
             str(self.secType),
             str(self.lastTradeDateOrContractMonth),
-            str(self.strike),
+            floatMaxString(self.strike),
             str(self.right),
             str(self.multiplier),
             str(self.exchange),
@@ -162,11 +163,11 @@ class ContractDetails(Object):
         s = ",".join((
             str(self.contract),
             str(self.marketName),
-            str(self.minTick),
+            floatMaxString(self.minTick),
             str(self.orderTypes),
             str(self.validExchanges),
-            str(self.priceMagnifier),
-            str(self.underConId),
+            intMaxString(self.priceMagnifier),
+            intMaxString(self.underConId),
             str(self.longName),
             str(self.contractMonth),
             str(self.industry),
@@ -176,11 +177,11 @@ class ContractDetails(Object):
             str(self.tradingHours),
             str(self.liquidHours),
             str(self.evRule),
-            str(self.evMultiplier),
+            intMaxString(self.evMultiplier),
             str(self.underSymbol),
             str(self.underSecType),
             str(self.marketRuleIds),
-            str(self.aggGroup),
+            intMaxString(self.aggGroup),
             str(self.secIdList),
             str(self.realExpirationDate),
             str(self.stockType),
@@ -199,9 +200,9 @@ class ContractDetails(Object):
             str(self.nextOptionType),
             str(self.nextOptionPartial),
             str(self.notes),
-            ibapi.utils.decimalMaxString(self.minSize),
-            ibapi.utils.decimalMaxString(self.sizeIncrement),
-            ibapi.utils.decimalMaxString(self.suggestedSizeIncrement)))
+            decimalMaxString(self.minSize),
+            decimalMaxString(self.sizeIncrement),
+            decimalMaxString(self.suggestedSizeIncrement)))
             
         return s
 

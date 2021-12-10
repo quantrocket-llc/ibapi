@@ -367,11 +367,11 @@ namespace IBApi
         {
         }
 
-        public void wshMetaData(int reqId, string dataJson)
+        public virtual void wshMetaData(int reqId, string dataJson)
         {
         }
 
-        public void wshEventData(int reqId, string dataJson)
+        public virtual void wshEventData(int reqId, string dataJson)
         {
         }
 

@@ -22,6 +22,7 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableCellRenderer;
 
 import com.ib.client.Types.SecType;
+import com.ib.client.Util;
 import com.ib.controller.ApiController.IAccountHandler;
 import com.ib.controller.MarketValueTag;
 import com.ib.controller.Position;
@@ -389,11 +390,11 @@ public class AccountInfoPanel extends JPanel implements INewTab, IAccountHandler
 			switch( col) {
 				case 0: return pos.contract().description();
 				case 1: return pos.position();
-				case 2: return pos.marketPrice();
+				case 2: return Util.DoubleMaxString(pos.marketPrice());
 				case 3: return format( "" + pos.marketValue(), null);
-				case 4: return pos.averageCost();
-				case 5: return pos.unrealPnl();
-				case 6: return pos.realPnl();
+				case 4: return Util.DoubleMaxString(pos.averageCost());
+				case 5: return Util.DoubleMaxString(pos.unrealPnl());
+				case 6: return Util.DoubleMaxString(pos.realPnl());
 				default: return null;
 			}
 		}

@@ -663,7 +663,7 @@ class MarketDataPanel extends JPanel {
 				
 				switch( col) {
 					case 0: return row.m_mm;
-					case 1: return row.m_price;
+					case 1: return Util.DoubleMaxString(row.m_price);
 					case 2: return row.m_size;
 					default: return null;
 				}
@@ -1059,7 +1059,7 @@ class MarketDataPanel extends JPanel {
 				HistogramEntry row = m_rows.get(rowIn);
 				
 				switch(col) {
-					case 0: return row.price();
+					case 0: return Util.DoubleMaxString(row.price());
 					case 1: return row.size();
 					default: return null;
 				}
@@ -1158,10 +1158,10 @@ class MarketDataPanel extends JPanel {
 				Bar row = m_rows.get( rowIn);
 				switch( col) {
 					case 0: return row.formattedTime();
-					case 1: return row.open();
-					case 2: return row.high();
-					case 3: return row.low();
-					case 4: return row.close();
+					case 1: return Util.DoubleMaxString(row.open());
+					case 2: return Util.DoubleMaxString(row.high());
+					case 3: return Util.DoubleMaxString(row.low());
+					case 4: return Util.DoubleMaxString(row.close());
 					case 5: return row.volume();
 					case 6: return row.wap();
 					default: return null;
