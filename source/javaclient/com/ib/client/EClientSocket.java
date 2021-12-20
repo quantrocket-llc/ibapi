@@ -224,6 +224,8 @@ public class EClientSocket extends EClient implements EClientMsgSink  {
 	        	dis.close();
 	    } catch (Exception ignored) {
 	    }
+	    // Notify client: connection closed
+	    m_eWrapper.connectionClosed();
 	}
 
 	public int read(byte[] buf, int off, int len) throws IOException {
