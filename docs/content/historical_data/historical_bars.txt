@@ -105,6 +105,26 @@
 		</li>
 	</ul>
 
+		\section hd_schedule Historical Data with whatToShow "SCHEDULE"
+		A new whatToShow = SCHEDULE parameter has been introduced in the <b>TWS API 10.12.</b><br>
+		The data is requested via @ref IBApi::EClient::reqHistoricalData method with whatToShow <b>"SCHEDULE"</b> and delivered via @ref IBApi::EWrapper::historicalSchedule method.
+		<ul id="tab">
+			<li class="active">
+
+			</li>
+			<li>
+
+			</li>
+			<li>
+
+			</li>
+			<li>
+
+			</li>
+			<li>
+				\snippet Program.py historicalschedule
+			</li>
+		</ul>
 		\section hd_duration Valid Duration String units
 
 	<table>
@@ -164,36 +184,36 @@
 		<tr><td><b>YIELD_ASK</b></td><td>Starting ask yield</td><td>Highest ask yield</td><td>Lowest ask yield</td><td>Last ask yield</td><td>N/A</td></tr>
 		<tr><td><b>YIELD_BID_ASK</b></td><td>Time average bid yield</td><td>Highest ask yield</td><td>Lowest bid yield</td><td>Time average ask yield</td><td>N/A</td></tr>
 		<tr><td><b>YIELD_LAST</b></td><td>Starting last yield</td><td>Highest last yield</td><td>Lowest last yield</td><td>Last last yield</td><td>N/A</td></tr>
-
-	</table>
-	<br>
-
-	- TRADES data is adjusted for splits, but not dividends
+		<tr><td><b>SCHEDULE</b></td><td>N/A</td><td>N/A</td><td>N/A</td><td>N/A</td><td>N/A</td></tr>
+	</table><br>
+	- TRADES data is adjusted for splits, but not dividends.
 	- ADJUSTED_LAST data is adjusted for splits and dividends. Requires TWS 967+.
+	- SCHEDULE returns historical trading schedule only with no information about OHLCV. Requires TWS API 10.12+.
 
 	\section available_products_hd Available Data per Product
 
 	<table>
-		<tr><th><CENTER>Product Type</th><th>TRADES</th><th>MIDPOINT</th><th>BID</th><th>ASK</th><th>BID_ASK</th><th>HISTORICAL_VOLATILITY</th><th>OPTION_IMPLIED_VOLATILITY</th><th>YIELD_BID</th><th>YIELD_ASK</th><th>YIELD_BID_ASK</th><th>YIELD_LAST</th></tr>
-		<tr><td>Stocks</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>N</td><td>N</td><td>N</td><td>N</td></tr>
-		<tr><td>Commodities</td><td>N</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>N</td><td>N</td><td>N</td><td>N</td><td>N</td><td>N</td></tr>
-		<tr><td>Options</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>N</td><td>N</td><td>N</td><td>N</td><td>N</td><td>N</td></tr>
-		<tr><td>Futures</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>N</td><td>N</td><td>N</td><td>N</td><td>N</td><td>N</td></tr>
-		<tr><td>FOPs</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>N</td><td>N</td><td>N</td><td>N</td><td>N</td><td>N</td></tr>
-		<tr><td>ETFs</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>N</td><td>N</td><td>N</td><td>N</td></tr>
-		<tr><td>Warrants</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>N</td><td>N</td><td>N</td><td>N</td><td>N</td><td>N</td></tr>
-		<tr><td>Structured Products</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>N</td><td>N</td><td>N</td><td>N</td><td>N</td><td>N</td></tr>
-		<tr><td>SSFs</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>N</td><td>N</td><td>N</td><td>N</td><td>N</td><td>N</td></tr>
-		<tr><td>Forex</td><td>N</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>N</td><td>N</td><td>N</td><td>N</td><td>N</td><td>N</td></tr>
-		<tr><td>Metals</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>N</td><td>N</td><td>N</td><td>N</td><td>N</td><td>N</td></tr>
-		<tr><td>Indices</td><td>Y</td><td>N</td><td>N</td><td>N</td><td>N</td><td>Y</td><td>Y</td><td>N</td><td>N</td><td>N</td><td>N</td></tr>
-		<tr><td>Bonds*</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>N</td><td>N</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td></tr>
-		<tr><td>Funds</td><td>N</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>N</td><td>N</td><td>N</td><td>N</td><td>N</td><td>N</td></tr>
-		<tr><td>CFDs*</td><td>N</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>N</td><td>N</td><td>N</td><td>N</td><td>N</td><td>N</td></tr>
-		<tr><td>Cryptocurrency</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>N</td><td>N</td><td>N</td><td>N</td><td>N</td><td>N</td></tr></CENTER>
+		<tr><th><CENTER>Product Type</th><th>TRADES</th><th>MIDPOINT</th><th>BID</th><th>ASK</th><th>BID_ASK</th><th>HISTORICAL_VOLATILITY</th><th>OPTION_IMPLIED_VOLATILITY</th><th>YIELD_BID</th><th>YIELD_ASK</th><th>YIELD_BID_ASK</th><th>YIELD_LAST</th><th>SCHEDULE</th></tr>
+		<tr><td>Stocks</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>N</td><td>N</td><td>N</td><td>N</td><td>Y</td></tr>
+		<tr><td>Commodities</td><td>N</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>N</td><td>N</td><td>N</td><td>N</td><td>N</td><td>N</td><td>Y</td></tr>
+		<tr><td>Options</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>N</td><td>N</td><td>N</td><td>N</td><td>N</td><td>N</td><td>N</td></tr>
+		<tr><td>Futures</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>N</td><td>N</td><td>N</td><td>N</td><td>N</td><td>N</td><td>Y</td></tr>
+		<tr><td>FOPs</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>N</td><td>N</td><td>N</td><td>N</td><td>N</td><td>N</td><td>N</td></tr>
+		<tr><td>ETFs</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>N</td><td>N</td><td>N</td><td>N</td><td>Y</td></tr>
+		<tr><td>Warrants</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>N</td><td>N</td><td>N</td><td>N</td><td>N</td><td>N</td><td>Y</td></tr>
+		<tr><td>Structured Products</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>N</td><td>N</td><td>N</td><td>N</td><td>N</td><td>N</td><td>Y</td></tr>
+		<tr><td>SSFs</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>N</td><td>N</td><td>N</td><td>N</td><td>N</td><td>N</td><td>Y</td></tr>
+		<tr><td>Forex</td><td>N</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>N</td><td>N</td><td>N</td><td>N</td><td>N</td><td>N</td><td>Y</td></tr>
+		<tr><td>Metals</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>N</td><td>N</td><td>N</td><td>N</td><td>N</td><td>N</td><td>Y</td></tr>
+		<tr><td>Indices</td><td>Y</td><td>N</td><td>N</td><td>N</td><td>N</td><td>Y</td><td>Y</td><td>N</td><td>N</td><td>N</td><td>N</td><td>Y</td></tr>
+		<tr><td>Bonds*</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>N</td><td>N</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td></tr>
+		<tr><td>Funds</td><td>N</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>N</td><td>N</td><td>N</td><td>N</td><td>N</td><td>N</td><td>Y</td></tr>
+		<tr><td>CFDs*</td><td>N</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>N</td><td>N</td><td>N</td><td>N</td><td>N</td><td>N</td><td>Y</td></tr>
+		<tr><td>Cryptocurrency</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>N</td><td>N</td><td>N</td><td>N</td><td>N</td><td>N</td><td>Y</td></tr></CENTER>
 	</table>
 
-	-Yield historical data only available for corporate bonds
+	- Yield historical data only available for corporate bonds.
+	- SCHEDULE data returns only on 1 day bars.
 
 	<br><br>
 
