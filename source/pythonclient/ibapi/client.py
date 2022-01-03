@@ -2444,6 +2444,7 @@ class EClient(object):
             BID_ASK
             HISTORICAL_VOLATILITY
             OPTION_IMPLIED_VOLATILITY
+            SCHEDULE
         useRTH:int - Determines whether to return all data available during the requested time span,
             or only data that falls within regular trading hours. Valid values include:
 
