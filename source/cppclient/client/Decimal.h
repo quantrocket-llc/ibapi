@@ -58,7 +58,52 @@ static std::string decimalToString(Decimal value) {
 
 static std::string decimalStringToDisplay(Decimal value) {
     // convert string with scientific notation to string with decimal notation (e.g. +1E-2 to 0.01)
-    return std::to_string(atof(decimalToString(value).c_str()));
+    std::string tempStr = decimalToString(value);
+
+    if (tempStr.compare(std::string{ "+NaN" }) == 0 || tempStr.compare(std::string{ "-SNaN" }) == 0) {
+        return ""; // if is invalid, then return empty string
+    }
+
+    int expPos = tempStr.find("E"); // find position of 'E' char (e.g. 2)
+    if (expPos < 0) {
+        return tempStr; // if 'E' char is missing, then return string as-is
+    }
+    std::string expStr = tempStr.substr(expPos); // extract exp string (e.g. E-2)
+
+    // calculate exp
+    int exp = 0;
+    for (unsigned int i = 2; i < expStr.size(); i++) {
+        exp = exp * 10 + (expStr[i] - '0');
+    }
+    if (expStr[1] == '-') {
+        exp *= -1;
+    }
+    int numLength = tempStr.size() - expStr.size() - 1; // length of numbers substring
+    std::string numbers = tempStr.substr(1, numLength); // extract numbers (e.g. 1)
+    if (exp == 0) {
+        return numbers; // if exp is zero, then return numbers as-is
+    }
+
+    std::string result;
+    bool decPtAdded = false;
+
+    // add zero(s) and decimal point
+    for (int i = numLength; i <= (-exp); i++) {
+        result += '0';
+        if (i == numLength) {
+            result += '.';
+            decPtAdded = true;
+        }
+    }
+
+    // add numbers and decimal point
+    for (int i = 0; i < numLength; i++) {
+        if (numLength - i == (-exp) && !decPtAdded) {
+            result += '.';
+        }
+        result += numbers[i];
+    }
+    return result;
 }
 
 #endif
