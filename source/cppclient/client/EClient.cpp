@@ -1631,7 +1631,7 @@ void EClient::placeOrder( OrderId id, const Contract& contract, const Order& ord
         if (m_serverVersion >= MIN_SERVER_VER_FRACTIONAL_POSITIONS)
             ENCODE_FIELD(order.totalQuantity)
         else
-        ENCODE_FIELD((long)order.totalQuantity)
+            ENCODE_FIELD((long)order.totalQuantity)
 
         ENCODE_FIELD( order.orderType);
         if( m_serverVersion < MIN_SERVER_VER_ORDER_COMBO_LEGS_PRICE) {
@@ -1944,7 +1944,7 @@ void EClient::placeOrder( OrderId id, const Contract& contract, const Order& ord
                 ENCODE_FIELD(order.referenceExchangeId);
             }
 
-            ENCODE_FIELD(order.conditions.size());
+            ENCODE_FIELD((long)order.conditions.size());
 
             if (order.conditions.size() > 0) {
                 for (std::shared_ptr<OrderCondition> item : order.conditions) {
@@ -2021,7 +2021,7 @@ void EClient::placeOrder( OrderId id, const Contract& contract, const Order& ord
         return;
     }
 
-    closeAndSend( msg.str());
+    closeAndSend(msg.str());
 }
 
 void EClient::cancelOrder( OrderId id)
