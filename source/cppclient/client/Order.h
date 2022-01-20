@@ -234,6 +234,7 @@ struct Order
 	UsePriceMmgtAlgo usePriceMgmtAlgo = UsePriceMmgtAlgo::DEFAULT;
 	int duration = UNSET_INTEGER;
 	int postToAts = UNSET_INTEGER;
+	std::string advancedErrorOverride = "";
 
 public:
 

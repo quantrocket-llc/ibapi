@@ -732,8 +732,7 @@ namespace IBApi
 
         public long ParentPermId { get; set; }
 
-
-
+        public string AdvancedErrorOverride { get; set; }
 
         public Order()
         {
@@ -810,6 +809,7 @@ namespace IBApi
             UsePriceMgmtAlgo = null;
             Duration = int.MaxValue;
             PostToAts = int.MaxValue;
+            AdvancedErrorOverride = EMPTY_STR;
         }
 
 		// Note: Two orders can be 'equivalent' even if all fields do not match. This function is not intended to be used with Order objects returned from TWS.
@@ -937,7 +937,8 @@ namespace IBApi
                 Util.StringCompare(ModelCode, l_theOther.ModelCode) != 0 ||
                 Util.StringCompare(ExtOperator, l_theOther.ExtOperator) != 0 ||
                 Util.StringCompare(AutoCancelDate, l_theOther.AutoCancelDate) != 0 ||
-                Util.StringCompare(Shareholder, l_theOther.Shareholder) != 0)
+                Util.StringCompare(Shareholder, l_theOther.Shareholder) != 0 ||
+                Util.StringCompare(AdvancedErrorOverride, l_theOther.AdvancedErrorOverride) != 0)
             {
                 return false;
             }
@@ -1093,6 +1094,7 @@ namespace IBApi
             hashCode = hashCode * -1521134295 + EqualityComparer<bool?>.Default.GetHashCode(UsePriceMgmtAlgo);
             hashCode = hashCode * -1521134295 + Duration.GetHashCode();
             hashCode = hashCode * -1521134295 + PostToAts.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(AdvancedErrorOverride);
             return hashCode;
         }
 

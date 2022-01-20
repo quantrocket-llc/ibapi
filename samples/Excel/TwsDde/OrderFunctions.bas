@@ -4,7 +4,7 @@ Attribute VB_Name = "OrderFunctions"
 Public Const EXTENDED_WORKSHEET = "ExtendedOrderAttributes"
 Public Const EXTENDED_ATTRIB_COL = "d"
 Public Const FIRST_EXTENDED_ROW = 7
-Public Const LAST_EXTENDED_ROW = 118
+Public Const LAST_EXTENDED_ROW = 120
 Const DAYS_PRIOR_TO_DDE_API = 43151
 Const orderMult = 1000000
 

@@ -119,5 +119,6 @@ namespace IBApi
         public const int FRACTIONAL_SIZE_SUPPORT = 163;
         public const int SIZE_RULES = 164;
         public const int HISTORICAL_SCHEDULE = 165;
+        public const int ADVANCED_ORDER_REJECT = 166;
     }
 }

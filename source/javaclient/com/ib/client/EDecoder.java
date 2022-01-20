@@ -498,7 +498,7 @@ class EDecoder implements ObjectInput {
                 break;
 
             default: {
-                m_EWrapper.error( EClientErrors.NO_VALID_ID, EClientErrors.UNKNOWN_ID.code(), EClientErrors.UNKNOWN_ID.msg());
+                m_EWrapper.error( EClientErrors.NO_VALID_ID, EClientErrors.UNKNOWN_ID.code(), EClientErrors.UNKNOWN_ID.msg(), null);
                 return 0;
             }
         }
@@ -1472,7 +1472,11 @@ class EDecoder implements ObjectInput {
 		    int id = readInt();
 		    int errorCode   = readInt();
 		    String errorMsg = m_serverVersion >= EClient.MIN_SERVER_VER_ENCODE_MSG_ASCII7 ? decodeUnicodeEscapedString(readStr()) : readStr();
-		    m_EWrapper.error(id, errorCode, errorMsg);
+		    String advancedOrderRejectJson = null;
+		    if (m_serverVersion >= EClient.MIN_SERVER_VER_ADVANCED_ORDER_REJECT) {
+		        advancedOrderRejectJson = decodeUnicodeEscapedString(readStr());
+		    }
+	        m_EWrapper.error(id, errorCode, errorMsg, advancedOrderRejectJson);
 		}
 	}
 
@@ -2141,6 +2145,11 @@ class EDecoder implements ObjectInput {
     }
     
     static String decodeUnicodeEscapedString(String str) {    
+        
+        if (str == null) {
+            return str;
+        }
+        
         String v = new String(str);
         
         try {

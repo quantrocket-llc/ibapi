@@ -54,11 +54,11 @@ Private Sub m_Tws_connectionClosed()
 End Sub
 
 ' error
-Private Sub m_Tws_errMsg(ByVal id As Long, ByVal errorCode As Long, ByVal errorMsg As String)
+Private Sub m_Tws_errMsg(ByVal id As Long, ByVal errorCode As Long, ByVal errorMsg As String, ByVal advancedOrderRejectJson As String)
     On Error Resume Next
    
     ' log error message
-    Log.LogMessage id, errorCode, errorMsg
+    Log.LogMessage id, errorCode, errorMsg, advancedOrderRejectJson
     
     If errorCode = 504 Then
         ' not connected

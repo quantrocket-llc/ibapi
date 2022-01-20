@@ -2205,6 +2205,10 @@ Friend Class MainForm
     '--------------------------------------------------------------------------------
     Private Sub Api_errMsg(sender As Object, e As ErrMsgEventArgs) Handles m_apiEvents.ErrMsg
         Dim msg = "id: " & e.id & " | Error Code: " & e.errorCode & " | Error Msg: " & e.errorMsg
+        If e.advancedOrderRejectJson <> "" Then
+            msg = msg & " | AdvancedOrderRejectJson: " & e.advancedOrderRejectJson
+        End If
+
         m_utils.addListItem(Utils.ListType.Errors, msg)
 
         ' move into view

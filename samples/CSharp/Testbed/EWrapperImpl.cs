@@ -52,9 +52,16 @@ namespace Samples
         }
         
         //! [error]
-        public virtual void error(int id, int errorCode, string errorMsg)
+        public virtual void error(int id, int errorCode, string errorMsg, string advancedOrderRejectJson)
         {
-            Console.WriteLine("Error. Id: " + id + ", Code: " + errorCode + ", Msg: " + errorMsg + "\n");
+            if (!Util.StringIsEmpty(advancedOrderRejectJson)) 
+            {
+                Console.WriteLine("Error. Id: " + id + ", Code: " + errorCode + ", Msg: " + errorMsg + ", AdvancedOrderRejectJson: " + advancedOrderRejectJson + "\n");
+            }
+            else
+            {
+                Console.WriteLine("Error. Id: " + id + ", Code: " + errorCode + ", Msg: " + errorMsg + "\n");
+            }
         }
         //! [error]
 

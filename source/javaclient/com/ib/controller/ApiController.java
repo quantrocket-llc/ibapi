@@ -87,7 +87,7 @@ public class ApiController implements EWrapper {
 		void disconnected();
 		void accountList(List<String> list);
 		void error(Exception e);
-		void message(int id, int errorCode, String errorMsg);
+		void message(int id, int errorCode, String errorMsg, String advancedOrderRejectJson);
 		void show(String string);
 	}
 
@@ -161,7 +161,7 @@ public class ApiController implements EWrapper {
 		m_connectionHandler.error( e);
 	}
 
-	@Override public void error(int id, int errorCode, String errorMsg) {
+	@Override public void error(int id, int errorCode, String errorMsg, String advancedOrderRejectJson) {
 		IOrderHandler handler = m_orderHandlers.get( id);
 		if (handler != null) {
 			handler.handle( errorCode, errorMsg);
@@ -179,7 +179,7 @@ public class ApiController implements EWrapper {
 			}
 		}
 
-		m_connectionHandler.message( id, errorCode, errorMsg);
+		m_connectionHandler.message( id, errorCode, errorMsg, advancedOrderRejectJson);
 		recEOM();
 	}
 
@@ -1158,7 +1158,7 @@ public class ApiController implements EWrapper {
 
 	protected boolean checkConnection() {
 		if (!isConnected()) {
-			error(EClientErrors.NO_VALID_ID, EClientErrors.NOT_CONNECTED.code(), EClientErrors.NOT_CONNECTED.msg());
+			error(EClientErrors.NO_VALID_ID, EClientErrors.NOT_CONNECTED.code(), EClientErrors.NOT_CONNECTED.msg(), null);
 			return false;
 		}
 		

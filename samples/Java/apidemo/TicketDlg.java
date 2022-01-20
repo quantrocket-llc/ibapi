@@ -274,6 +274,7 @@ class TicketDlg extends JDialog {
         final UpperField m_mifid2ExecutionTrader = new UpperField();
         final UpperField m_mifid2ExecutionAlgo = new UpperField();
         final TCombo<UsePriceMgmtAlgo> m_usePriceMgmtAlgo = new TCombo<>(UsePriceMgmtAlgo.values());
+        final JTextField m_advancedErrorOverride = new JTextField();
 
 		OrderPanel() {
 			m_orderType.removeItemAt( 0); // remove None
@@ -322,6 +323,7 @@ class TicketDlg extends JDialog {
 			}
 			
 			add("Use Price Management Algo", m_usePriceMgmtAlgo);
+            add("Advanced Error Override", m_advancedErrorOverride);
 		}
 		
 		private void onOK() {
@@ -342,6 +344,7 @@ class TicketDlg extends JDialog {
 			m_order.mifid2ExecutionTrader(m_mifid2ExecutionTrader.getText());
 			m_order.mifid2ExecutionAlgo(m_mifid2ExecutionAlgo.getText());
 			m_order.usePriceMgmtAlgo(m_usePriceMgmtAlgo.getSelectedItem().toBoolean());
+			m_order.advancedErrorOverride(m_advancedErrorOverride.getText());
 			
 			if (m_contract.isCombo() ) {
 				TagValue tv = new TagValue( ComboParam.NonGuaranteed.toString(), m_nonGuaranteed.isSelected() ? "1" : "0");

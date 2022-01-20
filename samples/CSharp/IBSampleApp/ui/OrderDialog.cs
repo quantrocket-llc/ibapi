@@ -330,6 +330,7 @@ namespace IBSampleApp
             order.IsOmsContainer = omsContainer.Checked;
             order.DiscretionaryUpToLimitPrice = relativeDiscretionary.Checked;
             order.AutoCancelParent = autoCancelParent.Checked;
+            order.AdvancedErrorOverride = advancedErrorOverride.Text;
         }
 
         private void FillVolatilityAttributes(Order order)

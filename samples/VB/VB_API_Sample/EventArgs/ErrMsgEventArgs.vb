@@ -9,5 +9,7 @@ Class ErrMsgEventArgs
 
     Property errorMsg As String
 
+    Property advancedOrderRejectJson As String
+
 End Class
 

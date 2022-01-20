@@ -26,7 +26,7 @@ namespace IBApi
         {
         }
 
-        public virtual void error(int id, int errorCode, string errorMsg)
+        public virtual void error(int id, int errorCode, string errorMsg, string advancedOrderRejectJson)
         {
         }
 

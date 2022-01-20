@@ -32,7 +32,7 @@ void DefaultEWrapper::bondContractDetails( int reqId, const ContractDetails& con
 void DefaultEWrapper::contractDetailsEnd( int reqId) { }
 void DefaultEWrapper::execDetails( int reqId, const Contract& contract, const Execution& execution) { }
 void DefaultEWrapper::execDetailsEnd( int reqId) { }
-void DefaultEWrapper::error(int id, int errorCode, const std::string& errorString) { }
+void DefaultEWrapper::error(int id, int errorCode, const std::string& errorString, const std::string& advancedOrderRejectJson) { }
 void DefaultEWrapper::updateMktDepth(TickerId id, int position, int operation, int side,
 	double price, Decimal size) { }
 void DefaultEWrapper::updateMktDepthL2(TickerId id, int position, const std::string& marketMaker, int operation,

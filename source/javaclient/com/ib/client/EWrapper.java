@@ -68,7 +68,7 @@ public interface EWrapper {
     void displayGroupUpdated( int reqId, String contractInfo);
     void error( Exception e);
     void error( String str);
-    void error(int id, int errorCode, String errorMsg);
+    void error(int id, int errorCode, String errorMsg, String advancedOrderRejectJson);
     void connectionClosed();
     void connectAck();
     void positionMulti( int reqId, String account, String modelCode, Contract contract, Decimal pos, double avgCost);

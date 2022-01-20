@@ -1305,27 +1305,27 @@ namespace TWSLib
         public delegate void permIdDelegate(int id, int permId);
         public event permIdDelegate permId;
 
-        public delegate void errMsgDelegate(int id, int errorCode, string errorMsg);
+        public delegate void errMsgDelegate(int id, int errorCode, string errorMsg, string advacedOrderRejectJson);
         public event errMsgDelegate errMsg;
         void EWrapper.error(Exception e)
         {
             var t_errMsg = this.errMsg;
             if (t_errMsg != null)
-                sc.Post(state => t_errMsg(-1, -1, e.Message), null);
+                sc.Post(state => t_errMsg(-1, -1, e.Message, ""), null);
         }
 
         void EWrapper.error(string str)
         {
             var t_errMsg = this.errMsg;
             if (t_errMsg != null)
-                sc.Post(state => t_errMsg(-1, -1, str), null);
+                sc.Post(state => t_errMsg(-1, -1, str, ""), null);
         }
 
-        void EWrapper.error(int id, int errorCode, string errorMsg)
+        void EWrapper.error(int id, int errorCode, string errorMsg, string advancedOrderRejectJson)
         {
             var t_errMsg = this.errMsg;
             if (t_errMsg != null)
-                sc.Post(state => t_errMsg(id, errorCode, errorMsg), null);
+                sc.Post(state => t_errMsg(id, errorCode, errorMsg, advancedOrderRejectJson), null);
         }
 
 

@@ -229,8 +229,12 @@ Namespace Samples
         '! [displaygroupupdated]
 
         '! [errors]
-        Public Sub [error](id As Integer, errorCode As Integer, errorMsg As String) Implements IBApi.EWrapper.error
-            Console.WriteLine("Error - Id [" & id & "] ErrorCode [" & errorCode & "] ErrorMsg [" & errorMsg & "]")
+        Public Sub [error](id As Integer, errorCode As Integer, errorMsg As String, advancedOrderRejectJson As String) Implements IBApi.EWrapper.error
+            If advancedOrderRejectJson <> "" Then
+                Console.WriteLine("Error - Id [" & id & "] ErrorCode [" & errorCode & "] ErrorMsg [" & errorMsg & "] AdvancedOrderRejectJson [" & advancedOrderRejectJson & "]")
+            Else
+                Console.WriteLine("Error - Id [" & id & "] ErrorCode [" & errorCode & "] ErrorMsg [" & errorMsg & "]")
+            End If
         End Sub
         '! [errors]
 

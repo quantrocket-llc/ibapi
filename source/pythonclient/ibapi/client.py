@@ -1103,6 +1103,10 @@ class EClient(object):
             self.wrapper.error(orderId, UPDATE_TWS.code(), UPDATE_TWS.msg() + " It does not support autoCancelParent attribute")
             return
 
+        if self.serverVersion() < MIN_SERVER_VER_ADVANCED_ORDER_REJECT and order.advancedErrorOverride:
+            self.wrapper.error(orderId, UPDATE_TWS.code(), UPDATE_TWS.msg() + "  It does not support advanced error override attribute")
+            return
+
         try:
                 
             VERSION = 27 if (self.serverVersion() < MIN_SERVER_VER_NOT_HELD) else 45
@@ -1437,6 +1441,9 @@ class EClient(object):
 
             if self.serverVersion() >= MIN_SERVER_VER_AUTO_CANCEL_PARENT:
                 flds.append(make_field(order.autoCancelParent))
+
+            if self.serverVersion() >= MIN_SERVER_VER_ADVANCED_ORDER_REJECT:
+                flds.append(make_field(order.advancedErrorOverride))
 
             msg = "".join(flds)
             

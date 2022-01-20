@@ -4,7 +4,6 @@
 package com.ib.client;
 
 import java.text.DateFormat;
-import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -520,8 +519,12 @@ public class EWrapperMsgGenerator {
     public static String error( Exception ex) { return "Error - " + ex;}
     public static String error( String str) { return str;}
 
-	public static String error(int id, int errorCode, String errorMsg) {
-		return id + " | " + errorCode + " | " + errorMsg;
+	public static String error(int id, int errorCode, String errorMsg, String advancedOrderRejectJson) {
+		String ret = id + " | " + errorCode + " | " + errorMsg;
+		if (advancedOrderRejectJson != null) {
+			ret += (" | " + advancedOrderRejectJson);
+		}
+		return ret;
 	}
 
 	public static String connectionClosed() {

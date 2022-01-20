@@ -217,6 +217,7 @@ public class Order {
     private Boolean m_usePriceMgmtAlgo;
     private int     m_duration;
     private int     m_postToAts;
+    private String  m_advancedErrorOverride;
 	
 	// getters
     public Action  action()                         { return Action.get(m_action); }
@@ -359,6 +360,7 @@ public class Order {
     public Boolean usePriceMgmtAlgo()               { return m_usePriceMgmtAlgo; }
     public int duration()                           { return m_duration; }
     public int postToAts()                          { return m_postToAts; }
+    public String advancedErrorOverride()           { return m_advancedErrorOverride; }
   
 	// setters
 	public void referenceContractId(int m_referenceContractId)          { this.m_referenceContractId = m_referenceContractId; }
@@ -502,6 +504,7 @@ public class Order {
     public void usePriceMgmtAlgo(Boolean v)                             { m_usePriceMgmtAlgo = v; }
     public void duration(int v)                                         { m_duration = v; }
     public void postToAts(int v)                                        { m_postToAts = v; }
+    public void advancedErrorOverride(String v)                         { m_advancedErrorOverride = v; }
 
 
     public Order() {
@@ -551,6 +554,7 @@ public class Order {
         m_usePriceMgmtAlgo = null;
         m_duration = Integer.MAX_VALUE;
         m_postToAts = Integer.MAX_VALUE;
+        m_advancedErrorOverride = EMPTY_STR;
     }
 
     public List<TagValue> algoParams() {
@@ -698,6 +702,7 @@ public class Order {
             || Util.StringCompare(m_mifid2ExecutionAlgo, l_theOther.m_mifid2ExecutionAlgo) != 0
             || Util.StringCompare(m_autoCancelDate, l_theOther.m_autoCancelDate) != 0 
             || Util.StringCompare(m_shareholder, l_theOther.m_shareholder) != 0 
+            || Util.StringCompare(m_advancedErrorOverride, l_theOther.m_advancedErrorOverride) != 0 
             ) {
         	return false;
         }

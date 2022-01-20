@@ -35,7 +35,7 @@ virtual void bondContractDetails( int reqId, const ContractDetails& contractDeta
 virtual void contractDetailsEnd( int reqId) EWRAPPER_VIRTUAL_IMPL;
 virtual void execDetails( int reqId, const Contract& contract, const Execution& execution) EWRAPPER_VIRTUAL_IMPL;
 virtual void execDetailsEnd( int reqId) EWRAPPER_VIRTUAL_IMPL;
-virtual void error(int id, int errorCode, const std::string& errorString) EWRAPPER_VIRTUAL_IMPL;
+virtual void error(int id, int errorCode, const std::string& errorString, const std::string& advancedOrderRejectJson) EWRAPPER_VIRTUAL_IMPL;
 virtual void updateMktDepth(TickerId id, int position, int operation, int side,
 	double price, Decimal size) EWRAPPER_VIRTUAL_IMPL;
 virtual void updateMktDepthL2(TickerId id, int position, const std::string& marketMaker, int operation,

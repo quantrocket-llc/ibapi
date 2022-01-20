@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using IBSampleApp.messages;
 using IBApi;
 using System.Windows.Forms;
+using System;
 
 namespace IBSampleApp.ui
 {
@@ -229,7 +230,7 @@ namespace IBSampleApp.ui
         {
             for (int i = 0; i<liveOrdersGrid.Rows.Count; i++)
             {
-                if ((int)(liveOrdersGrid[2, i].Value) == orderMessage.Order.OrderId)
+                if (Convert.ToInt32(liveOrdersGrid[2, i].Value) == orderMessage.Order.OrderId)
                 {
                     PopulateOrderRow(i, orderMessage);
                     return;

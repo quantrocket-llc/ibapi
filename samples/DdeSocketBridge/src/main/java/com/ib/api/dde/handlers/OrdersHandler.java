@@ -470,7 +470,7 @@ public class OrdersHandler extends BaseHandler {
                 System.out.println("Cannot extract base order fields");
                 return null;
             }
-            if (table2.size() < 112) {
+            if (table2.size() < 113) {
                 System.out.println("Cannot extract extended order attributes");
                 return null;
             }
@@ -830,6 +830,9 @@ public class OrdersHandler extends BaseHandler {
             }
             if (Utils.isNotNull(table2.get(112))) {
                 order.autoCancelParent(getBooleanFromString(table2.get(112)));
+            }
+            if (Utils.isNotNull(table2.get(113))) {
+                order.advancedErrorOverride(table2.get(113));
             }
             
             return order;

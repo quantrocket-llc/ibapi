@@ -80,6 +80,7 @@ namespace IBSampleApp
             this.contractCurrency = new System.Windows.Forms.TextBox();
             this.contractExchange = new System.Windows.Forms.TextBox();
             this.extendedOrderTab = new System.Windows.Forms.TabPage();
+            this.autoCancelParent = new System.Windows.Forms.CheckBox();
             this.postToAts = new System.Windows.Forms.TextBox();
             this.label26 = new System.Windows.Forms.Label();
             this.duration = new System.Windows.Forms.TextBox();
@@ -252,7 +253,8 @@ namespace IBSampleApp
             this.textBox8 = new System.Windows.Forms.TextBox();
             this.checkMarginButton = new System.Windows.Forms.Button();
             this.closeOrderDialogButton = new System.Windows.Forms.Button();
-            this.autoCancelParent = new System.Windows.Forms.CheckBox();
+            this.label27 = new System.Windows.Forms.Label();
+            this.advancedErrorOverride = new System.Windows.Forms.TextBox();
             this.conditionsTab.SuspendLayout();
             this.orderContractTab.SuspendLayout();
             this.baseGroup.SuspendLayout();
@@ -795,6 +797,8 @@ namespace IBSampleApp
             // extendedOrderTab
             // 
             this.extendedOrderTab.BackColor = System.Drawing.Color.LightGray;
+            this.extendedOrderTab.Controls.Add(this.advancedErrorOverride);
+            this.extendedOrderTab.Controls.Add(this.label27);
             this.extendedOrderTab.Controls.Add(this.autoCancelParent);
             this.extendedOrderTab.Controls.Add(this.postToAts);
             this.extendedOrderTab.Controls.Add(this.label26);
@@ -854,6 +858,18 @@ namespace IBSampleApp
             this.extendedOrderTab.Size = new System.Drawing.Size(625, 337);
             this.extendedOrderTab.TabIndex = 1;
             this.extendedOrderTab.Text = "Extended Attributes";
+            // 
+            // autoCancelParent
+            // 
+            this.autoCancelParent.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.autoCancelParent.AutoSize = true;
+            this.autoCancelParent.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.autoCancelParent.Location = new System.Drawing.Point(422, 165);
+            this.autoCancelParent.Name = "autoCancelParent";
+            this.autoCancelParent.Size = new System.Drawing.Size(118, 17);
+            this.autoCancelParent.TabIndex = 52;
+            this.autoCancelParent.Text = "Auto Cancel Parent";
+            this.autoCancelParent.UseVisualStyleBackColor = true;
             // 
             // postToAts
             // 
@@ -2538,17 +2554,21 @@ namespace IBSampleApp
             this.closeOrderDialogButton.UseVisualStyleBackColor = true;
             this.closeOrderDialogButton.Click += new System.EventHandler(this.closeOrderDialogButton_Click);
             // 
-            // autoCancelParent
+            // label27
             // 
-            this.autoCancelParent.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.autoCancelParent.AutoSize = true;
-            this.autoCancelParent.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.autoCancelParent.Location = new System.Drawing.Point(422, 165);
-            this.autoCancelParent.Name = "autoCancelParent";
-            this.autoCancelParent.Size = new System.Drawing.Size(118, 17);
-            this.autoCancelParent.TabIndex = 52;
-            this.autoCancelParent.Text = "Auto Cancel Parent";
-            this.autoCancelParent.UseVisualStyleBackColor = true;
+            this.label27.AutoSize = true;
+            this.label27.Location = new System.Drawing.Point(422, 302);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(124, 13);
+            this.label27.TabIndex = 53;
+            this.label27.Text = "Advanced Error Override";
+            // 
+            // advancedErrorOverride
+            // 
+            this.advancedErrorOverride.Location = new System.Drawing.Point(546, 299);
+            this.advancedErrorOverride.Name = "advancedErrorOverride";
+            this.advancedErrorOverride.Size = new System.Drawing.Size(70, 20);
+            this.advancedErrorOverride.TabIndex = 54;
             // 
             // OrderDialog
             // 
@@ -2820,5 +2840,7 @@ namespace IBSampleApp
         private System.Windows.Forms.TextBox postToAts;
         private System.Windows.Forms.Label label26;
         private System.Windows.Forms.CheckBox autoCancelParent;
+        private System.Windows.Forms.TextBox advancedErrorOverride;
+        private System.Windows.Forms.Label label27;
     }
 }

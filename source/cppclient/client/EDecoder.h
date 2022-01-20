@@ -123,12 +123,13 @@ const int MIN_SERVER_VER_AUTO_CANCEL_PARENT         = 162;
 const int MIN_SERVER_VER_FRACTIONAL_SIZE_SUPPORT    = 163;
 const int MIN_SERVER_VER_SIZE_RULES                 = 164;
 const int MIN_SERVER_VER_HISTORICAL_SCHEDULE        = 165;
+const int MIN_SERVER_VER_ADVANCED_ORDER_REJECT      = 166;
 
 /* 100+ messaging */
 // 100 = enhanced handshake, msg length prefixes
 
 const int MIN_CLIENT_VER = 100;
-const int MAX_CLIENT_VER = MIN_SERVER_VER_HISTORICAL_SCHEDULE;
+const int MAX_CLIENT_VER = MIN_SERVER_VER_ADVANCED_ORDER_REJECT;
 
 
 // incoming msg id's

@@ -221,7 +221,7 @@ public class OrderSamples {
 		order.orderType("LMT");
 		order.totalQuantity(quantity);
 		order.lmtPrice(limitPrice);
-		order.tif(TimeInForce.Minutes);
+		order.tif(TimeInForce.DAY);
 		// ! [limitorder]
 		return order;
 	}

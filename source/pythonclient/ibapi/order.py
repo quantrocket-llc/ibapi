@@ -212,6 +212,7 @@ class Order(Object):
         self.usePriceMgmtAlgo = None
         self.duration = UNSET_INTEGER
         self.postToAts = UNSET_INTEGER
+        self.advancedErrorOverride = ""
 
     def __str__(self):
         s = "%s,%s,%s:" % (intMaxString(self.orderId), intMaxString(self.clientId), intMaxString(self.permId))

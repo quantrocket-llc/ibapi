@@ -1251,6 +1251,18 @@ class Decoder(Object):
 
         self.wrapper.historicalSchedule(reqId, startDateTime, endDateTime, timeZone, sessions)
 
+    def processErrorMsg(self, fields):
+        next(fields)
+        decode(int, fields)
+        reqId = decode(TickerId, fields)
+        errorCode = decode(int, fields)
+        errorString = decode(str, fields, False, self.serverVersion >= MIN_SERVER_VER_ENCODE_MSG_ASCII7)
+        advancedOrderRejectJson = ""
+        if self.serverVersion >= MIN_SERVER_VER_ADVANCED_ORDER_REJECT:
+            advancedOrderRejectJson = decode(str, fields, False, True)
+
+        self.wrapper.error(reqId, errorCode, errorString, advancedOrderRejectJson)
+
     ######################################################################
 
     def readLastTradeDate(self, fields, contract: ContractDetails, isBond: bool):
@@ -1367,7 +1379,7 @@ class Decoder(Object):
         IN.TICK_PRICE: HandleInfo(proc=processTickPriceMsg),
         IN.TICK_SIZE: HandleInfo(proc=processTickSizeMsg),
         IN.ORDER_STATUS: HandleInfo(proc=processOrderStatusMsg),
-        IN.ERR_MSG: HandleInfo(wrap=EWrapper.error),
+        IN.ERR_MSG: HandleInfo(proc=processErrorMsg),
         IN.OPEN_ORDER: HandleInfo(proc=processOpenOrder),
         IN.ACCT_VALUE: HandleInfo(wrap=EWrapper.updateAccountValue),
         IN.PORTFOLIO_VALUE: HandleInfo(proc=processPortfolioValueMsg),

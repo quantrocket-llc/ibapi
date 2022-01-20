@@ -403,7 +403,7 @@ namespace IBApi
                     break;
 
                 default:
-                    eWrapper.error(IncomingMessage.NotValid, EClientErrors.UNKNOWN_ID.Code, EClientErrors.UNKNOWN_ID.Message);
+                    eWrapper.error(IncomingMessage.NotValid, EClientErrors.UNKNOWN_ID.Code, EClientErrors.UNKNOWN_ID.Message, "");
                     return false;
             }
 
@@ -1131,7 +1131,16 @@ namespace IBApi
                 int id = ReadInt();
                 int errorCode = ReadInt();
                 string errorMsg = serverVersion >= MinServerVer.ENCODE_MSG_ASCII7 ? Regex.Unescape(ReadString()) : ReadString();
-                eWrapper.error(id, errorCode, errorMsg);
+                string advancedOrderRejectJson = "";
+                if (serverVersion >= MinServerVer.ADVANCED_ORDER_REJECT)
+                {
+                    string tempStr = ReadString();
+                    if (!Util.StringIsEmpty(tempStr))
+                    {
+                        advancedOrderRejectJson = Regex.Unescape(tempStr);
+                    }
+                }
+                eWrapper.error(id, errorCode, errorMsg, advancedOrderRejectJson);
             }
         }
 

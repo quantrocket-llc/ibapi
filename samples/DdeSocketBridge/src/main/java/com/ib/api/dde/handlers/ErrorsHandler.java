@@ -80,6 +80,10 @@ public class ErrorsHandler extends BaseHandler {
             item.add(String.valueOf(msg.errorCode()));
             // split long error message into substrings with length = 255, then merge these substrings in Excel
             item.addAll(Utils.chunkStringByLength(msg.errorMessage(), 255));
+            if (Utils.isNotNull(msg.advancedOrderRejectJson())) {
+                item.add(String.valueOf(Utils.ADVANCED_ORDER_REJECT_JSON_STR));
+                item.addAll(Utils.chunkStringByLength(msg.advancedOrderRejectJson(), 255));
+            }
             list.add(new ArrayList<String>(item));
             item.clear();
         }

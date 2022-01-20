@@ -86,8 +86,12 @@ public class SimpleWrapper implements EWrapper {
 		m_output.println(str);
 	}
 
-	public void error(int id, int errorCode, String errorMsg) {
-		logIn("Error id=" + id + " code=" + errorCode + " msg=" + errorMsg);
+	public void error(int id, int errorCode, String errorMsg, String advancedOrderRejectJson) {
+		String str = "Error id=" + id + " code=" + errorCode + " msg=" + errorMsg;
+		if (advancedOrderRejectJson != null) {
+			str += (" advancedOrderRejectJson=" + advancedOrderRejectJson);
+		}
+		logIn(str);
 	}
 
 	public void connectionClosed() {

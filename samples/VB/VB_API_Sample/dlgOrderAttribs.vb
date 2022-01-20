@@ -188,6 +188,8 @@ Public Class dlgOrderAttribs
     Public WithEvents Label30 As Label
     Friend WithEvents checkNotHeld As CheckBox
     Friend WithEvents checkAutoCancelParent As CheckBox
+    Public WithEvents Label31 As Label
+    Public WithEvents txtAdvancedErrorOverride As TextBox
     Public WithEvents Label41 As System.Windows.Forms.Label
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
@@ -342,6 +344,8 @@ Public Class dlgOrderAttribs
         Me.Label30 = New System.Windows.Forms.Label()
         Me.checkNotHeld = New System.Windows.Forms.CheckBox()
         Me.checkAutoCancelParent = New System.Windows.Forms.CheckBox()
+        Me.Label31 = New System.Windows.Forms.Label()
+        Me.txtAdvancedErrorOverride = New System.Windows.Forms.TextBox()
         Me.SuspendLayout()
         '
         'txtHedgeParam
@@ -2249,7 +2253,7 @@ Public Class dlgOrderAttribs
         Me.txtMifid2ExecutionTrader.Cursor = System.Windows.Forms.Cursors.IBeam
         Me.txtMifid2ExecutionTrader.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtMifid2ExecutionTrader.ForeColor = System.Drawing.SystemColors.WindowText
-        Me.txtMifid2ExecutionTrader.Location = New System.Drawing.Point(144, 608)
+        Me.txtMifid2ExecutionTrader.Location = New System.Drawing.Point(144, 613)
         Me.txtMifid2ExecutionTrader.MaxLength = 0
         Me.txtMifid2ExecutionTrader.Name = "txtMifid2ExecutionTrader"
         Me.txtMifid2ExecutionTrader.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -2262,7 +2266,7 @@ Public Class dlgOrderAttribs
         Me.Label66.Cursor = System.Windows.Forms.Cursors.Default
         Me.Label66.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label66.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.Label66.Location = New System.Drawing.Point(12, 608)
+        Me.Label66.Location = New System.Drawing.Point(17, 613)
         Me.Label66.Name = "Label66"
         Me.Label66.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Label66.Size = New System.Drawing.Size(133, 17)
@@ -2277,7 +2281,7 @@ Public Class dlgOrderAttribs
         Me.txtMifid2ExecutionAlgo.Cursor = System.Windows.Forms.Cursors.IBeam
         Me.txtMifid2ExecutionAlgo.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtMifid2ExecutionAlgo.ForeColor = System.Drawing.SystemColors.WindowText
-        Me.txtMifid2ExecutionAlgo.Location = New System.Drawing.Point(432, 608)
+        Me.txtMifid2ExecutionAlgo.Location = New System.Drawing.Point(432, 613)
         Me.txtMifid2ExecutionAlgo.MaxLength = 0
         Me.txtMifid2ExecutionAlgo.Name = "txtMifid2ExecutionAlgo"
         Me.txtMifid2ExecutionAlgo.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -2290,7 +2294,7 @@ Public Class dlgOrderAttribs
         Me.Label67.Cursor = System.Windows.Forms.Cursors.Default
         Me.Label67.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label67.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.Label67.Location = New System.Drawing.Point(264, 608)
+        Me.Label67.Location = New System.Drawing.Point(264, 613)
         Me.Label67.Name = "Label67"
         Me.Label67.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Label67.Size = New System.Drawing.Size(160, 17)
@@ -2403,11 +2407,41 @@ Public Class dlgOrderAttribs
         Me.checkAutoCancelParent.Text = "Auto Cancel Parent"
         Me.checkAutoCancelParent.UseVisualStyleBackColor = True
         '
+        'Label31
+        '
+        Me.Label31.BackColor = System.Drawing.Color.Gainsboro
+        Me.Label31.Cursor = System.Windows.Forms.Cursors.Default
+        Me.Label31.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label31.ForeColor = System.Drawing.SystemColors.ControlText
+        Me.Label31.Location = New System.Drawing.Point(264, 637)
+        Me.Label31.Name = "Label31"
+        Me.Label31.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.Label31.Size = New System.Drawing.Size(160, 17)
+        Me.Label31.TabIndex = 156
+        Me.Label31.Text = "Advanced Error Override"
+        '
+        'txtAdvancedErrorOverride
+        '
+        Me.txtAdvancedErrorOverride.AcceptsReturn = True
+        Me.txtAdvancedErrorOverride.BackColor = System.Drawing.SystemColors.Window
+        Me.txtAdvancedErrorOverride.BorderStyle = System.Windows.Forms.BorderStyle.None
+        Me.txtAdvancedErrorOverride.Cursor = System.Windows.Forms.Cursors.IBeam
+        Me.txtAdvancedErrorOverride.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtAdvancedErrorOverride.ForeColor = System.Drawing.SystemColors.WindowText
+        Me.txtAdvancedErrorOverride.Location = New System.Drawing.Point(432, 637)
+        Me.txtAdvancedErrorOverride.MaxLength = 0
+        Me.txtAdvancedErrorOverride.Name = "txtAdvancedErrorOverride"
+        Me.txtAdvancedErrorOverride.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.txtAdvancedErrorOverride.Size = New System.Drawing.Size(85, 13)
+        Me.txtAdvancedErrorOverride.TabIndex = 157
+        '
         'dlgOrderAttribs
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
         Me.BackColor = System.Drawing.Color.Gainsboro
         Me.ClientSize = New System.Drawing.Size(850, 725)
+        Me.Controls.Add(Me.txtAdvancedErrorOverride)
+        Me.Controls.Add(Me.Label31)
         Me.Controls.Add(Me.checkAutoCancelParent)
         Me.Controls.Add(Me.checkNotHeld)
         Me.Controls.Add(Me.txtPostToAts)
@@ -2708,7 +2742,7 @@ Public Class dlgOrderAttribs
         txtPostToAts.Text = ivalStr(m_orderInfo.PostToAts)
         checkNotHeld.Checked = m_orderInfo.NotHeld
         checkAutoCancelParent.Checked = m_orderInfo.AutoCancelParent
-
+        txtAdvancedErrorOverride.Text = m_orderInfo.AdvancedErrorOverride
     End Sub
 
     ' ========================================================
@@ -2868,6 +2902,7 @@ Public Class dlgOrderAttribs
         m_orderInfo.PostToAts = ival(txtPostToAts.Text)
         m_orderInfo.NotHeld = checkNotHeld.Checked
         m_orderInfo.AutoCancelParent = checkAutoCancelParent.Checked
+        m_orderInfo.AdvancedErrorOverride = txtAdvancedErrorOverride.Text
 
         m_ok = True
         Hide()

@@ -46,13 +46,15 @@ class EWrapper:
             logger.info("ANSWER %s %s", fnName, prms)
 
 
-    def error(self, reqId:TickerId, errorCode:int, errorString:str):
+    def error(self, reqId:TickerId, errorCode:int, errorString:str, advancedOrderRejectJson = ""):
         """This event is called when there is an error with the
         communication or when TWS wants to send a message to the client."""
 
         self.logAnswer(current_fn_name(), vars())
-        logger.error("ERROR %s %s %s", reqId, errorCode, errorString)
-
+        if advancedOrderRejectJson:
+            logger.error("ERROR %s %s %s %s", reqId, errorCode, errorString, advancedOrderRejectJson)
+        else: 
+            logger.error("ERROR %s %s %s", reqId, errorCode, errorString)
 
     def winError(self, text:str, lastError:int):
         self.logAnswer(current_fn_name(), vars())

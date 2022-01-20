@@ -72,7 +72,7 @@ public class EWrapperImpl implements EWrapper {
     }
 
     @Override
-    public void error(int id, int errorCode, String errorMsg) {
+    public void error(int id, int errorCode, String errorMsg, String advancedOrderRejectJson) {
         errorMsg = errorMsg.replace("\n", " "); // replace new lines with spaces
         System.out.println("Error: Id[" + id + "] ErrorCode [" + errorCode + "] ErrorMsg [" + errorMsg + "]");
         
@@ -80,7 +80,7 @@ public class EWrapperImpl implements EWrapper {
             m_twsService.disconnect();
         }
         // error event
-        m_twsService.addErrorMessage(new ErrorData(id, errorCode, errorMsg));
+        m_twsService.addErrorMessage(new ErrorData(id, errorCode, errorMsg, advancedOrderRejectJson));
 
         String errorMsgStr = new String(errorCode + ":" + errorMsg);
         

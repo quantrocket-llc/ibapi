@@ -33,8 +33,6 @@ namespace TWSLib
         void nextValidId(int id);
         [DispId(10)]
         void permId(int id, int permId);
-        [DispId(11)]
-        void errMsg(int id, int errorCode, string errorMsg);
         [DispId(12)]
         void updatePortfolio(string symbol, string secType, string lastTradeDate, double strike, string right, string curency, string localSymbol, double position, double marketPrice, double marketValue, double averageCost, double unrealizedPNL, double realizedPNL, string accountName);
         [DispId(13)]
@@ -213,5 +211,7 @@ namespace TWSLib
         void wshEventData(int reqId, string dataJson);
         [DispId(156)]
         void historicalSchedule(int reqId, string startDateTime, string endDateTime, string timeZone, IHistoricalSessionList sessions);
+        [DispId(157)]
+        void errMsg(int id, int errorCode, string errorMsg, string advancedOrderRejectJson);
     }
 }

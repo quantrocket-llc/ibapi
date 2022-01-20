@@ -306,9 +306,10 @@ public abstract class EClient {
     protected static final int MIN_SERVER_VER_FRACTIONAL_SIZE_SUPPORT = 163;
     protected static final int MIN_SERVER_VER_SIZE_RULES = 164;
     protected static final int MIN_SERVER_VER_HISTORICAL_SCHEDULE = 165;
+    protected static final int MIN_SERVER_VER_ADVANCED_ORDER_REJECT = 166;
     
     public static final int MIN_VERSION = 100; // envelope encoding, applicable to useV100Plus mode only
-    public static final int MAX_VERSION = MIN_SERVER_VER_HISTORICAL_SCHEDULE; // ditto
+    public static final int MAX_VERSION = MIN_SERVER_VER_ADVANCED_ORDER_REJECT; // ditto
 
     protected EReaderSignal m_signal;
     protected EWrapper m_eWrapper;    // msg handler
@@ -361,7 +362,7 @@ public abstract class EClient {
     public void disableUseV100Plus() {
     	if( isConnected() ) {
             m_eWrapper.error(EClientErrors.NO_VALID_ID, EClientErrors.ALREADY_CONNECTED.code(),
-                    EClientErrors.ALREADY_CONNECTED.msg());
+                    EClientErrors.ALREADY_CONNECTED.msg(), null);
     		return;
   		}
     	
@@ -372,7 +373,7 @@ public abstract class EClient {
     public void setConnectOptions(String options) {
     	if( isConnected() ) {
             m_eWrapper.error(EClientErrors.NO_VALID_ID, EClientErrors.ALREADY_CONNECTED.code(),
-                    EClientErrors.ALREADY_CONNECTED.msg());
+                    EClientErrors.ALREADY_CONNECTED.msg(), null);
     		return;
   		}
     	
@@ -381,13 +382,13 @@ public abstract class EClient {
 
     protected void connectionError() {
         m_eWrapper.error( EClientErrors.NO_VALID_ID, EClientErrors.CONNECT_FAIL.code(),
-                EClientErrors.CONNECT_FAIL.msg());
+                EClientErrors.CONNECT_FAIL.msg(), null);
     }
 
     protected String checkConnected(String host) {
         if( isConnected()) {
             m_eWrapper.error(EClientErrors.NO_VALID_ID, EClientErrors.ALREADY_CONNECTED.code(),
-                    EClientErrors.ALREADY_CONNECTED.msg());
+                    EClientErrors.ALREADY_CONNECTED.msg(), null);
             return null;
         }
         if( IsEmpty( host) ) {
@@ -1664,6 +1665,13 @@ public abstract class EClient {
             return;
         }
         
+        if (m_serverVersion < MIN_SERVER_VER_ADVANCED_ORDER_REJECT) {
+            if (!IsEmpty(order.advancedErrorOverride())) {
+                error(id, EClientErrors.UPDATE_TWS, "  It does not support advanced error override attribute");
+                return;
+            }
+        }
+        
         int VERSION = (m_serverVersion < MIN_SERVER_VER_NOT_HELD) ? 27 : 45;
 
         // send place order msg
@@ -2098,6 +2106,10 @@ public abstract class EClient {
 
            if (m_serverVersion >= MIN_SERVER_VER_AUTO_CANCEL_PARENT) {
                b.send(order.autoCancelParent());
+           }
+           
+           if (m_serverVersion >= MIN_SERVER_VER_ADVANCED_ORDER_REJECT) {
+               b.send(order.advancedErrorOverride());
            }
            
            closeAndSend(b);
@@ -4108,7 +4120,7 @@ public abstract class EClient {
     }
 
     protected synchronized void error( int id, int errorCode, String errorMsg) {
-        m_eWrapper.error( id, errorCode, errorMsg);
+        m_eWrapper.error( id, errorCode, errorMsg, null);
     }
 
     protected void close() {

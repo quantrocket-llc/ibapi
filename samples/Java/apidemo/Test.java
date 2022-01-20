@@ -72,8 +72,8 @@ public class Test implements EWrapper {
 		System.out.println(EWrapperMsgGenerator.error(e));
 	}
 
-	@Override public void error(int id, int errorCode, String errorMsg) {
-		System.out.println(EWrapperMsgGenerator.error(id, errorCode, errorMsg));
+	@Override public void error(int id, int errorCode, String errorMsg, String advancedOrderRejectJson) {
+		System.out.println(EWrapperMsgGenerator.error(id, errorCode, errorMsg, advancedOrderRejectJson));
 	}
 
 	@Override public void connectionClosed() {

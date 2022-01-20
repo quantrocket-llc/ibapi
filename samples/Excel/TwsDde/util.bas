@@ -42,6 +42,7 @@ Public Const DELTA_NEUTRAL_COLUMN = 14
 Public Const SERVER_NAME_CHAR = "S"
 Public Const maxRowsToFormat = 200 ' increase this if your spreadsheets go beyond the 200th row
 Public Const IDENTIFIER_ZERO = "id0"
+Public Const ADVANCED_ORDER_REJECT_JSON = "advancedOrderRejectJson"
 
 ' request ids
 Public Const ID_REQ_MARKET_DATA = 100001

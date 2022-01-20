@@ -319,9 +319,12 @@ class TestApp(TestWrapper, TestClient):
 
     @iswrapper
     # ! [error]
-    def error(self, reqId: TickerId, errorCode: int, errorString: str):
-        super().error(reqId, errorCode, errorString)
-        print("Error. Id:", reqId, "Code:", errorCode, "Msg:", errorString)
+    def error(self, reqId: TickerId, errorCode: int, errorString: str, advancedOrderRejectJson = ""):
+        super().error(reqId, errorCode, errorString, advancedOrderRejectJson)
+        if advancedOrderRejectJson:
+            print("Error. Id:", reqId, "Code:", errorCode, "Msg:", errorString, "AdvancedOrderRejectJson:", advancedOrderRejectJson)
+        else:
+            print("Error. Id:", reqId, "Code:", errorCode, "Msg:", errorString)
 
     # ! [error] self.reqId2nErr[reqId] += 1
 

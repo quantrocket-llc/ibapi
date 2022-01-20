@@ -65,7 +65,7 @@ def setattr_log(self, var_name, var_value):
 SHOW_UNSET = True
 
 
-def decode(the_type, fields, show_unset = False):
+def decode(the_type, fields, show_unset = False, use_unicode = False):
     try:
         s = next(fields)
     except StopIteration:
@@ -83,7 +83,7 @@ def decode(the_type, fields, show_unset = False):
         if type(s) is str:
             return s
         elif type(s) is bytes:
-            return s.decode(errors='backslashreplace')
+            return s.decode('unicode-escape' if use_unicode else 'UTF-8', errors='backslashreplace')
         else:
             raise TypeError("unsupported incoming type " + type(s) + " for desired type 'str")
 

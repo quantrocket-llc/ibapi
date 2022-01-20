@@ -1322,7 +1322,7 @@ class SampleFrame extends JFrame implements EWrapper {
         m_errors.add( msg);
     }
 
-    public void error( int id, int errorCode, String errorMsg) {
+    public void error( int id, int errorCode, String errorMsg, String advancedOrderRejectJson) {
         // received error
         final ContractDetailsCallback callback;
         synchronized (m_callbackMap) {
@@ -1341,7 +1341,7 @@ class SampleFrame extends JFrame implements EWrapper {
             }
     	}
     	
-    	String msg = EWrapperMsgGenerator.error(id, errorCode, errorMsg);
+    	String msg = EWrapperMsgGenerator.error(id, errorCode, errorMsg, advancedOrderRejectJson);
         m_errors.add( msg);
         for (int faErrorCode : faErrorCodes) {
             faError |= (errorCode == faErrorCode);
@@ -1559,6 +1559,7 @@ class SampleFrame extends JFrame implements EWrapper {
         destOrder.discretionaryUpToLimitPrice(srcOrder.discretionaryUpToLimitPrice());
         destOrder.notHeld(srcOrder.notHeld());
         destOrder.autoCancelParent(srcOrder.autoCancelParent());
+        destOrder.advancedErrorOverride(srcOrder.advancedErrorOverride());
     }
 
     public void position(String account, Contract contract, Decimal pos, double avgCost) {

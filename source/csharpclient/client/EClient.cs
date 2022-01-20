@@ -55,7 +55,7 @@ namespace IBApi
         {
             if (IsConnected())
             {
-                wrapper.error(clientId, EClientErrors.AlreadyConnected.Code, EClientErrors.AlreadyConnected.Message);
+                wrapper.error(clientId, EClientErrors.AlreadyConnected.Code, EClientErrors.AlreadyConnected.Message, "");
 
                 return;
             }
@@ -143,7 +143,7 @@ namespace IBApi
             }
             catch (IOException)
             {
-                wrapper.error(clientId, EClientErrors.CONNECT_FAIL.Code, EClientErrors.CONNECT_FAIL.Message);
+                wrapper.error(clientId, EClientErrors.CONNECT_FAIL.Code, EClientErrors.CONNECT_FAIL.Message, "");
                 throw;
             }
         }
@@ -309,7 +309,7 @@ namespace IBApi
             }
             catch (EClientException e)
             {
-                wrapper.error(requestId, e.Err.Code, e.Err.Message + e.Text);
+                wrapper.error(requestId, e.Err.Code, e.Err.Message + e.Text, "");
                 return;
             }
 
@@ -388,7 +388,7 @@ namespace IBApi
             }
             catch (EClientException e)
             {
-                wrapper.error(reqId, e.Err.Code, e.Err.Message + e.Text);
+                wrapper.error(reqId, e.Err.Code, e.Err.Message + e.Text, "");
                 return;
             }
 
@@ -453,7 +453,7 @@ namespace IBApi
             }
             catch (EClientException e)
             {
-                wrapper.error(reqId, e.Err.Code, e.Err.Message + e.Text);
+                wrapper.error(reqId, e.Err.Code, e.Err.Message + e.Text, "");
                 return;
             }
 
@@ -692,7 +692,7 @@ namespace IBApi
             }
             catch (EClientException e)
             {
-                wrapper.error(tickerId, e.Err.Code, e.Err.Message + e.Text);
+                wrapper.error(tickerId, e.Err.Code, e.Err.Message + e.Text, "");
                 return;
             }
 
@@ -1243,10 +1243,15 @@ namespace IBApi
                 {
                     paramsList.AddParameter(order.AutoCancelParent);
                 }
+
+                if (serverVersion >= MinServerVer.ADVANCED_ORDER_REJECT)
+                {
+                    paramsList.AddParameter(order.AdvancedErrorOverride);
+                }
             }
             catch (EClientException e)
             {
-                wrapper.error(id, e.Err.Code, e.Err.Message + e.Text);
+                wrapper.error(id, e.Err.Code, e.Err.Message + e.Text, "");
                 return;
             }
 
@@ -1285,7 +1290,7 @@ namespace IBApi
             }
             catch (EClientException e)
             {
-                wrapper.error(reqId, e.Err.Code, e.Err.Message + e.Text);
+                wrapper.error(reqId, e.Err.Code, e.Err.Message + e.Text, "");
                 return;
             }
 
@@ -1380,7 +1385,7 @@ namespace IBApi
             }
             catch (EClientException e)
             {
-                wrapper.error(reqId, e.Err.Code, e.Err.Message + e.Text);
+                wrapper.error(reqId, e.Err.Code, e.Err.Message + e.Text, "");
                 return;
             }
 
@@ -1413,7 +1418,7 @@ namespace IBApi
             }
             catch (EClientException e)
             {
-                wrapper.error(IncomingMessage.NotValid, e.Err.Code, e.Err.Message + e.Text);
+                wrapper.error(IncomingMessage.NotValid, e.Err.Code, e.Err.Message + e.Text, "");
                 return;
             }
 
@@ -1548,7 +1553,7 @@ namespace IBApi
             }
             catch (EClientException e)
             {
-                wrapper.error(reqId, e.Err.Code, e.Err.Message + e.Text);
+                wrapper.error(reqId, e.Err.Code, e.Err.Message + e.Text, "");
                 return;
             }
 
@@ -1619,7 +1624,7 @@ namespace IBApi
             }
             catch (EClientException e)
             {
-                wrapper.error(reqId, e.Err.Code, e.Err.Message + e.Text);
+                wrapper.error(reqId, e.Err.Code, e.Err.Message + e.Text, "");
                 return;
             }
 
@@ -1684,7 +1689,7 @@ namespace IBApi
             }
             catch (EClientException e)
             {
-                wrapper.error(reqId, e.Err.Code, e.Err.Message + e.Text);
+                wrapper.error(reqId, e.Err.Code, e.Err.Message + e.Text, "");
                 return;
             }
 
@@ -1861,7 +1866,7 @@ namespace IBApi
             }
             catch (EClientException e)
             {
-                wrapper.error(tickerId, e.Err.Code, e.Err.Message + e.Text);
+                wrapper.error(tickerId, e.Err.Code, e.Err.Message + e.Text, "");
                 return;
             }
 
@@ -2053,7 +2058,7 @@ namespace IBApi
             }
             catch (EClientException e)
             {
-                wrapper.error(tickerId, e.Err.Code, e.Err.Message + e.Text);
+                wrapper.error(tickerId, e.Err.Code, e.Err.Message + e.Text, "");
                 return;
             }
 
@@ -2176,7 +2181,7 @@ namespace IBApi
             }
             catch (EClientException e)
             {
-                wrapper.error(tickerId, e.Err.Code, e.Err.Message + e.Text);
+                wrapper.error(tickerId, e.Err.Code, e.Err.Message + e.Text, "");
                 return;
             }
 
@@ -2310,7 +2315,7 @@ namespace IBApi
             }
             catch (EClientException e)
             {
-                wrapper.error(tickerId, e.Err.Code, e.Err.Message + e.Text);
+                wrapper.error(tickerId, e.Err.Code, e.Err.Message + e.Text, "");
                 return;
             }
 
@@ -2413,7 +2418,7 @@ namespace IBApi
             }
             catch (EClientException e)
             {
-                wrapper.error(reqId, e.Err.Code, e.Err.Message + e.Text);
+                wrapper.error(reqId, e.Err.Code, e.Err.Message + e.Text, "");
                 return;
             }
 
@@ -2475,7 +2480,7 @@ namespace IBApi
             }
             catch (EClientException e)
             {
-                wrapper.error(IncomingMessage.NotValid, e.Err.Code, e.Err.Message + e.Text);
+                wrapper.error(IncomingMessage.NotValid, e.Err.Code, e.Err.Message + e.Text, "");
                 return;
             }
 
@@ -2503,7 +2508,7 @@ namespace IBApi
             }
             catch (EClientException e)
             {
-                wrapper.error(IncomingMessage.NotValid, e.Err.Code, e.Err.Message + e.Text);
+                wrapper.error(IncomingMessage.NotValid, e.Err.Code, e.Err.Message + e.Text, "");
                 return;
             }
 
@@ -2539,7 +2544,7 @@ namespace IBApi
             }
             catch (EClientException e)
             {
-                wrapper.error(IncomingMessage.NotValid, e.Err.Code, e.Err.Message + e.Text);
+                wrapper.error(IncomingMessage.NotValid, e.Err.Code, e.Err.Message + e.Text, "");
                 return;
             }
 
@@ -2568,7 +2573,7 @@ namespace IBApi
             }
             catch (EClientException e)
             {
-                wrapper.error(IncomingMessage.NotValid, e.Err.Code, e.Err.Message + e.Text);
+                wrapper.error(IncomingMessage.NotValid, e.Err.Code, e.Err.Message + e.Text, "");
                 return;
             }
 
@@ -2645,7 +2650,7 @@ namespace IBApi
             }
             catch (EClientException e)
             {
-                wrapper.error(requestId, e.Err.Code, e.Err.Message + e.Text);
+                wrapper.error(requestId, e.Err.Code, e.Err.Message + e.Text, "");
                 return;
             }
 
@@ -2700,7 +2705,7 @@ namespace IBApi
             }
             catch (EClientException e)
             {
-                wrapper.error(requestId, e.Err.Code, e.Err.Message + e.Text);
+                wrapper.error(requestId, e.Err.Code, e.Err.Message + e.Text, "");
                 return;
             }
 
@@ -2761,7 +2766,7 @@ namespace IBApi
             }
             catch (EClientException e)
             {
-                wrapper.error(requestId, e.Err.Code, e.Err.Message + e.Text);
+                wrapper.error(requestId, e.Err.Code, e.Err.Message + e.Text, "");
                 return;
             }
 
@@ -2824,7 +2829,7 @@ namespace IBApi
             }
             catch (EClientException e)
             {
-                wrapper.error(reqId, e.Err.Code, e.Err.Message + e.Text);
+                wrapper.error(reqId, e.Err.Code, e.Err.Message + e.Text, "");
                 return;
             }
 
@@ -2898,7 +2903,7 @@ namespace IBApi
             }
             catch (EClientException e)
             {
-                wrapper.error(reqId, e.Err.Code, e.Err.Message + e.Text);
+                wrapper.error(reqId, e.Err.Code, e.Err.Message + e.Text, "");
                 return;
             }
 
@@ -2951,7 +2956,7 @@ namespace IBApi
             }
             catch (EClientException e)
             {
-                wrapper.error(reqId, e.Err.Code, e.Err.Message + e.Text);
+                wrapper.error(reqId, e.Err.Code, e.Err.Message + e.Text, "");
                 return;
             }
 
@@ -3012,7 +3017,7 @@ namespace IBApi
             }
             catch (EClientException e)
             {
-                wrapper.error(requestId, e.Err.Code, e.Err.Message + e.Text);
+                wrapper.error(requestId, e.Err.Code, e.Err.Message + e.Text, "");
                 return;
             }
 
@@ -3059,7 +3064,7 @@ namespace IBApi
             }
             catch (EClientException e)
             {
-                wrapper.error(requestId, e.Err.Code, e.Err.Message + e.Text);
+                wrapper.error(requestId, e.Err.Code, e.Err.Message + e.Text, "");
                 return;
             }
 
@@ -3099,7 +3104,7 @@ namespace IBApi
             }
             catch (EClientException e)
             {
-                wrapper.error(tickerId, e.Err.Code, e.Err.Message + e.Text);
+                wrapper.error(tickerId, e.Err.Code, e.Err.Message + e.Text, "");
                 return;
             }
 
@@ -3160,7 +3165,7 @@ namespace IBApi
             }
             catch (EClientException e)
             {
-                wrapper.error(tickerId, e.Err.Code, e.Err.Message + e.Text);
+                wrapper.error(tickerId, e.Err.Code, e.Err.Message + e.Text, "");
                 return;
             }
 
@@ -3243,7 +3248,7 @@ namespace IBApi
             }
             catch (EClientException e)
             {
-                wrapper.error(reqId, e.Err.Code, e.Err.Message + e.Text);
+                wrapper.error(reqId, e.Err.Code, e.Err.Message + e.Text, "");
                 return;
             }
 
@@ -3304,7 +3309,7 @@ namespace IBApi
             }
             catch (EClientException e)
             {
-                wrapper.error(reqId, e.Err.Code, e.Err.Message + e.Text);
+                wrapper.error(reqId, e.Err.Code, e.Err.Message + e.Text, "");
                 return;
             }
 
@@ -3376,7 +3381,7 @@ namespace IBApi
             }
             catch (EClientException e)
             {
-                wrapper.error(reqId, e.Err.Code, e.Err.Message + e.Text);
+                wrapper.error(reqId, e.Err.Code, e.Err.Message + e.Text, "");
                 return;
             }
 
@@ -3407,7 +3412,7 @@ namespace IBApi
             }
             catch (EClientException e)
             {
-                wrapper.error(reqId, e.Err.Code, e.Err.Message + e.Text);
+                wrapper.error(reqId, e.Err.Code, e.Err.Message + e.Text, "");
                 return;
             }
 
@@ -3463,7 +3468,7 @@ namespace IBApi
             }
             catch (EClientException e)
             {
-                wrapper.error(reqId, e.Err.Code, e.Err.Message + e.Text);
+                wrapper.error(reqId, e.Err.Code, e.Err.Message + e.Text, "");
                 return;
             }
 
@@ -3531,7 +3536,7 @@ namespace IBApi
             }
             catch (Exception)
             {
-                wrapper.error(reqId, error.Code, error.Message);
+                wrapper.error(reqId, error.Code, error.Message, "");
                 Close();
             }
         }
@@ -3542,7 +3547,7 @@ namespace IBApi
         {
             if (!isConnected)
             {
-                wrapper.error(IncomingMessage.NotValid, EClientErrors.NOT_CONNECTED.Code, EClientErrors.NOT_CONNECTED.Message);
+                wrapper.error(IncomingMessage.NotValid, EClientErrors.NOT_CONNECTED.Code, EClientErrors.NOT_CONNECTED.Message, "");
                 return false;
             }
 
@@ -3566,7 +3571,7 @@ namespace IBApi
 
         protected void ReportError(int reqId, int code, string message)
         {
-            wrapper.error(reqId, code, message);
+            wrapper.error(reqId, code, message, "");
         }
 
         protected void SendCancelRequest(OutgoingMessages msgType, int version, int reqId, CodeMsgPair errorMessage)
@@ -3582,7 +3587,7 @@ namespace IBApi
             }
             catch (EClientException e)
             {
-                wrapper.error(reqId, e.Err.Code, e.Err.Message + e.Text);
+                wrapper.error(reqId, e.Err.Code, e.Err.Message + e.Text, "");
                 return;
             }
 
@@ -3592,7 +3597,7 @@ namespace IBApi
             }
             catch (Exception)
             {
-                wrapper.error(reqId, errorMessage.Code, errorMessage.Message);
+                wrapper.error(reqId, errorMessage.Code, errorMessage.Message, "");
                 Close();
             }
         }
@@ -3609,7 +3614,7 @@ namespace IBApi
             }
             catch (EClientException e)
             {
-                wrapper.error(IncomingMessage.NotValid, e.Err.Code, e.Err.Message + e.Text);
+                wrapper.error(IncomingMessage.NotValid, e.Err.Code, e.Err.Message + e.Text, "");
                 return;
             }
 
@@ -3619,7 +3624,7 @@ namespace IBApi
             }
             catch (Exception)
             {
-                wrapper.error(IncomingMessage.NotValid, errorMessage.Code, errorMessage.Message);
+                wrapper.error(IncomingMessage.NotValid, errorMessage.Code, errorMessage.Message, "");
                 Close();
             }
         }
@@ -3960,6 +3965,14 @@ namespace IBApi
 
                 return false;
             }
+
+            if (serverVersion < MinServerVer.ADVANCED_ORDER_REJECT && !IsEmpty(order.AdvancedErrorOverride))
+            {
+                ReportError(id, EClientErrors.UPDATE_TWS, " It does not support advanced error override attribute.");
+
+                return false;
+            }
+
 
             return true;
         }

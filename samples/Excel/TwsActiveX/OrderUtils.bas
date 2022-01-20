@@ -139,6 +139,7 @@ Public Enum ExtendedOrderAttributesColumns
     Col_POST_TO_ATS
     Col_NOT_HELD
     Col_AUTO_CANCEL_PARENT
+    Col_ADVANCED_ERROR_OVERRIDE
 End Enum
 
 ' other constants
@@ -382,6 +383,7 @@ Private Sub PlaceModifyOrder( _
         .postToAts = Util.SetNonEmptyValue(extendedAttributeTable(orderIndex, Col_POST_TO_ATS).value, .postToAts)
         .notHeld = Util.SetNonEmptyValue(extendedAttributeTable(orderIndex, Col_NOT_HELD).value, .notHeld)
         .autoCancelParent = Util.SetNonEmptyValue(extendedAttributeTable(orderIndex, Col_AUTO_CANCEL_PARENT).value, .autoCancelParent)
+        .advancedErrorOverride = Util.SetNonEmptyValue(extendedAttributeTable(orderIndex, Col_ADVANCED_ERROR_OVERRIDE).value, .advancedErrorOverride)
     End With
 
     ' combo legs

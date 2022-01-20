@@ -108,6 +108,7 @@ public class ExtOrdDlg extends JDialog {
     private JCheckBox   m_discretionaryUpToLimitPrice = new JCheckBox("Relative discretionary", false);
     private JCheckBox   m_notHeld = new JCheckBox("Not held", false);
     private JCheckBox   m_autoCancelParent = new JCheckBox("Auto Cancel Parent", false);
+    private JTextField  m_advancedErrorOverride = new JTextField();
 
     ExtOrdDlg( OrderDlg owner) {
         super( owner, true);
@@ -274,6 +275,8 @@ public class ExtOrdDlg extends JDialog {
         extOrderDetailsPanel.add(new JLabel("MiFID II Execution Algo"));
         extOrderDetailsPanel.add(m_mifid2ExecutionAlgo);
         
+        extOrderDetailsPanel.add(new JLabel("Advanced error override"));
+        extOrderDetailsPanel.add(m_advancedErrorOverride);
         extOrderDetailsPanel.add(m_dontUseAutoPriceForHedge);
         extOrderDetailsPanel.add(m_isOmsConainer);
         extOrderDetailsPanel.add(m_discretionaryUpToLimitPrice);
@@ -391,6 +394,7 @@ public class ExtOrdDlg extends JDialog {
             m_order.discretionaryUpToLimitPrice(m_discretionaryUpToLimitPrice.isSelected());
             m_order.notHeld(m_notHeld.isSelected());
             m_order.autoCancelParent(m_autoCancelParent.isSelected());
+            m_order.advancedErrorOverride(m_advancedErrorOverride.getText());
         }
         catch( Exception e) {
             Main.inform( this, "Error - " + e);

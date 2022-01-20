@@ -30,10 +30,11 @@ namespace IBApi
          * @brief Errors sent by the TWS are received here.
          * @param id the request identifier which generated the error. Note: -1 will indicate a notification and not true error condition.
          * @param errorCode the code identifying the error.
-         * @param errorMsg error's description. Currently Latin-1 encoded error messages are supported. If logged into TWS in a different language it is recommended to enabled the setting in TWS Global Configuration -> API -> Settings -> Show API errors in English.  
+         * @param errorMsg error's description. 
+         * @param advancedOrderRejectJson advanced order reject description in json format. 
          *  
          */
-        void error(int id, int errorCode, string errorMsg);
+        void error(int id, int errorCode, string errorMsg, string advancedOrderRejectJson);
 
         /**
          * @brief TWS's current time. TWS is synchronized with the server (not local computer) using NTP and this function will receive the current time in TWS.

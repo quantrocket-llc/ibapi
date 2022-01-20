@@ -3,14 +3,12 @@
 
 package samples.testbed;
 
-import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
 import com.ib.client.*;
-import com.ib.controller.Formats;
 
 //! [ewrapperimpl]
 public class EWrapperImpl implements EWrapper {
@@ -353,8 +351,12 @@ public class EWrapperImpl implements EWrapper {
 	}
 	//! [error]
 	@Override
-	public void error(int id, int errorCode, String errorMsg) {
-		System.out.println("Error. Id: " + id + ", Code: " + errorCode + ", Msg: " + errorMsg + "\n");
+	public void error(int id, int errorCode, String errorMsg, String advancedOrderRejectJson) {
+		String str = "Error. Id: " + id + ", Code: " + errorCode + ", Msg: " + errorMsg;
+		if (advancedOrderRejectJson != null) {
+			str += (", AdvancedOrderRejectJson: " + advancedOrderRejectJson);
+		}
+		System.out.println(str + "\n");
 	}
 	//! [error]
 	@Override

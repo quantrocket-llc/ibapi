@@ -298,13 +298,19 @@ const char* EDecoder::processErrMsgMsg(const char* ptr, const char* endPtr) {
 	int id; // ver 2 field
 	int errorCode; // ver 2 field
 	std::string errorMsg;
+	std::string advancedOrderRejectJson;
 
 	DECODE_FIELD( version);
 	DECODE_FIELD( id);
 	DECODE_FIELD( errorCode);
 	DECODE_FIELD( errorMsg);
 
-	m_pEWrapper->error( id, errorCode, errorMsg);
+	if (m_serverVersion >= MIN_SERVER_VER_ADVANCED_ORDER_REJECT)
+	{
+		DECODE_FIELD( advancedOrderRejectJson);
+	}
+
+	m_pEWrapper->error( id, errorCode, errorMsg, advancedOrderRejectJson);
 
 	return ptr;
 }
@@ -1729,7 +1735,7 @@ int EDecoder::processConnectAck(const char*& beginPtr, const char* endPtr)
 		return processed;
 	}
 	catch(const std::exception& e) {
-		m_pEWrapper->error( NO_VALID_ID, SOCKET_EXCEPTION.code(), SOCKET_EXCEPTION.msg() + e.what());
+		m_pEWrapper->error( NO_VALID_ID, SOCKET_EXCEPTION.code(), SOCKET_EXCEPTION.msg() + e.what(), "");
 	}
 
 	return 0;
@@ -2542,7 +2548,7 @@ int EDecoder::parseAndProcessMsg(const char*& beginPtr, const char* endPtr) {
 
 		default:
 			{
-				m_pEWrapper->error( msgId, UNKNOWN_ID.code(), UNKNOWN_ID.msg());
+				m_pEWrapper->error( msgId, UNKNOWN_ID.code(), UNKNOWN_ID.msg(), "");
 				m_pEWrapper->connectionClosed();
 				break;
 			}
@@ -2556,7 +2562,7 @@ int EDecoder::parseAndProcessMsg(const char*& beginPtr, const char* endPtr) {
 		return processed;
 	}
 	catch(const std::exception& e) {
-		m_pEWrapper->error( NO_VALID_ID, SOCKET_EXCEPTION.code(), SOCKET_EXCEPTION.msg() + e.what());
+		m_pEWrapper->error( NO_VALID_ID, SOCKET_EXCEPTION.code(), SOCKET_EXCEPTION.msg() + e.what(), "");
 	}
 	return 0;
 }

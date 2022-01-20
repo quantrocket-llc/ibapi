@@ -343,5 +343,8 @@ namespace TWSLib
         [DispId(186)]
         int postToAts { get; set; }
 
+        [DispId(187)]
+        string advancedErrorOverride { get; set; }
+
     }
 }

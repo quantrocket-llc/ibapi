@@ -313,7 +313,7 @@ public class DefaultEWrapper implements EWrapper {
 	}
 
 	@Override
-	public void error(int id, int errorCode, String errorMsg) {
+	public void error(int id, int errorCode, String errorMsg, String advancedOrderRejectJson) {
 		// TODO Auto-generated method stub
 		
 	}

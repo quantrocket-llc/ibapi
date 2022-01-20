@@ -168,9 +168,9 @@ Friend Class ApiEventSource
                          End Sub)
     End Sub
 
-    Private Sub EWrapper_Error(id As Integer, errorCode As Integer, errorMsg As String) Implements IBApi.EWrapper.error
+    Private Sub EWrapper_Error(id As Integer, errorCode As Integer, errorMsg As String, advancedOrderRejectJson As String) Implements IBApi.EWrapper.error
         InvokeIfRequired(Sub()
-                             RaiseEvent ErrMsg(Me, New ErrMsgEventArgs With {.id = id, .errorCode = errorCode, .errorMsg = errorMsg})
+                             RaiseEvent ErrMsg(Me, New ErrMsgEventArgs With {.id = id, .errorCode = errorCode, .errorMsg = errorMsg, .advancedOrderRejectJson = advancedOrderRejectJson})
                          End Sub)
     End Sub
 

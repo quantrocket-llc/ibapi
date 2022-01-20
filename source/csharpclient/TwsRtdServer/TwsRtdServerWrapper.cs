@@ -142,7 +142,7 @@ namespace TwsRtdServer
 
         public void error(Exception e) { }
         public void error(string str) { }
-        public void error(int id, int errorCode, string errorMsg) 
+        public void error(int id, int errorCode, string errorMsg, string advancedOrderRejectJson) 
         {
             if (id == -1 && Array.IndexOf(TwsRtdServerErrors.TwsServerErrors(), errorCode) >= 0) 
             {

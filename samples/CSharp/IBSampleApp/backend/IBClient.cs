@@ -18,7 +18,7 @@ namespace IBSampleApp
         {
             var reqId = new Random(DateTime.Now.Millisecond).Next();
             var resolveResult = new TaskCompletionSource<Contract>();
-            var resolveContract_Error = new Action<int, int, string, Exception>((id, code, msg, ex) =>
+            var resolveContract_Error = new Action<int, int, string, string, Exception>((id, code, msg, advancedOrderRejectJson, ex) =>
                 {
                     if (reqId != id)
                         return;
@@ -62,7 +62,7 @@ namespace IBSampleApp
             var reqId = new Random(DateTime.Now.Millisecond).Next();
             var res = new TaskCompletionSource<Contract[]>();
             var contractList = new List<Contract>();
-            var resolveContract_Error = new Action<int, int, string, Exception>((id, code, msg, ex) =>
+            var resolveContract_Error = new Action<int, int, string, string, Exception>((id, code, msg, advancedOrderRejectJson, ex) =>
                 {
                     if (reqId != id)
                         return;
@@ -117,14 +117,14 @@ namespace IBSampleApp
 
         public int NextOrderId { get; set; }
 
-        public event Action<int, int, string, Exception> Error;
+        public event Action<int, int, string, string, Exception> Error;
 
         void EWrapper.error(Exception e)
         {
             var tmp = Error;
 
             if (tmp != null)
-                sc.Post(t => tmp(0, 0, null, e), null);
+                sc.Post(t => tmp(0, 0, null, null, e), null);
         }
 
         void EWrapper.error(string str)
@@ -132,15 +132,15 @@ namespace IBSampleApp
             var tmp = Error;
 
             if (tmp != null)
-                sc.Post(t => tmp(0, 0, str, null), null);
+                sc.Post(t => tmp(0, 0, str, null, null), null);
         }
 
-        void EWrapper.error(int id, int errorCode, string errorMsg)
+        void EWrapper.error(int id, int errorCode, string errorMsg, string advancedOrderRejectJson)
         {
             var tmp = Error;
 
             if (tmp != null)
-                sc.Post(t => tmp(id, errorCode, errorMsg, null), null);
+                sc.Post(t => tmp(id, errorCode, errorMsg, advancedOrderRejectJson, null), null);
         }
 
         public event Action ConnectionClosed;
