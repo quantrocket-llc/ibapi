@@ -863,5 +863,12 @@ namespace Samples
             }
         }
         //! [historicalSchedule]
+
+        //! [userInfo]
+        public void userInfo(int reqId, string whiteBrandingId)
+        {
+            Console.WriteLine($"User Info. ReqId: {reqId}, WhiteBrandingId: {whiteBrandingId}");
+        }
+        //! [userInfo]
     }
 }

@@ -961,5 +961,13 @@ namespace IBApi
          * @sa EClient::reqHistoricalData with whatToShow=SCHEDULE
          */
         void historicalSchedule(int reqId, string startDateTime, string endDateTime, string timeZone, HistoricalSession[] sessions);
+
+        /**
+         * @brief returns user info
+         * @param reqId the id of request
+         * @param whiteBrandingId
+         * @sa EClient::reqUserInfo
+         */
+        void userInfo(int reqId, string whiteBrandingId);
     }
 }

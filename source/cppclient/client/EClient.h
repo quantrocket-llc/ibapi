@@ -188,6 +188,7 @@ const int REQ_WSH_META_DATA				= 100;
 const int CANCEL_WSH_META_DATA			= 101;
 const int REQ_WSH_EVENT_DATA			= 102;
 const int CANCEL_WSH_EVENT_DATA			= 103;
+const int REQ_USER_INFO                 = 104;
 
 // TWS New Bulletins constants
 const int NEWS_MSG              = 1;    // standard IB news bulleting message
@@ -362,6 +363,7 @@ public:
 	void reqWshEventData(int reqId, int conId);
 	void cancelWshMetaData(int reqId);
 	void cancelWshEventData(int reqid);
+    void reqUserInfo(int reqId);
 
 private:
 

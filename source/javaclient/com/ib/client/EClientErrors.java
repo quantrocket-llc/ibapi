@@ -89,6 +89,7 @@ public class EClientErrors {
     static final CodeMsgPair FAIL_SEND_CAN_WSH_META_DATA = new CodeMsgPair(574, "Cancel WSH Meta Data Sending Error - ");
     static final CodeMsgPair FAIL_SEND_REQ_WSH_EVENT_DATA = new CodeMsgPair(575, "Request WSH Event Data Sending Error - ");
     static final CodeMsgPair FAIL_SEND_CAN_WSH_EVENT_DATA = new CodeMsgPair(576, "Cancel WSH Event Data Sending Error - ");
+    static final CodeMsgPair FAIL_SEND_REQUSERINFO = new CodeMsgPair(577, "Request User Info Sending Error - ");
     static final CodeMsgPair INVALID_SYMBOL = new CodeMsgPair(579, "Invalid symbol in string - ");
 
     public EClientErrors() {

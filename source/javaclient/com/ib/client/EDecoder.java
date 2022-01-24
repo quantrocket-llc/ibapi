@@ -101,6 +101,7 @@ class EDecoder implements ObjectInput {
     private static final int WSH_META_DATA = 104;
     private static final int WSH_EVENT_DATA = 105;
     private static final int HISTORICAL_SCHEDULE = 106;
+    private static final int USER_INFO = 107;
 
     static final int MAX_MSG_LENGTH = 0xffffff;
     private static final int REDIRECT_MSG_ID = -1;
@@ -497,6 +498,10 @@ class EDecoder implements ObjectInput {
                 processHistoricalSchedule();
                 break;
 
+            case USER_INFO:
+                processUserInfo();
+                break;
+                
             default: {
                 m_EWrapper.error( EClientErrors.NO_VALID_ID, EClientErrors.UNKNOWN_ID.code(), EClientErrors.UNKNOWN_ID.msg(), null);
                 return 0;
@@ -2034,6 +2039,13 @@ class EDecoder implements ObjectInput {
         }
 
         m_EWrapper.historicalSchedule(reqId, startDateTime, endDateTime, timeZone, sessions);
+    }
+    
+    private void processUserInfo() throws IOException {
+        int reqId = readInt();
+        String whiteBrandingId = readStr();
+
+        m_EWrapper.userInfo(reqId, whiteBrandingId);
     }
     
     private void readLastTradeDate(ContractDetails contract, boolean isBond) throws IOException {

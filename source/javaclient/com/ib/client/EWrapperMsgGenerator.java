@@ -710,6 +710,10 @@ public class EWrapperMsgGenerator {
         return sb.toString();
     }
 
+    public static String userInfo(int reqId, String whiteBrandingId) {
+        return "UserInfo. Req Id: " + reqId + " White Branding Id: " + whiteBrandingId;
+    } 
+
     private static void appendOrderFields(StringBuilder sb, int orderId, Contract contract, Order order, OrderState orderState,
             boolean isOpenOrder) {
         Util.appendValidIntValue(sb, "orderId", orderId);

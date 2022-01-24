@@ -509,6 +509,10 @@ public class TwsService {
             case HISTORICAL_SCHEDULE_TICK:
                 return (T) m_historicalScheduleHandler.handleHistoricalScheduleTickRequest(requestStr);
                 
+            // user info
+            case REQ_USER_INFO:
+                return (T) m_miscHandler.handleUserInfoRequest();
+                
             // old-style
             case TIK:
                 return (T) m_oldMarketDataHandler.handleTickRequest(requestStr, false);
@@ -1376,4 +1380,11 @@ public class TwsService {
         m_historicalScheduleHandler.updateHistoricalScheduleRequestError(requestId, errorMsgStr);
     }
     
+    /* *****************************************************************************************************
+     *                                          User Info
+    /* *****************************************************************************************************/
+    /** Method updates user info */
+    public void updateUserInfo(String whiteBrandingId) {
+        m_miscHandler.updateUserInfo(whiteBrandingId);
+    }
 }

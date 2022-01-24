@@ -94,7 +94,7 @@ Module MainModule
         '*********************************
         '** Historical Data operations ***
         '*********************************
-        historicalDataRequests(client)
+        'historicalDataRequests(client)
 
         '************************
         '** Options Specifics ***
@@ -124,7 +124,7 @@ Module MainModule
         '*************************
         '** Account Management ***
         '*************************
-        'accountOperations(client)
+        accountOperations(client)
 
         '*********************
         '** Order handling ***
@@ -611,6 +611,11 @@ Module MainModule
         ''! [reqfamilycodes]
         client.reqFamilyCodes()
         ''! [reqfamilycodes]
+
+        Thread.Sleep(2000)
+        ''! [requserinfo]
+        client.reqUserInfo(0)
+        ''! [requserinfo]
 
     End Sub
 

@@ -120,5 +120,6 @@ namespace IBApi
         public const int SIZE_RULES = 164;
         public const int HISTORICAL_SCHEDULE = 165;
         public const int ADVANCED_ORDER_REJECT = 166;
+        public const int USER_INFO = 167;
     }
 }

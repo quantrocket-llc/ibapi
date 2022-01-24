@@ -3655,3 +3655,20 @@ class EClient(object):
             + make_field(reqId)
 
         self.sendMsg(msg)
+
+    def reqUserInfo(self, reqId: int):
+
+        self.logRequest(current_fn_name(), vars())
+
+        if not self.isConnected():
+            self.wrapper.error(NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg())
+            return
+
+        if self.serverVersion() < MIN_SERVER_VER_USER_INFO:
+            self.wrapper.error(NO_VALID_ID, UPDATE_TWS.code(), UPDATE_TWS.msg() + " It does not support user info requests.")
+            return
+
+        msg = make_field(OUT.REQ_USER_INFO) \
+            + make_field(reqId)
+
+        self.sendMsg(msg)        

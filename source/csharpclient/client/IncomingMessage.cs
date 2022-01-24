@@ -87,5 +87,6 @@ namespace IBApi
         public const int WshMetaData = 104;
         public const int WshEventData = 105;
         public const int HistoricalSchedule = 106;
+        public const int UserInfo = 107;
     }
 }

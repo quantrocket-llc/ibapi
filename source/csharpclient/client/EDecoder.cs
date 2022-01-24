@@ -402,6 +402,10 @@ namespace IBApi
                     ProcessHistoricalScheduleEvent();
                     break;
 
+                case IncomingMessage.UserInfo:
+                    ProcessUserInfoEvent();
+                    break;
+
                 default:
                     eWrapper.error(IncomingMessage.NotValid, EClientErrors.UNKNOWN_ID.Code, EClientErrors.UNKNOWN_ID.Message, "");
                     return false;
@@ -2090,6 +2094,14 @@ namespace IBApi
             }
 
             eWrapper.historicalSchedule(reqId, startDateTime, endDateTime, timeZone, sessions);
+        }
+
+        private void ProcessUserInfoEvent()
+        {
+            int reqId = ReadInt();
+            string whiteBrandingId = ReadString();
+
+            eWrapper.userInfo(reqId, whiteBrandingId);
         }
 
         public double ReadDouble()

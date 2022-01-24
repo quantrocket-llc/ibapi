@@ -3695,6 +3695,26 @@ void EClient::cancelWshEventData(int reqId) {
     closeAndSend(msg.str());
 }
 
+void EClient::reqUserInfo(int reqId) {
+    if (!isConnected()) {
+        m_pEWrapper->error(NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg(), "");
+        return;
+    }
+
+    if (m_serverVersion < MIN_SERVER_VER_USER_INFO) {
+        m_pEWrapper->error(NO_VALID_ID, UPDATE_TWS.code(), UPDATE_TWS.msg() + "  It does not support user info requests.", "");
+        return;
+    }
+
+    std::stringstream msg;
+    prepareBuffer(msg);
+
+    ENCODE_FIELD(REQ_USER_INFO)
+        ENCODE_FIELD(reqId)
+
+        closeAndSend(msg.str());
+}
+
 bool EClient::extraAuth() {
     return m_extraAuth;
 }

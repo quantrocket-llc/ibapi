@@ -460,4 +460,9 @@ public class Test implements EWrapper {
     public void historicalSchedule(int reqId, String startDateTime, String endDateTime, String timeZone, List<HistoricalSession> sessions) {
         System.out.println(EWrapperMsgGenerator.historicalSchedule(reqId, startDateTime, endDateTime, timeZone, sessions));
     }
+    
+    @Override
+    public void userInfo(int reqId, String whiteBrandingId) {
+        System.out.println(EWrapperMsgGenerator.userInfo(reqId, whiteBrandingId));
+    }
 }

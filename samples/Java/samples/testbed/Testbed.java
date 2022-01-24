@@ -57,8 +57,8 @@ public class Testbed {
 		//fundamentals(wrapper.getClient());
 		//marketScanners(wrapper.getClient());
 		//marketDataType(wrapper.getClient());
-		historicalDataRequests(wrapper.getClient());
-		//accountOperations(wrapper.getClient());
+		//historicalDataRequests(wrapper.getClient());
+		accountOperations(wrapper.getClient());
 		//newsOperations(wrapper.getClient());
 		//marketDepthOperations(wrapper.getClient());
 		//rerouteCFDOperations(wrapper.getClient());
@@ -468,6 +468,11 @@ public class Testbed {
 		//! [cancelpositions]
 		client.cancelPositions();
 		//! [cancelpositions]
+		
+        /*** Requesting user info. ***/
+        //! [requserinfo]
+        client.reqUserInfo(0);
+        //! [requserinfo]
     }
 
 	private static void newsOperations(EClientSocket client) throws InterruptedException {

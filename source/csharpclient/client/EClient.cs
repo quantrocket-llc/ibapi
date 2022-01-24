@@ -3498,6 +3498,36 @@ namespace IBApi
             CloseAndSend(paramsList, lengthPos, EClientErrors.FAIL_SEND_CAN_WSH_EVENT_DATA);
         }
 
+        /**
+        * @brief Requests user info
+        * @param reqId
+        */
+
+        public void reqUserInfo(int reqId)
+        {
+            if (!CheckConnection())
+                return;
+
+            if (!CheckServerVersion(MinServerVer.USER_INFO, " It does not support user info requests."))
+                return;
+
+            var paramsList = new BinaryWriter(new MemoryStream());
+            var lengthPos = prepareBuffer(paramsList);
+
+            try
+            {
+                paramsList.AddParameter(OutgoingMessages.ReqUserInfo);
+                paramsList.AddParameter(reqId);
+            }
+            catch (EClientException e)
+            {
+                wrapper.error(reqId, e.Err.Code, e.Err.Message + e.Text, "");
+                return;
+            }
+
+            CloseAndSend(reqId, paramsList, lengthPos, EClientErrors.FAIL_SEND_REQ_USER_INFO);
+        }
+
         protected bool CheckServerVersion(int requiredVersion)
         {
             return CheckServerVersion(requiredVersion, "");

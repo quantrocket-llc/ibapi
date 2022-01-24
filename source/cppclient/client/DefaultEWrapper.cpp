@@ -105,3 +105,4 @@ void DefaultEWrapper::replaceFAEnd(int reqId, const std::string& text) { }
 void DefaultEWrapper::wshMetaData(int reqId, const std::string& dataJson) { }
 void DefaultEWrapper::wshEventData(int reqId, const std::string& dataJson) { }
 void DefaultEWrapper::historicalSchedule(int reqId, const std::string& startDateTime, const std::string& endDateTime, const std::string& timeZone, const std::vector<HistoricalSession>& sessions) { }
+void DefaultEWrapper::userInfo(int reqId, const std::string& whiteBrandingId) { }

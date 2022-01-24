@@ -256,12 +256,12 @@ class TestApp(TestWrapper, TestClient):
             print("Executing requests")
             #self.reqGlobalCancel()
             #self.marketDataTypeOperations()
-            #self.accountOperations_req()
+            self.accountOperations_req()
             #self.tickDataOperations_req()
             #self.tickOptionComputations_req()
             #self.marketDepthOperations_req()
             #self.realTimeBarsOperations_req()
-            self.historicalDataOperations_req()
+            #self.historicalDataOperations_req()
             #self.optionsOperations_req()
             #self.marketScannersOperations_req()
             #self.fundamentalsOperations_req()
@@ -419,6 +419,10 @@ class TestApp(TestWrapper, TestClient):
         # ! [reqpositionsmulti]
         self.reqPositionsMulti(9006, self.account, "")
         # ! [reqpositionsmulti]
+
+        # ! [requserinfo]
+        self.reqUserInfo(0)
+        # ! [requserinfo]
 
     @printWhenExecuting
     def accountOperations_cancel(self):
@@ -1972,6 +1976,13 @@ class TestApp(TestWrapper, TestClient):
         for session in sessions:
             print("\tSession. Start:", session.startDateTime, "End:", session.endDateTime, "Ref Date:", session.refDate)
     # ! [historicalschedule]
+
+    @iswrapper
+    # ! [userinfo]
+    def userInfo(self, reqId: int, whiteBrandingId: str):
+        super().userInfo(reqId, whiteBrandingId)
+        print("UserInfo.", "ReqId:", reqId, "WhiteBrandingId:", whiteBrandingId)
+    # ! [userinfo]
 
 def main():
     SetupLogger()

@@ -948,4 +948,10 @@ public class EWrapperImpl implements EWrapper {
                 "] TimeZone [" + timeZone + "]");
         m_twsService.updateHistoricalSchedule(reqId, startDateTime, endDateTime, timeZone, sessions);
     }
+    
+    @Override
+    public void userInfo(int reqId, String whiteBrandingId) {
+        System.out.println("userInfo WhiteBrandingId [" + whiteBrandingId + "]");
+        m_twsService.updateUserInfo(whiteBrandingId);
+    }
 }

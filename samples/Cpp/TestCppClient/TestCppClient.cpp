@@ -775,6 +775,10 @@ void TestCppClient::accountOperations()
 	m_pClient->reqPositionsMulti(9003, "U150462", "EUstocks");
 	//! [reqpositionsmulti]
 
+    //! [userinfo]
+    m_pClient->reqUserInfo(0);
+    //! [userinfo]
+
 	m_state = ST_ACCOUNTOPERATIONS_ACK;
 }
 
@@ -1438,12 +1442,12 @@ void TestCppClient::nextValidId( OrderId orderId)
 	//m_state = ST_MARKETDEPTHOPERATION;
 	//m_state = ST_REALTIMEBARS;
 	//m_state = ST_MARKETDATATYPE;
-	m_state = ST_HISTORICALDATAREQUESTS;
+	//m_state = ST_HISTORICALDATAREQUESTS;
 	//m_state = ST_CONTRACTOPERATION;
 	//m_state = ST_MARKETSCANNERS;
 	//m_state = ST_FUNDAMENTALS;
 	//m_state = ST_BULLETINS;
-	//m_state = ST_ACCOUNTOPERATIONS;
+	m_state = ST_ACCOUNTOPERATIONS;
 	//m_state = ST_ORDEROPERATIONS;
 	//m_state = ST_OCASAMPLES;
 	//m_state = ST_CONDITIONSAMPLES;
@@ -2210,3 +2214,9 @@ void TestCppClient::historicalSchedule(int reqId, const std::string& startDateTi
 	}
 }
 //! [historicalSchedule]
+
+//! [userInfo]
+void TestCppClient::userInfo(int reqId, const std::string& whiteBrandingId) {
+    printf("User Info. ReqId: %d, WhiteBrandingId: %s\n", reqId, whiteBrandingId.c_str());
+}
+//! [userInfo]

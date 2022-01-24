@@ -378,5 +378,9 @@ namespace IBApi
         public void historicalSchedule(int reqId, string startDateTime, string endDateTime, string timeZone, HistoricalSession[] sessions)
         {
         }
+
+        public void userInfo(int reqId, string whiteBrandingId)
+        {
+        }
     }
 }

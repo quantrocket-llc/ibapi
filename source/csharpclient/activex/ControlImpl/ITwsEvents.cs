@@ -213,5 +213,7 @@ namespace TWSLib
         void historicalSchedule(int reqId, string startDateTime, string endDateTime, string timeZone, IHistoricalSessionList sessions);
         [DispId(157)]
         void errMsg(int id, int errorCode, string errorMsg, string advancedOrderRejectJson);
+        [DispId(158)]
+        void userInfo(int reqId, string whiteBrandingId);
     }
 }

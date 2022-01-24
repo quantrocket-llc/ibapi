@@ -575,4 +575,10 @@ public class SimpleWrapper implements EWrapper {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	@Override
+	public void userInfo(int reqId, String whiteBrandingId) {
+		// TODO Auto-generated method stub
+		
+	}
 }

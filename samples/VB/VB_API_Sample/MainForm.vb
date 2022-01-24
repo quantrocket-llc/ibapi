@@ -121,6 +121,7 @@ Friend Class MainForm
     Friend WithEvents Button2 As Button
     Public WithEvents Button3 As Button
     Friend WithEvents Button4 As Button
+    Friend WithEvents cmdReqUserInfo As Button
     Public WithEvents cmdScanner As System.Windows.Forms.Button
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.cmdReqHistoricalData = New System.Windows.Forms.Button()
@@ -200,6 +201,7 @@ Friend Class MainForm
         Me.Button2 = New System.Windows.Forms.Button()
         Me.Button3 = New System.Windows.Forms.Button()
         Me.Button4 = New System.Windows.Forms.Button()
+        Me.cmdReqUserInfo = New System.Windows.Forms.Button()
         Me.SuspendLayout()
         '
         'cmdReqHistoricalData
@@ -1092,11 +1094,21 @@ Friend Class MainForm
         Me.Button4.Text = "Req WSH Meta Data..."
         Me.Button4.UseVisualStyleBackColor = True
         '
+        'cmdReqUserInfo
+        '
+        Me.cmdReqUserInfo.Location = New System.Drawing.Point(1009, 439)
+        Me.cmdReqUserInfo.Name = "cmdReqUserInfo"
+        Me.cmdReqUserInfo.Size = New System.Drawing.Size(133, 22)
+        Me.cmdReqUserInfo.TabIndex = 77
+        Me.cmdReqUserInfo.Text = "Req User Info"
+        Me.cmdReqUserInfo.UseVisualStyleBackColor = True
+        '
         'MainForm
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
         Me.BackColor = System.Drawing.Color.Gainsboro
         Me.ClientSize = New System.Drawing.Size(1154, 638)
+        Me.Controls.Add(Me.cmdReqUserInfo)
         Me.Controls.Add(Me.Button1)
         Me.Controls.Add(Me.Button2)
         Me.Controls.Add(Me.Button3)
@@ -3309,6 +3321,10 @@ Friend Class MainForm
         Next
     End Sub
 
+    Private Sub m_apiEvents_UserInfo(sender As Object, e As UserInfoEventArgs) Handles m_apiEvents.UserInfo
+        m_utils.addListItem(Utils.ListType.ServerResponses, $"User Info. Request Id: {e.reqId}, WhiteBrandingId: {e.whiteBrandingId}")
+    End Sub
+
 #End Region
 
 #Region "Helper methods"
@@ -3493,6 +3509,10 @@ Friend Class MainForm
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         m_api.cancelWshEventData(m_dlgWsh.ReqId)
+    End Sub
+
+    Private Sub cmdReqUserInfo_Click(sender As Object, e As EventArgs) Handles cmdReqUserInfo.Click
+        m_api.reqUserInfo(0)
     End Sub
 
     Private Sub appendOrderFields(contract As Contract, order As Order, orderState As OrderState)

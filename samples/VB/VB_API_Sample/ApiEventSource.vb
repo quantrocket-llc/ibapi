@@ -883,6 +883,16 @@ Friend Class ApiEventSource
                                                               })
                          End Sub)
     End Sub
+
+    Private Sub EWrapper_userInfo(reqId As Integer, whiteBrandingId As String) Implements EWrapper.userInfo
+        InvokeIfRequired(Sub()
+                             RaiseEvent UserInfo(Me, New UserInfoEventArgs With {
+                                                              .reqId = reqId,
+                                                              .whiteBrandingId = whiteBrandingId
+                                                              })
+                         End Sub)
+    End Sub
+
 #End Region
 
 #Region "Event declarations"
@@ -971,6 +981,7 @@ Friend Class ApiEventSource
     Event WshMetaData(sender As Object, e As WshMetaDataEventArgs)
     Event WshEventData(sender As Object, e As WshEventDataEventArgs)
     Event HistoricalSchedule(sender As Object, e As HistoricalScheduleEventArgs)
+    Event UserInfo(sender As Object, e As UserInfoEventArgs)
 
 
 

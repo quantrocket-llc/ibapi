@@ -85,7 +85,7 @@ namespace Samples
             /**********************************/
             /*** Historical Data operations ***/
             /**********************************/
-            historicalDataRequests(client);
+            //historicalDataRequests(client);
 
             /*************************/
             /*** Options Specifics ***/
@@ -115,7 +115,7 @@ namespace Samples
             /**************************/
             /*** Account Management ***/
             /**************************/
-            //accountOperations(client);
+            accountOperations(client);
 
             /**********************/
             /*** Order handling ***/
@@ -687,6 +687,11 @@ namespace Samples
             //! [reqfamilycodes]
             client.reqFamilyCodes();
             //! [reqfamilycodes]
+
+            //! [requserinfo]
+            client.reqUserInfo(0);
+            //! [requserinfo]
+
         }
 
         private static void orderOperations(EClientSocket client, int nextOrderId)

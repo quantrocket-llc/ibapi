@@ -553,4 +553,10 @@ Private Sub m_Tws_historicalSchedule(ByVal reqId As Long, ByVal startDateTime As
     HistoricalData.UpdateHistoricalSchedule reqId, startDateTime, endDateTime, timeZone, sessions
 End Sub
 
-
+'-----------------------------
+' user info
+'-----------------------------
+Private Sub m_Tws_userInfo(ByVal reqId As Long, ByVal whiteBrandingId As String)
+    On Error Resume Next
+    Account.UserInfo reqId, whiteBrandingId
+End Sub

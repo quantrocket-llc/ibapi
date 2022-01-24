@@ -728,3 +728,7 @@ class EWrapper:
     def historicalSchedule(self, reqId: int, startDateTime: str, endDateTime: str, timeZone: str, sessions: ListOfHistoricalSessions):
         """returns historical schedule for historical data request with whatToShow=SCHEDULE"""
         self.logAnswer(current_fn_name(), vars())
+
+    def userInfo(self, reqId: int, whiteBrandingId: str):
+        """returns user info"""
+        self.logAnswer(current_fn_name(), vars())

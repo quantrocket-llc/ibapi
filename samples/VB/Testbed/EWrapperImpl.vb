@@ -773,6 +773,12 @@ Namespace Samples
         End Sub
         '! [historicalSchedule]
 
+        '! [userInfo]
+        Public Sub userInfo(reqId As Integer, whiteBrandingId As String) Implements EWrapper.userInfo
+            Console.WriteLine($"User Info. ReqId: {reqId}, WhiteBrandingId: {whiteBrandingId}")
+        End Sub
+        '! [userInfo]
+
     End Class
 
 End Namespace

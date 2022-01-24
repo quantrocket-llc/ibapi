@@ -133,6 +133,7 @@
     <Compile Include="dlgPnL.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="EventArgs\UserInfoEventArgs.vb" />
     <Compile Include="EventArgs\HistoricalScheduleEventArgs.vb" />
     <Compile Include="EventArgs\ReplaceFAEndEventArgs.vb" />
     <Compile Include="EventArgs\OrderBoundEventArgs.vb" />

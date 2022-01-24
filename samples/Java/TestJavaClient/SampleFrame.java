@@ -270,6 +270,8 @@ class SampleFrame extends JFrame implements EWrapper {
         butReqWshEventData.addActionListener(e -> onReqWshEventData());
         JButton butCancelWshEventData = new JButton("Cancel WSH Event Data");
         butCancelWshEventData.addActionListener(e -> onCancelWshEventData());
+        JButton butReqUserInfo = new JButton("Req User Info");
+        butReqUserInfo.addActionListener(e -> onReqUserInfo());
 
         JButton butClear = new JButton( "Clear");
         butClear.addActionListener(e -> onClear());
@@ -331,7 +333,7 @@ class SampleFrame extends JFrame implements EWrapper {
         buttonPanel.add(butReqMarketRule);
         pairSlot.add(butReqPnL, butCancelPnL);
         pairSlot.add(butReqPnLSingle, butCancelPnLSingle);
-        buttonPanel.add(butReqHistoricalTicks);
+        pairSlot.add(butReqHistoricalTicks, butReqUserInfo);
         pairSlot.add(butReqTickByTickData, butCancelTickByTickData);
         pairSlot.add(butReqCompletedOrders, butReqAllCompletedOrders);
         pairSlot.add(butReqWshMetaData, butCancelWshMetaData);
@@ -369,6 +371,10 @@ class SampleFrame extends JFrame implements EWrapper {
         }
 
         m_client.reqWshMetaData(m_wshMetaDlg.m_reqId);
+    }
+
+    private void onReqUserInfo() {
+        m_client.reqUserInfo(0);
     }
 
     class BtnPairSlot {
@@ -1868,6 +1874,12 @@ class SampleFrame extends JFrame implements EWrapper {
     @Override
     public void historicalSchedule(int reqId, String startDateTime, String endDateTime, String timeZone, List<HistoricalSession> sessions) {
         String msg = EWrapperMsgGenerator.historicalSchedule(reqId, startDateTime, endDateTime, timeZone, sessions);
+        m_TWS.add(msg);
+    }
+    
+    @Override
+    public void userInfo(int reqId, String whiteBrandingId) {
+        String msg = EWrapperMsgGenerator.userInfo(reqId, whiteBrandingId);
         m_TWS.add(msg);
     }
 }

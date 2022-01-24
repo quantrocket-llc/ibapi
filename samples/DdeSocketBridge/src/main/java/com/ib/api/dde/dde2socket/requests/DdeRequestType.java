@@ -245,6 +245,9 @@ public enum DdeRequestType {
     CANCEL_HISTORICAL_SCHEDULE("cancelHistoricalSchedule"),
     HISTORICAL_SCHEDULE_TICK("historicalScheduleTick"),
     HISTORICAL_SCHEDULE("historicalSchedule"),
+    
+    // user info
+    REQ_USER_INFO("reqUserInfo"),
 
     // other old-style requests (not supported anymore)
     PROCESS_RATE("processRate"),

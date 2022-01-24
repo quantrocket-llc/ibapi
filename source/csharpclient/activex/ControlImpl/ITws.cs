@@ -381,6 +381,8 @@ namespace TWSLib
         void cancelWshMetaData(int reqId);
         [DispId(238)]
         void cancelWshEventData(int reqId);
+        [DispId(239)]
+        void reqUserInfo(int reqId);
         #endregion
     }
 }

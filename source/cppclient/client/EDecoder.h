@@ -124,12 +124,13 @@ const int MIN_SERVER_VER_FRACTIONAL_SIZE_SUPPORT    = 163;
 const int MIN_SERVER_VER_SIZE_RULES                 = 164;
 const int MIN_SERVER_VER_HISTORICAL_SCHEDULE        = 165;
 const int MIN_SERVER_VER_ADVANCED_ORDER_REJECT      = 166;
+const int MIN_SERVER_VER_USER_INFO                  = 167;
 
 /* 100+ messaging */
 // 100 = enhanced handshake, msg length prefixes
 
 const int MIN_CLIENT_VER = 100;
-const int MAX_CLIENT_VER = MIN_SERVER_VER_ADVANCED_ORDER_REJECT;
+const int MAX_CLIENT_VER = MIN_SERVER_VER_USER_INFO;
 
 
 // incoming msg id's
@@ -214,6 +215,7 @@ const int REPLACE_FA_END                            = 103;
 const int WSH_META_DATA                             = 104;
 const int WSH_EVENT_DATA                            = 105;
 const int HISTORICAL_SCHEDULE                       = 106;
+const int USER_INFO                                 = 107;
 
 
 const int HEADER_LEN = 4; // 4 bytes for msg length
@@ -337,6 +339,7 @@ class TWSAPIDLLEXP EDecoder
     const char* processWshMetaData(const char* ptr, const char* endPtr);
     const char* processWshEventData(const char* ptr, const char* endPtr);
     const char* processHistoricalSchedule(const char* ptr, const char* endPtr);
+    const char* processUserInfo(const char* ptr, const char* endPtr);
 
 
     int processConnectAck(const char*& beginPtr, const char* endPtr);

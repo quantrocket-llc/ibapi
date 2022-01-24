@@ -58,6 +58,7 @@ public class AccountInfoPanel extends JPanel implements INewTab, IAccountHandler
 		tabbedPanel.addTab( "Market Value Summary", new MarketValueSummaryPanel() );
 		tabbedPanel.addTab( "Positions (all accounts)", new PositionsPanel() );
 		tabbedPanel.addTab( "Family Codes", new FamilyCodesPanel() );
+		tabbedPanel.addTab( "User Info", new UserInfoPanel() );
 		
 		setLayout( new BorderLayout() );
 		add( acctScroll, BorderLayout.NORTH);

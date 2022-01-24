@@ -1251,6 +1251,13 @@ class Decoder(Object):
 
         self.wrapper.historicalSchedule(reqId, startDateTime, endDateTime, timeZone, sessions)
 
+    def processUserInfo(self, fields):
+        next(fields)
+        reqId = decode(int, fields)
+        whiteBrandingId = decode(str, fields)
+
+        self.wrapper.userInfo(reqId, whiteBrandingId)
+
     def processErrorMsg(self, fields):
         next(fields)
         decode(int, fields)
@@ -1456,7 +1463,8 @@ class Decoder(Object):
         IN.REPLACE_FA_END: HandleInfo(proc=processReplaceFAEndMsg),
         IN.WSH_META_DATA: HandleInfo(proc=processWshMetaDataMsg),
         IN.WSH_EVENT_DATA: HandleInfo(proc=processWshEventDataMsg),
-        IN.HISTORICAL_SCHEDULE: HandleInfo(proc=processHistoricalSchedule)
+        IN.HISTORICAL_SCHEDULE: HandleInfo(proc=processHistoricalSchedule),
+        IN.USER_INFO: HandleInfo(proc=processUserInfo)
 }
 
 

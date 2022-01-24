@@ -2205,6 +2205,18 @@ const char* EDecoder::processHistoricalSchedule(const char* ptr, const char* end
 	return ptr;
 }
 
+const char* EDecoder::processUserInfo(const char* ptr, const char* endPtr) {
+    int reqId;
+    std::string whiteBrandingId;
+
+    DECODE_FIELD(reqId);
+    DECODE_FIELD(whiteBrandingId);
+
+    m_pEWrapper->userInfo(reqId, whiteBrandingId);
+
+    return ptr;
+}
+
 int EDecoder::parseAndProcessMsg(const char*& beginPtr, const char* endPtr) {
 	// process a single message from the buffer;
 	// return number of bytes consumed
@@ -2545,6 +2557,10 @@ int EDecoder::parseAndProcessMsg(const char*& beginPtr, const char* endPtr) {
 		case HISTORICAL_SCHEDULE:
 			ptr = processHistoricalSchedule(ptr, endPtr);
 			break;
+
+        case USER_INFO:
+            ptr = processUserInfo(ptr, endPtr);
+            break;
 
 		default:
 			{

@@ -730,6 +730,7 @@ namespace IBSampleApp
             this.label22 = new System.Windows.Forms.Label();
             this.button6 = new System.Windows.Forms.Button();
             this.dataGridViewWsh = new System.Windows.Forms.DataGridView();
+            this.reqUserInfo = new System.Windows.Forms.Button();
             this.comboTab.SuspendLayout();
             this.comboDeltaNeutralBox.SuspendLayout();
             this.comboLegsBox.SuspendLayout();
@@ -4007,6 +4008,7 @@ namespace IBSampleApp
             // accountInfoTab
             // 
             this.accountInfoTab.BackColor = System.Drawing.Color.LightGray;
+            this.accountInfoTab.Controls.Add(this.reqUserInfo);
             this.accountInfoTab.Controls.Add(this.tabControl1);
             this.accountInfoTab.Controls.Add(this.accountSelectorLabel);
             this.accountInfoTab.Controls.Add(this.accountSelector);
@@ -7568,6 +7570,16 @@ namespace IBSampleApp
             this.dataGridViewWsh.Size = new System.Drawing.Size(593, 442);
             this.dataGridViewWsh.TabIndex = 9;
             // 
+            // reqUserInfo
+            // 
+            this.reqUserInfo.Location = new System.Drawing.Point(251, 3);
+            this.reqUserInfo.Name = "reqUserInfo";
+            this.reqUserInfo.Size = new System.Drawing.Size(75, 23);
+            this.reqUserInfo.TabIndex = 2;
+            this.reqUserInfo.Text = "User Info";
+            this.reqUserInfo.UseVisualStyleBackColor = true;
+            this.reqUserInfo.Click += new System.EventHandler(this.reqUserInfo_Click);
+            // 
             // IBSampleAppDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -8465,6 +8477,7 @@ namespace IBSampleApp
         private System.Windows.Forms.LinkLabel linkLabelClearHistoricalSchedule;
         private System.Windows.Forms.Label labelHistoricalSchedule;
         private System.Windows.Forms.TextBox historicalScheduleOutput;
+        private System.Windows.Forms.Button reqUserInfo;
     }
 }
 

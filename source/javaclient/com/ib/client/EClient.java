@@ -198,6 +198,7 @@ public abstract class EClient {
     private static final int CANCEL_WSH_META_DATA = 101;
     private static final int REQ_WSH_EVENT_DATA = 102;
     private static final int CANCEL_WSH_EVENT_DATA = 103;
+    private static final int REQ_USER_INFO = 104;
 
 	private static final int MIN_SERVER_VER_REAL_TIME_BARS = 34;
 	private static final int MIN_SERVER_VER_SCALE_ORDERS = 35;
@@ -307,9 +308,10 @@ public abstract class EClient {
     protected static final int MIN_SERVER_VER_SIZE_RULES = 164;
     protected static final int MIN_SERVER_VER_HISTORICAL_SCHEDULE = 165;
     protected static final int MIN_SERVER_VER_ADVANCED_ORDER_REJECT = 166;
+    protected static final int MIN_SERVER_VER_USER_INFO = 167;
     
     public static final int MIN_VERSION = 100; // envelope encoding, applicable to useV100Plus mode only
-    public static final int MAX_VERSION = MIN_SERVER_VER_ADVANCED_ORDER_REJECT; // ditto
+    public static final int MAX_VERSION = MIN_SERVER_VER_USER_INFO; // ditto
 
     protected EReaderSignal m_signal;
     protected EWrapper m_eWrapper;    // msg handler
@@ -4110,6 +4112,33 @@ public abstract class EClient {
             close();
         }   	
     }
+    
+    public synchronized void reqUserInfo(int reqId) {
+
+        // not connected?
+        if( !isConnected()) {
+            notConnected();
+            return;
+        }
+
+        if (m_serverVersion < MIN_SERVER_VER_USER_INFO) {
+            error(reqId, EClientErrors.UPDATE_TWS, " It does not support user info requests.");
+            return;
+        }
+
+        try {
+            Builder b = prepareBuffer(); 
+
+            b.send(REQ_USER_INFO);
+            b.send(reqId);
+
+            closeAndSend(b);
+        }
+        catch( Exception e) {
+            error(reqId, EClientErrors.FAIL_SEND_REQUSERINFO, e.toString());
+            close();
+        }
+    }    
     
     /**
      * @deprecated This method is never called.

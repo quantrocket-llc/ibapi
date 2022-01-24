@@ -108,5 +108,6 @@ virtual void replaceFAEnd(int reqId, const std::string& text) EWRAPPER_VIRTUAL_I
 virtual void wshMetaData(int reqId, const std::string& dataJson) EWRAPPER_VIRTUAL_IMPL;
 virtual void wshEventData(int reqId, const std::string& dataJson) EWRAPPER_VIRTUAL_IMPL;
 virtual void historicalSchedule(int reqId, const std::string& startDateTime, const std::string& endDateTime, const std::string& timeZone, const std::vector<HistoricalSession>& sessions) EWRAPPER_VIRTUAL_IMPL;
+virtual void userInfo(int reqId, const std::string& whiteBrandingId) EWRAPPER_VIRTUAL_IMPL;
 
 #undef EWRAPPER_VIRTUAL_IMPL

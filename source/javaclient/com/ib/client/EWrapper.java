@@ -110,5 +110,6 @@ public interface EWrapper {
 	void wshMetaData(int reqId, String dataJson);
 	void wshEventData(int reqId, String dataJson);
     void historicalSchedule(int reqId, String startDateTime, String endDateTime, String timeZone, List<HistoricalSession> sessions);
+    void userInfo(int reqId, String whiteBrandingId);
 }
 

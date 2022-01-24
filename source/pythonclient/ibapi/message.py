@@ -98,6 +98,7 @@ class IN:
     WSH_META_DATA             = 104
     WSH_EVENT_DATA            = 105
     HISTORICAL_SCHEDULE       = 106
+    USER_INFO                 = 107
 
 # outgoing msg id's
 class OUT:
@@ -180,3 +181,4 @@ class OUT:
     CANCEL_WSH_META_DATA          = 101
     REQ_WSH_EVENT_DATA            = 102
     CANCEL_WSH_EVENT_DATA         = 103
+    REQ_USER_INFO                 = 104

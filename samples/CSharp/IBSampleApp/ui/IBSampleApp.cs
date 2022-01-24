@@ -245,6 +245,7 @@ namespace IBSampleApp
             ibClient.WshEventData += (reqId, dataJson) => wshEventDataTable.Rows.Add(reqId, dataJson);
             ibClient.HistoricalSchedule += UpdateUI;
             //ibClient.CompletedOrderEnd += (do nothing)
+            ibClient.UserInfo += whiteBrandingId => ShowMessageOnPanel("User Info. White Branding Id: " + whiteBrandingId);
         }
 
         private void UpdateUi(string xml)
@@ -1424,6 +1425,14 @@ namespace IBSampleApp
                 historicalDataManager.AddRequest(contract, endTime, duration, "1 day", "SCHEDULE", outsideRTH, 1, false);
                 labelHistoricalSchedule.Text = $"Historical Schedule: {Utils.ContractToString(contract)}";
                 ShowTab(marketData_MDT, tabHistoricalSchedule);
+            }
+        }
+
+        private void reqUserInfo_Click(object sender, EventArgs e)
+        {
+            if (IsConnected)
+            {
+                ibClient.ClientSocket.reqUserInfo(0);
             }
         }
 

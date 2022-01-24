@@ -650,4 +650,11 @@ public class EWrapperImpl implements EWrapper {
         System.out.println(EWrapperMsgGenerator.historicalSchedule(reqId, startDateTime, endDateTime, timeZone, sessions));
     }
     //! [historicalSchedule]
+    
+    //! [userInfo]
+    @Override
+    public void userInfo(int reqId, String whiteBrandingId) {
+        System.out.println(EWrapperMsgGenerator.userInfo(reqId, whiteBrandingId));
+    }
+    //! [userInfo]
 }

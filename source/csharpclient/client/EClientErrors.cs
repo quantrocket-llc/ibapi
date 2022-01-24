@@ -96,6 +96,7 @@ namespace IBApi
         public static readonly CodeMsgPair FAIL_SEND_CAN_WSH_META_DATA = new CodeMsgPair(581, "Cancel WSH Meta Data Sending Error - ");
         public static readonly CodeMsgPair FAIL_SEND_REQ_WSH_EVENT_DATA = new CodeMsgPair(582, "Request WSH Event Data Sending Error - ");
         public static readonly CodeMsgPair FAIL_SEND_CAN_WSH_EVENT_DATA = new CodeMsgPair(583, "Cancel WSH Event Data Sending Error - ");
+        public static readonly CodeMsgPair FAIL_SEND_REQ_USER_INFO = new CodeMsgPair(584, "Request User Info Sending Error - ");
 
 
         public static readonly CodeMsgPair FAIL_GENERIC = new CodeMsgPair(-1, "Specific error message needs to be given for these requests! ");

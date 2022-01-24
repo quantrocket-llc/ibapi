@@ -1077,6 +1077,11 @@ namespace TWSLib
             this.socket.cancelWshEventData(reqId);
         }
 
+        void ITws.reqUserInfo(int reqId)
+        {
+            this.socket.reqUserInfo(reqId);
+        }
+
         #endregion
 
         #region events
@@ -2215,6 +2220,15 @@ namespace TWSLib
                 sc.Post(state => tmp(reqId, startDateTime, endDateTime, timeZone, sessions.Length > 0 ? new ComHistoricalSessionList(sessions) : null), null);
         }
 
+        public delegate void userInfoDelegate(int reqId, string whiteBrandingId);
+        public event userInfoDelegate userInfo;
+        void EWrapper.userInfo(int reqId, string whiteBrandingId)
+        {
+            var tmp = this.userInfo;
+
+            if (tmp != null)
+                sc.Post(state => tmp(reqId, whiteBrandingId), null);
+        }
 
         #endregion
 

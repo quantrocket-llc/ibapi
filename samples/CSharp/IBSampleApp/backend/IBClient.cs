@@ -1004,5 +1004,12 @@ namespace IBSampleApp
                 sc.Post(t => tmp(new HistoricalScheduleMessage(reqId, startDateTime, endDateTime, timeZone, sessions)), null);
         }
 
+        public event Action<string> UserInfo;
+        void EWrapper.userInfo(int reqId, string whiteBrandingId)
+        {
+            var tmp = UserInfo;
+            if (tmp != null)
+                sc.Post(t => tmp(whiteBrandingId), null);
+        }
     }
 }

@@ -83,6 +83,7 @@ namespace IBApi
         ReqWshMetaData = 100,
         CancelWshMetaData = 101,
         ReqWshEventData = 102,
-        CancelWshEventData = 103
+        CancelWshEventData = 103,
+        ReqUserInfo = 104
     }
 }

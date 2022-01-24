@@ -40,6 +40,7 @@ public class ApiController implements EWrapper {
 	private IScannerHandler m_scannerHandler;
 	private ITimeHandler m_timeHandler;
 	private IBulletinHandler m_bulletinHandler;
+	private IUserInfoHandler m_userInfoHandler;
 	private final Map<Integer,IInternalHandler> m_contractDetailsMap = new HashMap<>();
 	private final Map<Integer,IOptHandler> m_optionCompMap = new HashMap<>();
 	private final Map<Integer,IEfpHandler> m_efpMap = new HashMap<>();
@@ -2073,6 +2074,25 @@ public class ApiController implements EWrapper {
             handler.historicalSchedule(reqId, startDateTime, endDateTime, timeZone, sessions);
         }
 
+        recEOM();
+    }
+    
+    // ---------------------------------------- User Info handling ----------------------------------------
+    public interface IUserInfoHandler {
+        void userInfo(int reqId, String whiteBrandingId);
+    }
+
+    public void reqUserInfo(int reqId, IUserInfoHandler handler) {
+        if (!checkConnection())
+            return;
+
+        m_userInfoHandler = handler;
+        m_client.reqUserInfo(reqId);
+        sendEOM();
+    }
+
+    @Override public void userInfo(int reqId, String whiteBrandingId) {
+        m_userInfoHandler.userInfo(reqId, whiteBrandingId);
         recEOM();
     }
 }

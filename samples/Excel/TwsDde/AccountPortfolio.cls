@@ -18,6 +18,7 @@ Const STR_REQ_PORTFOLIO = "reqPortfolio"
 Const STR_CANCEL_ACCOUNT_PORTFOLIO = "cancelAccountPortfolio"
 Const STR_REQ_ACCOUNT_PORTFOLIO_ERROR = "reqAccountPortfolioError"
 Const STR_REQ_ACCOUNT_UPDATE_TIME = "reqAccountUpdateTime"
+Const STR_REQ_USER_INFO = "reqUserInfo"
 
 Const STR_EXERCISE_OPTIONS = "exerciseOptions"
 Const STR_EXERCISE_OPTIONS_TICK = "exerciseOptionsTick"
@@ -29,6 +30,7 @@ Const CELL_ACCOUNT = "A9" ' cell with account name
 Const CELL_SUBSCRIPTION_CONTROL = "D9" ' cell with subscription control
 Const CELL_ERROR = "F9" ' cell with error
 Const CELL_ACCOUNT_UPDATE_TIME = "H12" ' cell with account update time
+Const CELL_USER_INFO = "S9" ' cell with user info
 
 ' rows
 Const ACCOUNT_UPDATES_START_ROW = 14
@@ -248,6 +250,19 @@ Sub cancelAccountPortfolio(controlValue As String)
         End If
     End With
 End Sub
+
+' ========================================================
+' Request User Info
+' ========================================================
+Sub reqUserInfo()
+    With Worksheets(STR_SHEET_NAME)
+        Dim server As String
+        server = util.getServerVal(STR_SHEET_NAME, CELL_SERVER_NAME)
+        If server = util.STR_EMPTY Then Exit Sub
+        .Range(CELL_USER_INFO).Formula = util.composeLink(server, STR_REQ_USER_INFO, util.IDENTIFIER_ZERO, util.STR_EMPTY)
+    End With
+End Sub
+
 
 ' ========================================================
 ' Requests account + portfolio updates table/array
