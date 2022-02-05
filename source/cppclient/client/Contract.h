@@ -119,14 +119,14 @@ struct ContractDetails
 		, priceMagnifier(0)
 		, underConId(0)
 		, evMultiplier(0)
+		, minSize(UNSET_DECIMAL)
+		, sizeIncrement(UNSET_DECIMAL)
+		, suggestedSizeIncrement(UNSET_DECIMAL)
 		, callable(false)
 		, putable(false)
 		, coupon(0)
 		, convertible(false)
 		, nextOptionPartial(false)
-		, minSize(UNSET_DECIMAL)
-		, sizeIncrement(UNSET_DECIMAL)
-		, suggestedSizeIncrement(UNSET_DECIMAL)
 	{
 	}
 
