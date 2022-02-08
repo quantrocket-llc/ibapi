@@ -43,7 +43,7 @@
 		<tr><td>Auction Volume</td><td>34</td><td>The number of shares that would trade if no new orders were received and the auction were held now.</td><td>@ref IBApi::EWrapper::tickSize</td><td>225</td></tr>
 		<tr><td>Auction Price</td><td>35</td><td>The price at which the auction would occur if no new orders were received and the auction were held now- the indicative price for the auction. Typically received after Auction imbalance (tick type 36)</td><td>@ref IBApi::EWrapper::tickPrice</td><td>225</td></tr>
 		<tr><td>Auction Imbalance</td><td>36</td><td>The number of unmatched shares for the next auction; returns how many more shares are on one side of the auction than the other. Typically received after Auction Volume (tick type 34)</td><td>@ref IBApi::EWrapper::tickSize</td><td>225</td></tr>
-		<tr><td>Mark Price</td><td>37</td><td>The mark price is the current theoretical calculated value of an instrument. Since it is a calculated value, it will typically have many digits of precision.</td><td>@ref IBApi::EWrapper::tickPrice</td><td>221 or 232</td></tr>
+		<tr><td>Mark Price</td><td>37</td><td>The mark price is the current theoretical calculated value of an instrument. Since it is a calculated value, it will typically have many digits of precision.</td><td>@ref IBApi::EWrapper::tickPrice</td><td>232</td></tr>
 		<tr><td>Bid EFP Computation</td><td>38</td><td>Computed EFP bid price</td><td>@ref IBApi::EWrapper::tickEFP</td><td>-</td></tr>
 		<tr><td>Ask EFP Computation</td><td>39</td><td>Computed EFP ask price</td><td>@ref IBApi::EWrapper::tickEFP</td><td>-</td></tr>
 		<tr><td>Last EFP Computation</td><td>40</td><td>Computed EFP last price</td><td>@ref IBApi::EWrapper::tickEFP</td><td>-</td></tr>
@@ -53,7 +53,6 @@
 		<tr><td>Close EFP Computation</td><td>44</td><td>Computed closing EFP price for previous day</td><td>@ref IBApi::EWrapper::tickEFP</td><td>-</td></tr>
 		<tr><td>Last Timestamp</td><td>45</td><td>Time of the last trade (in UNIX time).</td><td>@ref IBApi::EWrapper::tickString</td><td>-</td></tr>
 		<tr><td>Shortable</td><td>46</td><td>Describes the level of difficulty with which the contract can be sold short. See @ref shortable</td><td>@ref IBApi::EWrapper::tickGeneric</td><td>236</td></tr>
-		<tr><td>Fundamental Ratios</td><td>47</td><td>Provides the available Fundamental Ratios. See \subpage fundamental_ratios_tags <br><br><i>Note: For some tags the value returned may be -99999.99. This indicates that data is not available for that tag for the company.</i><br><br>Also see \ref fundamentals for requesting other fundamental data type using @ref IBApi::EClient::reqFundamentalData.</td><td>@ref IBApi::EWrapper::tickString</td><td>258</td></tr>
 		<tr><td>RT Volume (Time & Sales)</td><td>48</td><td>Last trade details (Including both "Last" and "Unreportable Last" trades). See @ref rt_volume</td><td>@ref IBApi::EWrapper::tickString</td><td>233</td></tr>
 		<tr><td>Halted</td><td>49</td><td>Indicates if a contract is halted. See @ref halted</td><td>@ref IBApi::EWrapper::tickGeneric</td><td>-</td></tr>
 		<tr><td>Bid Yield</td><td>50</td><td>Implied yield of the bond if it is purchased at the current bid.</td><td>@ref IBApi::EWrapper::tickPrice</td><td>-</td></tr>
@@ -66,8 +65,8 @@
 		<tr><td>Last RTH Trade</td><td>57</td><td>Last Regular Trading Hours traded price.</td><td>@ref IBApi::EWrapper::tickPrice</td><td>318</td></tr>
 		<tr><td>RT Historical Volatility</td><td>58</td><td>30-day real time historical volatility.</td><td>@ref IBApi::EWrapper::tickGeneric</td><td>411</td></tr>
 		<tr><td>IB Dividends</td><td>59</td><td>Contract's dividends. See @ref ib_dividends.</td><td>@ref IBApi::EWrapper::tickString</td><td>456</td></tr>
-		<tr><td>Bond Factor Multiplier</td><td>60</td><td>Not currently implemented.</td><td></td><td>-</td></tr>
-		<tr><td>Regulatory Imbalance</td><td>61</td><td>The imbalance that is used to determine which at-the-open or at-the-close orders can be entered following the publishing of the regulatory imbalance.</td><td>@ref IBApi::EWrapper::tickSize</td><td>-</td></tr>
+		<tr><td>Bond Factor Multiplier</td><td>60</td><td>The bond factor is a number that indicates the ratio of the current bond principal to the original principal</td><td>@ref IBApi::EWrapper::tickGeneric</td><td>460</td></tr>
+		<tr><td>Regulatory Imbalance</td><td>61</td><td>The imbalance that is used to determine which at-the-open or at-the-close orders can be entered following the publishing of the regulatory imbalance.</td><td>@ref IBApi::EWrapper::tickSize</td><td>225</td></tr>
 		<tr><td>News</td><td>62</td><td>Contract's news feed.</td><td>@ref IBApi::EWrapper::tickString</td><td>292</td></tr>
 		<tr><td>Short-Term Volume 3 Minutes</td><td>63</td><td>The past three minutes volume. Interpolation may be applied. For stocks only.</td><td>@ref IBApi::EWrapper::tickSize</td><td>595</td></tr>
 		<tr><td>Short-Term Volume 5 Minutes</td><td>64</td><td>The past five minutes volume. Interpolation may be applied. For stocks only.</td><td>@ref IBApi::EWrapper::tickSize</td><td>595</td></tr>
@@ -96,7 +95,14 @@
 		<tr><td>Average Option Volume</td><td>87</td><td>Average volume of the corresponding option contracts(TWS Build 970+ is required)</td><td>@ref IBApi::EWrapper::tickSize</td><td>105</td></tr>
 		<tr><td>Delayed Last Timestamp</td><td>88</td><td>Delayed time of the last trade (in UNIX time) (TWS Build 970+ is required)</td><td>@ref IBApi::EWrapper::tickString</td><td></td></tr>
 		<tr><td>Shortable Shares</td><td>89</td><td>Number of shares available to short (TWS Build 974+ is required)</td><td>@ref IBApi::EWrapper::tickSize</td><td>236</td></tr>
-		<tr><td>Shortable Shares</td><td>89</td><td>Delayed indicator if a contract is halted. See @ref halted. (TWS Build 970+ is required)</td><td>@ref IBApi::EWrapper::tickSize</td><td>236</td></tr>
+		<tr><td>ETF Nav Close</td><td>92</td><td>Today's closing price of ETF's Net Asset Value (NAV). Calculation is based on prices of ETF's underlying securities.</td><td>@ref IBApi::EWrapper::tickPrice</td><td>578</td></tr>
+		<tr><td>ETF Nav Prior Close</td><td>93</td><td>Yesterday's closing price of ETF's Net Asset Value (NAV). Calculation is based on prices of ETF's underlying securities.</td><td>@ref IBApi::EWrapper::tickPrice</td><td>578</td></tr>
+		<tr><td>ETF Nav Bid</td><td>94</td><td>The bid price of ETF's Net Asset Value (NAV). Calculation is based on prices of ETF's underlying securities.</td><td>@ref IBApi::EWrapper::tickPrice</td><td>576</td></tr>
+		<tr><td>ETF Nav Ask</td><td>95</td><td>The ask price of ETF's Net Asset Value (NAV). Calculation is based on prices of ETF's underlying securities.</td><td>@ref IBApi::EWrapper::tickPrice</td><td>576</td></tr>
+		<tr><td>ETF Nav Last</td><td>96</td><td>The last price of Net Asset Value (NAV). For ETFs: Calculation is based on prices of ETF's underlying securities. For NextShares: Value is provided by NASDAQ</td><td>@ref IBApi::EWrapper::tickPrice</td><td>577</td></tr>
+		<tr><td>ETF Nav Frozen Last</td><td>97</td><td>ETF Nav Last for Frozen data</td><td>@ref IBApi::EWrapper::tickPrice</td><td>623</td></tr>
+		<tr><td>ETF Nav High</td><td>98</td><td>The high price of ETF's Net Asset Value (NAV)</td><td>@ref IBApi::EWrapper::tickPrice</td><td>614</td></tr>
+		<tr><td>ETF Nav Low</td><td>99</td><td>The low price of ETF's Net Asset Value (NAV)</td><td>@ref IBApi::EWrapper::tickPrice</td><td>614</td></tr>
 	</table>
 	
 	\section halted Halted

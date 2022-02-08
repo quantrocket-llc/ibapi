@@ -1,0 +1,21 @@
+/*! \page guide_updates Guide Updates
+
+Starting from 13.12.2021 all of the TWS API guide updates will be documented on this page.<br>
+<i>Please note, that above only applies to changes to the TWS API guide and not TWS API source code and samples.</i><br>
+
+<b>24.12.2021</b>
+<ul>
+  <li>Added a new @ref IBApi::EClient::reqHistoricalData <b><i>whatToShow</i></b> parameter SCHEDULE.<br>
+  Added @ref hd_schedule article for SCHEDULE handling. Updated @ref hd_what_to_show and @ref available_products_hd articles with SCHEDULE.<br>
+  <b>Note</b>, that samples @ref IBApi::EWrapper::historicalSchedule code snippets are not yet available for C#, C++, Java and VB. They will be provided shortly.</li>
+</ul>
+
+<b>13.12.2021</b>
+<ul>
+  <li>New page @ref guide_updates has been created.</li>
+  <li>New setting has been introduced with TWS 985, @ref quotes_in_shares "Bypass US Stocks market data in shares warning for API orders."</li>
+</ul>
+
+<br>
+
+*/

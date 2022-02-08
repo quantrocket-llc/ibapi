@@ -7,6 +7,8 @@ Class TickOptionComputationEventArgs
 
     Property tickerId As Integer
 
+    Property tickAttrib As Integer
+
     Property impliedVolatility As Double
 
     Property delta As Double

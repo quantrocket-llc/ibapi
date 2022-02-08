@@ -44,6 +44,7 @@ import com.ib.client.ComboLeg;
 import com.ib.client.Contract;
 import com.ib.client.ContractDescription;
 import com.ib.client.ContractDetails;
+import com.ib.client.Decimal;
 import com.ib.client.DeltaNeutralContract;
 import com.ib.client.DepthMktDataDescription;
 import com.ib.client.Execution;
@@ -68,6 +69,7 @@ import com.ib.client.VolumeCondition;
 /** Class contains some utility methods */
 public class Utils {
     // some constants
+    public static final String TICK_ATTRIB_STR = "TickAttrib";
     public static final String IMPLIED_VOL_STR = "ImpliedVol";
     public static final String OPT_PRICE_STR = "OptPrice";
     public static final String UND_PRICE_STR = "UndPrice";
@@ -111,6 +113,8 @@ public class Utils {
     public static final String SNAPSHOT_PERMISSIONS = "snapshotPermissions";
     
     public static final String LONGVALUE = "LONGVALUE";
+    
+    public static final String ADVANCED_ORDER_REJECT_JSON_STR = "advancedOrderRejectJson";
     
     @SuppressWarnings("serial")
     static final Hashtable<Integer, String> delayedToRegularMap = new Hashtable<Integer, String>() {{
@@ -616,6 +620,11 @@ public class Utils {
     /** Method converts long to non-null string with default value */
     public static String toString(Long l, String defaultString) {
         return (l == 0 || l == Long.MAX_VALUE) ? defaultString : String.valueOf(l);
+    }
+
+    /** Method converts Decimal to non-null string */
+    public static String toString(Decimal d) {
+        return d == null ? "" : d.toString();
     }
     
     /** Method converts boolean to non-null string */

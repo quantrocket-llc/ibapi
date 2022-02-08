@@ -7,7 +7,7 @@ namespace IBSampleApp.messages
 {
     class UpdatePortfolioMessage
     {
-        public UpdatePortfolioMessage(Contract contract, double position, double marketPrice, double marketValue, double averageCost, double unrealizedPNL, double realizedPNL, string accountName)
+        public UpdatePortfolioMessage(Contract contract, decimal position, double marketPrice, double marketValue, double averageCost, double unrealizedPNL, double realizedPNL, string accountName)
         {
             Contract = contract;
             Position = position;
@@ -21,7 +21,7 @@ namespace IBSampleApp.messages
 
         public Contract Contract { get; set; }
 
-        public double Position { get; set; }
+        public decimal Position { get; set; }
 
         public double MarketPrice { get; set; }
 

@@ -77,12 +77,6 @@ namespace TWSLib
         int minQty { get; set; }
         [DispId(32)]
         double percentOffset { get; set; }
-        [DispId(33)]
-        bool eTradeOnly { get; set; }
-        [DispId(34)]
-        bool firmQuoteOnly { get; set; }
-        [DispId(35)]
-        double nbboPriceCap { get; set; }
         [DispId(36)]
         int auctionStrategy { get; set; }
         [DispId(37)]
@@ -202,7 +196,7 @@ namespace TWSLib
         [DispId(80)]
         void requestFA(int faDataType);
         [DispId(81)]
-        void replaceFA(int faDataType, string cxml);
+        void replaceFA(int reqId, int faDataType, string cxml);
         [DispId(82)]
         void reqHistoricalData(int id, string symbol, string secType, string lastTradeDate, double strike,
                   string right, string multiplier, string exchange, string curency, int isExpired,
@@ -379,7 +373,16 @@ namespace TWSLib
         void reqHistoricalTicks(int reqId, IContract contract, string startDateTime, string endDateTime, int numberOfTicks, string whatToShow, int useRth, bool ignoreSize, ITagValueList options);
         [DispId(234)]
         void reqCompletedOrders(bool apiOnly);
-
+        [DispId(235)]
+        void reqWshMetaData(int reqId);
+        [DispId(236)]
+        void reqWshEventData(int reqId, int conId);
+        [DispId(237)]
+        void cancelWshMetaData(int reqId);
+        [DispId(238)]
+        void cancelWshEventData(int reqId);
+        [DispId(239)]
+        void reqUserInfo(int reqId);
         #endregion
     }
 }

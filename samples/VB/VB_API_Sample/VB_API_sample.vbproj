@@ -121,12 +121,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApiEventSource.vb" />
+    <Compile Include="dlgWsh.Designer.vb">
+      <DependentUpon>dlgWsh.vb</DependentUpon>
+    </Compile>
+    <Compile Include="dlgWsh.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="dlgPnL.Designer.vb">
       <DependentUpon>dlgPnL.vb</DependentUpon>
     </Compile>
     <Compile Include="dlgPnL.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="EventArgs\UserInfoEventArgs.vb" />
+    <Compile Include="EventArgs\HistoricalScheduleEventArgs.vb" />
+    <Compile Include="EventArgs\ReplaceFAEndEventArgs.vb" />
     <Compile Include="EventArgs\OrderBoundEventArgs.vb" />
     <Compile Include="EventArgs\TickByTickMidPointEventArgs.vb" />
     <Compile Include="EventArgs\TickByTickBidAskEventArgs.vb" />
@@ -252,6 +261,8 @@
     <Compile Include="EventArgs\VerifyAndAuthMessageAPIEventArgs.vb" />
     <Compile Include="EventArgs\VerifyCompletedEventArgs.vb" />
     <Compile Include="EventArgs\VerifyMessageAPIEventArgs.vb" />
+    <Compile Include="EventArgs\WshMetaDataEventArgs.vb" />
+    <Compile Include="EventArgs\WshEventDataEventArgs.vb" />
     <None Include="app.config" />
     <Compile Include="AssemblyInfo.vb">
       <SubType>Code</SubType>
@@ -330,6 +341,9 @@
     <Compile Include="MainForm.vb">
       <SubType>Form</SubType>
     </Compile>
+    <EmbeddedResource Include="dlgWsh.resx">
+      <DependentUpon>dlgWsh.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="dlgPnL.resx">
       <DependentUpon>dlgPnL.vb</DependentUpon>
     </EmbeddedResource>

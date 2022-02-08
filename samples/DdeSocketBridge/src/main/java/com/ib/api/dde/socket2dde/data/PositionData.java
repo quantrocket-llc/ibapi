@@ -4,6 +4,7 @@
 package com.ib.api.dde.socket2dde.data;
 
 import com.ib.client.Contract;
+import com.ib.client.Decimal;
 
 /** Class represents position/position multi data received from TWS */
 public class PositionData {
@@ -11,7 +12,7 @@ public class PositionData {
     private final String m_account;
     private final String m_modelCode;
     private final Contract m_contract;
-    private final double m_position;
+    private final Decimal m_position;
     private final double m_avgCost;
     
     private final double m_marketPrice;
@@ -24,14 +25,14 @@ public class PositionData {
     public String account()       { return m_account; }
     public String modelCode()     { return m_modelCode; }
     public Contract contract()    { return m_contract; }
-    public double position()      { return m_position; }
+    public Decimal position()     { return m_position; }
     public double avgCost()       { return m_avgCost; }
     public double marketPrice()   { return m_marketPrice; }
     public double marketValue()   { return m_marketValue; }
     public double unrealizedPNL() { return m_unrealizedPNL; }
     public double realizedPNL()   { return m_realizedPNL; }
 
-    public PositionData(int requestId, String account, String modelCode, Contract contract, double position, double avgCost) {
+    public PositionData(int requestId, String account, String modelCode, Contract contract, Decimal position, double avgCost) {
         m_requestId = requestId;
         m_account = account;
         m_modelCode = modelCode;
@@ -44,7 +45,7 @@ public class PositionData {
         m_realizedPNL = 0;
     }
     
-    public PositionData(int requestId, String account, Contract contract, double position, double avgCost, 
+    public PositionData(int requestId, String account, Contract contract, Decimal position, double avgCost, 
             double marketPrice, double marketValue, double unrealizedPNL, double realizedPNL) {
         m_requestId = requestId;
         m_account = account;

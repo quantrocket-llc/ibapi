@@ -109,5 +109,17 @@ namespace IBApi
         public const int ENCODE_MSG_ASCII7 = 153;
         public const int SEND_ALL_FAMILY_CODES = 154;
         public const int NO_DEFAULT_OPEN_CLOSE = 155;
+        public const int PRICE_BASED_VOLATILITY = 156;
+        public const int REPLACE_FA_END = 157;
+        public const int DURATION = 158;
+        public const int MARKET_DATA_IN_SHARES = 159;
+        public const int POST_TO_ATS = 160;
+        public const int WSHE_CALENDAR = 161;
+        public const int AUTO_CANCEL_PARENT = 162;
+        public const int FRACTIONAL_SIZE_SUPPORT = 163;
+        public const int SIZE_RULES = 164;
+        public const int HISTORICAL_SCHEDULE = 165;
+        public const int ADVANCED_ORDER_REJECT = 166;
+        public const int USER_INFO = 167;
     }
 }

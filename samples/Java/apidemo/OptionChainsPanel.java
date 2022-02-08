@@ -32,6 +32,7 @@ import com.ib.client.TickAttrib;
 import com.ib.client.TickType;
 import com.ib.client.Types.Right;
 import com.ib.client.Types.SecType;
+import com.ib.client.Util;
 import com.ib.controller.ApiController.IContractDetailsHandler;
 import com.ib.controller.ApiController.IOptHandler;
 import com.ib.controller.ApiController.TopMktDataAdapter;
@@ -41,7 +42,6 @@ import apidemo.util.NewTabbedPanel;
 import apidemo.util.NewTabbedPanel.NewTabPanel;
 import apidemo.util.TCombo;
 import apidemo.util.UpperField;
-import apidemo.util.Util;
 import apidemo.util.VerticalPanel;
 
 class OptionChainsPanel extends JPanel {
@@ -222,12 +222,12 @@ class OptionChainsPanel extends JPanel {
 				ApiDemo.INSTANCE.controller().reqOptionMktData(contract, "", snapshot, false, row);
 				
 				if (snapshot) {
-					Util.sleep( 11); // try to avoid pacing violation at TWS
+					apidemo.util.Util.sleep( 11); // try to avoid pacing violation at TWS
 				}
 			}
 
 			@Override public int getColumnCount() {
-				return m_snapshot.isSelected() ? 10 : 9;
+				return m_snapshot.isSelected() ? 11 : 10;
 			}
 			
 			@Override public String getColumnName(int col) {
@@ -236,11 +236,12 @@ class OptionChainsPanel extends JPanel {
 					case 1: return "Strike";
 					case 2: return "Bid";
 					case 3: return "Ask";
-					case 4: return "Imp Vol";
-					case 5: return "Delta";
-					case 6: return "Gamma";
-					case 7: return "Vega";
-					case 8: return "Theta";
+					case 4: return "TickAttrib";
+					case 5: return "Imp Vol";
+					case 6: return "Delta";
+					case 7: return "Gamma";
+					case 8: return "Vega";
+					case 9: return "Theta";
 					default: return null;
 				}
 			}
@@ -249,15 +250,16 @@ class OptionChainsPanel extends JPanel {
 				ChainRow row = m_list.get( rowIn);
 				switch( col) {
 					case 0: return row.m_c.lastTradeDateOrContractMonth();
-					case 1: return row.m_c.strike();
+					case 1: return Util.DoubleMaxString(row.m_c.strike());
 					case 2: return fmtNz( row.m_bid);
 					case 3: return fmtNz( row.m_ask);
-					case 4: return fmtPct( row.m_impVol);
-					case 5: return fmtNz( row.m_delta);
-					case 6: return fmtNz( row.m_gamma);
-					case 7: return fmtNz( row.m_vega);
-					case 8: return fmtNz( row.m_theta);
-					case 9: return row.m_done ? "*" : null;
+					case 4: return Util.IntMaxString(row.m_tickAttrib);
+					case 5: return fmtPct( row.m_impVol);
+					case 6: return fmtNz( row.m_delta);
+					case 7: return fmtNz( row.m_gamma);
+					case 8: return fmtNz( row.m_vega);
+					case 9: return fmtNz( row.m_theta);
+					case 10: return row.m_done ? "*" : null;
 					default: return null;
 				}
 			}
@@ -266,6 +268,7 @@ class OptionChainsPanel extends JPanel {
 				Contract m_c;
 				double m_bid;
 				double m_ask;
+				int m_tickAttrib;
 				double m_impVol;
 				double m_delta;
 				double m_gamma;
@@ -291,8 +294,9 @@ class OptionChainsPanel extends JPanel {
 					}
 				}
 		
-				@Override public void tickOptionComputation( TickType tickType, double impVol, double delta, double optPrice, double pvDividend, double gamma, double vega, double theta, double undPrice) {
+				@Override public void tickOptionComputation( TickType tickType, int tickAttrib, double impVol, double delta, double optPrice, double pvDividend, double gamma, double vega, double theta, double undPrice) {
 					if (tickType == TickType.MODEL_OPTION || tickType == TickType.DELAYED_MODEL_OPTION) {
+						m_tickAttrib = tickAttrib;
 						m_impVol = impVol;
 						m_delta = delta;
 						m_gamma = gamma;

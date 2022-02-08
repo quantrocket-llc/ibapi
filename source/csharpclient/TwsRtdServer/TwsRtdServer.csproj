@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -103,9 +103,6 @@
     <Compile Include="..\client\EClientSocket.cs">
       <Link>CSharpApi\EClientSocket.cs</Link>
     </Compile>
-    <Compile Include="..\client\EClientSocketSSL.cs">
-      <Link>CSharpApi\EClientSocketSSL.cs</Link>
-    </Compile>
     <Compile Include="..\client\EDecoder.cs">
       <Link>CSharpApi\EDecoder.cs</Link>
     </Compile>
@@ -147,6 +144,9 @@
     </Compile>
     <Compile Include="..\client\HistogramEntry.cs">
       <Link>CSharpApi\HistogramEntry.cs</Link>
+    </Compile>
+    <Compile Include="..\client\HistoricalSession.cs">
+      <Link>CSharpApi\HistoricalSession.cs</Link>
     </Compile>
     <Compile Include="..\client\HistoricalTick.cs">
       <Link>CSharpApi\HistoricalTick.cs</Link>

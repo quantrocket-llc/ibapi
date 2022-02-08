@@ -56,11 +56,7 @@ public class EOrderDecoder {
     }
 
     public void readTotalQuantity() throws IOException {
-        if (m_serverVersion >= EClient.MIN_SERVER_VER_FRACTIONAL_POSITIONS) {     
-            m_order.totalQuantity(m_eDecoder.readDouble());
-        } else {
-            m_order.totalQuantity(m_eDecoder.readInt());
-        }
+        m_order.totalQuantity(m_eDecoder.readDecimal());
     }
 
     public void readOrderType() throws IOException {
@@ -233,7 +229,7 @@ public class EOrderDecoder {
 
     public void readDisplaySize() throws IOException {
         if ( m_version >= 9) {
-            m_order.displaySize(m_eDecoder.readInt());
+            m_order.displaySize(m_eDecoder.readIntMax());
         }
     }
 
@@ -278,19 +274,22 @@ public class EOrderDecoder {
 
     public void readETradeOnly() throws IOException {
         if ( m_version >= 9) {
-            m_order.eTradeOnly(m_eDecoder.readBoolFromInt());
+            // skip deprecated field
+            m_eDecoder.readBoolFromInt();
         }
     }
 
     public void readFirmQuoteOnly() throws IOException {
         if ( m_version >= 9) {
-            m_order.firmQuoteOnly(m_eDecoder.readBoolFromInt());
+            // skip deprecated field
+            m_eDecoder.readBoolFromInt();
         }
     }
 
     public void readNbboPriceCap() throws IOException {
         if ( m_version >= 9) {
-            m_order.nbboPriceCap(m_eDecoder.readDoubleMax());
+            // skip deprecated field
+            m_eDecoder.readDoubleMax();
         }
     }
 
@@ -623,7 +622,7 @@ public class EOrderDecoder {
     }
 
     public void readFilledQuantity() throws IOException {
-        m_order.filledQuantity(m_eDecoder.readDoubleMax());
+        m_order.filledQuantity(m_eDecoder.readDecimal());
     }
 
     public void readRefFuturesConId() throws IOException {
@@ -631,7 +630,13 @@ public class EOrderDecoder {
     }
 
     public void readAutoCancelParent() throws IOException {
-        m_order.autoCancelParent(m_eDecoder.readBoolFromInt());
+        readAutoCancelParent(EClient.MIN_VERSION);
+    }
+
+    public void readAutoCancelParent(int minVersionAutoCancelParent) throws IOException {
+        if (m_serverVersion >= minVersionAutoCancelParent) {
+            m_order.autoCancelParent(m_eDecoder.readBoolFromInt());
+        }
     }
 
     public void readShareholder() throws IOException {
@@ -663,4 +668,17 @@ public class EOrderDecoder {
             m_order.usePriceMgmtAlgo(m_eDecoder.readBoolFromInt());
         }
     }
+    
+    public void readDuration() throws IOException {
+        if (m_serverVersion >= EClient.MIN_SERVER_VER_DURATION) {
+            m_order.duration(m_eDecoder.readInt());
+        }
+    }
+
+    public void readPostToAts() throws IOException {
+        if (m_serverVersion >= EClient.MIN_SERVER_VER_POST_TO_ATS) {
+            m_order.postToAts(m_eDecoder.readIntMax());
+        }
+    }
+    
 }

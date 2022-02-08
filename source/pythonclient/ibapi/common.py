@@ -4,7 +4,9 @@ Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is su
 """
 
 import sys
+import ibapi
 
+from decimal import Decimal
 from ibapi.enum_implem import Enum
 from ibapi.object_implem import Object
 
@@ -15,6 +17,7 @@ MAX_MSG_LEN = 0xFFFFFF # 16Mb - 1byte
 UNSET_INTEGER = 2 ** 31 - 1
 UNSET_DOUBLE = sys.float_info.max
 UNSET_LONG = 2 ** 63 - 1
+UNSET_DECIMAL = Decimal(2 ** 127 - 1)
 
 TickerId = int
 OrderId  = int
@@ -42,6 +45,7 @@ ListOfPriceIncrements = list
 ListOfHistoricalTick = list
 ListOfHistoricalTickBidAsk = list
 ListOfHistoricalTickLast = list
+ListOfHistoricalSessions = list
 
 
 class BarData(Object):
@@ -51,17 +55,18 @@ class BarData(Object):
         self.high = 0.
         self.low = 0.
         self.close = 0.
-        self.volume = 0
+        self.volume = UNSET_DECIMAL
+        self.wap = UNSET_DECIMAL
         self.barCount = 0
-        self.average = 0.
 
     def __str__(self):
-        return "Date: %s, Open: %f, High: %f, Low: %f, Close: %f, Volume: %d, Average: %f, BarCount: %d" % (self.date, self.open, self.high,
-            self.low, self.close, self.volume, self.average, self.barCount)
+        return "Date: %s, Open: %s, High: %s, Low: %s, Close: %s, Volume: %s, WAP: %s, BarCount: %s" % (self.date, ibapi.utils.floatMaxString(self.open), 
+            ibapi.utils.floatMaxString(self.high), ibapi.utils.floatMaxString(self.low), ibapi.utils.floatMaxString(self.close), 
+            ibapi.utils.decimalMaxString(self.volume), ibapi.utils.decimalMaxString(self.wap), ibapi.utils.intMaxString(self.barCount))
 
 
 class RealTimeBar(Object):
-    def __init__(self, time = 0, endTime = -1, open_ = 0., high = 0., low = 0., close = 0., volume = 0., wap = 0., count = 0):
+    def __init__(self, time = 0, endTime = -1, open_ = 0., high = 0., low = 0., close = 0., volume = UNSET_DECIMAL, wap = UNSET_DECIMAL, count = 0):
         self.time = time
         self.endTime = endTime
         self.open_ = open_
@@ -73,17 +78,19 @@ class RealTimeBar(Object):
         self.count = count
 
     def __str__(self):
-        return "Time: %d, Open: %f, High: %f, Low: %f, Close: %f, Volume: %d, WAP: %f, Count: %d" % (self.time, self.open_, self.high,
-            self.low, self.close, self.volume, self.wap, self.count)
+        return "Time: %s, Open: %s, High: %s, Low: %s, Close: %s, Volume: %s, WAP: %s, Count: %s" % (ibapi.utils.intMaxString(self.time), 
+            ibapi.utils.floatMaxString(self.open), ibapi.utils.floatMaxString(self.high), ibapi.utils.floatMaxString(self.low), 
+            ibapi.utils.floatMaxString(self.close), ibapi.utils.decimalMaxString(self.volume), ibapi.utils.decimalMaxString(self.wap), 
+            ibapi.utils.intMaxString(self.count))
 
 
 class HistogramData(Object):
     def __init__(self):
         self.price = 0.
-        self.count = 0
+        self.size = UNSET_DECIMAL
 
     def __str__(self):
-        return "Price: %f, Count: %d" % (self.price, self.count)
+        return "Price: %s, Size: %s" % (ibapi.utils.floatMaxString(self.price), ibapi.utils.decimalMaxString(self.size))
 
 
 class NewsProvider(Object):
@@ -108,7 +115,8 @@ class DepthMktDataDescription(Object):
             aggGroup = self.aggGroup
         else:
             aggGroup = ""
-        return "Exchange: %s, SecType: %s, ListingExchange: %s, ServiceDataType: %s, AggGroup: %s, " % (self.exchange, self.secType, self.listingExch,self.serviceDataType, aggGroup)
+        return "Exchange: %s, SecType: %s, ListingExchange: %s, ServiceDataType: %s, AggGroup: %s, " % (self.exchange, self.secType, 
+            self.listingExch,self.serviceDataType, ibapi.utils.intMaxString(aggGroup))
 
 
 class SmartComponent(Object):
@@ -164,17 +172,17 @@ class PriceIncrement(Object):
         self.increment = 0.
 
     def __str__(self):
-        return "LowEdge: %f, Increment: %f" % (self.lowEdge, self.increment)
+        return "LowEdge: %s, Increment: %s" % (ibapi.utils.floatMaxString(self.lowEdge), ibapi.utils.floatMaxString(self.increment))
 
 
 class HistoricalTick(Object):
     def __init__(self):
         self.time = 0
         self.price = 0.
-        self.size = 0
+        self.size = UNSET_DECIMAL
 
     def __str__(self):
-        return "Time: %d, Price: %f, Size: %d" % (self.time, self.price, self.size)
+        return "Time: %s, Price: %s, Size: %s" % (ibapi.utils.intMaxString(self.time), ibapi.utils.floatMaxString(self.price), ibapi.utils.decimalMaxString(self.size))
 
 
 class HistoricalTickBidAsk(Object):
@@ -183,11 +191,13 @@ class HistoricalTickBidAsk(Object):
         self.tickAttribBidAsk = TickAttribBidAsk()
         self.priceBid = 0.
         self.priceAsk = 0.
-        self.sizeBid = 0
-        self.sizeAsk = 0
+        self.sizeBid = UNSET_DECIMAL
+        self.sizeAsk = UNSET_DECIMAL
 
     def __str__(self):
-        return "Time: %d, TickAttriBidAsk: %s, PriceBid: %f, PriceAsk: %f, SizeBid: %d, SizeAsk: %d" % (self.time, self.tickAttribBidAsk, self.priceBid, self.priceAsk, self.sizeBid, self.sizeAsk)
+        return "Time: %s, TickAttriBidAsk: %s, PriceBid: %s, PriceAsk: %s, SizeBid: %s, SizeAsk: %s" % (ibapi.utils.intMaxString(self.time), self.tickAttribBidAsk, 
+            ibapi.utils.floatMaxString(self.priceBid), ibapi.utils.floatMaxString(self.priceAsk), 
+            ibapi.utils.decimalMaxString(self.sizeBid), ibapi.utils.decimalMaxString(self.sizeAsk))
 
 
 class HistoricalTickLast(Object):
@@ -195,11 +205,20 @@ class HistoricalTickLast(Object):
         self.time = 0
         self.tickAttribLast = TickAttribLast()
         self.price = 0.
-        self.size = 0
+        self.size = UNSET_DECIMAL
         self.exchange = ""
         self.specialConditions = ""
 
     def __str__(self):
-        return "Time: %d, TickAttribLast: %s, Price: %f, Size: %d, Exchange: %s, SpecialConditions: %s" % (self.time, self.tickAttribLast, self.price, self.size, self.exchange, self.specialConditions)
+        return "Time: %s, TickAttribLast: %s, Price: %s, Size: %s, Exchange: %s, SpecialConditions: %s" % (ibapi.utils.intMaxString(self.time), self.tickAttribLast, 
+            ibapi.utils.floatMaxString(self.price), ibapi.utils.decimalMaxString(self.size), self.exchange, self.specialConditions)
 
+class HistoricalSession(Object):
+    def __init__(self):
+        self.startDateTime = ""
+        self.endDateTime = ""
+        self.refDate = ""
+
+    def __str__(self):
+        return "Start: %s, End: %s, Ref Date: %s" % (self.startDateTime, self.endDateTime, self.refDate)
 

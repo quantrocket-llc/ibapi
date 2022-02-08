@@ -26,7 +26,7 @@ namespace IBApi
         {
         }
 
-        public virtual void error(int id, int errorCode, string errorMsg)
+        public virtual void error(int id, int errorCode, string errorMsg, string advancedOrderRejectJson)
         {
         }
 
@@ -38,7 +38,7 @@ namespace IBApi
         {
         }
 
-        public virtual void tickSize(int tickerId, int field, int size)
+        public virtual void tickSize(int tickerId, int field, decimal size)
         {
         }
 
@@ -58,7 +58,7 @@ namespace IBApi
         {
         }
 
-        public virtual void tickOptionComputation(int tickerId, int field, double impliedVolatility, double delta, double optPrice, double pvDividend, double gamma, double vega, double theta, double undPrice)
+        public virtual void tickOptionComputation(int tickerId, int field, int tickAttrib, double impliedVolatility, double delta, double optPrice, double pvDividend, double gamma, double vega, double theta, double undPrice)
         {
         }
 
@@ -94,7 +94,7 @@ namespace IBApi
         {
         }
 
-        public virtual void updatePortfolio(Contract contract, double position, double marketPrice, double marketValue, double averageCost, double unrealizedPNL, double realizedPNL, string accountName)
+        public virtual void updatePortfolio(Contract contract, decimal position, double marketPrice, double marketValue, double averageCost, double unrealizedPNL, double realizedPNL, string accountName)
         {
         }
 
@@ -106,7 +106,7 @@ namespace IBApi
         {
         }
 
-        public virtual void orderStatus(int orderId, string status, double filled, double remaining, double avgFillPrice, int permId, int parentId, double lastFillPrice, int clientId, string whyHeld, double mktCapPrice)
+        public virtual void orderStatus(int orderId, string status, decimal filled, decimal remaining, double avgFillPrice, int permId, int parentId, double lastFillPrice, int clientId, string whyHeld, double mktCapPrice)
         {
         }
 
@@ -154,11 +154,11 @@ namespace IBApi
         {
         }
 
-        public virtual void updateMktDepth(int tickerId, int position, int operation, int side, double price, int size)
+        public virtual void updateMktDepth(int tickerId, int position, int operation, int side, double price, decimal size)
         {
         }
 
-        public virtual void updateMktDepthL2(int tickerId, int position, string marketMaker, int operation, int side, double price, int size, bool isSmartDepth)
+        public virtual void updateMktDepthL2(int tickerId, int position, string marketMaker, int operation, int side, double price, decimal size, bool isSmartDepth)
         {
         }
 
@@ -166,7 +166,7 @@ namespace IBApi
         {
         }
 
-        public virtual void position(string account, Contract contract, double pos, double avgCost)
+        public virtual void position(string account, Contract contract, decimal pos, double avgCost)
         {
         }
 
@@ -174,7 +174,7 @@ namespace IBApi
         {
         }
 
-        public virtual void realtimeBar(int reqId, long time, double open, double high, double low, double close, long volume, double WAP, int count)
+        public virtual void realtimeBar(int reqId, long time, double open, double high, double low, double close, decimal volume, decimal WAP, int count)
         {
         }
 
@@ -222,7 +222,7 @@ namespace IBApi
         {
         }
 
-        public virtual void positionMulti(int requestId, string account, string modelCode, Contract contract, double pos, double avgCost)
+        public virtual void positionMulti(int requestId, string account, string modelCode, Contract contract, decimal pos, double avgCost)
         {
         }
 
@@ -322,7 +322,7 @@ namespace IBApi
 
         }
 
-        public virtual void pnlSingle(int reqId, int pos, double dailyPnL, double realizedPnL, double value, double unrealizedPnL)
+        public virtual void pnlSingle(int reqId, decimal pos, double dailyPnL, double realizedPnL, double value, double unrealizedPnL)
         {
 
         }
@@ -339,11 +339,11 @@ namespace IBApi
         {
         }
 
-        public virtual void tickByTickAllLast(int reqId, int tickType, long time, double price, int size, TickAttribLast tickAttribLast, string exchange, string specialConditions)
+        public virtual void tickByTickAllLast(int reqId, int tickType, long time, double price, decimal size, TickAttribLast tickAttribLast, string exchange, string specialConditions)
         {
         }
 
-        public virtual void tickByTickBidAsk(int reqId, long time, double bidPrice, double askPrice, int bidSize, int askSize, TickAttribBidAsk tickAttribBidAsk)
+        public virtual void tickByTickBidAsk(int reqId, long time, double bidPrice, double askPrice, decimal bidSize, decimal askSize, TickAttribBidAsk tickAttribBidAsk)
         {
         }
 
@@ -360,6 +360,26 @@ namespace IBApi
         }
 
         public virtual void completedOrdersEnd()
+        {
+        }
+
+        public virtual void replaceFAEnd(int reqId, string text)
+        {
+        }
+
+        public virtual void wshMetaData(int reqId, string dataJson)
+        {
+        }
+
+        public virtual void wshEventData(int reqId, string dataJson)
+        {
+        }
+
+        public void historicalSchedule(int reqId, string startDateTime, string endDateTime, string timeZone, HistoricalSession[] sessions)
+        {
+        }
+
+        public void userInfo(int reqId, string whiteBrandingId)
         {
         }
     }

@@ -316,7 +316,7 @@ Contract ContractSamples::OptionWithLocalSymbol(){
 	//! [optcontract_localsymbol]
 	Contract contract;
 	//Watch out for the spaces within the local symbol!
-	contract.localSymbol = "C DBK  DEC 20  1600";
+	contract.localSymbol = "P BMW  JUL 20  4650";
 	contract.secType = "OPT";
 	contract.exchange = "DTB";
 	contract.currency = "EUR";
@@ -409,6 +409,22 @@ Contract ContractSamples::FuturesOnOptions(){
 	//! [fopcontract]
 	return contract;
 }
+
+Contract ContractSamples::Warrants(){
+	//! [warcontract]
+	Contract contract;
+	contract.symbol = "GOOG";
+	contract.secType = "WAR";
+	contract.exchange = "FWB";
+	contract.currency = "EUR";
+	contract.lastTradeDateOrContractMonth = "20201117";
+	contract.strike = 1500.0;
+	contract.right = "C";
+	contract.multiplier = "0.01";
+	//! [warcontract]
+	return contract;
+}
+
 
 	/*
      * It is also possible to define contracts based on their ISIN (IBKR STK sample).
@@ -644,17 +660,6 @@ Contract ContractSamples::FLYbroadtapeNewsFeed()
 	return contract;
 }
 
-Contract ContractSamples::MTbroadtapeNewsFeed()
-{
-	//! [newscontractmt]
-	Contract contract;
-	contract.symbol = "MT:MT_ALL"; //BroadTape All News
-	contract.secType = "NEWS";
-	contract.exchange = "MT"; //Midnight Trader
-	//! [newscontractmt]
-	return contract;
-}
-
 Contract ContractSamples::ContFut()
 {
 	//! [continuousfuturescontract]
@@ -695,5 +700,27 @@ Contract ContractSamples::CSFBContract(){
 	contract.exchange = "CSFBALGO";
 	contract.currency = "USD";
 	//! [csfb_contract]
+	return contract;
+}
+
+Contract ContractSamples::IBKRATSContract(){
+	//! [ibkrats_contract]
+	Contract contract;
+	contract.symbol = "QQQ";
+	contract.secType = "STK";
+	contract.exchange = "IBKRATS";
+	contract.currency = "USD";
+	//! [ibkrats_contract]
+	return contract;
+}
+
+Contract ContractSamples::CryptoContract() {
+	//! [crypto_contract]
+	Contract contract;
+	contract.symbol = "BTC";
+	contract.secType = "CRYPTO";
+	contract.exchange = "PAXOS";
+	contract.currency = "USD";
+	//! [crypto_contract]
 	return contract;
 }

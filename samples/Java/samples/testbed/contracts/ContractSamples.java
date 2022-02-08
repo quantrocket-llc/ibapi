@@ -40,7 +40,7 @@ public class ContractSamples {
 	public static Contract Bond() {
 		//! [bond]
 		Contract contract = new Contract();
-		contract.conid(285191782);
+		contract.conid(107179906);
 		contract.exchange("SMART");
 		//! [bond]
 		return contract;
@@ -236,7 +236,7 @@ public class ContractSamples {
 		//! [optcontract_localsymbol]
 		Contract contract = new Contract();
 		//Watch out for the spaces within the local symbol!
-		contract.localSymbol("C DBK  DEC 20  1600");
+		contract.localSymbol("P BMW  JUL 20  4650");
 		contract.secType("OPT");
 		contract.exchange("DTB");
 		contract.currency("EUR");
@@ -313,6 +313,21 @@ public class ContractSamples {
 		contract.strike(2800);
 		contract.multiplier("50");
 		//! [fopcontract]
+		return contract;
+	}
+	
+	public static Contract Warrants() {
+		//! [warcontract]
+		Contract contract = new Contract();
+		contract.symbol("GOOG");
+		contract.secType("WAR");
+		contract.currency("EUR");
+		contract.exchange("FWB");
+		contract.lastTradeDateOrContractMonth("20201117");
+		contract.right("C");
+		contract.strike(1500.0);
+		contract.multiplier("0.01");
+		//! [warcontract]
 		return contract;
 	}
 	
@@ -543,16 +558,6 @@ public class ContractSamples {
 		//! [newscontractfly]
 		return contract;
 	}
-	
-        public static Contract MTbroadtapeNewsFeed() {
-		//! [newscontractmt]
-		Contract contract = new Contract();
-		contract.symbol("MT:MT_ALL"); //BroadTape All News
-		contract.secType("NEWS");
-		contract.exchange("MT"); //Midnight Trader
-		//! [newscontractmt]
-		return contract;
-	}
 
 	public static Contract ContFut() {
 		//! [continuousfuturescontract]
@@ -607,4 +612,27 @@ public class ContractSamples {
 		//! [qbalgo_contract]
 		return contract;
 	}
+	
+	public static Contract IBKRATSContract() {
+		//! [ibkrats_contract]
+		Contract contract = new Contract();
+		contract.symbol("QQQ");
+		contract.secType("STK");
+		contract.exchange("IBKRATS"); 
+		contract.currency("USD");    
+		//! [ibkrats_contract]
+		return contract;
+	}
+	
+	public static Contract CryptoContract() {
+		//! [crypto_contract]
+		Contract contract = new Contract();
+		contract.symbol("ETH");
+		contract.secType("CRYPTO");
+		contract.exchange("PAXOS"); 
+		contract.currency("USD");    
+		//! [crypto_contract]
+		return contract;
+	}
+	
 }

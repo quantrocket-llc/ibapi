@@ -53,7 +53,9 @@ namespace IBSampleApp
             tickByTickLastTable = new DataTable(),
             tickByTickAllLastTable = new DataTable(),
             tickByTickBidAskTable = new DataTable(),
-            tickByTickMidPointTable = new DataTable();
+            tickByTickMidPointTable = new DataTable(),
+            wshMetaDataTable = new DataTable(),
+            wshEventDataTable = new DataTable();
 
 
         public IBSampleAppDialog()
@@ -76,6 +78,13 @@ namespace IBSampleApp
             symbolSamplesManagerContractInfo = new SymbolSamplesManager(ibClient, symbolSamplesDataGridContractInfo);
             newsManager = new NewsManager(ibClient, dataGridViewNewsTicks, dataGridViewNewsProviders, textBoxNewsArticle, dataGridViewHistoricalNews);
             pnlMgr = new PnLManager(ibClient);
+            wshMgr = new WshManager(ibClient);
+
+            wshMetaDataTable.Columns.Add("Req Id");
+            wshMetaDataTable.Columns.Add("Data JSON");
+
+            wshEventDataTable.Columns.Add("Req Id");
+            wshEventDataTable.Columns.Add("Data JSON");
 
             pnldataTable.Columns.Add("Daily PnL");
             pnldataTable.Columns.Add("Unrealized PnL");
@@ -140,16 +149,16 @@ namespace IBSampleApp
 
             ibClient.Error += ibClient_Error;
             ibClient.ConnectionClosed += ibClient_ConnectionClosed;
-            ibClient.CurrentTime += time => addTextToBox("Current Time: " + time + "\n");
+            ibClient.CurrentTime += time => addTextToBox("Current Time: " + time + Environment.NewLine);
             ibClient.TickPrice += ibClient_Tick;
             ibClient.TickSize += ibClient_Tick;
-            ibClient.TickString += (tickerId, tickType, value) => addTextToBox("Tick string. Ticker Id:" + tickerId + ", Type: " + TickType.getField(tickType) + ", Value: " + value + "\n");
-            ibClient.TickGeneric += (tickerId, field, value) => addTextToBox("Tick Generic. Ticker Id:" + tickerId + ", Field: " + TickType.getField(field) + ", Value: " + value + "\n");
-            ibClient.TickEFP += (tickerId, tickType, basisPoints, formattedBasisPoints, impliedFuture, holdDays, futureLastTradeDate, dividendImpact, dividendsToLastTradeDate) => addTextToBox("TickEFP. " + tickerId + ", Type: " + tickType + ", BasisPoints: " + basisPoints + ", FormattedBasisPoints: " + formattedBasisPoints + ", ImpliedFuture: " + impliedFuture + ", HoldDays: " + holdDays + ", FutureLastTradeDate: " + futureLastTradeDate + ", DividendImpact: " + dividendImpact + ", DividendsToLastTradeDate: " + dividendsToLastTradeDate + "\n");
-            ibClient.TickSnapshotEnd += tickerId => addTextToBox("TickSnapshotEnd: " + tickerId + "\n");
+            ibClient.TickString += (tickerId, tickType, value) => addTextToBox("Tick string. Ticker Id:" + tickerId + ", Type: " + TickType.getField(tickType) + ", Value: " + value + Environment.NewLine);
+            ibClient.TickGeneric += (tickerId, field, value) => addTextToBox("Tick Generic. Ticker Id:" + tickerId + ", Field: " + TickType.getField(field) + ", Value: " + Util.DoubleMaxString(value) + Environment.NewLine);
+            ibClient.TickEFP += (tickerId, tickType, basisPoints, formattedBasisPoints, impliedFuture, holdDays, futureLastTradeDate, dividendImpact, dividendsToLastTradeDate) => addTextToBox("TickEFP. " + tickerId + ", Type: " + tickType + ", BasisPoints: " + Util.DoubleMaxString(basisPoints) + ", FormattedBasisPoints: " + formattedBasisPoints + ", ImpliedFuture: " + Util.DoubleMaxString(impliedFuture) + ", HoldDays: " + Util.IntMaxString(holdDays) + ", FutureLastTradeDate: " + futureLastTradeDate + ", DividendImpact: " + Util.DoubleMaxString(dividendImpact) + ", DividendsToLastTradeDate: " + Util.DoubleMaxString(dividendsToLastTradeDate) + Environment.NewLine);
+            ibClient.TickSnapshotEnd += tickerId => addTextToBox("TickSnapshotEnd: " + tickerId + Environment.NewLine);
             ibClient.NextValidId += UpdateUI;
             ibClient.DeltaNeutralValidation += (reqId, deltaNeutralContract) =>
-                addTextToBox("DeltaNeutralValidation. " + reqId + ", ConId: " + deltaNeutralContract.ConId + ", Delta: " + deltaNeutralContract.Delta + ", Price: " + deltaNeutralContract.Price + "\n");
+                addTextToBox("DeltaNeutralValidation. " + reqId + ", ConId: " + deltaNeutralContract.ConId + ", Delta: " + Util.DoubleMaxString(deltaNeutralContract.Delta) + ", Price: " + Util.DoubleMaxString(deltaNeutralContract.Price) + Environment.NewLine);
 
             ibClient.ManagedAccounts += UpdateUI;
             ibClient.TickOptionCommunication += HandleTickMessage;
@@ -168,7 +177,7 @@ namespace IBSampleApp
             ibClient.ContractDetails += HandleContractDataMessage;
             ibClient.ContractDetailsEnd += reqId => UpdateUI(new ContractDetailsEndMessage());
             ibClient.ExecDetails += orderManager.HandleExecutionMessage;
-            ibClient.ExecDetailsEnd += reqId => addTextToBox("ExecDetailsEnd. " + reqId + "\n");
+            ibClient.ExecDetailsEnd += reqId => addTextToBox("ExecDetailsEnd. " + reqId + Environment.NewLine);
             ibClient.CommissionReport += commissionReport => orderManager.HandleCommissionMessage(new CommissionMessage(commissionReport));
             ibClient.FundamentalData += UpdateUI;
 
@@ -180,17 +189,18 @@ namespace IBSampleApp
             ibClient.UpdateMktDepth += deepBookManager.UpdateUI;
             ibClient.UpdateMktDepthL2 += deepBookManager.UpdateUI;
             ibClient.UpdateNewsBulletin += (msgId, msgType, message, origExchange) =>
-                addTextToBox("News Bulletins. " + msgId + " - Type: " + msgType + ", Message: " + message + ", Exchange of Origin: " + origExchange + "\n");
+                addTextToBox("News Bulletins. " + msgId + " - Type: " + msgType + ", Message: " + message + ", Exchange of Origin: " + origExchange + Environment.NewLine);
 
             ibClient.Position += accountManager.HandlePosition;
-            ibClient.PositionEnd += () => addTextToBox("PositionEnd \n");
+            ibClient.PositionEnd += () => addTextToBox("PositionEnd" + Environment.NewLine);
             ibClient.RealtimeBar += realTimeBarManager.UpdateUI;
             ibClient.ScannerParameters += xml => scannerManager.UpdateUI(new ScannerParametersMessage(xml));
             ibClient.ScannerParameters += UpdateUi;
             ibClient.ScannerData += scannerManager.UpdateUI;
 
-            ibClient.ScannerDataEnd += reqId => addTextToBox("ScannerDataEnd. " + reqId + "\r\n");
+            ibClient.ScannerDataEnd += reqId => addTextToBox("ScannerDataEnd. " + reqId + Environment.NewLine);
             ibClient.ReceiveFA += advisorManager.UpdateUI;
+            ibClient.ReplaceFAEnd += (reqId, text) => addTextToBox("Replace FA End. ReqId: " + reqId + ", Text: " + text + Environment.NewLine);
             ibClient.BondContractDetails += contractManager.HandleBondContractMessage;
             ibClient.VerifyMessageAPI += apiData => addTextToBox("verifyMessageAPI: " + apiData);
             ibClient.VerifyCompleted += (isSuccessful, errorText) => addTextToBox("verifyCompleted. IsSuccessfule: " + isSuccessful + " - Error: " + errorText);
@@ -218,20 +228,24 @@ namespace IBSampleApp
             ibClient.HistoricalNewsEnd += newsManager.UpdateUI;
             ibClient.HeadTimestamp += UpdateUI;
             ibClient.HistogramData += UpdateUI;
-            ibClient.RerouteMktDataReq += (reqId, conId, exchange) => addTextToBox("Re-route market data request. ReqId: " + reqId + ", ConId: " + conId + ", Exchange: " + exchange + "\n");
-            ibClient.RerouteMktDepthReq += (reqId, conId, exchange) => addTextToBox("Re-route market depth request. ReqId: " + reqId + ", ConId: " + conId + ", Exchange: " + exchange + "\n");
+            ibClient.RerouteMktDataReq += (reqId, conId, exchange) => addTextToBox("Re-route market data request. ReqId: " + reqId + ", ConId: " + conId + ", Exchange: " + exchange + Environment.NewLine);
+            ibClient.RerouteMktDepthReq += (reqId, conId, exchange) => addTextToBox("Re-route market depth request. ReqId: " + reqId + ", ConId: " + conId + ", Exchange: " + exchange + Environment.NewLine);
             ibClient.MarketRule += contractManager.HandleMarketRuleMessage;
-            ibClient.pnl += msg => pnldataTable.Rows.Add(msg.DailyPnL, msg.UnrealizedPnL, msg.RealizedPnL);
-            ibClient.pnlSingle += msg => pnlSingledataTable.Rows.Add(msg.Pos, msg.DailyPnL, msg.UnrealizedPnL, msg.RealizedPnL, msg.Value);
+            ibClient.pnl += msg => pnldataTable.Rows.Add(Util.DoubleMaxString(msg.DailyPnL), Util.DoubleMaxString(msg.UnrealizedPnL), Util.DoubleMaxString(msg.RealizedPnL));
+            ibClient.pnlSingle += msg => pnlSingledataTable.Rows.Add(Util.DecimalMaxString(msg.Pos), Util.DoubleMaxString(msg.DailyPnL), Util.DoubleMaxString(msg.UnrealizedPnL), Util.DoubleMaxString(msg.RealizedPnL), Util.DoubleMaxString(msg.Value));
             ibClient.historicalTick += UpdateUI;
             ibClient.historicalTickBidAsk += UpdateUI;
             ibClient.historicalTickLast += UpdateUI;
             ibClient.tickByTickAllLast += UpdateUI;
             ibClient.tickByTickBidAsk += UpdateUI;
             ibClient.tickByTickMidPoint += UpdateUI;
-            ibClient.OrderBound += msg => addTextToBox("Order bound. OrderId: " + msg.OrderId + ", ApiClientId: " + msg.ApiClientId + ", ApiOrderId: " + msg.ApiOrderId);
+            ibClient.OrderBound += msg => addTextToBox("Order bound. OrderId: " + Util.LongMaxString(msg.OrderId) + ", ApiClientId: " + Util.IntMaxString(msg.ApiClientId) + ", ApiOrderId: " + Util.IntMaxString(msg.ApiOrderId));
             ibClient.CompletedOrder += orderManager.handleCompletedOrder;
+            ibClient.WshMetaData += (reqId, dataJson) => wshMetaDataTable.Rows.Add(reqId, dataJson);
+            ibClient.WshEventData += (reqId, dataJson) => wshEventDataTable.Rows.Add(reqId, dataJson);
+            ibClient.HistoricalSchedule += UpdateUI;
             //ibClient.CompletedOrderEnd += (do nothing)
+            ibClient.UserInfo += whiteBrandingId => ShowMessageOnPanel("User Info. White Branding Id: " + whiteBrandingId);
         }
 
         private void UpdateUi(string xml)
@@ -248,13 +262,13 @@ namespace IBSampleApp
         private void UpdateUI(TickByTickMidPointMessage msg)
         {
             dataGridViewTickByTick.DataSource = tickByTickMidPointTable;
-            tickByTickMidPointTable.Rows.Add(Util.UnixSecondsToString(msg.Time, "yyyyMMdd-HH:mm:ss zzz"), msg.MidPoint);
+            tickByTickMidPointTable.Rows.Add(Util.UnixSecondsToString(msg.Time, "yyyyMMdd-HH:mm:ss zzz"), Util.DoubleMaxString(msg.MidPoint));
         }
 
         private void UpdateUI(TickByTickBidAskMessage msg)
         {
             dataGridViewTickByTick.DataSource = tickByTickBidAskTable;
-            tickByTickBidAskTable.Rows.Add(Util.UnixSecondsToString(msg.Time, "yyyyMMdd-HH:mm:ss zzz"), msg.BidPrice, msg.AskPrice, msg.BidSize, msg.AskSize, msg.TickAttribBidAsk.BidPastLow, msg.TickAttribBidAsk.AskPastHigh);
+            tickByTickBidAskTable.Rows.Add(Util.UnixSecondsToString(msg.Time, "yyyyMMdd-HH:mm:ss zzz"), Util.DoubleMaxString(msg.BidPrice), Util.DoubleMaxString(msg.AskPrice), Util.DecimalMaxString(msg.BidSize), Util.DecimalMaxString(msg.AskSize), msg.TickAttribBidAsk.BidPastLow, msg.TickAttribBidAsk.AskPastHigh);
         }
 
         private void UpdateUI(TickByTickAllLastMessage msg)
@@ -262,12 +276,12 @@ namespace IBSampleApp
             if (msg.TickType == 1)
             {
                 dataGridViewTickByTick.DataSource = tickByTickLastTable;
-                tickByTickLastTable.Rows.Add(Util.UnixSecondsToString(msg.Time, "yyyyMMdd-HH:mm:ss zzz"), msg.Price, msg.Size, msg.Exchange, msg.SpecialConditions, msg.TickAttribLast.PastLimit);
+                tickByTickLastTable.Rows.Add(Util.UnixSecondsToString(msg.Time, "yyyyMMdd-HH:mm:ss zzz"), Util.DoubleMaxString(msg.Price), Util.DecimalMaxString(msg.Size), msg.Exchange, msg.SpecialConditions, msg.TickAttribLast.PastLimit);
             }
             else if (msg.TickType == 2)
             {
                 dataGridViewTickByTick.DataSource = tickByTickAllLastTable;
-                tickByTickAllLastTable.Rows.Add(Util.UnixSecondsToString(msg.Time, "yyyyMMdd-HH:mm:ss zzz"), msg.Price, msg.Size, msg.Exchange, msg.SpecialConditions, msg.TickAttribLast.PastLimit, msg.TickAttribLast.Unreported);
+                tickByTickAllLastTable.Rows.Add(Util.UnixSecondsToString(msg.Time, "yyyyMMdd-HH:mm:ss zzz"), Util.DoubleMaxString(msg.Price), Util.DecimalMaxString(msg.Size), msg.Exchange, msg.SpecialConditions, msg.TickAttribLast.PastLimit, msg.TickAttribLast.Unreported);
             }
         }
 
@@ -275,32 +289,38 @@ namespace IBSampleApp
         {
             dataGridViewHistoricalTicks.DataSource = historicalTickLastTable;
 
-            historicalTickLastTable.Rows.Add(Util.UnixSecondsToString(msg.Time, "yyyyMMdd-HH:mm:ss zzz"), msg.Price, msg.Size, msg.Exchange, msg.SpecialConditions, msg.TickAttribLast.toString());
+            historicalTickLastTable.Rows.Add(Util.UnixSecondsToString(msg.Time, "yyyyMMdd-HH:mm:ss zzz"), Util.DoubleMaxString(msg.Price), Util.DecimalMaxString(msg.Size), msg.Exchange, msg.SpecialConditions, msg.TickAttribLast);
         }
 
         private void UpdateUI(HistoricalTickBidAskMessage msg)
         {
             dataGridViewHistoricalTicks.DataSource = historicalTickBidAskTable;
 
-            historicalTickBidAskTable.Rows.Add(Util.UnixSecondsToString(msg.Time, "yyyyMMdd-HH:mm:ss zzz"), msg.PriceBid, msg.PriceAsk, msg.SizeBid, msg.SizeAsk, msg.TickAttribBidAsk.toString());
+            historicalTickBidAskTable.Rows.Add(Util.UnixSecondsToString(msg.Time, "yyyyMMdd-HH:mm:ss zzz"), Util.DoubleMaxString(msg.PriceBid), Util.DoubleMaxString(msg.PriceAsk), Util.DecimalMaxString(msg.SizeBid), Util.DecimalMaxString(msg.SizeAsk), msg.TickAttribBidAsk);
         }
 
         private void UpdateUI(HistoricalTickMessage msg)
         {
             dataGridViewHistoricalTicks.DataSource = historicalTickTable;
 
-            historicalTickTable.Rows.Add(Util.UnixSecondsToString(msg.Time, "yyyyMMdd-HH:mm:ss zzz"), msg.Price, msg.Size);
+            historicalTickTable.Rows.Add(Util.UnixSecondsToString(msg.Time, "yyyyMMdd-HH:mm:ss zzz"), Util.DoubleMaxString(msg.Price), Util.DecimalMaxString(msg.Size));
         }
 
         private void UpdateUI(HistogramDataMessage obj)
         {
             if (histogramSubscriptionList.Contains(obj.ReqId))
-                obj.Data.ToList().ForEach(i => histogramDataGridView.Rows.Add(new object[] { obj.ReqId, i.Price, i.Size }));
+                obj.Data.ToList().ForEach(i => histogramDataGridView.Rows.Add(new object[] { obj.ReqId, Util.DoubleMaxString(i.Price), Util.DecimalMaxString(i.Size) }));
+        }
+
+        private void UpdateUI(HistoricalScheduleMessage obj)
+        {
+            historicalScheduleOutput.Text = $"Start: {obj.StartDateTime}, End: {obj.EndDateTime}, Time Zone: {obj.TimeZone}";
+            obj.Sessions.ToList().ForEach(i => historicalScheduleGrid.Rows.Add(new object[] { i.StartDateTime, i.EndDateTime, i.RefDate }));
         }
 
         void ibClient_Tick(TickSizeMessage msg)
         {
-            addTextToBox("Tick Size. Ticker Id:" + msg.RequestId + ", Type: " + TickType.getField(msg.Field) + ", Size: " + msg.Size + "\n");
+            addTextToBox("Tick Size. Ticker Id:" + msg.RequestId + ", Type: " + TickType.getField(msg.Field) + ", Size: " + Util.DecimalMaxString(msg.Size) + Environment.NewLine);
 
             if (msg.RequestId < OptionsManager.OPTIONS_ID_BASE)
             {
@@ -315,7 +335,7 @@ namespace IBSampleApp
 
         void ibClient_Tick(TickPriceMessage msg)
         {
-            addTextToBox("Tick Price. Ticker Id:" + msg.RequestId + ", Type: " + TickType.getField(msg.Field) + ", Price: " + msg.Price + ", Pre-Open: " + msg.Attribs.PreOpen + "\n");
+            addTextToBox("Tick Price. Ticker Id:" + msg.RequestId + ", Type: " + TickType.getField(msg.Field) + ", Price: " + Util.DoubleMaxString(msg.Price) + ", Pre-Open: " + msg.Attribs.PreOpen + Environment.NewLine);
 
             if (msg.RequestId < OptionsManager.OPTIONS_ID_BASE)
             {
@@ -334,7 +354,7 @@ namespace IBSampleApp
             UpdateUI(new ConnectionStatusMessage(false));
         }
 
-        void ibClient_Error(int id, int errorCode, string str, Exception ex)
+        void ibClient_Error(int id, int errorCode, string str, string advancedOrderRejectjson, Exception ex)
         {
             if (ex != null)
             {
@@ -345,12 +365,12 @@ namespace IBSampleApp
 
             if (id == 0 || errorCode == 0)
             {
-                addTextToBox("Error: " + str + "\n");
+                addTextToBox("Error: " + str + Environment.NewLine);
 
                 return;
             }
 
-            ErrorMessage error = new ErrorMessage(id, errorCode, str);
+            ErrorMessage error = new ErrorMessage(id, errorCode, str, advancedOrderRejectjson);
 
             HandleErrorMessage(error);
         }
@@ -358,7 +378,7 @@ namespace IBSampleApp
 
         private void addTextToBox(string text)
         {
-            HandleErrorMessage(new ErrorMessage(-1, -1, text));
+            HandleErrorMessage(new ErrorMessage(-1, -1, text, ""));
         }
 
 
@@ -469,7 +489,14 @@ namespace IBSampleApp
 
         private void HandleErrorMessage(ErrorMessage message)
         {
-            ShowMessageOnPanel("Request " + message.RequestId + ", Code: " + message.ErrorCode + " - " + message.Message);
+            if (!Util.StringIsEmpty(message.AdvancedOrderRejectJson))
+            {
+                ShowMessageOnPanel("Request " + message.RequestId + ", Code: " + message.ErrorCode + " - " + message.Message + ", AdvancedOrderRejectJson: " + message.AdvancedOrderRejectJson + Environment.NewLine);
+            }
+            else
+            {
+                ShowMessageOnPanel("Request " + message.RequestId + ", Code: " + message.ErrorCode + " - " + message.Message);
+            }
 
             if (message.RequestId > MarketDataManager.TICK_ID_BASE && message.RequestId < DeepBookManager.TICK_ID_BASE)
                 marketDataManager.NotifyError(message.RequestId);
@@ -527,7 +554,7 @@ namespace IBSampleApp
                 }
                 catch (Exception)
                 {
-                    HandleErrorMessage(new ErrorMessage(-1, -1, "Please check your connection attributes."));
+                    HandleErrorMessage(new ErrorMessage(-1, -1, "Please check your connection attributes.", ""));
                 }
             }
             else
@@ -749,7 +776,7 @@ namespace IBSampleApp
 
         private void accUpdatesSubscribe_Click(object sender, EventArgs e)
         {
-            if (accUpdatesSubscribe.Text.Equals("Subscribe"))
+            if (accUpdatesSubscribe.Text.Equals("Subscribe") && accountSelector.SelectedItem != null)
             {
                 accUpdatesSubscribedAccount.Text = accountSelector.SelectedItem.ToString();
                 accUpdatesSubscribe.Text = "Unsubscribe";
@@ -898,7 +925,7 @@ namespace IBSampleApp
         {
             if (message.Substring(message.Length - 1) != "\n")
             {
-                return message + "\n";
+                return message + Environment.NewLine;
             }
             else
             {
@@ -1352,6 +1379,76 @@ namespace IBSampleApp
         private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             clearHistoricalTicksDataSources();
+        }
+
+        private void buttonRequestWshEventData_Click(object sender, EventArgs e)
+        {
+            if (!IsConnected)
+                return;
+
+            wshMgr.CancelEventData();
+            wshEventDataTable.Clear();
+
+            dataGridViewWsh.DataSource = wshEventDataTable;
+
+            int conId;
+
+            if (int.TryParse(textBoxWshConId.Text, out conId))
+                wshMgr.ReqEventData(conId);
+        }
+
+        private void buttonCancelWshMetaData_Click(object sender, EventArgs e)
+        {
+            wshMgr.CancelMetaData();
+        }
+
+        private void buttonCancelWshEventData_Click(object sender, EventArgs e)
+        {
+            wshMgr.CancelEventData();
+        }
+
+        private void linkLabelClearHistoricalSchedule_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            labelHistoricalSchedule.Text = "Historical Schedule";
+            historicalScheduleOutput.Clear();
+            historicalScheduleGrid.Rows.Clear();
+        }
+
+        private void histScheduleButton_Click(object sender, EventArgs e)
+        {
+            if (IsConnected)
+            {
+                Contract contract = GetMDContract();
+                string endTime = hdRequest_EndTime.Text.Trim();
+                string duration = hdRequest_Duration.Text.Trim() + " " + hdRequest_TimeUnit.Text.Trim();
+                int outsideRTH = contractMDRTH.Checked ? 1 : 0;
+                historicalDataManager.AddRequest(contract, endTime, duration, "1 day", "SCHEDULE", outsideRTH, 1, false);
+                labelHistoricalSchedule.Text = $"Historical Schedule: {Utils.ContractToString(contract)}";
+                ShowTab(marketData_MDT, tabHistoricalSchedule);
+            }
+        }
+
+        private void reqUserInfo_Click(object sender, EventArgs e)
+        {
+            if (IsConnected)
+            {
+                ibClient.ClientSocket.reqUserInfo(0);
+            }
+        }
+
+        WshManager wshMgr;
+
+        private void buttonRequestWshMetaData_Click(object sender, EventArgs e)
+        {
+            if (!IsConnected)
+                return;
+
+            wshMgr.CancelMetaData();
+            wshMetaDataTable.Clear();
+
+            dataGridViewWsh.DataSource = wshMetaDataTable;
+
+            wshMgr.ReqMetaData();
         }
 
         private void buttonRequestTickByTick_Click(object sender, EventArgs e)

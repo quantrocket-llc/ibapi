@@ -74,7 +74,7 @@ Namespace Samples
             baseOrder.AlgoParams.Add(New TagValue("startTime", startTime))
             baseOrder.AlgoParams.Add(New TagValue("endTime", endTime))
             baseOrder.AlgoParams.Add(New TagValue("allowPastEndTime", BooleantoString(allowPastEndTime)))
-            baseOrder.AlgoParams.Add(New TagValue("monetaryValue", monetaryValue.ToString()))
+            baseOrder.CashQty = monetaryValue
 
         End Sub
         '! [twap_params]

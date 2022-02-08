@@ -281,7 +281,7 @@ namespace Samples
             //! [optcontract_localsymbol]
             Contract contract = new Contract();
             //Watch out for the spaces within the local symbol!
-            contract.LocalSymbol = "C DBK  DEC 20  1600";
+            contract.LocalSymbol = "P BMW  JUL 20  4650";
             contract.SecType = "OPT";
             contract.Exchange = "DTB";
             contract.Currency = "EUR";
@@ -379,6 +379,22 @@ namespace Samples
             contract.Right = "C";
             contract.Multiplier = "50";
             //! [fopcontract]
+            return contract;
+        }
+		
+		public static Contract Warrants()
+        {
+            //! [warcontract]
+            Contract contract = new Contract();
+            contract.Symbol = "GOOG";
+            contract.SecType = "WAR";
+            contract.Exchange = "FWB";
+            contract.Currency = "EUR";
+            contract.LastTradeDateOrContractMonth = "20201117";
+            contract.Strike = 1500.0;
+            contract.Right = "C";
+            contract.Multiplier = "0.01";
+            //! [warcontract]
             return contract;
         }
 
@@ -625,17 +641,6 @@ namespace Samples
             return contract;
         }
 
-        public static Contract MTbroadtapeNewsFeed()
-        {
-            //! [newscontractmt]
-            Contract contract = new Contract();
-            contract.Symbol = "MT:MT_ALL"; //BroadTape All News
-            contract.SecType = "NEWS";
-            contract.Exchange = "MT"; //Midnight Trader
-            //! [newscontractmt]
-            return contract;
-        }
-
         public static Contract ContFut()
         {
             //! [continuousfuturescontract]
@@ -681,5 +686,30 @@ namespace Samples
             //! [csfb_contract]
             return contract;
         }
+		
+		public static Contract IBKRATSContract()
+        {
+            //! [ibkrats_contract]
+            Contract contract = new Contract();
+            contract.Symbol = "QQQ";
+            contract.SecType = "STK";
+            contract.Exchange = "IBKRATS"; 
+            contract.Currency = "USD"; 
+            //! [ibkrats_contract]
+            return contract;
+        }
+
+        public static Contract CryptoContract()
+        {
+            //! [crypto_contract]
+            Contract contract = new Contract();
+            contract.Symbol = "ETH";
+            contract.SecType = "CRYPTO";
+            contract.Exchange = "PAXOS";
+            contract.Currency = "USD";
+            //! [crypto_contract]
+            return contract;
+        }
+
     }
 }

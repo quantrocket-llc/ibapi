@@ -58,11 +58,10 @@ public class ScannerDataHandler extends BaseHandler {
     public byte[] handleScannerSubscriptionRequest(String requestStr, byte[] data) {
         ScannerSubscriptionRequest request = m_requestParser.parseScannerSubscriptionRequest(requestStr, data);
         System.out.println("Sending scanner subscription request: id=" + request.requestId() + " scanCode=" + request.scannerSubscription().scanCode());
-        clientSocket().reqScannerSubscription(request.requestId(), request.scannerSubscription(), null, request.scannerSubscriptionFilterOptions());
-
         BaseMapDataMap<Integer, ScannerData> dataMap = new BaseMapDataMap<Integer, ScannerData>(request);
         m_scannerSubscriptionRequests.put(request.requestId(), dataMap);
         updateScannerSubscriptionStatus(request.requestId(), dataMap, DdeRequestStatus.REQUESTED);
+        clientSocket().reqScannerSubscription(request.requestId(), request.scannerSubscription(), null, request.scannerSubscriptionFilterOptions());
         return null;
     }
 

@@ -129,12 +129,12 @@ namespace IBSampleApp.ui
                     if (positionsGrid[POS_CONTRACT_IDX, i].Value.Equals(Utils.ContractToString(positionMessage.Contract)))
                     {
                         positionsGrid[POS_ACCOUNT_IDX, i].Value = positionMessage.AccountName;
-                        positionsGrid[POS_POSITION_IDX, i].Value = positionMessage.Position;
-                        positionsGrid[POS_MARKET_PRICE_IDX, i].Value = positionMessage.MarketPrice;
-                        positionsGrid[POS_MARKET_VALUE_IDX, i].Value = positionMessage.MarketValue;
-                        positionsGrid[POS_AVG_COST_IDX, i].Value = positionMessage.AverageCost;
-                        positionsGrid[POS_UNREALIZED_PNL_IDX, i].Value = positionMessage.UnrealizedPNL;
-                        positionsGrid[POS_REALIZED_PNL_IDX, i].Value = positionMessage.RealizedPNL;
+                        positionsGrid[POS_POSITION_IDX, i].Value = Util.DecimalMaxString(positionMessage.Position);
+                        positionsGrid[POS_MARKET_PRICE_IDX, i].Value = Util.DoubleMaxString(positionMessage.MarketPrice);
+                        positionsGrid[POS_MARKET_VALUE_IDX, i].Value = Util.DoubleMaxString(positionMessage.MarketValue);
+                        positionsGrid[POS_AVG_COST_IDX, i].Value = Util.DoubleMaxString(positionMessage.AverageCost);
+                        positionsGrid[POS_UNREALIZED_PNL_IDX, i].Value = Util.DoubleMaxString(positionMessage.UnrealizedPNL);
+                        positionsGrid[POS_REALIZED_PNL_IDX, i].Value = Util.DoubleMaxString(positionMessage.RealizedPNL);
                         return;
                     }
                 }
@@ -142,8 +142,8 @@ namespace IBSampleApp.ui
                 positionsGrid.Rows.Add(1);
                 positionsGrid[0, positionsGrid.Rows.Count - 1].Value = Utils.ContractToString(positionMessage.Contract);
                 positionsGrid[1, positionsGrid.Rows.Count - 1].Value = positionMessage.AccountName;
-                positionsGrid[2, positionsGrid.Rows.Count - 1].Value = positionMessage.Position;
-                positionsGrid[3, positionsGrid.Rows.Count - 1].Value = positionMessage.AverageCost;
+                positionsGrid[2, positionsGrid.Rows.Count - 1].Value = Util.DecimalMaxString(positionMessage.Position);
+                positionsGrid[3, positionsGrid.Rows.Count - 1].Value = Util.DoubleMaxString(positionMessage.AverageCost);
                 currentOptionsPositions.Add(positionMessage.Contract);
             }
         }
@@ -176,7 +176,7 @@ namespace IBSampleApp.ui
         {
             grid.Rows.Add();
             grid[LASTTRADEDATE_INDEX, row].Value = contract.LastTradeDateOrContractMonth;
-            grid[STRIKE_INDEX, row].Value = contract.Strike;
+            grid[STRIKE_INDEX, row].Value = Util.DoubleMaxString(contract.Strike);
         }
 
         private void UpdateOptionGridTick(DataGridView grid, int row, MarketDataMessage message)
@@ -197,11 +197,11 @@ namespace IBSampleApp.ui
             {
                 case TickType.ASK:
                 case TickType.DELAYED_ASK:
-                    grid[ASK_INDEX, row].Value = message.Price;
+                    grid[ASK_INDEX, row].Value = Util.DoubleMaxString(message.Price);
                     break;
                 case TickType.BID:
                 case TickType.DELAYED_BID:
-                    grid[BID_INDEX, row].Value = message.Price;
+                    grid[BID_INDEX, row].Value = Util.DoubleMaxString(message.Price);
                     break;
             }
         }
@@ -209,11 +209,11 @@ namespace IBSampleApp.ui
        
         private void UpdateOptionGridTickOption(DataGridView grid, int row, TickOptionMessage message)
         {
-            grid[IMPLIED_VOLATILITY_INDEX, row].Value = message.ImpliedVolatility;
-            grid[DELTA_INDEX, row].Value = message.Delta;
-            grid[GAMMA_INDEX, row].Value = message.Gamma;
-            grid[VEGA_INDEX, row].Value = message.Vega;
-            grid[THETA_INDEX, row].Value = message.Theta;
+            grid[IMPLIED_VOLATILITY_INDEX, row].Value = Util.DoubleMaxString(message.ImpliedVolatility);
+            grid[DELTA_INDEX, row].Value = Util.DoubleMaxString(message.Delta);
+            grid[GAMMA_INDEX, row].Value = Util.DoubleMaxString(message.Gamma);
+            grid[VEGA_INDEX, row].Value = Util.DoubleMaxString(message.Vega);
+            grid[THETA_INDEX, row].Value = Util.DoubleMaxString(message.Theta);
         }
 
         public bool IsRequestActive { get; set; }

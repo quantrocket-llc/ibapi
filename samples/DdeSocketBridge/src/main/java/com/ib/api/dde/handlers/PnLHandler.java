@@ -32,6 +32,7 @@ public class PnLHandler extends MarketDataBaseHandler {
     /** Method sends PnL request to TWS */
     public byte[] handlePnLRequest(String requestStr, byte[] data) {
         PnLRequest request = m_requestParser.parsePnLRequest(requestStr, data);
+        byte[] ret = handleMarketDataBaseRequest(request); 
         if (request.conId() == 0) {
             System.out.println("Sending PnL request: id=" + request.requestId() + " account=" + request.account() + " modelCode=" + request.modelCode());
             clientSocket().reqPnL(request.requestId(), request.account(), request.modelCode());
@@ -40,7 +41,7 @@ public class PnLHandler extends MarketDataBaseHandler {
                     " conId=" + request.conId());
             clientSocket().reqPnLSingle(request.requestId(), request.account(), request.modelCode(), request.conId());
         }
-        return handleMarketDataBaseRequest(request);
+        return ret;
     }
     
     /** Method sends PnL cancel to TWS */

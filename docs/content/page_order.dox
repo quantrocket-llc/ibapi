@@ -1,10 +1,11 @@
-/*! 
+/*!
 	\page introduction Introduction
+	\page guide_updates Guide Updates
 	\page initial_setup Initial Setup
-	\page third_party Using Third Party API Platforms 
+	\page third_party Using Third Party API Platforms
 	\page excel_apis Excel APIs
 	\page support Troubleshooting & Support
-	\page client_wrapper Programming the API: Architecture 
+	\page client_wrapper Programming the API: Architecture
 	\page connection Connectivity
 	\page contracts Financial Instruments (Contracts)
 	\page orders Orders
@@ -12,6 +13,7 @@
 	\page historical_data Historical Market Data
 	\page account_portfolio Account & Portfolio Data
 	\page options Options
+	\page cryptocurrency Cryptocurrency
 	\page financial_advisor Financial Advisors
 	\page fundamentals Fundamental Data
 	\page error_handling Error Handling
@@ -19,5 +21,5 @@
 	\page news News
 	\page ib_bulletins IB Bulletins
 	\page display_groups Display Groups
-	
+
 */

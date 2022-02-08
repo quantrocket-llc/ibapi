@@ -1,6 +1,7 @@
 ﻿/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
+using System;
 using System.Collections.Generic;
 
 namespace IBApi
@@ -106,7 +107,7 @@ namespace IBApi
         /**
          * @brief The number of positions being bought/sold.
          */
-        public double TotalQuantity { get; set; }
+        public decimal TotalQuantity { get; set; }
 
         /**
          * @brief The order's type.
@@ -338,21 +339,6 @@ namespace IBApi
           * @brief The amount off the limit price allowed for discretionary orders.
           */
         public double DiscretionaryAmt { get; set; }
-
-        /**
-         * @brief Trade with electronic quotes.
-         */
-        public bool ETradeOnly { get; set; }
-
-        /**
-         * @brief Trade with firm quotes.
-         */
-        public bool FirmQuoteOnly { get; set; }
-
-        /**
-         * @brief Maximum smart order distance from the NBBO.
-         */
-        public double NbboPriceCap { get; set; }
 
         /**
          * @brief Use to opt out of default SmartRouting for orders routed directly to ASX.
@@ -732,7 +718,7 @@ namespace IBApi
 
         public string AutoCancelDate { get; set; }
 
-        public double FilledQuantity { get; set; }
+        public decimal FilledQuantity { get; set; }
 
         public int RefFuturesConId { get; set; }
 
@@ -746,6 +732,7 @@ namespace IBApi
 
         public long ParentPermId { get; set; }
 
+        public string AdvancedErrorOverride { get; set; }
 
         public Order()
         {
@@ -761,7 +748,6 @@ namespace IBApi
             ExemptCode = -1;
             MinQty = int.MaxValue;
             PercentOffset = double.MaxValue;
-            NbboPriceCap = double.MaxValue;
             OptOutSmartRouting = false;
             StartingPrice = double.MaxValue;
             StockRefPrice = double.MaxValue;
@@ -813,7 +799,7 @@ namespace IBApi
             Mifid2ExecutionAlgo = EMPTY_STR;
             DontUseAutoPriceForHedge = false;
             AutoCancelDate = EMPTY_STR;
-            FilledQuantity = double.MaxValue;
+            FilledQuantity = decimal.MaxValue;
             RefFuturesConId = int.MaxValue;
             AutoCancelParent = false;
             Shareholder = EMPTY_STR;
@@ -821,6 +807,9 @@ namespace IBApi
             RouteMarketableToBbo = false;
             ParentPermId = long.MaxValue;
             UsePriceMgmtAlgo = null;
+            Duration = int.MaxValue;
+            PostToAts = int.MaxValue;
+            AdvancedErrorOverride = EMPTY_STR;
         }
 
 		// Note: Two orders can be 'equivalent' even if all fields do not match. This function is not intended to be used with Order objects returned from TWS.
@@ -862,9 +851,6 @@ namespace IBApi
                 Origin != l_theOther.Origin ||
                 ShortSaleSlot != l_theOther.ShortSaleSlot ||
                 DiscretionaryAmt != l_theOther.DiscretionaryAmt ||
-                ETradeOnly != l_theOther.ETradeOnly ||
-                FirmQuoteOnly != l_theOther.FirmQuoteOnly ||
-                NbboPriceCap != l_theOther.NbboPriceCap ||
                 OptOutSmartRouting != l_theOther.OptOutSmartRouting ||
                 AuctionStrategy != l_theOther.AuctionStrategy ||
                 StartingPrice != l_theOther.StartingPrice ||
@@ -910,7 +896,9 @@ namespace IBApi
                 AutoCancelParent != l_theOther.AutoCancelParent ||
                 ImbalanceOnly != l_theOther.ImbalanceOnly ||
                 RouteMarketableToBbo != l_theOther.RouteMarketableToBbo ||
-                ParentPermId != l_theOther.ParentPermId)
+                ParentPermId != l_theOther.ParentPermId ||
+                Duration != l_theOther.Duration ||
+                PostToAts != l_theOther.PostToAts)
             {
                 return false;
             }
@@ -949,7 +937,8 @@ namespace IBApi
                 Util.StringCompare(ModelCode, l_theOther.ModelCode) != 0 ||
                 Util.StringCompare(ExtOperator, l_theOther.ExtOperator) != 0 ||
                 Util.StringCompare(AutoCancelDate, l_theOther.AutoCancelDate) != 0 ||
-                Util.StringCompare(Shareholder, l_theOther.Shareholder) != 0)
+                Util.StringCompare(Shareholder, l_theOther.Shareholder) != 0 ||
+                Util.StringCompare(AdvancedErrorOverride, l_theOther.AdvancedErrorOverride) != 0)
             {
                 return false;
             }
@@ -1016,9 +1005,6 @@ namespace IBApi
             hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(DesignatedLocation);
             hashCode = hashCode * -1521134295 + ExemptCode.GetHashCode();
             hashCode = hashCode * -1521134295 + DiscretionaryAmt.GetHashCode();
-            hashCode = hashCode * -1521134295 + ETradeOnly.GetHashCode();
-            hashCode = hashCode * -1521134295 + FirmQuoteOnly.GetHashCode();
-            hashCode = hashCode * -1521134295 + NbboPriceCap.GetHashCode();
             hashCode = hashCode * -1521134295 + OptOutSmartRouting.GetHashCode();
             hashCode = hashCode * -1521134295 + AuctionStrategy.GetHashCode();
             hashCode = hashCode * -1521134295 + StartingPrice.GetHashCode();
@@ -1106,6 +1092,9 @@ namespace IBApi
             hashCode = hashCode * -1521134295 + IsOmsContainer.GetHashCode();
             hashCode = hashCode * -1521134295 + DiscretionaryUpToLimitPrice.GetHashCode();
             hashCode = hashCode * -1521134295 + EqualityComparer<bool?>.Default.GetHashCode(UsePriceMgmtAlgo);
+            hashCode = hashCode * -1521134295 + Duration.GetHashCode();
+            hashCode = hashCode * -1521134295 + PostToAts.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(AdvancedErrorOverride);
             return hashCode;
         }
 
@@ -1205,5 +1194,10 @@ namespace IBApi
         public bool DiscretionaryUpToLimitPrice { get; set; }
 
         public bool? UsePriceMgmtAlgo { get; set; }
+
+        public int Duration { get; set; }
+
+        public int PostToAts { get; set; }
+
     }
 }

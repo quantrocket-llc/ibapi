@@ -155,6 +155,8 @@
 		</tr>
 	</table>
 	
-	<br><br>
+	<br>
+	Please note that there is a limit of only 10 quote boosters packs per account and rest of the market data lines are allocated using equity and commissions. Also note that each quote booster pack provides 100 market data lines. 
+	<br>
 
 */

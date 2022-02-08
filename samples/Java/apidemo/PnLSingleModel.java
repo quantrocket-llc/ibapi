@@ -8,6 +8,8 @@ import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
 
+import com.ib.client.Decimal;
+
 public class PnLSingleModel extends AbstractTableModel {
 
     @Override
@@ -29,13 +31,13 @@ public class PnLSingleModel extends AbstractTableModel {
     }
 
     static class Row {
-        int m_pos;
+    	Decimal m_pos;
         double m_dailyPnL;
         double m_unrealizedPnL;
         double m_realizedPnL;
         double m_value;
         
-        public Row(int pos, double dailyPnL, double unrealizedPnL, double realizedPnL, double value) {
+        public Row(Decimal pos, double dailyPnL, double unrealizedPnL, double realizedPnL, double value) {
             m_pos = pos;
             m_dailyPnL = dailyPnL;
             m_unrealizedPnL = unrealizedPnL;
@@ -76,7 +78,7 @@ public class PnLSingleModel extends AbstractTableModel {
         }
     }
 
-    public void addRow(int pos, double dailyPnL, double unrealizedPnL, double realizedPnL, double value) {
+    public void addRow(Decimal pos, double dailyPnL, double unrealizedPnL, double realizedPnL, double value) {
         m_rows.add(new Row(pos, dailyPnL, unrealizedPnL, realizedPnL, value));
         
         fireTableDataChanged();

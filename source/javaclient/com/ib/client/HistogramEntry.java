@@ -6,7 +6,7 @@ package com.ib.client;
 public class HistogramEntry implements Comparable<HistogramEntry> {
 
     private double price;
-    private long size;
+    private Decimal size;
 
     public double price() {
 		return price;
@@ -16,15 +16,15 @@ public class HistogramEntry implements Comparable<HistogramEntry> {
 		this.price = price;
 	}
 
-	public long size() {
+	public Decimal size() {
 		return size;
 	}
 
-	public void size(long size) {
+	public void size(Decimal size) {
 		this.size = size;
 	}
 
-	public HistogramEntry(double price, long size) {
+	public HistogramEntry(double price, Decimal size) {
         this.price = price;
         this.size = size;
     }
@@ -34,16 +34,15 @@ public class HistogramEntry implements Comparable<HistogramEntry> {
         if (this == o) return true;
         if (o == null || !(o instanceof HistogramEntry)) return false;
         HistogramEntry he = (HistogramEntry) o;
-        return Double.compare(price, he.price) == 0 && size == he.size;
+        return Double.compare(price, he.price) == 0 && Decimal.compare(size, he.size) == 0;
     }
 
     @Override
     public int hashCode() {
         int result;
-        long temp;
-        temp = Double.doubleToLongBits(price);
-        result = (int) (temp ^ (temp >>> 32));
-        result = 31 * result + (int) (size ^ (size >>> 32));
+        long tempPrice = Double.doubleToLongBits(price);
+        result = (int) (tempPrice ^ (tempPrice >>> 32));
+        result = 31 * result + size.hashCode();
         return result;
     }
 
@@ -53,7 +52,7 @@ public class HistogramEntry implements Comparable<HistogramEntry> {
         if (d != 0) {
             return d;
         }
-        return Long.compare(size, he.size);
+        return Decimal.compare(size, he.size);
     }
 
     @Override

@@ -3,6 +3,7 @@
 
 using System;
 using System.Windows.Forms;
+using IBApi;
 using IBSampleApp.messages;
 
 namespace IBSampleApp.ui
@@ -20,7 +21,7 @@ namespace IBSampleApp.ui
             contractResults[0, contractResults.Rows.Count - 1].Value = message.ContractDetails.Contract.Symbol;
             contractResults[1, contractResults.Rows.Count - 1].Value = message.ContractDetails.Contract.Currency;
             contractResults[2, contractResults.Rows.Count - 1].Value = message.ContractDetails.Contract.Multiplier;
-            contractResults[3, contractResults.Rows.Count - 1].Value = message.ContractDetails.Contract.Strike;
+            contractResults[3, contractResults.Rows.Count - 1].Value = Util.DoubleMaxString(message.ContractDetails.Contract.Strike);
             contractResults[4, contractResults.Rows.Count - 1].Value = message.ContractDetails.Contract.Right;
             contractResults[5, contractResults.Rows.Count - 1].Value = message.ContractDetails.Contract.LastTradeDateOrContractMonth;
             contractResults[6, contractResults.Rows.Count - 1].Value = message.ContractDetails.Contract.ConId;

@@ -50,7 +50,7 @@ public class MatchingSymbolsHandler extends BaseHandler {
         }
         if (dataMap.ddeRequestStatus() == DdeRequestStatus.UNKNOWN) {
             clientSocket().reqMatchingSymbols(request.requestId(), request.pattern());
-            dataMap.ddeRequestStatus(DdeRequestStatus.REQUESTED);
+            dataMap.ddeRequestStatus(dataMap.error() == null ? DdeRequestStatus.REQUESTED : DdeRequestStatus.ERROR);
         }
 
         ret = dataMap.ddeRequestStatus().toString();

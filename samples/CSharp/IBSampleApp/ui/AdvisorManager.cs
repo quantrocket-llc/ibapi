@@ -75,7 +75,7 @@ namespace IBSampleApp.ui
                 xmlData += allocProfile.ToXmlString();
             }
             xmlData += "</ListOfAllocationProfiles>";
-            IbClient.ClientSocket.replaceFA((int)FinancialAdvisorDataType.Profiles.Value, xmlData);
+            IbClient.ClientSocket.replaceFA(0, (int)FinancialAdvisorDataType.Profiles.Value, xmlData);
         }
 
         private void HandleGroupsData(string groupsData)
@@ -101,7 +101,7 @@ namespace IBSampleApp.ui
                 xmlData += advisorGroup.ToXmlString();
             }
             xmlData += "</ListOfGroups>";
-            IbClient.ClientSocket.replaceFA((int)FinancialAdvisorDataType.Groups.Value, xmlData);
+            IbClient.ClientSocket.replaceFA(0, (int)FinancialAdvisorDataType.Groups.Value, xmlData);
         }
 
         public void RequestFAData(IBType dataType)

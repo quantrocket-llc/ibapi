@@ -1,93 +1,94 @@
 /*! \page fundamentals Fundamental Data
 
-	<b>Fundamental</b> data for stocks and the <b>Wall Street Events Horizon Calendar</b> can be accessed via the TWS API through the @ref IBApi::EClient::reqFundamentalData. For the "CalendarReport" it is necessary to have the Wall Street Horizon subscription activated first in <a target="_blank" class="linkexternal" href="http://interactivebrokers.github.io/tws-api/market_data.html#market_subscriptions">Account Management</a>. The other report types require the Fundamentals subscription but this is freely available and will be activated in most accounts by default. 
+	Starting with <i>TWS v985+</i> and after <i>API v985+</i>, <b>Fundamental</b> data from the <b>Wall Street Events Horizon Calendar</b> can be accessed via the TWS API through the functions @ref IBApi::EClient::reqWshMetaData and @ref IBApi::EClient::reqWshEventData. It is necessary to have the Wall Street Horizon Enchilada Pro research subscription activated first in <a target="_blank" class="linkexternal" href="http://interactivebrokers.github.io/tws-api/market_data.html#market_subscriptions">Account Management</a>.<br>
+	WSH provides IBKR with corporate event datasets, including earnings dates, dividend dates, options expiration dates, splits, spinoffs and a wide variety of investor-related conferences.
+	
+	The function @ref IBApi::EClient::reqWshMetaData is used to request metadata describing calendar events. 
+	
+	<ul id="tab">
+		<li class="active"> 
+			\snippet Program.cs reqmetadata
+		</li>
+		<li>
+			\snippet Testbed.java reqmetadata
+		</li>
+		<li>
+			\snippet MainModule.vb reqmetadata
+		</li>
+		<li>
+			\snippet TestCppClient.cpp reqmetadata
+		</li>
+		<li>
+			\snippet Program.py reqmetadata
+		</li>
+	</ul>	
+	
+	The metadata is then received via the callback @ref IBApi::EWrapper::wshMetaData
 		
 	<ul id="tab">
 		<li class="active"> 
-			\snippet Program.cs reqfundamentaldata
+			\snippet EWrapperImpl.cs wshMetaData
 		</li>
 		<li>
-			\snippet Testbed.java reqfundamentaldata
+			\snippet EWrapperImpl.java wshMetaData
 		</li>
 		<li>
-			\snippet MainModule.vb reqfundamentaldata
+			\snippet EWrapperImpl.vb wshMetaData
 		</li>
 		<li>
-			\snippet TestCppClient.cpp reqfundamentaldata
+			\snippet TestCppClient.cpp wshMetaData
 		</li>
 		<li>
-			\snippet Program.py reqfundamentaldata
+			\snippet Program.py wshmetadata
 		</li>
 	</ul>
 	
-	Note how a string attribute specifies the requested report type. In the example above the request was made for the financial summary. See @ref report_type at the bottom of this page 
-	for the rest report types available.
+	Pending metadata requests can be canceled with the function @ref IBApi::EClient::cancelWshMetaData <br>
 	
-	There is a limitation of 60 reqFundamentalData requests that can be made in a 10 minute period. 
-	
-	Results are delivered via @ref IBApi::EWrapper::fundamentalData in form of an XML report:
+	The function @ref IBApi::EClient::reqWshEventData is used to request the calendar events. <i>Note:</i> Prior to sending this message, it is expected that the API client request metadata via @ref IBApi::EClient::reqWshMetaData, else an error may be reported.
 	
 	<ul id="tab">
 		<li class="active"> 
-			\snippet EWrapperImpl.cs ewrapperimpl
-		   ...
-			\snippet EWrapperImpl.cs fundamentaldata
+			\snippet Program.cs reqeventdata
 		</li>
 		<li>
-			\snippet EWrapperImpl.java ewrapperimpl
-			...
-			\snippet EWrapperImpl.java fundamentaldata
+			\snippet Testbed.java reqeventdata
 		</li>
 		<li>
-			\snippet EWrapperImpl.vb ewrapperimpl
-		   ...
-			\snippet EWrapperImpl.vb fundamentaldata
+			\snippet MainModule.vb reqeventdata
+		<li>
+			\snippet TestCppClient.cpp reqeventdata
 		</li>
 		<li>
-			\snippet TestCppClient.h ewrapperimpl
-		   ...
-			\snippet TestCppClient.cpp fundamentaldata
-		</li>
-		<li>
-			\snippet Program.py ewrapperimpl
-		   ...
-			\snippet Program.py fundamentaldata
+			\snippet Program.py reqeventdata
 		</li>
 	</ul>
 	
-	The @ref IBApi::EClient::reqFundamentalData request can be cancelled via @ref IBApi::EClient::cancelFundamentalData :
+	As seen above, currently the event data can only be filtered by conId. At a later point, filter parameters may be added for account, datePeriod, wholeMonthEvents, etc.
+	
+	The event data is then received via the callback @ref IBApi::EWrapper::wshEventData
 	
 	<ul id="tab">
 		<li class="active"> 
-			\snippet Program.cs cancelfundamentaldata
+			\snippet EWrapperImpl.cs wshEventData
 		</li>
 		<li>
-			\snippet Testbed.java cancelfundamentaldata
+			\snippet EWrapperImpl.java wshEventData
 		</li>
 		<li>
-			\snippet MainModule.vb cancelfundamentaldata
+			\snippet EWrapperImpl.vb wshEventData
 		</li>
 		<li>
-			\snippet TestCppClient.cpp cancelfundamentaldata
+			\snippet TestCppClient.cpp wshEventData
 		</li>
 		<li>
-			\snippet Program.py cancelfundamentaldata
+			\snippet Program.py wsheventdata
 		</li>
 	</ul>
 	
-	\section report_type Report Types
+	Pending event data requests can be canceled with the function @ref IBApi::EClient::cancelWshEventData
 	
-	<table>
-		<tr><th>Report Type</th><th>Description</th></tr>
-		<tr><td>ReportsFinSummary</td><td>Financial summary</td></tr>
-		<tr><td>ReportsOwnership</td><td>Company's ownership <i>(Can be large in size)</i></td></tr>
-		<tr><td>ReportSnapshot</td><td>Company's financial overview</td></tr>
-		<tr><td>ReportsFinStatements</td><td>Financial Statements</td></tr>
-		<tr><td>RESC</td><td>Analyst Estimates</td></tr>
-		<tr><td>CalendarReport</td><td>Company's calendar</td></tr>
-	</table>
-	
-	<i>Fundamental Ratios data can be acquired by requesting generic tick type 258 with @ref IBApi::EClient::reqMktData. See both \ref tick_types and \ref fundamental_ratios_tags.</i>
+	Also note that TWS will not support multiple concurrent requests. Previous request should succeed, fail, or be cancelled by client before next one. TWS will reject such requests with text "Duplicate WSH meta-data request" or "Duplicate WSH event request".
 	
 	<br><br>
 */

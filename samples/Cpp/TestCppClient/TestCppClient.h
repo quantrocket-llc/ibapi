@@ -102,7 +102,11 @@ enum State {
     ST_REQTICKBYTICKDATA_ACK,
 	ST_WHATIFSAMPLES,
 	ST_WHATIFSAMPLES_ACK,
-	ST_IDLE
+	ST_IDLE,
+	ST_IBKRATSSAMPLE,
+	ST_IBKRATSSAMPLE_ACK,
+	ST_WSH,
+	ST_WSH_ACK
 };
 
 //! [ewrapperimpl]
@@ -165,6 +169,8 @@ private:
     void reqHistoricalTicks();
     void reqTickByTickData();
 	void whatIfSamples();
+	void ibkratsSample();
+	void wshCalendarOperations();
 
 	void reqCurrentTime();
 
@@ -188,7 +194,7 @@ private:
 	time_t m_sleepDeadline;
 
 	OrderId m_orderId;
-	EReader *m_pReader;
+	std::unique_ptr<EReader> m_pReader;
     bool m_extraAuth;
 	std::string m_bboExchange;
 };

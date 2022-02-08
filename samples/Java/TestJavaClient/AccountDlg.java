@@ -21,6 +21,7 @@ import javax.swing.SwingConstants;
 import javax.swing.table.AbstractTableModel;
 
 import com.ib.client.Contract;
+import com.ib.client.Decimal;
 import com.ib.client.Util;
 
 class AccountDlg extends JDialog {
@@ -71,7 +72,7 @@ class AccountDlg extends JDialog {
         m_acctValueModel.updateAccountValue(key, value, currency, accountName);
     }
 
-    void updatePortfolio(Contract contract, double position, double marketPrice, double marketValue,
+    void updatePortfolio(Contract contract, Decimal position, double marketPrice, double marketValue,
     		double averageCost, double unrealizedPNL, double realizedPNL, String accountName) {
        m_portfolioModel.updatePortfolio(contract, position, marketPrice, marketValue,
           averageCost, unrealizedPNL, realizedPNL, accountName);
@@ -130,7 +131,7 @@ class AccountDlg extends JDialog {
 class PortfolioTable extends AbstractTableModel {
     private Vector<PortfolioTableRow> m_allData = new Vector<>();
 
-    void updatePortfolio(Contract contract, double position, double marketPrice, double marketValue,
+    void updatePortfolio(Contract contract, Decimal position, double marketPrice, double marketValue,
                          double averageCost, double unrealizedPNL, double realizedPNL, String accountName) {
          PortfolioTableRow newData =
          new PortfolioTableRow(contract, position, marketPrice, marketValue, averageCost, unrealizedPNL, realizedPNL, accountName);
@@ -138,7 +139,7 @@ class PortfolioTable extends AbstractTableModel {
          for ( int i = 0; i < size; i++ ) {
              PortfolioTableRow test = m_allData.get(i);
              if ( test.m_contract.equals(newData.m_contract) ) {
-                 if ( newData.m_position == 0 )
+                 if ( newData.m_position.isZero() )
                      m_allData.remove(i);
                  else
                      m_allData.set(i, newData);
@@ -217,7 +218,7 @@ class PortfolioTable extends AbstractTableModel {
 
     static class PortfolioTableRow {
         Contract m_contract;
-        double      m_position;
+        Decimal  m_position;
         double   m_marketPrice;
         double   m_marketValue;
         double   m_averageCost;
@@ -225,7 +226,7 @@ class PortfolioTable extends AbstractTableModel {
         double   m_realizedPNL;
         String   m_accountName;
 
-        PortfolioTableRow( Contract contract, double position, double marketPrice,
+        PortfolioTableRow( Contract contract, Decimal position, double marketPrice,
             double marketValue, double averageCost, double unrealizedPNL,
             double realizedPNL, String accountName) {
             m_contract = contract;
@@ -249,7 +250,7 @@ class PortfolioTable extends AbstractTableModel {
                 case 3:
                     return m_contract.lastTradeDateOrContractMonth();
                 case 4:
-                    return m_contract.lastTradeDateOrContractMonth() == null ? null : "" + m_contract.strike();
+                    return m_contract.lastTradeDateOrContractMonth() == null ? null : "" + Util.DoubleMaxString(m_contract.strike());
                 case 5:
                     return (m_contract.getRight() != null && m_contract.getRight().equals("???")) ? null : m_contract.getRight();
                 case 6:
@@ -263,17 +264,17 @@ class PortfolioTable extends AbstractTableModel {
                 case 10:
                     return (m_contract.tradingClass() != null ? m_contract.tradingClass() : "");
                 case 11:
-                    return "" + m_position;
+                    return m_position.toString();
                 case 12:
-                    return "" + m_marketPrice;
+                    return Util.DoubleMaxString(m_marketPrice);
                 case 13:
-                    return "" + m_marketValue;
+                    return Util.DoubleMaxString(m_marketValue);
                 case 14:
-                    return "" + m_averageCost;
+                    return Util.DoubleMaxString(m_averageCost);
                 case 15:
-                    return "" + m_unrealizedPNL;
+                    return Util.DoubleMaxString(m_unrealizedPNL);
                 case 16:
-                    return "" + m_realizedPNL;
+                    return Util.DoubleMaxString(m_realizedPNL);
                 case 17:
                     return m_accountName;
                 default:

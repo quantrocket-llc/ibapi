@@ -18,7 +18,7 @@ namespace Samples
         /// the limit price set to the COP or the best bid/ask after the market opens.
         /// Products: FUT, STK
         /// </summary>
-        public static Order AtAuction(string action, double quantity, double price)
+        public static Order AtAuction(string action, decimal quantity, double price)
         {
             //! [auction]
             Order order = new Order();
@@ -36,7 +36,7 @@ namespace Samples
         /// may be used to increase the price range over which the limit order is eligible to execute. The market sees only the limit price.
         /// Products: STK
         /// </summary>
-        public static Order Discretionary(string action, double quantity, double price, double discretionaryAmount)
+        public static Order Discretionary(string action, decimal quantity, double price, double discretionaryAmount)
         {
             //! [discretionary]
             Order order = new Order();
@@ -55,7 +55,7 @@ namespace Samples
         /// lower/higher than the current displayed bid/ask.
         /// Products: BOND, CFD, EFP, CASH, FUND, FUT, FOP, OPT, STK, WAR
         /// </summary>
-        public static Order MarketOrder(string action, double quantity)
+        public static Order MarketOrder(string action, decimal quantity)
         {
             //! [market]
             Order order = new Order();
@@ -75,7 +75,7 @@ namespace Samples
         /// stop order, except that an MIT sell order is placed above the current market price, and a stop sell order is placed below
         /// Products: BOND, CFD, CASH, FUT, FOP, OPT, STK, WAR
         /// </summary>
-        public static Order MarketIfTouched(string action, double quantity, double price)
+        public static Order MarketIfTouched(string action, decimal quantity, double price)
         {
             //! [market_if_touched]
             Order order = new Order();
@@ -91,7 +91,7 @@ namespace Samples
         /// A Market-on-Close (MOC) order is a market order that is submitted to execute as close to the closing price as possible.
         /// Products: CFD, FUT, STK, WAR
         /// </summary>
-        public static Order MarketOnClose(string action, double quantity)
+        public static Order MarketOnClose(string action, decimal quantity)
         {
             //! [market_on_close]
             Order order = new Order();
@@ -107,7 +107,7 @@ namespace Samples
         /// submitted at the market's open and fills at the market price.
         /// Products: CFD, STK, OPT, WAR
         /// </summary>
-        public static Order MarketOnOpen(string action, double quantity)
+        public static Order MarketOnOpen(string action, decimal quantity)
         {
             //! [market_on_open]
             Order order = new Order();
@@ -125,7 +125,7 @@ namespace Samples
         /// execute only when the midpoint price is better than the limit price. Standard MPM orders are completely anonymous.
         /// Products: STK
         /// </summary>
-        public static Order MidpointMatch(string action, double quantity)
+        public static Order MidpointMatch(string action, decimal quantity)
         {
             //! [midpoint_match]
             Order order = new Order();
@@ -141,7 +141,7 @@ namespace Samples
 		// the NBBO or better. Set an optional price cap to define the highest price (for a buy order) or the lowest price (for a sell 
 		// order) you are willing to accept. Requires TWS 975+. Smart-routing to US stocks only.
         /// </summary>
-		public static Order Midprice(string action, double quantity, double priceCap)
+		public static Order Midprice(string action, decimal quantity, double priceCap)
         {
             //! [midprice]
             Order order = new Order();
@@ -162,7 +162,7 @@ namespace Samples
         ///     Buy order price = Ask price - offset amount
         /// Products: STK
         /// </summary>
-        public static Order PeggedToMarket(string action, double quantity, double marketOffset)
+        public static Order PeggedToMarket(string action, decimal quantity, double marketOffset)
         {
             //! [pegged_market]
             Order order = new Order();
@@ -184,7 +184,7 @@ namespace Samples
         /// price will be rounded to the nearest penny in favor of the order.
         /// Products: OPT
         /// </summary>
-        public static Order PeggedToStock(string action, double quantity, double delta, double stockReferencePrice, double startingPrice)
+        public static Order PeggedToStock(string action, decimal quantity, double delta, double stockReferencePrice, double startingPrice)
         {
             //! [pegged_stock]
             Order order = new Order();
@@ -210,7 +210,7 @@ namespace Samples
         /// Stocks, Options and Futures - not available on paper trading
         /// Products: CFD, STK, OPT, FUT
         /// </summary>
-        public static Order RelativePeggedToPrimary(string action, double quantity, double priceCap, double offsetAmount)
+        public static Order RelativePeggedToPrimary(string action, decimal quantity, double priceCap, double offsetAmount)
         {
             //! [relative_pegged_primary]
             Order order = new Order();
@@ -230,7 +230,7 @@ namespace Samples
         /// immediate execution.
         /// Products: CFD, STK, WAR
         /// </summary>
-        public static Order SweepToFill(string action, double quantity, double price)
+        public static Order SweepToFill(string action, decimal quantity, double price)
         {
             //! [sweep_to_fill]
             Order order = new Order();
@@ -254,7 +254,7 @@ namespace Samples
         /// Products: OPT
         /// Supported Exchanges: BOX
         /// </summary>
-        public static Order AuctionLimit(string action, double quantity, double price, int auctionStrategy)
+        public static Order AuctionLimit(string action, decimal quantity, double price, int auctionStrategy)
         {
             //! [auction_limit]
             Order order = new Order();
@@ -281,7 +281,7 @@ namespace Samples
         /// Products: OPT
         /// Supported Exchanges: BOX
         /// </summary>
-        public static Order AuctionPeggedToStock(string action, double quantity, double startingPrice, double delta)
+        public static Order AuctionPeggedToStock(string action, decimal quantity, double startingPrice, double delta)
         {
             //! [auction_pegged_stock]
             Order order = new Order();
@@ -308,7 +308,7 @@ namespace Samples
         /// Products: OPT
         /// Supported Exchanges: BOX
         /// </summary>
-        public static Order AuctionRelative(string action, double quantity, double offset)
+        public static Order AuctionRelative(string action, decimal quantity, double offset)
         {
             //! [auction_relative]
             Order order = new Order();
@@ -325,7 +325,7 @@ namespace Samples
         /// orders over time without moving the market, use the Accumulate/Distribute algorithm.
         /// Products: OPT
         /// </summary>
-        public static Order Block(string action, double quantity, double price)
+        public static Order Block(string action, decimal quantity, double price)
         {
             // ! [block]
             Order order = new Order();
@@ -344,7 +344,7 @@ namespace Samples
         /// Products: OPT
         /// Supported Exchanges: BOX
         /// </summary>
-        public static Order BoxTop(string action, double quantity)
+        public static Order BoxTop(string action, decimal quantity)
         {
             // ! [boxtop]
             Order order = new Order();
@@ -360,7 +360,7 @@ namespace Samples
         /// it will not fill at a price less favorable than your limit price, but it does not guarantee a fill.
         /// Products: BOND, CFD, CASH, FUT, FOP, OPT, STK, WAR
         /// </summary>
-        public static Order LimitOrder(string action, double quantity, double limitPrice)
+        public static Order LimitOrder(string action, decimal quantity, double limitPrice)
         {
             // ! [limitorder]
             Order order = new Order();
@@ -378,13 +378,12 @@ namespace Samples
 		/// https://www.interactivebrokers.com/en/index.php?f=23876#963-02
 		/// <summary>
 
-        public static Order LimitOrderWithCashQty(string action, double quantity, double limitPrice, double cashQty)
+        public static Order LimitOrderWithCashQty(string action, double limitPrice, double cashQty)
         {
             // ! [limitorderwithcashqty]
             Order order = new Order();
             order.Action = action;
             order.OrderType = "LMT";
-            order.TotalQuantity = quantity;
             order.LmtPrice = limitPrice;
             order.CashQty = cashQty;
             // ! [limitorderwithcashqty]
@@ -398,7 +397,7 @@ namespace Samples
         /// placed above the current market price, and a stop limit sell order is placed below.
         /// Products: BOND, CFD, CASH, FUT, FOP, OPT, STK, WAR
         /// </summary>
-        public static Order LimitIfTouched(string action, double quantity, double limitPrice, double triggerPrice)
+        public static Order LimitIfTouched(string action, decimal quantity, double limitPrice, double triggerPrice)
         {
             // ! [limitiftouched]
             Order order = new Order();
@@ -416,7 +415,7 @@ namespace Samples
         /// limit price.
         /// Products: CFD, FUT, STK, WAR
         /// </summary>
-        public static Order LimitOnClose(string action, double quantity, double limitPrice)
+        public static Order LimitOnClose(string action, decimal quantity, double limitPrice)
         {
             // ! [limitonclose]
             Order order = new Order();
@@ -433,7 +432,7 @@ namespace Samples
         /// and that will only execute at the specified limit price or better. Orders are filled in accordance with specific exchange rules.
         /// Products: CFD, STK, OPT, WAR
         /// </summary>
-        public static Order LimitOnOpen(string action, double quantity, double limitPrice)
+        public static Order LimitOnOpen(string action, decimal quantity, double limitPrice)
         {
             // ! [limitonopen]
             Order order = new Order();
@@ -458,7 +457,7 @@ namespace Samples
         /// the bid and the Relative adds the offset to the bid.
         /// Products: STK, WAR
         /// </summary>
-        public static Order PassiveRelative(string action, double quantity, double offset)
+        public static Order PassiveRelative(string action, decimal quantity, double offset)
         {
             // ! [passive_relative]
             Order order = new Order();
@@ -477,7 +476,7 @@ namespace Samples
         /// to be more aggressive. If the market moves in the opposite direction, the order will execute.
         /// Products: STK
         /// </summary>
-        public static Order PeggedToMidpoint(string action, double quantity, double offset, double limitPrice)
+        public static Order PeggedToMidpoint(string action, decimal quantity, double offset, double limitPrice)
         {
             // ! [pegged_midpoint]
             Order order = new Order();
@@ -497,7 +496,7 @@ namespace Samples
         /// Products: CFD, BAG, FOP, CASH, FUT, OPT, STK, WAR
         /// </summary>
         //! [bracket]
-        public static List<Order> BracketOrder(int parentOrderId, string action, double quantity, double limitPrice, 
+        public static List<Order> BracketOrder(int parentOrderId, string action, decimal quantity, double limitPrice, 
             double takeProfitLimitPrice, double stopLossPrice)
         {
             //This will be our main or "parent" order
@@ -546,7 +545,7 @@ namespace Samples
         /// partially filled, the remainder of the order is canceled and re-submitted as a limit order with the limit price equal to the price 
         /// at which the filled portion of the order executed.
         /// </summary>
-        public static Order MarketToLimit(string action, double quantity)
+        public static Order MarketToLimit(string action, decimal quantity)
         {
             // ! [markettolimit]
             Order order = new Order();
@@ -563,7 +562,7 @@ namespace Samples
         /// close to the current market price, slightly higher for a sell order and lower for a buy order.
         /// Products: FUT, FOP
         /// </summary>
-        public static Order MarketWithProtection(string action, double quantity)
+        public static Order MarketWithProtection(string action, decimal quantity)
         {
             // ! [marketwithprotection]
             Order order = new Order();
@@ -582,7 +581,7 @@ namespace Samples
         /// profit on a short sale.
         /// Products: CFD, BAG, CASH, FUT, FOP, OPT, STK, WAR
         /// </summary>
-        public static Order Stop(string action, double quantity, double stopPrice)
+        public static Order Stop(string action, decimal quantity, double stopPrice)
         {
             // ! [stop]
             Order order = new Order();
@@ -600,7 +599,7 @@ namespace Samples
         /// price, the order becomes executable and enters the market as a limit order, which is an order to buy or sell at a specified price or better.
         /// Products: CFD, CASH, FUT, FOP, OPT, STK, WAR
         /// </summary>
-        public static Order StopLimit(string action, double quantity, double limitPrice, double stopPrice)
+        public static Order StopLimit(string action, decimal quantity, double limitPrice, double stopPrice)
         {
             // ! [stoplimit]
             Order order = new Order();
@@ -621,7 +620,7 @@ namespace Samples
         /// trigger price +/- the protection points.
         /// Products: FUT
         /// </summary>
-        public static Order StopWithProtection(string action, double quantity, double stopPrice)
+        public static Order StopWithProtection(string action, decimal quantity, double stopPrice)
         {
             // ! [stopwithprotection]
             Order order = new Order();
@@ -641,7 +640,7 @@ namespace Samples
         /// trailing stop orders, and are most appropriate for use in falling markets.
         /// Products: CFD, CASH, FOP, FUT, OPT, STK, WAR
         /// </summary>
-        public static Order TrailingStop(string action, double quantity, double trailingPercent, double trailStopPrice)
+        public static Order TrailingStop(string action, decimal quantity, double trailingPercent, double trailStopPrice)
         {
             // ! [trailingstop]
             Order order = new Order();
@@ -664,7 +663,7 @@ namespace Samples
         /// and is generally used in falling markets.
         /// Products: BOND, CFD, CASH, FUT, FOP, OPT, STK, WAR
         /// </summary>
-        public static Order TrailingStopLimit(string action, double quantity, double lmtPriceOffset, double trailingAmount, double trailStopPrice)
+        public static Order TrailingStopLimit(string action, decimal quantity, double lmtPriceOffset, double trailingAmount, double trailStopPrice)
         {
             // ! [trailingstoplimit]
             Order order = new Order();
@@ -685,7 +684,7 @@ namespace Samples
         /// best execution.
         /// Products: OPT, STK, FUT
         /// </summary>
-        public static Order ComboLimitOrder(string action, double quantity, double limitPrice, bool nonGuaranteed)
+        public static Order ComboLimitOrder(string action, decimal quantity, double limitPrice, bool nonGuaranteed)
         {
             // ! [combolimit]
             Order order = new Order();
@@ -709,7 +708,7 @@ namespace Samples
         /// best execution.
         /// Products: OPT, STK, FUT
         /// </summary>
-        public static Order ComboMarketOrder(string action, double quantity, bool nonGuaranteed)
+        public static Order ComboMarketOrder(string action, decimal quantity, bool nonGuaranteed)
         {
             // ! [combomarket]
             Order order = new Order();
@@ -732,7 +731,7 @@ namespace Samples
         /// best execution.
         /// Products: OPT, STK, FUT
         /// </summary>
-        public static Order LimitOrderForComboWithLegPrices(string action, double quantity, double[] legPrices, bool nonGuaranteed)
+        public static Order LimitOrderForComboWithLegPrices(string action, decimal quantity, double[] legPrices, bool nonGuaranteed)
         {
             // ! [limitordercombolegprices]
             Order order = new Order();
@@ -762,7 +761,7 @@ namespace Samples
         /// best execution.
         /// Products: OPT, STK, FUT
         /// </summary>
-        public static Order RelativeLimitCombo(string action, double quantity, double limitPrice, bool nonGuaranteed)
+        public static Order RelativeLimitCombo(string action, decimal quantity, double limitPrice, bool nonGuaranteed)
         {
             // ! [relativelimitcombo]
             Order order = new Order();
@@ -786,7 +785,7 @@ namespace Samples
         /// best execution.
         /// Products: OPT, STK, FUT
         /// </summary>
-        public static Order RelativeMarketCombo(string action, double quantity, bool nonGuaranteed)
+        public static Order RelativeMarketCombo(string action, decimal quantity, bool nonGuaranteed)
         {
             // ! [relativemarketcombo]
             Order order = new Order();
@@ -837,7 +836,7 @@ namespace Samples
         /// receive.
         /// Products: FOP, OPT
         /// </summary>
-        public static Order Volatility(string action, double quantity, double volatilityPercent, int volatilityType)
+        public static Order Volatility(string action, decimal quantity, double volatilityPercent, int volatilityType)
         {
             // ! [volatility]
             Order order = new Order();
@@ -861,7 +860,7 @@ namespace Samples
         }
         //! [fhedge]
 
-        public static Order PeggedToBenchmark(string action, double quantity, double startingPrice, bool peggedChangeAmountDecrease, double peggedChangeAmount,
+        public static Order PeggedToBenchmark(string action, decimal quantity, double startingPrice, bool peggedChangeAmountDecrease, double peggedChangeAmount,
              double referenceChangeAmount, int referenceConId, string referenceExchange, double stockReferencePrice,  
             double referenceContractLowerRange, double referenceContractUpperRange)
         {
@@ -942,7 +941,7 @@ namespace Samples
             order.AdjustedOrderType = "TRAIL";
             //With a stop price of...
             order.AdjustedStopPrice = adjustedStopPrice;
-            //traling by and amount (0) or a percent (1)...
+            //traling by and amount (0) or a percent (100)...
             order.AdjustableTrailingUnit = trailUnit;
             //of...
             order.AdjustedTrailingAmount = adjustedTrailAmount;
@@ -950,7 +949,7 @@ namespace Samples
             return order;
         }
 
-        public static Order WhatIfLimitOrder(string action, double quantity, double limitPrice)
+        public static Order WhatIfLimitOrder(string action, decimal quantity, double limitPrice)
         {
             // ! [whatiflimitorder]
             Order order = LimitOrder(action, quantity, limitPrice);
@@ -1057,6 +1056,19 @@ namespace Samples
             //! [volume_condition]
             return volCond;
 
+        }
+		
+		public static Order LimitIBKRATS(string action, decimal quantity, double limitPrice)
+        {
+            // ! [limit_ibkrats]
+            Order order = new Order();
+            order.Action = action;
+            order.OrderType = "LMT";
+			order.LmtPrice = limitPrice;
+            order.TotalQuantity = quantity;
+			order.NotHeld = true;
+            // ! [limit_ibkrats]
+            return order;
         }
 
     }

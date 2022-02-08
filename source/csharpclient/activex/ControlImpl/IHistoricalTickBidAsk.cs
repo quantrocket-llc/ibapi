@@ -18,8 +18,8 @@ namespace TWSLib
         [DispId(4)]
         double priceAsk { get; }
         [DispId(5)]
-        int sizeBid { get; }
+        object sizeBid { get; }
         [DispId(6)]
-        int sizeAsk { get; }
+        object sizeAsk { get; }
     }
 }

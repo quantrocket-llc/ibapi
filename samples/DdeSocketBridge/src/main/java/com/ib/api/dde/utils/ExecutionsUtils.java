@@ -46,7 +46,7 @@ public class ExecutionsUtils {
         }
         item.add(Utils.toString(executionData.execution().exchange()));
         item.add(Utils.toString(executionData.execution().side()));
-        item.add(Utils.toString(executionData.execution().shares()));
+        item.add(executionData.execution().shares().toString());
         item.add(Utils.toString(executionData.execution().price()));
         item.add(Utils.toString(executionData.execution().permId()));
         if (isNew) {
@@ -54,7 +54,7 @@ public class ExecutionsUtils {
         }
         item.add(Utils.toString(executionData.execution().liquidation()));
         if (isNew) {
-            item.add(Utils.toString(executionData.execution().cumQty()));
+            item.add(executionData.execution().cumQty().toString());
             item.add(Utils.toString(executionData.execution().avgPrice()));
         }
         item.add(Utils.toString(executionData.execution().orderRef()));

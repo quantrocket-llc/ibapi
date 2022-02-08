@@ -34,6 +34,7 @@ public class CalcImplVolOptPriceHandler extends MarketDataBaseHandler {
     /** Method sends calculate implied volatility/option price request to TWS */
     public byte[] handleCalculateRequest(String requestStr, byte[] data, DdeRequestType requestType) {
         DdeRequest ddeRequest = m_requestParser.parseCalculateRequest(requestStr, data, requestType);
+        byte[] ret = handleMarketDataBaseRequest(ddeRequest);
         switch(requestType) {
             case CALCULATE_IMPLIED_VOLATILITY:
                 CalculateImpliedVolatilityRequest implVolRequest = (CalculateImpliedVolatilityRequest)ddeRequest;
@@ -53,7 +54,7 @@ public class CalcImplVolOptPriceHandler extends MarketDataBaseHandler {
             default:
                 break;
         }
-        return handleMarketDataBaseRequest(ddeRequest);
+        return ret;
     }
     
     /** Method sends calculate implied volatility/option price cancel to TWS */

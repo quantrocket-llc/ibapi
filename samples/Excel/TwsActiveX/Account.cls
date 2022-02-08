@@ -18,6 +18,7 @@ Const CELL_ACCOUNT_NAME = "A6"
 Const CELL_FA_DATATYPE = "C6"
 Const CELL_TIMESTAMP = "B9"
 Const CELL_MANAGEDACCOUNTS = "D9"
+Const CELL_USERINFO = "F9"
 Const CELL_SUBSCRIPTION_STATUS = "A11"
 Const RANGE_ACCOUNT_DATA = "A15:D300"
 
@@ -35,7 +36,7 @@ Const FA_DATATYPE_ACCOUNT_ALIASES = 3
 
 Const STR_FA_CONFIG = "Financial Advisor configuration"
 
-Private faDataType As Long
+Private faDataTypeValue As Long
 
 Private accountsTable As Range
 
@@ -147,9 +148,9 @@ End Sub
 Public Sub UpdateFA(ByVal faDataType As Long, ByVal cxml As String)
     Dim captionStr As String
     captionStr = STR_FA_CONFIG
-    faDataType = faDataType
+    faDataTypeValue = faDataType
     
-    Select Case faDataType
+    Select Case faDataTypeValue
         Case FA_DATATYPE_GROUPS
             captionStr = captionStr & " - Groups"
         Case FA_DATATYPE_PROFILE
@@ -166,14 +167,25 @@ End Sub
 Public Sub ReplaceText(text As String)
     If Not CheckConnected Then Exit Sub
     
-    Api.Tws.replaceFA faDataType, text
+    Api.Tws.replaceFA 0, faDataTypeValue, text
 End Sub
 
 Public Sub Initialise()
     Set accountsTable = Me.Range("$A$14:$D$300")
 End Sub
 
+Private Sub ReqUserInfo_Click()
+    If Not CheckConnected Then Exit Sub
+    
+    Api.Tws.ReqUserInfo 0
+End Sub
+
 Private Sub Worksheet_Activate()
     Main.Initialise
+End Sub
+
+Public Sub UserInfo(ByVal reqId As Long, ByVal whiteBrandingId As String)
+    ' user info
+    Range(CELL_USERINFO).value = whiteBrandingId
 End Sub
 

@@ -30,10 +30,11 @@ namespace IBApi
          * @brief Errors sent by the TWS are received here.
          * @param id the request identifier which generated the error. Note: -1 will indicate a notification and not true error condition.
          * @param errorCode the code identifying the error.
-         * @param errorMsg error's description. Currently Latin-1 encoded error messages are supported. If logged into TWS in a different language it is recommended to enabled the setting in TWS Global Configuration -> API -> Settings -> Show API errors in English.  
+         * @param errorMsg error's description. 
+         * @param advancedOrderRejectJson advanced order reject description in json format. 
          *  
          */
-        void error(int id, int errorCode, string errorMsg);
+        void error(int id, int errorCode, string errorMsg, string advancedOrderRejectJson);
 
         /**
          * @brief TWS's current time. TWS is synchronized with the server (not local computer) using NTP and this function will receive the current time in TWS.
@@ -60,7 +61,7 @@ namespace IBApi
          * @param size the actual size. US stocks have a multiplier of 100.
          * @sa TickType, tickPrice, tickString, tickEFP, tickGeneric, tickOptionComputation, tickSnapshotEnd, marketDataType, EClientSocket::reqMktData
          */
-        void tickSize(int tickerId, int field, int size);
+        void tickSize(int tickerId, int field, decimal size);
 
         /**
          * @brief Market data callback.
@@ -112,16 +113,17 @@ namespace IBApi
          *      11 = Ask
          *      12 = Last
          * @param impliedVolatility the implied volatility calculated by the TWS option modeler, using the specified tick type value.
+         * @param tickAttrib: 0 - return based, 1- price based.
          * @param delta the option delta value.
          * @param optPrice the option price.
-         * @param pwDividend the present value of dividends expected on the option's underlying.
+         * @param pvDividend the present value of dividends expected on the option's underlying.
          * @param gamma the option gamma value.
          * @param vega the option vega value.
          * @param theta the option theta value.
          * @param undPrice the price of the underlying.
          * @sa TickType, tickSize, tickPrice, tickEFP, tickGeneric, tickString, tickSnapshotEnd, marketDataType, EClientSocket::reqMktData
          */
-        void tickOptionComputation(int tickerId, int field, double impliedVolatility, double delta, double optPrice, double pvDividend, double gamma, double vega, double theta, double undPrice);
+        void tickOptionComputation(int tickerId, int field, int tickAttrib, double impliedVolatility, double delta, double optPrice, double pvDividend, double gamma, double vega, double theta, double undPrice);
 
         /**
          * @brief When requesting market data snapshots, this market will indicate the snapshot reception is finished. Expected to occur 11 seconds after beginning of request. 
@@ -341,7 +343,7 @@ namespace IBApi
          * @param marketValue total market value of the instrument.
          * @sa updateAccountTime, accountDownloadEnd, updateAccountValue, EClientSocket::reqAccountUpdates
          */
-        void updatePortfolio(Contract contract, double position, double marketPrice, double marketValue,
+        void updatePortfolio(Contract contract, decimal position, double marketPrice, double marketValue,
             double averageCost, double unrealizedPNL, double realizedPNL, string accountName);
 
         /**
@@ -381,7 +383,7 @@ namespace IBApi
 		 * @param mktCapPrice If an order has been capped, this indicates the current capped price. Requires TWS 967+ and API v973.04+. Python API specifically requires API v973.06+.
          * @sa openOrder, openOrderEnd, EClientSocket::placeOrder, EClientSocket::reqAllOpenOrders, EClientSocket::reqAutoOpenOrders
          */
-        void orderStatus(int orderId, string status, double filled, double remaining, double avgFillPrice,
+        void orderStatus(int orderId, string status, decimal filled, decimal remaining, double avgFillPrice,
             int permId, int parentId, double lastFillPrice, int clientId, string whyHeld, double mktCapPrice);
 
         /**
@@ -488,7 +490,7 @@ namespace IBApi
          * @param size the order's size
          * @sa updateMktDepthL2, EClientSocket::reqMarketDepth
          */
-        void updateMktDepth(int tickerId, int position, int operation, int side, double price, int size);
+        void updateMktDepth(int tickerId, int position, int operation, int side, double price, decimal size);
 
         /**
          * @brief Returns the order book
@@ -505,7 +507,7 @@ namespace IBApi
          * @param isSmartDepth flag indicating if this is smart depth response (aggregate data from multiple exchanges, v974+)
          * @sa updateMktDepth, EClientSocket::reqMarketDepth
          */
-        void updateMktDepthL2(int tickerId, int position, string marketMaker, int operation, int side, double price, int size, bool isSmartDepth);
+        void updateMktDepthL2(int tickerId, int position, string marketMaker, int operation, int side, double price, decimal size, bool isSmartDepth);
 
         /**
          * @brief provides IB's bulletins
@@ -527,7 +529,7 @@ namespace IBApi
          * @Param avgCost the average cost of the position.
          * @sa positionEnd, EClientSocket::reqPositions
          */
-        void position(string account, Contract contract, double pos, double avgCost);
+        void position(string account, Contract contract, decimal pos, double avgCost);
 
         /**
          * @brief Indicates all the positions have been transmitted.
@@ -548,7 +550,7 @@ namespace IBApi
          * @param count the number of trades during the bar's timespan (only available for TRADES).
          * @sa EClientSocket::reqRealTimeBars
          */
-        void realtimeBar(int reqId, long date, double open, double high, double low, double close, long volume, double WAP, int count);
+        void realtimeBar(int reqId, long date, double open, double high, double low, double close, decimal volume, decimal WAP, int count);
 
         /**
          * @brief provides the xml-formatted parameters available from TWS market scanners (not all available in API).
@@ -640,7 +642,7 @@ namespace IBApi
          * @param avgCost the average cost of the position.
          * @sa positionMultiEnd, EClientSocket::reqPositionsMulti
          */
-        void positionMulti(int requestId, string account, string modelCode, Contract contract, double pos, double avgCost);
+        void positionMulti(int requestId, string account, string modelCode, Contract contract, decimal pos, double avgCost);
 
         /**
          * @brief Indicates all the positions have been transmitted.
@@ -839,7 +841,7 @@ namespace IBApi
 		* @param value current market value of the position
 		* @sa EClient::reqSinglePnL
 		*/
-        void pnlSingle(int reqId, int pos, double dailyPnL, double unrealizedPnL, double realizedPnL, double value);
+        void pnlSingle(int reqId, decimal pos, double dailyPnL, double unrealizedPnL, double realizedPnL, double value);
 			
 		/**
 		* @brief
@@ -877,7 +879,7 @@ namespace IBApi
         * @param specialConditions - tick-by-tick real-time tick special conditions
         * @sa EClient::reqTickByTickData
         */
-        void tickByTickAllLast(int reqId, int tickType, long time, double price, int size, TickAttribLast tickAttribLast, string exchange, string specialConditions);
+        void tickByTickAllLast(int reqId, int tickType, long time, double price, decimal size, TickAttribLast tickAttribLast, string exchange, string specialConditions);
 
         /**
         * @brief returns "BidAsk" tick-by-tick real-time tick
@@ -890,7 +892,7 @@ namespace IBApi
         * @param tickAttribBidAsk - tick-by-tick real-time bid/ask tick attribs (bit 0 - bid past low, bit 1 - ask past high)
         * @sa EClient::reqTickByTickData
         */
-        void tickByTickBidAsk(int reqId, long time, double bidPrice, double askPrice, int bidSize, int askSize, TickAttribBidAsk tickAttribBidAsk);
+        void tickByTickBidAsk(int reqId, long time, double bidPrice, double askPrice, decimal bidSize, decimal askSize, TickAttribBidAsk tickAttribBidAsk);
 
         /**
         * @brief returns "MidPoint" tick-by-tick real-time tick
@@ -924,5 +926,48 @@ namespace IBApi
          * @sa completedOrder, EClientSocket::reqCompletedOrders
          */
         void completedOrdersEnd();
+
+        /**
+         * @brief notifies the end of the FA replace.
+         * @param reqId the id of request
+         * @param text the message text
+         * @sa EClient::replaceFA
+         */
+        void replaceFAEnd(int reqId, string text);
+
+		/**
+         * @brief returns meta data from the WSH calendar
+         * @param reqId the id of request
+         * @param dataJson metadata in json format
+         * @sa EClient::reqWshMetaData
+         */
+        void wshMetaData(int reqId, string dataJson);
+		
+		/**
+         * @brief returns calendar events from the WSH
+         * @param reqId the id of request
+         * @param dataJson event data in json format
+         * @sa EClient::reqWshEventData
+         */
+        void wshEventData(int reqId, string dataJson);
+
+        /**
+         * @brief returns historical schedule
+         * @param reqId the id of request
+         * @param startDateTime 
+         * @param endDateTime 
+         * @param timeZone
+         * @param sessions
+         * @sa EClient::reqHistoricalData with whatToShow=SCHEDULE
+         */
+        void historicalSchedule(int reqId, string startDateTime, string endDateTime, string timeZone, HistoricalSession[] sessions);
+
+        /**
+         * @brief returns user info
+         * @param reqId the id of request
+         * @param whiteBrandingId
+         * @sa EClient::reqUserInfo
+         */
+        void userInfo(int reqId, string whiteBrandingId);
     }
 }

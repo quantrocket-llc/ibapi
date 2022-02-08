@@ -274,7 +274,7 @@ Namespace Samples
             '! [optcontract_localsymbol]
             Dim contract As Contract = New Contract()
             'Watch out for the spaces within the local symbol!
-            contract.LocalSymbol = "C DBK  DEC 20  1600"
+            contract.LocalSymbol = "P BMW  JUL 20  4650"
             contract.SecType = "OPT"
             contract.Exchange = "DTB"
             contract.Currency = "EUR"
@@ -365,6 +365,23 @@ Namespace Samples
             contract.Right = "C"
             contract.Multiplier = "50"
             '! [fopcontract]
+            Return contract
+
+        End Function
+		
+		Public Shared Function Warrants() As Contract
+
+            '! [warcontract]
+            Dim contract As Contract = New Contract
+            contract.Symbol = "GOOG"
+            contract.SecType = "WAR"
+            contract.Exchange = "FWB"
+            contract.Currency = "EUR"
+            contract.LastTradeDateOrContractMonth = "20201117"
+            contract.Strike = 1500.0
+            contract.Right = "C"
+            contract.Multiplier = "0.01"
+            '! [warcontract]
             Return contract
 
         End Function
@@ -621,16 +638,6 @@ Namespace Samples
             Return contract
         End Function
 
-        Public Shared Function MTbroadtapeNewsFeed() As Contract
-            '! [newscontractmt]
-            Dim contract As Contract = New Contract()
-            contract.Symbol = "MT:MT_ALL" 'BroadTape All News
-            contract.SecType = "NEWS"
-            contract.Exchange = "MT" 'Midnight Trader
-            '! [newscontractmt]
-            Return contract
-        End Function
-
         Public Shared Function ContFut() As Contract
             '! [continuousfuturescontract]
             Dim contract As Contract = New Contract()
@@ -670,6 +677,28 @@ Namespace Samples
             contract.Exchange = "CSFBALGO" 'must be direct-routed to CSFBALGO
             contract.Currency = "USD" 'only available for US stocks
             '! [csfb_contract]
+            Return contract
+        End Function
+		
+		Public Shared Function IBKRATSContract() As Contract
+            '! [ibkrats_contract]
+            Dim contract As Contract = New Contract()
+            contract.Symbol = "QQQ"
+            contract.SecType = "STK"
+            contract.Exchange = "IBKRATS" 
+            contract.Currency = "USD" 
+            '! [ibkrats_contract]
+            Return contract
+        End Function
+
+        Public Shared Function CryptoContract() As Contract
+            '! [crypto_contract]
+            Dim contract As Contract = New Contract()
+            contract.Symbol = "ETH"
+            contract.SecType = "CRYPTO"
+            contract.Exchange = "PAXOS"
+            contract.Currency = "USD"
+            '! [crypto_contract]
             Return contract
         End Function
 

@@ -41,7 +41,6 @@ public class ContractDetailsUtils {
         item.add(Utils.toString(contractDetails.contract().tradingClass()));
         item.add(Utils.toString(contractDetails.contract().conid()));
         item.add(Utils.toString(contractDetails.minTick()));
-        item.add(Utils.toString(contractDetails.mdSizeMultiplier()));
         item.add(Utils.toString(contractDetails.contract().multiplier()));
         if (Utils.isNotNull(contractDetails.orderTypes())) {
             item.add(Utils.LONGVALUE + RequestParser.PARAM_SEPARATOR + Utils.toString(Utils.calcNumOfChunks(contractDetails.orderTypes(), 255)));
@@ -77,6 +76,10 @@ public class ContractDetailsUtils {
         item.add(Utils.toString(contractDetails.marketRuleIds()));
         item.add(Utils.toString(contractDetails.realExpirationDate()));
         item.add(Utils.toString(contractDetails.stockType()));
+        item.add(Utils.toString(contractDetails.minSize()));
+        item.add(Utils.toString(contractDetails.sizeIncrement()));
+        item.add(Utils.toString(contractDetails.suggestedSizeIncrement()));
+        
         return item;
     }
     
@@ -104,7 +107,6 @@ public class ContractDetailsUtils {
         item.add(Utils.toString(contractDetails.contract().tradingClass()));
         item.add(Utils.toString(contractDetails.contract().conid()));
         item.add(Utils.toString(contractDetails.minTick()));
-        item.add(Utils.toString(contractDetails.mdSizeMultiplier()));
         if (Utils.isNotNull(contractDetails.orderTypes())) {
             item.add(Utils.LONGVALUE + RequestParser.PARAM_SEPARATOR + Utils.toString(Utils.calcNumOfChunks(contractDetails.orderTypes(), 255)));
             item.addAll(Utils.chunkStringByLength(contractDetails.orderTypes(), 255)); // long string
@@ -123,6 +125,10 @@ public class ContractDetailsUtils {
         item.add(Utils.tagValueListToString(contractDetails.secIdList()));
         item.add(Utils.toString(contractDetails.aggGroup()));
         item.add(Utils.toString(contractDetails.marketRuleIds()));
+        item.add(Utils.toString(contractDetails.minSize()));
+        item.add(Utils.toString(contractDetails.sizeIncrement()));
+        item.add(Utils.toString(contractDetails.suggestedSizeIncrement()));
+        
         return item;
     }
     

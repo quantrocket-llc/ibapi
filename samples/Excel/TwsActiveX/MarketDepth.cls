@@ -52,13 +52,13 @@ Const MKT_DEPTH_OPER_DEL = 2
 Private Type MktDepthRecord
     BidMM As String
     bidPrice As Double
-    bidSize As Long
-    BidCumSize As Long
+    bidSize As Variant
+    BidCumSize As Variant
     BidAvgPrice As Double
     AskMM As String
     askPrice As Double
-    askSize As Long
-    AskCumSize As Long
+    askSize As Variant
+    AskCumSize As Variant
     AskAvgPrice As Double
 End Type
 
@@ -157,7 +157,7 @@ Public Sub RepaintMktDepthTable()
                     End If
         
                     If .bidSize > 0 Then
-                        dataTable(i + j, Col_BIDSIZE).value = .bidSize
+                        dataTable(i + j, Col_BIDSIZE).value = Util.DecimalToString(.bidSize)
                     Else
                         dataTable(i + j, Col_BIDSIZE).value = STR_EMPTY
                     End If
@@ -183,7 +183,7 @@ Public Sub RepaintMktDepthTable()
                     End If
         
                     If .askSize > 0 Then
-                        dataTable(i + j, Col_ASKSIZE).value = .askSize
+                        dataTable(i + j, Col_ASKSIZE).value = Util.DecimalToString(.askSize)
                     Else
                         dataTable(i + j, Col_ASKSIZE).value = STR_EMPTY
                     End If
@@ -285,7 +285,7 @@ Private Sub RequestMarketDepth_Click()
             .Strike = contractTable(id, Col_STRIKE).value
             .Right = UCase(contractTable(id, Col_RIGHT).value)
             .multiplier = UCase(contractTable(id, Col_MULTIPLIER).value)
-            .exchange = UCase(contractTable(id, Col_EXCH).value)
+            .Exchange = UCase(contractTable(id, Col_EXCH).value)
             .primaryExchange = UCase(contractTable(id, Col_PRIMEXCH).value)
             .currency = UCase(contractTable(id, Col_CURRENCY).value)
             .localSymbol = UCase(contractTable(id, Col_LOCALSYMBOL).value)
@@ -311,8 +311,8 @@ End Sub
 
 ' calculation of cumQty and avgPrice
 Private Sub CalculateCumSizeAvgPrice(id As Integer)
-    Dim bidCumQty As Long
-    Dim askCumQty As Long
+    Dim bidCumQty As Variant
+    Dim askCumQty As Variant
     Dim bidTotalPrice As Double
     Dim askTotalPrice As Double
     
@@ -324,7 +324,7 @@ Private Sub CalculateCumSizeAvgPrice(id As Integer)
     Dim i As Long
     For i = 0 To MKT_DEPTH_NUM_ROWS - 1
         With arMktDepth(i + id - 1)
-            If .bidPrice > 0 And .bidSize > 0 Then
+            If .bidPrice > 0 And .bidSize <> "" And .bidSize <> Util.MaxDecimalValue Then
                 bidCumQty = bidCumQty + .bidSize
                 bidTotalPrice = bidTotalPrice + .bidPrice * .bidSize
                 .BidCumSize = bidCumQty
@@ -334,7 +334,7 @@ Private Sub CalculateCumSizeAvgPrice(id As Integer)
                 .BidAvgPrice = 0
             End If
             
-            If .askPrice > 0 And .askSize > 0 Then
+            If .askPrice > 0 And .askSize > 0 And .askSize <> Util.MaxDecimalValue Then
             
                 askCumQty = askCumQty + .askSize
                 askTotalPrice = askTotalPrice + .askPrice * .askSize
@@ -351,7 +351,7 @@ Private Sub CalculateCumSizeAvgPrice(id As Integer)
 End Sub
 
 ' update market depth table
-Sub UpdateMarketDepth(id As Long, position As Long, marketMaker As String, operation As Long, side As Long, price As Double, size As Long)
+Sub UpdateMarketDepth(id As Long, position As Long, marketMaker As String, operation As Long, side As Long, price As Double, Size As Variant)
     
     id = id - ID_MKTDEPTH - 1
 
@@ -370,7 +370,7 @@ Sub UpdateMarketDepth(id As Long, position As Long, marketMaker As String, opera
                     With arMktDepth(id + position)
                         .BidMM = marketMaker
                         .bidPrice = price
-                        .bidSize = size
+                        .bidSize = Size
                     End With
                 
                 ElseIf side = MKT_DEPTH_SIDE_ASK Then
@@ -382,7 +382,7 @@ Sub UpdateMarketDepth(id As Long, position As Long, marketMaker As String, opera
                     With arMktDepth(id + position)
                         .AskMM = marketMaker
                         .askPrice = price
-                        .askSize = size
+                        .askSize = Size
                     End With
                 End If
  
@@ -391,13 +391,13 @@ Sub UpdateMarketDepth(id As Long, position As Long, marketMaker As String, opera
                     With arMktDepth(id + position)
                         .BidMM = marketMaker
                         .bidPrice = price
-                        .bidSize = size
+                        .bidSize = Size
                     End With
                 ElseIf side = MKT_DEPTH_SIDE_ASK Then
                     With arMktDepth(id + position)
                         .AskMM = marketMaker
                         .askPrice = price
-                        .askSize = size
+                        .askSize = Size
                     End With
                 End If
            
@@ -441,7 +441,7 @@ Public Sub ProcessError(ByVal id As Long, ByVal errorCode As Long, ByVal errorMs
     If errorCode = ERROR_DUPLICATE_TICKER_ID Then
         MsgBox STR_ALREADY_SUBSCRIBED
     Else
-        dataTable(id - ID_MKTDEPTH, Col_STATUS).value = STR_ERROR + STR_COLON + Str(errorCode) + STR_SPACE + errorMsg
+        dataTable(id - ID_MKTDEPTH, Col_STATUS).value = STR_ERROR + STR_COLON + str(errorCode) + STR_SPACE + errorMsg
     End If
 
 End Sub
@@ -476,7 +476,7 @@ Sub MktDepthExchanges(ByVal depthMktDataDescriptions As TWSLib.IDepthMktDataDesc
     Dim i As Long
     For i = 1 To depthMktDataDescriptions.Count
         Set depthMktDataDescription = depthMktDataDescriptions.Item(i)
-        exchangesTable(i, Col_DEPTHMKTDATADESCRIPTION_EXCHANGE).value = depthMktDataDescription.exchange
+        exchangesTable(i, Col_DEPTHMKTDATADESCRIPTION_EXCHANGE).value = depthMktDataDescription.Exchange
         exchangesTable(i, Col_DEPTHMKTDATADESCRIPTION_SECTYPE).value = depthMktDataDescription.SecType
         exchangesTable(i, Col_DEPTHMKTDATADESCRIPTION_LISTINGEXCH).value = depthMktDataDescription.listingExch
         exchangesTable(i, Col_DEPTHMKTDATADESCRIPTION_SERVICEDATATYPE).value = depthMktDataDescription.serviceDataType

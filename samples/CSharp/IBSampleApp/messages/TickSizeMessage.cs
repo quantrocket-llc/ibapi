@@ -5,11 +5,11 @@ namespace IBSampleApp.messages
 {
     class TickSizeMessage : MarketDataMessage
     {
-        public TickSizeMessage(int requestId, int field, int size) : base(requestId, field)
+        public TickSizeMessage(int requestId, int field, decimal size) : base(requestId, field)
         {
             Size = size;
         }
 
-        public int Size { get; set; }
+        public decimal Size { get; set; }
     }
 }

@@ -17,7 +17,7 @@ namespace IBApi
         {
         }
 
-        public HistoricalTickLast(long time, TickAttribLast tickAttribLast, double price, long size, string exchange, string specialConditions)
+        public HistoricalTickLast(long time, TickAttribLast tickAttribLast, double price, decimal size, string exchange, string specialConditions)
         {
             Time = time;
             TickAttribLast = tickAttribLast;
@@ -51,7 +51,7 @@ namespace IBApi
 		/**
          * @brief The last size of the historical tick 
          */
-        public long Size
+        public decimal Size
         {
             [return: MarshalAs(UnmanagedType.I8)]
             get;
