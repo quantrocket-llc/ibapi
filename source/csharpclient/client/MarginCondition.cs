@@ -16,11 +16,11 @@ namespace IBApi
         {
             get
             {
-                return Percent.ToString();
+                return Percent.ToString(System.Globalization.NumberFormatInfo.InvariantInfo);
             }
             set
             {
-                Percent = int.Parse(value);
+                Percent = int.Parse(value, System.Globalization.NumberFormatInfo.InvariantInfo);
             }
         }
 
