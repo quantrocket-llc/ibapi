@@ -12,11 +12,11 @@ namespace IBApi
         {
             get
             {
-                return Volume.ToString(System.Globalization.NumberFormatInfo.InvariantInfo);
+                return Volume.ToString();
             }
             set
             {
-                Volume = int.Parse(value, System.Globalization.NumberFormatInfo.InvariantInfo);
+                Volume = int.Parse(value);
             }
         }
 

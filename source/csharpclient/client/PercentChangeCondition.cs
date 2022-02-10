@@ -15,7 +15,7 @@ namespace IBApi
         {
             get
             {
-                return ChangePercent.ToString(NumberFormatInfo.InvariantInfo);
+                return ChangePercent.ToString();
             }
             set
             {

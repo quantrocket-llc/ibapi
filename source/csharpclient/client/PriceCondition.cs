@@ -39,7 +39,7 @@ namespace IBApi
         {
             get
             {
-                return Price.ToString(NumberFormatInfo.InvariantInfo);
+                return Price.ToString();
             }
             set
             {
