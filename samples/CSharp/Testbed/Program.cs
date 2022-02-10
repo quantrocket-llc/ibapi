@@ -115,7 +115,7 @@ namespace Samples
             /**************************/
             /*** Account Management ***/
             /**************************/
-            //accountOperations(client);
+            accountOperations(client);
 
             /**********************/
             /*** Order handling ***/
@@ -125,7 +125,7 @@ namespace Samples
             /************************************/
             /*** Financial Advisor Exclusive Operations ***/
             /************************************/
-            financialAdvisorOperations(client);
+            //financialAdvisorOperations(client);
 
             /********************/
             /*** Miscelaneous ***/
@@ -170,8 +170,8 @@ namespace Samples
             //pnl(client);
 
             //pnlSingle(client);
-		
-	        /**************************/
+
+            /**************************/
             /*** Algo Orders ***/
             /**************************/
             //TestAlgoSamples(client, nextValidId);
@@ -193,9 +193,34 @@ namespace Samples
             /***********************/
             //whatIfSamples(client, nextValidId);
 
+            /***********************/
+            /*** WSHE Calendar API samples ***/
+            /***********************/
+            //wshCalendarOperations(client);
+
             Thread.Sleep(3000);
             Console.WriteLine("Done");
             Thread.Sleep(500000);
+        }
+
+
+        private static void wshCalendarOperations(EClientSocket client)
+        {
+			//! [reqmetadata]
+            client.reqWshMetaData(1100);
+			//! [reqmetadata]
+
+            Thread.Sleep(1000);
+
+            client.cancelWshMetaData(1100);
+
+			//! [reqeventdata]
+            client.reqWshEventData(1101, 8314);
+			//! [reqeventdata]
+
+            Thread.Sleep(1000);
+
+            client.cancelWshEventData(1101);
         }
 
         private static void tickByTickOperations(EClientSocket client)
@@ -477,11 +502,13 @@ namespace Samples
             String queryTime = DateTime.Now.AddMonths(-6).ToString("yyyyMMdd HH:mm:ss");
             client.reqHistoricalData(4001, ContractSamples.EurGbpFx(), queryTime, "1 M", "1 day", "MIDPOINT", 1, 1, false, null);
             client.reqHistoricalData(4002, ContractSamples.EuropeanStock(), queryTime, "10 D", "1 min", "TRADES", 1, 1, false, null);
+            client.reqHistoricalData(4003, ContractSamples.USStockAtSmart(), queryTime, "1 M", "1 day", "SCHEDULE", 1, 1, false, null);
             //! [reqhistoricaldata]
             Thread.Sleep(2000);
             /*** Canceling historical data requests ***/
             client.cancelHistoricalData(4001);
             client.cancelHistoricalData(4002);
+            client.cancelHistoricalData(4003);
         }
 
         private static void optionsOperations(EClientSocket client)
@@ -517,6 +544,7 @@ namespace Samples
             client.reqContractDetails(212, ContractSamples.FuturesOnOptions());
             client.reqContractDetails(213, ContractSamples.SimpleFuture());
             client.reqContractDetails(214, ContractSamples.USStockAtSmart());
+            client.reqContractDetails(215, ContractSamples.CryptoContract());
             //! [reqcontractdetails]
 
             Thread.Sleep(2000);
@@ -659,6 +687,11 @@ namespace Samples
             //! [reqfamilycodes]
             client.reqFamilyCodes();
             //! [reqfamilycodes]
+
+            //! [requserinfo]
+            client.reqUserInfo(0);
+            //! [requserinfo]
+
         }
 
         private static void orderOperations(EClientSocket client, int nextOrderId)
@@ -804,6 +837,9 @@ namespace Samples
             client.reqCompletedOrders(false);
             //! [reqcompletedorders]
 
+            //! [crypto_order_submission]
+            client.placeOrder(nextOrderId++, ContractSamples.CryptoContract(), OrderSamples.LimitOrder("BUY", Util.StringToDecimal("0.00001234"), 3370));
+            //! [crypto_order_submission]
         }
 
         private static void newsOperations(EClientSocket client)
@@ -1099,6 +1135,14 @@ namespace Samples
             //! [whatiforder]
             client.placeOrder(nextOrderId++, ContractSamples.USStockAtSmart(), OrderSamples.WhatIfLimitOrder("BUY", 200, 120));
             //! [whatiforder]
+        }
+		
+		private static void ibkratsSample(EClientSocket client, int nextOrderId)
+        {
+            //! [ibkratssubmit]
+            Order ibkratsOrder = OrderSamples.LimitIBKRATS("BUY", 100, 330);
+            client.placeOrder(nextOrderId++, ContractSamples.IBKRATSContract(), ibkratsOrder);
+            //! [ibkratssubmit]
         }
     }
 }

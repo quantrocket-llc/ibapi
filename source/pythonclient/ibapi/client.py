@@ -1091,6 +1091,22 @@ class EClient(object):
             self.wrapper.error(orderId, UPDATE_TWS.code(), UPDATE_TWS.msg() + " It does not support Use price management algo requests")
             return
 
+        if self.serverVersion() < MIN_SERVER_VER_DURATION and order.duration != UNSET_INTEGER:
+            self.wrapper.error(orderId, UPDATE_TWS.code(), UPDATE_TWS.msg() + " It does not support duration attribute")
+            return
+
+        if self.serverVersion() < MIN_SERVER_VER_POST_TO_ATS and order.postToAts != UNSET_INTEGER:
+            self.wrapper.error(orderId, UPDATE_TWS.code(), UPDATE_TWS.msg() + " It does not support postToAts attribute")
+            return
+
+        if self.serverVersion() < MIN_SERVER_VER_AUTO_CANCEL_PARENT and order.autoCancelParent:
+            self.wrapper.error(orderId, UPDATE_TWS.code(), UPDATE_TWS.msg() + " It does not support autoCancelParent attribute")
+            return
+
+        if self.serverVersion() < MIN_SERVER_VER_ADVANCED_ORDER_REJECT and order.advancedErrorOverride:
+            self.wrapper.error(orderId, UPDATE_TWS.code(), UPDATE_TWS.msg() + "  It does not support advanced error override attribute")
+            return
+
         try:
                 
             VERSION = 27 if (self.serverVersion() < MIN_SERVER_VER_NOT_HELD) else 45
@@ -1241,9 +1257,9 @@ class EClient(object):
                 make_field( order.allOrNone),
                 make_field_handle_empty( order.minQty),
                 make_field_handle_empty( order.percentOffset),
-                make_field( order.eTradeOnly),
-                make_field( order.firmQuoteOnly),
-                make_field_handle_empty( order.nbboPriceCap),
+                make_field( False),
+                make_field( False),
+                make_field_handle_empty( UNSET_DOUBLE),
                 make_field( order.auctionStrategy), # AUCTION_MATCH, AUCTION_IMPROVEMENT, AUCTION_TRANSPARENT
                 make_field_handle_empty( order.startingPrice),
                 make_field_handle_empty( order.stockRefPrice),
@@ -1416,7 +1432,19 @@ class EClient(object):
     
             if self.serverVersion() >= MIN_SERVER_VER_PRICE_MGMT_ALGO:
                 flds.append(make_field_handle_empty(UNSET_INTEGER if order.usePriceMgmtAlgo == None else 1 if order.usePriceMgmtAlgo else 0))
+
+            if self.serverVersion() >= MIN_SERVER_VER_DURATION:
+                flds.append(make_field(order.duration))
     
+            if self.serverVersion() >= MIN_SERVER_VER_POST_TO_ATS:
+                flds.append(make_field(order.postToAts))
+
+            if self.serverVersion() >= MIN_SERVER_VER_AUTO_CANCEL_PARENT:
+                flds.append(make_field(order.autoCancelParent))
+
+            if self.serverVersion() >= MIN_SERVER_VER_ADVANCED_ORDER_REJECT:
+                flds.append(make_field(order.advancedErrorOverride))
+
             msg = "".join(flds)
             
         except ClientException as ex:
@@ -2423,6 +2451,7 @@ class EClient(object):
             BID_ASK
             HISTORICAL_VOLATILITY
             OPTION_IMPLIED_VOLATILITY
+            SCHEDULE
         useRTH:int - Determines whether to return all data available during the requested time span,
             or only data that falls within regular trading hours. Valid values include:
 
@@ -2449,6 +2478,12 @@ class EClient(object):
             if contract.tradingClass or contract.conId > 0:
                 self.wrapper.error(reqId, UPDATE_TWS.code(),
                     UPDATE_TWS.msg() + "  It does not support conId and tradingClass parameters in reqHistoricalData.")
+                return
+
+        if self.serverVersion() < MIN_SERVER_VER_HISTORICAL_SCHEDULE:
+            if whatToShow == "SCHEDULE":
+                self.wrapper.error(reqId, UPDATE_TWS.code(),
+                    UPDATE_TWS.msg() + "  It does not support requesting of historical schedule.")
                 return
 
         try:
@@ -3536,3 +3571,104 @@ class EClient(object):
 
         self.sendMsg(msg)
 
+    def reqWshMetaData(self, reqId: int):
+
+        self.logRequest(current_fn_name(), vars())
+
+        if not self.isConnected():
+            self.wrapper.error(NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg())
+            return
+
+        if self.serverVersion() < MIN_SERVER_VER_WSHE_CALENDAR:
+            self.wrapper.error(NO_VALID_ID, UPDATE_TWS.code(), UPDATE_TWS.msg() +
+                    " It does not support WSHE Calendar API.")
+            return
+
+        try:
+            
+            msg = make_field(OUT.REQ_WSH_META_DATA) \
+                + make_field(reqId)
+
+        except ClientException as ex:
+            self.wrapper.error(reqId, ex.code, ex.msg + ex.text)
+            return
+
+        self.sendMsg(msg)
+
+    def cancelWshMetaData(self, reqId: int):
+
+        self.logRequest(current_fn_name(), vars())
+
+        if not self.isConnected():
+            self.wrapper.error(NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg())
+            return
+
+        if self.serverVersion() < MIN_SERVER_VER_WSHE_CALENDAR:
+            self.wrapper.error(NO_VALID_ID, UPDATE_TWS.code(), UPDATE_TWS.msg() +
+                    " It does not support WSHE Calendar API.")
+            return
+
+        msg = make_field(OUT.CANCEL_WSH_META_DATA) \
+            + make_field(reqId)
+
+        self.sendMsg(msg)
+
+    def reqWshEventData(self, reqId: int, conId: int):
+
+        self.logRequest(current_fn_name(), vars())
+
+        if not self.isConnected():
+            self.wrapper.error(NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg())
+            return
+
+        if self.serverVersion() < MIN_SERVER_VER_WSHE_CALENDAR:
+            self.wrapper.error(NO_VALID_ID, UPDATE_TWS.code(), UPDATE_TWS.msg() +
+                    " It does not support WSHE Calendar API.")
+            return
+
+        try:
+            
+            msg = make_field(OUT.REQ_WSH_EVENT_DATA) \
+                + make_field(reqId) \
+                + make_field(conId)
+
+        except ClientException as ex:
+            self.wrapper.error(reqId, ex.code, ex.msg + ex.text)
+            return
+
+        self.sendMsg(msg)
+
+    def cancelWshEventData(self, reqId: int):
+
+        self.logRequest(current_fn_name(), vars())
+
+        if not self.isConnected():
+            self.wrapper.error(NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg())
+            return
+
+        if self.serverVersion() < MIN_SERVER_VER_WSHE_CALENDAR:
+            self.wrapper.error(NO_VALID_ID, UPDATE_TWS.code(), UPDATE_TWS.msg() +
+                    " It does not support WSHE Calendar API.")
+            return
+
+        msg = make_field(OUT.CANCEL_WSH_EVENT_DATA) \
+            + make_field(reqId)
+
+        self.sendMsg(msg)
+
+    def reqUserInfo(self, reqId: int):
+
+        self.logRequest(current_fn_name(), vars())
+
+        if not self.isConnected():
+            self.wrapper.error(NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg())
+            return
+
+        if self.serverVersion() < MIN_SERVER_VER_USER_INFO:
+            self.wrapper.error(NO_VALID_ID, UPDATE_TWS.code(), UPDATE_TWS.msg() + " It does not support user info requests.")
+            return
+
+        msg = make_field(OUT.REQ_USER_INFO) \
+            + make_field(reqId)
+
+        self.sendMsg(msg)        

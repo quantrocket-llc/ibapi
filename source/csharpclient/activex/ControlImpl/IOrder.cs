@@ -21,7 +21,7 @@ namespace TWSLib
         [DispId(4)]
         string action { get; set; }
         [DispId(5)]
-        double totalQuantity { get; set; }
+        object totalQuantity { get; set; }
         [DispId(6)]
         string orderType { get; set; }
         [DispId(7)]
@@ -106,12 +106,6 @@ namespace TWSLib
         // SMART routing only
         [DispId(80)]
         double discretionaryAmt { get; set; }
-        [DispId(81)]
-        bool eTradeOnly { [return: MarshalAs(UnmanagedType.Bool)] get; [param: MarshalAs(UnmanagedType.Bool)] set; }
-        [DispId(82)]
-        bool firmQuoteOnly { [return: MarshalAs(UnmanagedType.Bool)] get; [param: MarshalAs(UnmanagedType.Bool)] set; }
-        [DispId(83)]
-        double nbboPriceCap { get; set; }
         [DispId(84)]
         bool optOutSmartRouting { [return: MarshalAs(UnmanagedType.Bool)] get; [param: MarshalAs(UnmanagedType.Bool)] set; }
 
@@ -320,7 +314,7 @@ namespace TWSLib
         string autoCancelDate { get; set; }
 
         [DispId(177)]
-        double filledQuantity { get; set; }
+        object filledQuantity { get; set; }
 
         [DispId(178)]
         int refFuturesConId { get; set; }
@@ -342,5 +336,15 @@ namespace TWSLib
 
         [DispId(184)]
         bool usePriceMgmtAlgo { get; set; }
+
+        [DispId(185)]
+        int duration { get; set; }
+
+        [DispId(186)]
+        int postToAts { get; set; }
+
+        [DispId(187)]
+        string advancedErrorOverride { get; set; }
+
     }
 }

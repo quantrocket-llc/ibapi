@@ -20,6 +20,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 import com.ib.client.Contract;
+import com.ib.client.Decimal;
 import com.ib.client.DeltaNeutralContract;
 import com.ib.client.MarketDataType;
 import com.ib.client.Order;
@@ -33,7 +34,7 @@ import apidemo.PegBenchPanel;
 import apidemo.util.TCombo;
 
 public class OrderDlg extends JDialog {
-    private static final String ALL_GENERIC_TICK_TAGS = "100,101,104,105,106,107,165,221,225,233,236,258,293,294,295,318";
+    private static final String ALL_GENERIC_TICK_TAGS = "100,101,104,106,165,221,232,236,258,293,294,295,318,411,460,619";
     private static final int OPERATION_INSERT = 0;
     private static final int OPERATION_UPDATE = 1;
     private static final int OPERATION_DELETE = 2;
@@ -433,7 +434,7 @@ public class OrderDlg extends JDialog {
 
             // set order fields
             m_order.action(m_action.getText());
-            m_order.totalQuantity(Double.parseDouble( m_totalQuantity.getText() ));
+            m_order.totalQuantity(Decimal.parse( m_totalQuantity.getText().trim() ));
             m_order.orderType(m_orderType.getText());
             m_order.lmtPrice(parseStringToMaxDouble( m_lmtPrice.getText()));
             m_order.auxPrice(parseStringToMaxDouble( m_auxPrice.getText()));

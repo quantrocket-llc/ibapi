@@ -36,7 +36,7 @@ Const dataEndRowIndex = util.maxRowsToFormat ' ending row of data
 ' ========================================================
 ' checks that row has request data for news article request
 ' ========================================================
-Public Function hasRequestData(cell As range) As Boolean
+Public Function hasRequestData(cell As Range) As Boolean
     Dim ret As Boolean
     ret = False
 
@@ -106,8 +106,8 @@ Sub requestNewsArticle()
         .Cells(ActiveCell.row, idColumnIndex).value = id
 
         ' range to poke
-        Dim rangeToPoke As range
-        Set rangeToPoke = .range(.Cells(ActiveCell.row, startOfRequestColumns), .Cells(ActiveCell.row, idColumnIndex - 1))
+        Dim rangeToPoke As Range
+        Set rangeToPoke = .Range(.Cells(ActiveCell.row, startOfRequestColumns), .Cells(ActiveCell.row, idColumnIndex - 1))
 
         ' fill status column with formula
         .Cells(ActiveCell.row, statusColumnIndex).Formula = util.composeLink(server, STR_NEWS_ARTICLE_TICK, id, util.STR_STATUS)

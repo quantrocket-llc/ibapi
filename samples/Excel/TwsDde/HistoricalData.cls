@@ -72,11 +72,11 @@ Sub requestAllHistoricalData()
     server = util.getServerVal(STR_SHEET_NAME, CELL_SERVER_NAME)
     If server = util.STR_EMPTY Then Exit Sub
 
-    Dim rng As range
+    Dim rng As Range
     With Worksheets(STR_SHEET_NAME)
-        Set rng = .range(.Cells(dataStartRowIndex, idColumnIndex), .Cells(dataEndRowIndex, idColumnIndex))
+        Set rng = .Range(.Cells(dataStartRowIndex, idColumnIndex), .Cells(dataEndRowIndex, idColumnIndex))
     
-        Dim row As range, cell As range
+        Dim row As Range, cell As Range
         For Each row In rng.rows
             For Each cell In row.Cells
             If InStr(cell.value, STR_ID) <> 0 Then
@@ -91,7 +91,7 @@ End Sub
 ' cancel all historical data for all rows (called when workbook is closed)
 ' ========================================================
 Sub cancelAllHistoricalData()
-    Dim rng As range, row As range, cell As range
+    Dim rng As Range, row As Range, cell As Range
     Dim server As String
     Dim id As String
     
@@ -99,7 +99,7 @@ Sub cancelAllHistoricalData()
     If server = util.STR_EMPTY Then Exit Sub
     
     With Worksheets(STR_SHEET_NAME)
-        Set rng = .range(.Cells(dataStartRowIndex, idColumnIndex), .Cells(dataEndRowIndex, idColumnIndex))
+        Set rng = .Range(.Cells(dataStartRowIndex, idColumnIndex), .Cells(dataEndRowIndex, idColumnIndex))
     
         For Each row In rng.rows
             For Each cell In row.Cells
@@ -165,7 +165,7 @@ End Sub
 ' ========================================================
 ' sends historical data request for cell
 ' ========================================================
-Sub sendHistoricalDataRequest(server As String, cell As range)
+Sub sendHistoricalDataRequest(server As String, cell As Range)
 
     If Not util.hasContractData(Worksheets(STR_SHEET_NAME), dataStartRowIndex, cell, startOfContractColumns, getContractColumns()) Then Exit Sub
 
@@ -178,8 +178,8 @@ Sub sendHistoricalDataRequest(server As String, cell As range)
         .Cells(cell.row, idColumnIndex).value = id
     
         ' range to poke
-        Dim rangeToPoke As range
-        Set rangeToPoke = .range(.Cells(cell.row, startOfContractColumns), .Cells(cell.row, sheetNameColumnIndex - 1))
+        Dim rangeToPoke As Range
+        Set rangeToPoke = .Range(.Cells(cell.row, startOfContractColumns), .Cells(cell.row, sheetNameColumnIndex - 1))
     
         ' fill status column with formula
         .Cells(cell.row, statusColumnIndex).Formula = util.composeLink(server, STR_HISTORICAL_DATA_TICK, id, util.STR_STATUS)

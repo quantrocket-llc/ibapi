@@ -10,6 +10,11 @@ namespace IBApi
 {
     public static class IBParamsList
     {
+        public static void AddParameter(this BinaryWriter source, decimal value)
+        {
+            AddParameter(source, Util.DecimalMaxString(value));
+        }
+
         public static void AddParameter(this BinaryWriter source, OutgoingMessages msgId)
         {
             AddParameter(source, (int)msgId);

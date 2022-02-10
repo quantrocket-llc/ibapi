@@ -132,6 +132,7 @@
 	- To cancel a specific @ref IBApi::EClient::reqAccountUpdatesMulti subscription, the function @ref IBApi::EClient::cancelAccountUpdatesMulti is invoked with the same request ID used to make the original @ref IBApi::EClient::reqAccountUpdatesMulti subscription request. 
 	<br><br>
 	- *@ref IBApi::EClient::reqAccountUpdatesMulti cannot be used with Account="All" in IBroker accounts with more than 50 subaccounts
+	- If using TWS <b>v983+</b> a profile name can be accepted in place of group in the <b>account</b> parameter. See @ref groups_merge
 	
 	<ul id="tab">
 		<li class="active">

@@ -45,7 +45,7 @@ namespace TWSLib
 
         string TWSLib.IOrder.action { get { return data.Action; } set { data.Action = value; } }
 
-        double TWSLib.IOrder.totalQuantity { get { return data.TotalQuantity; } set { data.TotalQuantity = value; } }
+        object TWSLib.IOrder.totalQuantity { get { return data.TotalQuantity; } set { data.TotalQuantity = Util.GetDecimal(value); } }
 
         string TWSLib.IOrder.orderType { get { return data.OrderType; } set { data.OrderType = value; } }
 
@@ -120,12 +120,6 @@ namespace TWSLib
         int TWSLib.IOrder.exemptCode { get { return data.ExemptCode; } set { data.ExemptCode = value; } }
 
         double TWSLib.IOrder.discretionaryAmt { get { return data.DiscretionaryAmt; } set { data.DiscretionaryAmt = value; } }
-
-        bool TWSLib.IOrder.eTradeOnly { get { return data.ETradeOnly; } set { data.ETradeOnly = value; } }
-
-        bool TWSLib.IOrder.firmQuoteOnly { get { return data.FirmQuoteOnly; } set { data.FirmQuoteOnly = value; } }
-
-        double TWSLib.IOrder.nbboPriceCap { get { return data.NbboPriceCap; } set { data.NbboPriceCap = value; } }
 
         bool TWSLib.IOrder.optOutSmartRouting { get { return data.OptOutSmartRouting; } set { data.OptOutSmartRouting = value; } }
 
@@ -359,7 +353,7 @@ namespace TWSLib
         bool TWSLib.IOrder.isOmsContainer { get { return data.IsOmsContainer; } set { data.IsOmsContainer = value; } }
         bool TWSLib.IOrder.discretionaryUpToLimitPrice { get { return data.DiscretionaryUpToLimitPrice; } set { data.DiscretionaryUpToLimitPrice = value; } }
         string TWSLib.IOrder.autoCancelDate { get { return data.AutoCancelDate; } set { data.AutoCancelDate = value; } }
-        double TWSLib.IOrder.filledQuantity { get { return data.FilledQuantity; } set { data.FilledQuantity = value; } }
+        object TWSLib.IOrder.filledQuantity { get { return data.FilledQuantity; } set { data.FilledQuantity = Util.GetDecimal(value); } }
         int TWSLib.IOrder.refFuturesConId { get { return data.RefFuturesConId; } set { data.RefFuturesConId = value; } }
         bool TWSLib.IOrder.autoCancelParent { get { return data.AutoCancelParent; } set { data.AutoCancelParent = value; } }
         string TWSLib.IOrder.shareholder { get { return data.Shareholder; } set { data.Shareholder = value; } }
@@ -367,5 +361,8 @@ namespace TWSLib
         bool TWSLib.IOrder.routeMarketableToBbo { get { return data.RouteMarketableToBbo; } set { data.RouteMarketableToBbo = value; } }
         int TWSLib.IOrder.parentPermId { get { return (int)data.ParentPermId; } set { data.ParentPermId = value; } }
         bool TWSLib.IOrder.usePriceMgmtAlgo { get { return data.UsePriceMgmtAlgo ?? false; } set { data.UsePriceMgmtAlgo = value; } }
+        int TWSLib.IOrder.duration { get { return (int)data.Duration; } set { data.Duration = value; } }
+        int TWSLib.IOrder.postToAts { get { return (int)data.PostToAts; } set { data.PostToAts = value; } }
+        string TWSLib.IOrder.advancedErrorOverride { get { return data.AdvancedErrorOverride; } set { data.AdvancedErrorOverride = value; } }
     }
 }

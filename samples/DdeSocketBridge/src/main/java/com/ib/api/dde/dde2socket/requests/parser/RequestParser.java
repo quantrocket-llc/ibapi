@@ -28,7 +28,7 @@ public class RequestParser  {
     protected static final String EMPTY_STR_REPLACEMENT = "~";
     protected static final String COMBO_DELIMITER = "CMBLGS";
     protected static final String ID = "id";
-    protected static final String EMPTY_STR = "";
+    public static final String EMPTY_STR = "";
     private static final String EQUALS_SIGN = "=";
     protected static final String SEMICOLON_SIGN = ";";
     public static final String ID_ZERO = ID + "0" + DDE_REQUEST_SEPARATOR;

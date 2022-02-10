@@ -79,6 +79,11 @@ namespace IBApi
         ReqHistoricalTicks = 96,
         ReqTickByTickData = 97,
         CancelTickByTickData = 98,
-        ReqCompletedOrders = 99
+        ReqCompletedOrders = 99,
+        ReqWshMetaData = 100,
+        CancelWshMetaData = 101,
+        ReqWshEventData = 102,
+        CancelWshEventData = 103,
+        ReqUserInfo = 104
     }
 }

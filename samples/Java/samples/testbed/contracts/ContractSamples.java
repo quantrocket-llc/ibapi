@@ -40,7 +40,7 @@ public class ContractSamples {
 	public static Contract Bond() {
 		//! [bond]
 		Contract contract = new Contract();
-		contract.conid(285191782);
+		contract.conid(107179906);
 		contract.exchange("SMART");
 		//! [bond]
 		return contract;
@@ -612,4 +612,27 @@ public class ContractSamples {
 		//! [qbalgo_contract]
 		return contract;
 	}
+	
+	public static Contract IBKRATSContract() {
+		//! [ibkrats_contract]
+		Contract contract = new Contract();
+		contract.symbol("QQQ");
+		contract.secType("STK");
+		contract.exchange("IBKRATS"); 
+		contract.currency("USD");    
+		//! [ibkrats_contract]
+		return contract;
+	}
+	
+	public static Contract CryptoContract() {
+		//! [crypto_contract]
+		Contract contract = new Contract();
+		contract.symbol("ETH");
+		contract.secType("CRYPTO");
+		contract.exchange("PAXOS"); 
+		contract.currency("USD");    
+		//! [crypto_contract]
+		return contract;
+	}
+	
 }

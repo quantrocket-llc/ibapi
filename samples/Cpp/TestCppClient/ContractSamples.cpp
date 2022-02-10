@@ -702,3 +702,25 @@ Contract ContractSamples::CSFBContract(){
 	//! [csfb_contract]
 	return contract;
 }
+
+Contract ContractSamples::IBKRATSContract(){
+	//! [ibkrats_contract]
+	Contract contract;
+	contract.symbol = "QQQ";
+	contract.secType = "STK";
+	contract.exchange = "IBKRATS";
+	contract.currency = "USD";
+	//! [ibkrats_contract]
+	return contract;
+}
+
+Contract ContractSamples::CryptoContract() {
+	//! [crypto_contract]
+	Contract contract;
+	contract.symbol = "BTC";
+	contract.secType = "CRYPTO";
+	contract.exchange = "PAXOS";
+	contract.currency = "USD";
+	//! [crypto_contract]
+	return contract;
+}

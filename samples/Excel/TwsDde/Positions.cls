@@ -32,7 +32,7 @@ Const POSITIONS_TABLE_RANGE = "A" & POSITIONS_START_ROW & ":N" & POSITIONS_END_R
 ' Subscribes to positions when button is pressed
 ' ========================================================
 Sub subscribePositions()
-    If CStr(Worksheets(STR_SHEET_NAME).range(CELL_SUBSCRIPTION_CONTROL).value) = util.STR_EMPTY Then ' only if not subscribed
+    If CStr(Worksheets(STR_SHEET_NAME).Range(CELL_SUBSCRIPTION_CONTROL).value) = util.STR_EMPTY Then ' only if not subscribed
         requestPositions
     End If
 End Sub
@@ -41,7 +41,7 @@ End Sub
 ' Re-subscribes to positions when workbook is opened
 ' ========================================================
 Sub resubscribePositions()
-    If CStr(Worksheets(STR_SHEET_NAME).range(CELL_SUBSCRIPTION_CONTROL).value) = util.STR_CANCELLED Then ' re-subscribe only if cancelled
+    If CStr(Worksheets(STR_SHEET_NAME).Range(CELL_SUBSCRIPTION_CONTROL).value) = util.STR_CANCELLED Then ' re-subscribe only if cancelled
         requestPositions
     End If
 End Sub
@@ -58,9 +58,9 @@ Sub requestPositions()
     If server = util.STR_EMPTY Then Exit Sub
     
     With Worksheets(STR_SHEET_NAME)
-        .range(CELL_SUBSCRIPTION_CONTROL).Formula = util.composeLink(server, STR_REQ_POSITIONS, util.IDENTIFIER_ZERO, STR_POSITIONS) ' subscription control
+        .Range(CELL_SUBSCRIPTION_CONTROL).Formula = util.composeLink(server, STR_REQ_POSITIONS, util.IDENTIFIER_ZERO, STR_POSITIONS) ' subscription control
         
-        util.cleanOnError (.range(CELL_SUBSCRIPTION_CONTROL))
+        util.cleanOnError (.Range(CELL_SUBSCRIPTION_CONTROL))
     End With
     
 End Sub
@@ -71,7 +71,7 @@ End Sub
 ' ========================================================
 Sub clearPositionsTable()
     ' clear positions table
-    Worksheets(STR_SHEET_NAME).range(POSITIONS_TABLE_RANGE).ClearContents
+    Worksheets(STR_SHEET_NAME).Range(POSITIONS_TABLE_RANGE).ClearContents
 End Sub
 
 ' ========================================================
@@ -93,12 +93,12 @@ End Sub
 ' ========================================================
 Sub cancelPositions(controlValue As String)
     With Worksheets(STR_SHEET_NAME)
-        If .range(CELL_SUBSCRIPTION_CONTROL).value = util.STR_SUBSCRIBED Then
+        If .Range(CELL_SUBSCRIPTION_CONTROL).value = util.STR_SUBSCRIBED Then
             Dim server As String
             server = util.getServerVal(STR_SHEET_NAME, CELL_SERVER_NAME)
             If server = util.STR_EMPTY Then Exit Sub
         
-            .range(CELL_SUBSCRIPTION_CONTROL).value = controlValue ' subscription control
+            .Range(CELL_SUBSCRIPTION_CONTROL).value = controlValue ' subscription control
             util.sendRequest server, STR_CANCEL_POSITIONS, util.IDENTIFIER_ZERO
         End If
     End With
@@ -113,7 +113,7 @@ Private Sub Worksheet_Calculate()
     
     With Worksheets(STR_SHEET_NAME)
     
-        If CStr(.range(CELL_SUBSCRIPTION_CONTROL).value) = util.STR_RECEIVED Then
+        If CStr(.Range(CELL_SUBSCRIPTION_CONTROL).value) = util.STR_RECEIVED Then
             Dim server As String, id As String
             Dim positionsArray() As Variant
             server = util.getServerVal(STR_SHEET_NAME, CELL_SERVER_NAME)
@@ -158,8 +158,8 @@ Private Function findPositionRow(conid As String, account As String) As Integer
     Dim row As Integer, i As Integer
     Dim arr1 As Variant, arr2 As Variant
     With Worksheets(STR_SHEET_NAME)
-        arr1 = .range(.Cells(POSITIONS_START_ROW, COLUMN_CONID), .Cells(POSITIONS_END_ROW, COLUMN_CONID)).value
-        arr2 = .range(.Cells(POSITIONS_START_ROW, COLUMN_ACCOUNT), .Cells(POSITIONS_END_ROW, COLUMN_ACCOUNT)).value
+        arr1 = .Range(.Cells(POSITIONS_START_ROW, COLUMN_CONID), .Cells(POSITIONS_END_ROW, COLUMN_CONID)).value
+        arr2 = .Range(.Cells(POSITIONS_START_ROW, COLUMN_ACCOUNT), .Cells(POSITIONS_END_ROW, COLUMN_ACCOUNT)).value
         
         For i = 1 To POSITIONS_END_ROW - POSITIONS_START_ROW + 1
             If CStr(arr1(i, 1)) = util.STR_EMPTY And CStr(arr2(i, 1)) = util.STR_EMPTY Or _

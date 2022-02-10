@@ -22,9 +22,9 @@ public class HistoricalDataUtils {
         item.add(Utils.toString(bar.high()));
         item.add(Utils.toString(bar.low()));
         item.add(Utils.toString(bar.close()));
-        item.add(Utils.toString(bar.volume()));
+        item.add(bar.volume().toString());
         item.add(Utils.toString(bar.count()));
-        item.add(Utils.toString(bar.wap()));
+        item.add(bar.wap().toString());
         return item;
     }
     
@@ -34,20 +34,21 @@ public class HistoricalDataUtils {
         item.add(Utils.longSecondsToDateTimeString(tick.time(), "yyyyMMdd HH:mm:ss"));
         if (tick.isAllLast()) {
             item.add(Utils.toString(tick.price()));
-            item.add(Utils.toString(tick.size()));
+            item.add(tick.size().toString());
             item.add(Utils.toString(tick.tickAttribLast().pastLimit()));
             item.add(Utils.toString(tick.tickAttribLast().unreported()));
             item.add(Utils.toString(tick.exchange()));
             item.add(Utils.toString(tick.specialConditions()));
         } else if (tick.isBidAsk()) {
             item.add(Utils.toString(tick.bidPrice()));
-            item.add(Utils.toString(tick.bidSize()));
+            item.add(tick.bidSize().toString());
             item.add(Utils.toString(tick.askPrice()));
-            item.add(Utils.toString(tick.askSize()));
+            item.add(tick.askSize().toString());
             item.add(Utils.toString(tick.tickAttribBidAsk().bidPastLow()));
             item.add(Utils.toString(tick.tickAttribBidAsk().askPastHigh()));
         } else if (tick.isMidPoint()) {
             item.add(Utils.toString(tick.price()));
+            item.add(tick.size().toString());
         }
         return item;
     }    
@@ -56,7 +57,7 @@ public class HistoricalDataUtils {
     static ArrayList<String> createTableItem(HistogramEntry histogramEntry) {
         ArrayList<String> item = new ArrayList<String>();
         item.add(Utils.toString(histogramEntry.price()));
-        item.add(Utils.toString(histogramEntry.size()));
+        item.add(histogramEntry.size().toString());
         return item;
     }
     

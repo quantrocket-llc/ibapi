@@ -97,7 +97,7 @@ class AvailableAlgoParams(Object):
         baseOrder.algoParams.append(TagValue("endTime", endTime))
         baseOrder.algoParams.append(TagValue("allowPastEndTime",
                                              int(allowPastEndTime)))
-        baseOrder.algoParams.append(TagValue("monetaryValue", monetaryValue))
+        baseOrder.cashQty=monetaryValue
 
     # ! [twap_params]
 

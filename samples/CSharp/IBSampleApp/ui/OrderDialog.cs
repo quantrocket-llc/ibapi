@@ -202,7 +202,7 @@ namespace IBSampleApp
             if (!lmtPrice.Text.Equals(""))
                 order.LmtPrice = double.Parse(lmtPrice.Text);
             if (!quantity.Text.Equals(""))
-                order.TotalQuantity = double.Parse(quantity.Text);
+                order.TotalQuantity = Util.StringToDecimal(quantity.Text);
             order.Account = account.Text;
             order.ModelCode = modelCode.Text;
             order.Tif = timeInForce.Text;
@@ -302,8 +302,10 @@ namespace IBSampleApp
                 order.TrailingPercent = double.Parse(trailingPercent.Text);
             if (!discretionaryAmount.Text.Equals(""))
                 order.DiscretionaryAmt = int.Parse(discretionaryAmount.Text);
-            if (!nbboPriceCap.Text.Equals(""))
-                order.NbboPriceCap = double.Parse(nbboPriceCap.Text);
+            if (!duration.Text.Equals(""))
+                order.Duration = int.Parse(duration.Text);
+            if (!postToAts.Text.Equals(""))
+                order.PostToAts = int.Parse(postToAts.Text);
 
             order.OcaGroup = ocaGroup.Text;
             order.OcaType = (int)((IBType)ocaType.SelectedItem).Value;
@@ -317,8 +319,6 @@ namespace IBSampleApp
             order.OutsideRth = outsideRTH.Checked;
             order.AllOrNone = allOrNone.Checked;
             order.OverridePercentageConstraints = overrideConstraints.Checked;
-            order.ETradeOnly = eTrade.Checked;
-            order.FirmQuoteOnly = firmQuote.Checked;
             order.OptOutSmartRouting = optOutSmart.Checked;
             order.Transmit = transmit.Checked;
             order.Tier = softDollarTier.SelectedItem as SoftDollarTier ?? new SoftDollarTier("", "", "");
@@ -329,6 +329,8 @@ namespace IBSampleApp
             order.DontUseAutoPriceForHedge = dontUseAutoPriceForHedge.Checked;
             order.IsOmsContainer = omsContainer.Checked;
             order.DiscretionaryUpToLimitPrice = relativeDiscretionary.Checked;
+            order.AutoCancelParent = autoCancelParent.Checked;
+            order.AdvancedErrorOverride = advancedErrorOverride.Text;
         }
 
         private void FillVolatilityAttributes(Order order)
@@ -441,7 +443,7 @@ namespace IBSampleApp
             action.Text = order.Action;
             orderType.Text = order.OrderType;
             lmtPrice.Text = doubleToStr(order.LmtPrice);
-            quantity.Text = doubleToStr(order.TotalQuantity);
+            quantity.Text = Util.DecimalMaxString(order.TotalQuantity);
             account.Text = order.Account;
             modelCode.Text = order.ModelCode;
             timeInForce.Text = order.Tif;
@@ -452,6 +454,8 @@ namespace IBSampleApp
             usePriceMgmtAlgo.CheckState = order.UsePriceMgmtAlgo.HasValue 
                 ? order.UsePriceMgmtAlgo.Value ? CheckState.Checked : CheckState.Unchecked 
                 : CheckState.Indeterminate;
+            duration.Text = order.Duration.ToString();
+            postToAts.Text = order.PostToAts.ToString();
 
             //order = GetExtendedOrderAttributes(order);
             //order = GetAdvisorAttributes(order);

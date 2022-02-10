@@ -30,14 +30,14 @@ namespace TWSLib
             get { return data != null ? data.PriceAsk : default(double); }
         }
 
-        long SizeBid
+        object SizeBid
         {
-            get { return data != null ? data.SizeBid : default(long); }
+            get { return data != null ? data.SizeBid : default(object); }
         }
 
-        long SizeAsk
+        object SizeAsk
         {
-            get { return data != null ? data.SizeAsk : default(long); }
+            get { return data != null ? data.SizeAsk : default(object); }
         }
 
         public ComHistoricalTickBidAsk()
@@ -64,14 +64,14 @@ namespace TWSLib
             get { return PriceAsk; }
         }
 
-        int TWSLib.IHistoricalTickBidAsk.sizeBid
+        object TWSLib.IHistoricalTickBidAsk.sizeBid
         {
-            get { return (int)SizeBid; }
+            get { return SizeBid; }
         }
 
-        int TWSLib.IHistoricalTickBidAsk.sizeAsk
+        object TWSLib.IHistoricalTickBidAsk.sizeAsk
         {
-            get { return (int)SizeAsk; }
+            get { return SizeAsk; }
         }
 
         public static explicit operator HistoricalTickBidAsk(ComHistoricalTickBidAsk comHistoricalTickBidAsk)

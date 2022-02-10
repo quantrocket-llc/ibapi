@@ -63,7 +63,7 @@ namespace IBApi
 
         public void readTotalQuantity()
         {
-            order.TotalQuantity = serverVersion >= MinServerVer.FRACTIONAL_POSITIONS ? eDecoder.ReadDouble() : eDecoder.ReadInt();
+            order.TotalQuantity = eDecoder.ReadDecimal();
         }
 
         public void readOrderType()
@@ -291,7 +291,7 @@ namespace IBApi
         {
             if (msgVersion >= 9)
             {
-                order.DisplaySize = eDecoder.ReadInt();
+                order.DisplaySize = eDecoder.ReadIntMax();
             }
         }
 
@@ -348,27 +348,27 @@ namespace IBApi
             }
         }
 
-        public void readETradeOnly() 
+        public void skipETradeOnly() 
         {
             if (msgVersion >= 9)
             {
-                order.ETradeOnly = eDecoder.ReadBoolFromInt();
+                eDecoder.ReadBoolFromInt();
             }
         }
 
-        public void readFirmQuoteOnly() 
+        public void skipFirmQuoteOnly() 
         {
             if (msgVersion >= 9)
             {
-                order.FirmQuoteOnly = eDecoder.ReadBoolFromInt();
+                eDecoder.ReadBoolFromInt();
             }
         }
 
-        public void readNbboPriceCap() 
+        public void skipNbboPriceCap() 
         {
             if (msgVersion >= 9)
             {
-                order.NbboPriceCap = eDecoder.ReadDoubleMax();
+                eDecoder.ReadDoubleMax();
             }
         }
 
@@ -781,7 +781,7 @@ namespace IBApi
 
         public void readFilledQuantity() 
         {
-            order.FilledQuantity = eDecoder.ReadDoubleMax();
+            order.FilledQuantity = eDecoder.ReadDecimal();
         }
 
         public void readRefFuturesConId() 
@@ -791,7 +791,15 @@ namespace IBApi
 
         public void readAutoCancelParent() 
         {
-            order.AutoCancelParent = eDecoder.ReadBoolFromInt();
+            readAutoCancelParent(Constants.MinVersion);
+        }
+
+        public void readAutoCancelParent(int minVersionAutoCancelParent)
+        {
+            if (serverVersion >= minVersionAutoCancelParent)
+            {
+                order.AutoCancelParent = eDecoder.ReadBoolFromInt();
+            }
         }
 
         public void readShareholder() 
@@ -831,6 +839,22 @@ namespace IBApi
                 order.UsePriceMgmtAlgo = eDecoder.ReadBoolFromInt();
             }
         }
-        
+
+        public void readDuration()
+        {
+            if (serverVersion >= MinServerVer.DURATION)
+            {
+                order.Duration = eDecoder.ReadIntMax();
+            }
+        }
+
+        public void readPostToAts()
+        {
+            if (serverVersion >= MinServerVer.POST_TO_ATS)
+            {
+                order.PostToAts = eDecoder.ReadIntMax();
+            }
+        }
+
     }
 }

@@ -72,8 +72,8 @@ public class Test implements EWrapper {
 		System.out.println(EWrapperMsgGenerator.error(e));
 	}
 
-	@Override public void error(int id, int errorCode, String errorMsg) {
-		System.out.println(EWrapperMsgGenerator.error(id, errorCode, errorMsg));
+	@Override public void error(int id, int errorCode, String errorMsg, String advancedOrderRejectJson) {
+		System.out.println(EWrapperMsgGenerator.error(id, errorCode, errorMsg, advancedOrderRejectJson));
 	}
 
 	@Override public void connectionClosed() {
@@ -88,7 +88,7 @@ public class Test implements EWrapper {
 		System.out.println(EWrapperMsgGenerator.tickPrice(tickerId, field, price, attribs));
 	}
 
-	@Override public void tickSize(int tickerId, int field, int size) {
+	@Override public void tickSize(int tickerId, int field, Decimal size) {
 		System.out.println(EWrapperMsgGenerator.tickSize(tickerId, field, size));
 	}
 
@@ -109,7 +109,7 @@ public class Test implements EWrapper {
 		System.out.println(EWrapperMsgGenerator.tickEFP( tickerId, tickType, basisPoints, formattedBasisPoints, impliedFuture, holdDays, futureLastTradeDate, dividendImpact, dividendsToLastTradeDate));
 	}
 
-	@Override public void orderStatus(int orderId, String status, double filled, double remaining, double avgFillPrice, int permId, int parentId, double lastFillPrice, int clientId, String whyHeld, double mktCapPrice) {
+	@Override public void orderStatus(int orderId, String status, Decimal filled, Decimal remaining, double avgFillPrice, int permId, int parentId, double lastFillPrice, int clientId, String whyHeld, double mktCapPrice) {
 		System.out.println(EWrapperMsgGenerator.orderStatus( orderId,  status, filled, remaining, avgFillPrice, permId, parentId, lastFillPrice, clientId, whyHeld, mktCapPrice));
 	}
 
@@ -125,7 +125,7 @@ public class Test implements EWrapper {
 		System.out.println(EWrapperMsgGenerator.updateAccountValue( key, value, currency, accountName));
 	}
 
-	@Override public void updatePortfolio(Contract contract, double position, double marketPrice, double marketValue, double averageCost, double unrealizedPNL, double realizedPNL, String accountName) {
+	@Override public void updatePortfolio(Contract contract, Decimal position, double marketPrice, double marketValue, double averageCost, double unrealizedPNL, double realizedPNL, String accountName) {
 		System.out.println(EWrapperMsgGenerator.updatePortfolio( contract, position, marketPrice, marketValue, averageCost, unrealizedPNL, realizedPNL, accountName));
 	}
 
@@ -157,11 +157,11 @@ public class Test implements EWrapper {
 		System.out.println(EWrapperMsgGenerator.execDetailsEnd( reqId));
 	}
 
-	@Override public void updateMktDepth(int tickerId, int position, int operation, int side, double price, int size) {
+	@Override public void updateMktDepth(int tickerId, int position, int operation, int side, double price, Decimal size) {
 		System.out.println(EWrapperMsgGenerator.updateMktDepth(tickerId, position, operation, side, price, size));
 	}
 
-	@Override public void updateMktDepthL2(int tickerId, int position, String marketMaker, int operation, int side, double price, int size, boolean isSmartDepth) {
+	@Override public void updateMktDepthL2(int tickerId, int position, String marketMaker, int operation, int side, double price, Decimal size, boolean isSmartDepth) {
 		System.out.println(EWrapperMsgGenerator.updateMktDepthL2( tickerId, position, marketMaker, operation, side, price, size, isSmartDepth));
 	}
 
@@ -193,7 +193,7 @@ public class Test implements EWrapper {
 		System.out.println(EWrapperMsgGenerator.scannerDataEnd(reqId));
 	}
 
-	@Override public void realtimeBar(int reqId, long time, double open, double high, double low, double close, long volume, double wap, int count) {
+	@Override public void realtimeBar(int reqId, long time, double open, double high, double low, double close, Decimal volume, Decimal wap, int count) {
 		System.out.println(EWrapperMsgGenerator.realtimeBar( reqId, time, open, high, low, close, volume, wap, count));
 	}
 
@@ -221,7 +221,7 @@ public class Test implements EWrapper {
 		System.out.println(EWrapperMsgGenerator.commissionReport( commissionReport));
 	}
 
-	@Override public void position(String account, Contract contract, double pos, double avgCost) {
+	@Override public void position(String account, Contract contract, Decimal pos, double avgCost) {
 		System.out.println(EWrapperMsgGenerator.position( account,  contract,  pos,  avgCost));
 	}
 
@@ -255,7 +255,7 @@ public class Test implements EWrapper {
 	@Override public void displayGroupUpdated( int reqId, String contractInfo){
 	}
 	
-	@Override public void positionMulti( int reqId, String account, String modelCode, Contract contract, double pos, double avgCost) {
+	@Override public void positionMulti( int reqId, String account, String modelCode, Contract contract, Decimal pos, double avgCost) {
 		System.out.println(EWrapperMsgGenerator.positionMulti( reqId, account, modelCode, contract, pos, avgCost));
 	}
 
@@ -382,7 +382,7 @@ public class Test implements EWrapper {
     }
 
     @Override
-    public void pnlSingle(int reqId, int pos, double dailyPnL, double unrealizedPnL, double realizedPnL, double value) {
+    public void pnlSingle(int reqId, Decimal pos, double dailyPnL, double unrealizedPnL, double realizedPnL, double value) {
         System.out.println(EWrapperMsgGenerator.pnlSingle(reqId, pos, dailyPnL, unrealizedPnL, realizedPnL, value));
     }
     
@@ -410,13 +410,13 @@ public class Test implements EWrapper {
     }
 
     @Override
-    public void tickByTickAllLast(int reqId, int tickType, long time, double price, int size, TickAttribLast tickAttribLast,
+    public void tickByTickAllLast(int reqId, int tickType, long time, double price, Decimal size, TickAttribLast tickAttribLast,
             String exchange, String specialConditions) {
         System.out.println(EWrapperMsgGenerator.tickByTickAllLast(reqId, tickType, time, price, size, tickAttribLast, exchange, specialConditions));
     }
 
     @Override
-    public void tickByTickBidAsk(int reqId, long time, double bidPrice, double askPrice, int bidSize, int askSize,
+    public void tickByTickBidAsk(int reqId, long time, double bidPrice, double askPrice, Decimal bidSize, Decimal askSize,
             TickAttribBidAsk tickAttribBidAsk) {
         System.out.println(EWrapperMsgGenerator.tickByTickBidAsk(reqId, time, bidPrice, askPrice, bidSize, askSize, tickAttribBidAsk));
     }
@@ -444,5 +444,25 @@ public class Test implements EWrapper {
     @Override
     public void replaceFAEnd(int reqId, String text) {
         System.out.println(EWrapperMsgGenerator.replaceFAEnd(reqId, text));
+    }
+
+    @Override
+    public void wshMetaData(int reqId, String dataJson) {
+        System.out.println(EWrapperMsgGenerator.wshMetaData(reqId, dataJson));
+    }
+
+    @Override
+    public void wshEventData(int reqId, String dataJson) {
+        System.out.println(EWrapperMsgGenerator.wshEventData(reqId, dataJson));
+    }
+
+    @Override
+    public void historicalSchedule(int reqId, String startDateTime, String endDateTime, String timeZone, List<HistoricalSession> sessions) {
+        System.out.println(EWrapperMsgGenerator.historicalSchedule(reqId, startDateTime, endDateTime, timeZone, sessions));
+    }
+    
+    @Override
+    public void userInfo(int reqId, String whiteBrandingId) {
+        System.out.println(EWrapperMsgGenerator.userInfo(reqId, whiteBrandingId));
     }
 }

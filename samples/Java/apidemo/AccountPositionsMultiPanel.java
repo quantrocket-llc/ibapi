@@ -21,6 +21,7 @@ import javax.swing.JTextField;
 import javax.swing.table.AbstractTableModel;
 
 import com.ib.client.Contract;
+import com.ib.client.Decimal;
 import com.ib.controller.ApiController.IAccountUpdateMultiHandler;
 import com.ib.controller.ApiController.IPositionMultiHandler;
 import com.ib.controller.Formats;
@@ -121,7 +122,7 @@ class AccountPositionsMultiPanel extends JPanel {
             }
 
             @Override
-            public void positionMulti(String account, String modelCode, Contract contract, double pos, double avgCost) {
+            public void positionMulti(String account, String modelCode, Contract contract, Decimal pos, double avgCost) {
                 String key = contract.conid() + "_" + account + "_" + modelCode;
                 PositionRow row = m_map.get(key);
                 if (row == null) {
@@ -405,10 +406,10 @@ class AccountPositionsMultiPanel extends JPanel {
         String m_account;
         String m_modelCode;
         Contract m_contract;
-        double m_position;
+        Decimal m_position;
         double m_avgCost;
 
-        void update(String account, String modelCode, Contract contract, double position, double avgCost) {
+        void update(String account, String modelCode, Contract contract, Decimal position, double avgCost) {
             m_account = account;
             m_modelCode = modelCode;
             m_contract = contract;

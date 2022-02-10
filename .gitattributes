@@ -7,3 +7,5 @@
 *.DLL	binary
 *.jar	binary
 *.JAR	binary
+*.lib   binary
+*.a     binary

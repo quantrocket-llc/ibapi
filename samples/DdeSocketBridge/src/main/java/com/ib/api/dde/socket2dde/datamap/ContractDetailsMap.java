@@ -4,6 +4,7 @@
 package com.ib.api.dde.socket2dde.datamap;
 
 import com.ib.api.dde.dde2socket.requests.DdeRequest;
+import com.ib.api.dde.utils.Utils;
 import com.ib.client.ContractDetails;
 
 /** Class represents contract details map received from TWS */
@@ -13,6 +14,7 @@ public class ContractDetailsMap extends BaseListDataMap<ContractDetails> {
     public final static String VALID_EXCHANGES = "validExchanges"; 
     public final static String CON_ID = "conid"; 
     public final static String MIN_TICK = "minTick"; 
+    public final static String SIZE_MIN_TICK = "sizeMinTick"; 
     public final static String MULTIPLIER = "multiplier"; 
     public final static String MARKET_NAME = "marketName"; 
     public final static String TRADING_CLASS = "tradingClass"; 
@@ -31,6 +33,9 @@ public class ContractDetailsMap extends BaseListDataMap<ContractDetails> {
     public final static String NEXT_OPTION_TYPE = "nextOptionType";
     public final static String NEXT_OPTION_PARTIAL = "nextOptionPartial";
     public final static String NOTES = "notes";
+    public final static String MIN_SIZE = "minSize";
+    public final static String SIZE_INCREMENT = "sizeIncrement";
+    public final static String SUGGESTED_SIZE_INCREMENT = "suggestedSizeIncrement";
     
     public ContractDetailsMap(DdeRequest ddeRequest){
         super(ddeRequest);
@@ -108,6 +113,15 @@ public class ContractDetailsMap extends BaseListDataMap<ContractDetails> {
             }
             if (tickType.equalsIgnoreCase(NOTES)) {
                 return contractDetails.notes();
+            }
+            if (tickType.equalsIgnoreCase(MIN_SIZE)) {
+                return Utils.toString(contractDetails.minSize());
+            }
+            if (tickType.equalsIgnoreCase(SIZE_INCREMENT)) {
+                return Utils.toString(contractDetails.sizeIncrement());
+            }
+            if (tickType.equalsIgnoreCase(SUGGESTED_SIZE_INCREMENT)) {
+                return Utils.toString(contractDetails.suggestedSizeIncrement());
             }
         }
         return null;

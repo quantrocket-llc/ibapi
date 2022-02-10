@@ -18,6 +18,7 @@ Const CELL_ACCOUNT_NAME = "A6"
 Const CELL_FA_DATATYPE = "C6"
 Const CELL_TIMESTAMP = "B9"
 Const CELL_MANAGEDACCOUNTS = "D9"
+Const CELL_USERINFO = "F9"
 Const CELL_SUBSCRIPTION_STATUS = "A11"
 Const RANGE_ACCOUNT_DATA = "A15:D300"
 
@@ -173,7 +174,18 @@ Public Sub Initialise()
     Set accountsTable = Me.Range("$A$14:$D$300")
 End Sub
 
+Private Sub ReqUserInfo_Click()
+    If Not CheckConnected Then Exit Sub
+    
+    Api.Tws.ReqUserInfo 0
+End Sub
+
 Private Sub Worksheet_Activate()
     Main.Initialise
+End Sub
+
+Public Sub UserInfo(ByVal reqId As Long, ByVal whiteBrandingId As String)
+    ' user info
+    Range(CELL_USERINFO).value = whiteBrandingId
 End Sub
 

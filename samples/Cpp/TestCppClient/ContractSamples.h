@@ -51,11 +51,14 @@ public:
 	static Contract BTbroadtapeNewsFeed();
 	static Contract BZbroadtapeNewsFeed();
 	static Contract FLYbroadtapeNewsFeed();
-	static Contract MTbroadtapeNewsFeed();
+	//static Contract MTbroadtapeNewsFeed();
 	static Contract ContFut();
 	static Contract ContAndExpiringFut();
 	static Contract JefferiesContract();
 	static Contract CSFBContract();
+	static Contract Warrants();
+	static Contract IBKRATSContract();
+	static Contract CryptoContract();
 };
 
 #endif

@@ -53,6 +53,15 @@ void EClient::EncodeField<double>(std::ostream& os, double doubleValue)
     EncodeField<const char*>(os, str);
 }
 
+template<>
+void EClient::EncodeField<Decimal>(std::ostream& os, Decimal decimalValue)
+{
+    char str[128];
+    snprintf(str, sizeof(str), "%s", decimalToString(decimalValue).c_str());
+
+    EncodeField<const char*>(os, str);
+}
+
 template<class T>
 void EClient::EncodeField(std::ostream& os, T value)
 {
@@ -200,7 +209,7 @@ void EClient::setOptionalCapabilities(const std::string& optCapts)
 void EClient::setConnectOptions(const std::string& connectOptions)
 {
     if( isSocketOK()) {
-        m_pEWrapper->error( NO_VALID_ID, ALREADY_CONNECTED.code(), ALREADY_CONNECTED.msg());
+        m_pEWrapper->error( NO_VALID_ID, ALREADY_CONNECTED.code(), ALREADY_CONNECTED.msg(), "");
         return;
     }
 
@@ -210,7 +219,7 @@ void EClient::setConnectOptions(const std::string& connectOptions)
 void EClient::disableUseV100Plus()
 {
     if( isSocketOK()) {
-        m_pEWrapper->error( NO_VALID_ID, ALREADY_CONNECTED.code(), ALREADY_CONNECTED.msg());
+        m_pEWrapper->error( NO_VALID_ID, ALREADY_CONNECTED.code(), ALREADY_CONNECTED.msg(), "");
         return;
     }
 
@@ -233,7 +242,7 @@ void EClient::reqMktData(TickerId tickerId, const Contract& contract,
 {
     // not connected?
     if( !isConnected()) {
-        m_pEWrapper->error( tickerId, NOT_CONNECTED.code(), NOT_CONNECTED.msg());
+        m_pEWrapper->error( tickerId, NOT_CONNECTED.code(), NOT_CONNECTED.msg(), "");
         return;
     }
 
@@ -247,7 +256,7 @@ void EClient::reqMktData(TickerId tickerId, const Contract& contract,
     if( m_serverVersion < MIN_SERVER_VER_DELTA_NEUTRAL) {
         if( contract.deltaNeutralContract) {
             m_pEWrapper->error( tickerId, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-                "  It does not support delta-neutral orders.");
+                "  It does not support delta-neutral orders.", "");
             return;
         }
     }
@@ -255,7 +264,7 @@ void EClient::reqMktData(TickerId tickerId, const Contract& contract,
     if (m_serverVersion < MIN_SERVER_VER_REQ_MKT_DATA_CONID) {
         if( contract.conId > 0) {
             m_pEWrapper->error( tickerId, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-                "  It does not support conId parameter.");
+                "  It does not support conId parameter.", "");
             return;
         }
     }
@@ -263,7 +272,7 @@ void EClient::reqMktData(TickerId tickerId, const Contract& contract,
     if (m_serverVersion < MIN_SERVER_VER_TRADING_CLASS) {
         if( !contract.tradingClass.empty() ) {
             m_pEWrapper->error( tickerId, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-                "  It does not support tradingClass parameter in reqMktData.");
+                "  It does not support tradingClass parameter in reqMktData.", "");
             return;
         }
     }
@@ -344,7 +353,7 @@ void EClient::reqMktData(TickerId tickerId, const Contract& contract,
         }
     }
     catch (EClientException& ex) {
-        m_pEWrapper->error(tickerId, ex.error().code(), ex.error().msg() + ex.text());
+        m_pEWrapper->error(tickerId, ex.error().code(), ex.error().msg() + ex.text(), "");
         return;
     }
 
@@ -355,7 +364,7 @@ void EClient::cancelMktData(TickerId tickerId)
 {
     // not connected?
     if( !isConnected()) {
-        m_pEWrapper->error( tickerId, NOT_CONNECTED.code(), NOT_CONNECTED.msg());
+        m_pEWrapper->error( tickerId, NOT_CONNECTED.code(), NOT_CONNECTED.msg(), "");
         return;
     }
 
@@ -376,7 +385,7 @@ void EClient::reqMktDepth( TickerId tickerId, const Contract& contract, int numR
 {
     // not connected?
     if( !isConnected()) {
-        m_pEWrapper->error( tickerId, NOT_CONNECTED.code(), NOT_CONNECTED.msg());
+        m_pEWrapper->error( tickerId, NOT_CONNECTED.code(), NOT_CONNECTED.msg(), "");
         return;
     }
 
@@ -390,20 +399,20 @@ void EClient::reqMktDepth( TickerId tickerId, const Contract& contract, int numR
     if (m_serverVersion < MIN_SERVER_VER_TRADING_CLASS) {
         if( !contract.tradingClass.empty() || (contract.conId > 0)) {
             m_pEWrapper->error( tickerId, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-                "  It does not support conId and tradingClass parameters in reqMktDepth.");
+                "  It does not support conId and tradingClass parameters in reqMktDepth.", "");
             return;
         }
     }
 
     if (m_serverVersion < MIN_SERVER_VER_SMART_DEPTH && isSmartDepth) {
         m_pEWrapper->error( tickerId, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-            "  It does not support SMART depth request.");
+            "  It does not support SMART depth request.", "");
         return;
     }
 
     if (m_serverVersion < MIN_SERVER_VER_MKT_DEPTH_PRIM_EXCHANGE && !contract.primaryExchange.empty()) {
         m_pEWrapper->error( tickerId, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-            "  It does not support primaryExchange parameter in reqMktDepth.");
+            "  It does not support primaryExchange parameter in reqMktDepth.", "");
         return;
     }
 
@@ -450,7 +459,7 @@ void EClient::reqMktDepth( TickerId tickerId, const Contract& contract, int numR
         }
     }
     catch (EClientException& ex) {
-        m_pEWrapper->error(tickerId, ex.error().code(), ex.error().msg() + ex.text());
+        m_pEWrapper->error(tickerId, ex.error().code(), ex.error().msg() + ex.text(), "");
         return;
     }
 
@@ -462,13 +471,13 @@ void EClient::cancelMktDepth( TickerId tickerId, bool isSmartDepth)
 {
     // not connected?
     if( !isConnected()) {
-        m_pEWrapper->error( tickerId, NOT_CONNECTED.code(), NOT_CONNECTED.msg());
+        m_pEWrapper->error( tickerId, NOT_CONNECTED.code(), NOT_CONNECTED.msg(), "");
         return;
     }
 
     if (m_serverVersion < MIN_SERVER_VER_SMART_DEPTH && isSmartDepth) {
         m_pEWrapper->error( tickerId, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-            "  It does not support SMART depth cancel.");
+            "  It does not support SMART depth cancel.", "");
         return;
     }
 
@@ -503,7 +512,7 @@ void EClient::reqHistoricalData(TickerId tickerId, const Contract& contract,
 {
     // not connected?
     if (!isConnected()) {
-        m_pEWrapper->error(tickerId, NOT_CONNECTED.code(), NOT_CONNECTED.msg());
+        m_pEWrapper->error(tickerId, NOT_CONNECTED.code(), NOT_CONNECTED.msg(), "");
         return;
     }
 
@@ -516,7 +525,15 @@ void EClient::reqHistoricalData(TickerId tickerId, const Contract& contract,
     if (m_serverVersion < MIN_SERVER_VER_TRADING_CLASS) {
         if (!contract.tradingClass.empty() || (contract.conId > 0)) {
             m_pEWrapper->error(tickerId, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-                "  It does not support conId and tradingClass parameters in reqHistoricalData.");
+                "  It does not support conId and tradingClass parameters in reqHistoricalData.", "");
+            return;
+        }
+    }
+
+    if (m_serverVersion < MIN_SERVER_VER_HISTORICAL_SCHEDULE) {
+        if (!whatToShow.empty() && !whatToShow.compare("SCHEDULE")) {
+            m_pEWrapper->error(tickerId, UPDATE_TWS.code(), UPDATE_TWS.msg() +
+                "  It does not support requesting of historical schedule.", "");
             return;
         }
     }
@@ -590,7 +607,7 @@ void EClient::reqHistoricalData(TickerId tickerId, const Contract& contract,
         }
     }
     catch (EClientException& ex) {
-        m_pEWrapper->error(tickerId, ex.error().code(), ex.error().msg() + ex.text());
+        m_pEWrapper->error(tickerId, ex.error().code(), ex.error().msg() + ex.text(), "");
         return;
     }
 
@@ -601,7 +618,7 @@ void EClient::cancelHistoricalData(TickerId tickerId)
 {
     // not connected?
     if( !isConnected()) {
-        m_pEWrapper->error( tickerId, NOT_CONNECTED.code(), NOT_CONNECTED.msg());
+        m_pEWrapper->error( tickerId, NOT_CONNECTED.code(), NOT_CONNECTED.msg(), "");
         return;
     }
 
@@ -630,7 +647,7 @@ void EClient::reqRealTimeBars(TickerId tickerId, const Contract& contract,
 {
     // not connected?
     if( !isConnected()) {
-        m_pEWrapper->error( tickerId, NOT_CONNECTED.code(), NOT_CONNECTED.msg());
+        m_pEWrapper->error( tickerId, NOT_CONNECTED.code(), NOT_CONNECTED.msg(), "");
         return;
     }
 
@@ -644,7 +661,7 @@ void EClient::reqRealTimeBars(TickerId tickerId, const Contract& contract,
     if (m_serverVersion < MIN_SERVER_VER_TRADING_CLASS) {
         if( !contract.tradingClass.empty() || (contract.conId > 0)) {
             m_pEWrapper->error( tickerId, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-                "  It does not support conId and tradingClass parameters in reqRealTimeBars.");
+                "  It does not support conId and tradingClass parameters in reqRealTimeBars.", "");
             return;
         }
     }
@@ -686,7 +703,7 @@ void EClient::reqRealTimeBars(TickerId tickerId, const Contract& contract,
         }
     }
     catch (EClientException& ex) {
-        m_pEWrapper->error(tickerId, ex.error().code(), ex.error().msg() + ex.text());
+        m_pEWrapper->error(tickerId, ex.error().code(), ex.error().msg() + ex.text(), "");
         return;
     }
 
@@ -698,7 +715,7 @@ void EClient::cancelRealTimeBars(TickerId tickerId)
 {
     // not connected?
     if( !isConnected()) {
-        m_pEWrapper->error( tickerId, NOT_CONNECTED.code(), NOT_CONNECTED.msg());
+        m_pEWrapper->error( tickerId, NOT_CONNECTED.code(), NOT_CONNECTED.msg(), "");
         return;
     }
 
@@ -726,7 +743,7 @@ void EClient::reqScannerParameters()
 {
     // not connected?
     if( !isConnected()) {
-        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg());
+        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg(), "");
         return;
     }
 
@@ -754,7 +771,7 @@ void EClient::reqScannerSubscription(int tickerId,
 {
     // not connected?
     if( !isConnected()) {
-        m_pEWrapper->error( tickerId, NOT_CONNECTED.code(), NOT_CONNECTED.msg());
+        m_pEWrapper->error( tickerId, NOT_CONNECTED.code(), NOT_CONNECTED.msg(), "");
         return;
     }
 
@@ -810,7 +827,7 @@ void EClient::reqScannerSubscription(int tickerId,
         }
     }
     catch (EClientException& ex) {
-        m_pEWrapper->error(tickerId, ex.error().code(), ex.error().msg() + ex.text());
+        m_pEWrapper->error(tickerId, ex.error().code(), ex.error().msg() + ex.text(), "");
         return;
     }
 
@@ -821,7 +838,7 @@ void EClient::cancelScannerSubscription(int tickerId)
 {
     // not connected?
     if( !isConnected()) {
-        m_pEWrapper->error( tickerId, NOT_CONNECTED.code(), NOT_CONNECTED.msg());
+        m_pEWrapper->error( tickerId, NOT_CONNECTED.code(), NOT_CONNECTED.msg(), "");
         return;
     }
 
@@ -851,20 +868,20 @@ void EClient::reqFundamentalData(TickerId reqId, const Contract& contract,
 {
     // not connected?
     if( !isConnected()) {
-        m_pEWrapper->error( reqId, NOT_CONNECTED.code(), NOT_CONNECTED.msg());
+        m_pEWrapper->error( reqId, NOT_CONNECTED.code(), NOT_CONNECTED.msg(), "");
         return;
     }
 
     if( m_serverVersion < MIN_SERVER_VER_FUNDAMENTAL_DATA) {
         m_pEWrapper->error(NO_VALID_ID, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-            "  It does not support fundamental data requests.");
+            "  It does not support fundamental data requests.", "");
         return;
     }
 
     if (m_serverVersion < MIN_SERVER_VER_TRADING_CLASS) {
         if( contract.conId > 0) {
             m_pEWrapper->error( reqId, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-                "  It does not support conId parameter in reqFundamentalData.");
+                "  It does not support conId parameter in reqFundamentalData.", "");
             return;
         }
     }
@@ -898,7 +915,7 @@ void EClient::reqFundamentalData(TickerId reqId, const Contract& contract,
         }
     }
     catch (EClientException& ex) {
-        m_pEWrapper->error(reqId, ex.error().code(), ex.error().msg() + ex.text());
+        m_pEWrapper->error(reqId, ex.error().code(), ex.error().msg() + ex.text(), "");
         return;
     }
 
@@ -909,13 +926,13 @@ void EClient::cancelFundamentalData( TickerId reqId)
 {
     // not connected?
     if( !isConnected()) {
-        m_pEWrapper->error( reqId, NOT_CONNECTED.code(), NOT_CONNECTED.msg());
+        m_pEWrapper->error( reqId, NOT_CONNECTED.code(), NOT_CONNECTED.msg(), "");
         return;
     }
 
     if( m_serverVersion < MIN_SERVER_VER_FUNDAMENTAL_DATA) {
         m_pEWrapper->error(NO_VALID_ID, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-            "  It does not support fundamental data requests.");
+            "  It does not support fundamental data requests.", "");
         return;
     }
 
@@ -937,20 +954,20 @@ void EClient::calculateImpliedVolatility(TickerId reqId, const Contract& contrac
 
     // not connected?
     if (!isConnected()) {
-        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg());
+        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg(), "");
         return;
     }
 
     if (m_serverVersion < MIN_SERVER_VER_REQ_CALC_IMPLIED_VOLAT) {
         m_pEWrapper->error( reqId, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-            "  It does not support calculate implied volatility requests.");
+            "  It does not support calculate implied volatility requests.", "");
         return;
     }
 
     if (m_serverVersion < MIN_SERVER_VER_TRADING_CLASS) {
         if( !contract.tradingClass.empty()) {
             m_pEWrapper->error( reqId, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-                "  It does not support tradingClass parameter in calculateImpliedVolatility.");
+                "  It does not support tradingClass parameter in calculateImpliedVolatility.", "");
             return;
         }
     }
@@ -991,7 +1008,7 @@ void EClient::calculateImpliedVolatility(TickerId reqId, const Contract& contrac
         }
     }
     catch (EClientException& ex) {
-        m_pEWrapper->error(reqId, ex.error().code(), ex.error().msg() + ex.text());
+        m_pEWrapper->error(reqId, ex.error().code(), ex.error().msg() + ex.text(), "");
         return;
     }
 
@@ -1002,13 +1019,13 @@ void EClient::cancelCalculateImpliedVolatility(TickerId reqId) {
 
     // not connected?
     if( !isConnected()) {
-        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg());
+        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg(), "");
         return;
     }
 
     if (m_serverVersion < MIN_SERVER_VER_CANCEL_CALC_IMPLIED_VOLAT) {
         m_pEWrapper->error( reqId, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-            "  It does not support calculate implied volatility cancellation.");
+            "  It does not support calculate implied volatility cancellation.", "");
         return;
     }
 
@@ -1030,20 +1047,20 @@ void EClient::calculateOptionPrice(TickerId reqId, const Contract& contract, dou
 
     // not connected?
     if( !isConnected()) {
-        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg());
+        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg(), "");
         return;
     }
 
     if (m_serverVersion < MIN_SERVER_VER_REQ_CALC_OPTION_PRICE) {
         m_pEWrapper->error( reqId, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-            "  It does not support calculate option price requests.");
+            "  It does not support calculate option price requests.", "");
         return;
     }
 
     if (m_serverVersion < MIN_SERVER_VER_TRADING_CLASS) {
         if( !contract.tradingClass.empty()) {
             m_pEWrapper->error( reqId, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-                "  It does not support tradingClass parameter in calculateOptionPrice.");
+                "  It does not support tradingClass parameter in calculateOptionPrice.", "");
             return;
         }
     }
@@ -1084,7 +1101,7 @@ void EClient::calculateOptionPrice(TickerId reqId, const Contract& contract, dou
         }
     }
     catch (EClientException& ex) {
-        m_pEWrapper->error(reqId, ex.error().code(), ex.error().msg() + ex.text());
+        m_pEWrapper->error(reqId, ex.error().code(), ex.error().msg() + ex.text(), "");
         return;
     }
 
@@ -1095,13 +1112,13 @@ void EClient::cancelCalculateOptionPrice(TickerId reqId) {
 
     // not connected?
     if( !isConnected()) {
-        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg());
+        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg(), "");
         return;
     }
 
     if (m_serverVersion < MIN_SERVER_VER_CANCEL_CALC_OPTION_PRICE) {
         m_pEWrapper->error( reqId, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-            "  It does not support calculate option price cancellation.");
+            "  It does not support calculate option price cancellation.", "");
         return;
     }
 
@@ -1121,7 +1138,7 @@ void EClient::reqContractDetails( int reqId, const Contract& contract)
 {
     // not connected?
     if( !isConnected()) {
-        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg());
+        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg(), "");
         return;
     }
 
@@ -1134,21 +1151,21 @@ void EClient::reqContractDetails( int reqId, const Contract& contract)
     if (m_serverVersion < MIN_SERVER_VER_SEC_ID_TYPE) {
         if( !contract.secIdType.empty() || !contract.secId.empty()) {
             m_pEWrapper->error( reqId, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-                "  It does not support secIdType and secId parameters.");
+                "  It does not support secIdType and secId parameters.", "");
             return;
         }
     }
     if (m_serverVersion < MIN_SERVER_VER_TRADING_CLASS) {
         if( !contract.tradingClass.empty()) {
             m_pEWrapper->error( reqId, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-                "  It does not support tradingClass parameter in reqContractDetails.");
+                "  It does not support tradingClass parameter in reqContractDetails.", "");
             return;
         }
     }
     if (m_serverVersion < MIN_SERVER_VER_LINKING) {
         if (!contract.primaryExchange.empty()) {
             m_pEWrapper->error( reqId, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-                "  It does not support primaryExchange parameter in reqContractDetails.");
+                "  It does not support primaryExchange parameter in reqContractDetails.", "");
             return;
         }
     }
@@ -1206,7 +1223,7 @@ void EClient::reqContractDetails( int reqId, const Contract& contract)
         }
     }
     catch (EClientException& ex) {
-        m_pEWrapper->error(reqId, ex.error().code(), ex.error().msg() + ex.text());
+        m_pEWrapper->error(reqId, ex.error().code(), ex.error().msg() + ex.text(), "");
         return;
     }
 
@@ -1217,7 +1234,7 @@ void EClient::reqCurrentTime()
 {
     // not connected?
     if( !isConnected()) {
-        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg());
+        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg(), "");
         return;
     }
 
@@ -1245,7 +1262,7 @@ void EClient::placeOrder( OrderId id, const Contract& contract, const Order& ord
 {
     // not connected?
     if( !isConnected()) {
-        m_pEWrapper->error( id, NOT_CONNECTED.code(), NOT_CONNECTED.msg());
+        m_pEWrapper->error( id, NOT_CONNECTED.code(), NOT_CONNECTED.msg(), "");
         return;
     }
 
@@ -1290,7 +1307,7 @@ void EClient::placeOrder( OrderId id, const Contract& contract, const Order& ord
     if( m_serverVersion < MIN_SERVER_VER_DELTA_NEUTRAL) {
         if( contract.deltaNeutralContract) {
             m_pEWrapper->error( id, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-                "  It does not support delta-neutral orders.");
+                "  It does not support delta-neutral orders.", "");
             return;
         }
     }
@@ -1298,7 +1315,7 @@ void EClient::placeOrder( OrderId id, const Contract& contract, const Order& ord
     if( m_serverVersion < MIN_SERVER_VER_SCALE_ORDERS2) {
         if( order.scaleSubsLevelSize != UNSET_INTEGER) {
             m_pEWrapper->error( id, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-                "  It does not support Subsequent Level Size for Scale orders.");
+                "  It does not support Subsequent Level Size for Scale orders.", "");
             return;
         }
     }
@@ -1307,7 +1324,7 @@ void EClient::placeOrder( OrderId id, const Contract& contract, const Order& ord
 
         if( !order.algoStrategy.empty()) {
             m_pEWrapper->error( id, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-                "  It does not support algo orders.");
+                "  It does not support algo orders.", "");
             return;
         }
     }
@@ -1315,7 +1332,7 @@ void EClient::placeOrder( OrderId id, const Contract& contract, const Order& ord
     if( m_serverVersion < MIN_SERVER_VER_NOT_HELD) {
         if (order.notHeld) {
             m_pEWrapper->error( id, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-                "  It does not support notHeld parameter.");
+                "  It does not support notHeld parameter.", "");
             return;
         }
     }
@@ -1323,7 +1340,7 @@ void EClient::placeOrder( OrderId id, const Contract& contract, const Order& ord
     if (m_serverVersion < MIN_SERVER_VER_SEC_ID_TYPE) {
         if( !contract.secIdType.empty() || !contract.secId.empty()) {
             m_pEWrapper->error( id, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-                "  It does not support secIdType and secId parameters.");
+                "  It does not support secIdType and secId parameters.", "");
             return;
         }
     }
@@ -1331,7 +1348,7 @@ void EClient::placeOrder( OrderId id, const Contract& contract, const Order& ord
     if (m_serverVersion < MIN_SERVER_VER_PLACE_ORDER_CONID) {
         if( contract.conId > 0) {
             m_pEWrapper->error( id, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-                "  It does not support conId parameter.");
+                "  It does not support conId parameter.", "");
             return;
         }
     }
@@ -1339,7 +1356,7 @@ void EClient::placeOrder( OrderId id, const Contract& contract, const Order& ord
     if (m_serverVersion < MIN_SERVER_VER_SSHORTX) {
         if( order.exemptCode != -1) {
             m_pEWrapper->error( id, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-                "  It does not support exemptCode parameter.");
+                "  It does not support exemptCode parameter.", "");
             return;
         }
     }
@@ -1352,7 +1369,7 @@ void EClient::placeOrder( OrderId id, const Contract& contract, const Order& ord
             assert( comboLeg);
             if( comboLeg->exemptCode != -1 ){
                 m_pEWrapper->error( id, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-                    "  It does not support exemptCode parameter.");
+                    "  It does not support exemptCode parameter.", "");
                 return;
             }
         }
@@ -1361,7 +1378,7 @@ void EClient::placeOrder( OrderId id, const Contract& contract, const Order& ord
     if( m_serverVersion < MIN_SERVER_VER_HEDGE_ORDERS) {
         if( !order.hedgeType.empty()) {
             m_pEWrapper->error( id, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-                "  It does not support hedge orders.");
+                "  It does not support hedge orders.", "");
             return;
         }
     }
@@ -1369,7 +1386,7 @@ void EClient::placeOrder( OrderId id, const Contract& contract, const Order& ord
     if( m_serverVersion < MIN_SERVER_VER_OPT_OUT_SMART_ROUTING) {
         if (order.optOutSmartRouting) {
             m_pEWrapper->error( id, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-                "  It does not support optOutSmartRouting parameter.");
+                "  It does not support optOutSmartRouting parameter.", "");
             return;
         }
     }
@@ -1381,7 +1398,7 @@ void EClient::placeOrder( OrderId id, const Contract& contract, const Order& ord
             || !order.deltaNeutralClearingIntent.empty()
             ) {
                 m_pEWrapper->error( id, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-                    "  It does not support deltaNeutral parameters: ConId, SettlingFirm, ClearingAccount, ClearingIntent.");
+                    "  It does not support deltaNeutral parameters: ConId, SettlingFirm, ClearingAccount, ClearingIntent.", "");
                 return;
         }
     }
@@ -1393,7 +1410,7 @@ void EClient::placeOrder( OrderId id, const Contract& contract, const Order& ord
             || !order.deltaNeutralDesignatedLocation.empty()
             ) {
                 m_pEWrapper->error( id, UPDATE_TWS.code(), UPDATE_TWS.msg() + 
-                    "  It does not support deltaNeutral parameters: OpenClose, ShortSale, ShortSaleSlot, DesignatedLocation.");
+                    "  It does not support deltaNeutral parameters: OpenClose, ShortSale, ShortSaleSlot, DesignatedLocation.", "");
                 return;
         }
     }
@@ -1409,7 +1426,7 @@ void EClient::placeOrder( OrderId id, const Contract& contract, const Order& ord
                 || order.scaleRandomPercent) {
                     m_pEWrapper->error( id, UPDATE_TWS.code(), UPDATE_TWS.msg() +
                         "  It does not support Scale order parameters: PriceAdjustValue, PriceAdjustInterval, " +
-                        "ProfitOffset, AutoReset, InitPosition, InitFillQty and RandomPercent");
+                        "ProfitOffset, AutoReset, InitPosition, InitFillQty and RandomPercent", "");
                     return;
             }
         }
@@ -1423,7 +1440,7 @@ void EClient::placeOrder( OrderId id, const Contract& contract, const Order& ord
             assert( orderComboLeg);
             if( orderComboLeg->price != UNSET_DOUBLE) {
                 m_pEWrapper->error( id, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-                    "  It does not support per-leg prices for order combo legs.");
+                    "  It does not support per-leg prices for order combo legs.", "");
                 return;
             }
         }
@@ -1432,7 +1449,7 @@ void EClient::placeOrder( OrderId id, const Contract& contract, const Order& ord
     if (m_serverVersion < MIN_SERVER_VER_TRAILING_PERCENT) {
         if (order.trailingPercent != UNSET_DOUBLE) {
             m_pEWrapper->error( id, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-                "  It does not support trailing percent parameter");
+                "  It does not support trailing percent parameter", "");
             return;
         }
     }
@@ -1440,7 +1457,7 @@ void EClient::placeOrder( OrderId id, const Contract& contract, const Order& ord
     if (m_serverVersion < MIN_SERVER_VER_TRADING_CLASS) {
         if( !contract.tradingClass.empty()) {
             m_pEWrapper->error( id, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-                "  It does not support tradingClass parameter in placeOrder.");
+                "  It does not support tradingClass parameter in placeOrder.", "");
             return;
         }
     }
@@ -1448,7 +1465,7 @@ void EClient::placeOrder( OrderId id, const Contract& contract, const Order& ord
     if (m_serverVersion < MIN_SERVER_VER_SCALE_TABLE) {
         if( !order.scaleTable.empty() || !order.activeStartTime.empty() || !order.activeStopTime.empty()) {
             m_pEWrapper->error( id, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-                "  It does not support scaleTable, activeStartTime and activeStopTime parameters");
+                "  It does not support scaleTable, activeStartTime and activeStopTime parameters", "");
             return;
         }
     }
@@ -1456,7 +1473,7 @@ void EClient::placeOrder( OrderId id, const Contract& contract, const Order& ord
     if (m_serverVersion < MIN_SERVER_VER_ALGO_ID) {
         if( !order.algoId.empty()) {
             m_pEWrapper->error( id, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-                "  It does not support algoId parameter");
+                "  It does not support algoId parameter", "");
             return;
         }
     }
@@ -1464,7 +1481,7 @@ void EClient::placeOrder( OrderId id, const Contract& contract, const Order& ord
     if (m_serverVersion < MIN_SERVER_VER_ORDER_SOLICITED) {
         if (order.solicited) {
             m_pEWrapper->error(id, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-                "  It does not support order solicited parameter.");
+                "  It does not support order solicited parameter.", "");
             return;
         }
     }
@@ -1472,7 +1489,7 @@ void EClient::placeOrder( OrderId id, const Contract& contract, const Order& ord
     if (m_serverVersion < MIN_SERVER_VER_MODELS_SUPPORT) {
         if( !order.modelCode.empty()) {
             m_pEWrapper->error( id, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-                "  It does not support model code parameter.");
+                "  It does not support model code parameter.", "");
             return;
         }
     }
@@ -1480,7 +1497,7 @@ void EClient::placeOrder( OrderId id, const Contract& contract, const Order& ord
     if (m_serverVersion < MIN_SERVER_VER_EXT_OPERATOR) {
         if( !order.extOperator.empty()) {
             m_pEWrapper->error( id, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-                "  It does not support ext operator parameter");
+                "  It does not support ext operator parameter", "");
             return;
         }
     }
@@ -1490,7 +1507,7 @@ void EClient::placeOrder( OrderId id, const Contract& contract, const Order& ord
         if (!order.softDollarTier.name().empty() || !order.softDollarTier.val().empty())
         {
             m_pEWrapper->error( id, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-                " It does not support soft dollar tier");
+                " It does not support soft dollar tier", "");
             return;
         }
     }
@@ -1498,7 +1515,7 @@ void EClient::placeOrder( OrderId id, const Contract& contract, const Order& ord
     if (m_serverVersion < MIN_SERVER_VER_CASH_QTY) {
         if (order.cashQty != UNSET_DOUBLE) {
             m_pEWrapper->error( id, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-                "  It does not support cash quantity parameter");
+                "  It does not support cash quantity parameter", "");
             return;
         }
     }
@@ -1507,7 +1524,7 @@ void EClient::placeOrder( OrderId id, const Contract& contract, const Order& ord
         && (!order.mifid2DecisionMaker.empty()
         || !order.mifid2DecisionAlgo.empty())) {
             m_pEWrapper->error(id, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-                " It does not support MIFID II decision maker parameters");
+                " It does not support MIFID II decision maker parameters", "");
             return;
     }
 
@@ -1515,36 +1532,63 @@ void EClient::placeOrder( OrderId id, const Contract& contract, const Order& ord
         && (!order.mifid2ExecutionTrader.empty()
         || !order.mifid2ExecutionAlgo.empty())) {
             m_pEWrapper->error(id, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-                " It does not support MIFID II execution parameters");
+                " It does not support MIFID II execution parameters", "");
             return;
     }
 
     if (m_serverVersion < MIN_SERVER_VER_AUTO_PRICE_FOR_HEDGE
         && order.dontUseAutoPriceForHedge) {
             m_pEWrapper->error(id, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-                " It does not support don't use auto price for hedge parameter");
+                " It does not support don't use auto price for hedge parameter", "");
             return;
     }
 
     if (m_serverVersion < MIN_SERVER_VER_ORDER_CONTAINER 
         && order.isOmsContainer) {
             m_pEWrapper->error(id, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-                " It does not support oms container parameter");
+                " It does not support oms container parameter", "");
             return;
     }
 
     if (m_serverVersion < MIN_SERVER_VER_D_PEG_ORDERS 
         && order.discretionaryUpToLimitPrice) {
             m_pEWrapper->error(id, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-                " It does not support D-Peg orders");
+                " It does not support D-Peg orders", "");
             return;
     }
 
     if (m_serverVersion < MIN_SERVER_VER_PRICE_MGMT_ALGO
         && order.usePriceMgmtAlgo != UsePriceMmgtAlgo::DEFAULT) {
-            m_pEWrapper->error(id, UPDATE_TWS.code(), UPDATE_TWS.msg() + " It does not support Use Price Management Algo requests");
+            m_pEWrapper->error(id, UPDATE_TWS.code(), UPDATE_TWS.msg() + " It does not support Use Price Management Algo requests", "");
 
             return;
+    }
+
+    if (m_serverVersion < MIN_SERVER_VER_DURATION
+        && order.duration != UNSET_INTEGER) {
+        m_pEWrapper->error(id, UPDATE_TWS.code(), UPDATE_TWS.msg() + " It does not support duration attribute", "");
+
+        return;
+    }
+
+    if (m_serverVersion < MIN_SERVER_VER_POST_TO_ATS
+        && order.postToAts != UNSET_INTEGER) {
+        m_pEWrapper->error(id, UPDATE_TWS.code(), UPDATE_TWS.msg() + " It does not support postToAts attribute", "");
+
+        return;
+    }
+
+    if (m_serverVersion < MIN_SERVER_VER_AUTO_CANCEL_PARENT) {
+        if (order.autoCancelParent) {
+            m_pEWrapper->error(id, UPDATE_TWS.code(), UPDATE_TWS.msg() +
+                "  It does not support autoCancelParent parameter.", "");
+            return;
+        }
+    }
+
+    if (m_serverVersion < MIN_SERVER_VER_ADVANCED_ORDER_REJECT && !order.advancedErrorOverride.empty()) {
+        m_pEWrapper->error(id, UPDATE_TWS.code(), UPDATE_TWS.msg() + " It does not support advanced error override attribute", "");
+        return;
     }
 
     std::stringstream msg;
@@ -1591,7 +1635,7 @@ void EClient::placeOrder( OrderId id, const Contract& contract, const Order& ord
         if (m_serverVersion >= MIN_SERVER_VER_FRACTIONAL_POSITIONS)
             ENCODE_FIELD(order.totalQuantity)
         else
-        ENCODE_FIELD((long)order.totalQuantity)
+            ENCODE_FIELD((long)order.totalQuantity)
 
         ENCODE_FIELD( order.orderType);
         if( m_serverVersion < MIN_SERVER_VER_ORDER_COMBO_LEGS_PRICE) {
@@ -1736,9 +1780,9 @@ void EClient::placeOrder( OrderId id, const Contract& contract, const Order& ord
         ENCODE_FIELD( order.allOrNone);
         ENCODE_FIELD_MAX( order.minQty);
         ENCODE_FIELD_MAX( order.percentOffset);
-        ENCODE_FIELD( order.eTradeOnly);
-        ENCODE_FIELD( order.firmQuoteOnly);
-        ENCODE_FIELD_MAX( order.nbboPriceCap);
+        ENCODE_FIELD( false);
+        ENCODE_FIELD( false);
+        ENCODE_FIELD_MAX( UNSET_DOUBLE);
         ENCODE_FIELD( order.auctionStrategy); // AUCTION_MATCH, AUCTION_IMPROVEMENT, AUCTION_TRANSPARENT
         ENCODE_FIELD_MAX( order.startingPrice);
         ENCODE_FIELD_MAX( order.stockRefPrice);
@@ -1904,7 +1948,7 @@ void EClient::placeOrder( OrderId id, const Contract& contract, const Order& ord
                 ENCODE_FIELD(order.referenceExchangeId);
             }
 
-            ENCODE_FIELD(order.conditions.size());
+            ENCODE_FIELD((long)order.conditions.size());
 
             if (order.conditions.size() > 0) {
                 for (std::shared_ptr<OrderCondition> item : order.conditions) {
@@ -1963,20 +2007,37 @@ void EClient::placeOrder( OrderId id, const Contract& contract, const Order& ord
         if (m_serverVersion >= MIN_SERVER_VER_PRICE_MGMT_ALGO) {
             ENCODE_FIELD_MAX(order.usePriceMgmtAlgo);
         }
+
+        if (m_serverVersion >= MIN_SERVER_VER_DURATION) {
+            ENCODE_FIELD_MAX(order.duration);
+        }
+
+        if (m_serverVersion >= MIN_SERVER_VER_POST_TO_ATS) {
+            ENCODE_FIELD_MAX(order.postToAts);
+        }
+
+        if (m_serverVersion >= MIN_SERVER_VER_AUTO_CANCEL_PARENT) {
+            ENCODE_FIELD(order.autoCancelParent);
+        }
+
+        if (m_serverVersion >= MIN_SERVER_VER_ADVANCED_ORDER_REJECT) {
+            ENCODE_FIELD(order.advancedErrorOverride);
+        }
+
     }
     catch (EClientException& ex) {
-        m_pEWrapper->error(id, ex.error().code(), ex.error().msg() + ex.text());
+        m_pEWrapper->error(id, ex.error().code(), ex.error().msg() + ex.text(), "");
         return;
     }
 
-    closeAndSend( msg.str());
+    closeAndSend(msg.str());
 }
 
 void EClient::cancelOrder( OrderId id)
 {
     // not connected?
     if( !isConnected()) {
-        m_pEWrapper->error( id, NOT_CONNECTED.code(), NOT_CONNECTED.msg());
+        m_pEWrapper->error( id, NOT_CONNECTED.code(), NOT_CONNECTED.msg(), "");
         return;
     }
 
@@ -1997,7 +2058,7 @@ void EClient::reqAccountUpdates(bool subscribe, const std::string& acctCode)
 {
     // not connected?
     if( !isConnected()) {
-        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg());
+        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg(), "");
         return;
     }
 
@@ -2016,7 +2077,7 @@ void EClient::reqAccountUpdates(bool subscribe, const std::string& acctCode)
         ENCODE_FIELD( acctCode); // srv v9 and above
     }
     catch (EClientException& ex) {
-        m_pEWrapper->error(NO_VALID_ID, ex.error().code(), ex.error().msg() + ex.text());
+        m_pEWrapper->error(NO_VALID_ID, ex.error().code(), ex.error().msg() + ex.text(), "");
         return;
     }
 
@@ -2027,7 +2088,7 @@ void EClient::reqOpenOrders()
 {
     // not connected?
     if( !isConnected()) {
-        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg());
+        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg(), "");
         return;
     }
 
@@ -2047,7 +2108,7 @@ void EClient::reqAutoOpenOrders(bool bAutoBind)
 {
     // not connected?
     if( !isConnected()) {
-        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg());
+        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg(), "");
         return;
     }
 
@@ -2068,7 +2129,7 @@ void EClient::reqAllOpenOrders()
 {
     // not connected?
     if( !isConnected()) {
-        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg());
+        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg(), "");
         return;
     }
 
@@ -2090,7 +2151,7 @@ void EClient::reqExecutions(int reqId, const ExecutionFilter& filter)
 
     // not connected?
     if( !isConnected()) {
-        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg());
+        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg(), "");
         return;
     }
 
@@ -2118,7 +2179,7 @@ void EClient::reqExecutions(int reqId, const ExecutionFilter& filter)
         ENCODE_FIELD( filter.m_side);
     }
     catch (EClientException& ex) {
-        m_pEWrapper->error(reqId, ex.error().code(), ex.error().msg() + ex.text());
+        m_pEWrapper->error(reqId, ex.error().code(), ex.error().msg() + ex.text(), "");
         return;
     }
 
@@ -2129,7 +2190,7 @@ void EClient::reqIds( int numIds)
 {
     // not connected?
     if( !isConnected()) {
-        m_pEWrapper->error( numIds, NOT_CONNECTED.code(), NOT_CONNECTED.msg());
+        m_pEWrapper->error( numIds, NOT_CONNECTED.code(), NOT_CONNECTED.msg(), "");
         return;
     }
 
@@ -2150,7 +2211,7 @@ void EClient::reqNewsBulletins(bool allMsgs)
 {
     // not connected?
     if( !isConnected()) {
-        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg());
+        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg(), "");
         return;
     }
 
@@ -2171,7 +2232,7 @@ void EClient::cancelNewsBulletins()
 {
     // not connected?
     if( !isConnected()) {
-        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg());
+        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg(), "");
         return;
     }
 
@@ -2191,7 +2252,7 @@ void EClient::setServerLogLevel(int logLevel)
 {
     // not connected?
     if( !isConnected()) {
-        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg());
+        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg(), "");
         return;
     }
 
@@ -2212,7 +2273,7 @@ void EClient::reqManagedAccts()
 {
     // not connected?
     if( !isConnected()) {
-        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg());
+        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg(), "");
         return;
     }
 
@@ -2233,7 +2294,7 @@ void EClient::requestFA(faDataType pFaDataType)
 {
     // not connected?
     if( !isConnected()) {
-        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg());
+        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg(), "");
         return;
     }
 
@@ -2259,7 +2320,7 @@ void EClient::replaceFA(int reqId, faDataType pFaDataType, const std::string& cx
 {
     // not connected?
     if( !isConnected()) {
-        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg());
+        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg(), "");
         return;
     }
 
@@ -2284,7 +2345,7 @@ void EClient::replaceFA(int reqId, faDataType pFaDataType, const std::string& cx
         }
     }
     catch (EClientException& ex) {
-        m_pEWrapper->error(reqId, ex.error().code(), ex.error().msg() + ex.text());
+        m_pEWrapper->error(reqId, ex.error().code(), ex.error().msg() + ex.text(), "");
         return;
     }
 
@@ -2299,7 +2360,7 @@ void EClient::exerciseOptions( TickerId tickerId, const Contract& contract,
 {
     // not connected?
     if( !isConnected()) {
-        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg());
+        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg(), "");
         return;
     }
 
@@ -2312,7 +2373,7 @@ void EClient::exerciseOptions( TickerId tickerId, const Contract& contract,
     if (m_serverVersion < MIN_SERVER_VER_TRADING_CLASS) {
         if( !contract.tradingClass.empty() || (contract.conId > 0)) {
             m_pEWrapper->error( tickerId, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-                "  It does not support conId, multiplier and tradingClass parameters in exerciseOptions.");
+                "  It does not support conId, multiplier and tradingClass parameters in exerciseOptions.", "");
             return;
         }
     }
@@ -2349,7 +2410,7 @@ void EClient::exerciseOptions( TickerId tickerId, const Contract& contract,
         ENCODE_FIELD( override);
     }
     catch (EClientException& ex) {
-        m_pEWrapper->error(tickerId, ex.error().code(), ex.error().msg() + ex.text());
+        m_pEWrapper->error(tickerId, ex.error().code(), ex.error().msg() + ex.text(), "");
         return;
     }
 
@@ -2360,13 +2421,13 @@ void EClient::reqGlobalCancel()
 {
     // not connected?
     if( !isConnected()) {
-        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg());
+        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg(), "");
         return;
     }
 
     if (m_serverVersion < MIN_SERVER_VER_REQ_GLOBAL_CANCEL) {
         m_pEWrapper->error( NO_VALID_ID, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-            "  It does not support globalCancel requests.");
+            "  It does not support globalCancel requests.", "");
         return;
     }
 
@@ -2386,13 +2447,13 @@ void EClient::reqMarketDataType( int marketDataType)
 {
     // not connected?
     if( !isConnected()) {
-        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg());
+        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg(), "");
         return;
     }
 
     if( m_serverVersion < MIN_SERVER_VER_REQ_MARKET_DATA_TYPE) {
         m_pEWrapper->error(NO_VALID_ID, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-            "  It does not support market data type requests.");
+            "  It does not support market data type requests.", "");
         return;
     }
 
@@ -2412,13 +2473,13 @@ void EClient::reqPositions()
 {
     // not connected?
     if( !isConnected()) {
-        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg());
+        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg(), "");
         return;
     }
 
     if( m_serverVersion < MIN_SERVER_VER_POSITIONS) {
         m_pEWrapper->error(NO_VALID_ID, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-            "  It does not support positions request.");
+            "  It does not support positions request.", "");
         return;
     }
 
@@ -2437,13 +2498,13 @@ void EClient::cancelPositions()
 {
     // not connected?
     if( !isConnected()) {
-        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg());
+        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg(), "");
         return;
     }
 
     if( m_serverVersion < MIN_SERVER_VER_POSITIONS) {
         m_pEWrapper->error(NO_VALID_ID, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-            "  It does not support positions cancellation.");
+            "  It does not support positions cancellation.", "");
         return;
     }
 
@@ -2462,13 +2523,13 @@ void EClient::reqAccountSummary( int reqId, const std::string& groupName, const 
 {
     // not connected?
     if( !isConnected()) {
-        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg());
+        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg(), "");
         return;
     }
 
     if( m_serverVersion < MIN_SERVER_VER_ACCOUNT_SUMMARY) {
         m_pEWrapper->error(NO_VALID_ID, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-            "  It does not support account summary request.");
+            "  It does not support account summary request.", "");
         return;
     }
 
@@ -2485,7 +2546,7 @@ void EClient::reqAccountSummary( int reqId, const std::string& groupName, const 
         ENCODE_FIELD( tags);
     }
     catch (EClientException& ex) {
-        m_pEWrapper->error(reqId, ex.error().code(), ex.error().msg() + ex.text());
+        m_pEWrapper->error(reqId, ex.error().code(), ex.error().msg() + ex.text(), "");
         return;
     }
 
@@ -2496,13 +2557,13 @@ void EClient::cancelAccountSummary( int reqId)
 {
     // not connected?
     if( !isConnected()) {
-        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg());
+        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg(), "");
         return;
     }
 
     if( m_serverVersion < MIN_SERVER_VER_ACCOUNT_SUMMARY) {
         m_pEWrapper->error(NO_VALID_ID, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-            "  It does not support account summary cancellation.");
+            "  It does not support account summary cancellation.", "");
         return;
     }
 
@@ -2522,19 +2583,19 @@ void EClient::verifyRequest(const std::string& apiName, const std::string& apiVe
 {
     // not connected?
     if( !isConnected()) {
-        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg());
+        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg(), "");
         return;
     }
 
     if( m_serverVersion < MIN_SERVER_VER_LINKING) {
         m_pEWrapper->error(NO_VALID_ID, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-            "  It does not support verification request.");
+            "  It does not support verification request.", "");
         return;
     }
 
     if( !m_extraAuth) {
         m_pEWrapper->error(NO_VALID_ID, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-            "  Intent to authenticate needs to be expressed during initial connect request.");
+            "  Intent to authenticate needs to be expressed during initial connect request.", "");
         return;
     }
 
@@ -2550,7 +2611,7 @@ void EClient::verifyRequest(const std::string& apiName, const std::string& apiVe
         ENCODE_FIELD( apiVersion);
     }
     catch (EClientException& ex) {
-        m_pEWrapper->error(NO_VALID_ID, ex.error().code(), ex.error().msg() + ex.text());
+        m_pEWrapper->error(NO_VALID_ID, ex.error().code(), ex.error().msg() + ex.text(), "");
         return;
     }
 
@@ -2561,13 +2622,13 @@ void EClient::verifyMessage(const std::string& apiData)
 {
     // not connected?
     if( !isConnected()) {
-        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg());
+        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg(), "");
         return;
     }
 
     if( m_serverVersion < MIN_SERVER_VER_LINKING) {
         m_pEWrapper->error(NO_VALID_ID, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-            "  It does not support verification message sending.");
+            "  It does not support verification message sending.", "");
         return;
     }
 
@@ -2582,7 +2643,7 @@ void EClient::verifyMessage(const std::string& apiData)
         ENCODE_FIELD( apiData);
     }
     catch (EClientException& ex) {
-        m_pEWrapper->error(NO_VALID_ID, ex.error().code(), ex.error().msg() + ex.text());
+        m_pEWrapper->error(NO_VALID_ID, ex.error().code(), ex.error().msg() + ex.text(), "");
         return;
     }
 
@@ -2593,19 +2654,19 @@ void EClient::verifyAndAuthRequest(const std::string& apiName, const std::string
 {
     // not connected?
     if( !isConnected()) {
-        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg());
+        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg(), "");
         return;
     }
 
     if( m_serverVersion < MIN_SERVER_VER_LINKING_AUTH) {
         m_pEWrapper->error(NO_VALID_ID, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-            "  It does not support verification request.");
+            "  It does not support verification request.", "");
         return;
     }
 
     if( !m_extraAuth) {
         m_pEWrapper->error(NO_VALID_ID, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-            "  Intent to authenticate needs to be expressed during initial connect request.");
+            "  Intent to authenticate needs to be expressed during initial connect request.", "");
         return;
     }
 
@@ -2622,7 +2683,7 @@ void EClient::verifyAndAuthRequest(const std::string& apiName, const std::string
         ENCODE_FIELD( opaqueIsvKey);
     }
     catch (EClientException& ex) {
-        m_pEWrapper->error(NO_VALID_ID, ex.error().code(), ex.error().msg() + ex.text());
+        m_pEWrapper->error(NO_VALID_ID, ex.error().code(), ex.error().msg() + ex.text(), "");
         return;
     }
 
@@ -2633,13 +2694,13 @@ void EClient::verifyAndAuthMessage(const std::string& apiData, const std::string
 {
     // not connected?
     if( !isConnected()) {
-        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg());
+        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg(), "");
         return;
     }
 
     if( m_serverVersion < MIN_SERVER_VER_LINKING_AUTH) {
         m_pEWrapper->error(NO_VALID_ID, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-            "  It does not support verification message sending.");
+            "  It does not support verification message sending.", "");
         return;
     }
 
@@ -2655,7 +2716,7 @@ void EClient::verifyAndAuthMessage(const std::string& apiData, const std::string
         ENCODE_FIELD( xyzResponse);
     }
     catch (EClientException& ex) {
-        m_pEWrapper->error(NO_VALID_ID, ex.error().code(), ex.error().msg() + ex.text());
+        m_pEWrapper->error(NO_VALID_ID, ex.error().code(), ex.error().msg() + ex.text(), "");
         return;
     }
 
@@ -2666,13 +2727,13 @@ void EClient::queryDisplayGroups( int reqId)
 {
     // not connected?
     if( !isConnected()) {
-        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg());
+        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg(), "");
         return;
     }
 
     if( m_serverVersion < MIN_SERVER_VER_LINKING) {
         m_pEWrapper->error(NO_VALID_ID, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-            "  It does not support queryDisplayGroups request.");
+            "  It does not support queryDisplayGroups request.", "");
         return;
     }
 
@@ -2692,13 +2753,13 @@ void EClient::subscribeToGroupEvents( int reqId, int groupId)
 {
     // not connected?
     if( !isConnected()) {
-        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg());
+        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg(), "");
         return;
     }
 
     if( m_serverVersion < MIN_SERVER_VER_LINKING) {
         m_pEWrapper->error(NO_VALID_ID, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-            "  It does not support subscribeToGroupEvents request.");
+            "  It does not support subscribeToGroupEvents request.", "");
         return;
     }
 
@@ -2719,13 +2780,13 @@ void EClient::updateDisplayGroup( int reqId, const std::string& contractInfo)
 {
     // not connected?
     if( !isConnected()) {
-        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg());
+        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg(), "");
         return;
     }
 
     if( m_serverVersion < MIN_SERVER_VER_LINKING) {
         m_pEWrapper->error(NO_VALID_ID, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-            "  It does not support updateDisplayGroup request.");
+            "  It does not support updateDisplayGroup request.", "");
         return;
     }
 
@@ -2741,7 +2802,7 @@ void EClient::updateDisplayGroup( int reqId, const std::string& contractInfo)
         ENCODE_FIELD( contractInfo);
     }
     catch (EClientException& ex) {
-        m_pEWrapper->error(reqId, ex.error().code(), ex.error().msg() + ex.text());
+        m_pEWrapper->error(reqId, ex.error().code(), ex.error().msg() + ex.text(), "");
         return;
     }
 
@@ -2752,7 +2813,7 @@ void EClient::startApi()
 {
     // not connected?
     if( !isConnected()) {
-        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg());
+        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg(), "");
         return;
     }
 
@@ -2778,7 +2839,7 @@ void EClient::startApi()
                     ENCODE_FIELD(m_optionalCapabilities);
             }
             catch (EClientException& ex) {
-                m_pEWrapper->error(NO_VALID_ID, ex.error().code(), ex.error().msg() + ex.text());
+                m_pEWrapper->error(NO_VALID_ID, ex.error().code(), ex.error().msg() + ex.text(), "");
                 return;
             }
 
@@ -2791,13 +2852,13 @@ void EClient::unsubscribeFromGroupEvents( int reqId)
 {
     // not connected?
     if( !isConnected()) {
-        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg());
+        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg(), "");
         return;
     }
 
     if( m_serverVersion < MIN_SERVER_VER_LINKING) {
         m_pEWrapper->error(NO_VALID_ID, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-            "  It does not support unsubscribeFromGroupEvents request.");
+            "  It does not support unsubscribeFromGroupEvents request.", "");
         return;
     }
 
@@ -2817,13 +2878,13 @@ void EClient::reqPositionsMulti( int reqId, const std::string& account, const st
 {
     // not connected?
     if( !isConnected()) {
-        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg());
+        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg(), "");
         return;
     }
 
     if( m_serverVersion < MIN_SERVER_VER_MODELS_SUPPORT) {
         m_pEWrapper->error(NO_VALID_ID, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-            "  It does not support positions multi request.");
+            "  It does not support positions multi request.", "");
         return;
     }
 
@@ -2840,7 +2901,7 @@ void EClient::reqPositionsMulti( int reqId, const std::string& account, const st
         ENCODE_FIELD( modelCode);
     }
     catch (EClientException& ex) {
-        m_pEWrapper->error(reqId, ex.error().code(), ex.error().msg() + ex.text());
+        m_pEWrapper->error(reqId, ex.error().code(), ex.error().msg() + ex.text(), "");
         return;
     }
 
@@ -2851,13 +2912,13 @@ void EClient::cancelPositionsMulti( int reqId)
 {
     // not connected?
     if( !isConnected()) {
-        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg());
+        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg(), "");
         return;
     }
 
     if( m_serverVersion < MIN_SERVER_VER_MODELS_SUPPORT) {
         m_pEWrapper->error(NO_VALID_ID, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-            "  It does not support positions multi cancellation.");
+            "  It does not support positions multi cancellation.", "");
         return;
     }
 
@@ -2877,13 +2938,13 @@ void EClient::reqAccountUpdatesMulti( int reqId, const std::string& account, con
 {
     // not connected?
     if( !isConnected()) {
-        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg());
+        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg(), "");
         return;
     }
 
     if( m_serverVersion < MIN_SERVER_VER_MODELS_SUPPORT) {
         m_pEWrapper->error(NO_VALID_ID, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-            "  It does not support account updates multi request.");
+            "  It does not support account updates multi request.", "");
         return;
     }
 
@@ -2901,7 +2962,7 @@ void EClient::reqAccountUpdatesMulti( int reqId, const std::string& account, con
         ENCODE_FIELD( ledgerAndNLV);
     }
     catch (EClientException& ex) {
-        m_pEWrapper->error(reqId, ex.error().code(), ex.error().msg() + ex.text());
+        m_pEWrapper->error(reqId, ex.error().code(), ex.error().msg() + ex.text(), "");
         return;
     }
 
@@ -2912,13 +2973,13 @@ void EClient::cancelAccountUpdatesMulti( int reqId)
 {
     // not connected?
     if( !isConnected()) {
-        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg());
+        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg(), "");
         return;
     }
 
     if( m_serverVersion < MIN_SERVER_VER_MODELS_SUPPORT) {
         m_pEWrapper->error(NO_VALID_ID, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-            "  It does not support account updates multi cancellation.");
+            "  It does not support account updates multi cancellation.", "");
         return;
     }
 
@@ -2938,13 +2999,13 @@ void EClient::reqSecDefOptParams(int reqId, const std::string& underlyingSymbol,
 {
     // not connected?
     if( !isConnected()) {
-        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg());
+        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg(), "");
         return;
     }
 
     if( m_serverVersion < MIN_SERVER_VER_SEC_DEF_OPT_PARAMS_REQ) {
         m_pEWrapper->error(NO_VALID_ID, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-            "  It does not support security definiton option requests.");
+            "  It does not support security definiton option requests.", "");
         return;
     }
 
@@ -2960,7 +3021,7 @@ void EClient::reqSecDefOptParams(int reqId, const std::string& underlyingSymbol,
         ENCODE_FIELD(underlyingConId);
     }
     catch (EClientException& ex) {
-        m_pEWrapper->error(reqId, ex.error().code(), ex.error().msg() + ex.text());
+        m_pEWrapper->error(reqId, ex.error().code(), ex.error().msg() + ex.text(), "");
         return;
     }
 
@@ -2970,7 +3031,7 @@ void EClient::reqSecDefOptParams(int reqId, const std::string& underlyingSymbol,
 void EClient::reqSoftDollarTiers(int reqId)
 {
     if( !isConnected()) {
-        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg());
+        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg(), "");
         return;
     }
 
@@ -2987,13 +3048,13 @@ void EClient::reqSoftDollarTiers(int reqId)
 void EClient::reqFamilyCodes()
 {
     if( !isConnected()) {
-        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg());
+        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg(), "");
         return;
     }
 
     if( m_serverVersion < MIN_SERVER_VER_REQ_FAMILY_CODES) {
         m_pEWrapper->error(NO_VALID_ID, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-            "  It does not support family codes requests.");
+            "  It does not support family codes requests.", "");
         return;
     }
 
@@ -3008,13 +3069,13 @@ void EClient::reqFamilyCodes()
 void EClient::reqMatchingSymbols(int reqId, const std::string& pattern)
 {
     if( !isConnected()) {
-        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg());
+        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg(), "");
         return;
     }
 
     if( m_serverVersion < MIN_SERVER_VER_REQ_MATCHING_SYMBOLS) {
         m_pEWrapper->error(NO_VALID_ID, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-            "  It does not support matching symbols requests.");
+            "  It does not support matching symbols requests.", "");
         return;
     }
 
@@ -3027,7 +3088,7 @@ void EClient::reqMatchingSymbols(int reqId, const std::string& pattern)
         ENCODE_FIELD(pattern);
     }
     catch (EClientException& ex) {
-        m_pEWrapper->error(reqId, ex.error().code(), ex.error().msg() + ex.text());
+        m_pEWrapper->error(reqId, ex.error().code(), ex.error().msg() + ex.text(), "");
         return;
     }
 
@@ -3037,13 +3098,13 @@ void EClient::reqMatchingSymbols(int reqId, const std::string& pattern)
 void EClient::reqMktDepthExchanges()
 {
     if( !isConnected()) {
-        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg());
+        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg(), "");
         return;
     }
 
     if( m_serverVersion < MIN_SERVER_VER_REQ_MKT_DEPTH_EXCHANGES) {
         m_pEWrapper->error(NO_VALID_ID, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-            "  It does not support market depth exchanges requests.");
+            "  It does not support market depth exchanges requests.", "");
         return;
     }
 
@@ -3059,13 +3120,13 @@ void EClient::reqMktDepthExchanges()
 void EClient::reqSmartComponents(int reqId, std::string bboExchange) 
 {
     if (!isConnected()) {
-        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg());
+        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg(), "");
         return;
     }
 
     if (m_serverVersion < MIN_SERVER_VER_REQ_SMART_COMPONENTS) {
         m_pEWrapper->error(NO_VALID_ID, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-            "  It does not support smart components request.");
+            "  It does not support smart components request.", "");
         return;
     }
 
@@ -3078,7 +3139,7 @@ void EClient::reqSmartComponents(int reqId, std::string bboExchange)
         ENCODE_FIELD(bboExchange);
     }
     catch (EClientException& ex) {
-        m_pEWrapper->error(reqId, ex.error().code(), ex.error().msg() + ex.text());
+        m_pEWrapper->error(reqId, ex.error().code(), ex.error().msg() + ex.text(), "");
         return;
     }
 
@@ -3088,13 +3149,13 @@ void EClient::reqSmartComponents(int reqId, std::string bboExchange)
 void EClient::reqNewsProviders()
 {
     if( !isConnected()) {
-        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg());
+        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg(), "");
         return;
     }
 
     if( m_serverVersion < MIN_SERVER_VER_REQ_NEWS_PROVIDERS) {
         m_pEWrapper->error(NO_VALID_ID, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-            "  It does not support news providers requests.");
+            "  It does not support news providers requests.", "");
         return;
     }
 
@@ -3109,13 +3170,13 @@ void EClient::reqNewsProviders()
 void EClient::reqNewsArticle(int requestId, const std::string& providerCode, const std::string& articleId, const TagValueListSPtr& newsArticleOptions)
 {
     if( !isConnected()) {
-        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg());
+        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg(), "");
         return;
     }
 
     if( m_serverVersion < MIN_SERVER_VER_REQ_NEWS_ARTICLE) {
         m_pEWrapper->error(NO_VALID_ID, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-            "  It does not support news article requests.");
+            "  It does not support news article requests.", "");
         return;
     }
 
@@ -3134,7 +3195,7 @@ void EClient::reqNewsArticle(int requestId, const std::string& providerCode, con
         }
     }
     catch (EClientException& ex) {
-        m_pEWrapper->error(requestId, ex.error().code(), ex.error().msg() + ex.text());
+        m_pEWrapper->error(requestId, ex.error().code(), ex.error().msg() + ex.text(), "");
         return;
     }
 
@@ -3145,13 +3206,13 @@ void EClient::reqHistoricalNews(int requestId, int conId, const std::string& pro
                                 const TagValueListSPtr& historicalNewsOptions)
 {
     if( !isConnected()) {
-        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg());
+        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg(), "");
         return;
     }
 
     if( m_serverVersion < MIN_SERVER_VER_REQ_HISTORICAL_NEWS) {
         m_pEWrapper->error(NO_VALID_ID, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-            "  It does not support historical news requests.");
+            "  It does not support historical news requests.", "");
         return;
     }
 
@@ -3173,7 +3234,7 @@ void EClient::reqHistoricalNews(int requestId, int conId, const std::string& pro
         }
     }
     catch (EClientException& ex) {
-        m_pEWrapper->error(requestId, ex.error().code(), ex.error().msg() + ex.text());
+        m_pEWrapper->error(requestId, ex.error().code(), ex.error().msg() + ex.text(), "");
         return;
     }
 
@@ -3183,13 +3244,13 @@ void EClient::reqHistoricalNews(int requestId, int conId, const std::string& pro
 void EClient::reqHeadTimestamp(int tickerId, const Contract &contract, const std::string& whatToShow, int useRTH, int formatDate)
 {
     if( !isConnected()) {
-        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg());
+        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg(), "");
         return;
     }
 
     if( m_serverVersion < MIN_SERVER_VER_REQ_HEAD_TIMESTAMP) {
         m_pEWrapper->error(NO_VALID_ID, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-            "  It does not support head timestamp requests.");
+            "  It does not support head timestamp requests.", "");
         return;
     }
 
@@ -3217,7 +3278,7 @@ void EClient::reqHeadTimestamp(int tickerId, const Contract &contract, const std
         ENCODE_FIELD(formatDate);
     }
     catch (EClientException& ex) {
-        m_pEWrapper->error(tickerId, ex.error().code(), ex.error().msg() + ex.text());
+        m_pEWrapper->error(tickerId, ex.error().code(), ex.error().msg() + ex.text(), "");
         return;
     }
 
@@ -3226,13 +3287,13 @@ void EClient::reqHeadTimestamp(int tickerId, const Contract &contract, const std
 
 void EClient::cancelHeadTimestamp(int tickerId) {
     if( !isConnected()) {
-        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg());
+        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg(), "");
         return;
     }
 
     if( m_serverVersion < MIN_SERVER_VER_CANCEL_HEADTIMESTAMP) {
         m_pEWrapper->error(NO_VALID_ID, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-            "  It does not support head timestamp requests canceling.");
+            "  It does not support head timestamp requests canceling.", "");
         return;
     }
 
@@ -3247,13 +3308,13 @@ void EClient::cancelHeadTimestamp(int tickerId) {
 
 void EClient::reqHistogramData(int reqId, const Contract &contract, bool useRTH, const std::string& timePeriod) {
     if( !isConnected()) {
-        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg());
+        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg(), "");
         return;
     }
 
     if( m_serverVersion < MIN_SERVER_VER_REQ_HISTOGRAM) {
         m_pEWrapper->error(NO_VALID_ID, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-            "  It does not support histogram requests.");
+            "  It does not support histogram requests.", "");
         return;
     }
 
@@ -3268,7 +3329,7 @@ void EClient::reqHistogramData(int reqId, const Contract &contract, bool useRTH,
         ENCODE_FIELD(timePeriod);          
     }
     catch (EClientException& ex) {
-        m_pEWrapper->error(reqId, ex.error().code(), ex.error().msg() + ex.text());
+        m_pEWrapper->error(reqId, ex.error().code(), ex.error().msg() + ex.text(), "");
         return;
     }
 
@@ -3277,13 +3338,13 @@ void EClient::reqHistogramData(int reqId, const Contract &contract, bool useRTH,
 
 void EClient::cancelHistogramData(int reqId) {
     if( !isConnected()) {
-        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg());
+        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg(), "");
         return;
     }
 
     if( m_serverVersion < MIN_SERVER_VER_REQ_HEAD_TIMESTAMP) {
         m_pEWrapper->error(NO_VALID_ID, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-            "  It does not support histogram requests.");
+            "  It does not support histogram requests.", "");
         return;
     }
 
@@ -3298,13 +3359,13 @@ void EClient::cancelHistogramData(int reqId) {
 
 void EClient::reqMarketRule(int marketRuleId) {
     if( !isConnected()) {
-        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg());
+        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg(), "");
         return;
     }
 
     if( m_serverVersion < MIN_SERVER_VER_MARKET_RULES) {
         m_pEWrapper->error(NO_VALID_ID, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-            "  It does not support market rule requests.");
+            "  It does not support market rule requests.", "");
         return;
     }
 
@@ -3319,13 +3380,13 @@ void EClient::reqMarketRule(int marketRuleId) {
 
 void EClient::reqPnL(int reqId, const std::string& account, const std::string& modelCode) {
     if( !isConnected()) {
-        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg());
+        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg(), "");
         return;
     }
 
     if( m_serverVersion < MIN_SERVER_VER_PNL) {
         m_pEWrapper->error(NO_VALID_ID, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-            "  It does not support PnL requests.");
+            "  It does not support PnL requests.", "");
         return;
     }
 
@@ -3339,7 +3400,7 @@ void EClient::reqPnL(int reqId, const std::string& account, const std::string& m
         ENCODE_FIELD(modelCode);
     }
     catch (EClientException& ex) {
-        m_pEWrapper->error(reqId, ex.error().code(), ex.error().msg() + ex.text());
+        m_pEWrapper->error(reqId, ex.error().code(), ex.error().msg() + ex.text(), "");
         return;
     }
 
@@ -3348,13 +3409,13 @@ void EClient::reqPnL(int reqId, const std::string& account, const std::string& m
 
 void EClient::cancelPnL(int reqId) {
     if( !isConnected()) {
-        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg());
+        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg(), "");
         return;
     }
 
     if( m_serverVersion < MIN_SERVER_VER_PNL) {
         m_pEWrapper->error(NO_VALID_ID, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-            "  It does not support PnL requests.");
+            "  It does not support PnL requests.", "");
         return;
     }
 
@@ -3369,13 +3430,13 @@ void EClient::cancelPnL(int reqId) {
 
 void EClient::reqPnLSingle(int reqId, const std::string& account, const std::string& modelCode, int conId) {
     if( !isConnected()) {
-        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg());
+        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg(), "");
         return;
     }
 
     if( m_serverVersion < MIN_SERVER_VER_PNL) {
         m_pEWrapper->error(NO_VALID_ID, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-            "  It does not support PnL requests.");
+            "  It does not support PnL requests.", "");
         return;
     }
 
@@ -3390,7 +3451,7 @@ void EClient::reqPnLSingle(int reqId, const std::string& account, const std::str
         ENCODE_FIELD(conId);
     }
     catch (EClientException& ex) {
-        m_pEWrapper->error(reqId, ex.error().code(), ex.error().msg() + ex.text());
+        m_pEWrapper->error(reqId, ex.error().code(), ex.error().msg() + ex.text(), "");
         return;
     }
 
@@ -3399,13 +3460,13 @@ void EClient::reqPnLSingle(int reqId, const std::string& account, const std::str
 
 void EClient::cancelPnLSingle(int reqId) {
     if( !isConnected()) {
-        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg());
+        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg(), "");
         return;
     }
 
     if( m_serverVersion < MIN_SERVER_VER_PNL) {
         m_pEWrapper->error(NO_VALID_ID, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-            "  It does not support PnL requests.");
+            "  It does not support PnL requests.", "");
         return;
     }
 
@@ -3422,13 +3483,13 @@ void EClient::reqHistoricalTicks(int reqId, const Contract &contract, const std:
                                  const std::string& endDateTime, int numberOfTicks, const std::string& whatToShow, int useRth, bool ignoreSize, const TagValueListSPtr& miscOptions) {
 
     if( !isConnected()) {
-        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg());
+        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg(), "");
         return;
     }
 
     if( m_serverVersion < MIN_SERVER_VER_HISTORICAL_TICKS) {
         m_pEWrapper->error(NO_VALID_ID, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-            "  It does not support historical ticks request request.");
+            "  It does not support historical ticks request request.", "");
         return;
     }
 
@@ -3448,7 +3509,7 @@ void EClient::reqHistoricalTicks(int reqId, const Contract &contract, const std:
         ENCODE_TAGVALUELIST(miscOptions);
     }
     catch (EClientException& ex) {
-        m_pEWrapper->error(reqId, ex.error().code(), ex.error().msg() + ex.text());
+        m_pEWrapper->error(reqId, ex.error().code(), ex.error().msg() + ex.text(), "");
         return;
     }
 
@@ -3457,20 +3518,20 @@ void EClient::reqHistoricalTicks(int reqId, const Contract &contract, const std:
 
 void EClient::reqTickByTickData(int reqId, const Contract &contract, const std::string& tickType, int numberOfTicks, bool ignoreSize) {
     if( !isConnected()) {
-        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg());
+        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg(), "");
         return;
     }
 
     if( m_serverVersion < MIN_SERVER_VER_TICK_BY_TICK) {
         m_pEWrapper->error(NO_VALID_ID, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-            "  It does not support tick-by-tick data request.");
+            "  It does not support tick-by-tick data request.", "");
         return;
     }
 
     if( m_serverVersion < MIN_SERVER_VER_TICK_BY_TICK_IGNORE_SIZE) {
         if (numberOfTicks != 0 || ignoreSize) {
             m_pEWrapper->error(NO_VALID_ID, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-                "  It does not support ignoreSize and numberOfTicks parameters in tick-by-tick data requests.");
+                "  It does not support ignoreSize and numberOfTicks parameters in tick-by-tick data requests.", "");
             return;
         }
     }
@@ -3500,7 +3561,7 @@ void EClient::reqTickByTickData(int reqId, const Contract &contract, const std::
         }
     }
     catch (EClientException& ex) {
-        m_pEWrapper->error(reqId, ex.error().code(), ex.error().msg() + ex.text());
+        m_pEWrapper->error(reqId, ex.error().code(), ex.error().msg() + ex.text(), "");
         return;
     }
 
@@ -3509,13 +3570,13 @@ void EClient::reqTickByTickData(int reqId, const Contract &contract, const std::
 
 void EClient::cancelTickByTickData(int reqId) {
     if( !isConnected()) {
-        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg());
+        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg(), "");
         return;
     }
 
     if( m_serverVersion < MIN_SERVER_VER_TICK_BY_TICK) {
         m_pEWrapper->error(NO_VALID_ID, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-            "  It does not support tick-by-tick data cancel.");
+            "  It does not support tick-by-tick data cancel.", "");
         return;
     }
 
@@ -3530,13 +3591,13 @@ void EClient::cancelTickByTickData(int reqId) {
 
 void EClient::reqCompletedOrders(bool apiOnly) {
     if( !isConnected()) {
-        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg());
+        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg(), "");
         return;
     }
 
     if( m_serverVersion < MIN_SERVER_VER_COMPLETED_ORDERS) {
         m_pEWrapper->error(NO_VALID_ID, UPDATE_TWS.code(), UPDATE_TWS.msg() +
-            "  It does not support completed orders request.");
+            "  It does not support completed orders request.", "");
         return;
     }
 
@@ -3547,6 +3608,111 @@ void EClient::reqCompletedOrders(bool apiOnly) {
     ENCODE_FIELD(apiOnly);
 
     closeAndSend(msg.str());    
+}
+
+void EClient::reqWshMetaData(int reqId) {
+    if (!isConnected()) {
+        m_pEWrapper->error(NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg(), "");
+        return;
+    }
+
+    if (m_serverVersion < MIN_SERVER_VER_WSHE_CALENDAR) {
+        m_pEWrapper->error(NO_VALID_ID, UPDATE_TWS.code(), UPDATE_TWS.msg() +
+            "  It does not support WSHE Calendar API.", "");
+        return;
+    }
+
+    std::stringstream msg;
+    prepareBuffer(msg);
+
+    ENCODE_FIELD(REQ_WSH_META_DATA)
+    ENCODE_FIELD(reqId)
+
+    closeAndSend(msg.str());
+}
+
+void EClient::reqWshEventData(int reqId, int conId) {
+    if (!isConnected()) {
+        m_pEWrapper->error(NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg(), "");
+        return;
+    }
+
+    if (m_serverVersion < MIN_SERVER_VER_WSHE_CALENDAR) {
+        m_pEWrapper->error(NO_VALID_ID, UPDATE_TWS.code(), UPDATE_TWS.msg() +
+            "  It does not support WSHE Calendar API.", "");
+        return;
+    }
+
+    std::stringstream msg;
+    prepareBuffer(msg);
+
+    ENCODE_FIELD(REQ_WSH_EVENT_DATA)
+    ENCODE_FIELD(reqId)
+    ENCODE_FIELD(conId)
+
+    closeAndSend(msg.str());
+}
+
+void EClient::cancelWshMetaData(int reqId) {
+    if (!isConnected()) {
+        m_pEWrapper->error(NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg(), "");
+        return;
+    }
+
+    if (m_serverVersion < MIN_SERVER_VER_WSHE_CALENDAR) {
+        m_pEWrapper->error(NO_VALID_ID, UPDATE_TWS.code(), UPDATE_TWS.msg() +
+            "  It does not support WSHE Calendar API.", "");
+        return;
+    }
+
+    std::stringstream msg;
+    prepareBuffer(msg);
+
+    ENCODE_FIELD(CANCEL_WSH_META_DATA)
+    ENCODE_FIELD(reqId)
+
+    closeAndSend(msg.str());
+}
+
+void EClient::cancelWshEventData(int reqId) {
+    if (!isConnected()) {
+        m_pEWrapper->error(NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg(), "");
+        return;
+    }
+
+    if (m_serverVersion < MIN_SERVER_VER_WSHE_CALENDAR) {
+        m_pEWrapper->error(NO_VALID_ID, UPDATE_TWS.code(), UPDATE_TWS.msg() +
+            "  It does not support WSHE Calendar API.", "");
+        return;
+    }
+
+    std::stringstream msg;
+    prepareBuffer(msg);
+
+    ENCODE_FIELD(CANCEL_WSH_EVENT_DATA)
+    ENCODE_FIELD(reqId)
+
+    closeAndSend(msg.str());
+}
+
+void EClient::reqUserInfo(int reqId) {
+    if (!isConnected()) {
+        m_pEWrapper->error(NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg(), "");
+        return;
+    }
+
+    if (m_serverVersion < MIN_SERVER_VER_USER_INFO) {
+        m_pEWrapper->error(NO_VALID_ID, UPDATE_TWS.code(), UPDATE_TWS.msg() + "  It does not support user info requests.", "");
+        return;
+    }
+
+    std::stringstream msg;
+    prepareBuffer(msg);
+
+    ENCODE_FIELD(REQ_USER_INFO)
+        ENCODE_FIELD(reqId)
+
+        closeAndSend(msg.str());
 }
 
 bool EClient::extraAuth() {

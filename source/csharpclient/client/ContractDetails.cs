@@ -215,17 +215,6 @@ namespace IBApi
         }
 
         /**
-        * @brief MD Size Multiplier. Returns the size multiplier for values returned to tickSize from a market data request. Generally 100 for US stocks and 1 for other instruments. 
-        */
-        public int MdSizeMultiplier
-        {
-            //! @cond
-            get;
-            set;
-            //! @endcond
-        }
-
-        /**
         * @brief Aggregated group
 		* Indicates the smart-routing group to which a contract belongs.
 		* contracts which cannot be smart-routed have aggGroup = -1
@@ -508,12 +497,48 @@ namespace IBApi
             //! @endcond
         }
 
+        /**
+        * @brief Order's minimal size
+        */
+        public decimal MinSize
+        {
+            //! @cond
+            get;
+            set;
+            //! @endcond
+        }
+
+        /**
+        * @brief Order's size increment
+        */
+        public decimal SizeIncrement
+        {
+            //! @cond
+            get;
+            set;
+            //! @endcond
+        }
+
+        /**
+        * @brief Order's suggested size increment
+        */
+        public decimal SuggestedSizeIncrement
+        {
+            //! @cond
+            get;
+            set;
+            //! @endcond
+        }
+
         public ContractDetails()
         {
             Contract = new Contract();
             MinTick = 0;
             UnderConId = 0;
             EvMultiplier = 0;
+            MinSize = decimal.MaxValue;
+            SizeIncrement = decimal.MaxValue;
+            SuggestedSizeIncrement = decimal.MaxValue;
         }
 
         public ContractDetails(Contract summary, string marketName,

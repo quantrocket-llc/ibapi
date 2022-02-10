@@ -191,7 +191,7 @@ public class Types {
 	}
 
 	public enum TimeInForce implements IApiEnum {
-		DAY, GTC, OPG, IOC, GTD, GTT, AUC, FOK, GTX, DTC;
+		DAY, GTC, OPG, IOC, GTD, GTT, AUC, FOK, GTX, DTC, Minutes;
 
         public static TimeInForce get(String apiString) {
             return getValueOf(apiString, values(), null);
@@ -232,7 +232,8 @@ public class Types {
 
 	public enum WhatToShow {
 		TRADES, MIDPOINT, BID, ASK, // << only these are valid for real-time bars
-        BID_ASK, HISTORICAL_VOLATILITY, OPTION_IMPLIED_VOLATILITY, YIELD_ASK, YIELD_BID, YIELD_BID_ASK, YIELD_LAST, ADJUSTED_LAST
+        BID_ASK, HISTORICAL_VOLATILITY, OPTION_IMPLIED_VOLATILITY, YIELD_ASK, YIELD_BID, YIELD_BID_ASK, YIELD_LAST, ADJUSTED_LAST,
+        SCHEDULE
 	}
 
 	public enum BarSize {
@@ -250,6 +251,7 @@ public class Types {
 		_20_mins("20 mins"),
 		_30_mins("30 mins"),
 		_1_hour("1 hour"),
+		_2_hours("2 hours"),
 		_4_hours("4 hours"),
 		_1_day("1 day"),
 		_1_week("1 week"),
@@ -316,7 +318,7 @@ public class Types {
 	}
 
 	public enum SecType implements IApiEnum {
-		None, STK, OPT, FUT, CONTFUT, CASH, BOND, CFD, FOP, WAR, IOPT, FWD, BAG, IND, BILL, FUND, FIXED, SLB, NEWS, CMDTY, BSK, ICU, ICS;
+		None, STK, OPT, FUT, CONTFUT, CASH, BOND, CFD, FOP, WAR, IOPT, FWD, BAG, IND, BILL, FUND, FIXED, SLB, NEWS, CMDTY, BSK, ICU, ICS, CRYPTO;
 
         public static SecType get(String str) {
             return getValueOf(str, values(), None);

@@ -1,16 +1,21 @@
 ﻿/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
+using IBApi;
+
 namespace IBSampleApp
 {
     class ErrorMessage 
     {
-        public ErrorMessage(int requestId, int errorCode, string message)
+        public ErrorMessage(int requestId, int errorCode, string message, string advancedOrderRejectJson)
         {
+            AdvancedOrderRejectJson = advancedOrderRejectJson;
             Message = message;
             RequestId = requestId;
             ErrorCode = errorCode;
         }
+
+        public string AdvancedOrderRejectJson { get; set; }
 
         public string Message { get; set; }
 
@@ -21,7 +26,12 @@ namespace IBSampleApp
 
         public override string ToString()
         {
-            return "Error. Request: "+RequestId+", Code: "+ErrorCode+" - "+Message;
+            string ret = "Error. Request: " + RequestId + ", Code: " + ErrorCode + " - " + Message;
+            if (!Util.StringIsEmpty(AdvancedOrderRejectJson))
+            {
+                ret += (", AdvancedOrderRejectJson: " + AdvancedOrderRejectJson);
+            }
+            return ret;
         }
        
     }

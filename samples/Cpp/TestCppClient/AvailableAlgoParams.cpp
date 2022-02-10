@@ -69,12 +69,12 @@ void AvailableAlgoParams::FillTwapParams(Order& baseOrder, std::string strategyT
 	TagValueSPtr tag2(new TagValue("startTime", startTime));
 	TagValueSPtr tag3(new TagValue("endTime", endTime));
 	TagValueSPtr tag4(new TagValue("allowPastEndTime", allowPastEndTime ? "1" : "0"));
-	TagValueSPtr tag5(new TagValue("monetaryValue", std::to_string(monetaryValue)));
+	baseOrder.cashQty = monetaryValue;
 	baseOrder.algoParams->push_back(tag1);
 	baseOrder.algoParams->push_back(tag2);
 	baseOrder.algoParams->push_back(tag3);
 	baseOrder.algoParams->push_back(tag4);
-	baseOrder.algoParams->push_back(tag5);
+	
 }
 //! [twap_params]
 

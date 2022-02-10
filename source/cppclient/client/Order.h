@@ -8,6 +8,7 @@
 #include "TagValue.h"
 #include "OrderCondition.h"
 #include "SoftDollarTier.h"
+#include "Decimal.h"
 #include <float.h>
 #include <limits.h>
 
@@ -54,7 +55,7 @@ struct Order
 
 	// main order fields
 	std::string action;
-	double     totalQuantity = 0;
+	Decimal  totalQuantity = UNSET_DECIMAL;
 	std::string orderType;
 	double   lmtPrice = UNSET_DOUBLE;
 	double   auxPrice = UNSET_DOUBLE;
@@ -99,9 +100,6 @@ struct Order
 
 	// SMART routing only
 	double   discretionaryAmt = 0;
-	bool     eTradeOnly = true;
-	bool     firmQuoteOnly = true;
-	double   nbboPriceCap = UNSET_DOUBLE;
 	bool     optOutSmartRouting = false;
 
 	// BOX exchange orders only
@@ -225,7 +223,7 @@ struct Order
 	bool discretionaryUpToLimitPrice = false;
 
 	std::string autoCancelDate = "";
-	double filledQuantity = UNSET_DOUBLE;
+	Decimal filledQuantity = UNSET_DECIMAL;
 	int refFuturesConId = UNSET_INTEGER;
 	bool autoCancelParent = false;
 	std::string shareholder = "";
@@ -234,6 +232,9 @@ struct Order
 	long long parentPermId = UNSET_LONG;
 
 	UsePriceMmgtAlgo usePriceMgmtAlgo = UsePriceMmgtAlgo::DEFAULT;
+	int duration = UNSET_INTEGER;
+	int postToAts = UNSET_INTEGER;
+	std::string advancedErrorOverride = "";
 
 public:
 

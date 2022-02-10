@@ -145,6 +145,9 @@
     <Compile Include="..\client\HistogramEntry.cs">
       <Link>CSharpApi\HistogramEntry.cs</Link>
     </Compile>
+    <Compile Include="..\client\HistoricalSession.cs">
+      <Link>CSharpApi\HistoricalSession.cs</Link>
+    </Compile>
     <Compile Include="..\client\HistoricalTick.cs">
       <Link>CSharpApi\HistoricalTick.cs</Link>
     </Compile>

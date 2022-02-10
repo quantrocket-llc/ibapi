@@ -18,7 +18,7 @@ namespace IBSampleApp
         {
             var reqId = new Random(DateTime.Now.Millisecond).Next();
             var resolveResult = new TaskCompletionSource<Contract>();
-            var resolveContract_Error = new Action<int, int, string, Exception>((id, code, msg, ex) =>
+            var resolveContract_Error = new Action<int, int, string, string, Exception>((id, code, msg, advancedOrderRejectJson, ex) =>
                 {
                     if (reqId != id)
                         return;
@@ -62,7 +62,7 @@ namespace IBSampleApp
             var reqId = new Random(DateTime.Now.Millisecond).Next();
             var res = new TaskCompletionSource<Contract[]>();
             var contractList = new List<Contract>();
-            var resolveContract_Error = new Action<int, int, string, Exception>((id, code, msg, ex) =>
+            var resolveContract_Error = new Action<int, int, string, string, Exception>((id, code, msg, advancedOrderRejectJson, ex) =>
                 {
                     if (reqId != id)
                         return;
@@ -117,14 +117,14 @@ namespace IBSampleApp
 
         public int NextOrderId { get; set; }
 
-        public event Action<int, int, string, Exception> Error;
+        public event Action<int, int, string, string, Exception> Error;
 
         void EWrapper.error(Exception e)
         {
             var tmp = Error;
 
             if (tmp != null)
-                sc.Post(t => tmp(0, 0, null, e), null);
+                sc.Post(t => tmp(0, 0, null, null, e), null);
         }
 
         void EWrapper.error(string str)
@@ -132,15 +132,15 @@ namespace IBSampleApp
             var tmp = Error;
 
             if (tmp != null)
-                sc.Post(t => tmp(0, 0, str, null), null);
+                sc.Post(t => tmp(0, 0, str, null, null), null);
         }
 
-        void EWrapper.error(int id, int errorCode, string errorMsg)
+        void EWrapper.error(int id, int errorCode, string errorMsg, string advancedOrderRejectJson)
         {
             var tmp = Error;
 
             if (tmp != null)
-                sc.Post(t => tmp(id, errorCode, errorMsg, null), null);
+                sc.Post(t => tmp(id, errorCode, errorMsg, advancedOrderRejectJson, null), null);
         }
 
         public event Action ConnectionClosed;
@@ -175,7 +175,7 @@ namespace IBSampleApp
 
         public event Action<TickSizeMessage> TickSize;
 
-        void EWrapper.tickSize(int tickerId, int field, int size)
+        void EWrapper.tickSize(int tickerId, int field, decimal size)
         {
             var tmp = TickSize;
 
@@ -297,7 +297,7 @@ namespace IBSampleApp
 
         public event Action<UpdatePortfolioMessage> UpdatePortfolio;
 
-        void EWrapper.updatePortfolio(Contract contract, double position, double marketPrice, double marketValue, double averageCost, double unrealizedPNL, double realizedPNL, string accountName)
+        void EWrapper.updatePortfolio(Contract contract, decimal position, double marketPrice, double marketValue, double averageCost, double unrealizedPNL, double realizedPNL, string accountName)
         {
             var tmp = UpdatePortfolio;
 
@@ -327,7 +327,7 @@ namespace IBSampleApp
 
         public event Action<OrderStatusMessage> OrderStatus;
 
-        void EWrapper.orderStatus(int orderId, string status, double filled, double remaining, double avgFillPrice, int permId, int parentId, double lastFillPrice, int clientId, string whyHeld, double mktCapPrice)
+        void EWrapper.orderStatus(int orderId, string status, decimal filled, decimal remaining, double avgFillPrice, int permId, int parentId, double lastFillPrice, int clientId, string whyHeld, double mktCapPrice)
         {
             var tmp = OrderStatus;
 
@@ -447,7 +447,7 @@ namespace IBSampleApp
 
         public event Action<DeepBookMessage> UpdateMktDepth;
 
-        void EWrapper.updateMktDepth(int tickerId, int position, int operation, int side, double price, int size)
+        void EWrapper.updateMktDepth(int tickerId, int position, int operation, int side, double price, decimal size)
         {
             var tmp = UpdateMktDepth;
 
@@ -457,7 +457,7 @@ namespace IBSampleApp
 
         public event Action<DeepBookMessage> UpdateMktDepthL2;
 
-        void EWrapper.updateMktDepthL2(int tickerId, int position, string marketMaker, int operation, int side, double price, int size, bool isSmartDepth)
+        void EWrapper.updateMktDepthL2(int tickerId, int position, string marketMaker, int operation, int side, double price, decimal size, bool isSmartDepth)
         {
             var tmp = UpdateMktDepthL2;
 
@@ -477,7 +477,7 @@ namespace IBSampleApp
 
         public event Action<PositionMessage> Position;
 
-        void EWrapper.position(string account, Contract contract, double pos, double avgCost)
+        void EWrapper.position(string account, Contract contract, decimal pos, double avgCost)
         {
             var tmp = Position;
 
@@ -497,7 +497,7 @@ namespace IBSampleApp
 
         public event Action<RealTimeBarMessage> RealtimeBar;
 
-        void EWrapper.realtimeBar(int reqId, long time, double open, double high, double low, double close, long volume, double WAP, int count)
+        void EWrapper.realtimeBar(int reqId, long time, double open, double high, double low, double close, decimal volume, decimal WAP, int count)
         {
             var tmp = RealtimeBar;
 
@@ -623,7 +623,7 @@ namespace IBSampleApp
 
         public event Action<PositionMultiMessage> PositionMulti;
 
-        void EWrapper.positionMulti(int reqId, string account, string modelCode, Contract contract, double pos, double avgCost)
+        void EWrapper.positionMulti(int reqId, string account, string modelCode, Contract contract, decimal pos, double avgCost)
         {
             var tmp = PositionMulti;
 
@@ -864,7 +864,7 @@ namespace IBSampleApp
 
         public event Action<PnLSingleMessage> pnlSingle;
 
-        void EWrapper.pnlSingle(int reqId, int pos, double dailyPnL, double unrealizedPnL, double realizedPnL, double value)
+        void EWrapper.pnlSingle(int reqId, decimal pos, double dailyPnL, double unrealizedPnL, double realizedPnL, double value)
         {
             var tmp = pnlSingle;
 
@@ -906,7 +906,7 @@ namespace IBSampleApp
 
         public event Action<TickByTickAllLastMessage> tickByTickAllLast;
 
-        void EWrapper.tickByTickAllLast(int reqId, int tickType, long time, double price, int size, TickAttribLast tickAttribLast, string exchange, string specialConditions)
+        void EWrapper.tickByTickAllLast(int reqId, int tickType, long time, double price, decimal size, TickAttribLast tickAttribLast, string exchange, string specialConditions)
         {
             var tmp = tickByTickAllLast;
 
@@ -916,7 +916,7 @@ namespace IBSampleApp
 
         public event Action<TickByTickBidAskMessage> tickByTickBidAsk;
 
-        void EWrapper.tickByTickBidAsk(int reqId, long time, double bidPrice, double askPrice, int bidSize, int askSize, TickAttribBidAsk tickAttribBidAsk)
+        void EWrapper.tickByTickBidAsk(int reqId, long time, double bidPrice, double askPrice, decimal bidSize, decimal askSize, TickAttribBidAsk tickAttribBidAsk)
         {
             var tmp = tickByTickBidAsk;
 
@@ -972,6 +972,44 @@ namespace IBSampleApp
 
             if (tmp != null)
                 sc.Post(t => tmp(reqId, text), null);
+        }
+
+        public event Action<int, string> WshMetaData;
+
+        public void wshMetaData(int reqId, string dataJson)
+        {
+            var tmp = WshMetaData;
+
+            if (tmp != null)
+                sc.Post(t => tmp(reqId, dataJson), null);
+        }
+
+        public event Action<int, string> WshEventData;
+
+        public void wshEventData(int reqId, string dataJson)
+        {
+            var tmp = WshEventData;
+
+            if (tmp != null)
+                sc.Post(t => tmp(reqId, dataJson), null);
+        }
+
+        public event Action<HistoricalScheduleMessage> HistoricalSchedule;
+
+        public void historicalSchedule(int reqId, string startDateTime, string endDateTime, string timeZone, HistoricalSession[] sessions)
+        {
+            var tmp = HistoricalSchedule;
+
+            if (tmp != null)
+                sc.Post(t => tmp(new HistoricalScheduleMessage(reqId, startDateTime, endDateTime, timeZone, sessions)), null);
+        }
+
+        public event Action<string> UserInfo;
+        void EWrapper.userInfo(int reqId, string whiteBrandingId)
+        {
+            var tmp = UserInfo;
+            if (tmp != null)
+                sc.Post(t => tmp(whiteBrandingId), null);
         }
     }
 }

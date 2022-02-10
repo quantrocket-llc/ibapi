@@ -50,7 +50,7 @@ Private Sub RequestSmartComponents_Click()
 End Sub
 
 ' update soft dollar tiers table
-Sub UpdateSmartComponents(msgId As Long, bitNumber As String, exchange As String, exchangeLetter As String)
+Sub UpdateSmartComponents(msgId As Long, bitNumber As String, Exchange As String, exchangeLetter As String)
     Dim rowId As Long
     
     For rowId = 1 To SmartComponentsTable.Rows.Count
@@ -61,7 +61,7 @@ Sub UpdateSmartComponents(msgId As Long, bitNumber As String, exchange As String
 
     SmartComponentsTable(rowId, Col_MSG_ID).value = msgId
     SmartComponentsTable(rowId, Col_BIT_NUMBER).value = bitNumber
-    SmartComponentsTable(rowId, Col_EXCHANGE).value = exchange
+    SmartComponentsTable(rowId, Col_EXCHANGE).value = Exchange
     SmartComponentsTable(rowId, Col_EXCHANGE_LETTER).value = exchangeLetter
 End Sub
 

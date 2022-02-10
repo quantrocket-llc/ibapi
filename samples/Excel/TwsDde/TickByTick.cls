@@ -74,7 +74,7 @@ End Function
 ' ========================================================
 Sub cancelTickByTickData()
 
-    Dim server As String, id As String, i As Integer, j As Integer, lastRowIndex As Integer, row As range
+    Dim server As String, id As String, i As Integer, j As Integer, lastRowIndex As Integer, row As Range
 
     server = util.getServerVal(STR_SHEET_NAME, CELL_SERVER_NAME)
     If server = util.STR_EMPTY Then Exit Sub
@@ -103,7 +103,7 @@ End Sub
 ' ========================================================
 ' clears tick-by-tick data cells
 ' ========================================================
-Sub clearTickByTickDataColumns(cell As range)
+Sub clearTickByTickDataColumns(cell As Range)
     Dim i As Integer
     ' tick-by-tick data columns
     tickByTickDataColumnsArray = getTickByTickDataColumns()
@@ -121,7 +121,7 @@ End Sub
 ' request tick-by-tick data for active row when button is pressed
 ' ========================================================
 Sub requestTickByTickData()
-    Dim server As String, lastRowIndex As Integer, row As range
+    Dim server As String, lastRowIndex As Integer, row As Range
 
     server = util.getServerVal(STR_SHEET_NAME, CELL_SERVER_NAME)
     If server = STR_EMPTY Then Exit Sub
@@ -143,7 +143,7 @@ End Sub
 ' ========================================================
 ' request tick-by-tick data for row
 ' ========================================================
-Sub sendTickByTickDataRequest(server As String, cell As range)
+Sub sendTickByTickDataRequest(server As String, cell As Range)
 
     ' get id
     Dim id As String
@@ -185,7 +185,7 @@ End Sub
 ' cancel all tick-by-tick data for all rows (called when workbook is closed)
 ' ========================================================
 Sub cancelAllTickByTickData()
-    Dim rng As range, row As range, cell As range
+    Dim rng As Range, row As Range, cell As Range
     Dim server As String
     Dim id As String
 
@@ -193,7 +193,7 @@ Sub cancelAllTickByTickData()
     If server = util.STR_EMPTY Then Exit Sub
 
     With Worksheets(STR_SHEET_NAME)
-        Set rng = .range(.Cells(dataStartRowIndex, idColumnIndex), .Cells(dataEndRowIndex, idColumnIndex))
+        Set rng = .Range(.Cells(dataStartRowIndex, idColumnIndex), .Cells(dataEndRowIndex, idColumnIndex))
 
         For Each row In rng.rows
             For Each cell In row.Cells
@@ -213,12 +213,12 @@ Sub requestAllTickByTickData()
     server = util.getServerVal(STR_SHEET_NAME, CELL_SERVER_NAME)
     If server = util.STR_EMPTY Then Exit Sub
 
-    Dim rng As range
+    Dim rng As Range
 
     With Worksheets(STR_SHEET_NAME)
-        Set rng = .range(.Cells(dataStartRowIndex, idColumnIndex), .Cells(dataEndRowIndex, idColumnIndex))
+        Set rng = .Range(.Cells(dataStartRowIndex, idColumnIndex), .Cells(dataEndRowIndex, idColumnIndex))
 
-        Dim row As range, cell As range
+        Dim row As Range, cell As Range
         For Each row In rng.rows
             For Each cell In row.Cells
             If InStr(cell.value, util.IDENTIFIER_PREFIX) <> 0 Then

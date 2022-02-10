@@ -112,7 +112,7 @@ End Sub
 ' ========================================================
 ' sends histogram data request for cell
 ' ========================================================
-Private Sub sendHistogramDataRequest(server As String, cell As range)
+Private Sub sendHistogramDataRequest(server As String, cell As Range)
 
     ' get id
     Dim id As String
@@ -123,8 +123,8 @@ Private Sub sendHistogramDataRequest(server As String, cell As range)
         .Cells(cell.row, idColumnIndex).value = id
 
         ' range to poke
-        Dim rangeToPoke As range
-        Set rangeToPoke = .range(.Cells(cell.row, startOfContractColumns), .Cells(cell.row, sheetNameColumnIndex - 1))
+        Dim rangeToPoke As Range
+        Set rangeToPoke = .Range(.Cells(cell.row, startOfContractColumns), .Cells(cell.row, sheetNameColumnIndex - 1))
 
         ' fill status column with formula
         .Cells(cell.row, statusColumnIndex).Formula = util.composeLink(server, STR_REQ_HISTOGRAM_DATA_TICK, id, util.STR_STATUS)

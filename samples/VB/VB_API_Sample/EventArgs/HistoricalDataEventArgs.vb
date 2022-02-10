@@ -15,11 +15,11 @@ Class HistoricalDataEventArgs
 
     Property close As Double
 
-    Property volume As Integer
+    Property volume As Decimal
 
     Property count As Integer
 
-    Property WAP As Double
+    Property WAP As Decimal
 
 End Class
 

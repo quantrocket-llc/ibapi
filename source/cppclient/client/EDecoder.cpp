@@ -35,7 +35,7 @@ const char* EDecoder::processTickPriceMsg(const char* ptr, const char* endPtr) {
 	int tickTypeInt;
 	double price;
 
-	int size;
+	Decimal size;
 	int attrMask;
 
 	DECODE_FIELD( version);
@@ -100,7 +100,7 @@ const char* EDecoder::processTickSizeMsg(const char* ptr, const char* endPtr) {
 	int version;
 	int tickerId;
 	int tickTypeInt;
-	int size;
+	Decimal size;
 
 	DECODE_FIELD( version);
 	DECODE_FIELD( tickerId);
@@ -254,8 +254,8 @@ const char* EDecoder::processOrderStatusMsg(const char* ptr, const char* endPtr)
     int version = INT_MAX;
 	int orderId;
 	std::string status;
-	double filled;
-	double remaining;
+	Decimal filled;
+	Decimal remaining;
 	double avgFillPrice;
 	int permId;
 	int parentId;
@@ -270,35 +270,9 @@ const char* EDecoder::processOrderStatusMsg(const char* ptr, const char* endPtr)
 	
     DECODE_FIELD( orderId);
 	DECODE_FIELD( status);
-
-	if (m_serverVersion >= MIN_SERVER_VER_FRACTIONAL_POSITIONS)
-	{
-		DECODE_FIELD( filled);
-	}
-	else
-	{
-		int iFilled;
-
-		DECODE_FIELD(iFilled);
-
-		filled = iFilled;
-	}
-
-	if (m_serverVersion >= MIN_SERVER_VER_FRACTIONAL_POSITIONS)
-	{
-		DECODE_FIELD( remaining);
-	}
-	else
-	{
-		int iRemaining;
-
-		DECODE_FIELD(iRemaining);
-
-		remaining = iRemaining;
-	}
-
+	DECODE_FIELD( filled);
+	DECODE_FIELD( remaining);
 	DECODE_FIELD( avgFillPrice);
-
 	DECODE_FIELD( permId); // ver 2 field
 	DECODE_FIELD( parentId); // ver 3 field
 	DECODE_FIELD( lastFillPrice); // ver 4 field
@@ -324,13 +298,19 @@ const char* EDecoder::processErrMsgMsg(const char* ptr, const char* endPtr) {
 	int id; // ver 2 field
 	int errorCode; // ver 2 field
 	std::string errorMsg;
+	std::string advancedOrderRejectJson;
 
 	DECODE_FIELD( version);
 	DECODE_FIELD( id);
 	DECODE_FIELD( errorCode);
 	DECODE_FIELD( errorMsg);
 
-	m_pEWrapper->error( id, errorCode, errorMsg);
+	if (m_serverVersion >= MIN_SERVER_VER_ADVANCED_ORDER_REJECT)
+	{
+		DECODE_FIELD( advancedOrderRejectJson);
+	}
+
+	m_pEWrapper->error( id, errorCode, errorMsg, advancedOrderRejectJson);
 
 	return ptr;
 }
@@ -395,9 +375,9 @@ const char* EDecoder::processOpenOrderMsg(const char* ptr, const char* endPtr) {
           && eOrderDecoder.decodeAllOrNone(ptr, endPtr)
           && eOrderDecoder.decodeMinQty(ptr, endPtr)
           && eOrderDecoder.decodeOcaType(ptr, endPtr)
-          && eOrderDecoder.decodeETradeOnly(ptr, endPtr)
-          && eOrderDecoder.decodeFirmQuoteOnly(ptr, endPtr)
-          && eOrderDecoder.decodeNbboPriceCap(ptr, endPtr)
+          && eOrderDecoder.skipETradeOnly(ptr, endPtr)
+          && eOrderDecoder.skipFirmQuoteOnly(ptr, endPtr)
+          && eOrderDecoder.skipNbboPriceCap(ptr, endPtr)
           && eOrderDecoder.decodeParentId(ptr, endPtr)
           && eOrderDecoder.decodeTriggerMethod(ptr, endPtr)
           && eOrderDecoder.decodeVolOrderParams(ptr, endPtr, true)
@@ -423,7 +403,10 @@ const char* EDecoder::processOpenOrderMsg(const char* ptr, const char* endPtr) {
           && eOrderDecoder.decodeDontUseAutoPriceForHedge(ptr, endPtr)
           && eOrderDecoder.decodeIsOmsContainer(ptr, endPtr)
           && eOrderDecoder.decodeDiscretionaryUpToLimitPrice(ptr, endPtr)
-          && eOrderDecoder.decodeUsePriceMgmtAlgo(ptr, endPtr);
+          && eOrderDecoder.decodeUsePriceMgmtAlgo(ptr, endPtr)
+          && eOrderDecoder.decodeDuration(ptr, endPtr)
+          && eOrderDecoder.decodePostToAts(ptr, endPtr)
+          && eOrderDecoder.decodeAutoCancelParent(ptr, endPtr, MIN_SERVER_VER_AUTO_CANCEL_PARENT);
         if (!success) {
           return nullptr;
         }
@@ -475,26 +458,14 @@ const char* EDecoder::processPortfolioValueMsg(const char* ptr, const char* endP
 		DECODE_FIELD( contract.tradingClass);
 	}
 
-	double  position;
+	Decimal  position;
 	double  marketPrice;
 	double  marketValue;
 	double  averageCost;
 	double  unrealizedPNL;
 	double  realizedPNL;
 
-	if (m_serverVersion >= MIN_SERVER_VER_FRACTIONAL_POSITIONS)
-	{
-		DECODE_FIELD( position);
-	}
-	else
-	{
-		int iPosition;
-
-		DECODE_FIELD(iPosition);
-
-		position = iPosition;
-	}
-
+	DECODE_FIELD( position);
 	DECODE_FIELD( marketPrice);
 	DECODE_FIELD( marketValue);
 	DECODE_FIELD( averageCost); // ver 3 field
@@ -540,8 +511,10 @@ const char* EDecoder::processNextValidIdMsg(const char* ptr, const char* endPtr)
 }
 
 const char* EDecoder::processContractDataMsg(const char* ptr, const char* endPtr) {
-	int version;
-	DECODE_FIELD( version);
+	int version = 8;
+	if (m_serverVersion < MIN_SERVER_VER_SIZE_RULES) {
+		DECODE_FIELD(version);
+	}
 
 	int reqId = -1;
 	if( version >= 3) {
@@ -561,8 +534,9 @@ const char* EDecoder::processContractDataMsg(const char* ptr, const char* endPtr
 	DECODE_FIELD( contract.contract.tradingClass);
 	DECODE_FIELD( contract.contract.conId);
 	DECODE_FIELD( contract.minTick);
-	if (m_serverVersion >= MIN_SERVER_VER_MD_SIZE_MULTIPLIER) {
-		DECODE_FIELD( contract.mdSizeMultiplier);
+	if (m_serverVersion >= MIN_SERVER_VER_MD_SIZE_MULTIPLIER && m_serverVersion < MIN_SERVER_VER_SIZE_RULES) {
+		int mdSizeMultiplier;
+		DECODE_FIELD( mdSizeMultiplier); // not used anymore
 	}
 	DECODE_FIELD( contract.contract.multiplier);
 	DECODE_FIELD( contract.orderTypes);
@@ -619,6 +593,15 @@ const char* EDecoder::processContractDataMsg(const char* ptr, const char* endPtr
 	if (m_serverVersion >= MIN_SERVER_VER_STOCK_TYPE) {
 		DECODE_FIELD( contract.stockType);
 	}
+	if (m_serverVersion >= MIN_SERVER_VER_FRACTIONAL_SIZE_SUPPORT && m_serverVersion < MIN_SERVER_VER_SIZE_RULES) {
+		Decimal sizeMinTick;
+		DECODE_FIELD(sizeMinTick); // not used anymore
+	}
+	if (m_serverVersion >= MIN_SERVER_VER_SIZE_RULES) {
+		DECODE_FIELD(contract.minSize);
+		DECODE_FIELD(contract.sizeIncrement);
+		DECODE_FIELD(contract.suggestedSizeIncrement);
+	}
 
 	m_pEWrapper->contractDetails( reqId, contract);
 
@@ -626,8 +609,10 @@ const char* EDecoder::processContractDataMsg(const char* ptr, const char* endPtr
 }
 
 const char* EDecoder::processBondContractDataMsg(const char* ptr, const char* endPtr) {
-	int version;
-	DECODE_FIELD( version);
+	int version = 6;
+	if (m_serverVersion < MIN_SERVER_VER_SIZE_RULES) {
+		DECODE_FIELD(version);
+	}
 
 	int reqId = -1;
 	if( version >= 3) {
@@ -654,8 +639,9 @@ const char* EDecoder::processBondContractDataMsg(const char* ptr, const char* en
 	DECODE_FIELD( contract.contract.tradingClass);
 	DECODE_FIELD( contract.contract.conId);
 	DECODE_FIELD( contract.minTick);
-	if (m_serverVersion >= MIN_SERVER_VER_MD_SIZE_MULTIPLIER) {
-		DECODE_FIELD( contract.mdSizeMultiplier);
+	if (m_serverVersion >= MIN_SERVER_VER_MD_SIZE_MULTIPLIER && m_serverVersion < MIN_SERVER_VER_SIZE_RULES) {
+		int mdSizeMultiplier;
+		DECODE_FIELD( mdSizeMultiplier); // not used anymore
 	}
 	DECODE_FIELD( contract.orderTypes);
 	DECODE_FIELD( contract.validExchanges);
@@ -690,6 +676,11 @@ const char* EDecoder::processBondContractDataMsg(const char* ptr, const char* en
 	}
 	if (m_serverVersion >= MIN_SERVER_VER_MARKET_RULES) {
 		DECODE_FIELD( contract.marketRuleIds);
+	}
+	if (m_serverVersion >= MIN_SERVER_VER_SIZE_RULES) {
+		DECODE_FIELD(contract.minSize);
+		DECODE_FIELD(contract.sizeIncrement);
+		DECODE_FIELD(contract.suggestedSizeIncrement);
 	}
 
 	m_pEWrapper->bondContractDetails( reqId, contract);
@@ -738,18 +729,7 @@ const char* EDecoder::processExecutionDetailsMsg(const char* ptr, const char* en
 	DECODE_FIELD( exec.acctNumber);
 	DECODE_FIELD( exec.exchange);
 	DECODE_FIELD( exec.side);
-
-	if (m_serverVersion >= MIN_SERVER_VER_FRACTIONAL_POSITIONS) {
-		DECODE_FIELD( exec.shares)
-	} 
-	else {
-		int iShares;
-
-		DECODE_FIELD(iShares);
-
-		exec.shares = iShares;
-	}
-
+	DECODE_FIELD( exec.shares)
 	DECODE_FIELD( exec.price);
 	DECODE_FIELD( exec.permId); // ver 2 field
 	DECODE_FIELD( exec.clientId); // ver 3 field
@@ -788,7 +768,7 @@ const char* EDecoder::processMarketDepthMsg(const char* ptr, const char* endPtr)
 	int operation;
 	int side;
 	double price;
-	int size;
+	Decimal size;
 
 	DECODE_FIELD( version);
 	DECODE_FIELD( id);
@@ -811,7 +791,7 @@ const char* EDecoder::processMarketDepthL2Msg(const char* ptr, const char* endPt
 	int operation;
 	int side;
 	double price;
-	int size;
+	Decimal size;
 	bool isSmartDepth = false;
 
 	DECODE_FIELD( version);
@@ -907,17 +887,7 @@ const char* EDecoder::processHistoricalDataMsg(const char* ptr, const char* endP
 		DECODE_FIELD( bar.high);
 		DECODE_FIELD( bar.low);
 		DECODE_FIELD( bar.close);
-
-        int vol;
-
-        if (m_serverVersion < MIN_SERVER_VER_SYNT_REALTIME_BARS) {
-		    DECODE_FIELD( vol);
-
-            bar.volume = vol;
-        } else {
-            DECODE_FIELD( bar.volume);
-        }
-
+        DECODE_FIELD( bar.volume);
 		DECODE_FIELD( bar.wap);
 
         if (m_serverVersion < MIN_SERVER_VER_SYNT_REALTIME_BARS) {
@@ -1054,8 +1024,8 @@ const char* EDecoder::processRealTimeBarsMsg(const char* ptr, const char* endPtr
 	double high;
 	double low;
 	double close;
-	int volume;
-	double average;
+	Decimal volume;
+	Decimal wap;
 	int count;
 
 	DECODE_FIELD( version);
@@ -1066,11 +1036,11 @@ const char* EDecoder::processRealTimeBarsMsg(const char* ptr, const char* endPtr
 	DECODE_FIELD( low);
 	DECODE_FIELD( close);
 	DECODE_FIELD( volume);
-	DECODE_FIELD( average);
+	DECODE_FIELD( wap);
 	DECODE_FIELD( count);
 
 	m_pEWrapper->realtimeBar( reqId, time, open, high, low, close,
-		volume, average, count);
+		volume, wap, count);
 
 	return ptr;
 }
@@ -1199,7 +1169,7 @@ const char* EDecoder::processCommissionReportMsg(const char* ptr, const char* en
 const char* EDecoder::processPositionDataMsg(const char* ptr, const char* endPtr) {
 	int version;
 	std::string account;
-	double position;
+	Decimal position;
 	double avgCost = 0;
 
 	DECODE_FIELD( version);
@@ -1220,20 +1190,7 @@ const char* EDecoder::processPositionDataMsg(const char* ptr, const char* endPtr
 	if (version >= 2) {
 		DECODE_FIELD( contract.tradingClass);
 	}
-
-	if (m_serverVersion >= MIN_SERVER_VER_FRACTIONAL_POSITIONS)
-	{
-		DECODE_FIELD( position);
-	}
-	else
-	{
-		int iPosition;
-
-		DECODE_FIELD(iPosition);
-
-		position = iPosition;
-	}
-
+	DECODE_FIELD( position);
 	if (version >= 3) {
 		DECODE_FIELD( avgCost);
 	}
@@ -1376,7 +1333,7 @@ const char* EDecoder::processPositionMultiMsg(const char* ptr, const char* endPt
 	int reqId;
 	std::string account;
 	std::string modelCode;
-	double position;
+	Decimal position;
 	double avgCost = 0;
 
 	DECODE_FIELD( version);
@@ -1778,7 +1735,7 @@ int EDecoder::processConnectAck(const char*& beginPtr, const char* endPtr)
 		return processed;
 	}
 	catch(const std::exception& e) {
-		m_pEWrapper->error( NO_VALID_ID, SOCKET_EXCEPTION.code(), SOCKET_EXCEPTION.msg() + e.what());
+		m_pEWrapper->error( NO_VALID_ID, SOCKET_EXCEPTION.code(), SOCKET_EXCEPTION.msg() + e.what(), "");
 	}
 
 	return 0;
@@ -1910,7 +1867,7 @@ const char* EDecoder::processPnLMsg(const char* ptr, const char* endPtr) {
 
 const char* EDecoder::processPnLSingleMsg(const char* ptr, const char* endPtr) {
     int reqId;
-    int pos;
+    Decimal pos;
     double dailyPnL;
     double unrealizedPnL = DBL_MAX;
     double realizedPnL = DBL_MAX;
@@ -2036,7 +1993,7 @@ const char* EDecoder::processTickByTickDataMsg(const char* ptr, const char* endP
 
     if (tickType == 1 || tickType == 2) { // Last/AllLast
             double price;
-            int size;
+            Decimal size;
             int attrMask;
             TickAttribLast tickAttribLast = {};
             std::string exchange;
@@ -2058,8 +2015,8 @@ const char* EDecoder::processTickByTickDataMsg(const char* ptr, const char* endP
     } else if (tickType == 3) { // BidAsk
             double bidPrice;
             double askPrice;
-            int bidSize;
-            int askSize;
+            Decimal bidSize;
+            Decimal askSize;
             int attrMask;
             DECODE_FIELD(bidPrice);
             DECODE_FIELD(askPrice);
@@ -2198,6 +2155,67 @@ const char* EDecoder::processReplaceFAEndMsg(const char* ptr, const char* endPtr
 	return ptr;
 }
 
+const char* EDecoder::processWshEventData(const char* ptr, const char* endPtr) {
+	int reqId;
+	std::string dataJson;
+
+	DECODE_FIELD(reqId);
+	DECODE_FIELD(dataJson);
+
+	m_pEWrapper->wshEventData(reqId, dataJson);
+
+	return ptr;
+}
+
+const char* EDecoder::processWshMetaData(const char* ptr, const char* endPtr) {
+	int reqId;
+	std::string dataJson;
+
+	DECODE_FIELD(reqId);
+	DECODE_FIELD(dataJson);
+
+	m_pEWrapper->wshMetaData(reqId, dataJson);
+
+	return ptr;
+}
+
+const char* EDecoder::processHistoricalSchedule(const char* ptr, const char* endPtr) {
+	int reqId, sessionsCount;
+	std::string startDateTime;
+	std::string endDateTime;
+	std::string timeZone;
+
+	DECODE_FIELD(reqId);
+	DECODE_FIELD(startDateTime);
+	DECODE_FIELD(endDateTime);
+	DECODE_FIELD(timeZone);
+
+	DECODE_FIELD(sessionsCount);
+
+	std::vector<HistoricalSession> sessions(sessionsCount);
+	for (int i = 0; i < sessionsCount; i++) {
+		HistoricalSession& session = sessions[i];
+		DECODE_FIELD(session.startDateTime);
+		DECODE_FIELD(session.endDateTime);
+		DECODE_FIELD(session.refDate);
+	}
+
+	m_pEWrapper->historicalSchedule(reqId, startDateTime, endDateTime, timeZone, sessions);
+
+	return ptr;
+}
+
+const char* EDecoder::processUserInfo(const char* ptr, const char* endPtr) {
+    int reqId;
+    std::string whiteBrandingId;
+
+    DECODE_FIELD(reqId);
+    DECODE_FIELD(whiteBrandingId);
+
+    m_pEWrapper->userInfo(reqId, whiteBrandingId);
+
+    return ptr;
+}
 
 int EDecoder::parseAndProcessMsg(const char*& beginPtr, const char* endPtr) {
 	// process a single message from the buffer;
@@ -2528,9 +2546,25 @@ int EDecoder::parseAndProcessMsg(const char*& beginPtr, const char* endPtr) {
 			ptr = processReplaceFAEndMsg(ptr, endPtr);
 			break;
 
+		case WSH_META_DATA:
+			ptr = processWshMetaData(ptr, endPtr);
+			break;
+
+		case WSH_EVENT_DATA:
+			ptr = processWshEventData(ptr, endPtr);
+			break;
+
+		case HISTORICAL_SCHEDULE:
+			ptr = processHistoricalSchedule(ptr, endPtr);
+			break;
+
+        case USER_INFO:
+            ptr = processUserInfo(ptr, endPtr);
+            break;
+
 		default:
 			{
-				m_pEWrapper->error( msgId, UNKNOWN_ID.code(), UNKNOWN_ID.msg());
+				m_pEWrapper->error( msgId, UNKNOWN_ID.code(), UNKNOWN_ID.msg(), "");
 				m_pEWrapper->connectionClosed();
 				break;
 			}
@@ -2544,7 +2578,7 @@ int EDecoder::parseAndProcessMsg(const char*& beginPtr, const char* endPtr) {
 		return processed;
 	}
 	catch(const std::exception& e) {
-		m_pEWrapper->error( NO_VALID_ID, SOCKET_EXCEPTION.code(), SOCKET_EXCEPTION.msg() + e.what());
+		m_pEWrapper->error( NO_VALID_ID, SOCKET_EXCEPTION.code(), SOCKET_EXCEPTION.msg() + e.what(), "");
 	}
 	return 0;
 }
@@ -2659,6 +2693,19 @@ bool EDecoder::DecodeField(char& charValue,
 	if( !fieldEnd)
 		return false;
 	charValue = fieldBeg[0]; // better way?
+	ptr = ++fieldEnd;
+	return true;
+}
+
+bool EDecoder::DecodeField(Decimal& decimalValue, const char*& ptr, const char* endPtr)
+{
+	if (!CheckOffset(ptr, endPtr))
+		return false;
+	const char* fieldBeg = ptr;
+	const char* fieldEnd = FindFieldEnd(fieldBeg, endPtr);
+	if (!fieldEnd)
+		return false;
+	decimalValue = stringToDecimal(fieldBeg);
 	ptr = ++fieldEnd;
 	return true;
 }
