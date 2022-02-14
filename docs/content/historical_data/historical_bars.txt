@@ -109,18 +109,18 @@
 		A new whatToShow = SCHEDULE parameter has been introduced in the <b>TWS API 10.12.</b><br>
 		The data is requested via @ref IBApi::EClient::reqHistoricalData method with whatToShow <b>"SCHEDULE"</b> and delivered via @ref IBApi::EWrapper::historicalSchedule method.
 		<ul id="tab">
-			<li class="active">
-
-			</li>
-			<li>
-
-			</li>
-			<li>
-
-			</li>
-			<li>
-
-			</li>
+		<li class="active">
+			\snippet EWrapperImpl.cs historicalSchedule
+		</li>
+		<li>
+			\snippet EWrapperImpl.java historicalSchedule
+		</li>
+		<li>
+			\snippet EWrapperImpl.vb historicalSchedule
+		</li>
+		<li>
+			\snippet TestCppClient.cpp historicalSchedule
+		</li>
 			<li>
 				\snippet Program.py historicalschedule
 			</li>
