@@ -210,7 +210,6 @@ namespace IBApi
 
         /**
          * @brief If set to true, the order will not be visible when viewing the market depth. 
-         * This option only applies to orders routed to the ISLAND exchange.
          */
         public bool Hidden { get; set; }
 

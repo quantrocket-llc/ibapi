@@ -112,11 +112,10 @@ Namespace Samples
         Public Shared Function USStock() As Contract
             '! [stkcontract]
             Dim contract As Contract = New Contract
-            contract.Symbol = "IBKR"
+            contract.Symbol = "SPY"
             contract.SecType = "STK"
             contract.Currency = "USD"
-            '! In the API side, NASDAQ Is always defined as ISLAND for routing purposes
-            contract.Exchange = "ISLAND"
+            contract.Exchange = "ARCA"
             '! [stkcontract]
             Return contract
         End Function
@@ -145,13 +144,11 @@ Namespace Samples
         Public Shared Function USStockWithPrimaryExch() As Contract
             '! [stkcontractwithprimary]
             Dim Contract As Contract = New Contract
-            Contract.symbol = "MSFT"
+            Contract.Symbol = "SPY"
             Contract.secType = "STK"
             Contract.currency = "USD"
             Contract.exchange = "SMART"
-            'Specify the Primary Exchange attribute to avoid contract ambiguity
-			'(there is an ambiguity because there is also a MSFT contract with primary exchange = "AEB")
-            Contract.PrimaryExch = "ISLAND"
+            Contract.PrimaryExch = "ARCA"
             '! [stkcontractwithprimary]
             Return Contract
         End Function

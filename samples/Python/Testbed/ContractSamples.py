@@ -132,11 +132,10 @@ class ContractSamples:
     def USStock():
         #! [stkcontract]
         contract = Contract()
-        contract.symbol = "IBKR"
+        contract.symbol = "SPY"
         contract.secType = "STK"
         contract.currency = "USD"
-        #In the API side, NASDAQ is always defined as ISLAND in the exchange field
-        contract.exchange = "ISLAND"
+        contract.exchange = "ARCA"
         #! [stkcontract]
         return contract
 
@@ -145,13 +144,11 @@ class ContractSamples:
     def USStockWithPrimaryExch():
         #! [stkcontractwithprimary]
         contract = Contract()
-        contract.symbol = "MSFT"
+        contract.symbol = "SPY"
         contract.secType = "STK"
         contract.currency = "USD"
         contract.exchange = "SMART"
-        #Specify the Primary Exchange attribute to avoid contract ambiguity 
-        #(there is an ambiguity because there is also a MSFT contract with primary exchange = "AEB")
-        contract.primaryExchange = "ISLAND"
+        contract.primaryExchange = "ARCA"
         #! [stkcontractwithprimary]
         return contract
 

@@ -173,11 +173,10 @@ namespace Samples
         {
             //! [stkcontract]
             Contract contract = new Contract();
-            contract.Symbol = "IBKR";
+            contract.Symbol = "SPY";
             contract.SecType = "STK";
             contract.Currency = "USD";
-            //In the API side, NASDAQ is always defined as ISLAND in the exchange field
-            contract.Exchange = "ISLAND";
+            contract.Exchange = "ARCA";
             //! [stkcontract]
             return contract;
         }
@@ -198,13 +197,11 @@ namespace Samples
         {
             //! [stkcontractwithprimary]
             Contract contract = new Contract();
-            contract.Symbol = "MSFT";
+            contract.Symbol = "SPY";
             contract.SecType = "STK";
             contract.Currency = "USD";
             contract.Exchange = "SMART";
-            //Specify the Primary Exchange attribute to avoid contract ambiguity
-            // (there is an ambiguity because there is also a MSFT contract with primary exchange = "AEB")
-            contract.PrimaryExch = "ISLAND";
+            contract.PrimaryExch = "ARCA";
             //! [stkcontractwithprimary]
             return contract;
         }
