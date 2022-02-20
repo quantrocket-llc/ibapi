@@ -1824,7 +1824,7 @@ class TestApp(TestWrapper, TestClient):
 
         # 208813720 (GOOG)
         # self.placeOrder(self.nextOrderId(), ContractSamples.USStock(),
-        #    OrderSamples.PeggedToBenchmark("SELL", 100, 33, True, 0.1, 1, 208813720, "ISLAND", 750, 650, 800))
+        #    OrderSamples.PeggedToBenchmark("SELL", 100, 33, True, 0.1, 1, 208813720, "ARCA", 750, 650, 800))
 
         # STOP ADJUSTABLE ORDERS
         # Order stpParent = OrderSamples.Stop("SELL", 100, 30)

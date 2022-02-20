@@ -1,83 +1,111 @@
 /*! \page introduction Introduction
 
-	The TWS API is a simple yet powerful interface through which IB clients can automate their trading strategies, request market data and monitor your account balance and portfolio in real time. 
+	The TWS API is a simple yet powerful interface through which IB clients can automate their trading strategies, request market data and monitor your account balance and portfolio in real time.
 
 	\section audience Audience
-	
+
 	Our TWS API components are aimed at experienced professional developers willing to enhance the current TWS functionality. Regrettably, Interactive Brokers cannot offer any
 	programming consulting. Before contacting our API support, please always refer to our available documentation, sample applications and <a href="https://www.interactivebrokers.com/en/index.php?f=1350&t=recorded&p=1" target="_blank">Recorded Webinars</a>
-	
-	\section how_to_use How to use this guide
-	
 
-	This guide reflects the very latest version of the TWS API -<b>9.72 and higher</b>- and constantly references the Java, VB, C#, C++ and Python <b>Testbed</b> sample projects to demonstrate the TWS API functionality. 
+	\section how_to_use How to use this guide
+
+
+	This guide reflects the very latest version of the TWS API -<b>9.72 and higher</b>- and constantly references the Java, VB, C#, C++ and Python <b>Testbed</b> sample projects to demonstrate the TWS API functionality.
 	All code snippets are extracted from these projects and we suggest all those users new to the TWS API to get familiar with them in order to quickly understand the fundamentals of our programming interface.
-	The <b>Testbed</b> sample projects can be found within the <b>samples</b> folder of the TWS API's installation directory. 
-	
+	The <b>Testbed</b> sample projects can be found within the <b>samples</b> folder of the TWS API's installation directory.
+
 	\section requirements Requirements
-	
+
 	<ul id="tab">
-		<li class="active"> 
+		<li class="active">
 		• The TWS API is an interface to TWS or IB Gateway, and requires network connectivity to a running instance of one of these programs.
 		• To obtain the TWS API source and sample code, download the <a href="http://interactivebrokers.github.io/" target="_blank">API Components</a>.<br>
 		• To make use of TWS API 9.72+, will require <a href="https://www.interactivebrokers.com/en/index.php?f=14099#tws-software" target="_blank">TWS build</a> 952.x or higher.<br>
 		• A working knowledge of the programming language our <b>Testbed</b> sample projects are developed in.<br>
 		</li>
 		<li>
-		• To obtain the TWS API source and sample code, download the <a href="http://interactivebrokers.github.io/" target="_blank">API Components</a>.<br>		
-		• To make use of TWS API 9.72+, will require <a href="https://www.interactivebrokers.com/en/index.php?f=14099#tws-software" target="_blank">TWS build</a> 952.x or higher.<br>		
-		• A working knowledge of the programming language our <b>Testbed</b> sample projects are developed in.<br>		
+		• To obtain the TWS API source and sample code, download the <a href="http://interactivebrokers.github.io/" target="_blank">API Components</a>.<br>
+		• To make use of TWS API 9.72+, will require <a href="https://www.interactivebrokers.com/en/index.php?f=14099#tws-software" target="_blank">TWS build</a> 952.x or higher.<br>
+		• A working knowledge of the programming language our <b>Testbed</b> sample projects are developed in.<br>
 		• Java 8 or higher is required for running the Java API client.<br>
 		</li>
 		<li>
-		• To obtain the TWS API source and sample code, download the <a href="http://interactivebrokers.github.io/" target="_blank">API Components</a>.<br>		
-		• To make use of TWS API 9.72+, will require <a href="https://www.interactivebrokers.com/en/index.php?f=14099#tws-software" target="_blank">TWS build</a> 952.x or higher.<br>		
-		• A working knowledge of the programming language our <b>Testbed</b> sample projects are developed in.<br>		
+		• To obtain the TWS API source and sample code, download the <a href="http://interactivebrokers.github.io/" target="_blank">API Components</a>.<br>
+		• To make use of TWS API 9.72+, will require <a href="https://www.interactivebrokers.com/en/index.php?f=14099#tws-software" target="_blank">TWS build</a> 952.x or higher.<br>
+		• A working knowledge of the programming language our <b>Testbed</b> sample projects are developed in.<br>
 		• Microsoft .Net Framework 4.5 or higher is required for running the VB API client.<br>
 		</li>
 		<li>
-		• To obtain the TWS API source and sample code, download the <a href="http://interactivebrokers.github.io/" target="_blank">API Components</a>.<br>		
-		• To make use of TWS API 9.72+, will require <a href="https://www.interactivebrokers.com/en/index.php?f=14099#tws-software" target="_blank">TWS build</a> 952.x or higher.<br>		
-		• A working knowledge of the programming language our <b>Testbed</b> sample projects are developed in.<br>		
-		• A compiler that supports C++11 is required for running the C++ API client.<br>		
+		• To obtain the TWS API source and sample code, download the <a href="http://interactivebrokers.github.io/" target="_blank">API Components</a>.<br>
+		• To make use of TWS API 9.72+, will require <a href="https://www.interactivebrokers.com/en/index.php?f=14099#tws-software" target="_blank">TWS build</a> 952.x or higher.<br>
+		• A working knowledge of the programming language our <b>Testbed</b> sample projects are developed in.<br>
+		• A compiler that supports C++11 is required for running the C++ API client.<br>
 		• For Windows users who use Visual Studio, a version of 2012 or higher is required.<br>
 		</li>
 		<li>
-		• To obtain the TWS API source and sample code, download the <a href="http://interactivebrokers.github.io/" target="_blank">API Components</a> (API version 9.73 or higher is required).<br>		
-		• To make use of TWS API 9.73+, will require <a href="https://www.interactivebrokers.com/en/index.php?f=14099#tws-software" target="_blank">TWS build</a> 952.x or higher.<br>		
-		• A working knowledge of the programming language our <b>Testbed</b> sample projects are developed in.<br>		
+		• To obtain the TWS API source and sample code, download the <a href="http://interactivebrokers.github.io/" target="_blank">API Components</a> (API version 9.73 or higher is required).<br>
+		• To make use of TWS API 9.73+, will require <a href="https://www.interactivebrokers.com/en/index.php?f=14099#tws-software" target="_blank">TWS build</a> 952.x or higher.<br>
+		• A working knowledge of the programming language our <b>Testbed</b> sample projects are developed in.<br>
 		• Python version 3.1 or higher is required to interpret Python API client.<br>
 		</li>
 	</ul>
-	
+
 	\section limitations Limitations
-	
-	Our programming interface is designed to automate some of the operations a user normally performs manually within the TWS Software such as placing orders, monitoring your account balance and positions, viewing an instrument's live data... etc. 
+
+	Our programming interface is designed to automate some of the operations a user normally performs manually within the TWS Software such as placing orders, monitoring your account balance and positions, viewing an instrument's live data... etc.
 	There is no logic within the API other than to ensure the integrity of the exchanged messages. Most validations and checks occur in the backend of TWS and our servers. Because of this
 	it is highly convenient to familiarize with the TWS itself, in order to gain a better understanding on how our platform works. Before spending precious development time
 	troubleshooting on the API side, it is recommended to first experiment with the TWS directly.
-	
+
 	<b>Remember:</b> If a certain feature or operation is not available in the TWS, it will not be available on the API side either!
-	
+
 	\subsection fifty_messages Requests
-	
-	The TWS is designed to accept up to <b>fifty</b> messages per second coming from the <b>client</b> side. Anything coming from the client application to the TWS counts as a 
+
+	The TWS is designed to accept up to <b>fifty</b> messages per second coming from the <b>client</b> side. Anything coming from the client application to the TWS counts as a
 	message (i.e. requesting data, placing orders, requesting your portfolio... etc.). This limitation is applied to <b>all</b> connected clients in the sense were all
-	connected client applications to the same instance of TWS combined cannot exceed this number. On the other hand, there are <b>no limits</b> on the amount of messages the TWS can send to the 
+	connected client applications to the same instance of TWS combined cannot exceed this number. On the other hand, there are <b>no limits</b> on the amount of messages the TWS can send to the
 	client application.
-	
+
 	\subsection paper_trading Paper Trading
-	
-	If your regular trading account has been approved and funded, you can use your Account Management page to open a 
-	<a href="https://www.interactivebrokers.com/en/software/am/am/manageaccount/papertradingaccount.htm" target="_blank">Paper Trading Account</a> which lets you use the full range of trading 
+
+	If your regular trading account has been approved and funded, you can use your Account Management page to open a
+	<a href="https://www.interactivebrokers.com/en/software/am/am/manageaccount/papertradingaccount.htm" target="_blank">Paper Trading Account</a> which lets you use the full range of trading
 	facilities in a simulated environment using real market conditions. Using a Paper Trading Account will allow you not only to get familiar with the TWS API but also to test your trading
 	strategies without risking your capital. Note the paper trading environment has inherent <a href="https://www.interactivebrokers.com/en/software/am/am/manageaccount/paper_trading_limitations.htm" target="_blank">limitations</a>.
-	
-	\subsection intel_library Intel� Decimal Floating-Point Math Library
-	This product includes Intel� Decimal Floating-Point Math Library (in binary form) developed by the Intel Corporation under its license which can be found <a href="https://github.com/InteractiveBrokers/tws-api/blob/master/source/cppclient/client/lib/eula.txt" target="_blank">here</a>.
+
+	\subsection intel_library Intel&reg; Decimal Floating-Point Math Library
+	This product includes Intel&reg; Decimal Floating-Point Math Library (in binary form) developed by the Intel Corporation under its license which can be found <a href="https://github.com/InteractiveBrokers/tws-api/blob/master/source/cppclient/client/lib/eula.txt" target="_blank">here</a>.
+
+	<ul id="tab">
+		<li class="active">
+		</li>
+		<li>
+		</li>
+		<li>
+		</li>
+		<li>
+		<b>Decimal type (source/cppclient/client/Decimal.h)</b><br>
+		All operations with Decimal type should be performed with Intel&reg; Decimal Floating-Point Math Library.<br>
+		Currently the following methods from the library are exposed: <i>add, sub, mul, div, stringToDecimal, decimalToString, decimalStringToDisplay, decimalToDouble and doubleToDecimal.</i><br>
+		All other methods can be exposed on demand.<br>
+
+		<b>Details of exposed methods:</b><br>
+		<b><i>Decimal add (Decimal, Decimal)</i></b> - adds two decimal values. Returns decimal result of operation.<br>
+		<b><i>Decimal sub (Decimal, Decimal)</i></b> - subtracts the second decimal value from the first. Returns decimal result of operation.<br>
+		<b><i>Decimal mul (Decimal, Decimal)</i></b> - multiplies two decimal values. Returns decimal result of operation.<br>
+		<b><i>Decimal div (Decimal, Decimal)</i></b> - divides the first decimal value by the second. Returns decimal result of operation.<br>
+		<b><i>Decimal stringToDecimal (std::string)</i></b> - converts string to decimal value.<br>
+		<b><i>std::string decimalToString (Decimal)</i></b> - converts decimal value to string. String can have scientific notation.<br>
+		<b><i>std::string decimalStringToDisplay (Decimal)</i></b> - converts decimal value to string without scientific notation.<br>
+		<b><i>double decimalToDouble (Decimal)</i></b> - converts decimal value to double value. <i>Note: conversion of decimal to double may lose 16th-18th decimal.</i><br>
+		<b><i>Decimal doubleToDecimal (double)</i></b> - converts double value to decimal value.<br>
+		</li>
+		<li>
+		</li>
+	</ul>
 
 	\image html linkarrow_external.png Links pointing to sources out of this documentation are indicated it as such
-	
+
 	<br><br>
-	
+
 */

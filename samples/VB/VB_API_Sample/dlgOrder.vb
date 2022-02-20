@@ -819,7 +819,7 @@ Friend Class dlgOrder
         Me.TxtPrimaryExchange.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.TxtPrimaryExchange.Size = New System.Drawing.Size(88, 13)
         Me.TxtPrimaryExchange.TabIndex = 17
-        Me.TxtPrimaryExchange.Text = "ISLAND"
+        Me.TxtPrimaryExchange.Text = "ARCA"
         '
         'txtRight
         '
@@ -944,7 +944,7 @@ Friend Class dlgOrder
         Me.txtSymbol.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.txtSymbol.Size = New System.Drawing.Size(88, 13)
         Me.txtSymbol.TabIndex = 3
-        Me.txtSymbol.Text = "QQQQ"
+        Me.txtSymbol.Text = "SPY"
         '
         'Label5
         '

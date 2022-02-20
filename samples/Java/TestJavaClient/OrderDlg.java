@@ -57,14 +57,14 @@ public class OrderDlg extends JDialog {
 
     private JTextField	m_Id = new JTextField( "0");
     private JTextField 	m_conId = new JTextField();
-    private JTextField 	m_symbol = new JTextField( "QQQQ");
+    private JTextField 	m_symbol = new JTextField( "SPY");
     private JTextField 	m_secType = new JTextField( "STK");
     private JTextField 	m_lastTradeDateOrContractMonth = new JTextField();
     private JTextField 	m_strike = new JTextField( "0");
     private JTextField 	m_right = new JTextField();
     private JTextField 	m_multiplier = new JTextField("");
     private JTextField 	m_exchange = new JTextField( "SMART");
-    private JTextField 	m_primaryExch = new JTextField( "ISLAND" );
+    private JTextField 	m_primaryExch = new JTextField( "ARCA" );
     private JTextField 	m_currency = new JTextField("USD");
     private JTextField 	m_localSymbol = new JTextField();
     private JTextField 	m_tradingClass = new JTextField();

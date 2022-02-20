@@ -70,6 +70,8 @@
 	API users have the option to configure the TWS API to work in compatibility mode for older programs, but we recommend migrating to "quotes in shares" at your earliest convenience. <br>
 	To use compatibility mode, from the Global Configuration > API > Settings page, check "Bypass US Stocks market data in shares warning for API orders."
 
+	\image html bypass_usstk_api_shares.png
+
 	<br><br>
 
 */

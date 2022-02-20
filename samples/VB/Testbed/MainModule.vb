@@ -726,7 +726,7 @@ Module MainModule
 
         '208813720 (GOOG)
         'client.placeOrder(nextOrderId, ContractSamples.USStock(),
-        'OrderSamples.PeggedToBenchmark("SELL", 100, 33, True, 0.1, 1, 208813720, "ISLAND", 750, 650, 800))
+        'OrderSamples.PeggedToBenchmark("SELL", 100, 33, True, 0.1, 1, 208813720, "ARCA", 750, 650, 800))
 
 
         'Stop ADJUSTABLE ORDERS

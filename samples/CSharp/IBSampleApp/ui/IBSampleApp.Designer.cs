@@ -1006,7 +1006,7 @@ namespace IBSampleApp
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(68, 20);
             this.textBox1.TabIndex = 84;
-            this.textBox1.Text = "IBKR";
+            this.textBox1.Text = "SPY";
             // 
             // label6
             // 
@@ -1031,7 +1031,7 @@ namespace IBSampleApp
             this.textBox4.Name = "textBox4";
             this.textBox4.Size = new System.Drawing.Size(68, 20);
             this.textBox4.TabIndex = 92;
-            this.textBox4.Text = "ISLAND";
+            this.textBox4.Text = "ARCA";
             // 
             // textBox3
             // 
@@ -1193,7 +1193,7 @@ namespace IBSampleApp
             this.comboSymbol.Name = "comboSymbol";
             this.comboSymbol.Size = new System.Drawing.Size(68, 20);
             this.comboSymbol.TabIndex = 60;
-            this.comboSymbol.Text = "IBKR";
+            this.comboSymbol.Text = "SPY";
             // 
             // comboStrike
             // 
@@ -1323,7 +1323,7 @@ namespace IBSampleApp
             this.comboExchange.Name = "comboExchange";
             this.comboExchange.Size = new System.Drawing.Size(68, 20);
             this.comboExchange.TabIndex = 71;
-            this.comboExchange.Text = "ISLAND";
+            this.comboExchange.Text = "ARCA";
             // 
             // comboSecTypeLabel
             // 
