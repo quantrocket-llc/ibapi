@@ -267,7 +267,7 @@ public class Testbed {
 		client.reqMktData(1005, ContractSamples.USStock(), "mdoff,292:BZ", false, false, null);
 		client.reqMktData(1006, ContractSamples.USStock(), "mdoff,292:BT", false, false, null);
 		client.reqMktData(1007, ContractSamples.USStock(), "mdoff,292:FLY", false, false, null);
-		client.reqMktData(1008, ContractSamples.USStock(), "mdoff,292:MT", false, false, null);
+		client.reqMktData(1008, ContractSamples.USStock(), "mdoff,292:DJ-RT", false, false, null);
 		//! [reqmktdata_contractnews]
 		//! [reqmktdata_broadtapenews]
 		client.reqMktData(1009, ContractSamples.BTbroadtapeNewsFeed(), "mdoff,292", false, false, null);

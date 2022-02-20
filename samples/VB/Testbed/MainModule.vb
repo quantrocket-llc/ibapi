@@ -290,7 +290,7 @@ Module MainModule
         client.reqMktData(1005, ContractSamples.USStock(), "mdoff,292:BZ", False, False, Nothing)
         client.reqMktData(1006, ContractSamples.USStock(), "mdoff,292:BT", False, False, Nothing)
         client.reqMktData(1007, ContractSamples.USStock(), "mdoff,292:FLY", False, False, Nothing)
-        client.reqMktData(1008, ContractSamples.USStock(), "mdoff,292:MT", False, False, Nothing)
+        client.reqMktData(1008, ContractSamples.USStock(), "mdoff,292:DJ-RT", False, False, Nothing)
         '! [reqmktdata_contractnews]
         '! [reqmktdata_broadtapenews]
         client.reqMktData(1009, ContractSamples.BTbroadtapeNewsFeed(), "mdoff,292", False, False, Nothing)
