@@ -101,7 +101,10 @@
 	With <b>TWS 10.14</b> and <b>TWS API 10.14</b> there have been added @ref IBApi::Order <b><i>advancedErrorOverride</i></b> and @ref IBApi::EWrapper::error <b><i>advancedOrderRejectJson</i></b> properties. They have been introduced to extend @ref cryptocurrency offerings across other regions.
 
 	- <b><i>advancedErrorOverride</i></b> accepts a comma-separated list with parameters containing error tags. This list will override the mentioned errors and proceed with the order placement.
-	- <b><i>advancedOrderRejectJson</i></b> returns order reject description in JSON format. The JSON responses can be used to add fields to <b><i>advancedErrorOverride</i></b>.
+	- <b><i>advancedOrderRejectJson</i></b> returns order reject description in JSON format. The JSON responses can be used to add fields to <b><i>advancedErrorOverride</i></b>.<br>
+		The response your API client will receive from our back end via reject message will contain a FIX Tag <b>8230</b>. This FIX Tag is for order rejection message.<br>
+		For example, the response will contain code <b>8229=IBDBUYTX</b> which can be passed in <b>8229</b> (advancedErrorOverride) field in IBApi::EClient::placeOrder method.<br>
+		The tag values of <b>8229</b> can contain a comma-separated list of advanced error override codes. For example, <b>8229=IBDBUYTX,MOBILEPH</b>, will override both of the rejections.
 	- Additionally, a new API Setting has been introduced: <b>Show advanced order reject in UI always</b><br>
 		If <i>checked</i>, the order reject will not be sent to API.
 

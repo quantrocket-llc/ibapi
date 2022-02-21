@@ -1,0 +1,47 @@
+/*! \page wb_user_info White Branding User Info
+
+Starting with <i>TWS 10.14</i> and <i>TWS API 10.14</i> this function will return <a target="_blank" class="linkexternal" href="https://www.interactivebrokers.com/en/trading/white-branding.php">White Branding ID</a> associated with the user.
+
+The function IBApi::EClient::reqUserInfo is used to request user info.
+
+<ul id="tab">
+  <li class="active">
+    \snippet Program.cs requserinfo
+  </li>
+  <li>
+    \snippet Testbed.java requserinfo
+  </li>
+  <li>
+    \snippet MainModule.vb requserinfo
+  </li>
+  <li>
+    \snippet TestCppClient.cpp userinfo
+  </li>
+  <li>
+    \snippet Program.py requserinfo
+  </li>
+</ul>
+
+White Branding ID is then returned via IBApi::EWrapper::userInfo callback.
+
+<ul id="tab">
+  <li class="active">
+  \snippet EWrapperImpl.cs userInfo
+  </li>
+  <li>
+  \snippet EWrapperImpl.java userInfo
+  </li>
+  <li>
+  \snippet EWrapperImpl.vb userInfo
+  </li>
+  <li>
+  \snippet TestCppClient.cpp userInfo
+  </li>
+  <li>
+  \snippet Program.py userinfo
+  </li>
+</ul>
+
+<i>Please note, that nothing will be returned if requesting username is not associated with any White Branding entity.</i>
+
+*/
