@@ -123,7 +123,7 @@ Private Sub buttonOK_Click()
         mComboLegs.value = buildComboLegsFromList()
         
         ' set the under comp cell
-        If deltaNeutralContractConId.text <> STR_ZERO And deltaNeutralContractConId.text <> STR_EMPTY Then
+        If underCompConId.text <> STR_ZERO And underCompConId.text <> STR_EMPTY Then
             mDeltaNeutralContract.value = buildDeltaNeutralContractString()
         End If
     Else
@@ -153,9 +153,9 @@ Private Function Init() As Boolean
     legPrice.text = STR_EMPTY
 
     ' under comp
-    deltaNeutralContractConId.text = STR_ZERO
-    deltaNeutralContractDelta.text = STR_ZERO
-    deltaNeutralContractPrice.text = STR_ZERO
+    underCompConId.text = STR_ZERO
+    underCompDelta.text = STR_ZERO
+    underCompPrice.text = STR_ZERO
 
     ' clear combo legs table
     Dim i As Long
@@ -199,11 +199,11 @@ Private Function Init() As Boolean
             ' parse under comp string and fill ComboLegForm with appropriate data
             tempStr = mDeltaNeutralContract.value
             tempStr = Right(tempStr, Len(tempStr) - InStr(tempStr, STR_UNDERSCORE))
-            deltaNeutralContractConId.text = Left(tempStr, InStr(tempStr, STR_UNDERSCORE) - 1)
+            underCompConId.text = Left(tempStr, InStr(tempStr, STR_UNDERSCORE) - 1)
             tempStr = Right(tempStr, Len(tempStr) - InStr(tempStr, STR_UNDERSCORE))
-            deltaNeutralContractDelta.text = Left(tempStr, InStr(tempStr, STR_UNDERSCORE) - 1)
+            underCompDelta.text = Left(tempStr, InStr(tempStr, STR_UNDERSCORE) - 1)
             tempStr = Right(tempStr, Len(tempStr) - InStr(tempStr, STR_UNDERSCORE))
-            deltaNeutralContractPrice.text = Left(tempStr, InStr(tempStr, STR_UNDERSCORE) - 1)
+            underCompPrice.text = Left(tempStr, InStr(tempStr, STR_UNDERSCORE) - 1)
         End If
     End If
     
@@ -278,13 +278,13 @@ End Function
 ' create under comp string
 Private Function buildDeltaNeutralContractString() As String
 
-    Dim deltaNeutralContractStr As String
-    deltaNeutralContractStr = STR_DELTANEUTRALCONTRACT & STR_UNDERSCORE
-    deltaNeutralContractStr = deltaNeutralContractStr & deltaNeutralContractConId.value & STR_UNDERSCORE
-    deltaNeutralContractStr = deltaNeutralContractStr & deltaNeutralContractDelta.value & STR_UNDERSCORE
-    deltaNeutralContractStr = deltaNeutralContractStr & deltaNeutralContractPrice.value & STR_UNDERSCORE & STR_DELTANEUTRALCONTRACT
+    Dim underCompContractStr As String
+    underCompContractStr = STR_UNDERCOMPCONTRACT & STR_UNDERSCORE
+    underCompContractStr = underCompContractStr & underCompConId.value & STR_UNDERSCORE
+    underCompContractStr = underCompContractStr & underCompDelta.value & STR_UNDERSCORE
+    underCompContractStr = underCompContractStr & underCompPrice.value & STR_UNDERSCORE & STR_UNDERCOMPCONTRACT
     
-    buildDeltaNeutralContractString = deltaNeutralContractStr
+    buildDeltaNeutralContractString = underCompContractStr
         
 End Function
 
