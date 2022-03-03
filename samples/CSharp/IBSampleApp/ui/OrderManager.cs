@@ -70,19 +70,24 @@ namespace IBSampleApp.ui
 
         public void EditOrder()
         {
-            if (liveOrdersGrid.SelectedRows.Count > 0 && (int)(liveOrdersGrid.SelectedRows[0].Cells[2].Value) != 0 && (int)(liveOrdersGrid.SelectedRows[0].Cells[1].Value) == IBClient.ClientId)
+            if (liveOrdersGrid.SelectedRows.Count > 0)
             {
                 DataGridViewRow selectedRow = liveOrdersGrid.SelectedRows[0];
-                int orderId = (int)selectedRow.Cells[2].Value;
-                for (int i = 0; i < openOrders.Count; i++)
+                int orderId;
+                int clientId;
+                if (int.TryParse(selectedRow.Cells[2].Value.ToString(), out orderId) &&
+                    int.TryParse(selectedRow.Cells[1].Value.ToString(), out clientId) &&
+                    int.Equals(clientId, IBClient.ClientId))
                 {
-                    if (openOrders[i].OrderId == orderId)
+                    for (int i = 0; i < openOrders.Count; i++)
                     {
-                        orderDialog.SetOrderContract(openOrders[i].Contract);
-                        orderDialog.SetOrder(openOrders[i].Order);
+                        if (openOrders[i].OrderId == orderId)
+                        {
+                            orderDialog.SetOrderContract(openOrders[i].Contract);
+                            orderDialog.SetOrder(openOrders[i].Order);
+                        }
                     }
                 }
-
                 orderDialog.ShowDialog();
             }
         }
@@ -90,23 +95,29 @@ namespace IBSampleApp.ui
 
         public void AttachOrder()
         {
-            if (liveOrdersGrid.SelectedRows.Count > 0 && (int)(liveOrdersGrid.SelectedRows[0].Cells[2].Value) != 0 && (int)(liveOrdersGrid.SelectedRows[0].Cells[1].Value) == IBClient.ClientId)
+            if (liveOrdersGrid.SelectedRows.Count > 0)
             {
                 DataGridViewRow selectedRow = liveOrdersGrid.SelectedRows[0];
-                int orderId = (int)selectedRow.Cells[2].Value;
-                for (int i = 0; i < openOrders.Count; i++)
-                {
-                    if (openOrders[i].OrderId == orderId)
-                    {
-                        orderDialog.SetOrderContract(openOrders[i].Contract);
-                        orderDialog.SetOrder(openOrders[i].Order);
 
-                        orderDialog.SetOrderId(IBClient.NextOrderId);
-                        IBClient.NextOrderId++;
-                        orderDialog.SetParentOrderId(orderId);
+                int orderId;
+                int clientId;
+                if (int.TryParse(selectedRow.Cells[2].Value.ToString(), out orderId) &&
+                    int.TryParse(selectedRow.Cells[1].Value.ToString(), out clientId) &&
+                    int.Equals(clientId, IBClient.ClientId))
+                {
+                    for (int i = 0; i < openOrders.Count; i++)
+                    {
+                        if (openOrders[i].OrderId == orderId)
+                        {
+                            orderDialog.SetOrderContract(openOrders[i].Contract);
+                            orderDialog.SetOrder(openOrders[i].Order);
+
+                            orderDialog.SetOrderId(IBClient.NextOrderId);
+                            IBClient.NextOrderId++;
+                            orderDialog.SetParentOrderId(orderId);
+                        }
                     }
                 }
-
                 orderDialog.ShowDialog();
             }
         }
@@ -117,11 +128,16 @@ namespace IBSampleApp.ui
             {
                 for (int i = 0; i < liveOrdersGrid.SelectedRows.Count; i++)
                 {
-                    int orderId = (int)liveOrdersGrid.SelectedRows[i].Cells[2].Value;
-                    int clientId = (int)liveOrdersGrid.SelectedRows[i].Cells[1].Value;
-                    OpenOrderMessage openOrder = GetOpenOrderMessage(orderId, clientId);
-                    if(openOrder != null)
-                        IBClient.ClientSocket.cancelOrder(openOrder.OrderId);
+                    int orderId;
+                    int clientId;
+
+                    if (int.TryParse(liveOrdersGrid.SelectedRows[i].Cells[2].Value.ToString(), out orderId) &&
+                        int.TryParse(liveOrdersGrid.SelectedRows[i].Cells[1].Value.ToString(), out clientId))
+                    {
+                        OpenOrderMessage openOrder = GetOpenOrderMessage(orderId, clientId);
+                        if (openOrder != null)
+                            IBClient.ClientSocket.cancelOrder(openOrder.OrderId);
+                    }
                 }
             }
         }
