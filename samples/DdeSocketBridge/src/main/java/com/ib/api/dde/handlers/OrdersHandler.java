@@ -16,6 +16,7 @@ import com.ib.api.dde.dde2socket.requests.DdeRequest;
 import com.ib.api.dde.dde2socket.requests.DdeRequestStatus;
 import com.ib.api.dde.dde2socket.requests.DdeRequestType;
 import com.ib.api.dde.dde2socket.requests.orders.AutoOpenOrdersRequest;
+import com.ib.api.dde.dde2socket.requests.orders.CancelOrderRequest;
 import com.ib.api.dde.dde2socket.requests.orders.CompletedOrdersRequest;
 import com.ib.api.dde.dde2socket.requests.orders.OpenOrdersRequest;
 import com.ib.api.dde.dde2socket.requests.orders.OrderStatusRequest;
@@ -159,9 +160,9 @@ public class OrdersHandler extends BaseHandler {
 
     /** Method sends cancel order request to TWS */
     public byte[] handleCancelOrderRequest(String requestStr) {
-        DdeRequest request = m_requestParser.parseRequest(requestStr, DdeRequestType.CANCEL_ORDER);
-        System.out.println("Cancelling order: id=" + request.requestId());
-        clientSocket().cancelOrder(request.requestId()); 
+        CancelOrderRequest request = m_requestParser.parseCancelOrderRequest(requestStr);
+        System.out.println("Cancelling order: id=" + request.requestId() + " manualOrderCancelTime=" + request.manualOrderCancelTime());
+        clientSocket().cancelOrder(request.requestId(), request.manualOrderCancelTime()); 
         return null;
     }
 
@@ -434,6 +435,21 @@ public class OrdersHandler extends BaseHandler {
             return request;
         }        
         
+        /** Method parses DDE request string to CancelOrderRequest */
+        public CancelOrderRequest parseCancelOrderRequest(String requestStr) {
+            int requestId = -1;
+            String[] messageTokens = requestStr.split(DDE_REQUEST_SEPARATOR_PARSE);
+            if (messageTokens.length > 0) {
+                requestId = parseRequestId(messageTokens[0]);
+            }
+            String manualOrderCancelTime = RequestParser.EMPTY_STR;
+            if (messageTokens.length > 1) {
+            	manualOrderCancelTime = messageTokens[1];
+            }
+
+            return new CancelOrderRequest(requestId, manualOrderCancelTime, requestStr);
+        }
+
         /** Method parses DDE request string to OrderStatusRequest */
         private OrderStatusRequest parseOrderStatusRequest(String requestStr) {
             int requestId = Integer.MAX_VALUE;
@@ -470,7 +486,7 @@ public class OrdersHandler extends BaseHandler {
                 System.out.println("Cannot extract base order fields");
                 return null;
             }
-            if (table2.size() < 113) {
+            if (table2.size() < 115) {
                 System.out.println("Cannot extract extended order attributes");
                 return null;
             }
@@ -833,6 +849,12 @@ public class OrdersHandler extends BaseHandler {
             }
             if (Utils.isNotNull(table2.get(113))) {
                 order.advancedErrorOverride(table2.get(113));
+            }
+            if (Utils.isNotNull(table2.get(114))) {
+                order.manualOrderTime(table2.get(114));
+            }
+            if (Utils.isNotNull(table2.get(115))) {
+                // manualOrderCancelTime - not used in placeOrder
             }
             
             return order;

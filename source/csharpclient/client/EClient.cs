@@ -586,12 +586,31 @@ namespace IBApi
          * @param orderId the order's client id
          * @sa placeOrder, reqGlobalCancel
          */
-        public void cancelOrder(int orderId)
+        public void cancelOrder(int orderId, string manualOrderCancelTime)
         {
             if (!CheckConnection())
                 return;
-            SendCancelRequest(OutgoingMessages.CancelOrder, 1, orderId,
-                EClientErrors.FAIL_SEND_CORDER);
+
+            if (!IsEmpty(manualOrderCancelTime))
+            {
+                if (!CheckServerVersion(orderId, MinServerVer.MANUAL_ORDER_TIME, " It does not support manual order cancel time attribute"))
+                    return;
+            }
+
+            const int VERSION = 1;
+            var paramsList = new BinaryWriter(new MemoryStream());
+            var lengthPos = prepareBuffer(paramsList);
+
+            paramsList.AddParameter(OutgoingMessages.CancelOrder);
+            paramsList.AddParameter(VERSION);
+            paramsList.AddParameter(orderId);
+
+            if (serverVersion >= MinServerVer.MANUAL_ORDER_TIME)
+            {
+                paramsList.AddParameter(manualOrderCancelTime);
+            }
+
+            CloseAndSend(paramsList, lengthPos, EClientErrors.FAIL_SEND_CANCELPNL);
         }
 
         /**
@@ -1248,6 +1267,12 @@ namespace IBApi
                 {
                     paramsList.AddParameter(order.AdvancedErrorOverride);
                 }
+
+                if (serverVersion >= MinServerVer.MANUAL_ORDER_TIME)
+                {
+                    paramsList.AddParameter(order.ManualOrderTime);
+                }
+
             }
             catch (EClientException e)
             {
@@ -4003,6 +4028,12 @@ namespace IBApi
                 return false;
             }
 
+            if (serverVersion < MinServerVer.MANUAL_ORDER_TIME && !IsEmpty(order.ManualOrderTime))
+            {
+                ReportError(id, EClientErrors.UPDATE_TWS, " It does not support manual order time attribute.");
+
+                return false;
+            }
 
             return true;
         }

@@ -140,6 +140,8 @@ Public Enum ExtendedOrderAttributesColumns
     Col_NOT_HELD
     Col_AUTO_CANCEL_PARENT
     Col_ADVANCED_ERROR_OVERRIDE
+    Col_MANUAL_ORDER_TIME
+    Col_MANUAL_ORDER_CANCEL_TIME
 End Enum
 
 ' other constants
@@ -154,15 +156,18 @@ Public Sub ApplyExtendedTemplate(orderIndex As Long, extendedOrderAttributesTabl
     Next i
 End Sub
 
-Public Sub CancelOrders(orderStatusTable As Range)
+Public Sub CancelOrders(orderStatusTable As Range, extendedOrderAttributesTable As Range)
     If Not CheckConnected Then Exit Sub
     
     Dim i As Long
     Dim row As Object
+    Dim manualOrderCancelTime As String
     For Each row In Selection.Rows
         i = row.row - orderStatusTable.Rows(1).row + 1
+        manualOrderCancelTime = Util.SetNonEmptyValue(extendedOrderAttributesTable(i, Col_MANUAL_ORDER_CANCEL_TIME).value, manualOrderCancelTime)
+        
         If orderStatusTable(i, Col_ORDERSTATUS).value <> "" Then
-            Api.Tws.CancelOrder orderStatusTable(i, Col_ORDERID).value
+            Api.Tws.CancelOrder orderStatusTable(i, Col_ORDERID).value, manualOrderCancelTime
 
             orderStatusTable(i, Col_ORDERSTATUS).value = STR_ORDER_CANCELLED
         End If
@@ -384,6 +389,7 @@ Private Sub PlaceModifyOrder( _
         .notHeld = Util.SetNonEmptyValue(extendedAttributeTable(orderIndex, Col_NOT_HELD).value, .notHeld)
         .autoCancelParent = Util.SetNonEmptyValue(extendedAttributeTable(orderIndex, Col_AUTO_CANCEL_PARENT).value, .autoCancelParent)
         .advancedErrorOverride = Util.SetNonEmptyValue(extendedAttributeTable(orderIndex, Col_ADVANCED_ERROR_OVERRIDE).value, .advancedErrorOverride)
+        .manualOrderTime = Util.SetNonEmptyValue(extendedAttributeTable(orderIndex, Col_MANUAL_ORDER_TIME).value, .manualOrderTime)
     End With
 
     ' combo legs

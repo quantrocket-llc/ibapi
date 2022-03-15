@@ -1240,6 +1240,7 @@ Friend Class MainForm
     Private m_dlgWsh As New dlgWsh
     Private m_dlgPnL As New dlgPnL
     Private m_dlgOrder As New dlgOrder
+    Private m_dlgOrderAttribs As New dlgOrderAttribs
     Private m_dlgConnect As New dlgConnect
     Private m_dlgMktDepth As New dlgMktDepth
     Private m_dlgAcctData As New dlgAcctData
@@ -1567,7 +1568,7 @@ Friend Class MainForm
 
         m_dlgOrder.ShowDialog()
         If m_dlgOrder.ok Then
-            m_api.cancelOrder(m_dlgOrder.orderId)
+            m_api.cancelOrder(m_dlgOrder.orderId, m_dlgOrderAttribs.getManualOrderCancelTime)
         End If
     End Sub
 
@@ -1593,10 +1594,8 @@ Friend Class MainForm
     ' Sets the extended order attributes
     '--------------------------------------------------------------------------------
     Private Sub cmdExtendedOrderAtribs_Click(sender As Object, e As EventArgs) Handles cmdExtendedOrderAtribs.Click
-        Dim dlgOrderAttribs As New dlgOrderAttribs
-
-        dlgOrderAttribs.init(Me, m_orderInfo)
-        dlgOrderAttribs.ShowDialog()
+        m_dlgOrderAttribs.init(Me, m_orderInfo)
+        m_dlgOrderAttribs.ShowDialog()
         ' nothing to do besides that
     End Sub
 

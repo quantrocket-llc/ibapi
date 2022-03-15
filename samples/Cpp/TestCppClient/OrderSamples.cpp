@@ -1015,3 +1015,11 @@ Order OrderSamples::LimitIBKRATS(std::string action, Decimal quantity, double li
 	return order;
 }
 
+Order OrderSamples::LimitOrderWithManualOrderTime(std::string action, Decimal quantity, double limitPrice, std::string manualOrderTime) {
+	// ! [limit_order_with_manual_order_time]
+	Order order = OrderSamples::LimitOrder(action, quantity, limitPrice);
+	order.manualOrderTime = manualOrderTime;
+	// ! [limit_order_with_manual_order_time]
+	return order;
+}
+

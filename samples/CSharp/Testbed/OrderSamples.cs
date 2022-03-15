@@ -1071,5 +1071,13 @@ namespace Samples
             return order;
         }
 
+        public static Order LimitOrderWithManualOrderTime(string action, decimal quantity, double limitPrice, string manualOrderTime)
+        {
+            // ! [limit_order_with_manual_order_time]
+            Order order = OrderSamples.LimitOrder(action, quantity, limitPrice);
+            order.ManualOrderTime = manualOrderTime;
+            // ! [limit_order_with_manual_order_time]
+            return order;
+        }
     }
 }

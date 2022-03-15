@@ -48,7 +48,7 @@ public class Testbed {
 		//tickDataOperations(wrapper.getClient());
 		//tickOptionComputations(wrapper.getClient());
 		//optionsOperations(wrapper.getClient());
-		//orderOperations(wrapper.getClient(), wrapper.getCurrentOrderId());
+		orderOperations(wrapper.getClient(), wrapper.getCurrentOrderId());
 		//contractOperations(wrapper.getClient());
 		//hedgeSample(wrapper.getClient(), wrapper.getCurrentOrderId());
 		//testAlgoSamples(wrapper.getClient(), wrapper.getCurrentOrderId());
@@ -58,7 +58,7 @@ public class Testbed {
 		//marketScanners(wrapper.getClient());
 		//marketDataType(wrapper.getClient());
 		//historicalDataRequests(wrapper.getClient());
-		accountOperations(wrapper.getClient());
+		//accountOperations(wrapper.getClient());
 		//newsOperations(wrapper.getClient());
 		//marketDepthOperations(wrapper.getClient());
 		//rerouteCFDOperations(wrapper.getClient());
@@ -198,7 +198,7 @@ public class Testbed {
 
 		int cancelID = nextOrderId -1;
 		//! [cancelorder]
-		client.cancelOrder(cancelID);
+		client.cancelOrder(cancelID, Order.EMPTY_STR);
 		//! [cancelorder]
 
 		//! [reqglobalcancel]
@@ -213,6 +213,15 @@ public class Testbed {
         //! [crypto_order_submission]
         client.placeOrder(nextOrderId++, ContractSamples.CryptoContract(), OrderSamples.LimitOrder("BUY", Decimal.parse("0.00001234"), 3370));
         //! [crypto_order_submission]
+
+        //! [manual_order_time]
+        client.placeOrder(nextOrderId++, ContractSamples.USStockAtSmart(), OrderSamples.LimitOrderWithManualOrderTime("BUY", Decimal.get(100), 111.11, "20220314 13:00:00"));
+        //! [manual_order_time]
+        
+        //! [manual_order_cancel_time]
+        cancelID = nextOrderId - 1;
+        client.cancelOrder(cancelID, "20220314 19:00:00");
+        //! [manual_order_cancel_time]
         
         Thread.sleep(10000);
         

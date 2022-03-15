@@ -346,5 +346,8 @@ namespace TWSLib
         [DispId(187)]
         string advancedErrorOverride { get; set; }
 
+        [DispId(188)]
+        string manualOrderTime { get; set; }
+
     }
 }

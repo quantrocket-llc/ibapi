@@ -1591,6 +1591,11 @@ void EClient::placeOrder( OrderId id, const Contract& contract, const Order& ord
         return;
     }
 
+    if (m_serverVersion < MIN_SERVER_VER_MANUAL_ORDER_TIME && !order.manualOrderTime.empty()) {
+        m_pEWrapper->error(id, UPDATE_TWS.code(), UPDATE_TWS.msg() + " It does not support manual order time attribute", "");
+        return;
+    }
+
     std::stringstream msg;
     prepareBuffer( msg);
 
@@ -2024,6 +2029,9 @@ void EClient::placeOrder( OrderId id, const Contract& contract, const Order& ord
             ENCODE_FIELD(order.advancedErrorOverride);
         }
 
+        if (m_serverVersion >= MIN_SERVER_VER_MANUAL_ORDER_TIME) {
+            ENCODE_FIELD(order.manualOrderTime);
+        }
     }
     catch (EClientException& ex) {
         m_pEWrapper->error(id, ex.error().code(), ex.error().msg() + ex.text(), "");
@@ -2033,11 +2041,16 @@ void EClient::placeOrder( OrderId id, const Contract& contract, const Order& ord
     closeAndSend(msg.str());
 }
 
-void EClient::cancelOrder( OrderId id)
+void EClient::cancelOrder( OrderId id, const std::string& manualOrderCancelTime)
 {
     // not connected?
     if( !isConnected()) {
         m_pEWrapper->error( id, NOT_CONNECTED.code(), NOT_CONNECTED.msg(), "");
+        return;
+    }
+
+    if (m_serverVersion < MIN_SERVER_VER_MANUAL_ORDER_TIME && !manualOrderCancelTime.empty()) {
+        m_pEWrapper->error(id, UPDATE_TWS.code(), UPDATE_TWS.msg() + " It does not support manual order cancel time attribute", "");
         return;
     }
 
@@ -2050,6 +2063,10 @@ void EClient::cancelOrder( OrderId id)
     ENCODE_FIELD( CANCEL_ORDER);
     ENCODE_FIELD( VERSION);
     ENCODE_FIELD( id);
+
+    if (m_serverVersion >= MIN_SERVER_VER_MANUAL_ORDER_TIME) {
+        ENCODE_FIELD(manualOrderCancelTime);
+    }
 
     closeAndSend( msg.str());
 }

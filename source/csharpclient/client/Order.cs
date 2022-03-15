@@ -732,6 +732,8 @@ namespace IBApi
         public long ParentPermId { get; set; }
 
         public string AdvancedErrorOverride { get; set; }
+        
+        public string ManualOrderTime { get; set; }
 
         public Order()
         {
@@ -809,9 +811,10 @@ namespace IBApi
             Duration = int.MaxValue;
             PostToAts = int.MaxValue;
             AdvancedErrorOverride = EMPTY_STR;
+            ManualOrderTime = EMPTY_STR;
         }
 
-		// Note: Two orders can be 'equivalent' even if all fields do not match. This function is not intended to be used with Order objects returned from TWS.
+        // Note: Two orders can be 'equivalent' even if all fields do not match. This function is not intended to be used with Order objects returned from TWS.
         public override bool Equals(object p_other)
         {
             if (this == p_other)
@@ -937,7 +940,8 @@ namespace IBApi
                 Util.StringCompare(ExtOperator, l_theOther.ExtOperator) != 0 ||
                 Util.StringCompare(AutoCancelDate, l_theOther.AutoCancelDate) != 0 ||
                 Util.StringCompare(Shareholder, l_theOther.Shareholder) != 0 ||
-                Util.StringCompare(AdvancedErrorOverride, l_theOther.AdvancedErrorOverride) != 0)
+                Util.StringCompare(AdvancedErrorOverride, l_theOther.AdvancedErrorOverride) != 0 ||
+                Util.StringCompare(ManualOrderTime, l_theOther.ManualOrderTime) != 0)
             {
                 return false;
             }
@@ -1094,6 +1098,7 @@ namespace IBApi
             hashCode = hashCode * -1521134295 + Duration.GetHashCode();
             hashCode = hashCode * -1521134295 + PostToAts.GetHashCode();
             hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(AdvancedErrorOverride);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(ManualOrderTime);
             return hashCode;
         }
 

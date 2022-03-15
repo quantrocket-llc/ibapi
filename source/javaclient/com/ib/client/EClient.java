@@ -309,9 +309,11 @@ public abstract class EClient {
     protected static final int MIN_SERVER_VER_HISTORICAL_SCHEDULE = 165;
     protected static final int MIN_SERVER_VER_ADVANCED_ORDER_REJECT = 166;
     protected static final int MIN_SERVER_VER_USER_INFO = 167;
+    protected static final int MIN_SERVER_VER_CRYPTO_AGGREGATED_TRADES = 168;
+    protected static final int MIN_SERVER_VER_MANUAL_ORDER_TIME = 169;
     
     public static final int MIN_VERSION = 100; // envelope encoding, applicable to useV100Plus mode only
-    public static final int MAX_VERSION = MIN_SERVER_VER_USER_INFO; // ditto
+    public static final int MAX_VERSION = MIN_SERVER_VER_MANUAL_ORDER_TIME; // ditto
 
     protected EReaderSignal m_signal;
     protected EWrapper m_eWrapper;    // msg handler
@@ -1673,6 +1675,13 @@ public abstract class EClient {
                 return;
             }
         }
+
+        if (m_serverVersion < MIN_SERVER_VER_MANUAL_ORDER_TIME) {
+            if (!IsEmpty(order.manualOrderTime())) {
+                error(id, EClientErrors.UPDATE_TWS, "  It does not support manual order time attribute");
+                return;
+            }
+        }
         
         int VERSION = (m_serverVersion < MIN_SERVER_VER_NOT_HELD) ? 27 : 45;
 
@@ -2113,6 +2122,10 @@ public abstract class EClient {
            if (m_serverVersion >= MIN_SERVER_VER_ADVANCED_ORDER_REJECT) {
                b.send(order.advancedErrorOverride());
            }
+
+           if (m_serverVersion >= MIN_SERVER_VER_MANUAL_ORDER_TIME) {
+               b.send(order.manualOrderTime());
+           }
            
            closeAndSend(b);
         }
@@ -2200,11 +2213,18 @@ public abstract class EClient {
         }
     }
 
-    public synchronized void cancelOrder( int id) {
+    public synchronized void cancelOrder( int id, String manualOrderCancelTime) {
         // not connected?
         if( !isConnected()) {
             notConnected();
             return;
+        }
+
+        if (m_serverVersion < MIN_SERVER_VER_MANUAL_ORDER_TIME) {
+            if (!IsEmpty(manualOrderCancelTime)) {
+                error(id, EClientErrors.UPDATE_TWS, "  It does not support manual order cancel time attribute");
+                return;
+            }
         }
 
         final int VERSION = 1;
@@ -2216,6 +2236,10 @@ public abstract class EClient {
             b.send( CANCEL_ORDER);
             b.send( VERSION);
             b.send( id);
+
+            if (m_serverVersion >= MIN_SERVER_VER_MANUAL_ORDER_TIME) {
+                b.send(manualOrderCancelTime);
+            }
 
             closeAndSend(b);
         }

@@ -53,6 +53,7 @@ public class ApiController implements EWrapper {
 	private final Map<Integer, IHistogramDataHandler> m_histogramDataMap = new HashMap<>();
 	private final Map<Integer, IFundamentalsHandler> m_fundMap = new HashMap<>();
 	private final Map<Integer, IOrderHandler> m_orderHandlers = new HashMap<>();
+    private final Map<Integer, IOrderCancelHandler> m_orderCancelHandlers = new HashMap<>();
 	private final Map<Integer,IAccountSummaryHandler> m_acctSummaryHandlers = new HashMap<>();
 	private final Map<Integer,IMarketValueSummaryHandler> m_mktValSummaryHandlers = new HashMap<>();
 	private final Set<IPositionHandler> m_positionHandlers = new ConcurrentHashSet<>();
@@ -167,6 +168,11 @@ public class ApiController implements EWrapper {
 		if (handler != null) {
 			handler.handle( errorCode, errorMsg);
 		}
+
+        IOrderCancelHandler orderCancelHandler = m_orderCancelHandlers.get( id);
+        if (orderCancelHandler != null) {
+            orderCancelHandler.handle( errorCode, errorMsg);
+        }
 
 		for (ILiveOrderHandler liveHandler : m_liveOrderHandlers) {
 			liveHandler.handle( id, errorCode, errorMsg);
@@ -848,6 +854,11 @@ public class ApiController implements EWrapper {
 		void handle(int errorCode, String errorMsg);
 	}
 
+    public interface IOrderCancelHandler {
+        void orderStatus(String orderStatus);
+        void handle(int errorCode, String errorMsg);
+    }
+
 	public void placeOrModifyOrder(Contract contract, final Order order, final IOrderHandler handler) {
 		if (!checkConnection())
 			return;
@@ -864,11 +875,15 @@ public class ApiController implements EWrapper {
 		sendEOM();
 	}
 
-	public void cancelOrder(int orderId) {
+    public void cancelOrder(int orderId, String manualOrderCancelTime, final IOrderCancelHandler orderCancelHandler) {
 		if (!checkConnection())
 			return;
 
-		m_client.cancelOrder( orderId);
+        if (orderCancelHandler != null) {
+            m_orderCancelHandlers.put( orderId, orderCancelHandler);
+        }
+
+        m_client.cancelOrder( orderId, manualOrderCancelTime);
 		sendEOM();
 	}
 
@@ -892,6 +907,9 @@ public class ApiController implements EWrapper {
 		getAndRemoveKey(m_orderHandlers, handler);
 	}
 
+    public void removeOrderCancelHandler( IOrderCancelHandler orderCancelHandler) {
+        getAndRemoveKey(m_orderCancelHandlers, orderCancelHandler);
+    }
 
 	// ---------------------------------------- Live order handling ----------------------------------------
 	/** This interface is for downloading and receiving events for all live orders.
@@ -960,6 +978,11 @@ public class ApiController implements EWrapper {
 		if (handler != null) {
 			handler.orderStatus( OrderStatus.valueOf( status), filled, remaining, avgFillPrice, permId, parentId, lastFillPrice, clientId, whyHeld, mktCapPrice);
 		}
+
+        IOrderCancelHandler orderCancelHandler = m_orderCancelHandlers.get( orderId);
+        if (orderCancelHandler != null) {
+            orderCancelHandler.orderStatus(status);
+        }
 
 		for (ILiveOrderHandler liveOrderHandler : m_liveOrderHandlers) {
 			liveOrderHandler.orderStatus(orderId, OrderStatus.valueOf( status), filled, remaining, avgFillPrice, permId, parentId, lastFillPrice, clientId, whyHeld, mktCapPrice);

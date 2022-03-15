@@ -1109,6 +1109,14 @@ Namespace Samples
             Return order
         End Function
 
+        Public Shared Function LimitOrderWithManualOrderTime(action As String, quantity As Decimal, limitPrice As Double, manualOrderTime As String) As Order
+            '! [limit_order_with_manual_order_time]
+            Dim order As Order = OrderSamples.LimitOrder(action, quantity, limitPrice)
+            order.ManualOrderTime = manualOrderTime
+            '! [limit_order_with_manual_order_time]
+            Return order
+        End Function
+
     End Class
 
 End Namespace

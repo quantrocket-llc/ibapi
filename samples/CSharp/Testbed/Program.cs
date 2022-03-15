@@ -115,12 +115,12 @@ namespace Samples
             /**************************/
             /*** Account Management ***/
             /**************************/
-            accountOperations(client);
+            //accountOperations(client);
 
             /**********************/
             /*** Order handling ***/
             /**********************/
-            //orderOperations(client, nextValidId);
+            orderOperations(client, nextValidId);
 
             /************************************/
             /*** Financial Advisor Exclusive Operations ***/
@@ -821,7 +821,7 @@ namespace Samples
             //TestAlgoSamples(client, nextOrderId);
             //Thread.Sleep(30000);
             //! [cancelorder]
-            client.cancelOrder(nextOrderId-1);
+            client.cancelOrder(nextOrderId - 1, "");
             //! [cancelorder]
             /*** Cancel all orders for all accounts ***/
             //! [reqglobalcancel]
@@ -840,6 +840,16 @@ namespace Samples
             //! [crypto_order_submission]
             client.placeOrder(nextOrderId++, ContractSamples.CryptoContract(), OrderSamples.LimitOrder("BUY", Util.StringToDecimal("0.00001234"), 3370));
             //! [crypto_order_submission]
+
+            //! [order_submission_with_manual_order_time]
+            client.placeOrder(nextOrderId++, ContractSamples.USStockAtSmart(), OrderSamples.LimitOrderWithManualOrderTime("BUY", Util.StringToDecimal("100"), 111.11, "20220314 13:00:00"));
+            //! [order_submission_with_manual_order_time]
+
+            Thread.Sleep(3000);
+
+            //! [cancel_order_with_manual_order_cancel_time]
+            client.cancelOrder(nextOrderId - 1, "20220314 19:00:00");
+            //! [cancel_order_with_manual_order_cancel_time]
         }
 
         private static void newsOperations(EClientSocket client)

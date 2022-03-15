@@ -25,7 +25,7 @@ End Sub
 
 ' cancel order
 Private Sub CancelOrder_Click()
-    OrderUtils.CancelOrders orderStatusTable
+    OrderUtils.CancelOrders orderStatusTable, extendedAttributeTable
 End Sub
 
 ' clear order statuses
@@ -82,7 +82,7 @@ Public Sub Initialise()
     Set orderTable = BasicOrders.Range("$N$7:$S$125")
     Set orderStatusTable = BasicOrders.Range("$T$7:$Z$125")
     Set commissionMarginTable = BasicOrders.Range("$AA$7:$AK$125")
-    Set extendedAttributeTable = BasicOrders.Range("$AL$7:$ED$125")
+    Set extendedAttributeTable = BasicOrders.Range("$AL$7:$EF$125")
 End Sub
 
 Private Sub Worksheet_Activate()

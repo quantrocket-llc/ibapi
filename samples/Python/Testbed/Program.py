@@ -256,7 +256,7 @@ class TestApp(TestWrapper, TestClient):
             print("Executing requests")
             #self.reqGlobalCancel()
             #self.marketDataTypeOperations()
-            self.accountOperations_req()
+            #self.accountOperations_req()
             #self.tickDataOperations_req()
             #self.tickOptionComputations_req()
             #self.marketDepthOperations_req()
@@ -271,7 +271,8 @@ class TestApp(TestWrapper, TestClient):
             #self.miscelaneousOperations()
             #self.linkingOperations()
             #self.financialAdvisorOperations()
-            #self.orderOperations_req()
+            self.orderOperations_req()
+            #self.orderOperations_cancel()
             #self.rerouteCFDOperations()
             #self.marketRuleOperations()
             #self.pnlOperations_req()
@@ -1859,16 +1860,28 @@ class TestApp(TestWrapper, TestClient):
         # ! [cryptoplaceorder]
         
 
+        # Placing limit order with manual order time
+        # ! [place_order_with_manual_order_time]
+        self.placeOrder(self.nextOrderId(), ContractSamples.USStockAtSmart(), OrderSamples.LimitOrderWithManualOrderTime("BUY", Decimal("100"), 111.11, "20220314 13:00:00"))
+        # ! [place_order_with_manual_order_time]
+
+
     def orderOperations_cancel(self):
         if self.simplePlaceOid is not None:
             # ! [cancelorder]
-            self.cancelOrder(self.simplePlaceOid)
+            self.cancelOrder(self.simplePlaceOid, "")
             # ! [cancelorder]
             
         # Cancel all orders for all accounts
         # ! [reqglobalcancel]
         self.reqGlobalCancel()
         # ! [reqglobalcancel]
+         
+        # Cancel limit order with manual order cancel time
+        if self.simplePlaceOid is not None:
+            # ! [cancel_order_with_manual_order_time]
+            self.cancelOrder(self.simplePlaceOid, "2022-03-03 13:00:00")
+            # ! [cancel_order_with_manual_order_time]
 
     def rerouteCFDOperations(self):
         # ! [reqmktdatacfd]

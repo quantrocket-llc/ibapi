@@ -190,6 +190,10 @@ Public Class dlgOrderAttribs
     Friend WithEvents checkAutoCancelParent As CheckBox
     Public WithEvents Label31 As Label
     Public WithEvents txtAdvancedErrorOverride As TextBox
+    Public WithEvents LabelManualOrderTime As Label
+    Public WithEvents txtManualOrderTime As TextBox
+    Public WithEvents LabelManualOrderCancelTime As Label
+    Public WithEvents txtManualOrderCancelTime As TextBox
     Public WithEvents Label41 As System.Windows.Forms.Label
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
@@ -346,6 +350,10 @@ Public Class dlgOrderAttribs
         Me.checkAutoCancelParent = New System.Windows.Forms.CheckBox()
         Me.Label31 = New System.Windows.Forms.Label()
         Me.txtAdvancedErrorOverride = New System.Windows.Forms.TextBox()
+        Me.LabelManualOrderTime = New System.Windows.Forms.Label()
+        Me.txtManualOrderTime = New System.Windows.Forms.TextBox()
+        Me.LabelManualOrderCancelTime = New System.Windows.Forms.Label()
+        Me.txtManualOrderCancelTime = New System.Windows.Forms.TextBox()
         Me.SuspendLayout()
         '
         'txtHedgeParam
@@ -2435,11 +2443,71 @@ Public Class dlgOrderAttribs
         Me.txtAdvancedErrorOverride.Size = New System.Drawing.Size(85, 13)
         Me.txtAdvancedErrorOverride.TabIndex = 157
         '
+        'LabelManualOrderTime
+        '
+        Me.LabelManualOrderTime.BackColor = System.Drawing.Color.Gainsboro
+        Me.LabelManualOrderTime.Cursor = System.Windows.Forms.Cursors.Default
+        Me.LabelManualOrderTime.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LabelManualOrderTime.ForeColor = System.Drawing.SystemColors.ControlText
+        Me.LabelManualOrderTime.Location = New System.Drawing.Point(13, 660)
+        Me.LabelManualOrderTime.Name = "LabelManualOrderTime"
+        Me.LabelManualOrderTime.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.LabelManualOrderTime.Size = New System.Drawing.Size(117, 17)
+        Me.LabelManualOrderTime.TabIndex = 158
+        Me.LabelManualOrderTime.Text = "Manual Order Time"
+        '
+        'txtManualOrderTime
+        '
+        Me.txtManualOrderTime.AcceptsReturn = True
+        Me.txtManualOrderTime.BackColor = System.Drawing.SystemColors.Window
+        Me.txtManualOrderTime.BorderStyle = System.Windows.Forms.BorderStyle.None
+        Me.txtManualOrderTime.Cursor = System.Windows.Forms.Cursors.IBeam
+        Me.txtManualOrderTime.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtManualOrderTime.ForeColor = System.Drawing.SystemColors.WindowText
+        Me.txtManualOrderTime.Location = New System.Drawing.Point(143, 660)
+        Me.txtManualOrderTime.MaxLength = 0
+        Me.txtManualOrderTime.Name = "txtManualOrderTime"
+        Me.txtManualOrderTime.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.txtManualOrderTime.Size = New System.Drawing.Size(85, 13)
+        Me.txtManualOrderTime.TabIndex = 159
+        '
+        'LabelManualOrderCancelTime
+        '
+        Me.LabelManualOrderCancelTime.BackColor = System.Drawing.Color.Gainsboro
+        Me.LabelManualOrderCancelTime.Cursor = System.Windows.Forms.Cursors.Default
+        Me.LabelManualOrderCancelTime.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LabelManualOrderCancelTime.ForeColor = System.Drawing.SystemColors.ControlText
+        Me.LabelManualOrderCancelTime.Location = New System.Drawing.Point(268, 660)
+        Me.LabelManualOrderCancelTime.Name = "LabelManualOrderCancelTime"
+        Me.LabelManualOrderCancelTime.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.LabelManualOrderCancelTime.Size = New System.Drawing.Size(150, 17)
+        Me.LabelManualOrderCancelTime.TabIndex = 160
+        Me.LabelManualOrderCancelTime.Text = "Manual Order Cancel Time"
+        '
+        'txtManualOrderCancelTime
+        '
+        Me.txtManualOrderCancelTime.AcceptsReturn = True
+        Me.txtManualOrderCancelTime.BackColor = System.Drawing.SystemColors.Window
+        Me.txtManualOrderCancelTime.BorderStyle = System.Windows.Forms.BorderStyle.None
+        Me.txtManualOrderCancelTime.Cursor = System.Windows.Forms.Cursors.IBeam
+        Me.txtManualOrderCancelTime.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtManualOrderCancelTime.ForeColor = System.Drawing.SystemColors.WindowText
+        Me.txtManualOrderCancelTime.Location = New System.Drawing.Point(432, 660)
+        Me.txtManualOrderCancelTime.MaxLength = 0
+        Me.txtManualOrderCancelTime.Name = "txtManualOrderCancelTime"
+        Me.txtManualOrderCancelTime.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.txtManualOrderCancelTime.Size = New System.Drawing.Size(85, 13)
+        Me.txtManualOrderCancelTime.TabIndex = 161
+        '
         'dlgOrderAttribs
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
         Me.BackColor = System.Drawing.Color.Gainsboro
         Me.ClientSize = New System.Drawing.Size(850, 725)
+        Me.Controls.Add(Me.txtManualOrderCancelTime)
+        Me.Controls.Add(Me.LabelManualOrderCancelTime)
+        Me.Controls.Add(Me.txtManualOrderTime)
+        Me.Controls.Add(Me.LabelManualOrderTime)
         Me.Controls.Add(Me.txtAdvancedErrorOverride)
         Me.Controls.Add(Me.Label31)
         Me.Controls.Add(Me.checkAutoCancelParent)
@@ -2629,6 +2697,7 @@ Public Class dlgOrderAttribs
     ' Member variables
     ' ========================================================
     Private m_orderInfo As IBApi.Order
+    Private m_manualOrderCancelTime As String
     Private m_mainWnd As MainForm
 
     Private m_ok As Boolean
@@ -2903,6 +2972,8 @@ Public Class dlgOrderAttribs
         m_orderInfo.NotHeld = checkNotHeld.Checked
         m_orderInfo.AutoCancelParent = checkAutoCancelParent.Checked
         m_orderInfo.AdvancedErrorOverride = txtAdvancedErrorOverride.Text
+        m_orderInfo.ManualOrderTime = txtManualOrderTime.Text
+        m_manualOrderCancelTime = txtManualOrderCancelTime.Text
 
         m_ok = True
         Hide()
@@ -2912,4 +2983,9 @@ Public Class dlgOrderAttribs
         m_ok = False
         Hide()
     End Sub
+
+    Public Function getManualOrderCancelTime() As String
+        Return m_manualOrderCancelTime
+    End Function
+
 End Class

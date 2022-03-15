@@ -364,5 +364,6 @@ namespace TWSLib
         int TWSLib.IOrder.duration { get { return (int)data.Duration; } set { data.Duration = value; } }
         int TWSLib.IOrder.postToAts { get { return (int)data.PostToAts; } set { data.PostToAts = value; } }
         string TWSLib.IOrder.advancedErrorOverride { get { return data.AdvancedErrorOverride; } set { data.AdvancedErrorOverride = value; } }
+        string TWSLib.IOrder.manualOrderTime { get { return data.ManualOrderTime; } set { data.ManualOrderTime = value; } }
     }
 }

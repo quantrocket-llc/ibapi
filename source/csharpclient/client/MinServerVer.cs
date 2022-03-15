@@ -121,5 +121,7 @@ namespace IBApi
         public const int HISTORICAL_SCHEDULE = 165;
         public const int ADVANCED_ORDER_REJECT = 166;
         public const int USER_INFO = 167;
+        public const int CRYPTO_AGGREGATED_TRADES = 168;
+        public const int MANUAL_ORDER_TIME = 169;
     }
 }

@@ -1127,6 +1127,14 @@ class OrderSamples:
         # ! [limit_ibkrats]
         return order
 
+    @staticmethod
+    def LimitOrderWithManualOrderTime(action:str, quantity:Decimal, limitPrice:float, manualOrderTime:str):
+
+        # ! [limit_order_with_manual_order_time]
+        order = OrderSamples.LimitOrder(action, quantity, limitPrice)
+        order.manualOrderTime = manualOrderTime
+        # ! [limit_order_with_manual_order_time]
+        return order
 
 def Test():
     os = OrderSamples() # @UnusedVariable

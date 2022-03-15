@@ -1107,6 +1107,10 @@ class EClient(object):
             self.wrapper.error(orderId, UPDATE_TWS.code(), UPDATE_TWS.msg() + "  It does not support advanced error override attribute")
             return
 
+        if self.serverVersion() < MIN_SERVER_VER_MANUAL_ORDER_TIME and order.manualOrderTime:
+            self.wrapper.error(orderId, UPDATE_TWS.code(), UPDATE_TWS.msg() + "  It does not support manual order time attribute")
+            return
+
         try:
                 
             VERSION = 27 if (self.serverVersion() < MIN_SERVER_VER_NOT_HELD) else 45
@@ -1445,6 +1449,9 @@ class EClient(object):
             if self.serverVersion() >= MIN_SERVER_VER_ADVANCED_ORDER_REJECT:
                 flds.append(make_field(order.advancedErrorOverride))
 
+            if self.serverVersion() >= MIN_SERVER_VER_MANUAL_ORDER_TIME:
+                flds.append(make_field(order.manualOrderTime))
+
             msg = "".join(flds)
             
         except ClientException as ex:
@@ -1454,7 +1461,7 @@ class EClient(object):
         self.sendMsg(msg)
 
 
-    def cancelOrder(self, orderId:OrderId):
+    def cancelOrder(self, orderId:OrderId, manualCancelOrderTime:str):
         """Call this function to cancel an order.
 
         orderId:OrderId - The order ID that was specified previously in the call
@@ -1466,11 +1473,21 @@ class EClient(object):
             self.wrapper.error(NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg())
             return
 
+        if self.serverVersion() < MIN_SERVER_VER_MANUAL_ORDER_TIME and manualCancelOrderTime:
+            self.wrapper.error(orderId, UPDATE_TWS.code(), UPDATE_TWS.msg() + "  It does not support manual order cancel time attribute")
+            return
+
         VERSION = 1
 
-        msg = make_field(OUT.CANCEL_ORDER) \
-            + make_field(VERSION) \
-            + make_field(orderId)
+        flds = []
+        flds += [make_field(OUT.CANCEL_ORDER)]
+        flds += [make_field(VERSION)]
+        flds += [make_field(orderId)]
+
+        if self.serverVersion() >= MIN_SERVER_VER_MANUAL_ORDER_TIME:
+            flds += [make_field(manualCancelOrderTime)]
+
+        msg = "".join(flds)
 
         self.sendMsg(msg)
 

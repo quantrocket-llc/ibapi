@@ -839,7 +839,7 @@ void TestCppClient::orderOperations()
 
 	/*** Cancel one order ***/
 	//! [cancelorder]
-	m_pClient->cancelOrder(m_orderId-1);
+	m_pClient->cancelOrder(m_orderId-1, "");
 	//! [cancelorder]
 	
 	/*** Cancel all orders for all accounts ***/
@@ -859,6 +859,14 @@ void TestCppClient::orderOperations()
 	//! [order_submission]
 	m_pClient->placeOrder(m_orderId++, ContractSamples::CryptoContract(), OrderSamples::LimitOrder("BUY", stringToDecimal("0.12345678"), 3700));
 	//! [order_submission]
+
+	//! [manual_order_time]
+	m_pClient->placeOrder(m_orderId++, ContractSamples::USStockAtSmart(), OrderSamples::LimitOrderWithManualOrderTime("BUY", stringToDecimal("100"), 111.11, "20220314 13:00:00"));
+	//! [manual_order_time]
+
+	//! [manual_order_cancel_time]
+	m_pClient->cancelOrder(m_orderId - 1, "20220314 19:00:00");
+	//! [manual_order_cancel_time]
 
 	m_state = ST_ORDEROPERATIONS_ACK;
 }
@@ -1447,8 +1455,8 @@ void TestCppClient::nextValidId( OrderId orderId)
 	//m_state = ST_MARKETSCANNERS;
 	//m_state = ST_FUNDAMENTALS;
 	//m_state = ST_BULLETINS;
-	m_state = ST_ACCOUNTOPERATIONS;
-	//m_state = ST_ORDEROPERATIONS;
+	//m_state = ST_ACCOUNTOPERATIONS;
+	m_state = ST_ORDEROPERATIONS;
 	//m_state = ST_OCASAMPLES;
 	//m_state = ST_CONDITIONSAMPLES;
 	//m_state = ST_BRACKETSAMPLES;

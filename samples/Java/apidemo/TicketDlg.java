@@ -39,6 +39,7 @@ import com.ib.client.Types.TimeInForce;
 import com.ib.client.Types.TriggerMethod;
 import com.ib.client.Types.UsePriceMgmtAlgo;
 import com.ib.client.Types.VolatilityType;
+import com.ib.controller.ApiController.IOrderCancelHandler;
 import com.ib.controller.ApiController.IOrderHandler;
 
 import apidemo.util.HtmlButton;
@@ -65,8 +66,12 @@ class TicketDlg extends JDialog {
 	private final PegBenchPanel m_pegBenchPanel;
 	private final AdjustedPanel m_adjustedPanel;
 	private final ConditionsPanel m_conditionPanel;
-	
-	TicketDlg(Contract contract, Order order) {
+
+    TicketDlg(Contract contract, Order order) {
+        this(contract, order, false);
+    }
+
+    TicketDlg(Contract contract, Order order, boolean cancel) {
 		super( ApiDemo.INSTANCE.frame());
 		
 		if (contract == null) {
@@ -97,9 +102,13 @@ class TicketDlg extends JDialog {
 		m_conditionPanel = new ConditionsPanel(this, m_order,
 				c -> lookupContract(ApiDemo.INSTANCE.controller(), c));
 		
-		HtmlButton transmitOrder = new HtmlButton( "Transmit Order") {
+        HtmlButton transmitOrder = new HtmlButton(cancel ? "Cancel Order" : "Transmit Order") {
 			@Override public void actionPerformed() {
-				onTransmitOrder();
+                if (cancel) {
+                    onCancelOrder();
+                } else {
+                    onTransmitOrder();
+                }
 			}
 		};
 		
@@ -171,6 +180,22 @@ class TicketDlg extends JDialog {
 			}
 		});
 	}
+
+    private void onCancelOrder() {
+        String manualOrderCancelTime = m_orderPanel.m_manualOrderCancelTime.getText();
+
+        if (m_order != null) {
+            ApiDemo.INSTANCE.controller().cancelOrder(m_order.orderId(), manualOrderCancelTime, new IOrderCancelHandler() {
+                @Override public void orderStatus(String orderStatus) {
+                    ApiDemo.INSTANCE.controller().removeOrderCancelHandler(this);
+                    SwingUtilities.invokeLater(() -> dispose());
+                }
+                @Override public void handle(int errorCode, final String errorMsg) {
+                    SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog( TicketDlg.this, errorMsg));
+                }
+            });
+        }
+    }
 
 	private void onCheckMargin() {
 		scrape();
@@ -275,6 +300,8 @@ class TicketDlg extends JDialog {
         final UpperField m_mifid2ExecutionAlgo = new UpperField();
         final TCombo<UsePriceMgmtAlgo> m_usePriceMgmtAlgo = new TCombo<>(UsePriceMgmtAlgo.values());
         final JTextField m_advancedErrorOverride = new JTextField();
+        final JTextField m_manualOrderTime = new JTextField();
+        final JTextField m_manualOrderCancelTime = new JTextField();
 
 		OrderPanel() {
 			m_orderType.removeItemAt( 0); // remove None
@@ -324,6 +351,8 @@ class TicketDlg extends JDialog {
 			
 			add("Use Price Management Algo", m_usePriceMgmtAlgo);
             add("Advanced Error Override", m_advancedErrorOverride);
+            add("Manual Order Time", m_manualOrderTime);
+            add("Manual Order Cancel Time", m_manualOrderCancelTime);
 		}
 		
 		private void onOK() {
@@ -345,6 +374,7 @@ class TicketDlg extends JDialog {
 			m_order.mifid2ExecutionAlgo(m_mifid2ExecutionAlgo.getText());
 			m_order.usePriceMgmtAlgo(m_usePriceMgmtAlgo.getSelectedItem().toBoolean());
 			m_order.advancedErrorOverride(m_advancedErrorOverride.getText());
+            m_order.manualOrderTime(m_manualOrderTime.getText());
 			
 			if (m_contract.isCombo() ) {
 				TagValue tv = new TagValue( ComboParam.NonGuaranteed.toString(), m_nonGuaranteed.isSelected() ? "1" : "0");

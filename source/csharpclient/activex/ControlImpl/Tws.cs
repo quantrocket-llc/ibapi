@@ -167,9 +167,9 @@ namespace TWSLib
         }
 
 
-        void ITws.cancelOrder(int id)
+        void ITws.cancelOrder(int id, string manualOrderCancelTime)
         {
-            socket.cancelOrder(id);
+            socket.cancelOrder(id, manualOrderCancelTime);
         }
 
 

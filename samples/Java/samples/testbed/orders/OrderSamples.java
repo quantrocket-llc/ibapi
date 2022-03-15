@@ -225,6 +225,14 @@ public class OrderSamples {
 		// ! [limitorder]
 		return order;
 	}
+
+    public static Order LimitOrderWithManualOrderTime(String action, Decimal quantity, double limitPrice, String manualOrderTime) {
+        // ! [limitorderwithmanualordertime]
+        Order order = OrderSamples.LimitOrder(action, quantity, limitPrice);
+        order.manualOrderTime(manualOrderTime);
+        // ! [limitorderwithmanualordertime]
+        return order;
+    }
 	
 	// Forex orders can be placed in denomination of second currency in pair using cashQty field
 	// Requires TWS or IBG 963+

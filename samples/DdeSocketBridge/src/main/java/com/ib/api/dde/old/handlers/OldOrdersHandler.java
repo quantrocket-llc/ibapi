@@ -109,7 +109,7 @@ public class OldOrdersHandler extends OrdersHandler {
             } else {
                 // cancel order
                 System.out.println("Cancelling order: id=" + ddeRequest.requestId());
-                clientSocket().cancelOrder(ddeRequest.requestId()); 
+                clientSocket().cancelOrder(ddeRequest.requestId(), Order.EMPTY_STR); 
             }
         }
             

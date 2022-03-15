@@ -235,6 +235,7 @@ struct Order
 	int duration = UNSET_INTEGER;
 	int postToAts = UNSET_INTEGER;
 	std::string advancedErrorOverride = "";
+	std::string manualOrderTime = "";
 
 public:
 

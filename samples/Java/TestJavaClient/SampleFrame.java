@@ -841,7 +841,7 @@ class SampleFrame extends JFrame implements EWrapper {
         }
 
         // cancel order
-        m_client.cancelOrder( m_orderDlg.id() );
+        m_client.cancelOrder( m_orderDlg.id(), m_extOrdDlg.manualOrderCancelTime() );
     }
 
     private void onExtendedOrder() {
@@ -1566,6 +1566,7 @@ class SampleFrame extends JFrame implements EWrapper {
         destOrder.notHeld(srcOrder.notHeld());
         destOrder.autoCancelParent(srcOrder.autoCancelParent());
         destOrder.advancedErrorOverride(srcOrder.advancedErrorOverride());
+        destOrder.manualOrderTime(srcOrder.manualOrderTime());
     }
 
     public void position(String account, Contract contract, Decimal pos, double avgCost) {

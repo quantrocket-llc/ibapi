@@ -56,6 +56,14 @@ namespace IBSampleApp.ui
             }
         }
 
+        public void CancelOrder(Order order, string manualOrderCancelTime)
+        {
+            if (order.OrderId != 0)
+            {
+                IBClient.ClientSocket.cancelOrder(order.OrderId, manualOrderCancelTime);
+            }
+        }
+
         public void OpenOrderDialog()
         {
             orderDialog.ShowDialog();
@@ -136,7 +144,11 @@ namespace IBSampleApp.ui
                     {
                         OpenOrderMessage openOrder = GetOpenOrderMessage(orderId, clientId);
                         if (openOrder != null)
-                            IBClient.ClientSocket.cancelOrder(openOrder.OrderId);
+                        {
+                            orderDialog.SetOrderContract(openOrder.Contract);
+                            orderDialog.SetOrder(openOrder.Order);
+                            orderDialog.ShowDialog();
+                        }
                     }
                 }
             }

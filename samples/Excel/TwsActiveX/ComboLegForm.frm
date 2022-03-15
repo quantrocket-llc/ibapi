@@ -41,10 +41,6 @@ Const NUM_GRDCOMBOS_COLUMNS = 9
 Private mComboLegs As Range
 Private mDeltaNeutralContract As Range
 
-Private Sub DataGrid1_Click()
-
-End Sub
-
 '=======================
 ' methods
 '=======================
@@ -299,6 +295,7 @@ Public Function ShowForm(contractsTable As Range)
         If Init Then ComboLegForm.Show
     End If
 End Function
+
 
 
 

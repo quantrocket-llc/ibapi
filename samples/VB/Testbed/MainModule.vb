@@ -124,12 +124,12 @@ Module MainModule
         '*************************
         '** Account Management ***
         '*************************
-        accountOperations(client)
+        'accountOperations(client)
 
         '*********************
         '** Order handling ***
         '*********************
-        'orderOperations(client, nextValidId)
+        orderOperations(client, nextValidId)
 
         '***********************************
         '** Financial Advisor Exclusive Operations ***
@@ -765,6 +765,15 @@ Module MainModule
         '! [crypto_order_submission]
         client.placeOrder(increment(nextOrderId), ContractSamples.CryptoContract(), OrderSamples.LimitOrder("BUY", Util.StringToDecimal("0.00001234"), 3370))
         '! [crypto_order_submission]
+
+        '! [order_submission_with_manual_order_time]
+        client.placeOrder(increment(nextOrderId), ContractSamples.USStockAtSmart(), OrderSamples.LimitOrderWithManualOrderTime("BUY", Util.StringToDecimal("100"), 111.11, "20220314 13:00:00"))
+        '! [order_submission_with_manual_order_time]
+        Thread.Sleep(3000)
+        '! [cancel_order_with_manual_order_cancel_time]
+        client.cancelOrder(nextOrderId - 1, "20220314 19:00:00")
+        '! [cancel_order_with_manual_order_cancel_time]
+
     End Sub
 
     Private Sub newsOperations(client As EClientSocket)

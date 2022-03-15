@@ -77,7 +77,7 @@ public class OrdersPanel extends JPanel {
 
 		HtmlButton cancel = new HtmlButton( "Cancel Selected Order") {
 			@Override public void actionPerformed() {
-				onCancel();
+                onCancelOrder();
 			}
 		};
 
@@ -124,12 +124,13 @@ public class OrdersPanel extends JPanel {
 		ApiDemo.INSTANCE.controller().takeFutureTwsOrders( m_model);
 	}
 
-	protected void onCancel() {
-		OrderRow order = getSelectedOrder();
-		if (order != null) {
-			ApiDemo.INSTANCE.controller().cancelOrder( order.m_order.orderId() );
-		}
-	}
+    protected void onCancelOrder() {
+        OrderRow order = getSelectedOrder();
+        if (order != null) {
+            TicketDlg dlg = new TicketDlg( order.m_contract, order.m_order, true);
+            dlg.setVisible( true);
+        }
+    }
 
 	protected void onCancelAll() {
 		ApiDemo.INSTANCE.controller().cancelAllOrders();

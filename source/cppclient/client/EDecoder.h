@@ -125,12 +125,14 @@ const int MIN_SERVER_VER_SIZE_RULES                 = 164;
 const int MIN_SERVER_VER_HISTORICAL_SCHEDULE        = 165;
 const int MIN_SERVER_VER_ADVANCED_ORDER_REJECT      = 166;
 const int MIN_SERVER_VER_USER_INFO                  = 167;
+const int MIN_SERVER_VER_CRYPTO_AGGREGATED_TRADES   = 168;
+const int MIN_SERVER_VER_MANUAL_ORDER_TIME          = 169;
 
 /* 100+ messaging */
 // 100 = enhanced handshake, msg length prefixes
 
 const int MIN_CLIENT_VER = 100;
-const int MAX_CLIENT_VER = MIN_SERVER_VER_USER_INFO;
+const int MAX_CLIENT_VER = MIN_SERVER_VER_MANUAL_ORDER_TIME;
 
 
 // incoming msg id's

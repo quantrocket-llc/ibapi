@@ -121,9 +121,6 @@ namespace TWSLib
         [DispId(55)]
         void cancelMktData(int id);
 
-        [DispId(56)]
-        void cancelOrder(int id);
-
         [DispId(57)]
         void placeOrder(int id, string action, double quantity, string symbol, string secType,
                   string lastTradeDate, double strike, string right, string multiplier,
@@ -383,6 +380,8 @@ namespace TWSLib
         void cancelWshEventData(int reqId);
         [DispId(239)]
         void reqUserInfo(int reqId);
+        [DispId(240)]
+        void cancelOrder(int reqId, string manualOrderCancelTime);
         #endregion
     }
 }

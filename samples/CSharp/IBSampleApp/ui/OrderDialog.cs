@@ -178,6 +178,11 @@ namespace IBSampleApp
             return contract;
         }
 
+        private string GetManualOrderCancelTime()
+        {
+            return manualOrderCancelTime.Text;
+        }
+
         public void SetOrderContract(Contract contract)
         {
             contractSymbol.Text = contract.Symbol;
@@ -331,6 +336,7 @@ namespace IBSampleApp
             order.DiscretionaryUpToLimitPrice = relativeDiscretionary.Checked;
             order.AutoCancelParent = autoCancelParent.Checked;
             order.AdvancedErrorOverride = advancedErrorOverride.Text;
+            order.ManualOrderTime = manualOrderTime.Text;
         }
 
         private void FillVolatilityAttributes(Order order)
@@ -663,6 +669,16 @@ namespace IBSampleApp
                 if (dlg.ShowDialog() == DialogResult.OK)
                     selectedCondition = dlg.Condition;
             }
+        }
+
+        private void cancelOrderButton_Click(object sender, EventArgs e)
+        {
+            Order order = GetOrder();
+            String manualOrderCancelTime = GetManualOrderCancelTime();
+            orderManager.CancelOrder(order, manualOrderCancelTime);
+            if (orderId != 0)
+                orderId = 0;
+            Visible = false;
         }
     }
 }

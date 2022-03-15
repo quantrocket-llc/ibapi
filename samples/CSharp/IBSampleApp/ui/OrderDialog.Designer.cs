@@ -80,6 +80,12 @@ namespace IBSampleApp
             this.contractCurrency = new System.Windows.Forms.TextBox();
             this.contractExchange = new System.Windows.Forms.TextBox();
             this.extendedOrderTab = new System.Windows.Forms.TabPage();
+            this.manualOrderCancelTime = new System.Windows.Forms.TextBox();
+            this.labelManualOrderCancelTime = new System.Windows.Forms.Label();
+            this.manualOrderTime = new System.Windows.Forms.TextBox();
+            this.labelManualOrderTime = new System.Windows.Forms.Label();
+            this.advancedErrorOverride = new System.Windows.Forms.TextBox();
+            this.label27 = new System.Windows.Forms.Label();
             this.autoCancelParent = new System.Windows.Forms.CheckBox();
             this.postToAts = new System.Windows.Forms.TextBox();
             this.label26 = new System.Windows.Forms.Label();
@@ -253,8 +259,7 @@ namespace IBSampleApp
             this.textBox8 = new System.Windows.Forms.TextBox();
             this.checkMarginButton = new System.Windows.Forms.Button();
             this.closeOrderDialogButton = new System.Windows.Forms.Button();
-            this.label27 = new System.Windows.Forms.Label();
-            this.advancedErrorOverride = new System.Windows.Forms.TextBox();
+            this.cancelOrderButton = new System.Windows.Forms.Button();
             this.conditionsTab.SuspendLayout();
             this.orderContractTab.SuspendLayout();
             this.baseGroup.SuspendLayout();
@@ -295,7 +300,7 @@ namespace IBSampleApp
             this.conditionsTab.Location = new System.Drawing.Point(1, 1);
             this.conditionsTab.Name = "conditionsTab";
             this.conditionsTab.SelectedIndex = 0;
-            this.conditionsTab.Size = new System.Drawing.Size(633, 363);
+            this.conditionsTab.Size = new System.Drawing.Size(633, 390);
             this.conditionsTab.TabIndex = 1;
             // 
             // orderContractTab
@@ -306,7 +311,7 @@ namespace IBSampleApp
             this.orderContractTab.Location = new System.Drawing.Point(4, 22);
             this.orderContractTab.Name = "orderContractTab";
             this.orderContractTab.Padding = new System.Windows.Forms.Padding(3);
-            this.orderContractTab.Size = new System.Drawing.Size(625, 337);
+            this.orderContractTab.Size = new System.Drawing.Size(625, 364);
             this.orderContractTab.TabIndex = 0;
             this.orderContractTab.Text = "Basic Order";
             // 
@@ -797,6 +802,10 @@ namespace IBSampleApp
             // extendedOrderTab
             // 
             this.extendedOrderTab.BackColor = System.Drawing.Color.LightGray;
+            this.extendedOrderTab.Controls.Add(this.manualOrderCancelTime);
+            this.extendedOrderTab.Controls.Add(this.labelManualOrderCancelTime);
+            this.extendedOrderTab.Controls.Add(this.manualOrderTime);
+            this.extendedOrderTab.Controls.Add(this.labelManualOrderTime);
             this.extendedOrderTab.Controls.Add(this.advancedErrorOverride);
             this.extendedOrderTab.Controls.Add(this.label27);
             this.extendedOrderTab.Controls.Add(this.autoCancelParent);
@@ -855,9 +864,57 @@ namespace IBSampleApp
             this.extendedOrderTab.Location = new System.Drawing.Point(4, 22);
             this.extendedOrderTab.Name = "extendedOrderTab";
             this.extendedOrderTab.Padding = new System.Windows.Forms.Padding(3);
-            this.extendedOrderTab.Size = new System.Drawing.Size(625, 337);
+            this.extendedOrderTab.Size = new System.Drawing.Size(625, 364);
             this.extendedOrderTab.TabIndex = 1;
             this.extendedOrderTab.Text = "Extended Attributes";
+            // 
+            // manualOrderCancelTime
+            // 
+            this.manualOrderCancelTime.Location = new System.Drawing.Point(339, 327);
+            this.manualOrderCancelTime.Name = "manualOrderCancelTime";
+            this.manualOrderCancelTime.Size = new System.Drawing.Size(70, 20);
+            this.manualOrderCancelTime.TabIndex = 58;
+            // 
+            // labelManualOrderCancelTime
+            // 
+            this.labelManualOrderCancelTime.AutoSize = true;
+            this.labelManualOrderCancelTime.Location = new System.Drawing.Point(205, 330);
+            this.labelManualOrderCancelTime.Name = "labelManualOrderCancelTime";
+            this.labelManualOrderCancelTime.Size = new System.Drawing.Size(114, 13);
+            this.labelManualOrderCancelTime.TabIndex = 57;
+            this.labelManualOrderCancelTime.Text = "Manual Order Cxl Time";
+            // 
+            // manualOrderTime
+            // 
+            this.manualOrderTime.Location = new System.Drawing.Point(125, 327);
+            this.manualOrderTime.Name = "manualOrderTime";
+            this.manualOrderTime.Size = new System.Drawing.Size(70, 20);
+            this.manualOrderTime.TabIndex = 56;
+            // 
+            // labelManualOrderTime
+            // 
+            this.labelManualOrderTime.AutoSize = true;
+            this.labelManualOrderTime.Location = new System.Drawing.Point(22, 330);
+            this.labelManualOrderTime.Name = "labelManualOrderTime";
+            this.labelManualOrderTime.Size = new System.Drawing.Size(97, 13);
+            this.labelManualOrderTime.TabIndex = 55;
+            this.labelManualOrderTime.Text = "Manual Order Time";
+            // 
+            // advancedErrorOverride
+            // 
+            this.advancedErrorOverride.Location = new System.Drawing.Point(546, 299);
+            this.advancedErrorOverride.Name = "advancedErrorOverride";
+            this.advancedErrorOverride.Size = new System.Drawing.Size(70, 20);
+            this.advancedErrorOverride.TabIndex = 54;
+            // 
+            // label27
+            // 
+            this.label27.AutoSize = true;
+            this.label27.Location = new System.Drawing.Point(422, 302);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(124, 13);
+            this.label27.TabIndex = 53;
+            this.label27.Text = "Advanced Error Override";
             // 
             // autoCancelParent
             // 
@@ -1367,7 +1424,7 @@ namespace IBSampleApp
             this.advisorTab.Location = new System.Drawing.Point(4, 22);
             this.advisorTab.Name = "advisorTab";
             this.advisorTab.Padding = new System.Windows.Forms.Padding(3);
-            this.advisorTab.Size = new System.Drawing.Size(625, 337);
+            this.advisorTab.Size = new System.Drawing.Size(625, 364);
             this.advisorTab.TabIndex = 2;
             this.advisorTab.Text = "Advisor";
             // 
@@ -1467,7 +1524,7 @@ namespace IBSampleApp
             this.volatilityTab.Location = new System.Drawing.Point(4, 22);
             this.volatilityTab.Name = "volatilityTab";
             this.volatilityTab.Padding = new System.Windows.Forms.Padding(3);
-            this.volatilityTab.Size = new System.Drawing.Size(625, 337);
+            this.volatilityTab.Size = new System.Drawing.Size(625, 364);
             this.volatilityTab.TabIndex = 3;
             this.volatilityTab.Text = "Volatility";
             // 
@@ -1664,7 +1721,7 @@ namespace IBSampleApp
             this.scaleTab.Location = new System.Drawing.Point(4, 22);
             this.scaleTab.Name = "scaleTab";
             this.scaleTab.Padding = new System.Windows.Forms.Padding(3);
-            this.scaleTab.Size = new System.Drawing.Size(625, 337);
+            this.scaleTab.Size = new System.Drawing.Size(625, 364);
             this.scaleTab.TabIndex = 4;
             this.scaleTab.Text = "Scale";
             // 
@@ -1861,7 +1918,7 @@ namespace IBSampleApp
             this.algoTab.Location = new System.Drawing.Point(4, 22);
             this.algoTab.Name = "algoTab";
             this.algoTab.Padding = new System.Windows.Forms.Padding(3);
-            this.algoTab.Size = new System.Drawing.Size(625, 337);
+            this.algoTab.Size = new System.Drawing.Size(625, 364);
             this.algoTab.TabIndex = 5;
             this.algoTab.Text = "IB Algo";
             // 
@@ -2132,7 +2189,7 @@ namespace IBSampleApp
             this.peg2benchTab.Controls.Add(this.label4);
             this.peg2benchTab.Location = new System.Drawing.Point(4, 22);
             this.peg2benchTab.Name = "peg2benchTab";
-            this.peg2benchTab.Size = new System.Drawing.Size(625, 337);
+            this.peg2benchTab.Size = new System.Drawing.Size(625, 364);
             this.peg2benchTab.TabIndex = 6;
             this.peg2benchTab.Text = "Pegged to Benchmark";
             // 
@@ -2285,7 +2342,7 @@ namespace IBSampleApp
             this.adjustStopTab.Controls.Add(this.label11);
             this.adjustStopTab.Location = new System.Drawing.Point(4, 22);
             this.adjustStopTab.Name = "adjustStopTab";
-            this.adjustStopTab.Size = new System.Drawing.Size(625, 337);
+            this.adjustStopTab.Size = new System.Drawing.Size(625, 364);
             this.adjustStopTab.TabIndex = 7;
             this.adjustStopTab.Text = "Adjustable stops";
             // 
@@ -2408,7 +2465,7 @@ namespace IBSampleApp
             this.tabPage1.Controls.Add(this.lbRemoveCondition);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Size = new System.Drawing.Size(625, 337);
+            this.tabPage1.Size = new System.Drawing.Size(625, 364);
             this.tabPage1.TabIndex = 8;
             this.tabPage1.Text = "Conditions";
             // 
@@ -2500,11 +2557,11 @@ namespace IBSampleApp
             // sendOrderButton
             // 
             this.sendOrderButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.sendOrderButton.Location = new System.Drawing.Point(17, 398);
+            this.sendOrderButton.Location = new System.Drawing.Point(17, 425);
             this.sendOrderButton.Name = "sendOrderButton";
-            this.sendOrderButton.Size = new System.Drawing.Size(75, 23);
+            this.sendOrderButton.Size = new System.Drawing.Size(83, 23);
             this.sendOrderButton.TabIndex = 0;
-            this.sendOrderButton.Text = "Send";
+            this.sendOrderButton.Text = "Place/Modify";
             this.sendOrderButton.UseVisualStyleBackColor = true;
             this.sendOrderButton.Click += new System.EventHandler(this.sendOrderButton_Click);
             // 
@@ -2535,7 +2592,7 @@ namespace IBSampleApp
             // checkMarginButton
             // 
             this.checkMarginButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.checkMarginButton.Location = new System.Drawing.Point(98, 398);
+            this.checkMarginButton.Location = new System.Drawing.Point(191, 425);
             this.checkMarginButton.Name = "checkMarginButton";
             this.checkMarginButton.Size = new System.Drawing.Size(87, 23);
             this.checkMarginButton.TabIndex = 1;
@@ -2546,7 +2603,7 @@ namespace IBSampleApp
             // closeOrderDialogButton
             // 
             this.closeOrderDialogButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.closeOrderDialogButton.Location = new System.Drawing.Point(559, 398);
+            this.closeOrderDialogButton.Location = new System.Drawing.Point(559, 425);
             this.closeOrderDialogButton.Name = "closeOrderDialogButton";
             this.closeOrderDialogButton.Size = new System.Drawing.Size(75, 23);
             this.closeOrderDialogButton.TabIndex = 2;
@@ -2554,28 +2611,24 @@ namespace IBSampleApp
             this.closeOrderDialogButton.UseVisualStyleBackColor = true;
             this.closeOrderDialogButton.Click += new System.EventHandler(this.closeOrderDialogButton_Click);
             // 
-            // label27
+            // cancelOrderButton
             // 
-            this.label27.AutoSize = true;
-            this.label27.Location = new System.Drawing.Point(422, 302);
-            this.label27.Name = "label27";
-            this.label27.Size = new System.Drawing.Size(124, 13);
-            this.label27.TabIndex = 53;
-            this.label27.Text = "Advanced Error Override";
-            // 
-            // advancedErrorOverride
-            // 
-            this.advancedErrorOverride.Location = new System.Drawing.Point(546, 299);
-            this.advancedErrorOverride.Name = "advancedErrorOverride";
-            this.advancedErrorOverride.Size = new System.Drawing.Size(70, 20);
-            this.advancedErrorOverride.TabIndex = 54;
+            this.cancelOrderButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.cancelOrderButton.Location = new System.Drawing.Point(106, 425);
+            this.cancelOrderButton.Name = "cancelOrderButton";
+            this.cancelOrderButton.Size = new System.Drawing.Size(83, 23);
+            this.cancelOrderButton.TabIndex = 3;
+            this.cancelOrderButton.Text = "Cancel";
+            this.cancelOrderButton.UseVisualStyleBackColor = true;
+            this.cancelOrderButton.Click += new System.EventHandler(this.cancelOrderButton_Click);
             // 
             // OrderDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(646, 426);
+            this.ClientSize = new System.Drawing.Size(646, 453);
             this.ControlBox = false;
+            this.Controls.Add(this.cancelOrderButton);
             this.Controls.Add(this.closeOrderDialogButton);
             this.Controls.Add(this.checkMarginButton);
             this.Controls.Add(this.sendOrderButton);
@@ -2842,5 +2895,10 @@ namespace IBSampleApp
         private System.Windows.Forms.CheckBox autoCancelParent;
         private System.Windows.Forms.TextBox advancedErrorOverride;
         private System.Windows.Forms.Label label27;
+        private System.Windows.Forms.TextBox manualOrderCancelTime;
+        private System.Windows.Forms.Label labelManualOrderCancelTime;
+        private System.Windows.Forms.TextBox manualOrderTime;
+        private System.Windows.Forms.Label labelManualOrderTime;
+        private System.Windows.Forms.Button cancelOrderButton;
     }
 }
