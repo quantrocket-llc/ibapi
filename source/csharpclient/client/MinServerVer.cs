@@ -123,5 +123,6 @@ namespace IBApi
         public const int USER_INFO = 167;
         public const int CRYPTO_AGGREGATED_TRADES = 168;
         public const int MANUAL_ORDER_TIME = 169;
+        public const int PEGBEST_PEGMID_OFFSETS = 170;
     }
 }

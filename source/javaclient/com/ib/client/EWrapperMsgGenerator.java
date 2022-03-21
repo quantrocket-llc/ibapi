@@ -912,6 +912,18 @@ public class EWrapperMsgGenerator {
         Util.appendValidLongValue(sb, "parentPermId", order.parentPermId());
         Util.appendValidIntValue(sb, "duration", order.duration());
         Util.appendValidIntValue(sb, "postToAts", order.postToAts());
+
+        Util.appendValidIntValue(sb, "minTradeQty", order.minTradeQty());
+        Util.appendValidIntValue(sb, "minCompeteSize", order.minCompeteSize());
+        if (order.competeAgainstBestOffset() != Double.MAX_VALUE) {
+            if (order.isCompeteAgainstBestOffsetUpToMid()) {
+                sb.append(Util.SPACE_SYMBOL).append("competeAgainstBestOffsetUpToMid");
+            } else {
+                sb.append(Util.SPACE_SYMBOL).append("competeAgainstBestOffset").append(Util.EQUALS_SIGN).append(order.competeAgainstBestOffset());
+            }
+        }
+        Util.appendValidDoubleValue(sb, "midOffsetAtWhole", order.midOffsetAtWhole());
+        Util.appendValidDoubleValue(sb, "midOffsetAtHalf", order.midOffsetAtHalf());
         
         Util.appendNonEmptyString(sb, "status", orderState.getStatus());
         Util.appendNonEmptyString(sb, "completedTime", orderState.completedTime());

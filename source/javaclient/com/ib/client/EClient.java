@@ -311,9 +311,10 @@ public abstract class EClient {
     protected static final int MIN_SERVER_VER_USER_INFO = 167;
     protected static final int MIN_SERVER_VER_CRYPTO_AGGREGATED_TRADES = 168;
     protected static final int MIN_SERVER_VER_MANUAL_ORDER_TIME = 169;
+    protected static final int MIN_SERVER_VER_PEGBEST_PEGMID_OFFSETS = 170;
     
     public static final int MIN_VERSION = 100; // envelope encoding, applicable to useV100Plus mode only
-    public static final int MAX_VERSION = MIN_SERVER_VER_MANUAL_ORDER_TIME; // ditto
+    public static final int MAX_VERSION = MIN_SERVER_VER_PEGBEST_PEGMID_OFFSETS; // ditto
 
     protected EReaderSignal m_signal;
     protected EWrapper m_eWrapper;    // msg handler
@@ -1683,6 +1684,19 @@ public abstract class EClient {
             }
         }
         
+        if (m_serverVersion < MIN_SERVER_VER_PEGBEST_PEGMID_OFFSETS) {
+            if (order.minTradeQty() != Integer.MAX_VALUE ||
+                order.minCompeteSize() != Integer.MAX_VALUE ||
+                order.competeAgainstBestOffset() != Double.MAX_VALUE ||
+                order.midOffsetAtWhole() != Double.MAX_VALUE ||
+                order.midOffsetAtHalf() != Double.MAX_VALUE) {
+                error(id, EClientErrors.UPDATE_TWS,
+                    "  It does not support PEG BEST / PEG MID order parameters: minTradeQty, minCompeteSize, " +
+                    "competeAgainstBestOffset, midOffsetAtWhole and midOffsetAtHalf");
+                return;
+            }
+        }
+        
         int VERSION = (m_serverVersion < MIN_SERVER_VER_NOT_HELD) ? 27 : 45;
 
         // send place order msg
@@ -2126,7 +2140,27 @@ public abstract class EClient {
            if (m_serverVersion >= MIN_SERVER_VER_MANUAL_ORDER_TIME) {
                b.send(order.manualOrderTime());
            }
-           
+
+           if (m_serverVersion >= MIN_SERVER_VER_PEGBEST_PEGMID_OFFSETS) {
+               if (contract.exchange().equals("IBKRATS")) {
+                   b.sendMax(order.minTradeQty());
+               }
+               boolean sendMidOffsets = false;
+               if (order.orderType().equals(OrderType.PEG_BEST)) {
+                   b.sendMax(order.minCompeteSize());
+                   b.sendMax(order.competeAgainstBestOffset());
+                   if (order.isCompeteAgainstBestOffsetUpToMid()) {
+                       sendMidOffsets = true;
+                   }
+               } else if (order.orderType().equals(OrderType.PEG_MID)) {
+                   sendMidOffsets = true;
+               }
+               if (sendMidOffsets) {
+                   b.sendMax(order.midOffsetAtWhole());
+                   b.sendMax(order.midOffsetAtHalf());
+               }
+           }
+
            closeAndSend(b);
         }
         catch(EClientException e) {

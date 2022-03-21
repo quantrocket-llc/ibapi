@@ -770,3 +770,15 @@ bool EOrderDecoder::decodePostToAts(const char*& ptr, const char* endPtr) {
     return true;
 }
 
+bool EOrderDecoder::decodePegBestPegMidOrderAttributes(const char*& ptr, const char* endPtr) {
+    if (m_serverVersion >= MIN_SERVER_VER_PEGBEST_PEGMID_OFFSETS) {
+        DECODE_FIELD(m_order->minTradeQty);
+        DECODE_FIELD(m_order->minCompeteSize);
+        DECODE_FIELD(m_order->competeAgainstBestOffset);
+        DECODE_FIELD(m_order->midOffsetAtWhole);
+        DECODE_FIELD(m_order->midOffsetAtHalf);
+    }
+
+    return true;
+}
+

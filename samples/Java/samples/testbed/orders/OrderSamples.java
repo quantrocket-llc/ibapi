@@ -747,4 +747,54 @@ public class OrderSamples {
 		return order;
 	}
 
+    public static Order PegBestUpToMidOrder(String action, Decimal quantity, double limitPrice, int minTradeQty, 
+            int minCompeteSize, double midOffsetAtWhole, double midOffsetAtHalf) {
+        // ! [peg_best_up_to_mid_order]
+        Order order = new Order();
+        order.action(action);
+        order.orderType("PEG BEST");
+        order.lmtPrice(limitPrice);
+        order.totalQuantity(quantity);
+        order.notHeld(true);
+        order.minTradeQty(minTradeQty);
+        order.minCompeteSize(minCompeteSize);
+        order.competeAgainstBestOffset(Order.COMPETE_AGAINST_BEST_OFFSET_UP_TO_MID);
+        order.midOffsetAtWhole(midOffsetAtWhole);
+        order.midOffsetAtHalf(midOffsetAtHalf);
+        // ! [peg_best_up_to_mid_order]
+        return order;
+    }
+
+    public static Order PegBestOrder(String action, Decimal quantity, double limitPrice, int minTradeQty, 
+            int minCompeteSize, double competeAgainstBestOffset) {
+        // ! [peg_best_order]
+        Order order = new Order();
+        order.action(action);
+        order.orderType("PEG BEST");
+        order.lmtPrice(limitPrice);
+        order.totalQuantity(quantity);
+        order.notHeld(true);
+        order.minTradeQty(minTradeQty);
+        order.minCompeteSize(minCompeteSize);
+        order.competeAgainstBestOffset(competeAgainstBestOffset);
+        // ! [peg_best_order]
+        return order;
+    }
+
+    public static Order PegMidOrder(String action, Decimal quantity, double limitPrice, int minTradeQty, 
+            double midOffsetAtWhole, double midOffsetAtHalf) {
+        // ! [peg_mid_order]
+        Order order = new Order();
+        order.action(action);
+        order.orderType("PEG MID");
+        order.lmtPrice(limitPrice);
+        order.totalQuantity(quantity);
+        order.notHeld(true);
+        order.minTradeQty(minTradeQty);
+        order.midOffsetAtWhole(midOffsetAtWhole);
+        order.midOffsetAtHalf(midOffsetAtHalf);
+        // ! [peg_mid_order]
+        return order;
+    }
+	
 }

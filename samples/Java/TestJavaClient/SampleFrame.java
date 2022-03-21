@@ -1567,6 +1567,11 @@ class SampleFrame extends JFrame implements EWrapper {
         destOrder.autoCancelParent(srcOrder.autoCancelParent());
         destOrder.advancedErrorOverride(srcOrder.advancedErrorOverride());
         destOrder.manualOrderTime(srcOrder.manualOrderTime());
+        destOrder.minTradeQty(srcOrder.minTradeQty());
+        destOrder.minCompeteSize(srcOrder.minCompeteSize());
+        destOrder.competeAgainstBestOffset(srcOrder.competeAgainstBestOffset());
+        destOrder.midOffsetAtWhole(srcOrder.midOffsetAtWhole());
+        destOrder.midOffsetAtHalf(srcOrder.midOffsetAtHalf());
     }
 
     public void position(String account, Contract contract, Decimal pos, double avgCost) {

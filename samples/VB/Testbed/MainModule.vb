@@ -747,7 +747,7 @@ Module MainModule
 
         'Thread.Sleep(3000)
         '! [cancelorder]
-        client.cancelOrder(nextOrderId - 1)
+        client.cancelOrder(nextOrderId - 1, "")
         '! [cancelorder]
         '** Cancel all orders for all accounts ***
         '! [reqglobalcancel]
@@ -774,6 +774,17 @@ Module MainModule
         client.cancelOrder(nextOrderId - 1, "20220314 19:00:00")
         '! [cancel_order_with_manual_order_cancel_time]
 
+        '! [pegbest_up_to_mid_order_submission]]
+        client.placeOrder(increment(nextOrderId), ContractSamples.IBKRATSContract(), OrderSamples.PegBestUpToMidOrder("BUY", Util.StringToDecimal("100"), 111.11, 100, 200, 0.02, 0.025))
+        '! [pegbest_up_to_mid_order_submission]]
+
+        '! [pegbest_order_submission]]
+        client.placeOrder(increment(nextOrderId), ContractSamples.IBKRATSContract(), OrderSamples.PegBestOrder("BUY", Util.StringToDecimal("100"), 111.11, 100, 200, 0.03))
+        '! [pegbest_order_submission]]
+
+        '! [pegmid_order_submission]]
+        client.placeOrder(increment(nextOrderId), ContractSamples.IBKRATSContract(), OrderSamples.PegMidOrder("BUY", Util.StringToDecimal("100"), 111.11, 100, 0.02, 0.025))
+        '! [pegmid_order_submission]]
     End Sub
 
     Private Sub newsOperations(client As EClientSocket)

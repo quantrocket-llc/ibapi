@@ -120,6 +120,11 @@ Private Enum ExtendedCompletedOrderAttributesColumns
     Col_SHAREHOLDER
     Col_IMBALANCEE_ONLY
     Col_ROUTE_MARKETABLE_TO_BBO
+    Col_MIN_TRADE_QTY
+    Col_MIN_COMPETE_SIZE
+    Col_COMPETE_AGAINST_BEST_OFFSET
+    Col_MID_OFFSET_AT_WHOLE
+    Col_MID_OFFSET_AT_HALF
 End Enum
 
 '=================
@@ -282,6 +287,15 @@ Sub UpdateCompletedOrder(contract As TWSLib.IContract, order As TWSLib.IOrder, o
         ExtendedCompletedOrderAttributesTable(rowId, Col_SHAREHOLDER).value = .shareholder
         ExtendedCompletedOrderAttributesTable(rowId, Col_IMBALANCEE_ONLY).value = .imbalanceOnly
         ExtendedCompletedOrderAttributesTable(rowId, Col_ROUTE_MARKETABLE_TO_BBO).value = .routeMarketableToBbo
+        ExtendedCompletedOrderAttributesTable(rowId, Col_MIN_TRADE_QTY).value = Util.IntMaxStr(.minTradeQty)
+        ExtendedCompletedOrderAttributesTable(rowId, Col_MIN_COMPETE_SIZE).value = Util.IntMaxStr(.minCompeteSize)
+        If .competeAgainstBestOffset = Util.GetInfinity() Then
+            ExtendedCompletedOrderAttributesTable(rowId, Col_COMPETE_AGAINST_BEST_OFFSET).value = "UpToMid"
+        Else
+            ExtendedCompletedOrderAttributesTable(rowId, Col_COMPETE_AGAINST_BEST_OFFSET).value = Util.DblMaxStr(.competeAgainstBestOffset)
+        End If
+        ExtendedCompletedOrderAttributesTable(rowId, Col_MID_OFFSET_AT_WHOLE).value = Util.DblMaxStr(.midOffsetAtWhole)
+        ExtendedCompletedOrderAttributesTable(rowId, Col_MID_OFFSET_AT_HALF).value = Util.DblMaxStr(.midOffsetAtHalf)
     End With
 
     Dim tempStr As String
@@ -324,7 +338,7 @@ Public Sub Initialise()
     Set contractTable = Range("$A$7:$M$100")
     Set completedOrderDescriptionTable = Range("$N$7:$T$100")
     Set completedOrderStatusTable = Range("$U$7:$Y$100")
-    Set ExtendedCompletedOrderAttributesTable = Range("$Z$7:$DE$100")
+    Set ExtendedCompletedOrderAttributesTable = Range("$Z$7:$DJ$100")
 End Sub
 
 Private Sub Worksheet_Activate()

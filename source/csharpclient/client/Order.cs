@@ -26,6 +26,7 @@ namespace IBApi
         public static int AUCTION_IMPROVEMENT = 2;
         public static int AUCTION_TRANSPARENT = 3;
         public static string EMPTY_STR = "";
+        public static double COMPETE_AGAINST_BEST_OFFSET_UP_TO_MID = double.PositiveInfinity;
 
         // main order fields
         // extended order fields
@@ -735,6 +736,16 @@ namespace IBApi
         
         public string ManualOrderTime { get; set; }
 
+        public int MinTradeQty { get; set; }
+
+        public int MinCompeteSize { get; set; }
+
+        public double CompeteAgainstBestOffset { get; set; }
+
+        public double MidOffsetAtWhole { get; set; }
+
+        public double MidOffsetAtHalf { get; set; }
+
         public Order()
         {
             LmtPrice = double.MaxValue;
@@ -812,7 +823,12 @@ namespace IBApi
             PostToAts = int.MaxValue;
             AdvancedErrorOverride = EMPTY_STR;
             ManualOrderTime = EMPTY_STR;
-        }
+            MinTradeQty = int.MaxValue;
+            MinCompeteSize = int.MaxValue;
+            CompeteAgainstBestOffset = double.MaxValue;
+            MidOffsetAtWhole = double.MaxValue;
+            MidOffsetAtHalf = double.MaxValue;
+    }
 
         // Note: Two orders can be 'equivalent' even if all fields do not match. This function is not intended to be used with Order objects returned from TWS.
         public override bool Equals(object p_other)
@@ -900,7 +916,12 @@ namespace IBApi
                 RouteMarketableToBbo != l_theOther.RouteMarketableToBbo ||
                 ParentPermId != l_theOther.ParentPermId ||
                 Duration != l_theOther.Duration ||
-                PostToAts != l_theOther.PostToAts)
+                PostToAts != l_theOther.PostToAts ||
+                MinTradeQty != l_theOther.MinTradeQty ||
+                MinCompeteSize != l_theOther.MinCompeteSize ||
+                CompeteAgainstBestOffset != l_theOther.CompeteAgainstBestOffset ||
+                MidOffsetAtWhole != l_theOther.MidOffsetAtWhole ||
+                MidOffsetAtHalf != l_theOther.MidOffsetAtHalf)
             {
                 return false;
             }
@@ -1099,6 +1120,12 @@ namespace IBApi
             hashCode = hashCode * -1521134295 + PostToAts.GetHashCode();
             hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(AdvancedErrorOverride);
             hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(ManualOrderTime);
+            hashCode = hashCode * -1521134295 + MinTradeQty.GetHashCode();
+            hashCode = hashCode * -1521134295 + MinCompeteSize.GetHashCode();
+            hashCode = hashCode * -1521134295 + CompeteAgainstBestOffset.GetHashCode();
+            hashCode = hashCode * -1521134295 + MidOffsetAtWhole.GetHashCode();
+            hashCode = hashCode * -1521134295 + MidOffsetAtHalf.GetHashCode();
+
             return hashCode;
         }
 

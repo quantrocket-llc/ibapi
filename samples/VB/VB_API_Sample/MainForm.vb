@@ -3745,6 +3745,18 @@ Friend Class MainForm
         appendValidIntValue(Utils.ListType.ServerResponses, "duration", order.Duration)
         appendValidIntValue(Utils.ListType.ServerResponses, "postToAts", order.PostToAts)
 
+        appendValidIntValue(Utils.ListType.ServerResponses, "minTradeQty", order.MinTradeQty)
+        appendValidIntValue(Utils.ListType.ServerResponses, "minCompeteSize", order.MinCompeteSize)
+        If order.CompeteAgainstBestOffset() <> Double.MaxValue Then
+            If order.CompeteAgainstBestOffset() = IBApi.Order.COMPETE_AGAINST_BEST_OFFSET_UP_TO_MID Then
+                m_utils.addListItem(Utils.ListType.ServerResponses, "  competeAgainstBestOffsetUpToMid")
+            Else
+                appendValidDoubleValue(Utils.ListType.ServerResponses, "competeAgainstBestOffset", order.CompeteAgainstBestOffset)
+            End If
+        End If
+        appendValidDoubleValue(Utils.ListType.ServerResponses, "midOffsetAtWhole", order.MidOffsetAtWhole)
+        appendValidDoubleValue(Utils.ListType.ServerResponses, "midOffsetAtHalf", order.MidOffsetAtHalf)
+
         m_utils.addListItem(Utils.ListType.ServerResponses, "===============================")
     End Sub
 #End Region

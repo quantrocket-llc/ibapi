@@ -349,5 +349,19 @@ namespace TWSLib
         [DispId(188)]
         string manualOrderTime { get; set; }
 
+        [DispId(189)]
+        int minTradeQty { get; set; }
+
+        [DispId(190)]
+        int minCompeteSize { get; set; }
+
+        [DispId(191)]
+        double competeAgainstBestOffset { get; set; }
+
+        [DispId(192)]
+        double midOffsetAtWhole { get; set; }
+
+        [DispId(193)]
+        double midOffsetAtHalf { get; set; }
     }
 }

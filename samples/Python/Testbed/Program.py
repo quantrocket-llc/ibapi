@@ -343,7 +343,10 @@ class TestApp(TestWrapper, TestClient):
               "Account:", order.account, "Symbol:", contract.symbol, "SecType:", contract.secType,
               "Exchange:", contract.exchange, "Action:", order.action, "OrderType:", order.orderType,
               "TotalQty:", decimalMaxString(order.totalQuantity), "CashQty:", floatMaxString(order.cashQty), 
-              "LmtPrice:", floatMaxString(order.lmtPrice), "AuxPrice:", floatMaxString(order.auxPrice), "Status:", orderState.status)
+              "LmtPrice:", floatMaxString(order.lmtPrice), "AuxPrice:", floatMaxString(order.auxPrice), "Status:", orderState.status,
+              "MinTradeQty:", intMaxString(order.minTradeQty), "MinCompeteSize:", intMaxString(order.minCompeteSize),
+              "competeAgainstBestOffset:", "UpToMid" if order.competeAgainstBestOffset == COMPETE_AGAINST_BEST_OFFSET_UP_TO_MID else floatMaxString(order.competeAgainstBestOffset),
+              "MidOffsetAtWhole:", floatMaxString(order.midOffsetAtWhole),"MidOffsetAtHalf:" ,floatMaxString(order.midOffsetAtHalf))
 
         order.contract = contract
         self.permId2ord[order.permId] = order
@@ -1865,6 +1868,20 @@ class TestApp(TestWrapper, TestClient):
         self.placeOrder(self.nextOrderId(), ContractSamples.USStockAtSmart(), OrderSamples.LimitOrderWithManualOrderTime("BUY", Decimal("100"), 111.11, "20220314 13:00:00"))
         # ! [place_order_with_manual_order_time]
 
+        # Placing peg best up to mid order
+        # ! [place_peg_best_up_to_mid_order]
+        self.placeOrder(self.nextOrderId(), ContractSamples.IBKRATSContract(), OrderSamples.PegBestUpToMidOrder("BUY", Decimal("100"), 111.11, 100, 200, 0.02, 0.025))
+        # ! [place_peg_best_up_to_mid_order]
+
+        # Placing peg best order
+        # ! [place_peg_best_order]
+        self.placeOrder(self.nextOrderId(), ContractSamples.IBKRATSContract(), OrderSamples.PegBestOrder("BUY", Decimal("100"), 111.11, 100, 200, 0.03))
+        # ! [place_peg_best_order]
+
+        # Placing peg mid order
+        # ! [place_peg_mid_order]
+        self.placeOrder(self.nextOrderId(), ContractSamples.IBKRATSContract(), OrderSamples.PegMidOrder("BUY", Decimal("100"), 111.11, 100, 0.02, 0.025))
+        # ! [place_peg_mid_order]
 
     def orderOperations_cancel(self):
         if self.simplePlaceOid is not None:
@@ -1949,7 +1966,10 @@ class TestApp(TestWrapper, TestClient):
               "Action:", order.action, "OrderType:", order.orderType, "TotalQty:", decimalMaxString(order.totalQuantity), 
               "CashQty:", floatMaxString(order.cashQty), "FilledQty:", decimalMaxString(order.filledQuantity), 
               "LmtPrice:", floatMaxString(order.lmtPrice), "AuxPrice:", floatMaxString(order.auxPrice), "Status:", orderState.status,
-              "Completed time:", orderState.completedTime, "Completed Status:" + orderState.completedStatus)
+              "Completed time:", orderState.completedTime, "Completed Status:" + orderState.completedStatus,
+              "MinTradeQty:", intMaxString(order.minTradeQty), "MinCompeteSize:", intMaxString(order.minCompeteSize),
+              "competeAgainstBestOffset:", "UpToMid" if order.competeAgainstBestOffset == COMPETE_AGAINST_BEST_OFFSET_UP_TO_MID else floatMaxString(order.competeAgainstBestOffset),
+              "MidOffsetAtWhole:", floatMaxString(order.midOffsetAtWhole),"MidOffsetAtHalf:" ,floatMaxString(order.midOffsetAtHalf))
     # ! [completedorder]
 
     @iswrapper

@@ -48,7 +48,12 @@ void EClient::EncodeField<double>(std::ostream& os, double doubleValue)
 {
     char str[128];
 
-    snprintf(str, sizeof(str), "%.10g", doubleValue);
+    if (doubleValue == INFINITY) {
+        snprintf(str, sizeof(str), INFINITY_STR.c_str());
+    } 
+    else {
+        snprintf(str, sizeof(str), "%.10g", doubleValue);
+    }
 
     EncodeField<const char*>(os, str);
 }
@@ -1596,6 +1601,18 @@ void EClient::placeOrder( OrderId id, const Contract& contract, const Order& ord
         return;
     }
 
+    if (m_serverVersion < MIN_SERVER_VER_PEGBEST_PEGMID_OFFSETS) {
+        if (order.minTradeQty != UNSET_INTEGER
+            || order.minCompeteSize != UNSET_INTEGER
+            || order.competeAgainstBestOffset != UNSET_DOUBLE
+            || order.midOffsetAtWhole != UNSET_DOUBLE
+            || order.midOffsetAtHalf != UNSET_DOUBLE) {
+            m_pEWrapper->error(id, UPDATE_TWS.code(), UPDATE_TWS.msg() +
+                "  It does not support PEG BEST / PEG MID order parameters: minTradeQty, minCompeteSize, competeAgainstBestOffset, midOffsetAtWhole and midOffsetAtHalf", "");
+            return;
+        }
+    }
+
     std::stringstream msg;
     prepareBuffer( msg);
 
@@ -2031,6 +2048,27 @@ void EClient::placeOrder( OrderId id, const Contract& contract, const Order& ord
 
         if (m_serverVersion >= MIN_SERVER_VER_MANUAL_ORDER_TIME) {
             ENCODE_FIELD(order.manualOrderTime);
+        }
+
+        if (m_serverVersion >= MIN_SERVER_VER_PEGBEST_PEGMID_OFFSETS) {
+            if (contract.exchange == "IBKRATS") {
+                ENCODE_FIELD_MAX(order.minTradeQty);
+            }
+            boolean sendMidOffsets = false;
+            if (order.orderType == "PEG BEST") {
+                ENCODE_FIELD_MAX(order.minCompeteSize);
+                ENCODE_FIELD_MAX(order.competeAgainstBestOffset);
+                if (order.competeAgainstBestOffset == COMPETE_AGAINST_BEST_OFFSET_UP_TO_MID) {
+                    sendMidOffsets = true;
+                }
+            } 
+            else if (order.orderType == "PEG MID") {
+                sendMidOffsets = true;
+            }
+            if (sendMidOffsets) {
+                ENCODE_FIELD_MAX(order.midOffsetAtWhole);
+                ENCODE_FIELD_MAX(order.midOffsetAtHalf);
+            }
         }
     }
     catch (EClientException& ex) {

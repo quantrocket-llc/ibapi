@@ -406,7 +406,9 @@ const char* EDecoder::processOpenOrderMsg(const char* ptr, const char* endPtr) {
           && eOrderDecoder.decodeUsePriceMgmtAlgo(ptr, endPtr)
           && eOrderDecoder.decodeDuration(ptr, endPtr)
           && eOrderDecoder.decodePostToAts(ptr, endPtr)
-          && eOrderDecoder.decodeAutoCancelParent(ptr, endPtr, MIN_SERVER_VER_AUTO_CANCEL_PARENT);
+          && eOrderDecoder.decodeAutoCancelParent(ptr, endPtr, MIN_SERVER_VER_AUTO_CANCEL_PARENT)
+          && eOrderDecoder.decodePegBestPegMidOrderAttributes(ptr, endPtr);
+
         if (!success) {
           return nullptr;
         }
@@ -2127,7 +2129,9 @@ const char* EDecoder::processCompletedOrderMsg(const char* ptr, const char* endP
           && eOrderDecoder.decodeRouteMarketableToBbo(ptr, endPtr)
           && eOrderDecoder.decodeParentPermId(ptr, endPtr)
           && eOrderDecoder.decodeCompletedTime(ptr, endPtr)
-          && eOrderDecoder.decodeCompletedStatus(ptr, endPtr);
+          && eOrderDecoder.decodeCompletedStatus(ptr, endPtr)
+          && eOrderDecoder.decodePegBestPegMidOrderAttributes(ptr, endPtr);
+
         if (!success) {
           return nullptr;
         }
@@ -2664,7 +2668,7 @@ bool EDecoder::DecodeField(double& doubleValue, const char*& ptr, const char* en
 	const char* fieldEnd = FindFieldEnd(fieldBeg, endPtr);
 	if( !fieldEnd)
 		return false;
-	doubleValue = atof(fieldBeg);
+	doubleValue = fieldBeg == INFINITY_STR ? INFINITY : atof(fieldBeg);
 	ptr = ++fieldEnd;
 	return true;
 }

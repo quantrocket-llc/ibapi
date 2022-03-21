@@ -365,5 +365,10 @@ namespace TWSLib
         int TWSLib.IOrder.postToAts { get { return (int)data.PostToAts; } set { data.PostToAts = value; } }
         string TWSLib.IOrder.advancedErrorOverride { get { return data.AdvancedErrorOverride; } set { data.AdvancedErrorOverride = value; } }
         string TWSLib.IOrder.manualOrderTime { get { return data.ManualOrderTime; } set { data.ManualOrderTime = value; } }
+        int TWSLib.IOrder.minTradeQty { get { return (int)data.MinTradeQty; } set { data.MinTradeQty = value; } }
+        int TWSLib.IOrder.minCompeteSize { get { return (int)data.MinCompeteSize; } set { data.MinCompeteSize = value; } }
+        double TWSLib.IOrder.competeAgainstBestOffset { get { return (double)data.CompeteAgainstBestOffset; } set { data.CompeteAgainstBestOffset = value; } }
+        double TWSLib.IOrder.midOffsetAtWhole { get { return (double)data.MidOffsetAtWhole; } set { data.MidOffsetAtWhole = value; } }
+        double TWSLib.IOrder.midOffsetAtHalf { get { return (double)data.MidOffsetAtHalf; } set { data.MidOffsetAtHalf = value; } }
     }
 }

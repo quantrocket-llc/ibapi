@@ -856,5 +856,16 @@ namespace IBApi
             }
         }
 
+        public void readPegBestPegMidOrderAttributes()
+        {
+            if (serverVersion >= MinServerVer.PEGBEST_PEGMID_OFFSETS)
+            {
+                order.MinTradeQty = eDecoder.ReadIntMax();
+                order.MinCompeteSize = eDecoder.ReadIntMax();
+                order.CompeteAgainstBestOffset = eDecoder.ReadDoubleMax();
+                order.MidOffsetAtWhole = eDecoder.ReadDoubleMax();
+                order.MidOffsetAtHalf = eDecoder.ReadDoubleMax();
+            }
+        }
     }
 }

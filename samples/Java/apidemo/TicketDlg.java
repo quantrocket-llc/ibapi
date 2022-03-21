@@ -64,6 +64,7 @@ class TicketDlg extends JDialog {
 	private final AlgoPanel m_algoPanel;
 	private final ScalePanel m_scalePanel;
 	private final PegBenchPanel m_pegBenchPanel;
+	private final PegBestPegMidPanel m_pegBestPegMidPanel;
 	private final AdjustedPanel m_adjustedPanel;
 	private final ConditionsPanel m_conditionPanel;
 
@@ -91,6 +92,7 @@ class TicketDlg extends JDialog {
 		m_contractPanel = new ContractPanel( m_contract);
 		m_pegBenchPanel = new PegBenchPanel(this, m_order,
 				c -> lookupContract(ApiDemo.INSTANCE.controller(), c));
+		m_pegBestPegMidPanel = new PegBestPegMidPanel(this, m_order);
 		m_advisorPanel = new AdvisorTicketPanel();
 		m_attribTicketPanel = new MiscTicketPanel();
 		m_volPanel = new VolatilityTicketPanel();
@@ -130,6 +132,7 @@ class TicketDlg extends JDialog {
 		}
 		tabbedPanel.addTab( "Order", m_orderPanel);
 		tabbedPanel.addTab("Pegged to benchmark", m_pegBenchPanel);
+		tabbedPanel.addTab("Peg Best / Peg Mid", m_pegBestPegMidPanel);
 		tabbedPanel.addTab("Adjustable stops", m_adjustedPanel);
 		tabbedPanel.addTab( "Misc", m_attribTicketPanel);
 		tabbedPanel.addTab( "Advisor", m_advisorPanel);
@@ -250,6 +253,7 @@ class TicketDlg extends JDialog {
 			m_comboPanel.onOK();
 		}
 		m_pegBenchPanel.onOK();
+		m_pegBestPegMidPanel.onOK();
 		m_adjustedPanel.onOK();
 		m_conditionPanel.onOK();
 	}

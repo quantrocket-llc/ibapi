@@ -12,6 +12,109 @@ Option Explicit
 '=================
 ' local constants
 '=================
+Private Enum ExtendedOpenOrderAttributesColumns
+    Col_TIMEINFORCE = 1
+    Col_OCAGROUP
+    Col_ACCOUNT
+    Col_OPENCLOSE
+    Col_ORIGIN
+    Col_ORDERREF
+    Col_TRANSMIT
+    Col_PARENTORDID
+    Col_BLOCKORDER
+    Col_SWEEPTOFILL
+    Col_DISPLAYSIZE
+    Col_TRIGGERMETHOD
+    Col_HIDDEN
+    Col_DISCRAMOUNT
+    Col_GOODAFTERTIME
+    Col_GOODTILLDATE
+    Col_FAGROUP
+    Col_FAMETHOD
+    Col_FAPERCENTAGE
+    Col_FAPROFILE
+    Col_SHORTSALESLOT
+    Col_DESIGNLOC
+    Col_EXEMPTCODE
+    Col_OCATYPE
+    Col_RULE80A
+    Col_SETTLINGFIRM
+    Col_ALLORNONE
+    Col_MINQTY
+    Col_PERCENTOFFSET
+    Col_OPT_OUT_SMART_ROUTING
+    Col_AUCTIONSTRAT
+    Col_STARTINGPRICE
+    Col_STOCKREFPRICE
+    Col_DELTA
+    Col_STOCKRANGELOWER
+    Col_STOCKRANGEUPPER
+    Col_VOLATILITY
+    Col_VOLATILITYTYPE
+    Col_REFPRICETYPE
+    Col_DELTANEUORDTYPE
+    Col_CONTUPD
+    Col_DELTANEUAUXPRICE
+    Col_DELTANEUCONID
+    Col_DELTANEUSETTLINGFIRM
+    Col_DELTANEUCLEARINGACCOUNT
+    Col_DELTANEUCLEARINGINTENT
+    Col_DELTANEUOPENCLOSE
+    Col_DELTANEUSHORTSALE
+    Col_DELTANEUSHORTSALESLOT
+    Col_DELTANEUDESIGNATEDLOCATION
+    Col_TRAILSTOPPRICE
+    Col_TRAILINGPERCENT
+    Col_SCALEINITLVLSIZE
+    Col_SCALESUBSLVLSIZE
+    Col_SCALEPRICEINCR
+    Col_SCALEPRICEADJUSTVALUE
+    Col_SCALEPRICEADJUSTINTERVAL
+    Col_SCALEPROFITOFFSET
+    Col_SCALEAUTORESET
+    Col_SCALEINITPOSITION
+    Col_SCALEINITFILLQTY
+    Col_SCALERANDOMPERCENT
+    Col_OUTSIDERTH
+    Col_OVERRIDEPERCONS
+    Col_CLEARACC
+    Col_CLEARINT
+    Col_BASISPTS
+    Col_BASISPTSTYPE
+    Col_SMART_COMBO_ROUTING_PARAMS
+    Col_SOLICITED
+    Col_RANDOMIZE_SIZE
+    Col_RANDOMIZE_PRICE
+    Col_REFERENCE_CONTRACT_ID
+    Col_REFERENCE_EXCHANGE
+    Col_PEGGED_CHANGE_AMOUNT
+    Col_REFERENCE_CHANGE_AMOUNT
+    Col_IS_PEGGED_CHANGE_AMOUNT_DECREASE
+    Col_ADJUSTED_ORDER_TYPE
+    Col_TRIGGER_PRICE
+    Col_ADJUSTED_STOP_PRICE
+    Col_ADJUSTED_STOP_LIMIT_PRICE
+    Col_ADJUSTED_TRAILING_AMOUNT
+    Col_ADJUSTABLE_TRAILING_UNIT
+    Col_CONDITIONS
+    Col_CONDITIONS_IGNORE_RTH
+    Col_CONDITIONS_CANCEL_ORDER
+    Col_MODELCODE
+    Col_EXT_OPERATOR
+    Col_SOFT_DOLLAR_TIER
+    Col_IS_OMS_CONTAINER
+    Col_RELATIVE_DISCRETIONARY
+    Col_USEPRICEMGMTALGO
+    Col_DURATION
+    Col_POST_TO_ATS
+    Col_NOT_HELD
+    Col_AUTO_CANCEL_PARENT
+    Col_MIN_TRADE_QTY
+    Col_MIN_COMPETE_SIZE
+    Col_COMPETE_AGAINST_BEST_OFFSET
+    Col_MID_OFFSET_AT_WHOLE
+    Col_MID_OFFSET_AT_HALF
+End Enum
 
 Private contractTable As Range
 Private orderDescriptionTable As Range
@@ -201,6 +304,15 @@ Sub UpdateOpenOrder(orderId As Long, contract As TWSLib.IContract, order As TWSL
         ExtendedAttributesTable(rowId, Col_POST_TO_ATS).value = Util.IntMaxStr(.postToAts)
         ExtendedAttributesTable(rowId, Col_NOT_HELD).value = .notHeld
         ExtendedAttributesTable(rowId, Col_AUTO_CANCEL_PARENT).value = .autoCancelParent
+        ExtendedAttributesTable(rowId, Col_MIN_TRADE_QTY).value = Util.IntMaxStr(.minTradeQty)
+        ExtendedAttributesTable(rowId, Col_MIN_COMPETE_SIZE).value = Util.IntMaxStr(.minCompeteSize)
+        If .competeAgainstBestOffset = Util.GetInfinity() Then
+            ExtendedAttributesTable(rowId, Col_COMPETE_AGAINST_BEST_OFFSET).value = "UpToMid"
+        Else
+            ExtendedAttributesTable(rowId, Col_COMPETE_AGAINST_BEST_OFFSET).value = Util.DblMaxStr(.competeAgainstBestOffset)
+        End If
+        ExtendedAttributesTable(rowId, Col_MID_OFFSET_AT_WHOLE).value = Util.DblMaxStr(.midOffsetAtWhole)
+        ExtendedAttributesTable(rowId, Col_MID_OFFSET_AT_HALF).value = Util.DblMaxStr(.midOffsetAtHalf)
     End With
 
     If Not order.SmartComboRoutingParams Is Nothing Then
@@ -244,7 +356,7 @@ Public Sub Initialise()
     Set contractTable = Range("$A$7:$M$100")
     Set orderDescriptionTable = Range("$N$7:$S$100")
     Set orderStatusTable = Range("$T$7:$AA$100")
-    Set ExtendedAttributesTable = Range("$AB$7:$DS$100")
+    Set ExtendedAttributesTable = Range("$AB$7:$DX$100")
 End Sub
 
 Private Sub Worksheet_Activate()

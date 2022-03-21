@@ -5,6 +5,8 @@ package TestJavaClient;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -111,6 +113,12 @@ public class ExtOrdDlg extends JDialog {
     private JTextField  m_advancedErrorOverride = new JTextField();
     private JTextField  m_manualOrderTime = new JTextField();
     private JTextField  m_manualOrderCancelTime = new JTextField();
+    private JTextField  m_minTradeQty = new JTextField();
+    private JTextField  m_minCompeteSize = new JTextField();
+    private JTextField  m_competeAgainstBestOffset = new JTextField();
+    private JCheckBox   m_competeAgainstBestOffsetUpToMid = new JCheckBox("Compete Against Best Offset Up To Mid", false);
+    private JTextField  m_midOffsetAtWhole = new JTextField();
+    private JTextField  m_midOffsetAtHalf = new JTextField();
 
     ExtOrdDlg( OrderDlg owner) {
         super( owner, true);
@@ -289,6 +297,27 @@ public class ExtOrdDlg extends JDialog {
         extOrderDetailsPanel.add(m_manualOrderTime);
         extOrderDetailsPanel.add(new JLabel("Manual Order Cancel Time"));
         extOrderDetailsPanel.add(m_manualOrderCancelTime);
+        extOrderDetailsPanel.add( new JLabel(""));
+        extOrderDetailsPanel.add( new JLabel(""));
+        extOrderDetailsPanel.add(new JLabel("Min Trade Qty"));
+        extOrderDetailsPanel.add(m_minTradeQty);
+        extOrderDetailsPanel.add(new JLabel("Min Compete Size"));
+        extOrderDetailsPanel.add(m_minCompeteSize);
+        extOrderDetailsPanel.add(new JLabel("Compete Against Best Offset"));
+        extOrderDetailsPanel.add(m_competeAgainstBestOffset);
+        extOrderDetailsPanel.add(m_competeAgainstBestOffsetUpToMid);
+        extOrderDetailsPanel.add( new JLabel(""));
+        extOrderDetailsPanel.add(new JLabel("Mid Offset At Whole"));
+        extOrderDetailsPanel.add(m_midOffsetAtWhole);
+        extOrderDetailsPanel.add(new JLabel("Mid Offset At Half"));
+        extOrderDetailsPanel.add(m_midOffsetAtHalf);
+        
+        // add listeners
+        m_competeAgainstBestOffsetUpToMid.addItemListener(new ItemListener() {
+            @Override public void itemStateChanged(ItemEvent e) {
+                m_competeAgainstBestOffset.setEnabled(e.getStateChange() != ItemEvent.SELECTED);
+            }
+        });
 
         // create button panel
         JPanel buttonPanel = new JPanel();
@@ -403,6 +432,12 @@ public class ExtOrdDlg extends JDialog {
             m_order.autoCancelParent(m_autoCancelParent.isSelected());
             m_order.advancedErrorOverride(m_advancedErrorOverride.getText());
             m_order.manualOrderTime(m_manualOrderTime.getText());
+            m_order.minTradeQty(parseMaxInt(m_minTradeQty));
+            m_order.minCompeteSize(parseMaxInt(m_minCompeteSize));
+            m_order.competeAgainstBestOffset(m_competeAgainstBestOffsetUpToMid.isSelected() ? 
+                    Order.COMPETE_AGAINST_BEST_OFFSET_UP_TO_MID : parseMaxDouble(m_competeAgainstBestOffset)); 
+            m_order.midOffsetAtWhole(parseMaxDouble(m_midOffsetAtWhole));
+            m_order.midOffsetAtHalf(parseMaxDouble(m_midOffsetAtHalf));
         }
         catch( Exception e) {
             Main.inform( this, "Error - " + e);

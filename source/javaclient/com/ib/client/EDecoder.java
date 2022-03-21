@@ -1464,6 +1464,7 @@ class EDecoder implements ObjectInput {
         eOrderDecoder.readDuration();
         eOrderDecoder.readPostToAts();
         eOrderDecoder.readAutoCancelParent(EClient.MIN_SERVER_VER_AUTO_CANCEL_PARENT);
+        eOrderDecoder.readPegBestPegMidOrderAttributes();
 
         m_EWrapper.openOrder(order.orderId(), contract, order, orderState);
     }
@@ -1994,6 +1995,7 @@ class EDecoder implements ObjectInput {
         eOrderDecoder.readParentPermId();
         eOrderDecoder.readCompletedTime();
         eOrderDecoder.readCompletedStatus();
+        eOrderDecoder.readPegBestPegMidOrderAttributes();
 
         m_EWrapper.completedOrder(contract, order, orderState);
     }

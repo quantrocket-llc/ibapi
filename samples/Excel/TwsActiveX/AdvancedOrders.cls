@@ -83,7 +83,7 @@ Public Sub Initialise()
     Set orderTable = AdvancedOrders.Range("$N$7:$S$125")
     Set orderStatusTable = AdvancedOrders.Range("$T$7:$Z$125")
     Set commissionMarginTable = AdvancedOrders.Range("$AA$7:$AK$125")
-    Set extendedAttributeTable = AdvancedOrders.Range("$AL$7:$EF$125")
+    Set extendedAttributeTable = AdvancedOrders.Range("$AL$7:$EK$125")
 End Sub
 
 Private Sub Worksheet_Activate()

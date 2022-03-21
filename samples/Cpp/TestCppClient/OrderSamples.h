@@ -65,6 +65,9 @@ public:
 	static OrderCondition* Volume_Condition(int conId, std::string exchange, bool isMore, int volume, bool isConjunction);
 	static Order LimitIBKRATS (std::string action, Decimal quantity, double limitPrice);
 	static Order LimitOrderWithManualOrderTime(std::string action, Decimal quantity, double limitPrice, std::string manualOrderTime);
+	static Order PegBestUpToMidOrder(std::string action, Decimal quantity, double limitPrice, int minTradeQty, int minCompeteSize, double midOffsetAtWhole, double midOffsetAtHalf);
+	static Order PegBestOrder(std::string action, Decimal quantity, double limitPrice, int minTradeQty, int minCompeteSize, double competeAgainstBestOffset);
+	static Order PegMidOrder(std::string action, Decimal quantity, double limitPrice, int minTradeQty, double midOffsetAtWhole, double midOffsetAtHalf);
 };
 
 #endif

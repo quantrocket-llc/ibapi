@@ -97,6 +97,7 @@ public:
 	bool decodeUsePriceMgmtAlgo(const char*& ptr, const char* endPtr);
 	bool decodeDuration(const char*& ptr, const char* endPtr);
 	bool decodePostToAts(const char*& ptr, const char* endPtr);
+	bool decodePegBestPegMidOrderAttributes(const char*& ptr, const char* endPtr);
 
 private:
 	Contract* m_contract;

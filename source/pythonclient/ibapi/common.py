@@ -5,6 +5,7 @@ Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is su
 
 import sys
 import ibapi
+import math
 
 from decimal import Decimal
 from ibapi.enum_implem import Enum
@@ -18,6 +19,9 @@ UNSET_INTEGER = 2 ** 31 - 1
 UNSET_DOUBLE = sys.float_info.max
 UNSET_LONG = 2 ** 63 - 1
 UNSET_DECIMAL = Decimal(2 ** 127 - 1)
+DOUBLE_INFINITY = math.inf
+
+INFINITY_STR = "Infinity"
 
 TickerId = int
 OrderId  = int

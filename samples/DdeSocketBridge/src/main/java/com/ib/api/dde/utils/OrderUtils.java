@@ -183,8 +183,13 @@ public class OrderUtils {
             item.add(Utils.toString(completedOrderData.order().shareholder()));
             item.add(Utils.toString(completedOrderData.order().imbalanceOnly()));
             item.add(Utils.toString(completedOrderData.order().routeMarketableToBbo()));
+            item.add(Utils.toString(completedOrderData.order().minTradeQty()));
+            item.add(Utils.toString(completedOrderData.order().minCompeteSize()));
+            item.add(completedOrderData.order().isCompeteAgainstBestOffsetUpToMid() ? Utils.UP_TO_MID : Utils.toString(completedOrderData.order().competeAgainstBestOffset()));
+            item.add(Utils.toString(completedOrderData.order().midOffsetAtWhole()));
+            item.add(Utils.toString(completedOrderData.order().midOffsetAtHalf()));
         } else {
-            for (int j = 0; j < 86; j++) {
+            for (int j = 0; j < 91; j++) {
                 item.add(Utils.toString(""));
             }
         }
@@ -360,8 +365,13 @@ public class OrderUtils {
                 item.add(Utils.toString(openOrderData.order().duration()));
                 item.add(Utils.toString(openOrderData.order().postToAts()));
                 item.add(Utils.toString(openOrderData.order().autoCancelParent()));
+                item.add(Utils.toString(openOrderData.order().minTradeQty()));
+                item.add(Utils.toString(openOrderData.order().minCompeteSize()));
+                item.add(openOrderData.order().isCompeteAgainstBestOffsetUpToMid() ? Utils.UP_TO_MID : Utils.toString(openOrderData.order().competeAgainstBestOffset()));
+                item.add(Utils.toString(openOrderData.order().midOffsetAtWhole()));
+                item.add(Utils.toString(openOrderData.order().midOffsetAtHalf()));
             } else {
-                for (int j = 0; j < 100; j++) {
+                for (int j = 0; j < 105; j++) {
                     item.add(Utils.toString(""));
                 }
             }

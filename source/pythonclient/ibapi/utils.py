@@ -14,7 +14,7 @@ import logging
 import inspect
 
 from decimal import Decimal
-from ibapi.common import UNSET_INTEGER, UNSET_DOUBLE, UNSET_LONG, UNSET_DECIMAL
+from ibapi.common import UNSET_INTEGER, UNSET_DOUBLE, UNSET_LONG, UNSET_DECIMAL, DOUBLE_INFINITY, INFINITY_STR
 
 
 logger = logging.getLogger(__name__)
@@ -90,6 +90,10 @@ def decode(the_type, fields, show_unset = False, use_unicode = False):
     orig_type = the_type
     if the_type is bool:
         the_type = int
+        
+    if the_type is float:
+        if s.decode() == INFINITY_STR:
+            return DOUBLE_INFINITY
 
     if show_unset:
         if s is None or len(s) == 0:

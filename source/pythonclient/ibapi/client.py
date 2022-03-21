@@ -22,7 +22,7 @@ from ibapi.connection import Connection
 from ibapi.message import OUT
 from ibapi.common import * # @UnusedWildImport
 from ibapi.contract import Contract
-from ibapi.order import Order
+from ibapi.order import Order, COMPETE_AGAINST_BEST_OFFSET_UP_TO_MID
 from ibapi.execution import ExecutionFilter
 from ibapi.scanner import ScannerSubscription
 from ibapi.comm import (make_field, make_field_handle_empty)
@@ -1111,6 +1111,17 @@ class EClient(object):
             self.wrapper.error(orderId, UPDATE_TWS.code(), UPDATE_TWS.msg() + "  It does not support manual order time attribute")
             return
 
+        if self.serverVersion() < MIN_SERVER_VER_PEGBEST_PEGMID_OFFSETS:
+            if order.minTradeQty != UNSET_INTEGER \
+                    or order.minCompeteSize != UNSET_INTEGER \
+                    or order.competeAgainstBestOffset != UNSET_DOUBLE \
+                    or order.midOffsetAtWhole != UNSET_DOUBLE \
+                    or order.midOffsetAtHalf != UNSET_DOUBLE:
+                self.wrapper.error(orderId, UPDATE_TWS.code(), UPDATE_TWS.msg() +
+                        "  It does not support PEG BEST / PEG MID order parameters: minTradeQty, minCompeteSize, " +
+                        "competeAgainstBestOffset, midOffsetAtWhole and midOffsetAtHalf")
+                return
+
         try:
                 
             VERSION = 27 if (self.serverVersion() < MIN_SERVER_VER_NOT_HELD) else 45
@@ -1451,6 +1462,21 @@ class EClient(object):
 
             if self.serverVersion() >= MIN_SERVER_VER_MANUAL_ORDER_TIME:
                 flds.append(make_field(order.manualOrderTime))
+
+            if self.serverVersion() >= MIN_SERVER_VER_PEGBEST_PEGMID_OFFSETS:
+                sendMidOffsets = False;
+                if contract.exchange == "IBKRATS":
+                    flds.append(make_field_handle_empty(order.minTradeQty))
+                if order.orderType == "PEG BEST":
+                    flds.append(make_field_handle_empty(order.minCompeteSize))
+                    flds.append(make_field_handle_empty(order.competeAgainstBestOffset))
+                    if order.competeAgainstBestOffset == COMPETE_AGAINST_BEST_OFFSET_UP_TO_MID:
+                        sendMidOffsets = True;
+                elif order.orderType == "PEG MID":
+                        sendMidOffsets = True;
+                if sendMidOffsets:
+                    flds.append(make_field_handle_empty(order.midOffsetAtWhole))
+                    flds.append(make_field_handle_empty(order.midOffsetAtHalf))
 
             msg = "".join(flds)
             

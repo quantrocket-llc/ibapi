@@ -28,7 +28,7 @@ Const errorColumnIndex = 22 ' index of error column
 Const idColumnIndex = 23 ' index of id column
 Const idManualOrderCancelTime = 149 ' index of manual order cancel time column
 Const orderExtColumnsStart = 34 ' index of first column in Extended Order Attributes
-Const orderExtColumnsEnd = 149 ' index of last column in Extended Order Attributes
+Const orderExtColumnsEnd = 154 ' index of last column in Extended Order Attributes
 
 ' rows
 Const dataStartRowIndex = 10 ' starting row of data

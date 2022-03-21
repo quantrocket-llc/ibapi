@@ -214,6 +214,7 @@ class Decoder(Object):
         OrderDecoder.decodeDuration(self, fields)
         OrderDecoder.decodePostToAts(self, fields)
         OrderDecoder.decodeAutoCancelParent(self, fields, MIN_SERVER_VER_AUTO_CANCEL_PARENT)
+        OrderDecoder.decodePegBestPegMidOrderAttributes(self, fields)
 
         self.wrapper.openOrder(order.orderId, contract, order, orderState)
 
@@ -1203,6 +1204,7 @@ class Decoder(Object):
         OrderDecoder.decodeParentPermId(self, fields)
         OrderDecoder.decodeCompletedTime(self, fields)
         OrderDecoder.decodeCompletedStatus(self, fields)
+        OrderDecoder.decodePegBestPegMidOrderAttributes(self, fields)
 
         self.wrapper.completedOrder(contract, order, orderState)
 

@@ -115,7 +115,9 @@ public class Utils {
     public static final String LONGVALUE = "LONGVALUE";
     
     public static final String ADVANCED_ORDER_REJECT_JSON_STR = "advancedOrderRejectJson";
-    
+
+    public static final String UP_TO_MID = "UpToMid";
+
     @SuppressWarnings("serial")
     static final Hashtable<Integer, String> delayedToRegularMap = new Hashtable<Integer, String>() {{
         put(TickType.DELAYED_BID.index(), TickType.BID.field());

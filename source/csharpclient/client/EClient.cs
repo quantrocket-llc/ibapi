@@ -1273,6 +1273,32 @@ namespace IBApi
                     paramsList.AddParameter(order.ManualOrderTime);
                 }
 
+                if (serverVersion >= MinServerVer.PEGBEST_PEGMID_OFFSETS)
+                {
+                    if (contract.Exchange == "IBKRATS")
+                    {
+                        paramsList.AddParameterMax(order.MinTradeQty);
+                    }
+                    bool sendMidOffsets = false;
+                    if (order.OrderType == "PEG BEST")
+                    {
+                        paramsList.AddParameterMax(order.MinCompeteSize);
+                        paramsList.AddParameterMax(order.CompeteAgainstBestOffset);
+                        if (order.CompeteAgainstBestOffset == Order.COMPETE_AGAINST_BEST_OFFSET_UP_TO_MID)
+                        {
+                            sendMidOffsets = true;
+                        }
+                    }
+                    else if (order.OrderType == "PEG MID")
+                    {
+                        sendMidOffsets = true;
+                    }
+                    if (sendMidOffsets)
+                    {
+                        paramsList.AddParameterMax(order.MidOffsetAtWhole);
+                        paramsList.AddParameterMax(order.MidOffsetAtHalf);
+                    }
+                }
             }
             catch (EClientException e)
             {
@@ -4033,6 +4059,20 @@ namespace IBApi
                 ReportError(id, EClientErrors.UPDATE_TWS, " It does not support manual order time attribute.");
 
                 return false;
+            }
+
+            if (serverVersion < MinServerVer.PEGBEST_PEGMID_OFFSETS)
+            {
+                if (order.MinTradeQty != int.MaxValue ||
+                    order.MinCompeteSize != int.MaxValue ||
+                    order.CompeteAgainstBestOffset != double.MaxValue ||
+                    order.MidOffsetAtWhole != double.MaxValue ||
+                    order.MidOffsetAtHalf != double.MaxValue)
+                {
+                    ReportError(id, EClientErrors.UPDATE_TWS,
+                        "  It does not support PEG BEST / PEG MID order parameters: minTradeQty, minCompeteSize, competeAgainstBestOffset, midOffsetAtWhole and midOffsetAtHalf");
+                    return false;
+                }
             }
 
             return true;

@@ -1079,5 +1079,55 @@ namespace Samples
             // ! [limit_order_with_manual_order_time]
             return order;
         }
+
+        public static Order PegBestUpToMidOrder(string action, decimal quantity, double limitPrice, int minTradeQty, int minCompeteSize, double midOffsetAtWhole, double midOffsetAtHalf)
+        {
+            // ! [peg_best_up_to_mid_order]
+            Order order = new Order();
+            order.Action = action;
+            order.OrderType = "PEG BEST";
+            order.LmtPrice = limitPrice;
+            order.TotalQuantity = quantity;
+            order.NotHeld = true;
+            order.MinTradeQty = minTradeQty;
+            order.MinCompeteSize = minCompeteSize;
+            order.CompeteAgainstBestOffset = Order.COMPETE_AGAINST_BEST_OFFSET_UP_TO_MID;
+            order.MidOffsetAtWhole = midOffsetAtWhole;
+            order.MidOffsetAtHalf = midOffsetAtHalf;
+            // ! [peg_best_up_to_mid_order]
+            return order;
+        }
+
+        public static Order PegBestOrder(string action, decimal quantity, double limitPrice, int minTradeQty, int minCompeteSize, double competeAgainstBestOffset)
+        {
+            // ! [peg_best_order]
+            Order order = new Order();
+            order.Action = action;
+            order.OrderType = "PEG BEST";
+            order.LmtPrice = limitPrice;
+            order.TotalQuantity = quantity;
+            order.NotHeld = true;
+            order.MinTradeQty = minTradeQty;
+            order.MinCompeteSize = minCompeteSize;
+            order.CompeteAgainstBestOffset = competeAgainstBestOffset;
+            // ! [peg_best_order]
+            return order;
+        }
+
+        public static Order PegMidOrder(string action, decimal quantity, double limitPrice, int minTradeQty, double midOffsetAtWhole, double midOffsetAtHalf)
+        {
+            // ! [peg_mid_order]
+            Order order = new Order();
+            order.Action = action;
+            order.OrderType = "PEG MID";
+            order.LmtPrice = limitPrice;
+            order.TotalQuantity = quantity;
+            order.NotHeld = true;
+            order.MinTradeQty = minTradeQty;
+            order.MidOffsetAtWhole = midOffsetAtWhole;
+            order.MidOffsetAtHalf = midOffsetAtHalf;
+            // ! [peg_mid_order]
+            return order;
+        }
     }
 }

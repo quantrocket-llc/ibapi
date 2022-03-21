@@ -485,6 +485,7 @@ namespace IBApi
             eOrderDecoder.readParentPermId();
             eOrderDecoder.readCompletedTime();
             eOrderDecoder.readCompletedStatus();
+            eOrderDecoder.readPegBestPegMidOrderAttributes();
 
             eWrapper.completedOrder(contract, order, orderState);
         }
@@ -1566,6 +1567,7 @@ namespace IBApi
             eOrderDecoder.readDuration();
             eOrderDecoder.readPostToAts();
             eOrderDecoder.readAutoCancelParent(MinServerVer.AUTO_CANCEL_PARENT);
+            eOrderDecoder.readPegBestPegMidOrderAttributes();
 
             eWrapper.openOrder(order.OrderId, contract, order, orderState);
         }
@@ -2118,7 +2120,7 @@ namespace IBApi
         public double ReadDoubleMax()
         {
             string str = ReadString();
-            return string.IsNullOrEmpty(str) ? double.MaxValue : double.Parse(str, System.Globalization.NumberFormatInfo.InvariantInfo);
+            return string.IsNullOrEmpty(str) ? double.MaxValue : str == Constants.INFINITY_STR ? double.PositiveInfinity : double.Parse(str, System.Globalization.NumberFormatInfo.InvariantInfo);
         }
 
         public decimal ReadDecimal()

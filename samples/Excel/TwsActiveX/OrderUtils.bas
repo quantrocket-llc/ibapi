@@ -142,6 +142,11 @@ Public Enum ExtendedOrderAttributesColumns
     Col_ADVANCED_ERROR_OVERRIDE
     Col_MANUAL_ORDER_TIME
     Col_MANUAL_ORDER_CANCEL_TIME
+    Col_MIN_TRADE_QTY
+    Col_MIN_COMPETE_SIZE
+    Col_COMPETE_AGAINST_BEST_OFFSET
+    Col_MID_OFFSET_AT_WHOLE
+    Col_MID_OFFSET_AT_HALF
 End Enum
 
 ' other constants
@@ -390,6 +395,17 @@ Private Sub PlaceModifyOrder( _
         .autoCancelParent = Util.SetNonEmptyValue(extendedAttributeTable(orderIndex, Col_AUTO_CANCEL_PARENT).value, .autoCancelParent)
         .advancedErrorOverride = Util.SetNonEmptyValue(extendedAttributeTable(orderIndex, Col_ADVANCED_ERROR_OVERRIDE).value, .advancedErrorOverride)
         .manualOrderTime = Util.SetNonEmptyValue(extendedAttributeTable(orderIndex, Col_MANUAL_ORDER_TIME).value, .manualOrderTime)
+        .minTradeQty = Util.SetNonEmptyValue(extendedAttributeTable(orderIndex, Col_MIN_TRADE_QTY).value, .minTradeQty)
+        .minCompeteSize = Util.SetNonEmptyValue(extendedAttributeTable(orderIndex, Col_MIN_COMPETE_SIZE).value, .minCompeteSize)
+        Dim competeAgainstBestOffset As String
+        competeAgainstBestOffset = extendedAttributeTable(orderIndex, Col_COMPETE_AGAINST_BEST_OFFSET).value
+        If competeAgainstBestOffset = "UpToMid" Then
+            .competeAgainstBestOffset = Util.GetInfinity()
+        Else
+            .competeAgainstBestOffset = Util.SetNonEmptyValue(competeAgainstBestOffset, .competeAgainstBestOffset)
+        End If
+        .midOffsetAtWhole = Util.SetNonEmptyValue(extendedAttributeTable(orderIndex, Col_MID_OFFSET_AT_WHOLE).value, .midOffsetAtWhole)
+        .midOffsetAtHalf = Util.SetNonEmptyValue(extendedAttributeTable(orderIndex, Col_MID_OFFSET_AT_HALF).value, .midOffsetAtHalf)
     End With
 
     ' combo legs

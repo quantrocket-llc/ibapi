@@ -194,6 +194,17 @@ Public Class dlgOrderAttribs
     Public WithEvents txtManualOrderTime As TextBox
     Public WithEvents LabelManualOrderCancelTime As Label
     Public WithEvents txtManualOrderCancelTime As TextBox
+    Public WithEvents LabelMinTradeQty As Label
+    Public WithEvents txtMinTradeQty As TextBox
+    Public WithEvents LabelMinCompeteSize As Label
+    Public WithEvents txtMinCompeteSize As TextBox
+    Public WithEvents LabelCompeteAgainstBestOffset As Label
+    Public WithEvents txtCompeteAgainstBestOffset As TextBox
+    Friend WithEvents checkCompeteAgainstBestOffsetUpToMid As CheckBox
+    Public WithEvents LabelMidOffsetAtWhole As Label
+    Public WithEvents txtMidOffsetAtWhole As TextBox
+    Public WithEvents LabelMidOffsetAtHalf As Label
+    Public WithEvents txtMidOffsetAtHalf As TextBox
     Public WithEvents Label41 As System.Windows.Forms.Label
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
@@ -354,6 +365,17 @@ Public Class dlgOrderAttribs
         Me.txtManualOrderTime = New System.Windows.Forms.TextBox()
         Me.LabelManualOrderCancelTime = New System.Windows.Forms.Label()
         Me.txtManualOrderCancelTime = New System.Windows.Forms.TextBox()
+        Me.LabelMinTradeQty = New System.Windows.Forms.Label()
+        Me.txtMinTradeQty = New System.Windows.Forms.TextBox()
+        Me.LabelMinCompeteSize = New System.Windows.Forms.Label()
+        Me.txtMinCompeteSize = New System.Windows.Forms.TextBox()
+        Me.LabelCompeteAgainstBestOffset = New System.Windows.Forms.Label()
+        Me.txtCompeteAgainstBestOffset = New System.Windows.Forms.TextBox()
+        Me.checkCompeteAgainstBestOffsetUpToMid = New System.Windows.Forms.CheckBox()
+        Me.LabelMidOffsetAtWhole = New System.Windows.Forms.Label()
+        Me.txtMidOffsetAtWhole = New System.Windows.Forms.TextBox()
+        Me.LabelMidOffsetAtHalf = New System.Windows.Forms.Label()
+        Me.txtMidOffsetAtHalf = New System.Windows.Forms.TextBox()
         Me.SuspendLayout()
         '
         'txtHedgeParam
@@ -608,7 +630,7 @@ Public Class dlgOrderAttribs
         Me.cmdOk.Cursor = System.Windows.Forms.Cursors.Default
         Me.cmdOk.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.cmdOk.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.cmdOk.Location = New System.Drawing.Point(345, 686)
+        Me.cmdOk.Location = New System.Drawing.Point(345, 741)
         Me.cmdOk.Name = "cmdOk"
         Me.cmdOk.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.cmdOk.Size = New System.Drawing.Size(73, 25)
@@ -623,7 +645,7 @@ Public Class dlgOrderAttribs
         Me.cmdCancel.Cursor = System.Windows.Forms.Cursors.Default
         Me.cmdCancel.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.cmdCancel.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.cmdCancel.Location = New System.Drawing.Point(456, 686)
+        Me.cmdCancel.Location = New System.Drawing.Point(456, 741)
         Me.cmdCancel.Name = "cmdCancel"
         Me.cmdCancel.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.cmdCancel.Size = New System.Drawing.Size(73, 25)
@@ -2477,7 +2499,7 @@ Public Class dlgOrderAttribs
         Me.LabelManualOrderCancelTime.Cursor = System.Windows.Forms.Cursors.Default
         Me.LabelManualOrderCancelTime.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LabelManualOrderCancelTime.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.LabelManualOrderCancelTime.Location = New System.Drawing.Point(268, 660)
+        Me.LabelManualOrderCancelTime.Location = New System.Drawing.Point(264, 660)
         Me.LabelManualOrderCancelTime.Name = "LabelManualOrderCancelTime"
         Me.LabelManualOrderCancelTime.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.LabelManualOrderCancelTime.Size = New System.Drawing.Size(150, 17)
@@ -2499,11 +2521,172 @@ Public Class dlgOrderAttribs
         Me.txtManualOrderCancelTime.Size = New System.Drawing.Size(85, 13)
         Me.txtManualOrderCancelTime.TabIndex = 161
         '
+        'LabelMinTradeQty
+        '
+        Me.LabelMinTradeQty.BackColor = System.Drawing.Color.Gainsboro
+        Me.LabelMinTradeQty.Cursor = System.Windows.Forms.Cursors.Default
+        Me.LabelMinTradeQty.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LabelMinTradeQty.ForeColor = System.Drawing.SystemColors.ControlText
+        Me.LabelMinTradeQty.Location = New System.Drawing.Point(13, 684)
+        Me.LabelMinTradeQty.Name = "LabelMinTradeQty"
+        Me.LabelMinTradeQty.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.LabelMinTradeQty.Size = New System.Drawing.Size(117, 17)
+        Me.LabelMinTradeQty.TabIndex = 162
+        Me.LabelMinTradeQty.Text = "Min Trade Qty"
+        '
+        'txtMinTradeQty
+        '
+        Me.txtMinTradeQty.AcceptsReturn = True
+        Me.txtMinTradeQty.BackColor = System.Drawing.SystemColors.Window
+        Me.txtMinTradeQty.BorderStyle = System.Windows.Forms.BorderStyle.None
+        Me.txtMinTradeQty.Cursor = System.Windows.Forms.Cursors.IBeam
+        Me.txtMinTradeQty.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtMinTradeQty.ForeColor = System.Drawing.SystemColors.WindowText
+        Me.txtMinTradeQty.Location = New System.Drawing.Point(144, 684)
+        Me.txtMinTradeQty.MaxLength = 0
+        Me.txtMinTradeQty.Name = "txtMinTradeQty"
+        Me.txtMinTradeQty.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.txtMinTradeQty.Size = New System.Drawing.Size(85, 13)
+        Me.txtMinTradeQty.TabIndex = 163
+        '
+        'LabelMinCompeteSize
+        '
+        Me.LabelMinCompeteSize.BackColor = System.Drawing.Color.Gainsboro
+        Me.LabelMinCompeteSize.Cursor = System.Windows.Forms.Cursors.Default
+        Me.LabelMinCompeteSize.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LabelMinCompeteSize.ForeColor = System.Drawing.SystemColors.ControlText
+        Me.LabelMinCompeteSize.Location = New System.Drawing.Point(264, 684)
+        Me.LabelMinCompeteSize.Name = "LabelMinCompeteSize"
+        Me.LabelMinCompeteSize.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.LabelMinCompeteSize.Size = New System.Drawing.Size(117, 17)
+        Me.LabelMinCompeteSize.TabIndex = 164
+        Me.LabelMinCompeteSize.Text = "Min Compete Size"
+        '
+        'txtMinCompeteSize
+        '
+        Me.txtMinCompeteSize.AcceptsReturn = True
+        Me.txtMinCompeteSize.BackColor = System.Drawing.SystemColors.Window
+        Me.txtMinCompeteSize.BorderStyle = System.Windows.Forms.BorderStyle.None
+        Me.txtMinCompeteSize.Cursor = System.Windows.Forms.Cursors.IBeam
+        Me.txtMinCompeteSize.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtMinCompeteSize.ForeColor = System.Drawing.SystemColors.WindowText
+        Me.txtMinCompeteSize.Location = New System.Drawing.Point(432, 684)
+        Me.txtMinCompeteSize.MaxLength = 0
+        Me.txtMinCompeteSize.Name = "txtMinCompeteSize"
+        Me.txtMinCompeteSize.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.txtMinCompeteSize.Size = New System.Drawing.Size(85, 13)
+        Me.txtMinCompeteSize.TabIndex = 165
+        '
+        'LabelCompeteAgainstBestOffset
+        '
+        Me.LabelCompeteAgainstBestOffset.BackColor = System.Drawing.Color.Gainsboro
+        Me.LabelCompeteAgainstBestOffset.Cursor = System.Windows.Forms.Cursors.Default
+        Me.LabelCompeteAgainstBestOffset.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LabelCompeteAgainstBestOffset.ForeColor = System.Drawing.SystemColors.ControlText
+        Me.LabelCompeteAgainstBestOffset.Location = New System.Drawing.Point(547, 684)
+        Me.LabelCompeteAgainstBestOffset.Name = "LabelCompeteAgainstBestOffset"
+        Me.LabelCompeteAgainstBestOffset.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.LabelCompeteAgainstBestOffset.Size = New System.Drawing.Size(155, 17)
+        Me.LabelCompeteAgainstBestOffset.TabIndex = 166
+        Me.LabelCompeteAgainstBestOffset.Text = "Compete Against Best Offset"
+        '
+        'txtCompeteAgainstBestOffset
+        '
+        Me.txtCompeteAgainstBestOffset.AcceptsReturn = True
+        Me.txtCompeteAgainstBestOffset.BackColor = System.Drawing.SystemColors.Window
+        Me.txtCompeteAgainstBestOffset.BorderStyle = System.Windows.Forms.BorderStyle.None
+        Me.txtCompeteAgainstBestOffset.Cursor = System.Windows.Forms.Cursors.IBeam
+        Me.txtCompeteAgainstBestOffset.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtCompeteAgainstBestOffset.ForeColor = System.Drawing.SystemColors.WindowText
+        Me.txtCompeteAgainstBestOffset.Location = New System.Drawing.Point(753, 684)
+        Me.txtCompeteAgainstBestOffset.MaxLength = 0
+        Me.txtCompeteAgainstBestOffset.Name = "txtCompeteAgainstBestOffset"
+        Me.txtCompeteAgainstBestOffset.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.txtCompeteAgainstBestOffset.Size = New System.Drawing.Size(85, 13)
+        Me.txtCompeteAgainstBestOffset.TabIndex = 167
+        '
+        'checkCompeteAgainstBestOffsetUpToMid
+        '
+        Me.checkCompeteAgainstBestOffsetUpToMid.AutoSize = True
+        Me.checkCompeteAgainstBestOffsetUpToMid.Location = New System.Drawing.Point(16, 704)
+        Me.checkCompeteAgainstBestOffsetUpToMid.Name = "checkCompeteAgainstBestOffsetUpToMid"
+        Me.checkCompeteAgainstBestOffsetUpToMid.Size = New System.Drawing.Size(215, 18)
+        Me.checkCompeteAgainstBestOffsetUpToMid.TabIndex = 168
+        Me.checkCompeteAgainstBestOffsetUpToMid.Text = "Compete Against Best Offset Up To Mid"
+        Me.checkCompeteAgainstBestOffsetUpToMid.UseVisualStyleBackColor = True
+        '
+        'LabelMidOffsetAtWhole
+        '
+        Me.LabelMidOffsetAtWhole.BackColor = System.Drawing.Color.Gainsboro
+        Me.LabelMidOffsetAtWhole.Cursor = System.Windows.Forms.Cursors.Default
+        Me.LabelMidOffsetAtWhole.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LabelMidOffsetAtWhole.ForeColor = System.Drawing.SystemColors.ControlText
+        Me.LabelMidOffsetAtWhole.Location = New System.Drawing.Point(264, 705)
+        Me.LabelMidOffsetAtWhole.Name = "LabelMidOffsetAtWhole"
+        Me.LabelMidOffsetAtWhole.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.LabelMidOffsetAtWhole.Size = New System.Drawing.Size(117, 17)
+        Me.LabelMidOffsetAtWhole.TabIndex = 169
+        Me.LabelMidOffsetAtWhole.Text = "Mid Offset At Whole"
+        '
+        'txtMidOffsetAtWhole
+        '
+        Me.txtMidOffsetAtWhole.AcceptsReturn = True
+        Me.txtMidOffsetAtWhole.BackColor = System.Drawing.SystemColors.Window
+        Me.txtMidOffsetAtWhole.BorderStyle = System.Windows.Forms.BorderStyle.None
+        Me.txtMidOffsetAtWhole.Cursor = System.Windows.Forms.Cursors.IBeam
+        Me.txtMidOffsetAtWhole.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtMidOffsetAtWhole.ForeColor = System.Drawing.SystemColors.WindowText
+        Me.txtMidOffsetAtWhole.Location = New System.Drawing.Point(432, 705)
+        Me.txtMidOffsetAtWhole.MaxLength = 0
+        Me.txtMidOffsetAtWhole.Name = "txtMidOffsetAtWhole"
+        Me.txtMidOffsetAtWhole.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.txtMidOffsetAtWhole.Size = New System.Drawing.Size(85, 13)
+        Me.txtMidOffsetAtWhole.TabIndex = 170
+        '
+        'LabelMidOffsetAtHalf
+        '
+        Me.LabelMidOffsetAtHalf.BackColor = System.Drawing.Color.Gainsboro
+        Me.LabelMidOffsetAtHalf.Cursor = System.Windows.Forms.Cursors.Default
+        Me.LabelMidOffsetAtHalf.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LabelMidOffsetAtHalf.ForeColor = System.Drawing.SystemColors.ControlText
+        Me.LabelMidOffsetAtHalf.Location = New System.Drawing.Point(547, 705)
+        Me.LabelMidOffsetAtHalf.Name = "LabelMidOffsetAtHalf"
+        Me.LabelMidOffsetAtHalf.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.LabelMidOffsetAtHalf.Size = New System.Drawing.Size(117, 17)
+        Me.LabelMidOffsetAtHalf.TabIndex = 171
+        Me.LabelMidOffsetAtHalf.Text = "Mid Offset At Half"
+        '
+        'txtMidOffsetAtHalf
+        '
+        Me.txtMidOffsetAtHalf.AcceptsReturn = True
+        Me.txtMidOffsetAtHalf.BackColor = System.Drawing.SystemColors.Window
+        Me.txtMidOffsetAtHalf.BorderStyle = System.Windows.Forms.BorderStyle.None
+        Me.txtMidOffsetAtHalf.Cursor = System.Windows.Forms.Cursors.IBeam
+        Me.txtMidOffsetAtHalf.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtMidOffsetAtHalf.ForeColor = System.Drawing.SystemColors.WindowText
+        Me.txtMidOffsetAtHalf.Location = New System.Drawing.Point(753, 705)
+        Me.txtMidOffsetAtHalf.MaxLength = 0
+        Me.txtMidOffsetAtHalf.Name = "txtMidOffsetAtHalf"
+        Me.txtMidOffsetAtHalf.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.txtMidOffsetAtHalf.Size = New System.Drawing.Size(85, 13)
+        Me.txtMidOffsetAtHalf.TabIndex = 172
+        '
         'dlgOrderAttribs
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
         Me.BackColor = System.Drawing.Color.Gainsboro
-        Me.ClientSize = New System.Drawing.Size(850, 725)
+        Me.ClientSize = New System.Drawing.Size(850, 780)
+        Me.Controls.Add(Me.txtMidOffsetAtHalf)
+        Me.Controls.Add(Me.LabelMidOffsetAtHalf)
+        Me.Controls.Add(Me.txtMidOffsetAtWhole)
+        Me.Controls.Add(Me.LabelMidOffsetAtWhole)
+        Me.Controls.Add(Me.checkCompeteAgainstBestOffsetUpToMid)
+        Me.Controls.Add(Me.txtCompeteAgainstBestOffset)
+        Me.Controls.Add(Me.LabelCompeteAgainstBestOffset)
+        Me.Controls.Add(Me.txtMinCompeteSize)
+        Me.Controls.Add(Me.LabelMinCompeteSize)
+        Me.Controls.Add(Me.txtMinTradeQty)
+        Me.Controls.Add(Me.LabelMinTradeQty)
         Me.Controls.Add(Me.txtManualOrderCancelTime)
         Me.Controls.Add(Me.LabelManualOrderCancelTime)
         Me.Controls.Add(Me.txtManualOrderTime)
@@ -2812,6 +2995,16 @@ Public Class dlgOrderAttribs
         checkNotHeld.Checked = m_orderInfo.NotHeld
         checkAutoCancelParent.Checked = m_orderInfo.AutoCancelParent
         txtAdvancedErrorOverride.Text = m_orderInfo.AdvancedErrorOverride
+        txtMinTradeQty.Text = ivalStr(m_orderInfo.MinTradeQty)
+        txtMinCompeteSize.Text = ivalStr(m_orderInfo.MinCompeteSize)
+        If m_orderInfo.CompeteAgainstBestOffset = IBApi.Order.COMPETE_AGAINST_BEST_OFFSET_UP_TO_MID Then
+            checkCompeteAgainstBestOffsetUpToMid.Checked = True
+        Else
+            checkCompeteAgainstBestOffsetUpToMid.Checked = False
+            txtCompeteAgainstBestOffset.Text = dvalStr(m_orderInfo.CompeteAgainstBestOffset)
+        End If
+        txtMidOffsetAtWhole.Text = dvalStr(m_orderInfo.MidOffsetAtWhole)
+        txtMidOffsetAtHalf.Text = dvalStr(m_orderInfo.MidOffsetAtHalf)
     End Sub
 
     ' ========================================================
@@ -2974,6 +3167,11 @@ Public Class dlgOrderAttribs
         m_orderInfo.AdvancedErrorOverride = txtAdvancedErrorOverride.Text
         m_orderInfo.ManualOrderTime = txtManualOrderTime.Text
         m_manualOrderCancelTime = txtManualOrderCancelTime.Text
+        m_orderInfo.MinTradeQty = ival(txtMinTradeQty.Text)
+        m_orderInfo.MinCompeteSize = ival(txtMinCompeteSize.Text)
+        m_orderInfo.CompeteAgainstBestOffset = If(checkCompeteAgainstBestOffsetUpToMid.Checked, dval(IBApi.Order.COMPETE_AGAINST_BEST_OFFSET_UP_TO_MID), dval(txtCompeteAgainstBestOffset.Text))
+        m_orderInfo.MidOffsetAtWhole = dval(txtMidOffsetAtWhole.Text)
+        m_orderInfo.MidOffsetAtHalf = dval(txtMidOffsetAtHalf.Text)
 
         m_ok = True
         Hide()
@@ -2988,4 +3186,11 @@ Public Class dlgOrderAttribs
         Return m_manualOrderCancelTime
     End Function
 
+    Private Sub checkCompeteAgainstBestOffsetUpToMid_CheckedChanged(sender As Object, e As EventArgs) Handles checkCompeteAgainstBestOffsetUpToMid.CheckedChanged
+        If checkCompeteAgainstBestOffsetUpToMid.Checked Then
+            txtCompeteAgainstBestOffset.Enabled = False
+        Else
+            txtCompeteAgainstBestOffset.Enabled = True
+        End If
+    End Sub
 End Class

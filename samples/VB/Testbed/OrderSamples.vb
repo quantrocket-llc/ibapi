@@ -1117,6 +1117,52 @@ Namespace Samples
             Return order
         End Function
 
+        Public Shared Function PegBestUpToMidOrder(action As String, quantity As Decimal, limitPrice As Double, minTradeQty As Integer, minCompeteSize As Integer, midOffsetAtWhole As Double, midOffsetAtHalf As Double) As Order
+            '! [peg_best_up_to_mid_order]
+            Dim order As Order = New Order
+            order.Action = action
+            order.OrderType = "PEG BEST"
+            order.LmtPrice = limitPrice
+            order.TotalQuantity = quantity
+            order.NotHeld = True
+            order.MinTradeQty = minTradeQty
+            order.MinCompeteSize = minCompeteSize
+            order.CompeteAgainstBestOffset = Order.COMPETE_AGAINST_BEST_OFFSET_UP_TO_MID
+            order.MidOffsetAtWhole = midOffsetAtWhole
+            order.MidOffsetAtHalf = midOffsetAtHalf
+            '! [peg_best_up_to_mid_order]
+            Return order
+        End Function
+
+        Public Shared Function PegBestOrder(action As String, quantity As Decimal, limitPrice As Double, minTradeQty As Integer, minCompeteSize As Integer, competeAgainstBestOffset As Double) As Order
+            '! [peg_best_order]
+            Dim order As Order = New Order
+            order.Action = action
+            order.OrderType = "PEG BEST"
+            order.LmtPrice = limitPrice
+            order.TotalQuantity = quantity
+            order.NotHeld = True
+            order.MinTradeQty = minTradeQty
+            order.MinCompeteSize = minCompeteSize
+            order.CompeteAgainstBestOffset = competeAgainstBestOffset
+            '! [peg_best_order]
+            Return order
+        End Function
+
+        Public Shared Function PegMidOrder(action As String, quantity As Decimal, limitPrice As Double, minTradeQty As Integer, midOffsetAtWhole As Double, midOffsetAtHalf As Double) As Order
+            '! [peg_mid_order]
+            Dim order As Order = New Order
+            order.Action = action
+            order.OrderType = "PEG MID"
+            order.LmtPrice = limitPrice
+            order.TotalQuantity = quantity
+            order.NotHeld = True
+            order.MinTradeQty = minTradeQty
+            order.MidOffsetAtWhole = midOffsetAtWhole
+            order.MidOffsetAtHalf = midOffsetAtHalf
+            '! [peg_mid_order]
+            Return order
+        End Function
     End Class
 
 End Namespace

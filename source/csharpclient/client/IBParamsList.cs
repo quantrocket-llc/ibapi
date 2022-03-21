@@ -79,6 +79,8 @@ namespace IBApi
         {
             if (value == double.MaxValue)
                 source.Write(Constants.EOL);
+            else if (value == double.PositiveInfinity)
+                source.AddParameter(Constants.INFINITY_STR);
             else
                 source.AddParameter(value);
 

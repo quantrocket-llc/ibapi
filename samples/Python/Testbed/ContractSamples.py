@@ -667,7 +667,7 @@ class ContractSamples:
     def IBKRATSContract():
         # ! [ibkrats_contract]
         contract = Contract();
-        contract.symbol = "QQQ";
+        contract.symbol = "SPY";
         contract.secType = "STK";
         contract.currency = "USD";
         contract.exchange = "IBKRATS";

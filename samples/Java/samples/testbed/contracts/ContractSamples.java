@@ -613,7 +613,7 @@ public class ContractSamples {
 	public static Contract IBKRATSContract() {
 		//! [ibkrats_contract]
 		Contract contract = new Contract();
-		contract.symbol("QQQ");
+		contract.symbol("SPY");
 		contract.secType("STK");
 		contract.exchange("IBKRATS"); 
 		contract.currency("USD");    

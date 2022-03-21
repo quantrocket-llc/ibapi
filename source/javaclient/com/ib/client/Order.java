@@ -31,6 +31,7 @@ public class Order {
     final public static int 	AUCTION_IMPROVEMENT = 2;
     final public static int 	AUCTION_TRANSPARENT = 3;
     final public static String  EMPTY_STR = "";
+    final public static double COMPETE_AGAINST_BEST_OFFSET_UP_TO_MID = Double.POSITIVE_INFINITY;
 
     // order id's
     private int  m_clientId;
@@ -219,6 +220,11 @@ public class Order {
     private int     m_postToAts;
     private String  m_advancedErrorOverride;
     private String  m_manualOrderTime;
+    private int     m_minTradeQty;
+    private int     m_minCompeteSize;
+    private double  m_competeAgainstBestOffset;
+    private double  m_midOffsetAtWhole;
+    private double  m_midOffsetAtHalf;
 	
 	// getters
     public Action  action()                         { return Action.get(m_action); }
@@ -363,6 +369,12 @@ public class Order {
     public int postToAts()                          { return m_postToAts; }
     public String advancedErrorOverride()           { return m_advancedErrorOverride; }
     public String manualOrderTime()                 { return m_manualOrderTime; }
+    public int minTradeQty()                        { return m_minTradeQty; }
+    public int minCompeteSize()                     { return m_minCompeteSize; }
+    public double competeAgainstBestOffset()        { return m_competeAgainstBestOffset; }
+    public boolean isCompeteAgainstBestOffsetUpToMid() { return m_competeAgainstBestOffset == COMPETE_AGAINST_BEST_OFFSET_UP_TO_MID; }
+    public double midOffsetAtWhole()                { return m_midOffsetAtWhole; }
+    public double midOffsetAtHalf()                 { return m_midOffsetAtHalf; }
   
 	// setters
 	public void referenceContractId(int m_referenceContractId)          { this.m_referenceContractId = m_referenceContractId; }
@@ -508,6 +520,12 @@ public class Order {
     public void postToAts(int v)                                        { m_postToAts = v; }
     public void advancedErrorOverride(String v)                         { m_advancedErrorOverride = v; }
     public void manualOrderTime(String v)                               { m_manualOrderTime = v; }
+    public void minTradeQty(int v)                                      { m_minTradeQty = v; }
+    public void minCompeteSize(int v)                                   { m_minCompeteSize = v; }
+    public void competeAgainstBestOffset(double v)                      { m_competeAgainstBestOffset = v; }
+    public void setCompeteAgainstBestOffsetUpToMid()                    { m_competeAgainstBestOffset = COMPETE_AGAINST_BEST_OFFSET_UP_TO_MID; }
+    public void midOffsetAtWhole(double v)                              { m_midOffsetAtWhole = v; }
+    public void midOffsetAtHalf(double v)                               { m_midOffsetAtHalf = v; }
 
 
     public Order() {
@@ -559,6 +577,11 @@ public class Order {
         m_postToAts = Integer.MAX_VALUE;
         m_advancedErrorOverride = EMPTY_STR;
         m_manualOrderTime = EMPTY_STR;
+        m_minTradeQty = Integer.MAX_VALUE;
+        m_minCompeteSize = Integer.MAX_VALUE;
+        m_competeAgainstBestOffset = Double.MAX_VALUE;
+        m_midOffsetAtWhole = Double.MAX_VALUE;
+        m_midOffsetAtHalf = Double.MAX_VALUE;
     }
 
     public List<TagValue> algoParams() {
@@ -662,6 +685,11 @@ public class Order {
             || m_parentPermId != l_theOther.m_parentPermId
             || m_duration != l_theOther.m_duration
             || m_postToAts != l_theOther.m_postToAts
+            || m_minTradeQty != l_theOther.m_minTradeQty
+            || m_minCompeteSize != l_theOther.m_minCompeteSize
+            || m_competeAgainstBestOffset != l_theOther.m_competeAgainstBestOffset
+            || m_midOffsetAtWhole != l_theOther.m_midOffsetAtWhole
+            || m_midOffsetAtHalf != l_theOther.m_midOffsetAtHalf
             ) {
         	return false;
         }

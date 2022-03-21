@@ -486,7 +486,7 @@ public class OrdersHandler extends BaseHandler {
                 System.out.println("Cannot extract base order fields");
                 return null;
             }
-            if (table2.size() < 115) {
+            if (table2.size() < 120) {
                 System.out.println("Cannot extract extended order attributes");
                 return null;
             }
@@ -855,6 +855,22 @@ public class OrdersHandler extends BaseHandler {
             }
             if (Utils.isNotNull(table2.get(115))) {
                 // manualOrderCancelTime - not used in placeOrder
+            }
+            if (Utils.isNotNull(table2.get(116))) {
+                order.minTradeQty(getIntFromString(table2.get(116)));
+            }
+            if (Utils.isNotNull(table2.get(117))) {
+                order.minCompeteSize(getIntFromString(table2.get(117)));
+            }
+            String competeAgainstBestOffset = table2.get(118);
+            if (Utils.isNotNull(competeAgainstBestOffset)) {
+                order.competeAgainstBestOffset(competeAgainstBestOffset.equals(Utils.UP_TO_MID) ? Order.COMPETE_AGAINST_BEST_OFFSET_UP_TO_MID : getDoubleFromString(competeAgainstBestOffset));
+            }
+            if (Utils.isNotNull(table2.get(119))) {
+                order.midOffsetAtWhole(getDoubleFromString(table2.get(119)));
+            }
+            if (Utils.isNotNull(table2.get(120))) {
+                order.midOffsetAtHalf(getDoubleFromString(table2.get(120)));
             }
             
             return order;

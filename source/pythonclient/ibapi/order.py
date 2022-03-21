@@ -3,8 +3,7 @@ Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is su
  and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable.
 """
 
-
-from ibapi.common import UNSET_INTEGER, UNSET_DOUBLE, UNSET_DECIMAL
+from ibapi.common import UNSET_INTEGER, UNSET_DOUBLE, UNSET_DECIMAL, DOUBLE_INFINITY
 from ibapi.object_implem import Object
 from ibapi.softdollartier import SoftDollarTier
 from ibapi.utils import decimalMaxString
@@ -18,6 +17,7 @@ from ibapi.utils import floatMaxString
 (AUCTION_UNSET, AUCTION_MATCH,
  AUCTION_IMPROVEMENT, AUCTION_TRANSPARENT) = range(4)
 
+COMPETE_AGAINST_BEST_OFFSET_UP_TO_MID = DOUBLE_INFINITY
 
 class OrderComboLeg(Object):
     def __init__(self):
@@ -214,6 +214,11 @@ class Order(Object):
         self.postToAts = UNSET_INTEGER
         self.advancedErrorOverride = ""
         self.manualOrderTime = ""
+        self.minTradeQty = UNSET_INTEGER
+        self.minCompeteSize = UNSET_INTEGER
+        self.competeAgainstBestOffset = UNSET_DOUBLE
+        self.midOffsetAtWhole = UNSET_DOUBLE
+        self.midOffsetAtHalf = UNSET_DOUBLE
 
     def __str__(self):
         s = "%s,%s,%s:" % (intMaxString(self.orderId), intMaxString(self.clientId), intMaxString(self.permId))

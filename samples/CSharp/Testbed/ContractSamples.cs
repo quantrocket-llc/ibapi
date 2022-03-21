@@ -688,7 +688,7 @@ namespace Samples
         {
             //! [ibkrats_contract]
             Contract contract = new Contract();
-            contract.Symbol = "QQQ";
+            contract.Symbol = "SPY";
             contract.SecType = "STK";
             contract.Exchange = "IBKRATS"; 
             contract.Currency = "USD"; 

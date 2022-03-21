@@ -4,7 +4,7 @@ Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is su
 """
 
 
-from ibapi.order import (OrderComboLeg, Order)
+from ibapi.order import (OrderComboLeg, Order, COMPETE_AGAINST_BEST_OFFSET_UP_TO_MID)
 from ibapi.common import * # @UnusedWildImport
 from ibapi.tag_value import TagValue
 from ibapi import order_condition
@@ -1134,6 +1134,56 @@ class OrderSamples:
         order = OrderSamples.LimitOrder(action, quantity, limitPrice)
         order.manualOrderTime = manualOrderTime
         # ! [limit_order_with_manual_order_time]
+        return order
+
+    @staticmethod
+    def PegBestUpToMidOrder(action:str, quantity:Decimal, limitPrice:float, minTradeQty:int, minCompeteSize:int, midOffsetAtWhole:float, midOffsetAtHalf:float):
+
+        # ! [peg_best_up_to_mid_order]
+        order = Order()
+        order.action = action
+        order.orderType = "PEG BEST"
+        order.lmtPrice = limitPrice
+        order.totalQuantity = quantity
+        order.notHeld = True
+        order.minTradeQty = minTradeQty
+        order.minCompeteSize = minCompeteSize
+        order.competeAgainstBestOffset = COMPETE_AGAINST_BEST_OFFSET_UP_TO_MID
+        order.midOffsetAtWhole = midOffsetAtWhole
+        order.midOffsetAtHalf = midOffsetAtHalf
+        # ! [peg_best_up_to_mid_order]
+        return order
+
+    @staticmethod
+    def PegBestOrder(action:str, quantity:Decimal, limitPrice:float, minTradeQty:int, minCompeteSize:int, competeAgainstBestOffset:float):
+
+        # ! [peg_best_order]
+        order = Order()
+        order.action = action
+        order.orderType = "PEG BEST"
+        order.lmtPrice = limitPrice
+        order.totalQuantity = quantity
+        order.notHeld = True
+        order.minTradeQty = minTradeQty
+        order.minCompeteSize = minCompeteSize
+        order.competeAgainstBestOffset = competeAgainstBestOffset
+        # ! [peg_best_order]
+        return order
+
+    @staticmethod
+    def PegMidOrder(action:str, quantity:Decimal, limitPrice:float, minTradeQty:int, midOffsetAtWhole:float, midOffsetAtHalf:float):
+
+        # ! [peg_mid_order]
+        order = Order()
+        order.action = action
+        order.orderType = "PEG MID"
+        order.lmtPrice = limitPrice
+        order.totalQuantity = quantity
+        order.notHeld = True
+        order.minTradeQty = minTradeQty
+        order.midOffsetAtWhole = midOffsetAtWhole
+        order.midOffsetAtHalf = midOffsetAtHalf
+        # ! [peg_mid_order]
         return order
 
 def Test():

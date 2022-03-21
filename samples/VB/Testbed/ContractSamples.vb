@@ -680,7 +680,7 @@ Namespace Samples
 		Public Shared Function IBKRATSContract() As Contract
             '! [ibkrats_contract]
             Dim contract As Contract = New Contract()
-            contract.Symbol = "QQQ"
+            contract.Symbol = "SPY"
             contract.SecType = "STK"
             contract.Exchange = "IBKRATS" 
             contract.Currency = "USD" 

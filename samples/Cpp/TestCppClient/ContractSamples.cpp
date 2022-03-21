@@ -703,7 +703,7 @@ Contract ContractSamples::CSFBContract(){
 Contract ContractSamples::IBKRATSContract(){
 	//! [ibkrats_contract]
 	Contract contract;
-	contract.symbol = "QQQ";
+	contract.symbol = "SPY";
 	contract.secType = "STK";
 	contract.exchange = "IBKRATS";
 	contract.currency = "USD";

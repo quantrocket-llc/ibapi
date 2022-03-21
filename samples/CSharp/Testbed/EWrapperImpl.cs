@@ -209,7 +209,10 @@ namespace Samples
             Console.WriteLine("OpenOrder. PermID: " + Util.IntMaxString(order.PermId) + ", ClientId: " + Util.IntMaxString(order.ClientId) + ", OrderId: " + Util.IntMaxString(orderId) + 
                 ", Account: " + order.Account + ", Symbol: " + contract.Symbol + ", SecType: " + contract.SecType + " , Exchange: " + contract.Exchange + ", Action: " + order.Action + 
                 ", OrderType: " + order.OrderType + ", TotalQty: " + Util.DecimalMaxString(order.TotalQuantity) + ", CashQty: " + Util.DoubleMaxString(order.CashQty) + 
-                ", LmtPrice: " + Util.DoubleMaxString(order.LmtPrice) + ", AuxPrice: " + Util.DoubleMaxString(order.AuxPrice) + ", Status: " + orderState.Status);
+                ", LmtPrice: " + Util.DoubleMaxString(order.LmtPrice) + ", AuxPrice: " + Util.DoubleMaxString(order.AuxPrice) + ", Status: " + orderState.Status +
+                ", MinTradeQty: " + Util.IntMaxString(order.MinTradeQty) + ", MinCompeteSize: " + Util.IntMaxString(order.MinCompeteSize) +
+                ", CompeteAgainstBestOffset: " + (order.CompeteAgainstBestOffset == Order.COMPETE_AGAINST_BEST_OFFSET_UP_TO_MID ? "UpToMid" : Util.DoubleMaxString(order.CompeteAgainstBestOffset)) +
+                ", MidOffsetAtWhole: " + Util.DoubleMaxString(order.MidOffsetAtWhole) + ", MidOffsetAtHalf: " + Util.DoubleMaxString(order.MidOffsetAtHalf));
         }
         //! [openorder]
 
@@ -820,7 +823,10 @@ namespace Samples
             Console.WriteLine("CompletedOrder. PermID: " + Util.IntMaxString(order.PermId) + ", ParentPermId: " + Util.LongMaxString(order.ParentPermId) + ", Account: " + order.Account + ", Symbol: " + contract.Symbol + ", SecType: " + contract.SecType + 
                 " , Exchange: " + contract.Exchange + ", Action: " + order.Action + ", OrderType: " + order.OrderType + ", TotalQty: " + Util.DecimalMaxString(order.TotalQuantity) + 
                 ", CashQty: " + Util.DoubleMaxString(order.CashQty) + ", FilledQty: " + Util.DecimalMaxString(order.FilledQuantity) + ", LmtPrice: " + Util.DoubleMaxString(order.LmtPrice) + 
-                ", AuxPrice: " + Util.DoubleMaxString(order.AuxPrice) + ", Status: " + orderState.Status + ", CompletedTime: " + orderState.CompletedTime + ", CompletedStatus: " + orderState.CompletedStatus);
+                ", AuxPrice: " + Util.DoubleMaxString(order.AuxPrice) + ", Status: " + orderState.Status + ", CompletedTime: " + orderState.CompletedTime + ", CompletedStatus: " + orderState.CompletedStatus +
+                ", MinTradeQty: " + Util.IntMaxString(order.MinTradeQty) + ", MinCompeteSize: " + Util.IntMaxString(order.MinCompeteSize) +
+                ", CompeteAgainstBestOffset: " + (order.CompeteAgainstBestOffset == Order.COMPETE_AGAINST_BEST_OFFSET_UP_TO_MID ? "UpToMid" : Util.DoubleMaxString(order.CompeteAgainstBestOffset)) +
+                ", MidOffsetAtWhole: " + Util.DoubleMaxString(order.MidOffsetAtWhole) + ", MidOffsetAtHalf: " + Util.DoubleMaxString(order.MidOffsetAtHalf));
         }
         //! [completedorder]
 

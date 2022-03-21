@@ -680,5 +680,14 @@ public class EOrderDecoder {
             m_order.postToAts(m_eDecoder.readIntMax());
         }
     }
-    
+
+    public void readPegBestPegMidOrderAttributes() throws IOException {
+        if (m_serverVersion >= EClient.MIN_SERVER_VER_PEGBEST_PEGMID_OFFSETS) {
+            m_order.minTradeQty(m_eDecoder.readIntMax());
+            m_order.minCompeteSize(m_eDecoder.readIntMax());
+            m_order.competeAgainstBestOffset(m_eDecoder.readDoubleMax());
+            m_order.midOffsetAtWhole(m_eDecoder.readDoubleMax());
+            m_order.midOffsetAtHalf(m_eDecoder.readDoubleMax());
+        }
+    }
 }

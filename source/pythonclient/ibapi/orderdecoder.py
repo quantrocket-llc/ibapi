@@ -447,3 +447,11 @@ class OrderDecoder(Object):
     def decodePostToAts(self, fields):
         if self.serverVersion >= MIN_SERVER_VER_POST_TO_ATS:
             self.order.postToAts = decode(int, fields, SHOW_UNSET)
+
+    def decodePegBestPegMidOrderAttributes(self, fields):
+        if self.serverVersion >= MIN_SERVER_VER_PEGBEST_PEGMID_OFFSETS:
+            self.order.minTradeQty = decode(int, fields, SHOW_UNSET)
+            self.order.minCompeteSize = decode(int, fields, SHOW_UNSET)
+            self.order.competeAgainstBestOffset = decode(float, fields, SHOW_UNSET)
+            self.order.midOffsetAtWhole = decode(float, fields, SHOW_UNSET)
+            self.order.midOffsetAtHalf = decode(float, fields, SHOW_UNSET)

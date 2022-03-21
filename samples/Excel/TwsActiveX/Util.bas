@@ -562,3 +562,8 @@ Public Function SetVariantDecimal(value As String) As Object
     Set SetVariantDecimal = collection
 End Function
 
+Public Function GetInfinity() As Double
+    On Error Resume Next
+    GetInfinity = 1 / 0
+End Function
+

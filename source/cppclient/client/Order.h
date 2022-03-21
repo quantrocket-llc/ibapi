@@ -15,6 +15,7 @@
 #define UNSET_DOUBLE DBL_MAX
 #define UNSET_INTEGER INT_MAX
 #define UNSET_LONG LLONG_MAX
+#define COMPETE_AGAINST_BEST_OFFSET_UP_TO_MID INFINITY
 
 enum Origin { CUSTOMER,
               FIRM,
@@ -236,6 +237,11 @@ struct Order
 	int postToAts = UNSET_INTEGER;
 	std::string advancedErrorOverride = "";
 	std::string manualOrderTime = "";
+	int minTradeQty = UNSET_INTEGER;
+	int minCompeteSize = UNSET_INTEGER;
+	double competeAgainstBestOffset = UNSET_DOUBLE;
+	double midOffsetAtWhole = UNSET_DOUBLE;
+	double midOffsetAtHalf = UNSET_DOUBLE;
 
 public:
 

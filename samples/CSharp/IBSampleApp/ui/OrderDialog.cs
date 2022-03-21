@@ -228,6 +228,7 @@ namespace IBSampleApp
             FillPegToBench(order);
             FillAdjustedStops(order);
             FillConditions(order);
+            FillPegBestPegMid(order);
 
             return order;
         }
@@ -443,6 +444,22 @@ namespace IBSampleApp
             order.AlgoParams = algoParams;
         }
 
+        private void FillPegBestPegMid(Order order)
+        {
+            if (!string.IsNullOrWhiteSpace(tbMinTradeQty.Text))
+                order.MinTradeQty = int.Parse(tbMinTradeQty.Text);
+            if (!string.IsNullOrWhiteSpace(tbMinCompeteSize.Text))
+                order.MinCompeteSize = int.Parse(tbMinCompeteSize.Text);
+            if (cbCompeteAgainstBestOffsetUpToMid.Checked)
+                order.CompeteAgainstBestOffset = Order.COMPETE_AGAINST_BEST_OFFSET_UP_TO_MID;
+            else if (!string.IsNullOrWhiteSpace(tbCompeteAgainstBestOffset.Text))
+                order.CompeteAgainstBestOffset = double.Parse(tbCompeteAgainstBestOffset.Text);
+            if (!string.IsNullOrWhiteSpace(tbMidOffsetAtWhole.Text))
+                order.MidOffsetAtWhole = double.Parse(tbMidOffsetAtWhole.Text);
+            if (!string.IsNullOrWhiteSpace(tbMidOffsetAtHalf.Text))
+                order.MidOffsetAtHalf = double.Parse(tbMidOffsetAtHalf.Text);
+        }
+
         public async void SetOrder(Order order)
         {
             orderId = order.OrderId;
@@ -493,6 +510,15 @@ namespace IBSampleApp
             orderBindingSource.DataSource = order.Conditions;
             ignoreRth.Checked = order.ConditionsIgnoreRth;
             cancelOrder.SelectedIndex = order.ConditionsCancelOrder ? 1 : 0;
+
+            tbMinTradeQty.Text = integerToStr(order.MinTradeQty);
+            tbMinCompeteSize.Text = integerToStr(order.MinCompeteSize);
+            if (order.CompeteAgainstBestOffset == Order.COMPETE_AGAINST_BEST_OFFSET_UP_TO_MID)
+                cbCompeteAgainstBestOffsetUpToMid.Checked = true;
+            else
+                tbCompeteAgainstBestOffset.Text = doubleToStr(order.CompeteAgainstBestOffset);
+            tbMidOffsetAtWhole.Text = doubleToStr(order.MidOffsetAtWhole);
+            tbMidOffsetAtHalf.Text = doubleToStr(order.MidOffsetAtHalf);
         }
 
         public void SetParentOrderId(int id)
@@ -508,6 +534,11 @@ namespace IBSampleApp
         string doubleToStr(double val)
         {
             return val != double.MaxValue ? val.ToString() : "";
+        }
+
+        string integerToStr(int val)
+        {
+            return val != int.MaxValue ? val.ToString() : "";
         }
 
         private void EnableVWap()
@@ -679,6 +710,11 @@ namespace IBSampleApp
             if (orderId != 0)
                 orderId = 0;
             Visible = false;
+        }
+
+        private void cbCompeteAgainstBestOffsetUpToMid_CheckedChanged(object sender, EventArgs e)
+        {
+            tbCompeteAgainstBestOffset.Enabled = !cbCompeteAgainstBestOffsetUpToMid.Checked;
         }
     }
 }

@@ -222,7 +222,19 @@ public class Testbed {
         cancelID = nextOrderId - 1;
         client.cancelOrder(cancelID, "20220314 19:00:00");
         //! [manual_order_cancel_time]
-        
+
+        //! [pegbest_up_to_mid_order_submission]
+        client.placeOrder(nextOrderId++, ContractSamples.IBKRATSContract(), OrderSamples.PegBestUpToMidOrder("BUY", Decimal.get(100), 111.11, 100, 200, 0.02, 0.025));
+        //! [pegbest_up_to_mid_order_submission]
+
+        //! [pegbest_order_submission]
+        client.placeOrder(nextOrderId++, ContractSamples.IBKRATSContract(), OrderSamples.PegBestOrder("BUY", Decimal.get(100), 111.11, 100, 200, 0.03));
+        //! [pegbest_order_submission]
+
+        //! [pegmid_order_submission]
+        client.placeOrder(nextOrderId++, ContractSamples.IBKRATSContract(), OrderSamples.PegMidOrder("BUY", Decimal.get(100), 111.11, 100, 0.02, 0.025));
+        //! [pegmid_order_submission]
+
         Thread.sleep(10000);
         
     }
