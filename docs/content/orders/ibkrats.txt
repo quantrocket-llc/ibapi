@@ -1,7 +1,7 @@
 /*! \page ibkrats IBKRATS Orders
 
 	Customers can direct non-marketable U.S. stock orders to the IBKRATS destination to add liquidity. Orders directed to IBKRATS are tagged as "not held" orders, and are posted in IBKR's order book where incoming SmartRouted orders from other IBKR customers are eligible to take liquidity by trading against them. <br>To route an order to IBKRATS via the API, you need to set the IBApi::Contract::Exchange field to "IBKRATS" and IBApi::Order::NotHeld to True, as shown below.
-	
+
 	<ul id="tab">
 		<li class="active">
 			\snippet ContractSamples.cs ibkrats_contract
@@ -39,9 +39,74 @@
 			\snippet Program.py ibkratssubmit
 		</li>
 	</ul>
-	
+
+	\section ibkrats_orders IBKRATS order types
+
+	\subsection peg_best Pegged-to-Best
+
+	</ul>
+	<ul id="tab">
+		<li class="active">
+			\snippet OrderSamples.cs peg_best_order
+		</li>
+		<li>
+			\snippet OrderSamples.java peg_best_order
+		</li>
+		<li>
+			\snippet OrderSamples.vb peg_best_order
+		</li>
+		<li>
+			\snippet OrderSamples.cpp peg_best_order
+		</li>
+		<li>
+			\snippet OrderSamples.py peg_best_order
+		</li>
+	</ul>
+
+	\subsection peg_best_up_to_mid Pegged-to-Best offset difference
+
+	</ul>
+	<ul id="tab">
+		<li class="active">
+			\snippet OrderSamples.cs peg_best_up_to_mid_order
+		</li>
+		<li>
+			\snippet OrderSamples.java peg_best_up_to_mid_order
+		</li>
+		<li>
+			\snippet OrderSamples.vb peg_best_up_to_mid_order
+		</li>
+		<li>
+			\snippet OrderSamples.cpp peg_best_up_to_mid_order
+		</li>
+		<li>
+			\snippet OrderSamples.py peg_best_up_to_mid_order
+		</li>
+	</ul>
+
+	\subsection peg_mid Pegged-to-Midpoint
+
+	</ul>
+	<ul id="tab">
+		<li class="active">
+			\snippet OrderSamples.cs peg_mid_order
+		</li>
+		<li>
+			\snippet OrderSamples.java peg_mid_order
+		</li>
+		<li>
+			\snippet OrderSamples.vb peg_mid_order
+		</li>
+		<li>
+			\snippet OrderSamples.cpp peg_mid_order
+		</li>
+		<li>
+			\snippet OrderSamples.py peg_mid_order
+		</li>
+	</ul>
+
 	For further details on these orders, please see the following page: <a target="_blank" class="linkexternal" href="https://www.interactivebrokers.com/en/index.php?f=4485">IBKRATS Orders</a>
-	
+
 	Note: The order must have the NotHeld field set to True, or you may receive a rejection with reason "IBKRAts order must be a not-held". When submitting via the TWS UI, this is set automatically.
 
 	<br><br>

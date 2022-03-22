@@ -212,7 +212,7 @@
 	Once the parent order is completely filled, its children will automatically become active.
 
 	<b>Important:</b> When attaching orders and to prevent accidental executions it is a very good idea to make use of the @ref IBApi::Order::Transmit flag as demonstrated in @ref bracket_order
-
+	
 	<br><br>
 
 */
