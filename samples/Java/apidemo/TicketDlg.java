@@ -452,6 +452,7 @@ class TicketDlg extends JDialog {
         final JCheckBox m_omsContainer = new JCheckBox();
         final JCheckBox m_discretionaryUpToLimitPrice = new JCheckBox();
         final JCheckBox m_autoCancelParent = new JCheckBox();
+        final JCheckBox m_solicited = new JCheckBox();
 		
 		
 
@@ -491,6 +492,7 @@ class TicketDlg extends JDialog {
 			right.add("Transmit", m_transmit);
             right.add("OMS Container", m_omsContainer);
 			right.add("Auto Cancel Parent", m_autoCancelParent);
+			right.add("Solicited", m_solicited);
 			
 			HorzPanel checks = new HorzPanel();
 			checks.add( left);
@@ -534,6 +536,7 @@ class TicketDlg extends JDialog {
 			m_omsContainer.setSelected(m_order.isOmsContainer());
 			m_discretionaryUpToLimitPrice.setSelected(m_order.discretionaryUpToLimitPrice());
 			m_autoCancelParent.setSelected(m_order.autoCancelParent());
+			m_solicited.setSelected(m_order.solicited());
 			
 			ApiDemo.INSTANCE.controller().reqSoftDollarTiers(tiers -> {
                 m_softDollarTiers.invalidate();
@@ -579,6 +582,7 @@ class TicketDlg extends JDialog {
 			m_order.isOmsContainer(m_omsContainer.isSelected());
 			m_order.discretionaryUpToLimitPrice(m_discretionaryUpToLimitPrice.isSelected());
 			m_order.autoCancelParent(m_autoCancelParent.isSelected());
+			m_order.solicited(m_solicited.isSelected());
 		}
 	}
 	

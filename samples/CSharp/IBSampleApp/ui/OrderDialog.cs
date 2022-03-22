@@ -338,6 +338,7 @@ namespace IBSampleApp
             order.AutoCancelParent = autoCancelParent.Checked;
             order.AdvancedErrorOverride = advancedErrorOverride.Text;
             order.ManualOrderTime = manualOrderTime.Text;
+            order.Solicited = solicited.Checked;
         }
 
         private void FillVolatilityAttributes(Order order)
@@ -519,6 +520,7 @@ namespace IBSampleApp
                 tbCompeteAgainstBestOffset.Text = doubleToStr(order.CompeteAgainstBestOffset);
             tbMidOffsetAtWhole.Text = doubleToStr(order.MidOffsetAtWhole);
             tbMidOffsetAtHalf.Text = doubleToStr(order.MidOffsetAtHalf);
+            solicited.Checked = order.Solicited;
         }
 
         public void SetParentOrderId(int id)

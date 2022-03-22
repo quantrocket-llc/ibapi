@@ -272,6 +272,7 @@ namespace IBSampleApp
             this.checkMarginButton = new System.Windows.Forms.Button();
             this.closeOrderDialogButton = new System.Windows.Forms.Button();
             this.cancelOrderButton = new System.Windows.Forms.Button();
+            this.solicited = new System.Windows.Forms.CheckBox();
             this.conditionsTab.SuspendLayout();
             this.orderContractTab.SuspendLayout();
             this.baseGroup.SuspendLayout();
@@ -817,6 +818,7 @@ namespace IBSampleApp
             // extendedOrderTab
             // 
             this.extendedOrderTab.BackColor = System.Drawing.Color.LightGray;
+            this.extendedOrderTab.Controls.Add(this.solicited);
             this.extendedOrderTab.Controls.Add(this.manualOrderCancelTime);
             this.extendedOrderTab.Controls.Add(this.labelManualOrderCancelTime);
             this.extendedOrderTab.Controls.Add(this.manualOrderTime);
@@ -2755,6 +2757,18 @@ namespace IBSampleApp
             this.cancelOrderButton.UseVisualStyleBackColor = true;
             this.cancelOrderButton.Click += new System.EventHandler(this.cancelOrderButton_Click);
             // 
+            // solicited
+            // 
+            this.solicited.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.solicited.AutoSize = true;
+            this.solicited.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.solicited.Location = new System.Drawing.Point(474, 185);
+            this.solicited.Name = "solicited";
+            this.solicited.Size = new System.Drawing.Size(66, 17);
+            this.solicited.TabIndex = 59;
+            this.solicited.Text = "Solicited";
+            this.solicited.UseVisualStyleBackColor = true;
+            // 
             // OrderDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -3047,5 +3061,6 @@ namespace IBSampleApp
         private System.Windows.Forms.TextBox tbMidOffsetAtWhole;
         private System.Windows.Forms.Label labelMidOffsetAtWhole;
         private System.Windows.Forms.CheckBox cbCompeteAgainstBestOffsetUpToMid;
+        private System.Windows.Forms.CheckBox solicited;
     }
 }
