@@ -83,6 +83,12 @@ namespace IBApi
          */
         public int OrderId { get; set; }
 
+	/**
+         * @brief The Solicited field should be used for orders initiated or recommended by the broker or adviser that were approved by the client (by phone, email, chat, 	verbally, etc.) prior to entry. Please note that orders that the adviser or broker placed without specifically discussing with the client are discretionary orders, not 	solicited.
+         */
+        public bool Solicited { get; set; }
+
+        /**
         public bool Solicited { get; set; }
 
         /**
