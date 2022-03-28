@@ -129,7 +129,7 @@ Module MainModule
         '*********************
         '** Order handling ***
         '*********************
-        orderOperations(client, nextValidId)
+        'orderOperations(client, nextValidId)
 
         '***********************************
         '** Financial Advisor Exclusive Operations ***
@@ -198,6 +198,11 @@ Module MainModule
         '**********************
         'whatIfSamples(client, nextValidId)
 
+        '*******************
+        '** WSH Calendar ***
+        '*******************
+        wshCalendarOperations(client)
+
         Thread.Sleep(15000)
         Console.WriteLine("Done")
         Thread.Sleep(500000)
@@ -212,13 +217,20 @@ Module MainModule
 
         client.cancelWshMetaData(1100)
 
-		' [reqeventdata]
-        client.reqWshEventData(1101, 8314)
-		' [reqeventdata]
+        ' [reqeventdata]
+        client.reqWshEventData(1101, New WshEventData(8314))
+        ' [reqeventdata]
+
+        Thread.Sleep(3000)
+
+        ' [reqeventdata]
+        client.reqWshEventData(1102, New WshEventData("{""watchlist"":[""8314""]}", False, False, False))
+        ' [reqeventdata]
 
         Thread.Sleep(1000)
 
         client.cancelWshEventData(1101)
+        client.cancelWshEventData(1102)
     End Sub
 
     Private Sub historicalTicks(client As EClientSocket)

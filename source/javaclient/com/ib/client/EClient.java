@@ -312,9 +312,10 @@ public abstract class EClient {
     protected static final int MIN_SERVER_VER_CRYPTO_AGGREGATED_TRADES = 168;
     protected static final int MIN_SERVER_VER_MANUAL_ORDER_TIME = 169;
     protected static final int MIN_SERVER_VER_PEGBEST_PEGMID_OFFSETS = 170;
+    protected static final int MIN_SERVER_VER_WSH_EVENT_DATA_FILTERS = 171;
     
     public static final int MIN_VERSION = 100; // envelope encoding, applicable to useV100Plus mode only
-    public static final int MAX_VERSION = MIN_SERVER_VER_PEGBEST_PEGMID_OFFSETS; // ditto
+    public static final int MAX_VERSION = MIN_SERVER_VER_WSH_EVENT_DATA_FILTERS; // ditto
 
     protected EReaderSignal m_signal;
     protected EWrapper m_eWrapper;    // msg handler
@@ -4114,7 +4115,7 @@ public abstract class EClient {
         }   	
     }
     
-    public synchronized void reqWshEventData(int reqId, int conId) {
+    public synchronized void reqWshEventData(int reqId, WshEventData wshEventData) {
         // not connected?
         if( !isConnected()) {
             notConnected();
@@ -4127,12 +4128,26 @@ public abstract class EClient {
           return;
         }
 
+        if (m_serverVersion < MIN_SERVER_VER_WSH_EVENT_DATA_FILTERS) {
+            if (!IsEmpty(wshEventData.filter()) || wshEventData.fillWatchlist() || wshEventData.fillPortfolio() || wshEventData.fillCompetitors()) {
+                error(EClientErrors.NO_VALID_ID, EClientErrors.UPDATE_TWS, "  It does not support WSH event data filters.");
+                return;
+            }
+        }
+
         try {
             Builder b = prepareBuffer(); 
 
             b.send(REQ_WSH_EVENT_DATA);
             b.send(reqId);
-            b.send(conId);
+            b.send(wshEventData.conId());
+
+            if (m_serverVersion >= MIN_SERVER_VER_WSH_EVENT_DATA_FILTERS) {
+                b.send(wshEventData.filter());
+                b.send(wshEventData.fillWatchlist());
+                b.send(wshEventData.fillPortfolio());
+                b.send(wshEventData.fillCompetitors());
+            }
 
             closeAndSend(b);
         }

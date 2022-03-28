@@ -318,6 +318,7 @@
     <ClInclude Include="TimeCondition.h" />
     <ClInclude Include="TwsSocketClientErrors.h" />
     <ClInclude Include="VolumeCondition.h" />
+    <ClInclude Include="WshEventData.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

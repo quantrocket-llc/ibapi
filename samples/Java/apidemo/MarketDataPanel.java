@@ -103,6 +103,10 @@ class MarketDataPanel extends JPanel {
 	private class WSHCalendarRequestPanel extends JPanel {
 	    
         final UpperField m_conId = new UpperField();
+        final JTextField m_filter = new JTextField();
+        private JCheckBox m_fillWatchlistCheckbox = new JCheckBox();
+        private JCheckBox m_fillPortfolioCheckbox = new JCheckBox();
+        private JCheckBox m_fillCompetitorsCheckbox = new JCheckBox();
 
         WSHCalendarRequestPanel() {
             VerticalPanel paramsPanel = new VerticalPanel();
@@ -111,7 +115,11 @@ class MarketDataPanel extends JPanel {
             HtmlButton reqWSHEventData = 
                     new HtmlButton("Request WSH Event Data") { @Override protected void actionPerformed() { onReqEvent(); } };
                      
-            paramsPanel.add("Con Id", m_conId);           
+            paramsPanel.add("Con Id", m_conId);
+            paramsPanel.add("Filter", m_filter);
+            paramsPanel.add("Fill Watchlist", m_fillWatchlistCheckbox);
+            paramsPanel.add("Fill Portfolio", m_fillPortfolioCheckbox);
+            paramsPanel.add("Fill Competitors", m_fillCompetitorsCheckbox);
             paramsPanel.add(reqWSHMetaData);
             paramsPanel.add(reqWSHEventData);
             setLayout(new BorderLayout());
@@ -136,14 +144,16 @@ class MarketDataPanel extends JPanel {
             final WSHEventDataModel wshEventDataModel = new WSHEventDataModel();
             WSHResultsPanel resultsPanel = new WSHResultsPanel(wshEventDataModel);
             int conId = m_conId.getInt();
-            
-            m_resultsPanel.addTab("WSH Event Data for conID: " + conId, resultsPanel, true, true);
+            WshEventData wshEventData = conId > 0 ? new WshEventData(conId) : new WshEventData(m_filter.getText(), 
+                   m_fillWatchlistCheckbox.isSelected(), m_fillPortfolioCheckbox.isSelected(), m_fillCompetitorsCheckbox.isSelected());
+
+            m_resultsPanel.addTab("WSH Event Data", resultsPanel, true, true);
             
             IWshEventDataHandler handler = (reqId, jsonData) -> 
                 SwingUtilities.invokeLater(() -> wshEventDataModel.addRow(jsonData));
             
             resultsPanel.handler(handler);
-            ApiDemo.INSTANCE.controller().reqWshEventData(conId, handler);
+            ApiDemo.INSTANCE.controller().reqWshEventData(wshEventData, handler);
         }
         
 	}

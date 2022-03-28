@@ -27,16 +27,21 @@ Partial Class dlgWsh
     Private Sub InitializeComponent()
         Me.cmdOK = New System.Windows.Forms.Button()
         Me.cmdCancel = New System.Windows.Forms.Button()
-        Me.Label1 = New System.Windows.Forms.Label()
-        Me.txtReqId = New System.Windows.Forms.TextBox()
-        Me.txtConId = New System.Windows.Forms.TextBox()
-        Me.Label4 = New System.Windows.Forms.Label()
+        Me.LabelWshReqId = New System.Windows.Forms.Label()
+        Me.txtWshReqId = New System.Windows.Forms.TextBox()
+        Me.txtWshConId = New System.Windows.Forms.TextBox()
+        Me.LabelWshConId = New System.Windows.Forms.Label()
+        Me.LabelWshFilter = New System.Windows.Forms.Label()
+        Me.txtWshFilter = New System.Windows.Forms.TextBox()
+        Me.cbWshFillWatchlist = New System.Windows.Forms.CheckBox()
+        Me.cbWshFillPortfolio = New System.Windows.Forms.CheckBox()
+        Me.cbWshFillCompetitors = New System.Windows.Forms.CheckBox()
         Me.SuspendLayout()
         '
         'cmdOK
         '
         Me.cmdOK.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.cmdOK.Location = New System.Drawing.Point(31, 64)
+        Me.cmdOK.Location = New System.Drawing.Point(31, 183)
         Me.cmdOK.Name = "cmdOK"
         Me.cmdOK.Size = New System.Drawing.Size(75, 23)
         Me.cmdOK.TabIndex = 0
@@ -46,56 +51,109 @@ Partial Class dlgWsh
         'cmdCancel
         '
         Me.cmdCancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.cmdCancel.Location = New System.Drawing.Point(112, 64)
+        Me.cmdCancel.Location = New System.Drawing.Point(112, 183)
         Me.cmdCancel.Name = "cmdCancel"
         Me.cmdCancel.Size = New System.Drawing.Size(75, 23)
         Me.cmdCancel.TabIndex = 1
         Me.cmdCancel.Text = "Cancel"
         Me.cmdCancel.UseVisualStyleBackColor = True
         '
-        'Label1
+        'LabelWshReqId
         '
-        Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(12, 9)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(42, 13)
-        Me.Label1.TabIndex = 2
-        Me.Label1.Text = "Req Id:"
+        Me.LabelWshReqId.AutoSize = True
+        Me.LabelWshReqId.Location = New System.Drawing.Point(13, 13)
+        Me.LabelWshReqId.Name = "LabelWshReqId"
+        Me.LabelWshReqId.Size = New System.Drawing.Size(39, 13)
+        Me.LabelWshReqId.TabIndex = 2
+        Me.LabelWshReqId.Text = "Req Id"
         '
-        'txtReqId
+        'txtWshReqId
         '
-        Me.txtReqId.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.txtReqId.Location = New System.Drawing.Point(87, 6)
-        Me.txtReqId.Name = "txtReqId"
-        Me.txtReqId.Size = New System.Drawing.Size(100, 20)
-        Me.txtReqId.TabIndex = 3
+        Me.txtWshReqId.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.txtWshReqId.Location = New System.Drawing.Point(87, 6)
+        Me.txtWshReqId.Name = "txtWshReqId"
+        Me.txtWshReqId.Size = New System.Drawing.Size(100, 20)
+        Me.txtWshReqId.TabIndex = 3
         '
-        'txtConId
+        'txtWshConId
         '
-        Me.txtConId.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.txtConId.Location = New System.Drawing.Point(87, 32)
-        Me.txtConId.Name = "txtConId"
-        Me.txtConId.Size = New System.Drawing.Size(100, 20)
-        Me.txtConId.TabIndex = 9
+        Me.txtWshConId.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.txtWshConId.Location = New System.Drawing.Point(87, 32)
+        Me.txtWshConId.Name = "txtWshConId"
+        Me.txtWshConId.Size = New System.Drawing.Size(100, 20)
+        Me.txtWshConId.TabIndex = 9
         '
-        'Label4
+        'LabelWshConId
         '
-        Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(12, 35)
-        Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(41, 13)
-        Me.Label4.TabIndex = 8
-        Me.Label4.Text = "Con Id:"
+        Me.LabelWshConId.AutoSize = True
+        Me.LabelWshConId.Location = New System.Drawing.Point(13, 39)
+        Me.LabelWshConId.Name = "LabelWshConId"
+        Me.LabelWshConId.Size = New System.Drawing.Size(38, 13)
+        Me.LabelWshConId.TabIndex = 8
+        Me.LabelWshConId.Text = "Con Id"
+        '
+        'LabelWshFilter
+        '
+        Me.LabelWshFilter.AutoSize = True
+        Me.LabelWshFilter.Location = New System.Drawing.Point(12, 65)
+        Me.LabelWshFilter.Name = "LabelWshFilter"
+        Me.LabelWshFilter.Size = New System.Drawing.Size(29, 13)
+        Me.LabelWshFilter.TabIndex = 10
+        Me.LabelWshFilter.Text = "Filter"
+        '
+        'txtWshFilter
+        '
+        Me.txtWshFilter.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.txtWshFilter.Location = New System.Drawing.Point(87, 58)
+        Me.txtWshFilter.Name = "txtWshFilter"
+        Me.txtWshFilter.Size = New System.Drawing.Size(100, 20)
+        Me.txtWshFilter.TabIndex = 11
+        '
+        'cbWshFillWatchlist
+        '
+        Me.cbWshFillWatchlist.AutoSize = True
+        Me.cbWshFillWatchlist.Location = New System.Drawing.Point(88, 84)
+        Me.cbWshFillWatchlist.Name = "cbWshFillWatchlist"
+        Me.cbWshFillWatchlist.Size = New System.Drawing.Size(85, 17)
+        Me.cbWshFillWatchlist.TabIndex = 12
+        Me.cbWshFillWatchlist.Text = "Fill Watchlist"
+        Me.cbWshFillWatchlist.UseVisualStyleBackColor = True
+        '
+        'cbWshFillPortfolio
+        '
+        Me.cbWshFillPortfolio.AutoSize = True
+        Me.cbWshFillPortfolio.Location = New System.Drawing.Point(87, 107)
+        Me.cbWshFillPortfolio.Name = "cbWshFillPortfolio"
+        Me.cbWshFillPortfolio.Size = New System.Drawing.Size(79, 17)
+        Me.cbWshFillPortfolio.TabIndex = 13
+        Me.cbWshFillPortfolio.Text = "Fill Portfolio"
+        Me.cbWshFillPortfolio.UseVisualStyleBackColor = True
+        '
+        'cbWshFillCompetitors
+        '
+        Me.cbWshFillCompetitors.AutoSize = True
+        Me.cbWshFillCompetitors.Location = New System.Drawing.Point(88, 130)
+        Me.cbWshFillCompetitors.Name = "cbWshFillCompetitors"
+        Me.cbWshFillCompetitors.Size = New System.Drawing.Size(96, 17)
+        Me.cbWshFillCompetitors.TabIndex = 14
+        Me.cbWshFillCompetitors.Text = "Fill Competitors"
+        Me.cbWshFillCompetitors.UseVisualStyleBackColor = True
         '
         'dlgWsh
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(199, 99)
-        Me.Controls.Add(Me.txtConId)
-        Me.Controls.Add(Me.Label4)
-        Me.Controls.Add(Me.txtReqId)
-        Me.Controls.Add(Me.Label1)
+        Me.BackColor = System.Drawing.Color.Gainsboro
+        Me.ClientSize = New System.Drawing.Size(199, 218)
+        Me.Controls.Add(Me.cbWshFillCompetitors)
+        Me.Controls.Add(Me.cbWshFillPortfolio)
+        Me.Controls.Add(Me.cbWshFillWatchlist)
+        Me.Controls.Add(Me.txtWshFilter)
+        Me.Controls.Add(Me.LabelWshFilter)
+        Me.Controls.Add(Me.txtWshConId)
+        Me.Controls.Add(Me.LabelWshConId)
+        Me.Controls.Add(Me.txtWshReqId)
+        Me.Controls.Add(Me.LabelWshReqId)
         Me.Controls.Add(Me.cmdCancel)
         Me.Controls.Add(Me.cmdOK)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
@@ -107,8 +165,13 @@ Partial Class dlgWsh
     End Sub
     Friend WithEvents cmdOK As System.Windows.Forms.Button
     Friend WithEvents cmdCancel As System.Windows.Forms.Button
-    Friend WithEvents Label1 As System.Windows.Forms.Label
-    Friend WithEvents txtReqId As System.Windows.Forms.TextBox
-    Friend WithEvents txtConId As System.Windows.Forms.TextBox
-    Friend WithEvents Label4 As System.Windows.Forms.Label
+    Friend WithEvents LabelWshReqId As System.Windows.Forms.Label
+    Friend WithEvents txtWshReqId As System.Windows.Forms.TextBox
+    Friend WithEvents txtWshConId As System.Windows.Forms.TextBox
+    Friend WithEvents LabelWshConId As System.Windows.Forms.Label
+    Friend WithEvents LabelWshFilter As Label
+    Friend WithEvents txtWshFilter As TextBox
+    Friend WithEvents cbWshFillWatchlist As CheckBox
+    Friend WithEvents cbWshFillPortfolio As CheckBox
+    Friend WithEvents cbWshFillCompetitors As CheckBox
 End Class

@@ -2029,14 +2029,14 @@ public class ApiController implements EWrapper {
         void wshEventData(int reqId, String dataJson);
     }
     
-    public void reqWshEventData(int conId, IWshEventDataHandler handler) {
+    public void reqWshEventData(WshEventData wshEventData, IWshEventDataHandler handler) {
         if (!checkConnection())
             return;
 
         int reqId = m_reqId++;
         m_wshEventDataMap.put(reqId, handler);
-        m_client.reqWshEventData(reqId, conId);
-        sendEOM();;
+        m_client.reqWshEventData(reqId, wshEventData);
+        sendEOM();
     }
     
     public void cancelWshEventData(IWshEventDataHandler handler) {

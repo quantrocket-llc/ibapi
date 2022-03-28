@@ -235,6 +235,9 @@
     <Compile Include="..\client\VolumeCondition.cs">
       <Link>CSharpApi\VolumeCondition.cs</Link>
     </Compile>
+    <Compile Include="..\client\WshEventData.cs">
+      <Link>CSharpApi\WshEventData.cs</Link>
+    </Compile>
     <Compile Include="TwsRtdServerMktDataTicks.cs" />
     <Compile Include="TwsRtdServerData.cs" />
     <Compile Include="TwsRtdServerErrors.cs" />

@@ -252,5 +252,8 @@
     <ClInclude Include="HistoricalSession.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="WshEventData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

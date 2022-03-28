@@ -373,7 +373,7 @@ namespace TWSLib
         [DispId(235)]
         void reqWshMetaData(int reqId);
         [DispId(236)]
-        void reqWshEventData(int reqId, int conId);
+        void reqWshEventData(int reqId, IWshEventData wshEventData);
         [DispId(237)]
         void cancelWshMetaData(int reqId);
         [DispId(238)]
@@ -382,6 +382,8 @@ namespace TWSLib
         void reqUserInfo(int reqId);
         [DispId(240)]
         void cancelOrder(int reqId, string manualOrderCancelTime);
+        [DispId(241)]
+        IWshEventData createWshEventData();
         #endregion
     }
 }

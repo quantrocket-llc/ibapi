@@ -3306,11 +3306,11 @@ Friend Class MainForm
     End Sub
 
     Private Sub m_apiEvents_WshMetaData(sender As Object, e As WshMetaDataEventArgs) Handles m_apiEvents.WshMetaData
-        m_utils.addListItem(Utils.ListType.MarketData, $"WSH Meta Data. Request Id: {e.reqId}, Data JSON: {e.dataJson}")
+        m_utils.addListItem(Utils.ListType.MarketData, $"WSH Meta Data. Request Id: {e.reqId}, Data JSON: {Len(e.dataJson)} symbols")
     End Sub
 
     Private Sub m_apiEvents_WshEventData(sender As Object, e As WshEventDataEventArgs) Handles m_apiEvents.WshEventData
-        m_utils.addListItem(Utils.ListType.MarketData, $"WSH Event Data. Request Id: {e.reqId}, Data JSON: {e.dataJson}")
+        m_utils.addListItem(Utils.ListType.MarketData, $"WSH Event Data. Request Id: {e.reqId}, Data JSON: {Len(e.dataJson)} symbols")
     End Sub
 
     Private Sub m_apiEvents_HistoricalSchedule(sender As Object, e As HistoricalScheduleEventArgs) Handles m_apiEvents.HistoricalSchedule
@@ -3497,8 +3497,10 @@ Friend Class MainForm
     End Sub
 
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
+        Dim wshEventData As WshEventData
         If m_dlgWsh.ShowDialog() = Windows.Forms.DialogResult.OK Then
-            m_api.reqWshEventData(m_dlgWsh.ReqId, m_dlgWsh.ConId)
+            wshEventData = If(m_dlgWsh.ConId > 0, New WshEventData(m_dlgWsh.ConId), New WshEventData(m_dlgWsh.Filter, m_dlgWsh.FillWatchlist, m_dlgWsh.FillPortfolio, m_dlgWsh.FillCompetitors))
+            m_api.reqWshEventData(m_dlgWsh.ReqId, wshEventData)
         End If
     End Sub
 

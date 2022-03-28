@@ -120,7 +120,7 @@ namespace Samples
             /**********************/
             /*** Order handling ***/
             /**********************/
-            orderOperations(client, nextValidId);
+            //orderOperations(client, nextValidId);
 
             /************************************/
             /*** Financial Advisor Exclusive Operations ***/
@@ -196,7 +196,7 @@ namespace Samples
             /***********************/
             /*** WSHE Calendar API samples ***/
             /***********************/
-            //wshCalendarOperations(client);
+            wshCalendarOperations(client);
 
             Thread.Sleep(3000);
             Console.WriteLine("Done");
@@ -215,12 +215,19 @@ namespace Samples
             client.cancelWshMetaData(1100);
 
 			//! [reqeventdata]
-            client.reqWshEventData(1101, 8314);
-			//! [reqeventdata]
+            client.reqWshEventData(1101, new WshEventData(8314));
+            //! [reqeventdata]
+
+            Thread.Sleep(3000);
+
+            //! [reqeventdata]
+            client.reqWshEventData(1102, new WshEventData("{\"watchlist\":[\"8314\"]}", false, false, false));
+            //! [reqeventdata]
 
             Thread.Sleep(1000);
 
             client.cancelWshEventData(1101);
+            client.cancelWshEventData(1102);
         }
 
         private static void tickByTickOperations(EClientSocket client)

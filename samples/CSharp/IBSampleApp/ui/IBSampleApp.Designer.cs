@@ -377,6 +377,7 @@ namespace IBSampleApp
             this.dataGridViewPriceIncrementLowEdge = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewPriceIncrementIncrement = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.accountInfoTab = new System.Windows.Forms.TabPage();
+            this.reqUserInfo = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.accSummaryTab = new System.Windows.Forms.TabPage();
             this.accSummaryRequest = new System.Windows.Forms.Button();
@@ -727,10 +728,14 @@ namespace IBSampleApp
             this.button4 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
             this.textBoxWshConId = new System.Windows.Forms.TextBox();
-            this.label22 = new System.Windows.Forms.Label();
+            this.labelWshConId = new System.Windows.Forms.Label();
             this.button6 = new System.Windows.Forms.Button();
             this.dataGridViewWsh = new System.Windows.Forms.DataGridView();
-            this.reqUserInfo = new System.Windows.Forms.Button();
+            this.labelWshFilter = new System.Windows.Forms.Label();
+            this.textBoxWshFilter = new System.Windows.Forms.TextBox();
+            this.checkBoxWshFillWatchlist = new System.Windows.Forms.CheckBox();
+            this.checkBoxWshFillPortfolio = new System.Windows.Forms.CheckBox();
+            this.checkBoxWshFillCompetitors = new System.Windows.Forms.CheckBox();
             this.comboTab.SuspendLayout();
             this.comboDeltaNeutralBox.SuspendLayout();
             this.comboLegsBox.SuspendLayout();
@@ -4018,6 +4023,16 @@ namespace IBSampleApp
             this.accountInfoTab.Size = new System.Drawing.Size(1248, 448);
             this.accountInfoTab.TabIndex = 3;
             this.accountInfoTab.Text = "Account Info";
+            // 
+            // reqUserInfo
+            // 
+            this.reqUserInfo.Location = new System.Drawing.Point(251, 3);
+            this.reqUserInfo.Name = "reqUserInfo";
+            this.reqUserInfo.Size = new System.Drawing.Size(75, 23);
+            this.reqUserInfo.TabIndex = 2;
+            this.reqUserInfo.Text = "User Info";
+            this.reqUserInfo.UseVisualStyleBackColor = true;
+            this.reqUserInfo.Click += new System.EventHandler(this.reqUserInfo_Click);
             // 
             // tabControl1
             // 
@@ -7488,11 +7503,16 @@ namespace IBSampleApp
             // 
             // wshTab
             // 
+            this.wshTab.Controls.Add(this.checkBoxWshFillCompetitors);
+            this.wshTab.Controls.Add(this.checkBoxWshFillPortfolio);
+            this.wshTab.Controls.Add(this.checkBoxWshFillWatchlist);
+            this.wshTab.Controls.Add(this.textBoxWshFilter);
+            this.wshTab.Controls.Add(this.labelWshFilter);
             this.wshTab.Controls.Add(this.button3);
             this.wshTab.Controls.Add(this.button4);
             this.wshTab.Controls.Add(this.button5);
             this.wshTab.Controls.Add(this.textBoxWshConId);
-            this.wshTab.Controls.Add(this.label22);
+            this.wshTab.Controls.Add(this.labelWshConId);
             this.wshTab.Controls.Add(this.button6);
             this.wshTab.Controls.Add(this.dataGridViewWsh);
             this.wshTab.Location = new System.Drawing.Point(4, 22);
@@ -7540,14 +7560,14 @@ namespace IBSampleApp
             this.textBoxWshConId.TabIndex = 14;
             this.textBoxWshConId.Text = "0";
             // 
-            // label22
+            // labelWshConId
             // 
-            this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(604, 34);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(41, 13);
-            this.label22.TabIndex = 13;
-            this.label22.Text = "Con Id:";
+            this.labelWshConId.AutoSize = true;
+            this.labelWshConId.Location = new System.Drawing.Point(604, 34);
+            this.labelWshConId.Name = "labelWshConId";
+            this.labelWshConId.Size = new System.Drawing.Size(38, 13);
+            this.labelWshConId.TabIndex = 13;
+            this.labelWshConId.Text = "Con Id";
             // 
             // button6
             // 
@@ -7570,15 +7590,51 @@ namespace IBSampleApp
             this.dataGridViewWsh.Size = new System.Drawing.Size(593, 442);
             this.dataGridViewWsh.TabIndex = 9;
             // 
-            // reqUserInfo
+            // labelWshFilter
             // 
-            this.reqUserInfo.Location = new System.Drawing.Point(251, 3);
-            this.reqUserInfo.Name = "reqUserInfo";
-            this.reqUserInfo.Size = new System.Drawing.Size(75, 23);
-            this.reqUserInfo.TabIndex = 2;
-            this.reqUserInfo.Text = "User Info";
-            this.reqUserInfo.UseVisualStyleBackColor = true;
-            this.reqUserInfo.Click += new System.EventHandler(this.reqUserInfo_Click);
+            this.labelWshFilter.AutoSize = true;
+            this.labelWshFilter.Location = new System.Drawing.Point(604, 64);
+            this.labelWshFilter.Name = "labelWshFilter";
+            this.labelWshFilter.Size = new System.Drawing.Size(29, 13);
+            this.labelWshFilter.TabIndex = 18;
+            this.labelWshFilter.Text = "Filter";
+            // 
+            // textBoxWshFilter
+            // 
+            this.textBoxWshFilter.Location = new System.Drawing.Point(725, 57);
+            this.textBoxWshFilter.Name = "textBoxWshFilter";
+            this.textBoxWshFilter.Size = new System.Drawing.Size(100, 20);
+            this.textBoxWshFilter.TabIndex = 19;
+            // 
+            // checkBoxWshFillWatchlist
+            // 
+            this.checkBoxWshFillWatchlist.AutoSize = true;
+            this.checkBoxWshFillWatchlist.Location = new System.Drawing.Point(725, 91);
+            this.checkBoxWshFillWatchlist.Name = "checkBoxWshFillWatchlist";
+            this.checkBoxWshFillWatchlist.Size = new System.Drawing.Size(85, 17);
+            this.checkBoxWshFillWatchlist.TabIndex = 23;
+            this.checkBoxWshFillWatchlist.Text = "Fill Watchlist";
+            this.checkBoxWshFillWatchlist.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxWshFillPortfolio
+            // 
+            this.checkBoxWshFillPortfolio.AutoSize = true;
+            this.checkBoxWshFillPortfolio.Location = new System.Drawing.Point(725, 114);
+            this.checkBoxWshFillPortfolio.Name = "checkBoxWshFillPortfolio";
+            this.checkBoxWshFillPortfolio.Size = new System.Drawing.Size(79, 17);
+            this.checkBoxWshFillPortfolio.TabIndex = 24;
+            this.checkBoxWshFillPortfolio.Text = "Fill Portfolio";
+            this.checkBoxWshFillPortfolio.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxWshFillCompetitors
+            // 
+            this.checkBoxWshFillCompetitors.AutoSize = true;
+            this.checkBoxWshFillCompetitors.Location = new System.Drawing.Point(725, 137);
+            this.checkBoxWshFillCompetitors.Name = "checkBoxWshFillCompetitors";
+            this.checkBoxWshFillCompetitors.Size = new System.Drawing.Size(96, 17);
+            this.checkBoxWshFillCompetitors.TabIndex = 25;
+            this.checkBoxWshFillCompetitors.Text = "Fill Competitors";
+            this.checkBoxWshFillCompetitors.UseVisualStyleBackColor = true;
             // 
             // IBSampleAppDialog
             // 
@@ -8410,7 +8466,7 @@ namespace IBSampleApp
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.TextBox textBoxWshConId;
-        private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.Label labelWshConId;
         private System.Windows.Forms.Button button6;
         private System.Windows.Forms.DataGridView dataGridViewWsh;
         private System.Windows.Forms.DataGridViewTextBoxColumn conResSymbol;
@@ -8478,6 +8534,11 @@ namespace IBSampleApp
         private System.Windows.Forms.Label labelHistoricalSchedule;
         private System.Windows.Forms.TextBox historicalScheduleOutput;
         private System.Windows.Forms.Button reqUserInfo;
+        private System.Windows.Forms.CheckBox checkBoxWshFillCompetitors;
+        private System.Windows.Forms.CheckBox checkBoxWshFillPortfolio;
+        private System.Windows.Forms.CheckBox checkBoxWshFillWatchlist;
+        private System.Windows.Forms.TextBox textBoxWshFilter;
+        private System.Windows.Forms.Label labelWshFilter;
     }
 }
 

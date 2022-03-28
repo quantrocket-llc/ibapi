@@ -229,6 +229,9 @@
     <Compile Include="..\client\VolumeCondition.cs">
       <Link>CSharpAPI\VolumeCondition.cs</Link>
     </Compile>
+    <Compile Include="..\client\WshEventData.cs">
+      <Link>CSharpAPI\WshEventData.cs</Link>
+    </Compile>
     <Compile Include="ComWrappers\comComboLeg.cs" />
     <Compile Include="ComWrappers\comCommissionReport.cs" />
     <Compile Include="ComWrappers\comContract.cs" />
@@ -259,6 +262,7 @@
     <Compile Include="ComWrappers\ComTickAttribBidAsk.cs" />
     <Compile Include="ComWrappers\ComSmartComponent.cs" />
     <Compile Include="ComWrappers\ComSmartComponentList.cs" />
+    <Compile Include="ComWrappers\ComWshEventData.cs" />
     <Compile Include="ControlImpl\IComList.cs" />
     <Compile Include="ControlImpl\IHistoricalSession.cs" />
     <Compile Include="ControlImpl\IHistoricalSessionList.cs" />
@@ -300,6 +304,7 @@
     <Compile Include="ControlImpl\ITagValueList.cs" />
     <Compile Include="ControlImpl\ITws.cs" />
     <Compile Include="ControlImpl\ITwsEvents.cs" />
+    <Compile Include="ControlImpl\IWshEventData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ControlImpl\Tws.cs" />
   </ItemGroup>

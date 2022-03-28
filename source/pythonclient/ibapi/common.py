@@ -226,3 +226,15 @@ class HistoricalSession(Object):
     def __str__(self):
         return "Start: %s, End: %s, Ref Date: %s" % (self.startDateTime, self.endDateTime, self.refDate)
 
+class WshEventData(Object):
+    def __init__(self):
+        self.conId = UNSET_INTEGER
+        self.filter = ""
+        self.fillWatchlist = False
+        self.fillPortfolio = False
+        self.fillCompetitors = False
+
+    def __str__(self):
+        return "WshEventData. ConId: %s, Filter: %s, Fill Watchlist: %d, Fill Portfolio: %d, Fill Competitors: %d" % (ibapi.utils.intMaxString(self.conId), 
+            self.filter, self.fillWatchlist, self.fillPortfolio, self.fillCompetitors)
+

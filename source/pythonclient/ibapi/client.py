@@ -3656,7 +3656,7 @@ class EClient(object):
 
         self.sendMsg(msg)
 
-    def reqWshEventData(self, reqId: int, conId: int):
+    def reqWshEventData(self, reqId: int, wshEventData: WshEventData):
 
         self.logRequest(current_fn_name(), vars())
 
@@ -3669,11 +3669,24 @@ class EClient(object):
                     " It does not support WSHE Calendar API.")
             return
 
+        if self.serverVersion() < MIN_SERVER_VER_WSH_EVENT_DATA_FILTERS:
+            if wshEventData.filter != "" or wshEventData.fillWatchlist or wshEventData.fillPortfolio or wshEventData.fillCompetitors:
+                self.wrapper.error(NO_VALID_ID, UPDATE_TWS.code(), UPDATE_TWS.msg() + " It does not support WSH event data filters.")
+                return
+
         try:
-            
-            msg = make_field(OUT.REQ_WSH_EVENT_DATA) \
-                + make_field(reqId) \
-                + make_field(conId)
+            flds = []
+            flds.append(make_field(OUT.REQ_WSH_EVENT_DATA))
+            flds.append(make_field(reqId))
+            flds.append(make_field(wshEventData.conId))
+
+            if self.serverVersion() >= MIN_SERVER_VER_WSH_EVENT_DATA_FILTERS:
+                flds.append(make_field(wshEventData.filter))
+                flds.append(make_field(wshEventData.fillWatchlist))
+                flds.append(make_field(wshEventData.fillPortfolio))
+                flds.append(make_field(wshEventData.fillCompetitors))
+
+            msg = "".join(flds)
 
         except ClientException as ex:
             self.wrapper.error(reqId, ex.code, ex.msg + ex.text)

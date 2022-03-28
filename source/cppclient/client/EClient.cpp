@@ -3686,7 +3686,7 @@ void EClient::reqWshMetaData(int reqId) {
     closeAndSend(msg.str());
 }
 
-void EClient::reqWshEventData(int reqId, int conId) {
+void EClient::reqWshEventData(int reqId, const WshEventData &wshEventData) {
     if (!isConnected()) {
         m_pEWrapper->error(NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg(), "");
         return;
@@ -3698,12 +3698,26 @@ void EClient::reqWshEventData(int reqId, int conId) {
         return;
     }
 
+    if (m_serverVersion < MIN_SERVER_VER_WSH_EVENT_DATA_FILTERS) {
+        if (!wshEventData.filter.empty() || wshEventData.fillWatchlist || wshEventData.fillPortfolio || wshEventData.fillCompetitors) {
+            m_pEWrapper->error(NO_VALID_ID, UPDATE_TWS.code(), UPDATE_TWS.msg() + "  It does not support WSH event data filters.", "");
+            return;
+        }
+    }
+
     std::stringstream msg;
     prepareBuffer(msg);
 
     ENCODE_FIELD(REQ_WSH_EVENT_DATA)
     ENCODE_FIELD(reqId)
-    ENCODE_FIELD(conId)
+    ENCODE_FIELD(wshEventData.conId)
+
+    if (m_serverVersion >= MIN_SERVER_VER_WSH_EVENT_DATA_FILTERS) {
+        ENCODE_FIELD(wshEventData.filter);
+        ENCODE_FIELD(wshEventData.fillWatchlist);
+        ENCODE_FIELD(wshEventData.fillPortfolio);
+        ENCODE_FIELD(wshEventData.fillCompetitors);
+    }
 
     closeAndSend(msg.str());
 }

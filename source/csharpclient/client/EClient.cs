@@ -3499,14 +3499,22 @@ namespace IBApi
         * @param conId contract ID (conId) of contract to receive WSH Event Data for.
         */
 
-        public void reqWshEventData(int reqId, int conId)
+        public void reqWshEventData(int reqId, WshEventData wshEventData)
         {
             if (!CheckConnection())
                 return;
 
-            if (!CheckServerVersion(MinServerVer.WSHE_CALENDAR,
-                    "  It does not support WSHE Calendar API."))
+            if (!CheckServerVersion(MinServerVer.WSHE_CALENDAR, "  It does not support WSHE Calendar API."))
                 return;
+
+            if (serverVersion < MinServerVer.MIN_SERVER_VER_WSH_EVENT_DATA_FILTERS)
+            {
+                if (!IsEmpty(wshEventData.Filter) || wshEventData.FillWatchlist || wshEventData.FillPortfolio || wshEventData.FillCompetitors)
+                {
+                    ReportError(reqId, EClientErrors.UPDATE_TWS, "  It does not support WSH event data filters.");
+                    return;
+                }
+            }
 
             var paramsList = new BinaryWriter(new MemoryStream());
             var lengthPos = prepareBuffer(paramsList);
@@ -3515,7 +3523,15 @@ namespace IBApi
             {
                 paramsList.AddParameter(OutgoingMessages.ReqWshEventData);
                 paramsList.AddParameter(reqId);
-                paramsList.AddParameter(conId);
+                paramsList.AddParameter(wshEventData.ConId);
+
+                if (serverVersion >= MinServerVer.MIN_SERVER_VER_WSH_EVENT_DATA_FILTERS)
+                {
+                    paramsList.AddParameter(wshEventData.Filter);
+                    paramsList.AddParameter(wshEventData.FillWatchlist);
+                    paramsList.AddParameter(wshEventData.FillPortfolio);
+                    paramsList.AddParameter(wshEventData.FillCompetitors);
+                }
             }
             catch (EClientException e)
             {

@@ -1062,9 +1062,9 @@ namespace TWSLib
             this.socket.reqWshMetaData(reqId);
         }
 
-        void ITws.reqWshEventData(int reqId, int conId)
+        void ITws.reqWshEventData(int reqId, IWshEventData wshEventData)
         {
-            this.socket.reqWshEventData(reqId, conId);
+            this.socket.reqWshEventData(reqId, (WshEventData)(wshEventData as ComWshEventData));
         }
 
         void ITws.cancelWshMetaData(int reqId)
@@ -2229,6 +2229,8 @@ namespace TWSLib
             if (tmp != null)
                 sc.Post(state => tmp(reqId, whiteBrandingId), null);
         }
+
+        IWshEventData ITws.createWshEventData() { return new ComWshEventData(); }
 
         #endregion
 

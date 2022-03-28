@@ -48,7 +48,7 @@ public class Testbed {
 		//tickDataOperations(wrapper.getClient());
 		//tickOptionComputations(wrapper.getClient());
 		//optionsOperations(wrapper.getClient());
-		orderOperations(wrapper.getClient(), wrapper.getCurrentOrderId());
+		//orderOperations(wrapper.getClient(), wrapper.getCurrentOrderId());
 		//contractOperations(wrapper.getClient());
 		//hedgeSample(wrapper.getClient(), wrapper.getCurrentOrderId());
 		//testAlgoSamples(wrapper.getClient(), wrapper.getCurrentOrderId());
@@ -71,7 +71,8 @@ public class Testbed {
 		//whatIfSamples(wrapper.getClient(), wrapper.getCurrentOrderId());
 		//historicalTicks(wrapper.getClient());
 		//financialAdvisorOperations(wrapper.getClient());
-		//realTimeBars(wrapper.getClient());
+		//realTimeBars(wrapper.getClient());    
+		wshCalendarOperations(wrapper.getClient());
 
 		Thread.sleep(100000);
 		m_client.eDisconnect();
@@ -799,21 +800,28 @@ public class Testbed {
 	
     private static void wshCalendarOperations(EClientSocket client) throws InterruptedException  {
 
-		//! [reqmetadata]
+        //! [reqmetadata]
         client.reqWshMetaData(1100);
-		//! [reqmetadata]
-        
+        //! [reqmetadata]
+
         Thread.sleep(1000);
         
         client.cancelWshMetaData(1100);
-        
-		//! [reqeventdata]
-        client.reqWshEventData(1101, 8314);
-		//! [reqeventdata]
-        
+
+        //! [reqeventdata]
+        client.reqWshEventData(1101, new WshEventData(8314));
+        //! [reqeventdata]
+
+        Thread.sleep(3000);
+
+        //! [reqeventdata]
+        client.reqWshEventData(1102, new WshEventData("{\"watchlist\":[\"8314\"]}", false, false, false));
+        //! [reqeventdata]
+
         Thread.sleep(1000);
 
         client.cancelWshEventData(1101);
+        client.cancelWshEventData(1102);
     }
 	
 	private static void financialAdvisorOperations(EClientSocket client) {

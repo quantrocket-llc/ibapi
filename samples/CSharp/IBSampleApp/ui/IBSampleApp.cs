@@ -1391,10 +1391,15 @@ namespace IBSampleApp
 
             dataGridViewWsh.DataSource = wshEventDataTable;
 
-            int conId;
+            int conId = string.IsNullOrWhiteSpace(textBoxWshConId.Text) ? int.MaxValue : int.Parse(textBoxWshConId.Text);
+            string filter = textBoxWshFilter.Text;
+            bool fillWatchlist = checkBoxWshFillWatchlist.Checked;
+            bool fillPortfolio = checkBoxWshFillPortfolio.Checked;
+            bool fillCompetitors = checkBoxWshFillCompetitors.Checked;
 
-            if (int.TryParse(textBoxWshConId.Text, out conId))
-                wshMgr.ReqEventData(conId);
+            WshEventData wshEventData = conId != int.MaxValue ? new WshEventData(conId) : new WshEventData(filter, fillWatchlist, fillPortfolio, fillCompetitors);
+
+            wshMgr.ReqEventData(wshEventData);
         }
 
         private void buttonCancelWshMetaData_Click(object sender, EventArgs e)

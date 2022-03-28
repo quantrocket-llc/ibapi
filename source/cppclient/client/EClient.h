@@ -13,6 +13,7 @@
 #include "CommonDefs.h"
 #include "TagValue.h"
 #include "Contract.h"
+#include "WshEventData.h"
 
 namespace ibapi {
 namespace client_constants {
@@ -360,7 +361,7 @@ public:
     void cancelTickByTickData(int reqId);
     void reqCompletedOrders(bool apiOnly);
 	void reqWshMetaData(int reqId);
-	void reqWshEventData(int reqId, int conId);
+	void reqWshEventData(int reqId, const WshEventData &wshEventData);
 	void cancelWshMetaData(int reqId);
 	void cancelWshEventData(int reqid);
     void reqUserInfo(int reqId);

@@ -1433,12 +1433,19 @@ void TestCppClient::wshCalendarOperations() {
 	m_pClient->cancelWshMetaData(30001);
 
 	//! [reqeventdata]
-	m_pClient->reqWshEventData(30002, 8314);
+	m_pClient->reqWshEventData(30002, WshEventData(8314));
+	//! [reqeventdata]
+
+	std::this_thread::sleep_for(std::chrono::seconds(3));
+
+	//! [reqeventdata]
+	m_pClient->reqWshEventData(30003, WshEventData("{\"watchlist\":[\"8314\"]}", false, false, false));
 	//! [reqeventdata]
 
 	std::this_thread::sleep_for(std::chrono::seconds(10));
 
 	m_pClient->cancelWshEventData(30002);
+	m_pClient->cancelWshEventData(30003);
 
 	m_state = ST_WSH_ACK;
 }
@@ -1468,7 +1475,7 @@ void TestCppClient::nextValidId( OrderId orderId)
 	//m_state = ST_FUNDAMENTALS;
 	//m_state = ST_BULLETINS;
 	//m_state = ST_ACCOUNTOPERATIONS;
-	m_state = ST_ORDEROPERATIONS;
+	//m_state = ST_ORDEROPERATIONS;
 	//m_state = ST_OCASAMPLES;
 	//m_state = ST_CONDITIONSAMPLES;
 	//m_state = ST_BRACKETSAMPLES;
@@ -1492,7 +1499,7 @@ void TestCppClient::nextValidId( OrderId orderId)
 	//m_state = ST_MARKETRULE;
 	//m_state = ST_PING;
 	//m_state = ST_WHATIFSAMPLES;
-	//m_state = ST_WSH;
+	m_state = ST_WSH;
 }
 
 

@@ -271,7 +271,7 @@ class TestApp(TestWrapper, TestClient):
             #self.miscelaneousOperations()
             #self.linkingOperations()
             #self.financialAdvisorOperations()
-            self.orderOperations_req()
+            #self.orderOperations_req()
             #self.orderOperations_cancel()
             #self.rerouteCFDOperations()
             #self.marketRuleOperations()
@@ -281,7 +281,7 @@ class TestApp(TestWrapper, TestClient):
             #self.historicalTicksOperations()
             #self.tickByTickOperations_req()
             #self.whatIfOrderOperations()
-            #self.wshCalendarOperations()
+            self.wshCalendarOperations()
             
             print("Executing requests ... finished")
 
@@ -1620,11 +1620,22 @@ class TestApp(TestWrapper, TestClient):
 
     def wshCalendarOperations(self):
         # ! [reqmetadata]
-        self.reqWshMetaData(1100);
+        self.reqWshMetaData(1100)
         # ! [reqmetadata]
-        
+
         # ! [reqeventdata]
-        self.reqWshEventData(1101, 8314);
+        wshEventData1 = WshEventData()
+        wshEventData1.conId = 8314
+        self.reqWshEventData(1101, wshEventData1)
+        # ! [reqeventdata]
+
+        # ! [reqeventdata]
+        wshEventData = WshEventData()
+        wshEventData.filter = "{\"watchlist\":[\"8314\"]}"
+        wshEventData.fillWatchlist = False
+        wshEventData.fillPortfolio = False
+        wshEventData.fillCompetitors = False
+        self.reqWshEventData(1102, wshEventData)
         # ! [reqeventdata]
 
     @iswrapper

@@ -50,8 +50,8 @@ class SampleFrame extends JFrame implements EWrapper {
 	private MarketRuleDlg   m_marketRuleDlg = new MarketRuleDlg(this);
     private PnLDlg     m_pnlDlg = new PnLDlg(this);
     private PnLSingleDlg   m_pnlSingleDlg = new PnLSingleDlg(this);
-    private WSHDlg         m_wshMetaDlg = new WSHDlg(this);
-    private WSHDlg         m_wshEventDlg = new WSHDlg(this);
+    private WSHDlg         m_wshMetaDlg = new WSHDlg(this, false);
+    private WSHDlg         m_wshEventDlg = new WSHDlg(this, true);
 
     private List<TagValue> m_mktDataOptions = new ArrayList<>();
     private List<TagValue> m_chartOptions = new ArrayList<>();
@@ -356,7 +356,7 @@ class SampleFrame extends JFrame implements EWrapper {
             return;
         }
 
-        m_client.reqWshEventData(m_wshEventDlg.m_reqId, m_wshEventDlg.m_conId);
+        m_client.reqWshEventData(m_wshEventDlg.m_reqId, m_wshEventDlg.m_wshEventData);
     }
 
     private void onCancelWshMetaData() {

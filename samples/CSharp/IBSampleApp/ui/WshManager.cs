@@ -2,6 +2,7 @@
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 using System;
+using IBApi;
 
 namespace IBSampleApp
 {
@@ -28,11 +29,11 @@ namespace IBSampleApp
             }
         }
 
-        public void ReqEventData(int conId)
+        public void ReqEventData(WshEventData wshEventData)
         {
             eventDataReqId = new Random(DateTime.Now.Millisecond).Next();
 
-            ibClient.ClientSocket.reqWshEventData(eventDataReqId, conId);
+            ibClient.ClientSocket.reqWshEventData(eventDataReqId, wshEventData);
         }
 
         public void CancelEventData()
