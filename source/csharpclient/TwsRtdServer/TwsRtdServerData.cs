@@ -83,7 +83,7 @@ namespace TwsRtdServer{
         // CASH 100,101,104,106,    165,221,225,232,236,258,293,294,295,318,411,    460,    619
 
 
-        public const string GENERIC_TICKS_BASE = "100,101,106,165,221,225,232,236,258,293,294,295,318,460,619"; // BAG
+        public const string GENERIC_TICKS_BASE = "100,101,106,165,221,225,232,236,258,293,294,295,318,460,586,619"; // BAG
         public const string GENERIC_TICKS_FUT = GENERIC_TICKS_BASE + ",104,411,588"; // FUT, FOP, WAR, CFD, BOND, CASH
         public const string GENERIC_TICKS_STK = GENERIC_TICKS_OPT  + ",105,576,577,578,614,623"; // STK
         public const string GENERIC_TICKS_OPT = GENERIC_TICKS_BASE + ",104,411,456,595"; // OPT
@@ -120,6 +120,9 @@ namespace TwsRtdServer{
         // SHORTABLE (236)
         public const string GEN_TICK_SHORTABLE = "SHORTABLE";
         public const string GEN_TICK_SHORTABLE_SHARES = "SHORTABLESHARES";
+        // IPO_PRICES (586)
+        public const string GEN_TICK_ESTIMATED_IPO_MIDPOINT = "ESTIMATEDIPOMIDPOINT";
+        public const string GEN_TICK_FINAL_IPO_LAST = "FINALIPOLAST";
         // FUNDAMENTALS (258)
         public const string GEN_TICK_FUNDAMENTALS = "FUNDAMENTALS";
         // TRADE_COUNT (293)
@@ -163,6 +166,8 @@ namespace TwsRtdServer{
         // ETF_NAV_MISC (614)
         public const string GEN_TICK_ETF_NAV_HIGH = "ETFNAVHIGH";
         public const string GEN_TICK_ETF_NAV_LOW = "ETFNAVLOW";
+        // Not used
+        public const string GEN_TICK_SOCIAL_MARKET_ANALYTICS = "SOCIALMARKETANALYTICS";
 
         // DELAYED_TICKS
         public const string DELAYED_BID = "DELAYEDBID";
@@ -275,6 +280,7 @@ namespace TwsRtdServer{
             GEN_TICK_OPTION_IMPLIED_VOL, // OPTION_IMPLIED_VOLATILITY (106)
             GEN_TICK_INDEX_FUTURE_PREMIUM, // INDEX_FUTURE_PREM (162) - IND only
             GEN_TICK_SHORTABLE, GEN_TICK_SHORTABLE_SHARES, // SHORTABLE (236)
+            GEN_TICK_ESTIMATED_IPO_MIDPOINT, GEN_TICK_FINAL_IPO_LAST, // IPO_PRICES (586)
             GEN_TICK_FUNDAMENTALS, // FUNDAMENTALS (258)
             GEN_TICK_TRADE_COUNT, // TRADE_COUNT (293)
             GEN_TICK_TRADE_RATE, // TRADE_RATE (294)
@@ -397,7 +403,10 @@ namespace TwsRtdServer{
             { 96, GEN_TICK_ETF_NAV_LAST },
             { 97, GEN_TICK_ETF_FROZEN_NAV_LAST },
             { 98, GEN_TICK_ETF_NAV_HIGH },
-            { 99, GEN_TICK_ETF_NAV_LOW }
+            { 99, GEN_TICK_ETF_NAV_LOW },
+            { 100, GEN_TICK_SOCIAL_MARKET_ANALYTICS },
+            { 101, GEN_TICK_ESTIMATED_IPO_MIDPOINT },
+            { 102, GEN_TICK_FINAL_IPO_LAST }
         };
 
 

@@ -28,6 +28,8 @@ namespace IBSampleApp.ui
         private const int FUTURES_OPEN_INTEREST_INDEX = 15;
         private const int AVG_OPT_VOLUME_INDEX = 16;
         private const int SHORTABLE_SHARES_INDEX = 17;
+        private const int ESTIMATED_IPO_MIDPOINT = 18;
+        private const int FINAL_IPO_LAST = 19;
 
         private const int BID_SIZE_INDEX = 2;
         private const int ASK_SIZE_INDEX = 7;
@@ -188,6 +190,18 @@ namespace IBSampleApp.ui
                         grid[LOW_PRICE_INDEX, GetIndex(dataMessage.RequestId)].Value = Util.DoubleMaxString(dataMessage.Price);
                         break;
                     }
+                case TickType.ESTIMATED_IPO_MIDPOINT:
+                    {
+                        //ESTIMATED_IPO_MIDPOINT
+                        grid[ESTIMATED_IPO_MIDPOINT, GetIndex(dataMessage.RequestId)].Value = Util.DoubleMaxString(dataMessage.Price);
+                        break;
+                    }
+                case TickType.FINAL_IPO_LAST:
+                    {
+                        //FINAL_IPO_LAST
+                        grid[FINAL_IPO_LAST, GetIndex(dataMessage.RequestId)].Value = Util.DoubleMaxString(dataMessage.Price);
+                        break;
+                    }
             }
         }
 
@@ -249,6 +263,27 @@ namespace IBSampleApp.ui
                     {
                         //SHORTABLE_SHARES
                         grid[SHORTABLE_SHARES_INDEX, GetIndex(dataMessage.RequestId)].Value = Util.DecimalMaxString(dataMessage.Size);
+                        break;
+                    }
+            }
+        }
+
+        public void UpdateUI(TickGenericMessage dataMessage)
+        {
+            DataGridView grid = (DataGridView)uiControl;
+
+            switch (dataMessage.Field)
+            {
+                case TickType.ESTIMATED_IPO_MIDPOINT:
+                    {
+                        //ESTIMATED_IPO_MIDPOINT
+                        grid[ESTIMATED_IPO_MIDPOINT, GetIndex(dataMessage.RequestId)].Value = Util.DoubleMaxString(dataMessage.Price);
+                        break;
+                    }
+                case TickType.FINAL_IPO_LAST:
+                    {
+                        //FINAL_IPO_LAST
+                        grid[FINAL_IPO_LAST, GetIndex(dataMessage.RequestId)].Value = Util.DoubleMaxString(dataMessage.Price);
                         break;
                     }
             }

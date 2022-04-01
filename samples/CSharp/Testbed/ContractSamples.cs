@@ -708,5 +708,17 @@ namespace Samples
             return contract;
         }
 
+        public static Contract StockWithIPOPrice()
+        {
+            //! [stock_with_IPO_price]
+            Contract contract = new Contract();
+            contract.Symbol = "EMCGU";
+            contract.SecType = "STK";
+            contract.Exchange = "SMART";
+            contract.Currency = "USD";
+            //! [stock_with_IPO_price]
+            return contract;
+        }
+
     }
 }

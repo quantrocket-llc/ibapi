@@ -453,6 +453,10 @@ void TestCppClient::tickDataOperation()
 	m_pClient->reqMktData(1018, ContractSamples::CryptoContract(), "", false, false, TagValueListSPtr());
 	//! [reqmktdatacrypto]
 
+	//! [IPOPrice]
+	m_pClient->reqMktData(1019, ContractSamples::StockWithIPOPrice(), "mdoff,586", false, false, TagValueListSPtr());
+	//! [IPOPrice]
+
 	std::this_thread::sleep_for(std::chrono::seconds(1));
 	/*** Canceling the market data subscription ***/
 	//! [cancelmktdata]
@@ -464,6 +468,7 @@ void TestCppClient::tickDataOperation()
 	m_pClient->cancelMktData(1016);
 	m_pClient->cancelMktData(1017);
 	m_pClient->cancelMktData(1018);
+	m_pClient->cancelMktData(1019);
 	//! [cancelmktdata]
 
 	m_state = ST_TICKDATAOPERATION_ACK;
@@ -1458,7 +1463,7 @@ void TestCppClient::nextValidId( OrderId orderId)
 	//! [nextvalidid]
 
     //m_state = ST_TICKOPTIONCOMPUTATIONOPERATION; 
-    //m_state = ST_TICKDATAOPERATION; 
+    m_state = ST_TICKDATAOPERATION; 
     //m_state = ST_OPTIONSOPERATIONS;
     //m_state = ST_REQTICKBYTICKDATA; 
     //m_state = ST_REQHISTORICALTICKS; 
@@ -1499,7 +1504,7 @@ void TestCppClient::nextValidId( OrderId orderId)
 	//m_state = ST_MARKETRULE;
 	//m_state = ST_PING;
 	//m_state = ST_WHATIFSAMPLES;
-	m_state = ST_WSH;
+	//m_state = ST_WSH;
 }
 
 

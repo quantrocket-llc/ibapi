@@ -113,4 +113,7 @@ TickTypeEnum = Enum("BID_SIZE",
                 "ETF_FROZEN_NAV_LAST",
                 "ETF_NAV_HIGH",
                 "ETF_NAV_LOW",
+                "SOCIAL_MARKET_ANALYTICS",
+                "ESTIMATED_IPO_MIDPOINT",
+                "FINAL_IPO_LAST",
                 "NOT_SET")

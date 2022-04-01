@@ -105,6 +105,9 @@ public enum TickType {
     ETF_FROZEN_NAV_LAST(97, "etfFrozenNavLast"),
     ETF_NAV_HIGH(98, "etfNavHigh"),
     ETF_NAV_LOW(99, "etfNavLow"),
+    SOCIAL_MARKET_ANALYTICS(100, "socialMarketAnalytics"),
+    ESTIMATED_IPO_MIDPOINT(101, "estimatedIPOMidpoint"),
+    FINAL_IPO_LAST(102, "finalIPOLast"),
 
     UNKNOWN( Integer.MAX_VALUE , "unknown" );
 

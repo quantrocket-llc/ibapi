@@ -231,6 +231,9 @@ Public Enum tickType
     ETF_FROZEN_NAV_LAST
     ETF_NAV_HIGH
     ETF_NAV_LOW
+    SOCIAL_MARKET_ANALYTICS
+    ESTIMATED_IPO_MIDPOINT
+    FINAL_IPO_LAST
 End Enum
 
 Public Type MktDataAttr
@@ -566,4 +569,5 @@ Public Function GetInfinity() As Double
     On Error Resume Next
     GetInfinity = 1 / 0
 End Function
+
 

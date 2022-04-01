@@ -699,6 +699,17 @@ Namespace Samples
             Return contract
         End Function
 
+        Public Shared Function StockWithIPOPrice() As Contract
+            '! [stock_with_IPO_price]
+            Dim contract As Contract = New Contract
+            contract.Symbol = "EMCGU"
+            contract.SecType = "STK"
+            contract.Currency = "USD"
+            contract.Exchange = "SMART"
+            '! [stock_with_IPO_price]
+            Return contract
+        End Function
+
     End Class
 
 End Namespace

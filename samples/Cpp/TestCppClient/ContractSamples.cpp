@@ -721,3 +721,14 @@ Contract ContractSamples::CryptoContract() {
 	//! [crypto_contract]
 	return contract;
 }
+
+Contract ContractSamples::StockWithIPOPrice() {
+	//! [stock_with_IPO_price]
+	Contract contract;
+	contract.symbol = "EMCGU";
+	contract.secType = "STK";
+	contract.exchange = "SMART";
+	contract.currency = "USD";
+	//! [stock_with_IPO_price]
+	return contract;
+}

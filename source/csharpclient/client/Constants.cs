@@ -15,7 +15,7 @@ namespace IBApi
         public const int FaProfiles = 2;
         public const int FaAliases = 3;
         public const int MinVersion = 100;
-        public const int MaxVersion = MinServerVer.MIN_SERVER_VER_WSH_EVENT_DATA_FILTERS;
+        public const int MaxVersion = MinServerVer.MIN_SERVER_VER_IPO_PRICES;
         public const int MaxMsgSize = 0x00FFFFFF;
     }
 }

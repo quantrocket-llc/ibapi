@@ -632,4 +632,15 @@ public class ContractSamples {
 		return contract;
 	}
 	
+	public static Contract StockWithIPOPrice() {
+		//! [stock_with_IPO_price]
+		Contract contract = new Contract();
+		contract.symbol("EMCGU");
+		contract.secType("STK");
+		contract.currency("USD");
+		contract.exchange("SMART");
+		//! [stock_with_IPO_price]
+		return contract;
+	}
+	
 }

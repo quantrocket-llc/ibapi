@@ -69,7 +69,7 @@ Module MainModule
         '**************************************************
         '** Real time market data operations  - Tickers ***
         '**************************************************
-        'tickDataOperations(client)
+        tickDataOperations(client)
 
         '***************************************************
         '** Tick option computation operations - Tickers ***
@@ -201,7 +201,7 @@ Module MainModule
         '*******************
         '** WSH Calendar ***
         '*******************
-        wshCalendarOperations(client)
+        'wshCalendarOperations(client)
 
         Thread.Sleep(15000)
         Console.WriteLine("Done")
@@ -335,6 +335,10 @@ Module MainModule
         client.reqMktData(1017, ContractSamples.etf(), "mdoff,576,577,578,614,623", False, False, Nothing)
         '! [reqetfticks]
 
+        '! [IPO_price]
+        client.reqMktData(1018, ContractSamples.StockWithIPOPrice(), "mdoff,586", False, False, Nothing)
+        '! [IPO_price]
+
         Thread.Sleep(10000)
         ' Canceling the market data subscription 
         ' [cancelmktdata]
@@ -347,6 +351,7 @@ Module MainModule
         client.cancelMktData(1015)
         client.cancelMktData(1016)
         client.cancelMktData(1017)
+        client.cancelMktData(1018)
         ' [cancelmktdata]
     End Sub
 

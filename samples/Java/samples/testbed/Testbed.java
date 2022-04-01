@@ -45,7 +45,7 @@ public class Testbed {
 		Thread.sleep(1000);
 
 		//tickByTickOperations(wrapper.getClient());
-		//tickDataOperations(wrapper.getClient());
+		tickDataOperations(wrapper.getClient());
 		//tickOptionComputations(wrapper.getClient());
 		//optionsOperations(wrapper.getClient());
 		//orderOperations(wrapper.getClient(), wrapper.getCurrentOrderId());
@@ -72,7 +72,7 @@ public class Testbed {
 		//historicalTicks(wrapper.getClient());
 		//financialAdvisorOperations(wrapper.getClient());
 		//realTimeBars(wrapper.getClient());    
-		wshCalendarOperations(wrapper.getClient());
+		//wshCalendarOperations(wrapper.getClient());
 
 		Thread.sleep(100000);
 		m_client.eDisconnect();
@@ -319,6 +319,10 @@ public class Testbed {
         client.reqMktData(1017, ContractSamples.etf(), "mdoff,576,577,578,614,623", false, false, null);
         //! [reqetfticks]
         
+        //! [IPOPrice]
+        client.reqMktData(1018, ContractSamples.StockWithIPOPrice(), "mdoff,586", false, false, null);
+        //! [IPOPrice]
+        
 		Thread.sleep(10000);
 		//! [cancelmktdata]
 		client.cancelMktData(1001);
@@ -328,6 +332,7 @@ public class Testbed {
 		client.cancelMktData(1015);
 		client.cancelMktData(1016);
 		client.cancelMktData(1017);
+        client.cancelMktData(1018);
 		//! [cancelmktdata]
 		
 	}

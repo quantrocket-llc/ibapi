@@ -257,7 +257,7 @@ class TestApp(TestWrapper, TestClient):
             #self.reqGlobalCancel()
             #self.marketDataTypeOperations()
             #self.accountOperations_req()
-            #self.tickDataOperations_req()
+            self.tickDataOperations_req()
             #self.tickOptionComputations_req()
             #self.marketDepthOperations_req()
             #self.realTimeBarsOperations_req()
@@ -281,7 +281,7 @@ class TestApp(TestWrapper, TestClient):
             #self.historicalTicksOperations()
             #self.tickByTickOperations_req()
             #self.whatIfOrderOperations()
-            self.wshCalendarOperations()
+            #self.wshCalendarOperations()
             
             print("Executing requests ... finished")
 
@@ -723,6 +723,10 @@ class TestApp(TestWrapper, TestClient):
         # ! [reqetfticks]
         self.reqMktData(1019, ContractSamples.etf(), "mdoff,576,577,578,623,614", False, False, [])
         # ! [reqetfticks]
+
+        # ! [reqetfticks]
+        self.reqMktData(1020, ContractSamples.StockWithIPOPrice(), "mdoff,586", False, False, [])
+        # ! [reqetfticks]
         
 
     @printWhenExecuting
@@ -755,6 +759,7 @@ class TestApp(TestWrapper, TestClient):
         self.cancelMktData(1017)
 
         self.cancelMktData(1019)
+        self.cancelMktData(1020)
 
     @printWhenExecuting
     def tickOptionComputations_req(self):

@@ -66,6 +66,8 @@ Public Enum TickerColumns
     Col_INDEXFUTUREPREMIUM
     Col_SHORTABLE
     Col_SHORTABLESHARES
+    Col_ESTIMATED_IPO_MIDPOINT
+    Col_FINAL_IPO_LAST
     Col_RTVOLUME
     Col_HALTED
     Col_TRADECOUNT
@@ -337,6 +339,8 @@ Private Type MktDataRecord
     IndexFuturePremium As Double
     Shortable As Double
     ShortableShares As Variant
+    EstimatedIPOMidpoint As Double
+    FinalIPOLast As Double
     RTVolume As String
     Halted As String
     TradeCount As Double
@@ -535,6 +539,12 @@ Private Sub RepaintMktDataRow(ByVal i As Long)
         End If
         If tickerDataTable(i, Col_SHORTABLESHARES).value <> Util.DecimalToString(.ShortableShares) Then
             tickerDataTable(i, Col_SHORTABLESHARES).value = Util.DecimalToString(.ShortableShares)
+        End If
+        If tickerDataTable(i, Col_ESTIMATED_IPO_MIDPOINT).value <> .EstimatedIPOMidpoint Then
+            tickerDataTable(i, Col_ESTIMATED_IPO_MIDPOINT).value = .EstimatedIPOMidpoint
+        End If
+        If tickerDataTable(i, Col_FINAL_IPO_LAST).value <> .FinalIPOLast Then
+            tickerDataTable(i, Col_FINAL_IPO_LAST).value = .FinalIPOLast
         End If
         If tickerDataTable(i, Col_RTVOLUME).value <> .RTVolume Then
             tickerDataTable(i, Col_RTVOLUME).value = .RTVolume
@@ -1202,6 +1212,8 @@ Private Sub ClearMarketDataCells(ByVal row As Integer)
     tickerDataTable(row, Col_INDEXFUTUREPREMIUM).value = STR_EMPTY
     tickerDataTable(row, Col_SHORTABLE).value = STR_EMPTY
     tickerDataTable(row, Col_SHORTABLESHARES).value = STR_EMPTY
+    tickerDataTable(row, Col_ESTIMATED_IPO_MIDPOINT).value = STR_EMPTY
+    tickerDataTable(row, Col_FINAL_IPO_LAST).value = STR_EMPTY
     tickerDataTable(row, Col_RTVOLUME).value = STR_EMPTY
     tickerDataTable(row, Col_HALTED).value = STR_EMPTY
     tickerDataTable(row, Col_TRADECOUNT).value = STR_EMPTY
@@ -1602,6 +1614,8 @@ Private Sub CancelMarketDataSubscription(ByVal tickerIndex As Long)
         .IndexFuturePremium = 0
         .Shortable = 0
         .ShortableShares = 0
+        .EstimatedIPOMidpoint = 0
+        .FinalIPOLast = 0
         .RTVolume = STR_EMPTY
         .Halted = STR_EMPTY
         .TradeCount = 0
@@ -1717,6 +1731,10 @@ Public Sub UpdateTickersSheetWithPrice(id As Long, tickType As Long, price As Do
                 .etfNavHigh = price
             Case ETF_NAV_LOW
                 .etfNavLow = price
+            Case ESTIMATED_IPO_MIDPOINT
+                .EstimatedIPOMidpoint = price
+            Case FINAL_IPO_LAST
+                .FinalIPOLast = price
         End Select
     End With
 
@@ -2087,6 +2105,10 @@ Public Sub UpdateTickersSheetWithTickGeneric(ByVal id As Long, ByVal tickType As
                 .IndexFuturePremium = value
             Case Shortable
                 .Shortable = value
+            Case ESTIMATED_IPO_MIDPOINT
+                .EstimatedIPOMidpoint = value
+            Case FINAL_IPO_LAST
+                .FinalIPOLast = value
             Case Halted
                 .Halted = value
             Case TRADE_COUNT

@@ -153,7 +153,7 @@ namespace IBSampleApp
             ibClient.TickPrice += ibClient_Tick;
             ibClient.TickSize += ibClient_Tick;
             ibClient.TickString += (tickerId, tickType, value) => addTextToBox("Tick string. Ticker Id:" + tickerId + ", Type: " + TickType.getField(tickType) + ", Value: " + value + Environment.NewLine);
-            ibClient.TickGeneric += (tickerId, field, value) => addTextToBox("Tick Generic. Ticker Id:" + tickerId + ", Field: " + TickType.getField(field) + ", Value: " + Util.DoubleMaxString(value) + Environment.NewLine);
+            ibClient.TickGeneric += ibClient_Tick;
             ibClient.TickEFP += (tickerId, tickType, basisPoints, formattedBasisPoints, impliedFuture, holdDays, futureLastTradeDate, dividendImpact, dividendsToLastTradeDate) => addTextToBox("TickEFP. " + tickerId + ", Type: " + tickType + ", BasisPoints: " + Util.DoubleMaxString(basisPoints) + ", FormattedBasisPoints: " + formattedBasisPoints + ", ImpliedFuture: " + Util.DoubleMaxString(impliedFuture) + ", HoldDays: " + Util.IntMaxString(holdDays) + ", FutureLastTradeDate: " + futureLastTradeDate + ", DividendImpact: " + Util.DoubleMaxString(dividendImpact) + ", DividendsToLastTradeDate: " + Util.DoubleMaxString(dividendsToLastTradeDate) + Environment.NewLine);
             ibClient.TickSnapshotEnd += tickerId => addTextToBox("TickSnapshotEnd: " + tickerId + Environment.NewLine);
             ibClient.NextValidId += UpdateUI;
@@ -346,6 +346,14 @@ namespace IBSampleApp
             {
                 HandleTickMessage(msg);
             }
+        }
+
+        void ibClient_Tick(TickGenericMessage msg)
+        {
+            addTextToBox("Tick Generic. Ticker Id:" + msg.RequestId + ", Type: " + TickType.getField(msg.Field) + ", Price: " + Util.DoubleMaxString(msg.Price) + Environment.NewLine);
+
+            if (marketDataManager.IsUIUpdateRequired(msg))
+                marketDataManager.UpdateUI(msg);
         }
 
         void ibClient_ConnectionClosed()

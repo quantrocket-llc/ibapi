@@ -193,14 +193,14 @@ namespace IBSampleApp
                 sc.Post(t => tmp(tickerId, tickType, value), null);
         }
 
-        public event Action<int, int, double> TickGeneric;
+        public event Action<TickGenericMessage> TickGeneric;
 
         void EWrapper.tickGeneric(int tickerId, int field, double value)
         {
             var tmp = TickGeneric;
 
             if (tmp != null)
-                sc.Post(t => tmp(tickerId, field, value), null);
+                sc.Post(t => tmp(new TickGenericMessage(tickerId, field, value)), null);
         }
 
         public event Action<int, int, double, string, double, int, string, double, double> TickEFP;

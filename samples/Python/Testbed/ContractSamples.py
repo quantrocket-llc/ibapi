@@ -685,6 +685,15 @@ class ContractSamples:
         # ! [crypto_contract]
         return contract;
 
+    @staticmethod
+    def StockWithIPOPrice():
+        contract = Contract()
+        contract.symbol = "EMCGU"
+        contract.secType = "STK"
+        contract.currency = "USD"
+        contract.exchange = "SMART"
+        return contract
+
 def Test():
     from ibapi.utils import ExerciseStaticMethods
     ExerciseStaticMethods(ContractSamples)

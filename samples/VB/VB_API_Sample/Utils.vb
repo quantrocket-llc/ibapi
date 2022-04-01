@@ -106,6 +106,9 @@ Friend Class Utils
         EtfFrozenNavLast
         EtfNavHigh
         EtfNavLow
+        SocialMarketAnalytics
+        EstimatedIPOMidpoint
+        FinalIPOLast
         Unknown
     End Enum
 

@@ -52,9 +52,9 @@ Const idColumnIndex = 19 ' index of "id" column
 Const startOfMarketDataColumns = 20 ' market data first column index
 Const startOfTickReqParamsColumns = 41 ' tick req params first column index
 Const startOfGenericTicksColumns = 44 ' generic ticks first column index
-Const startOfOptCompColumns = 89 ' option computations first column index
-Const startOfEFPCompColumns = 125 ' efp first column index
-Const fundamentalsColumnIndex = 69
+Const startOfOptCompColumns = 91 ' option computations first column index
+Const startOfEFPCompColumns = 127 ' efp first column index
+Const fundamentalsColumnIndex = 71
 
 ' rows
 Const dataStartRowIndex = 10 ' starting row of data
@@ -90,7 +90,7 @@ Private Function getGenTicksColumns() As GenTickCol()
         GoTo getGenTicksColumnsEnd
     End If
     
-    ReDim genTicksColumnsArray(28)
+    ReDim genTicksColumnsArray(29)
     
     ' genTick=105 (avgOptVolume), response=87
     genTicksColumnsArray(0).genTick = 105
@@ -140,73 +140,77 @@ Private Function getGenTicksColumns() As GenTickCol()
     genTicksColumnsArray(11).genTick = 236
     genTicksColumnsArray(11).names = Array("shortable")
 
+    ' genTick=586 (IPOPrices), response=101,102
+    genTicksColumnsArray(12).genTick = 586
+    genTicksColumnsArray(12).names = Array("estimatedIPOMidpoint", "finalIPOLast")
+
     ' genTick=258 (fundamentals), response=47
-    genTicksColumnsArray(12).genTick = 258
-    genTicksColumnsArray(12).names = Array("fundamentals")
+    genTicksColumnsArray(13).genTick = 258
+    genTicksColumnsArray(13).names = Array("fundamentals")
 
     ' genTick=293 (tradeCount), response=54
-    genTicksColumnsArray(13).genTick = 293
-    genTicksColumnsArray(13).names = Array("tradeCount")
+    genTicksColumnsArray(14).genTick = 293
+    genTicksColumnsArray(14).names = Array("tradeCount")
 
     ' genTick=294 (tradeRate), response=55
-    genTicksColumnsArray(14).genTick = 294
-    genTicksColumnsArray(14).names = Array("tradeRate")
+    genTicksColumnsArray(15).genTick = 294
+    genTicksColumnsArray(15).names = Array("tradeRate")
 
     ' genTick=295 (volumeRate), response=56
-    genTicksColumnsArray(15).genTick = 295
-    genTicksColumnsArray(15).names = Array("volumeRate")
+    genTicksColumnsArray(16).genTick = 295
+    genTicksColumnsArray(16).names = Array("volumeRate")
 
     ' genTick=318 (lastRTHTrade), response=57
-    genTicksColumnsArray(16).genTick = 318
-    genTicksColumnsArray(16).names = Array("lastRTHTrade")
+    genTicksColumnsArray(17).genTick = 318
+    genTicksColumnsArray(17).names = Array("lastRTHTrade")
 
     ' genTick=456 (IBDividends), response=59
-    genTicksColumnsArray(17).genTick = 456
-    genTicksColumnsArray(17).names = Array("IBDividends")
+    genTicksColumnsArray(18).genTick = 456
+    genTicksColumnsArray(18).names = Array("IBDividends")
 
     ' genTick=460 (bondMultiplier), response=60
-    genTicksColumnsArray(18).genTick = 460
-    genTicksColumnsArray(18).names = Array("bondFactorMultiplier")
+    genTicksColumnsArray(19).genTick = 460
+    genTicksColumnsArray(19).names = Array("bondFactorMultiplier")
 
     ' genTick=165 (miscStats), response=21,15,16,17,18,19,20
-    genTicksColumnsArray(19).genTick = 165
-    genTicksColumnsArray(19).names = Array("AvgVolume", "13WeekLow", "13WeekHigh", "26WeekLow", "26WeekHigh", "52WeekLow", "52WeekHigh")
+    genTicksColumnsArray(20).genTick = 165
+    genTicksColumnsArray(20).names = Array("AvgVolume", "13WeekLow", "13WeekHigh", "26WeekLow", "26WeekHigh", "52WeekLow", "52WeekHigh")
 
     ' genTick=595 (shortTermVolume), response=63,64,65
-    genTicksColumnsArray(20).genTick = 595
-    genTicksColumnsArray(20).names = Array("shortTermVolume3Min", "shortTermVolume5Min", "shortTermVolume10Min")
+    genTicksColumnsArray(21).genTick = 595
+    genTicksColumnsArray(21).names = Array("shortTermVolume3Min", "shortTermVolume5Min", "shortTermVolume10Min")
 
     ' genTick=588 (futuresOpenInterest), response=86
-    genTicksColumnsArray(21).genTick = 588
-    genTicksColumnsArray(21).names = Array("futuresOpenInterest")
+    genTicksColumnsArray(22).genTick = 588
+    genTicksColumnsArray(22).names = Array("futuresOpenInterest")
 
     ' genTick=233 (rtVolume), response=48
-    genTicksColumnsArray(22).genTick = 233
-    genTicksColumnsArray(22).names = Array("RTVolume")
+    genTicksColumnsArray(23).genTick = 233
+    genTicksColumnsArray(23).names = Array("RTVolume")
 
     ' genTick=375 (rtTrdVolume), response=77
-    genTicksColumnsArray(23).genTick = 375
-    genTicksColumnsArray(23).names = Array("rtTrdVolume")
+    genTicksColumnsArray(24).genTick = 375
+    genTicksColumnsArray(24).names = Array("rtTrdVolume")
 
     ' genTick=578 (etfNavClose), response=92,93
-    genTicksColumnsArray(24).genTick = 578
-    genTicksColumnsArray(24).names = Array("etfNavClose", "etfNavPriorClose")
+    genTicksColumnsArray(25).genTick = 578
+    genTicksColumnsArray(25).names = Array("etfNavClose", "etfNavPriorClose")
 
     ' genTick=576 (etfNavBidAsk), response=94,95
-    genTicksColumnsArray(25).genTick = 576
-    genTicksColumnsArray(25).names = Array("etfNavBid", "etfNavAsk")
+    genTicksColumnsArray(26).genTick = 576
+    genTicksColumnsArray(26).names = Array("etfNavBid", "etfNavAsk")
 
     ' genTick=577 (etfNavLast), response=96
-    genTicksColumnsArray(26).genTick = 577
-    genTicksColumnsArray(26).names = Array("etfNavLast")
+    genTicksColumnsArray(27).genTick = 577
+    genTicksColumnsArray(27).names = Array("etfNavLast")
 
     ' genTick=623 (etfFrozenNavLast), response=97
-    genTicksColumnsArray(27).genTick = 623
-    genTicksColumnsArray(27).names = Array("etfFrozenNavLast")
+    genTicksColumnsArray(28).genTick = 623
+    genTicksColumnsArray(28).names = Array("etfFrozenNavLast")
 
     ' genTick=614 (etfNavMisc), response=98,99
-    genTicksColumnsArray(28).genTick = 614
-    genTicksColumnsArray(28).names = Array("etfNavHigh", "etfNavLow")
+    genTicksColumnsArray(29).genTick = 614
+    genTicksColumnsArray(29).names = Array("etfNavHigh", "etfNavLow")
 
     ' TODO: add generic ticks here
     

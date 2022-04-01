@@ -59,6 +59,7 @@ public:
 	static Contract Warrants();
 	static Contract IBKRATSContract();
 	static Contract CryptoContract();
+	static Contract StockWithIPOPrice();
 };
 
 #endif

@@ -109,6 +109,7 @@
     <Compile Include="messages\ScannerParametersMessage.cs" />
     <Compile Include="messages\SymbolSamplesMessage.cs" />
     <Compile Include="messages\TickOptionMessage.cs" />
+    <Compile Include="messages\TickGenericMessage.cs" />
     <Compile Include="messages\UpdateAccountTimeMessage.cs" />
     <Compile Include="messages\UpdatePortfolioMessage.cs" />
     <Compile Include="types\FinancialAdvisorTypes.cs" />

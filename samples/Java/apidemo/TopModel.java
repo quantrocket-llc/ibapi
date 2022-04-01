@@ -25,7 +25,7 @@ import com.ib.controller.Formats;
 class TopModel extends AbstractTableModel {
 	private List<TopRow> m_rows = new ArrayList<>();
 	private MarketDataPanel m_parentPanel;
-	private static final int CANCEL_CHBX_COL_INDEX = 26;
+	private static final int CANCEL_CHBX_COL_INDEX = 28;
 	String m_genericTicks = "";
 
 	TopModel(MarketDataPanel parentPanel) {
@@ -82,7 +82,7 @@ class TopModel extends AbstractTableModel {
 	}
 	
 	@Override public int getColumnCount() {
-		return 27;
+		return 29;
 	}
 	
 	@Override public String getColumnName(int col) {
@@ -113,6 +113,8 @@ class TopModel extends AbstractTableModel {
 			case 23: return "Futures Open Interest";
 			case 24: return "Avg Opt Volume";
             case 25: return "Shortable Shares";
+            case 26: return "Estimated IPO Midpoint";
+            case 27: return "Final IPO Last";
 			case CANCEL_CHBX_COL_INDEX: return "Cancel";
 
 			default: return null;
@@ -148,6 +150,9 @@ class TopModel extends AbstractTableModel {
 			case 23: return row.m_futuresOpenInterest;
 			case 24: return row.m_avgOptVolume;
             case 25: return row.m_shortableShares;
+            case 26: return row.m_estimatedIPOMidpoint;
+            case 27: return row.m_finalIPOLast;
+            
 			case CANCEL_CHBX_COL_INDEX: return row.m_cancel;
 			default: return null;
 		}
@@ -194,6 +199,8 @@ class TopModel extends AbstractTableModel {
 		Decimal m_futuresOpenInterest;
 		Decimal m_avgOptVolume;
 		Decimal m_shortableShares;
+		double m_estimatedIPOMidpoint;
+		double m_finalIPOLast;
 		
 		TopRow( AbstractTableModel model, String description, MarketDataPanel parentPanel) {
 			m_model = model;
@@ -241,6 +248,12 @@ class TopModel extends AbstractTableModel {
 				case OPEN:
 				case DELAYED_OPEN:
 					m_open = price;
+					break;
+				case ESTIMATED_IPO_MIDPOINT:
+					m_estimatedIPOMidpoint = price;
+					break;
+				case FINAL_IPO_LAST:
+					m_finalIPOLast = price;
 					break;
 				default: break;	
 			}

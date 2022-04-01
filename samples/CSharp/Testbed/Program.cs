@@ -60,7 +60,7 @@ namespace Samples
             /***************************************************/
             /*** Real time market data operations  - Tickers ***/
             /***************************************************/
-            //tickDataOperations(client);
+            tickDataOperations(client);
 
             /***************************************************/
             /*** Option computation operations  - Tickers    ***/
@@ -196,7 +196,7 @@ namespace Samples
             /***********************/
             /*** WSHE Calendar API samples ***/
             /***********************/
-            wshCalendarOperations(client);
+            //wshCalendarOperations(client);
 
             Thread.Sleep(3000);
             Console.WriteLine("Done");
@@ -422,6 +422,10 @@ namespace Samples
             client.reqMktData(1017, ContractSamples.etf(), "mdoff,576,577,578,623,614", false, false, null);
             //! [reqetfticks]
 
+            //! [IPO_price]
+            client.reqMktData(1018, ContractSamples.StockWithIPOPrice(), "mdoff,586", false, false, null);
+            //! [IPO_price]
+
             Thread.Sleep(10000);
             /*** Canceling the market data subscription ***/
             //! [cancelmktdata]
@@ -432,6 +436,7 @@ namespace Samples
             client.cancelMktData(1015);
             client.cancelMktData(1016);
             client.cancelMktData(1017);
+            client.cancelMktData(1018);
             //! [cancelmktdata]
         }
 

@@ -49,6 +49,8 @@ namespace TwsRtdServer
         private double m_genTickRTHistoricalVol = 0.0;
         private double m_genTickIndexFuturePremium = 0.0;
         private double m_genTickShortable = 0.0;
+        private double m_genTickEstimatedIPOMidpoint = 0.0;
+        private double m_genTickFinalIPOLast = 0.0;
         private string m_genTickFundamentals = "";
         private double m_genTickTradeCount = 0.0;
         private double m_genTickTradeRate = 0.0;
@@ -207,6 +209,12 @@ namespace TwsRtdServer
                     break;
                 case TwsRtdServerData.GEN_TICK_SHORTABLE:
                     m_genTickShortable = (double)value;
+                    break;
+                case TwsRtdServerData.GEN_TICK_ESTIMATED_IPO_MIDPOINT:
+                    m_genTickEstimatedIPOMidpoint = (double)value;
+                    break;
+                case TwsRtdServerData.GEN_TICK_FINAL_IPO_LAST:
+                    m_genTickFinalIPOLast = (double)value;
                     break;
                 case TwsRtdServerData.GEN_TICK_FUNDAMENTALS:
                     m_genTickFundamentals = (string)value;
@@ -543,6 +551,12 @@ namespace TwsRtdServer
                     break;
                 case TwsRtdServerData.GEN_TICK_SHORTABLE:
                     value = m_genTickShortable;
+                    break;
+                case TwsRtdServerData.GEN_TICK_ESTIMATED_IPO_MIDPOINT:
+                    value = m_genTickEstimatedIPOMidpoint;
+                    break;
+                case TwsRtdServerData.GEN_TICK_FINAL_IPO_LAST:
+                    value = m_genTickFinalIPOLast;
                     break;
                 case TwsRtdServerData.GEN_TICK_FUNDAMENTALS:
                     value = m_genTickFundamentals;

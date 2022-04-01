@@ -499,24 +499,6 @@ namespace IBSampleApp
             this.topMarketDataTab_MDT = new System.Windows.Forms.TabPage();
             this.closeMketDataTab = new System.Windows.Forms.LinkLabel();
             this.marketDataGrid_MDT = new System.Windows.Forms.DataGridView();
-            this.marketDataContract = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.marketDataTypeTickerColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.bidSize = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.bidPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.preOpenBid = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.preOpenAsk = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.askPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.askSize = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.lastTickerColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.lastPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.volume = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.closeTickerColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.openTickerColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.highTickerColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.lowTickerColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.futuresOpenInterestTickerColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.avgOptVolumeTickerColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.shortableSharesTickerColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.deepBookTab_MDT = new System.Windows.Forms.TabPage();
             this.closeDeepBookLink = new System.Windows.Forms.LinkLabel();
             this.deepBookGrid = new System.Windows.Forms.DataGridView();
@@ -724,6 +706,11 @@ namespace IBSampleApp
             this.tbStartDate = new System.Windows.Forms.TextBox();
             this.TabControl = new System.Windows.Forms.TabControl();
             this.wshTab = new System.Windows.Forms.TabPage();
+            this.checkBoxWshFillCompetitors = new System.Windows.Forms.CheckBox();
+            this.checkBoxWshFillPortfolio = new System.Windows.Forms.CheckBox();
+            this.checkBoxWshFillWatchlist = new System.Windows.Forms.CheckBox();
+            this.textBoxWshFilter = new System.Windows.Forms.TextBox();
+            this.labelWshFilter = new System.Windows.Forms.Label();
             this.button3 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
@@ -731,11 +718,26 @@ namespace IBSampleApp
             this.labelWshConId = new System.Windows.Forms.Label();
             this.button6 = new System.Windows.Forms.Button();
             this.dataGridViewWsh = new System.Windows.Forms.DataGridView();
-            this.labelWshFilter = new System.Windows.Forms.Label();
-            this.textBoxWshFilter = new System.Windows.Forms.TextBox();
-            this.checkBoxWshFillWatchlist = new System.Windows.Forms.CheckBox();
-            this.checkBoxWshFillPortfolio = new System.Windows.Forms.CheckBox();
-            this.checkBoxWshFillCompetitors = new System.Windows.Forms.CheckBox();
+            this.marketDataContract = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.marketDataTypeTickerColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.bidSize = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.bidPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.preOpenBid = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.preOpenAsk = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.askPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.askSize = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.lastTickerColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.lastPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.volume = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.closeTickerColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.openTickerColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.highTickerColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.lowTickerColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.futuresOpenInterestTickerColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.avgOptVolumeTickerColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.shortableSharesTickerColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.estimatedIPOMidpointTickerColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.finalIPOLastTickerColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.comboTab.SuspendLayout();
             this.comboDeltaNeutralBox.SuspendLayout();
             this.comboLegsBox.SuspendLayout();
@@ -5165,7 +5167,9 @@ namespace IBSampleApp
             this.lowTickerColumn,
             this.futuresOpenInterestTickerColumn,
             this.avgOptVolumeTickerColumn,
-            this.shortableSharesTickerColumn});
+            this.shortableSharesTickerColumn,
+            this.estimatedIPOMidpointTickerColumn,
+            this.finalIPOLastTickerColumn});
             this.marketDataGrid_MDT.Location = new System.Drawing.Point(3, 19);
             this.marketDataGrid_MDT.Name = "marketDataGrid_MDT";
             this.marketDataGrid_MDT.ReadOnly = true;
@@ -5173,118 +5177,6 @@ namespace IBSampleApp
             this.marketDataGrid_MDT.Size = new System.Drawing.Size(1225, 184);
             this.marketDataGrid_MDT.TabIndex = 0;
             this.marketDataGrid_MDT.Visible = false;
-            // 
-            // marketDataContract
-            // 
-            this.marketDataContract.HeaderText = "Description";
-            this.marketDataContract.Name = "marketDataContract";
-            this.marketDataContract.ReadOnly = true;
-            this.marketDataContract.Width = 200;
-            // 
-            // marketDataTypeTickerColumn
-            // 
-            this.marketDataTypeTickerColumn.HeaderText = "Mkt Data Type";
-            this.marketDataTypeTickerColumn.Name = "marketDataTypeTickerColumn";
-            this.marketDataTypeTickerColumn.ReadOnly = true;
-            this.marketDataTypeTickerColumn.Width = 150;
-            // 
-            // bidSize
-            // 
-            this.bidSize.HeaderText = "Bid Size";
-            this.bidSize.Name = "bidSize";
-            this.bidSize.ReadOnly = true;
-            // 
-            // bidPrice
-            // 
-            this.bidPrice.HeaderText = "Bid";
-            this.bidPrice.Name = "bidPrice";
-            this.bidPrice.ReadOnly = true;
-            // 
-            // preOpenBid
-            // 
-            this.preOpenBid.HeaderText = "Pre-Open Bid";
-            this.preOpenBid.Name = "preOpenBid";
-            this.preOpenBid.ReadOnly = true;
-            // 
-            // preOpenAsk
-            // 
-            this.preOpenAsk.HeaderText = "Pre-Open Ask";
-            this.preOpenAsk.Name = "preOpenAsk";
-            this.preOpenAsk.ReadOnly = true;
-            // 
-            // askPrice
-            // 
-            this.askPrice.HeaderText = "Ask";
-            this.askPrice.Name = "askPrice";
-            this.askPrice.ReadOnly = true;
-            // 
-            // askSize
-            // 
-            this.askSize.HeaderText = "Ask Size";
-            this.askSize.Name = "askSize";
-            this.askSize.ReadOnly = true;
-            // 
-            // lastTickerColumn
-            // 
-            this.lastTickerColumn.HeaderText = "Last";
-            this.lastTickerColumn.Name = "lastTickerColumn";
-            this.lastTickerColumn.ReadOnly = true;
-            // 
-            // lastPrice
-            // 
-            this.lastPrice.HeaderText = "Last Size";
-            this.lastPrice.Name = "lastPrice";
-            this.lastPrice.ReadOnly = true;
-            // 
-            // volume
-            // 
-            this.volume.HeaderText = "Volume";
-            this.volume.Name = "volume";
-            this.volume.ReadOnly = true;
-            // 
-            // closeTickerColumn
-            // 
-            this.closeTickerColumn.HeaderText = "Close";
-            this.closeTickerColumn.Name = "closeTickerColumn";
-            this.closeTickerColumn.ReadOnly = true;
-            this.closeTickerColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.closeTickerColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // openTickerColumn
-            // 
-            this.openTickerColumn.HeaderText = "Open";
-            this.openTickerColumn.Name = "openTickerColumn";
-            this.openTickerColumn.ReadOnly = true;
-            // 
-            // highTickerColumn
-            // 
-            this.highTickerColumn.HeaderText = "High";
-            this.highTickerColumn.Name = "highTickerColumn";
-            this.highTickerColumn.ReadOnly = true;
-            // 
-            // lowTickerColumn
-            // 
-            this.lowTickerColumn.HeaderText = "Low";
-            this.lowTickerColumn.Name = "lowTickerColumn";
-            this.lowTickerColumn.ReadOnly = true;
-            // 
-            // futuresOpenInterestTickerColumn
-            // 
-            this.futuresOpenInterestTickerColumn.HeaderText = "Fut Open Int";
-            this.futuresOpenInterestTickerColumn.Name = "futuresOpenInterestTickerColumn";
-            this.futuresOpenInterestTickerColumn.ReadOnly = true;
-            // 
-            // avgOptVolumeTickerColumn
-            // 
-            this.avgOptVolumeTickerColumn.HeaderText = "Avg Opt Vol";
-            this.avgOptVolumeTickerColumn.Name = "avgOptVolumeTickerColumn";
-            this.avgOptVolumeTickerColumn.ReadOnly = true;
-            // 
-            // shortableSharesTickerColumn
-            // 
-            this.shortableSharesTickerColumn.HeaderText = "Shortable Shares";
-            this.shortableSharesTickerColumn.Name = "shortableSharesTickerColumn";
-            this.shortableSharesTickerColumn.ReadOnly = true;
             // 
             // deepBookTab_MDT
             // 
@@ -7522,6 +7414,52 @@ namespace IBSampleApp
             this.wshTab.Text = "WSHE Calendar";
             this.wshTab.UseVisualStyleBackColor = true;
             // 
+            // checkBoxWshFillCompetitors
+            // 
+            this.checkBoxWshFillCompetitors.AutoSize = true;
+            this.checkBoxWshFillCompetitors.Location = new System.Drawing.Point(725, 137);
+            this.checkBoxWshFillCompetitors.Name = "checkBoxWshFillCompetitors";
+            this.checkBoxWshFillCompetitors.Size = new System.Drawing.Size(96, 17);
+            this.checkBoxWshFillCompetitors.TabIndex = 25;
+            this.checkBoxWshFillCompetitors.Text = "Fill Competitors";
+            this.checkBoxWshFillCompetitors.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxWshFillPortfolio
+            // 
+            this.checkBoxWshFillPortfolio.AutoSize = true;
+            this.checkBoxWshFillPortfolio.Location = new System.Drawing.Point(725, 114);
+            this.checkBoxWshFillPortfolio.Name = "checkBoxWshFillPortfolio";
+            this.checkBoxWshFillPortfolio.Size = new System.Drawing.Size(79, 17);
+            this.checkBoxWshFillPortfolio.TabIndex = 24;
+            this.checkBoxWshFillPortfolio.Text = "Fill Portfolio";
+            this.checkBoxWshFillPortfolio.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxWshFillWatchlist
+            // 
+            this.checkBoxWshFillWatchlist.AutoSize = true;
+            this.checkBoxWshFillWatchlist.Location = new System.Drawing.Point(725, 91);
+            this.checkBoxWshFillWatchlist.Name = "checkBoxWshFillWatchlist";
+            this.checkBoxWshFillWatchlist.Size = new System.Drawing.Size(85, 17);
+            this.checkBoxWshFillWatchlist.TabIndex = 23;
+            this.checkBoxWshFillWatchlist.Text = "Fill Watchlist";
+            this.checkBoxWshFillWatchlist.UseVisualStyleBackColor = true;
+            // 
+            // textBoxWshFilter
+            // 
+            this.textBoxWshFilter.Location = new System.Drawing.Point(725, 57);
+            this.textBoxWshFilter.Name = "textBoxWshFilter";
+            this.textBoxWshFilter.Size = new System.Drawing.Size(100, 20);
+            this.textBoxWshFilter.TabIndex = 19;
+            // 
+            // labelWshFilter
+            // 
+            this.labelWshFilter.AutoSize = true;
+            this.labelWshFilter.Location = new System.Drawing.Point(604, 64);
+            this.labelWshFilter.Name = "labelWshFilter";
+            this.labelWshFilter.Size = new System.Drawing.Size(29, 13);
+            this.labelWshFilter.TabIndex = 18;
+            this.labelWshFilter.Text = "Filter";
+            // 
             // button3
             // 
             this.button3.Location = new System.Drawing.Point(988, 29);
@@ -7590,51 +7528,129 @@ namespace IBSampleApp
             this.dataGridViewWsh.Size = new System.Drawing.Size(593, 442);
             this.dataGridViewWsh.TabIndex = 9;
             // 
-            // labelWshFilter
+            // marketDataContract
             // 
-            this.labelWshFilter.AutoSize = true;
-            this.labelWshFilter.Location = new System.Drawing.Point(604, 64);
-            this.labelWshFilter.Name = "labelWshFilter";
-            this.labelWshFilter.Size = new System.Drawing.Size(29, 13);
-            this.labelWshFilter.TabIndex = 18;
-            this.labelWshFilter.Text = "Filter";
+            this.marketDataContract.HeaderText = "Description";
+            this.marketDataContract.Name = "marketDataContract";
+            this.marketDataContract.ReadOnly = true;
+            this.marketDataContract.Width = 200;
             // 
-            // textBoxWshFilter
+            // marketDataTypeTickerColumn
             // 
-            this.textBoxWshFilter.Location = new System.Drawing.Point(725, 57);
-            this.textBoxWshFilter.Name = "textBoxWshFilter";
-            this.textBoxWshFilter.Size = new System.Drawing.Size(100, 20);
-            this.textBoxWshFilter.TabIndex = 19;
+            this.marketDataTypeTickerColumn.HeaderText = "Mkt Data Type";
+            this.marketDataTypeTickerColumn.Name = "marketDataTypeTickerColumn";
+            this.marketDataTypeTickerColumn.ReadOnly = true;
+            this.marketDataTypeTickerColumn.Width = 150;
             // 
-            // checkBoxWshFillWatchlist
+            // bidSize
             // 
-            this.checkBoxWshFillWatchlist.AutoSize = true;
-            this.checkBoxWshFillWatchlist.Location = new System.Drawing.Point(725, 91);
-            this.checkBoxWshFillWatchlist.Name = "checkBoxWshFillWatchlist";
-            this.checkBoxWshFillWatchlist.Size = new System.Drawing.Size(85, 17);
-            this.checkBoxWshFillWatchlist.TabIndex = 23;
-            this.checkBoxWshFillWatchlist.Text = "Fill Watchlist";
-            this.checkBoxWshFillWatchlist.UseVisualStyleBackColor = true;
+            this.bidSize.HeaderText = "Bid Size";
+            this.bidSize.Name = "bidSize";
+            this.bidSize.ReadOnly = true;
             // 
-            // checkBoxWshFillPortfolio
+            // bidPrice
             // 
-            this.checkBoxWshFillPortfolio.AutoSize = true;
-            this.checkBoxWshFillPortfolio.Location = new System.Drawing.Point(725, 114);
-            this.checkBoxWshFillPortfolio.Name = "checkBoxWshFillPortfolio";
-            this.checkBoxWshFillPortfolio.Size = new System.Drawing.Size(79, 17);
-            this.checkBoxWshFillPortfolio.TabIndex = 24;
-            this.checkBoxWshFillPortfolio.Text = "Fill Portfolio";
-            this.checkBoxWshFillPortfolio.UseVisualStyleBackColor = true;
+            this.bidPrice.HeaderText = "Bid";
+            this.bidPrice.Name = "bidPrice";
+            this.bidPrice.ReadOnly = true;
             // 
-            // checkBoxWshFillCompetitors
+            // preOpenBid
             // 
-            this.checkBoxWshFillCompetitors.AutoSize = true;
-            this.checkBoxWshFillCompetitors.Location = new System.Drawing.Point(725, 137);
-            this.checkBoxWshFillCompetitors.Name = "checkBoxWshFillCompetitors";
-            this.checkBoxWshFillCompetitors.Size = new System.Drawing.Size(96, 17);
-            this.checkBoxWshFillCompetitors.TabIndex = 25;
-            this.checkBoxWshFillCompetitors.Text = "Fill Competitors";
-            this.checkBoxWshFillCompetitors.UseVisualStyleBackColor = true;
+            this.preOpenBid.HeaderText = "Pre-Open Bid";
+            this.preOpenBid.Name = "preOpenBid";
+            this.preOpenBid.ReadOnly = true;
+            // 
+            // preOpenAsk
+            // 
+            this.preOpenAsk.HeaderText = "Pre-Open Ask";
+            this.preOpenAsk.Name = "preOpenAsk";
+            this.preOpenAsk.ReadOnly = true;
+            // 
+            // askPrice
+            // 
+            this.askPrice.HeaderText = "Ask";
+            this.askPrice.Name = "askPrice";
+            this.askPrice.ReadOnly = true;
+            // 
+            // askSize
+            // 
+            this.askSize.HeaderText = "Ask Size";
+            this.askSize.Name = "askSize";
+            this.askSize.ReadOnly = true;
+            // 
+            // lastTickerColumn
+            // 
+            this.lastTickerColumn.HeaderText = "Last";
+            this.lastTickerColumn.Name = "lastTickerColumn";
+            this.lastTickerColumn.ReadOnly = true;
+            // 
+            // lastPrice
+            // 
+            this.lastPrice.HeaderText = "Last Size";
+            this.lastPrice.Name = "lastPrice";
+            this.lastPrice.ReadOnly = true;
+            // 
+            // volume
+            // 
+            this.volume.HeaderText = "Volume";
+            this.volume.Name = "volume";
+            this.volume.ReadOnly = true;
+            // 
+            // closeTickerColumn
+            // 
+            this.closeTickerColumn.HeaderText = "Close";
+            this.closeTickerColumn.Name = "closeTickerColumn";
+            this.closeTickerColumn.ReadOnly = true;
+            this.closeTickerColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.closeTickerColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // openTickerColumn
+            // 
+            this.openTickerColumn.HeaderText = "Open";
+            this.openTickerColumn.Name = "openTickerColumn";
+            this.openTickerColumn.ReadOnly = true;
+            // 
+            // highTickerColumn
+            // 
+            this.highTickerColumn.HeaderText = "High";
+            this.highTickerColumn.Name = "highTickerColumn";
+            this.highTickerColumn.ReadOnly = true;
+            // 
+            // lowTickerColumn
+            // 
+            this.lowTickerColumn.HeaderText = "Low";
+            this.lowTickerColumn.Name = "lowTickerColumn";
+            this.lowTickerColumn.ReadOnly = true;
+            // 
+            // futuresOpenInterestTickerColumn
+            // 
+            this.futuresOpenInterestTickerColumn.HeaderText = "Fut Open Int";
+            this.futuresOpenInterestTickerColumn.Name = "futuresOpenInterestTickerColumn";
+            this.futuresOpenInterestTickerColumn.ReadOnly = true;
+            // 
+            // avgOptVolumeTickerColumn
+            // 
+            this.avgOptVolumeTickerColumn.HeaderText = "Avg Opt Vol";
+            this.avgOptVolumeTickerColumn.Name = "avgOptVolumeTickerColumn";
+            this.avgOptVolumeTickerColumn.ReadOnly = true;
+            // 
+            // shortableSharesTickerColumn
+            // 
+            this.shortableSharesTickerColumn.HeaderText = "Shortable Shares";
+            this.shortableSharesTickerColumn.Name = "shortableSharesTickerColumn";
+            this.shortableSharesTickerColumn.ReadOnly = true;
+            // 
+            // estimatedIPOMidpointTickerColumn
+            // 
+            this.estimatedIPOMidpointTickerColumn.HeaderText = "Est IPO Mid";
+            this.estimatedIPOMidpointTickerColumn.Name = "estimatedIPOMidpointTickerColumn";
+            this.estimatedIPOMidpointTickerColumn.ReadOnly = true;
+            // 
+            // finalIPOLastTickerColumn
+            // 
+            this.finalIPOLastTickerColumn.HeaderText = "Final IPO Last";
+            this.finalIPOLastTickerColumn.Name = "finalIPOLastTickerColumn";
+            this.finalIPOLastTickerColumn.ReadOnly = true;
             // 
             // IBSampleAppDialog
             // 
@@ -8427,24 +8443,6 @@ namespace IBSampleApp
         private System.Windows.Forms.ColumnHeader columnHeader3;
         private System.Windows.Forms.ColumnHeader columnHeader4;
         private System.Windows.Forms.CheckBox cbSmartDepth;
-        private System.Windows.Forms.DataGridViewTextBoxColumn marketDataContract;
-        private System.Windows.Forms.DataGridViewTextBoxColumn marketDataTypeTickerColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn bidSize;
-        private System.Windows.Forms.DataGridViewTextBoxColumn bidPrice;
-        private System.Windows.Forms.DataGridViewTextBoxColumn preOpenBid;
-        private System.Windows.Forms.DataGridViewTextBoxColumn preOpenAsk;
-        private System.Windows.Forms.DataGridViewTextBoxColumn askPrice;
-        private System.Windows.Forms.DataGridViewTextBoxColumn askSize;
-        private System.Windows.Forms.DataGridViewTextBoxColumn lastTickerColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn lastPrice;
-        private System.Windows.Forms.DataGridViewTextBoxColumn volume;
-        private System.Windows.Forms.DataGridViewTextBoxColumn closeTickerColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn openTickerColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn highTickerColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn lowTickerColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn futuresOpenInterestTickerColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn avgOptVolumeTickerColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn shortableSharesTickerColumn;
         private System.Windows.Forms.GroupBox completedOrdersGroup;
         private System.Windows.Forms.Button completedOrdersButton;
         private System.Windows.Forms.DataGridView completedOrdersGrid;
@@ -8539,6 +8537,26 @@ namespace IBSampleApp
         private System.Windows.Forms.CheckBox checkBoxWshFillWatchlist;
         private System.Windows.Forms.TextBox textBoxWshFilter;
         private System.Windows.Forms.Label labelWshFilter;
+        private System.Windows.Forms.DataGridViewTextBoxColumn marketDataContract;
+        private System.Windows.Forms.DataGridViewTextBoxColumn marketDataTypeTickerColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn bidSize;
+        private System.Windows.Forms.DataGridViewTextBoxColumn bidPrice;
+        private System.Windows.Forms.DataGridViewTextBoxColumn preOpenBid;
+        private System.Windows.Forms.DataGridViewTextBoxColumn preOpenAsk;
+        private System.Windows.Forms.DataGridViewTextBoxColumn askPrice;
+        private System.Windows.Forms.DataGridViewTextBoxColumn askSize;
+        private System.Windows.Forms.DataGridViewTextBoxColumn lastTickerColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn lastPrice;
+        private System.Windows.Forms.DataGridViewTextBoxColumn volume;
+        private System.Windows.Forms.DataGridViewTextBoxColumn closeTickerColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn openTickerColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn highTickerColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn lowTickerColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn futuresOpenInterestTickerColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn avgOptVolumeTickerColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn shortableSharesTickerColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn estimatedIPOMidpointTickerColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn finalIPOLastTickerColumn;
     }
 }
 

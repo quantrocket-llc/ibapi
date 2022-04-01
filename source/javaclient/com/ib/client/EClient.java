@@ -313,9 +313,10 @@ public abstract class EClient {
     protected static final int MIN_SERVER_VER_MANUAL_ORDER_TIME = 169;
     protected static final int MIN_SERVER_VER_PEGBEST_PEGMID_OFFSETS = 170;
     protected static final int MIN_SERVER_VER_WSH_EVENT_DATA_FILTERS = 171;
+    protected static final int MIN_SERVER_VER_IPO_PRICES = 172;
     
     public static final int MIN_VERSION = 100; // envelope encoding, applicable to useV100Plus mode only
-    public static final int MAX_VERSION = MIN_SERVER_VER_WSH_EVENT_DATA_FILTERS; // ditto
+    public static final int MAX_VERSION = MIN_SERVER_VER_IPO_PRICES; // ditto
 
     protected EReaderSignal m_signal;
     protected EWrapper m_eWrapper;    // msg handler
