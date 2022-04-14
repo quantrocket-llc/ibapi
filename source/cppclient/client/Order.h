@@ -12,6 +12,8 @@
 #include <float.h>
 #include <limits.h>
 
+#include <cmath>
+
 #define UNSET_DOUBLE DBL_MAX
 #define UNSET_INTEGER INT_MAX
 #define UNSET_LONG LLONG_MAX

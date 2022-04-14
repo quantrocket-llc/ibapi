@@ -21,6 +21,7 @@
 #include <assert.h>
 #include <string>
 #include <bitset>
+#include <cmath>
 
 
 EDecoder::EDecoder(int serverVersion, EWrapper *callback, EClientMsgSink *clientMsgSink) {

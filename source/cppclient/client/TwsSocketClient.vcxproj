@@ -129,7 +129,7 @@
       <SubSystem>Windows</SubSystem>
       <ImportLibrary>..\lib\TwsSocketClient.lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
-      <AdditionalDependencies>libbid.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>biddll.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>.\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <Bscmake>
@@ -180,7 +180,7 @@
       <SubSystem>Windows</SubSystem>
       <ImportLibrary>.\Debug/TwsSocketClient.lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
-      <AdditionalDependencies>libbid.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>biddll.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>.\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <Bscmake>

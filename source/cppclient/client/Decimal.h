@@ -6,6 +6,7 @@
 #define TWS_API_CLIENT_DECIMAL_H
 
 #include <sstream>
+#include <climits>
 
 // Decimal type
 typedef unsigned long long Decimal;

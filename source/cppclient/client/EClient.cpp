@@ -24,6 +24,7 @@
 #include <sstream>
 #include <iomanip>
 #include <algorithm>
+#include <cmath>
 
 #include <stdio.h>
 #include <string.h>
@@ -2054,7 +2055,7 @@ void EClient::placeOrder( OrderId id, const Contract& contract, const Order& ord
             if (contract.exchange == "IBKRATS") {
                 ENCODE_FIELD_MAX(order.minTradeQty);
             }
-            boolean sendMidOffsets = false;
+            bool sendMidOffsets = false;
             if (order.orderType == "PEG BEST") {
                 ENCODE_FIELD_MAX(order.minCompeteSize);
                 ENCODE_FIELD_MAX(order.competeAgainstBestOffset);

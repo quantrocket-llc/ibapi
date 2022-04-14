@@ -6,7 +6,7 @@ INCLUDES=-I${ROOT_DIR}
 TARGET=libTwsSocketClient.so
 
 $(TARGET):
-	$(CXX) $(CXXFLAGS) $(INCLUDES) $(BASE_SRC_DIR)/*.cpp lib/libbid.a -o$(TARGET)
+	$(CXX) $(CXXFLAGS) $(INCLUDES) $(BASE_SRC_DIR)/*.cpp lib/libbid.so -o$(TARGET)
 
 clean:
 	rm -f $(TARGET) *.o

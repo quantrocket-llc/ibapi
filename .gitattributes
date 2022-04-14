@@ -9,3 +9,4 @@
 *.JAR	binary
 *.lib   binary
 *.a     binary
+*.so    binary

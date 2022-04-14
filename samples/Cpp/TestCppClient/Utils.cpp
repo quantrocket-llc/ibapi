@@ -4,6 +4,9 @@
 
 #include "Utils.h"
 #include <iostream>
+#include <sstream>
+#include <climits>
+#include <cfloat>
 #include <platformspecific.h>
 
 static const std::string base64_chars = 

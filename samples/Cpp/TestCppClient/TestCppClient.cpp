@@ -837,7 +837,7 @@ void TestCppClient::orderOperations()
 	//! [place_midprice]
 	
 	//! [place order with cashQty]
-	m_pClient->placeOrder(m_orderId++, ContractSamples::USStockAtSmart(), OrderSamples::LimitOrderWithCashQty("BUY", stringToDecimal("30"), 5000));
+	m_pClient->placeOrder(m_orderId++, ContractSamples::USStockAtSmart(), OrderSamples::LimitOrderWithCashQty("BUY", 111.11, 5000));
 	//! [place order with cashQty]
 
 	std::this_thread::sleep_for(std::chrono::seconds(1));
