@@ -15,6 +15,13 @@ namespace IBApi
 
         public bool FillCompetitors { get; set; }
 
+        public string StartDate { get; set; }
+
+        public string EndDate { get; set; }
+
+        public int TotalLimit { get; set; }
+
+
         public WshEventData()
         {
             ConId = int.MaxValue;
@@ -22,24 +29,33 @@ namespace IBApi
             FillWatchlist = false;
             FillPortfolio = false;
             FillCompetitors = false;
+            StartDate = Order.EMPTY_STR;
+            EndDate = Order.EMPTY_STR;
+            TotalLimit = int.MaxValue;
         }
 
-        public WshEventData(int conId)
+        public WshEventData(int conId, bool fillWatchlist, bool fillPortfolio, bool fillCompetitors, string startDate, string endDate, int totalLimit)
         {
             ConId = conId;
             Filter = Order.EMPTY_STR;
-            FillWatchlist = false;
-            FillPortfolio = false;
-            FillCompetitors = false;
+            FillWatchlist = fillWatchlist;
+            FillPortfolio = fillPortfolio;
+            FillCompetitors = fillCompetitors;
+            StartDate = startDate;
+            EndDate = endDate;
+            TotalLimit = totalLimit;
         }
 
-        public WshEventData(string filter, bool fillWatchlist, bool fillPortfolio, bool fillCompetitors)
+        public WshEventData(string filter, bool fillWatchlist, bool fillPortfolio, bool fillCompetitors, string startDate, string endDate, int totalLimit)
         {
             ConId = int.MaxValue;
             Filter = filter;
             FillWatchlist = fillWatchlist;
             FillPortfolio = fillPortfolio;
             FillCompetitors = fillCompetitors;
+            StartDate = startDate;
+            EndDate = endDate;
+            TotalLimit = totalLimit;
         }
     }
 }

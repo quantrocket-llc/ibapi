@@ -69,7 +69,7 @@ Module MainModule
         '**************************************************
         '** Real time market data operations  - Tickers ***
         '**************************************************
-        tickDataOperations(client)
+        'tickDataOperations(client)
 
         '***************************************************
         '** Tick option computation operations - Tickers ***
@@ -201,7 +201,7 @@ Module MainModule
         '*******************
         '** WSH Calendar ***
         '*******************
-        'wshCalendarOperations(client)
+        wshCalendarOperations(client)
 
         Thread.Sleep(15000)
         Console.WriteLine("Done")
@@ -218,13 +218,13 @@ Module MainModule
         client.cancelWshMetaData(1100)
 
         ' [reqeventdata]
-        client.reqWshEventData(1101, New WshEventData(8314))
+        client.reqWshEventData(1101, New WshEventData(8314, False, False, False, "20220511", "", 5))
         ' [reqeventdata]
 
         Thread.Sleep(3000)
 
         ' [reqeventdata]
-        client.reqWshEventData(1102, New WshEventData("{""watchlist"":[""8314""]}", False, False, False))
+        client.reqWshEventData(1102, New WshEventData("{""watchlist"":[""8314""]}", False, False, False, "", "20220512", Integer.MaxValue))
         ' [reqeventdata]
 
         Thread.Sleep(1000)

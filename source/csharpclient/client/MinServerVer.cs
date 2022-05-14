@@ -126,5 +126,6 @@ namespace IBApi
         public const int PEGBEST_PEGMID_OFFSETS = 170;
         public const int MIN_SERVER_VER_WSH_EVENT_DATA_FILTERS = 171;
         public const int MIN_SERVER_VER_IPO_PRICES = 172;
+        public const int MIN_SERVER_VER_WSH_EVENT_DATA_FILTERS_DATE = 173;
     }
 }

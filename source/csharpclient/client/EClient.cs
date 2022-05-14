@@ -3516,6 +3516,15 @@ namespace IBApi
                 }
             }
 
+            if (serverVersion < MinServerVer.MIN_SERVER_VER_WSH_EVENT_DATA_FILTERS_DATE)
+            {
+                if (!IsEmpty(wshEventData.StartDate) || !IsEmpty(wshEventData.EndDate) || wshEventData.TotalLimit != int.MaxValue)
+                {
+                    ReportError(reqId, EClientErrors.UPDATE_TWS, "  It does not support WSH event data date filters.");
+                    return;
+                }
+            }
+
             var paramsList = new BinaryWriter(new MemoryStream());
             var lengthPos = prepareBuffer(paramsList);
 
@@ -3531,6 +3540,13 @@ namespace IBApi
                     paramsList.AddParameter(wshEventData.FillWatchlist);
                     paramsList.AddParameter(wshEventData.FillPortfolio);
                     paramsList.AddParameter(wshEventData.FillCompetitors);
+                }
+
+                if (serverVersion >= MinServerVer.MIN_SERVER_VER_WSH_EVENT_DATA_FILTERS_DATE)
+                {
+                    paramsList.AddParameter(wshEventData.StartDate);
+                    paramsList.AddParameter(wshEventData.EndDate);
+                    paramsList.AddParameter(wshEventData.TotalLimit);
                 }
             }
             catch (EClientException e)

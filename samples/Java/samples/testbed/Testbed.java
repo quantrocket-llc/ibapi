@@ -45,7 +45,7 @@ public class Testbed {
 		Thread.sleep(1000);
 
 		//tickByTickOperations(wrapper.getClient());
-		tickDataOperations(wrapper.getClient());
+		//tickDataOperations(wrapper.getClient());
 		//tickOptionComputations(wrapper.getClient());
 		//optionsOperations(wrapper.getClient());
 		//orderOperations(wrapper.getClient(), wrapper.getCurrentOrderId());
@@ -72,7 +72,7 @@ public class Testbed {
 		//historicalTicks(wrapper.getClient());
 		//financialAdvisorOperations(wrapper.getClient());
 		//realTimeBars(wrapper.getClient());    
-		//wshCalendarOperations(wrapper.getClient());
+		wshCalendarOperations(wrapper.getClient());
 
 		Thread.sleep(100000);
 		m_client.eDisconnect();
@@ -814,13 +814,13 @@ public class Testbed {
         client.cancelWshMetaData(1100);
 
         //! [reqeventdata]
-        client.reqWshEventData(1101, new WshEventData(8314));
+        client.reqWshEventData(1101, new WshEventData(8314, false, false, false, "20220511", "", 5));
         //! [reqeventdata]
 
         Thread.sleep(3000);
 
         //! [reqeventdata]
-        client.reqWshEventData(1102, new WshEventData("{\"watchlist\":[\"8314\"]}", false, false, false));
+        client.reqWshEventData(1102, new WshEventData("{\"watchlist\":[\"8314\"]}", false, false, false, "", "20220512", Integer.MAX_VALUE));
         //! [reqeventdata]
 
         Thread.sleep(1000);

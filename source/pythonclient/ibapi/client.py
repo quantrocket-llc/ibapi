@@ -3674,6 +3674,11 @@ class EClient(object):
                 self.wrapper.error(NO_VALID_ID, UPDATE_TWS.code(), UPDATE_TWS.msg() + " It does not support WSH event data filters.")
                 return
 
+        if self.serverVersion() < MIN_SERVER_VER_WSH_EVENT_DATA_FILTERS_DATE:
+            if wshEventData.startDate != "" or wshEventData.endDate != "" or wshEventData.totalLimit != UNSET_INTEGER:
+                self.wrapper.error(NO_VALID_ID, UPDATE_TWS.code(), UPDATE_TWS.msg() + " It does not support WSH event data date filters.")
+                return
+
         try:
             flds = []
             flds.append(make_field(OUT.REQ_WSH_EVENT_DATA))
@@ -3685,6 +3690,11 @@ class EClient(object):
                 flds.append(make_field(wshEventData.fillWatchlist))
                 flds.append(make_field(wshEventData.fillPortfolio))
                 flds.append(make_field(wshEventData.fillCompetitors))
+
+            if self.serverVersion() >= MIN_SERVER_VER_WSH_EVENT_DATA_FILTERS_DATE:
+                flds.append(make_field(wshEventData.startDate))
+                flds.append(make_field(wshEventData.endDate))
+                flds.append(make_field(wshEventData.totalLimit))
 
             msg = "".join(flds)
 

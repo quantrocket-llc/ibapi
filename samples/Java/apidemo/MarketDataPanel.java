@@ -107,6 +107,9 @@ class MarketDataPanel extends JPanel {
         private JCheckBox m_fillWatchlistCheckbox = new JCheckBox();
         private JCheckBox m_fillPortfolioCheckbox = new JCheckBox();
         private JCheckBox m_fillCompetitorsCheckbox = new JCheckBox();
+        final UpperField m_startDate = new UpperField();
+        final UpperField m_endDate = new UpperField();
+        final UpperField m_totalLimit = new UpperField();
 
         WSHCalendarRequestPanel() {
             VerticalPanel paramsPanel = new VerticalPanel();
@@ -120,6 +123,9 @@ class MarketDataPanel extends JPanel {
             paramsPanel.add("Fill Watchlist", m_fillWatchlistCheckbox);
             paramsPanel.add("Fill Portfolio", m_fillPortfolioCheckbox);
             paramsPanel.add("Fill Competitors", m_fillCompetitorsCheckbox);
+            paramsPanel.add("Start Date", m_startDate);
+            paramsPanel.add("End Date", m_endDate);
+            paramsPanel.add("Total Limit", m_totalLimit);
             paramsPanel.add(reqWSHMetaData);
             paramsPanel.add(reqWSHEventData);
             setLayout(new BorderLayout());
@@ -144,8 +150,16 @@ class MarketDataPanel extends JPanel {
             final WSHEventDataModel wshEventDataModel = new WSHEventDataModel();
             WSHResultsPanel resultsPanel = new WSHResultsPanel(wshEventDataModel);
             int conId = m_conId.getInt();
-            WshEventData wshEventData = conId > 0 ? new WshEventData(conId) : new WshEventData(m_filter.getText(), 
-                   m_fillWatchlistCheckbox.isSelected(), m_fillPortfolioCheckbox.isSelected(), m_fillCompetitorsCheckbox.isSelected());
+            int totalLimit = m_totalLimit.getInt();
+            WshEventData wshEventData = conId > 0 ? 
+                   new WshEventData(conId, 
+                       m_fillWatchlistCheckbox.isSelected(), m_fillPortfolioCheckbox.isSelected(), 
+                       m_fillCompetitorsCheckbox.isSelected(), m_startDate.getText(), m_endDate.getText(),
+                       totalLimit > 0 ? totalLimit : Integer.MAX_VALUE) : 
+                   new WshEventData(m_filter.getText(), 
+                       m_fillWatchlistCheckbox.isSelected(), m_fillPortfolioCheckbox.isSelected(), 
+                       m_fillCompetitorsCheckbox.isSelected(), m_startDate.getText(), m_endDate.getText(),
+                       totalLimit > 0 ? totalLimit : Integer.MAX_VALUE);
 
             m_resultsPanel.addTab("WSH Event Data", resultsPanel, true, true);
             

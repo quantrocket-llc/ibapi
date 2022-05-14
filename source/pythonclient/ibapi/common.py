@@ -233,6 +233,9 @@ class WshEventData(Object):
         self.fillWatchlist = False
         self.fillPortfolio = False
         self.fillCompetitors = False
+        self.startDate = ""
+        self.endDate = ""
+        self.totalLimit = UNSET_INTEGER
 
     def __str__(self):
         return "WshEventData. ConId: %s, Filter: %s, Fill Watchlist: %d, Fill Portfolio: %d, Fill Competitors: %d" % (ibapi.utils.intMaxString(self.conId), 

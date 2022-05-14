@@ -21,5 +21,11 @@ namespace TWSLib
         bool fillPortfolio { [return: MarshalAs(UnmanagedType.Bool)] get; [param: MarshalAs(UnmanagedType.Bool)] set; }
         [DispId(5)]
         bool fillCompetitors { [return: MarshalAs(UnmanagedType.Bool)] get; [param: MarshalAs(UnmanagedType.Bool)] set; }
+        [DispId(6)]
+        string startDate { get; set; }
+        [DispId(7)]
+        string endDate { get; set; }
+        [DispId(8)]
+        int totalLimit { get; set; }
     }
 }

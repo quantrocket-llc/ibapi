@@ -3499,7 +3499,9 @@ Friend Class MainForm
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
         Dim wshEventData As WshEventData
         If m_dlgWsh.ShowDialog() = Windows.Forms.DialogResult.OK Then
-            wshEventData = If(m_dlgWsh.ConId > 0, New WshEventData(m_dlgWsh.ConId), New WshEventData(m_dlgWsh.Filter, m_dlgWsh.FillWatchlist, m_dlgWsh.FillPortfolio, m_dlgWsh.FillCompetitors))
+            wshEventData = If(m_dlgWsh.ConId <> Integer.MaxValue,
+                New WshEventData(m_dlgWsh.ConId, m_dlgWsh.FillWatchlist, m_dlgWsh.FillPortfolio, m_dlgWsh.FillCompetitors, m_dlgWsh.StartDate, m_dlgWsh.EndDate, m_dlgWsh.TotalLimit),
+                New WshEventData(m_dlgWsh.Filter, m_dlgWsh.FillWatchlist, m_dlgWsh.FillPortfolio, m_dlgWsh.FillCompetitors, m_dlgWsh.StartDate, m_dlgWsh.EndDate, m_dlgWsh.TotalLimit))
             m_api.reqWshEventData(m_dlgWsh.ReqId, wshEventData)
         End If
     End Sub

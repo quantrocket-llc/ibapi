@@ -97,7 +97,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>libbid.a;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libbid.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(ProjectDir)\..\..\..\source\CppClient\client\lib\</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -140,7 +140,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(ProjectDir)\..\..\..\source\CppClient\client\lib\</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libbid.a;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libbid.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

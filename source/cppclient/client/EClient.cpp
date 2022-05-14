@@ -3706,6 +3706,13 @@ void EClient::reqWshEventData(int reqId, const WshEventData &wshEventData) {
         }
     }
 
+    if (m_serverVersion < MIN_SERVER_VER_WSH_EVENT_DATA_FILTERS_DATE) {
+        if (!wshEventData.startDate.empty() || !wshEventData.endDate.empty() || wshEventData.totalLimit != INT_MAX) {
+            m_pEWrapper->error(NO_VALID_ID, UPDATE_TWS.code(), UPDATE_TWS.msg() + "  It does not support WSH event data date filters.", "");
+            return;
+        }
+    }
+
     std::stringstream msg;
     prepareBuffer(msg);
 
@@ -3718,6 +3725,12 @@ void EClient::reqWshEventData(int reqId, const WshEventData &wshEventData) {
         ENCODE_FIELD(wshEventData.fillWatchlist);
         ENCODE_FIELD(wshEventData.fillPortfolio);
         ENCODE_FIELD(wshEventData.fillCompetitors);
+    }
+
+    if (m_serverVersion >= MIN_SERVER_VER_WSH_EVENT_DATA_FILTERS_DATE) {
+        ENCODE_FIELD(wshEventData.startDate);
+        ENCODE_FIELD(wshEventData.endDate);
+        ENCODE_FIELD(wshEventData.totalLimit);
     }
 
     closeAndSend(msg.str());

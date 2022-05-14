@@ -36,12 +36,18 @@ Partial Class dlgWsh
         Me.cbWshFillWatchlist = New System.Windows.Forms.CheckBox()
         Me.cbWshFillPortfolio = New System.Windows.Forms.CheckBox()
         Me.cbWshFillCompetitors = New System.Windows.Forms.CheckBox()
+        Me.txtWshStartDate = New System.Windows.Forms.TextBox()
+        Me.LavelWshStartDate = New System.Windows.Forms.Label()
+        Me.txtWshEndDate = New System.Windows.Forms.TextBox()
+        Me.LabelWshEndDate = New System.Windows.Forms.Label()
+        Me.txtWshTotalLimit = New System.Windows.Forms.TextBox()
+        Me.LabelWshTotalLimit = New System.Windows.Forms.Label()
         Me.SuspendLayout()
         '
         'cmdOK
         '
         Me.cmdOK.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.cmdOK.Location = New System.Drawing.Point(31, 183)
+        Me.cmdOK.Location = New System.Drawing.Point(31, 287)
         Me.cmdOK.Name = "cmdOK"
         Me.cmdOK.Size = New System.Drawing.Size(75, 23)
         Me.cmdOK.TabIndex = 0
@@ -51,7 +57,7 @@ Partial Class dlgWsh
         'cmdCancel
         '
         Me.cmdCancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.cmdCancel.Location = New System.Drawing.Point(112, 183)
+        Me.cmdCancel.Location = New System.Drawing.Point(112, 287)
         Me.cmdCancel.Name = "cmdCancel"
         Me.cmdCancel.Size = New System.Drawing.Size(75, 23)
         Me.cmdCancel.TabIndex = 1
@@ -73,7 +79,7 @@ Partial Class dlgWsh
         Me.txtWshReqId.Location = New System.Drawing.Point(87, 6)
         Me.txtWshReqId.Name = "txtWshReqId"
         Me.txtWshReqId.Size = New System.Drawing.Size(100, 20)
-        Me.txtWshReqId.TabIndex = 3
+        Me.txtWshReqId.TabIndex = 4
         '
         'txtWshConId
         '
@@ -81,7 +87,7 @@ Partial Class dlgWsh
         Me.txtWshConId.Location = New System.Drawing.Point(87, 32)
         Me.txtWshConId.Name = "txtWshConId"
         Me.txtWshConId.Size = New System.Drawing.Size(100, 20)
-        Me.txtWshConId.TabIndex = 9
+        Me.txtWshConId.TabIndex = 6
         '
         'LabelWshConId
         '
@@ -89,7 +95,7 @@ Partial Class dlgWsh
         Me.LabelWshConId.Location = New System.Drawing.Point(13, 39)
         Me.LabelWshConId.Name = "LabelWshConId"
         Me.LabelWshConId.Size = New System.Drawing.Size(38, 13)
-        Me.LabelWshConId.TabIndex = 8
+        Me.LabelWshConId.TabIndex = 5
         Me.LabelWshConId.Text = "Con Id"
         '
         'LabelWshFilter
@@ -98,7 +104,7 @@ Partial Class dlgWsh
         Me.LabelWshFilter.Location = New System.Drawing.Point(12, 65)
         Me.LabelWshFilter.Name = "LabelWshFilter"
         Me.LabelWshFilter.Size = New System.Drawing.Size(29, 13)
-        Me.LabelWshFilter.TabIndex = 10
+        Me.LabelWshFilter.TabIndex = 7
         Me.LabelWshFilter.Text = "Filter"
         '
         'txtWshFilter
@@ -107,7 +113,7 @@ Partial Class dlgWsh
         Me.txtWshFilter.Location = New System.Drawing.Point(87, 58)
         Me.txtWshFilter.Name = "txtWshFilter"
         Me.txtWshFilter.Size = New System.Drawing.Size(100, 20)
-        Me.txtWshFilter.TabIndex = 11
+        Me.txtWshFilter.TabIndex = 8
         '
         'cbWshFillWatchlist
         '
@@ -115,7 +121,7 @@ Partial Class dlgWsh
         Me.cbWshFillWatchlist.Location = New System.Drawing.Point(88, 84)
         Me.cbWshFillWatchlist.Name = "cbWshFillWatchlist"
         Me.cbWshFillWatchlist.Size = New System.Drawing.Size(85, 17)
-        Me.cbWshFillWatchlist.TabIndex = 12
+        Me.cbWshFillWatchlist.TabIndex = 9
         Me.cbWshFillWatchlist.Text = "Fill Watchlist"
         Me.cbWshFillWatchlist.UseVisualStyleBackColor = True
         '
@@ -125,7 +131,7 @@ Partial Class dlgWsh
         Me.cbWshFillPortfolio.Location = New System.Drawing.Point(87, 107)
         Me.cbWshFillPortfolio.Name = "cbWshFillPortfolio"
         Me.cbWshFillPortfolio.Size = New System.Drawing.Size(79, 17)
-        Me.cbWshFillPortfolio.TabIndex = 13
+        Me.cbWshFillPortfolio.TabIndex = 10
         Me.cbWshFillPortfolio.Text = "Fill Portfolio"
         Me.cbWshFillPortfolio.UseVisualStyleBackColor = True
         '
@@ -135,16 +141,73 @@ Partial Class dlgWsh
         Me.cbWshFillCompetitors.Location = New System.Drawing.Point(88, 130)
         Me.cbWshFillCompetitors.Name = "cbWshFillCompetitors"
         Me.cbWshFillCompetitors.Size = New System.Drawing.Size(96, 17)
-        Me.cbWshFillCompetitors.TabIndex = 14
+        Me.cbWshFillCompetitors.TabIndex = 11
         Me.cbWshFillCompetitors.Text = "Fill Competitors"
         Me.cbWshFillCompetitors.UseVisualStyleBackColor = True
+        '
+        'txtWshStartDate
+        '
+        Me.txtWshStartDate.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.txtWshStartDate.Location = New System.Drawing.Point(87, 151)
+        Me.txtWshStartDate.Name = "txtWshStartDate"
+        Me.txtWshStartDate.Size = New System.Drawing.Size(100, 20)
+        Me.txtWshStartDate.TabIndex = 13
+        '
+        'LavelWshStartDate
+        '
+        Me.LavelWshStartDate.AutoSize = True
+        Me.LavelWshStartDate.Location = New System.Drawing.Point(13, 158)
+        Me.LavelWshStartDate.Name = "LavelWshStartDate"
+        Me.LavelWshStartDate.Size = New System.Drawing.Size(55, 13)
+        Me.LavelWshStartDate.TabIndex = 12
+        Me.LavelWshStartDate.Text = "Start Date"
+        '
+        'txtWshEndDate
+        '
+        Me.txtWshEndDate.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.txtWshEndDate.Location = New System.Drawing.Point(87, 177)
+        Me.txtWshEndDate.Name = "txtWshEndDate"
+        Me.txtWshEndDate.Size = New System.Drawing.Size(100, 20)
+        Me.txtWshEndDate.TabIndex = 15
+        '
+        'LabelWshEndDate
+        '
+        Me.LabelWshEndDate.AutoSize = True
+        Me.LabelWshEndDate.Location = New System.Drawing.Point(12, 184)
+        Me.LabelWshEndDate.Name = "LabelWshEndDate"
+        Me.LabelWshEndDate.Size = New System.Drawing.Size(52, 13)
+        Me.LabelWshEndDate.TabIndex = 14
+        Me.LabelWshEndDate.Text = "End Date"
+        '
+        'txtWshTotalLimit
+        '
+        Me.txtWshTotalLimit.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.txtWshTotalLimit.Location = New System.Drawing.Point(88, 203)
+        Me.txtWshTotalLimit.Name = "txtWshTotalLimit"
+        Me.txtWshTotalLimit.Size = New System.Drawing.Size(100, 20)
+        Me.txtWshTotalLimit.TabIndex = 0
+        '
+        'LabelWshTotalLimit
+        '
+        Me.LabelWshTotalLimit.AutoSize = True
+        Me.LabelWshTotalLimit.Location = New System.Drawing.Point(12, 210)
+        Me.LabelWshTotalLimit.Name = "LabelWshTotalLimit"
+        Me.LabelWshTotalLimit.Size = New System.Drawing.Size(55, 13)
+        Me.LabelWshTotalLimit.TabIndex = 16
+        Me.LabelWshTotalLimit.Text = "Total Limit"
         '
         'dlgWsh
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.Gainsboro
-        Me.ClientSize = New System.Drawing.Size(199, 218)
+        Me.ClientSize = New System.Drawing.Size(199, 322)
+        Me.Controls.Add(Me.txtWshTotalLimit)
+        Me.Controls.Add(Me.LabelWshTotalLimit)
+        Me.Controls.Add(Me.txtWshEndDate)
+        Me.Controls.Add(Me.LabelWshEndDate)
+        Me.Controls.Add(Me.txtWshStartDate)
+        Me.Controls.Add(Me.LavelWshStartDate)
         Me.Controls.Add(Me.cbWshFillCompetitors)
         Me.Controls.Add(Me.cbWshFillPortfolio)
         Me.Controls.Add(Me.cbWshFillWatchlist)
@@ -174,4 +237,10 @@ Partial Class dlgWsh
     Friend WithEvents cbWshFillWatchlist As CheckBox
     Friend WithEvents cbWshFillPortfolio As CheckBox
     Friend WithEvents cbWshFillCompetitors As CheckBox
+    Friend WithEvents txtWshStartDate As TextBox
+    Friend WithEvents LavelWshStartDate As Label
+    Friend WithEvents txtWshEndDate As TextBox
+    Friend WithEvents LabelWshEndDate As Label
+    Friend WithEvents txtWshTotalLimit As TextBox
+    Friend WithEvents LabelWshTotalLimit As Label
 End Class

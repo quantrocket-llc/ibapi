@@ -60,7 +60,7 @@ namespace Samples
             /***************************************************/
             /*** Real time market data operations  - Tickers ***/
             /***************************************************/
-            tickDataOperations(client);
+            //tickDataOperations(client);
 
             /***************************************************/
             /*** Option computation operations  - Tickers    ***/
@@ -196,7 +196,7 @@ namespace Samples
             /***********************/
             /*** WSHE Calendar API samples ***/
             /***********************/
-            //wshCalendarOperations(client);
+            wshCalendarOperations(client);
 
             Thread.Sleep(3000);
             Console.WriteLine("Done");
@@ -215,13 +215,13 @@ namespace Samples
             client.cancelWshMetaData(1100);
 
 			//! [reqeventdata]
-            client.reqWshEventData(1101, new WshEventData(8314));
+            client.reqWshEventData(1101, new WshEventData(8314, false, false, false, "20220511", "", 5));
             //! [reqeventdata]
 
             Thread.Sleep(3000);
 
             //! [reqeventdata]
-            client.reqWshEventData(1102, new WshEventData("{\"watchlist\":[\"8314\"]}", false, false, false));
+            client.reqWshEventData(1102, new WshEventData("{\"watchlist\":[\"8314\"]}", false, false, false, "", "20220512", int.MaxValue));
             //! [reqeventdata]
 
             Thread.Sleep(1000);

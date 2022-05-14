@@ -1404,8 +1404,12 @@ namespace IBSampleApp
             bool fillWatchlist = checkBoxWshFillWatchlist.Checked;
             bool fillPortfolio = checkBoxWshFillPortfolio.Checked;
             bool fillCompetitors = checkBoxWshFillCompetitors.Checked;
+            string startDate = textBoxWshStartDate.Text;
+            string endDate = textBoxWshEndDate.Text;
+            int totalLimit = string.IsNullOrWhiteSpace(textBoxWshTotalLimit.Text) ? int.MaxValue : int.Parse(textBoxWshTotalLimit.Text);
 
-            WshEventData wshEventData = conId != int.MaxValue ? new WshEventData(conId) : new WshEventData(filter, fillWatchlist, fillPortfolio, fillCompetitors);
+            WshEventData wshEventData = conId != int.MaxValue ? new WshEventData(conId, fillWatchlist, fillPortfolio, fillCompetitors, startDate, endDate, totalLimit) : 
+                new WshEventData(filter, fillWatchlist, fillPortfolio, fillCompetitors, startDate, endDate, totalLimit);
 
             wshMgr.ReqEventData(wshEventData);
         }

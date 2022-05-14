@@ -197,7 +197,7 @@
       <AdditionalLibraryDirectories>.\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <SubSystem>Windows</SubSystem>
       <ModuleDefinitionFile>.\TwsSocketClient.def</ModuleDefinitionFile>
-      <AdditionalDependencies>libbid.a;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>biddll.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <ClCompile>
       <Optimization>Disabled</Optimization>
@@ -218,7 +218,7 @@
       <ModuleDefinitionFile>.\TwsSocketClient.def</ModuleDefinitionFile>
       <ImageHasSafeExceptionHandlers>
       </ImageHasSafeExceptionHandlers>
-      <AdditionalDependencies>libbid.a;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>biddll.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <ClCompile>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>

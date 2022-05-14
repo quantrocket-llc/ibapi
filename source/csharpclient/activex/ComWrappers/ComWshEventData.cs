@@ -42,6 +42,21 @@ namespace TWSLib
             get { return data != null ? data.FillCompetitors : default(bool); }
             set { if (data != null) data.FillCompetitors = value; }
         }
+        string StartDate
+        {
+            get { return data != null ? data.StartDate : default(string); }
+            set { if (data != null) data.StartDate = value; }
+        }
+        string EndDate
+        {
+            get { return data != null ? data.EndDate : default(string); }
+            set { if (data != null) data.EndDate = value; }
+        }
+        int TotalLimit
+        {
+            get { return data != null ? data.TotalLimit : default(int); }
+            set { if (data != null) data.TotalLimit = value; }
+        }
 
         public ComWshEventData()
         {
@@ -62,5 +77,8 @@ namespace TWSLib
         bool IWshEventData.fillWatshlist { get { return FillWatchlist; } set { FillWatchlist = value; } }
         bool IWshEventData.fillPortfolio { get { return FillPortfolio; } set { FillPortfolio = value; } }
         bool IWshEventData.fillCompetitors { get { return FillCompetitors; } set { FillCompetitors = value; } }
+        string IWshEventData.startDate { get { return StartDate; } set { StartDate = value; } }
+        string IWshEventData.endDate { get { return EndDate; } set { EndDate = value; } }
+        int IWshEventData.totalLimit { get { return TotalLimit; } set { TotalLimit = value; } }
     }
 }

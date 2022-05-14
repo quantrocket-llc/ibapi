@@ -9,15 +9,21 @@ Public Class dlgWsh
     Public Property FillWatchlist As Boolean
     Public Property FillPortfolio As Boolean
     Public Property FillCompetitors As Boolean
+    Public Property StartDate As String
+    Public Property EndDate As String
+    Public Property TotalLimit As Integer
 
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles cmdOK.Click
         ReqId = If(String.IsNullOrWhiteSpace(txtWshReqId.Text), 0, Integer.Parse(txtWshReqId.Text))
-        ConId = If(String.IsNullOrWhiteSpace(txtWshConId.Text), 0, Integer.Parse(txtWshConId.Text))
+        ConId = If(String.IsNullOrWhiteSpace(txtWshConId.Text), Integer.MaxValue, Integer.Parse(txtWshConId.Text))
         Filter = txtWshFilter.Text
         FillWatchlist = cbWshFillWatchlist.Checked
         FillPortfolio = cbWshFillPortfolio.Checked
         FillCompetitors = cbWshFillCompetitors.Checked
+        StartDate = txtWshStartDate.Text
+        EndDate = txtWshEndDate.Text
+        TotalLimit = If(String.IsNullOrWhiteSpace(txtWshTotalLimit.Text), Integer.MaxValue, Integer.Parse(txtWshTotalLimit.Text))
 
         DialogResult = Windows.Forms.DialogResult.OK
 

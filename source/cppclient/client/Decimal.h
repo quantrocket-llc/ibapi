@@ -23,38 +23,38 @@ extern "C" void __bid64_to_string(char*, Decimal, unsigned int*);
 extern "C" double __bid64_to_binary64(Decimal, unsigned int, unsigned int*);
 extern "C" Decimal __binary64_to_bid64(double, unsigned int, unsigned int*);
 
-// static functions
-static Decimal add(Decimal decimal1, Decimal decimal2) {
+// inline functions
+inline Decimal add(Decimal decimal1, Decimal decimal2) {
     unsigned int flags;
     return __bid64_add(decimal1, decimal2, 0, &flags);
 }
 
-static Decimal sub(Decimal decimal1, Decimal decimal2) {
+inline Decimal sub(Decimal decimal1, Decimal decimal2) {
     unsigned int flags;
     return __bid64_sub(decimal1, decimal2, 0, &flags);
 }
 
-static Decimal mul(Decimal decimal1, Decimal decimal2) {
+inline Decimal mul(Decimal decimal1, Decimal decimal2) {
     unsigned int flags;
     return __bid64_mul(decimal1, decimal2, 0, &flags);
 }
 
-static Decimal div(Decimal decimal1, Decimal decimal2) {
+inline Decimal div(Decimal decimal1, Decimal decimal2) {
     unsigned int flags;
     return __bid64_div(decimal1, decimal2, 0, &flags);
 }
 
-static double decimalToDouble(Decimal decimal) {
+inline double decimalToDouble(Decimal decimal) {
     unsigned int flags;
     return __bid64_to_binary64(decimal, 0, &flags);
 }
 
-static Decimal doubleToDecimal(double d) {
+inline Decimal doubleToDecimal(double d) {
     unsigned int flags;
     return __binary64_to_bid64(d, 0, &flags);
 }
 
-static Decimal stringToDecimal(std::string str) {
+inline Decimal stringToDecimal(std::string str) {
     unsigned int flags;
     if (str.compare(std::string{ "2147483647" }) == 0 || str.compare(std::string{ "9223372036854775807" }) == 0 || str.compare(std::string{ "1.7976931348623157E308" }) == 0) {
         str.clear();
@@ -62,14 +62,14 @@ static Decimal stringToDecimal(std::string str) {
     return __bid64_from_string(const_cast<char*>(str.c_str()), 0, &flags);
 }
 
-static std::string decimalToString(Decimal value) {
+inline std::string decimalToString(Decimal value) {
     char buf[64];
     unsigned int flags;
     __bid64_to_string(buf, value, &flags); // convert Decimal value to string using bid64_to_string function
     return buf;
 }
 
-static std::string decimalStringToDisplay(Decimal value) {
+inline std::string decimalStringToDisplay(Decimal value) {
     // convert string with scientific notation to string with decimal notation (e.g. +1E-2 to 0.01)
     std::string tempStr = decimalToString(value);
 

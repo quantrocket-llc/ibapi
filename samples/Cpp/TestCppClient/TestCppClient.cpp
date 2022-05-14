@@ -1438,13 +1438,13 @@ void TestCppClient::wshCalendarOperations() {
 	m_pClient->cancelWshMetaData(30001);
 
 	//! [reqeventdata]
-	m_pClient->reqWshEventData(30002, WshEventData(8314));
+	m_pClient->reqWshEventData(30002, WshEventData(8314, false, false, false, "20220511", "", 5));
 	//! [reqeventdata]
 
 	std::this_thread::sleep_for(std::chrono::seconds(3));
 
 	//! [reqeventdata]
-	m_pClient->reqWshEventData(30003, WshEventData("{\"watchlist\":[\"8314\"]}", false, false, false));
+	m_pClient->reqWshEventData(30003, WshEventData("{\"watchlist\":[\"8314\"]}", false, false, false, "", "20220512", INT_MAX));
 	//! [reqeventdata]
 
 	std::this_thread::sleep_for(std::chrono::seconds(10));
@@ -1463,7 +1463,7 @@ void TestCppClient::nextValidId( OrderId orderId)
 	//! [nextvalidid]
 
     //m_state = ST_TICKOPTIONCOMPUTATIONOPERATION; 
-    m_state = ST_TICKDATAOPERATION; 
+    //m_state = ST_TICKDATAOPERATION; 
     //m_state = ST_OPTIONSOPERATIONS;
     //m_state = ST_REQTICKBYTICKDATA; 
     //m_state = ST_REQHISTORICALTICKS; 
@@ -1504,7 +1504,7 @@ void TestCppClient::nextValidId( OrderId orderId)
 	//m_state = ST_MARKETRULE;
 	//m_state = ST_PING;
 	//m_state = ST_WHATIFSAMPLES;
-	//m_state = ST_WSH;
+	m_state = ST_WSH;
 }
 
 

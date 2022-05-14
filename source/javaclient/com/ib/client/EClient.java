@@ -314,9 +314,10 @@ public abstract class EClient {
     protected static final int MIN_SERVER_VER_PEGBEST_PEGMID_OFFSETS = 170;
     protected static final int MIN_SERVER_VER_WSH_EVENT_DATA_FILTERS = 171;
     protected static final int MIN_SERVER_VER_IPO_PRICES = 172;
+    protected static final int MIN_SERVER_VER_WSH_EVENT_DATA_FILTERS_DATE = 173;
     
     public static final int MIN_VERSION = 100; // envelope encoding, applicable to useV100Plus mode only
-    public static final int MAX_VERSION = MIN_SERVER_VER_IPO_PRICES; // ditto
+    public static final int MAX_VERSION = MIN_SERVER_VER_WSH_EVENT_DATA_FILTERS_DATE; // ditto
 
     protected EReaderSignal m_signal;
     protected EWrapper m_eWrapper;    // msg handler
@@ -4136,6 +4137,13 @@ public abstract class EClient {
             }
         }
 
+        if (m_serverVersion < MIN_SERVER_VER_WSH_EVENT_DATA_FILTERS_DATE) {
+            if (!IsEmpty(wshEventData.startDate()) || !IsEmpty(wshEventData.endDate()) || wshEventData.totalLimit() != Integer.MAX_VALUE) {
+                error(EClientErrors.NO_VALID_ID, EClientErrors.UPDATE_TWS, "  It does not support WSH event data date filters.");
+                return;
+            }
+        }
+        
         try {
             Builder b = prepareBuffer(); 
 
@@ -4150,6 +4158,12 @@ public abstract class EClient {
                 b.send(wshEventData.fillCompetitors());
             }
 
+            if (m_serverVersion >= MIN_SERVER_VER_WSH_EVENT_DATA_FILTERS_DATE) {
+                b.send(wshEventData.startDate());
+                b.send(wshEventData.endDate());
+                b.send(wshEventData.totalLimit());
+            }
+            
             closeAndSend(b);
         }
         catch( Exception e) {

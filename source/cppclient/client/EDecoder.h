@@ -130,12 +130,13 @@ const int MIN_SERVER_VER_MANUAL_ORDER_TIME          = 169;
 const int MIN_SERVER_VER_PEGBEST_PEGMID_OFFSETS     = 170;
 const int MIN_SERVER_VER_WSH_EVENT_DATA_FILTERS     = 171;
 const int MIN_SERVER_VER_IPO_PRICES                 = 172;
+const int MIN_SERVER_VER_WSH_EVENT_DATA_FILTERS_DATE = 173;
 
 /* 100+ messaging */
 // 100 = enhanced handshake, msg length prefixes
 
 const int MIN_CLIENT_VER = 100;
-const int MAX_CLIENT_VER = MIN_SERVER_VER_IPO_PRICES;
+const int MAX_CLIENT_VER = MIN_SERVER_VER_WSH_EVENT_DATA_FILTERS_DATE;
 
 
 // incoming msg id's

@@ -12,25 +12,34 @@ struct WshEventData
     int conId;
     std::string filter;
     bool fillWatchlist;
-     bool fillPortfolio;
-     bool fillCompetitors;
+    bool fillPortfolio;
+    bool fillCompetitors;
+    std::string startDate;
+    std::string endDate;
+    int totalLimit;
 
-	WshEventData(int conId)
+	WshEventData(int conId, bool fillWatchlist, bool fillPortfolio, bool fillCompetitors, std::string startDate, std::string endDate, int totalLimit)
 	{
         this->conId = conId;
         this->filter = "";
-        this->fillWatchlist = false;
-        this->fillPortfolio = false;
-        this->fillCompetitors = false;
+        this->fillWatchlist = fillWatchlist;
+        this->fillPortfolio = fillPortfolio;
+        this->fillCompetitors = fillCompetitors;
+        this->startDate = startDate;
+        this->endDate = endDate;
+        this->totalLimit = totalLimit;
     }
 
-    WshEventData(std::string filter, bool fillWatchlist, bool fillPortfolio, bool fillCompetitors) 
+    WshEventData(std::string filter, bool fillWatchlist, bool fillPortfolio, bool fillCompetitors, std::string startDate, std::string endDate, int totalLimit)
     {
-        this -> conId = INT_MAX;
+        this->conId = INT_MAX;
         this->filter = filter;
         this->fillWatchlist = fillWatchlist;
         this->fillPortfolio = fillPortfolio;
         this->fillCompetitors = fillCompetitors;
+        this->startDate = startDate;
+        this->endDate = endDate;
+        this->totalLimit = totalLimit;
     }
 };
 

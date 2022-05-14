@@ -257,7 +257,7 @@ class TestApp(TestWrapper, TestClient):
             #self.reqGlobalCancel()
             #self.marketDataTypeOperations()
             #self.accountOperations_req()
-            self.tickDataOperations_req()
+            #self.tickDataOperations_req()
             #self.tickOptionComputations_req()
             #self.marketDepthOperations_req()
             #self.realTimeBarsOperations_req()
@@ -281,7 +281,7 @@ class TestApp(TestWrapper, TestClient):
             #self.historicalTicksOperations()
             #self.tickByTickOperations_req()
             #self.whatIfOrderOperations()
-            #self.wshCalendarOperations()
+            self.wshCalendarOperations()
             
             print("Executing requests ... finished")
 
@@ -1631,16 +1631,19 @@ class TestApp(TestWrapper, TestClient):
         # ! [reqeventdata]
         wshEventData1 = WshEventData()
         wshEventData1.conId = 8314
+        wshEventData1.startDate = "20220511"
+        wshEventData1.totalLimit = 5
         self.reqWshEventData(1101, wshEventData1)
         # ! [reqeventdata]
 
         # ! [reqeventdata]
-        wshEventData = WshEventData()
-        wshEventData.filter = "{\"watchlist\":[\"8314\"]}"
-        wshEventData.fillWatchlist = False
-        wshEventData.fillPortfolio = False
-        wshEventData.fillCompetitors = False
-        self.reqWshEventData(1102, wshEventData)
+        wshEventData2 = WshEventData()
+        wshEventData2.filter = "{\"watchlist\":[\"8314\"]}"
+        wshEventData2.fillWatchlist = False
+        wshEventData2.fillPortfolio = False
+        wshEventData2.fillCompetitors = False
+        wshEventData2.endDate = "20220512"
+        self.reqWshEventData(1102, wshEventData2)
         # ! [reqeventdata]
 
     @iswrapper
