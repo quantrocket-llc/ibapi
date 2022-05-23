@@ -7,7 +7,6 @@ Starting from 13.12.2021 all of the TWS API guide updates will be documented on 
 <ul>
   <li>Typos and Fixes throughout the guide.</li>
   <li>Because of upcoming <i>ISLAND</i> to <i>NASDAQ</i> exchange naming update a new API compatibility setting has been introduced. More information in @ref island_to_nasdaq article.</li>
-  <li><b>TWS 10.16</b> has changed the way timezones are returned. More info in @ref instrument_timezones section.</li>
   <li>Added Generic tick <b>586</b>, including <i>101: Estimated IPO - Midpoint</i> and <i>102: Final IPO Last</i> in @ref tick_types article.</li>
   <li>Cleaned up, fixed descriptions and typos in IBApi::Order class.</li>
 </ul>

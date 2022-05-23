@@ -31,11 +31,6 @@
 	This setting will enable all of the contract definitions with <i>ISLAND</i> exchange to be still acknowledged.<br>
 	It is <b>strongly recommended</b> to start implementing the <i>NASDAQ</i> exchange definition.<br>
 
-	\section instrument_timezones TWS UI and TWS API timezone parity
-
-	<b>TWS 10.16</b> has introduced a new behavior how both TWS and TWS API return timezones.<br>
-	TWS API will return contract details, order information and other related timestamps with the same timezone as displayed in TWS UI.
-
 	See also:
 
 	- \subpage contract_details
