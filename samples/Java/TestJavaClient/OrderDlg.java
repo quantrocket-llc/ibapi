@@ -391,6 +391,8 @@ public class OrderDlg extends JDialog {
 
         // show smart combo routing params dialog
         smartComboRoutingParamsDlg.setVisible( true);
+
+        m_order.smartComboRoutingParams(smartComboRoutingParamsDlg.smartComboRoutingParams());
     }
 
     void onBtnOptions() {
