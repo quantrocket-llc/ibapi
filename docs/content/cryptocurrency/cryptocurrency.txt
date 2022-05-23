@@ -46,7 +46,7 @@
 	Historical Market Data request is made via reqHistoricalData function. Please visit @ref historical_bars page for reference.<br>
 	whatToShow field (@ref hd_what_to_show) for Cryptocurrency in the Historical Data requests supports "TRADES", "MIDPOINT", "ASK", "BID" and "BID_ASK". You can refer to the @ref available_products_hd page for reference.
 
-	\section orders Order Placement
+	\section crypto_orders Order Placement
 
 	Cryptocurrency supports only @ref market and @ref limitorder order types.<br>
 	TimeInForce (Tif) for Market (MKT) order is only valid value for Cryptocurrency is IOC (Immediate or Cancel).<br>

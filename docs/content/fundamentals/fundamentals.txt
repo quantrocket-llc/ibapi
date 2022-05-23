@@ -2,11 +2,11 @@
 
 	Starting with <i>TWS v985+</i> and after <i>API v985+</i>, <b>Fundamental</b> data from the <b>Wall Street Events Horizon Calendar</b> can be accessed via the TWS API through the functions @ref IBApi::EClient::reqWshMetaData and @ref IBApi::EClient::reqWshEventData. It is necessary to have the Wall Street Horizon Enchilada Pro research subscription activated first in <a target="_blank" class="linkexternal" href="http://interactivebrokers.github.io/tws-api/market_data.html#market_subscriptions">Account Management</a>.<br>
 	WSH provides IBKR with corporate event datasets, including earnings dates, dividend dates, options expiration dates, splits, spinoffs and a wide variety of investor-related conferences.
-	
-	The function @ref IBApi::EClient::reqWshMetaData is used to request metadata describing calendar events. 
-	
+
+	The function @ref IBApi::EClient::reqWshMetaData is used to request metadata describing calendar events.
+
 	<ul id="tab">
-		<li class="active"> 
+		<li class="active">
 			\snippet Program.cs reqmetadata
 		</li>
 		<li>
@@ -21,12 +21,12 @@
 		<li>
 			\snippet Program.py reqmetadata
 		</li>
-	</ul>	
-	
+	</ul>
+
 	The metadata is then received via the callback @ref IBApi::EWrapper::wshMetaData
-		
+
 	<ul id="tab">
-		<li class="active"> 
+		<li class="active">
 			\snippet EWrapperImpl.cs wshMetaData
 		</li>
 		<li>
@@ -42,13 +42,13 @@
 			\snippet Program.py wshmetadata
 		</li>
 	</ul>
-	
+
 	Pending metadata requests can be canceled with the function @ref IBApi::EClient::cancelWshMetaData <br>
-	
+
 	The function @ref IBApi::EClient::reqWshEventData is used to request the calendar events. <i>Note:</i> Prior to sending this message, it is expected that the API client request metadata via @ref IBApi::EClient::reqWshMetaData, else an error may be reported.
-	
+
 	<ul id="tab">
-		<li class="active"> 
+		<li class="active">
 			\snippet Program.cs reqeventdata
 		</li>
 		<li>
@@ -63,13 +63,13 @@
 			\snippet Program.py reqeventdata
 		</li>
 	</ul>
-	
+
 	As seen above, currently the event data can only be filtered by conId. At a later point, filter parameters may be added for account, datePeriod, wholeMonthEvents, etc.
-	
+
 	The event data is then received via the callback @ref IBApi::EWrapper::wshEventData
-	
+
 	<ul id="tab">
-		<li class="active"> 
+		<li class="active">
 			\snippet EWrapperImpl.cs wshEventData
 		</li>
 		<li>
@@ -85,10 +85,12 @@
 			\snippet Program.py wsheventdata
 		</li>
 	</ul>
-	
+
 	Pending event data requests can be canceled with the function @ref IBApi::EClient::cancelWshEventData
-	
+
 	Also note that TWS will not support multiple concurrent requests. Previous request should succeed, fail, or be cancelled by client before next one. TWS will reject such requests with text "Duplicate WSH meta-data request" or "Duplicate WSH event request".
-	
+
+	In <b>TWS API 10.15+</b> Wall Street Horizon Event calendar queries and filters have been added. Please review the \subpage wshe_filters article.
+
 	<br><br>
 */
