@@ -90,7 +90,7 @@
 
 	Also note that TWS will not support multiple concurrent requests. Previous request should succeed, fail, or be cancelled by client before next one. TWS will reject such requests with text "Duplicate WSH meta-data request" or "Duplicate WSH event request".
 
-	In <b>TWS API 10.15+</b> Wall Street Horizon Event calendar queries and filters have been added. Please review the \subpage wshe_filters article.
+	In <b>TWS API 10.15+</b> Wall Street Horizon Horizon Event Calendar queries and filters have been added. For guidelines and more information please visit \subpage wshe_filters page.
 
 	<br><br>
 */
