@@ -1,0 +1,59 @@
+/*! \page wshe_filters Wall Street Horizon Event filters
+
+  The @ref IBApi::EClient::reqWshMetaData function now offers greatly expanded filtering of the Wall Street Horizon Event calendar data via six new fields added to the @ref IBApi::EWrapper::wshEventData class: <b>WshEventData.fillWatchlist</b>, <b>WshEventData.fillPortfolio</b>, <b>WshEventData.fillCompetitors</b>, <b>WshEventData.startDate</b>, <b>WshEventData.endDate</b> and <b>WshEventData.filter</b>.
+
+  Given a @ref IBApi::EWrapper::wshEventData object:<br>
+
+      wsheFilters = WshEventData()
+
+  <b>WshEventData.startDate</b> establishes the lower bound on the returned calendar data's date range. It receives a string in the form <b>"YYYYMMDD"</b> as in:<br>
+
+      wsheFilters.startDate = "2022401"
+
+  <b>WshEventData.endDate</b> establishes the upper bound on the returned calendar data's date range. It receives a string in the form <b>"YYYYMMDD"</b> as in:
+
+      wsheFilters.endDate = "2020501"
+
+  <b>WshEventData.fillWatchlist</b>, <b>WshEventData.fillPortfolio</b> and <b>WshEventData.fillCompetitors</b> requests conIds of the instruments present in watchlists, portfolios and competitors.<br>
+  These booleans are not required to be present in request and may be set to <i>False</i>.
+
+      wsheFilters.fillWatchlist = True
+      wsheFilters.fillPortfolio = True
+      wsheFilters.fillCompetitors = True
+
+  <b>WshEventData.filters</b> accepts a string in the form of a single <b>JSON</b> object, with key-value pairs corresponding to available filters and/or event types, as returned by the @ref IBApi::EWrapper::wshMetaData callback following a call to @ref IBApi::EClient::reqWshMetaData.
+
+  <i><b>NB:</b> Available filters and event types are subject to change.</i> As a result, @ref IBApi::EClient::reqWshMetaData must be successfully called once per day after server restart, prior to making any calls to @ref IBApi::EClient::reqWshEventData, in order to refresh the list of filters and event types retained by TWS/IB Gateway.
+
+  The <b>JSON</b> payload delivered in <b>wshMetaData.dataJson</b> contains two arrays, event_types and filters, whose elements together comprise all of the available filtering options. Filters within the <i>"filters"</i> array can be used with various values, such as lists (arrays) of conIds or strings (to filter by symbol). For example, you can specify:<br>
+
+      "country": "All",
+      "watchlist": ["8314"],
+
+  This requests events for conId 8314 (IBM) in all countries.
+
+  On the other hand, the <i>"event_types"</i> array offers filtering based on inclusion/exclusion of certain event types, as defined in the <b>WSH Event Calendar</b>. These <i>event_type</i> filters are employed simply by including the desired <i>event_type</i> code as another key with value <i>"true"</i>. Please note that these <i>event_type</i> filters require values of the <b>JSON</b> string data type, and thus <i>"true"</i> must be enclosed in double quotes. For example:<br>
+
+      "wsh_ed": "true",
+      "wshe_bod": "true",
+
+  This limits the returned events to only those two event types: <i>Earnings Dates ("wsh_ed")</i> and <i>Board of Directors meetings ("wshe_bod")</i>. If no <i>event_type</i> filters are included, then events of all types will be delivered. The inclusion of a single <i>event_type</i> filter will exclude all others. Multiple <i>event_type</i> filters are joined via logical OR, as the WSH Event Calendar does not assign multiple event types to a single event record.
+
+  A complete <b>JSON</b> filter object would thus be:<br>
+
+      {
+          "country": "All",
+            "watchlist": ["8314"],
+            "limit_region": 10,
+            "limit": 10,
+            "wsh_ed": "true",
+            "wshe_bod": "true"
+      }
+
+  This <b>JSON</b> object must be must be assigned as a string, as in:<br>
+
+      wsheFilters.filter = '{"country": "All","watchlist": ["8314"],"limit_region": 10,"limit": 10,"wsh_ed": "true","wshe_bod": "true"}'
+
+  <i><b>NB:</b> The existing <b>WshEventData.conId</b> field cannot be used in conjunction with a <b>WshEventData.filter</b> JSON-formatted string.</i> Only one of the two fields can be set in a given @ref IBApi::EWrapper::wshEventData object in order to make a successful @ref IBApi::EClient::reqWshEventData request.
+  	<br><br>
+*/
