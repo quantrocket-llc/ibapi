@@ -1,6 +1,6 @@
 /*! \page wshe_filters Wall Street Horizon Event filters
 
-  The @ref IBApi::EClient::reqWshMetaData function now offers greatly expanded filtering of the Wall Street Horizon Event calendar data via six new fields added to the @ref IBApi::EWrapper::wshEventData class: <b>WshEventData.fill_watchlist</b>, <b>WshEventData.fill_portfolio</b>, <b>WshEventData.fill_competitors</b>, <b>WshEventData.startDate</b>, <b>WshEventData.endDate</b> and <b>WshEventData.filter</b>.
+  The @ref IBApi::EClient::reqWshMetaData function now offers greatly expanded filtering of the Wall Street Horizon Event calendar data via six new fields added to the @ref IBApi::EWrapper::wshEventData class: <b>WshEventData.fillWatchlist</b>, <b>WshEventData.fillPortfolio</b>, <b>WshEventData.fillCompetitors</b>, <b>WshEventData.startDate</b>, <b>WshEventData.endDate</b> and <b>WshEventData.filter</b>.
 
   Given a @ref IBApi::EWrapper::wshEventData object:<br>
 
@@ -14,12 +14,12 @@
 
       wsheFilters.endDate = "2020501"
 
-  <b>WshEventData.fill_watchlist</b>, <b>WshEventData.fill_portfolio</b> and <b>WshEventData.fill_competitors</b> requests conIds of the instruments present in watchlists, portfolios and competitors.<br>
+  <b>WshEventData.fillWatchlist</b>, <b>WshEventData.fillPortfolio</b> and <b>WshEventData.fillCompetitors</b> requests conIds of the instruments present in watchlists, portfolios and competitors.<br>
   These booleans are not required to be present in request and may be set to <i>False</i>.
 
-      wsheFilters.fill_watchlist = True
-      WshEventData.fill_portfolio = True
-      WshEventData.fill_competitors = True
+      wsheFilters.fillWatchlist = True
+      wsheFilters.fillPortfolio = True
+      wsheFilters.fillCompetitors = True
 
   <b>WshEventData.filters</b> accepts a string in the form of a single <b>JSON</b> object, with key-value pairs corresponding to available filters and/or event types, as returned by the @ref IBApi::EWrapper::wshMetaData callback following a call to @ref IBApi::EClient::reqWshMetaData.
 
