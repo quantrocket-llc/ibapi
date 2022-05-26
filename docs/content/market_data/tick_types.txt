@@ -103,8 +103,8 @@
 		<tr><td>ETF Nav Frozen Last</td><td>97</td><td>ETF Nav Last for Frozen data</td><td>@ref IBApi::EWrapper::tickPrice</td><td>623</td></tr>
 		<tr><td>ETF Nav High</td><td>98</td><td>The high price of ETF's Net Asset Value (NAV)</td><td>@ref IBApi::EWrapper::tickPrice</td><td>614</td></tr>
 		<tr><td>ETF Nav Low</td><td>99</td><td>The low price of ETF's Net Asset Value (NAV)</td><td>@ref IBApi::EWrapper::tickPrice</td><td>614</td></tr>
-		<tr><td>Estimated IPO - Midpoint</td><td>101</td><td>Midpoint is calculated from low, mid and high of the instrument.</td><td>@ref IBApi::EWrapper::tickGeneric</td><td>586</td></tr>
-		<tr><td>Final IPO Last</td><td>102</td><td>Last price recorded for IPO</td><td>@ref IBApi::EWrapper::tickGeneric</td><td>586</td></tr>
+		<tr><td>Estimated IPO - Midpoint</td><td>101</td><td>Midpoint is calculated based on IPO price range</td><td>@ref IBApi::EWrapper::tickGeneric</td><td>586</td></tr>
+		<tr><td>Final IPO Price</td><td>102</td><td>Final price for IPO</td><td>@ref IBApi::EWrapper::tickGeneric</td><td>586</td></tr>
 	</table>
 
 	\section halted Halted
