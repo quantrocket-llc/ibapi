@@ -1263,7 +1263,7 @@ namespace IBApi
         /**
         * @brief Specifies wether to use Price Management Algo. <i>CTCI users only.</i>
         */
-        public bool UsePriceMgmtAlgo { get; set; }
+        public bool? UsePriceMgmtAlgo { get; set; }
 
         /**
         * @brief Specifies the duration of the order. Format: yyyymmdd hh:mm:ss TZ. <i>For GTD orders.</i>
