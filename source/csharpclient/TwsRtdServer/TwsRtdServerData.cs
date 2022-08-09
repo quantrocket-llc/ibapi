@@ -83,12 +83,16 @@ namespace TwsRtdServer{
         // CASH 100,101,104,106,    165,221,225,232,236,258,293,294,295,318,411,    460,    619
 
 
-        public const string GENERIC_TICKS_BASE = "100,101,106,165,221,225,232,236,258,293,294,295,318,460,586,619"; // BAG
+        public const string GENERIC_TICKS_BASE = "100,101,106,165,221,225,232,236,258,293,294,295,318,460,619"; // BAG
         public const string GENERIC_TICKS_FUT = GENERIC_TICKS_BASE + ",104,411,588"; // FUT, FOP, WAR, CFD, BOND, CASH
         public const string GENERIC_TICKS_STK = GENERIC_TICKS_OPT  + ",105,576,577,578,614,623"; // STK
         public const string GENERIC_TICKS_OPT = GENERIC_TICKS_BASE + ",104,411,456,595"; // OPT
         public const string GENERIC_TICKS_IND = GENERIC_TICKS_BASE + ",104,162,411"; // IND
 
+        // map minServerVersion -> generic tick(s) for STK
+        private static Dictionary<int, string> m_minServerVersionToTickIdMapStk = new Dictionary<int, string> {
+            { IBApi.MinServerVer.MIN_SERVER_VER_IPO_PRICES, ",586" }
+        };
 
 
 
@@ -419,6 +423,19 @@ namespace TwsRtdServer{
         {
             string res;
             return m_tickIdToTickTypeMap.TryGetValue(tickId, out res) ? res : null;
+        }
+
+        public static string GetTickIdsForUnifiedVersionStk(int unifiedVersion)
+        {
+            string res = "";
+            foreach (KeyValuePair<int, string> item in m_minServerVersionToTickIdMapStk)
+            {
+                if (unifiedVersion >= item.Key) 
+                {
+                    res += item.Value;
+                }
+            }
+            return res;
         }
 
         public class OptionComputationData
