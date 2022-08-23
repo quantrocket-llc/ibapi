@@ -1277,7 +1277,11 @@ class Decoder(Object):
     def readLastTradeDate(self, fields, contract: ContractDetails, isBond: bool):
         lastTradeDateOrContractMonth = decode(str, fields)
         if lastTradeDateOrContractMonth is not None:
-            splitted = lastTradeDateOrContractMonth.split()
+            if '-' in lastTradeDateOrContractMonth: 
+                splitted = lastTradeDateOrContractMonth.split('-')
+            else:
+                splitted = lastTradeDateOrContractMonth.split()
+                
             if len(splitted) > 0:
                 if isBond:
                     contract.maturity = splitted[0]

@@ -404,7 +404,7 @@ class NewsPanel extends JPanel {
             }
 
             void update( long timeStamp, String providerCode, String articleId, String headline, String extraData) {
-                m_timeStamp = Util.UnixMillisecondsToString(timeStamp, "yyyy-MM-dd HH:mm:ss zzz");
+                m_timeStamp = Util.UnixMillisecondsToString(timeStamp, "yyyyMMdd-HH:mm:ss");
                 m_providerCode = providerCode;
                 m_articleId = articleId;
                 m_headline = headline;

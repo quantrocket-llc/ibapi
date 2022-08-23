@@ -315,9 +315,10 @@ public abstract class EClient {
     protected static final int MIN_SERVER_VER_WSH_EVENT_DATA_FILTERS = 171;
     protected static final int MIN_SERVER_VER_IPO_PRICES = 172;
     protected static final int MIN_SERVER_VER_WSH_EVENT_DATA_FILTERS_DATE = 173;
+    protected static final int MIN_SERVER_VER_INSTRUMENT_TIMEZONE = 174;
     
     public static final int MIN_VERSION = 100; // envelope encoding, applicable to useV100Plus mode only
-    public static final int MAX_VERSION = MIN_SERVER_VER_WSH_EVENT_DATA_FILTERS_DATE; // ditto
+    public static final int MAX_VERSION = MIN_SERVER_VER_INSTRUMENT_TIMEZONE; // ditto
 
     protected EReaderSignal m_signal;
     protected EWrapper m_eWrapper;    // msg handler
@@ -2232,7 +2233,7 @@ public abstract class EClient {
                 b.send( filter.clientId());
                 b.send( filter.acctCode());
 
-                // Note that the valid format for m_time is "yyyymmdd-hh:mm:ss"
+                // Note that the valid format for m_time is "yyyyMMdd-HH:mm:ss" (UTC) or "yyyyMMdd HH:mm:ss timezone"
                 b.send( filter.time());
                 b.send( filter.symbol());
                 b.send( filter.secType());

@@ -2389,7 +2389,7 @@ Friend Class dlgOrder
 
         m_orderId = 0
 
-        txtEndDateTime.Text = Format(Now(), "yyyyMMdd HH:mm:ss")
+        txtEndDateTime.Text = Format(Now().ToUniversalTime, "yyyyMMdd-HH:mm:ss")
 
         m_arrDlgTitles.Add("Request Market Data")
         m_arrDlgTitles.Add("Cancel Market Data")

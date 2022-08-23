@@ -1665,7 +1665,7 @@ namespace IBApi
                     paramsList.AddParameter(filter.ClientId);
                     paramsList.AddParameter(filter.AcctCode);
 
-                    // Note that the valid format for time is "yyyymmdd-hh:mm:ss"
+                    // Note that the valid format for time is "yyyyMMdd-HH:mm:ss" (UTC) or "yyyyMMdd HH:mm:ss timezone"
                     paramsList.AddParameter(filter.Time);
                     paramsList.AddParameter(filter.Symbol);
                     paramsList.AddParameter(filter.SecType);

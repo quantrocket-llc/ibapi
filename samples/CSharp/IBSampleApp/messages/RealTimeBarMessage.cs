@@ -9,7 +9,7 @@ namespace IBSampleApp.messages
         public long Timestamp { get; set; }
 
         public RealTimeBarMessage(int reqId, long date, double open, double high, double low, double close, decimal volume, decimal WAP, int count)
-            : base(reqId, new IBApi.Bar(UnixTimestampToDateTime(date).ToString("yyyyMMdd hh:mm:ss"), open, high, low, close, volume, count, WAP))
+            : base(reqId, new IBApi.Bar(UnixTimestampToDateTime(date).ToString("yyyyMMdd-HH:mm:ss"), open, high, low, close, volume, count, WAP))
         {
             Timestamp = date;
         }

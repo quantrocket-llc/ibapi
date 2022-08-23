@@ -2053,7 +2053,7 @@ class EDecoder implements ObjectInput {
     private void readLastTradeDate(ContractDetails contract, boolean isBond) throws IOException {
         String lastTradeDateOrContractMonth = readStr();
         if (lastTradeDateOrContractMonth != null) {
-            String[] splitted = lastTradeDateOrContractMonth.split("\\s+");
+            String[] splitted = lastTradeDateOrContractMonth.contains("-") ? lastTradeDateOrContractMonth.split("-") : lastTradeDateOrContractMonth.split("\\s+");
             if (splitted.length > 0) {
                 if (isBond) {
                     contract.maturity(splitted[0]);

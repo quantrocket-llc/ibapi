@@ -133,11 +133,11 @@ namespace IBSampleApp
             profileType.ValueMember = "Value";
             profileType.DisplayMember = "Name";
 
-            hdRequest_EndTime.Text = DateTime.Now.ToString("yyyyMMdd HH:mm:ss");
+            hdRequest_EndTime.Text = DateTime.Now.ToUniversalTime().ToString("yyyyMMdd-HH:mm:ss");
             bboExchange_comboBox.DataSource = bboExchangeList;
 
-            DateTime execFilterDefault = DateTime.Now.AddHours(-1);
-            execFilterTime.Text = execFilterDefault.ToString("yyyyMMdd HH:mm:ss");
+            DateTime execFilterDefault = DateTime.Now.ToUniversalTime().AddHours(-1);
+            execFilterTime.Text = execFilterDefault.ToString("yyyyMMdd-HH:mm:ss");
 
             DateTime endDateTime = DateTime.Now.AddDays(-3);
             textBoxHistoricalNewsEndDateTime.Text = endDateTime.ToString("yyyy-MM-dd HH:mm:ss.0");
@@ -262,13 +262,13 @@ namespace IBSampleApp
         private void UpdateUI(TickByTickMidPointMessage msg)
         {
             dataGridViewTickByTick.DataSource = tickByTickMidPointTable;
-            tickByTickMidPointTable.Rows.Add(Util.UnixSecondsToString(msg.Time, "yyyyMMdd-HH:mm:ss zzz"), Util.DoubleMaxString(msg.MidPoint));
+            tickByTickMidPointTable.Rows.Add(Util.UnixSecondsToString(msg.Time, "yyyyMMdd-HH:mm:ss"), Util.DoubleMaxString(msg.MidPoint));
         }
 
         private void UpdateUI(TickByTickBidAskMessage msg)
         {
             dataGridViewTickByTick.DataSource = tickByTickBidAskTable;
-            tickByTickBidAskTable.Rows.Add(Util.UnixSecondsToString(msg.Time, "yyyyMMdd-HH:mm:ss zzz"), Util.DoubleMaxString(msg.BidPrice), Util.DoubleMaxString(msg.AskPrice), Util.DecimalMaxString(msg.BidSize), Util.DecimalMaxString(msg.AskSize), msg.TickAttribBidAsk.BidPastLow, msg.TickAttribBidAsk.AskPastHigh);
+            tickByTickBidAskTable.Rows.Add(Util.UnixSecondsToString(msg.Time, "yyyyMMdd-HH:mm:ss"), Util.DoubleMaxString(msg.BidPrice), Util.DoubleMaxString(msg.AskPrice), Util.DecimalMaxString(msg.BidSize), Util.DecimalMaxString(msg.AskSize), msg.TickAttribBidAsk.BidPastLow, msg.TickAttribBidAsk.AskPastHigh);
         }
 
         private void UpdateUI(TickByTickAllLastMessage msg)
@@ -276,12 +276,12 @@ namespace IBSampleApp
             if (msg.TickType == 1)
             {
                 dataGridViewTickByTick.DataSource = tickByTickLastTable;
-                tickByTickLastTable.Rows.Add(Util.UnixSecondsToString(msg.Time, "yyyyMMdd-HH:mm:ss zzz"), Util.DoubleMaxString(msg.Price), Util.DecimalMaxString(msg.Size), msg.Exchange, msg.SpecialConditions, msg.TickAttribLast.PastLimit);
+                tickByTickLastTable.Rows.Add(Util.UnixSecondsToString(msg.Time, "yyyyMMdd-HH:mm:ss"), Util.DoubleMaxString(msg.Price), Util.DecimalMaxString(msg.Size), msg.Exchange, msg.SpecialConditions, msg.TickAttribLast.PastLimit);
             }
             else if (msg.TickType == 2)
             {
                 dataGridViewTickByTick.DataSource = tickByTickAllLastTable;
-                tickByTickAllLastTable.Rows.Add(Util.UnixSecondsToString(msg.Time, "yyyyMMdd-HH:mm:ss zzz"), Util.DoubleMaxString(msg.Price), Util.DecimalMaxString(msg.Size), msg.Exchange, msg.SpecialConditions, msg.TickAttribLast.PastLimit, msg.TickAttribLast.Unreported);
+                tickByTickAllLastTable.Rows.Add(Util.UnixSecondsToString(msg.Time, "yyyyMMdd-HH:mm:ss"), Util.DoubleMaxString(msg.Price), Util.DecimalMaxString(msg.Size), msg.Exchange, msg.SpecialConditions, msg.TickAttribLast.PastLimit, msg.TickAttribLast.Unreported);
             }
         }
 
@@ -289,21 +289,21 @@ namespace IBSampleApp
         {
             dataGridViewHistoricalTicks.DataSource = historicalTickLastTable;
 
-            historicalTickLastTable.Rows.Add(Util.UnixSecondsToString(msg.Time, "yyyyMMdd-HH:mm:ss zzz"), Util.DoubleMaxString(msg.Price), Util.DecimalMaxString(msg.Size), msg.Exchange, msg.SpecialConditions, msg.TickAttribLast);
+            historicalTickLastTable.Rows.Add(Util.UnixSecondsToString(msg.Time, "yyyyMMdd-HH:mm:ss"), Util.DoubleMaxString(msg.Price), Util.DecimalMaxString(msg.Size), msg.Exchange, msg.SpecialConditions, msg.TickAttribLast);
         }
 
         private void UpdateUI(HistoricalTickBidAskMessage msg)
         {
             dataGridViewHistoricalTicks.DataSource = historicalTickBidAskTable;
 
-            historicalTickBidAskTable.Rows.Add(Util.UnixSecondsToString(msg.Time, "yyyyMMdd-HH:mm:ss zzz"), Util.DoubleMaxString(msg.PriceBid), Util.DoubleMaxString(msg.PriceAsk), Util.DecimalMaxString(msg.SizeBid), Util.DecimalMaxString(msg.SizeAsk), msg.TickAttribBidAsk);
+            historicalTickBidAskTable.Rows.Add(Util.UnixSecondsToString(msg.Time, "yyyyMMdd-HH:mm:ss"), Util.DoubleMaxString(msg.PriceBid), Util.DoubleMaxString(msg.PriceAsk), Util.DecimalMaxString(msg.SizeBid), Util.DecimalMaxString(msg.SizeAsk), msg.TickAttribBidAsk);
         }
 
         private void UpdateUI(HistoricalTickMessage msg)
         {
             dataGridViewHistoricalTicks.DataSource = historicalTickTable;
 
-            historicalTickTable.Rows.Add(Util.UnixSecondsToString(msg.Time, "yyyyMMdd-HH:mm:ss zzz"), Util.DoubleMaxString(msg.Price), Util.DecimalMaxString(msg.Size));
+            historicalTickTable.Rows.Add(Util.UnixSecondsToString(msg.Time, "yyyyMMdd-HH:mm:ss"), Util.DoubleMaxString(msg.Price), Util.DecimalMaxString(msg.Size));
         }
 
         private void UpdateUI(HistogramDataMessage obj)

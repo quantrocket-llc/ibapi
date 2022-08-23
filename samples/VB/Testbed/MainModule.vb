@@ -235,9 +235,9 @@ Module MainModule
 
     Private Sub historicalTicks(client As EClientSocket)
 		' [reqhistoricalticks]
-        client.reqHistoricalTicks(18001, ContractSamples.USStockAtSmart(), "20170712 21:39:33", Nothing, 10, "TRADES", 1, True, Nothing)
-        client.reqHistoricalTicks(18002, ContractSamples.USStockAtSmart(), "20170712 21:39:33", Nothing, 10, "BID_ASK", 1, True, Nothing)
-        client.reqHistoricalTicks(18003, ContractSamples.USStockAtSmart(), "20170712 21:39:33", Nothing, 10, "MIDPOINT", 1, True, Nothing)
+        client.reqHistoricalTicks(18001, ContractSamples.USStockAtSmart(), "20170712 21:39:33 US/Eastern", Nothing, 10, "TRADES", 1, True, Nothing)
+        client.reqHistoricalTicks(18002, ContractSamples.USStockAtSmart(), "20170712 21:39:33 US/Eastern", Nothing, 10, "BID_ASK", 1, True, Nothing)
+        client.reqHistoricalTicks(18003, ContractSamples.USStockAtSmart(), "20170712 21:39:33 US/Eastern", Nothing, 10, "MIDPOINT", 1, True, Nothing)
 		' [reqhistoricalticks]
     End Sub
 
@@ -427,7 +427,7 @@ Module MainModule
 
         '** Requesting historical data ***
         '! [reqhistoricaldata]
-        Dim queryTime As String = DateTime.Now.AddMonths(-6).ToString("yyyyMMdd HH:mm:ss")
+        Dim queryTime As String = DateTime.Now.ToUniversalTime.AddMonths(-6).ToString("yyyyMMdd-HH:mm:ss")
         client.reqHistoricalData(4001, ContractSamples.EurGbpFx(), queryTime, "1 M", "1 day", "MIDPOINT", 1, 1, False, Nothing)
         client.reqHistoricalData(4002, ContractSamples.EuropeanStock(), queryTime, "10 D", "1 min", "TRADES", 1, 1, False, Nothing)
         client.reqHistoricalData(4003, ContractSamples.USStockAtSmart(), queryTime, "1 M", "1 day", "SCHEDULE", 1, 1, False, Nothing)
@@ -784,11 +784,11 @@ Module MainModule
         '! [crypto_order_submission]
 
         '! [order_submission_with_manual_order_time]
-        client.placeOrder(increment(nextOrderId), ContractSamples.USStockAtSmart(), OrderSamples.LimitOrderWithManualOrderTime("BUY", Util.StringToDecimal("100"), 111.11, "20220314 13:00:00"))
+        client.placeOrder(increment(nextOrderId), ContractSamples.USStockAtSmart(), OrderSamples.LimitOrderWithManualOrderTime("BUY", Util.StringToDecimal("100"), 111.11, "20220314-13:00:00"))
         '! [order_submission_with_manual_order_time]
         Thread.Sleep(3000)
         '! [cancel_order_with_manual_order_cancel_time]
-        client.cancelOrder(nextOrderId - 1, "20220314 19:00:00")
+        client.cancelOrder(nextOrderId - 1, "20220314-19:00:00")
         '! [cancel_order_with_manual_order_cancel_time]
 
         '! [pegbest_up_to_mid_order_submission]]
@@ -863,7 +863,7 @@ Module MainModule
         mkt.Conditions.Add(OrderSamples.ExecutionCondition("EUR.USD", "CASH", "IDEALPRO", True))
         mkt.Conditions.Add(OrderSamples.MarginCondition(30, True, False))
         mkt.Conditions.Add(OrderSamples.PercentageChangeCondition(15.0, 208813720, "SMART", True, True))
-        mkt.Conditions.Add(OrderSamples.TimeCondition("20160118 23:59:59", True, False))
+        mkt.Conditions.Add(OrderSamples.TimeCondition("20160118 23:59:59 US/Eastern", True, False))
         mkt.Conditions.Add(OrderSamples.VolumeCondition(208813720, "SMART", False, 100, True))
         client.placeOrder(increment(nextOrderId), ContractSamples.EuropeanStock(), mkt)
         '! [order_conditioning_activate]
@@ -913,14 +913,14 @@ Module MainModule
         '! [algo_base_order]
 
         '! [arrivalpx]
-        AvailableAlgoParams.FillArrivalPriceParams(baseOrder, 0.10000000000000001, "Aggressive", "09:00:00 CET", "16:00:00 CET", True, True, 100000)
+        AvailableAlgoParams.FillArrivalPriceParams(baseOrder, 0.1, "Aggressive", "09:00:00 US/Eastern", "16:00:00 US/Eastern", True, True, 100000)
         client.placeOrder(increment(nextOrderId), ContractSamples.USStockAtSmart(), baseOrder)
         '! [arrivalpx]
 
         Thread.Sleep(500)
 
         '! [darkice]
-        AvailableAlgoParams.FillDarkIceParams(baseOrder, 10, "09:00:00 CET", "16:00:00 CET", True, 100000)
+        AvailableAlgoParams.FillDarkIceParams(baseOrder, 10, "09:00:00 US/Eastern", "16:00:00 US/Eastern", True, 100000)
         client.placeOrder(increment(nextOrderId), ContractSamples.USStockAtSmart(), baseOrder)
         '! [darkice]
 
@@ -928,21 +928,21 @@ Module MainModule
 
         '! [ad]
         ' The Time Zone in "startTime" and "endTime" attributes is ignored and always defaulted to GMT
-        AvailableAlgoParams.FillAccumulateDistributeParams(baseOrder, 10, 60, True, True, 1, True, True, "20161010-12:00:00 GMT", "20161010-16:00:00 GMT")
+        AvailableAlgoParams.FillAccumulateDistributeParams(baseOrder, 10, 60, True, True, 1, True, True, "12:00:00", "16:00:00")
         client.placeOrder(increment(nextOrderId), ContractSamples.USStockAtSmart(), baseOrder)
         '! [ad]
 
         Thread.Sleep(500)
 
         '! [twap]
-        AvailableAlgoParams.FillTwapParams(baseOrder, "Marketable", "09:00:00 CET", "16:00:00 CET", True, 100000)
+        AvailableAlgoParams.FillTwapParams(baseOrder, "Marketable", "09:00:00 US/Eastern", "16:00:00 US/Eastern", True, 100000)
         client.placeOrder(increment(nextOrderId), ContractSamples.USStockAtSmart(), baseOrder)
         '! [twap]
 
         Thread.Sleep(500)
 
         '! [vwap]
-        AvailableAlgoParams.FillVwapParams(baseOrder, 0.20000000000000001, "09:00:00 CET", "16:00:00 CET", True, True, True, 100000)
+        AvailableAlgoParams.FillVwapParams(baseOrder, 0.2, "09:00:00 US/Eastern", "16:00:00 US/Eastern", True, True, True, 100000)
         client.placeOrder(increment(nextOrderId), ContractSamples.USStockAtSmart(), baseOrder)
         '! [vwap]
 
@@ -966,37 +966,37 @@ Module MainModule
         '! [adaptive]
 
         '! [closepx]
-        AvailableAlgoParams.FillClosePriceParams(baseOrder, 0.5, "Neutral", "12:00:00 EST", True, 100000)
+        AvailableAlgoParams.FillClosePriceParams(baseOrder, 0.5, "Neutral", "12:00:00 US/Eastern", True, 100000)
         client.placeOrder(increment(nextOrderId), ContractSamples.USStockAtSmart(), baseOrder)
         '! [closepx]
 
         '! [pctvol]
-        AvailableAlgoParams.FillPctVolParams(baseOrder, 0.5, "12:00:00 EST", "14:00:00 EST", True, 100000)
+        AvailableAlgoParams.FillPctVolParams(baseOrder, 0.5, "12:00:00 US/Eastern", "14:00:00 US/Eastern", True, 100000)
         client.placeOrder(increment(nextOrderId), ContractSamples.USStockAtSmart(), baseOrder)
         '! [pctvol]               
 
         '! [pctvolpx]
-        AvailableAlgoParams.FillPriceVariantPctVolParams(baseOrder, 0.10000000000000001, 0.050000000000000003, 0.01, 0.20000000000000001, "12:00:00 EST", "14:00:00 EST", True, 100000)
+        AvailableAlgoParams.FillPriceVariantPctVolParams(baseOrder, 0.1, 0.05, 0.01, 0.2, "12:00:00 US/Eastern", "14:00:00 US/Eastern", True, 100000)
         client.placeOrder(increment(nextOrderId), ContractSamples.USStockAtSmart(), baseOrder)
         '! [pctvolpx]
 
         '! [pctvolsz]
-        AvailableAlgoParams.FillSizeVariantPctVolParams(baseOrder, 0.20000000000000001, 0.40000000000000002, "12:00:00 EST", "14:00:00 EST", True, 100000)
+        AvailableAlgoParams.FillSizeVariantPctVolParams(baseOrder, 0.2, 0.4, "12:00:00 US/Eastern", "14:00:00 US/Eastern", True, 100000)
         client.placeOrder(increment(nextOrderId), ContractSamples.USStockAtSmart(), baseOrder)
         '! [pctvolsz]
 
         '! [pctvoltm]
-        AvailableAlgoParams.FillTimeVariantPctVolParams(baseOrder, 0.20000000000000001, 0.40000000000000002, "12:00:00 EST", "14:00:00 EST", True, 100000)
+        AvailableAlgoParams.FillTimeVariantPctVolParams(baseOrder, 0.2, 0.4, "12:00:00 US/Eastern", "14:00:00 US/Eastern", True, 100000)
         client.placeOrder(increment(nextOrderId), ContractSamples.USStockAtSmart(), baseOrder)
         '! [pctvoltm]
 
         '! [jeff_vwap_algo]
-        AvailableAlgoParams.FillJefferiesVWAPParams(baseOrder, "10:00:00 EST", "16:00:00 EST", 10, 10, "Exclude_Both", 130, 135, 1, 10, "Patience", False, "Midpoint")
+        AvailableAlgoParams.FillJefferiesVWAPParams(baseOrder, "10:00:00 US/Eastern", "16:00:00 US/Eastern", 10, 10, "Exclude_Both", 130, 135, 1, 10, "Patience", False, "Midpoint")
         client.placeOrder(increment(nextOrderId), ContractSamples.JefferiesContract(), baseOrder)
         '! [jeff_vwap_algo]
 
         '! [csfb_inline_algo]
-        AvailableAlgoParams.FillCSFBInlineParams(baseOrder, "10:00:00 EST", "16:00:00 EST", "Patient", 10, 20, 100, "Default", False, 40, 100, 100, 35)
+        AvailableAlgoParams.FillCSFBInlineParams(baseOrder, "10:00:00 US/Eastern", "16:00:00 US/Eastern", "Patient", 10, 20, 100, "Default", False, 40, 100, 100, 35)
         client.placeOrder(increment(nextOrderId), ContractSamples.CSFBContract(), baseOrder)
         '! [csfb_inline_algo]
     End Sub
@@ -1137,7 +1137,7 @@ Module MainModule
         client.reqContractDetails(18001, ContractSamples.ContFut())
 
         '! [reqhistoricaldatacontfut]
-        Dim queryTime As String = DateTime.Now.ToString("yyyyMMdd HH:mm:ss")
+        Dim queryTime As String = DateTime.Now.ToUniversalTime.ToString("yyyyMMdd-HH:mm:ss")
         client.reqHistoricalData(18002, ContractSamples.ContFut(), queryTime, "1 Y", "1 month", "TRADES", 0, 1, False, Nothing)
         Thread.Sleep(10000)
         client.cancelHistoricalData(18002)

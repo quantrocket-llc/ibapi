@@ -713,8 +713,8 @@ class MarketDataPanel extends JPanel {
 
 	private class HistRequestPanel extends JPanel {
 		final ContractPanel m_contractPanel = new ContractPanel(m_contract);
-        final UpperField m_begin = new UpperField();
-        final UpperField m_end = new UpperField();
+        final UpperField m_begin = new UpperField(true);
+        final UpperField m_end = new UpperField(true);
         final UpperField m_nTicks = new UpperField();
 		final UpperField m_duration = new UpperField();
 		final TCombo<DurationUnit> m_durationUnit = new TCombo<>( DurationUnit.values() );
@@ -725,7 +725,7 @@ class MarketDataPanel extends JPanel {
 		final JCheckBox m_ignoreSize = new JCheckBox();
 		
 		HistRequestPanel() { 		
-			m_end.setText("20120101 12:00:00");
+			m_end.setText("20200101 12:00:00 US/Eastern");
 			m_duration.setText("1");
 			m_durationUnit.setSelectedItem(DurationUnit.WEEK);
 			m_barSize.setSelectedItem(BarSize._1_hour);
@@ -1181,7 +1181,7 @@ class MarketDataPanel extends JPanel {
 			@Override public Object getValueAt(int rowIn, int col) {
 				Bar row = m_rows.get( rowIn);
 				switch( col) {
-					case 0: return row.formattedTime();
+					case 0: return row.timeStr() != null ? row.timeStr() : row.formattedTime();
 					case 1: return Util.DoubleMaxString(row.open());
 					case 2: return Util.DoubleMaxString(row.high());
 					case 3: return Util.DoubleMaxString(row.low());

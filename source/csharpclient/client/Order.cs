@@ -225,7 +225,7 @@ namespace IBApi
 
         /**
          * @brief The date and time until the order will be active.\n
-         * You must enter GTD as the time in force to use this string. The trade's "Good Till Date," format "YYYYMMDD hh:mm:ss (optional time zone)"
+         * You must enter GTD as the time in force to use this string. The trade's "Good Till Date," format "yyyyMMdd HH:mm:ss (optional time zone)" or UTC "yyyyMMdd-HH:mm:ss"
          */
         public string GoodTillDate { get; set; }
 

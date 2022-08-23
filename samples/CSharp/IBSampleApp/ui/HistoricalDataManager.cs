@@ -14,9 +14,6 @@ namespace IBSampleApp.ui
     {
         public const int HISTORICAL_ID_BASE = 30000000;
 
-        private string fullDatePattern = "yyyyMMdd  HH:mm:ss";
-        private string yearMonthDayPattern = "yyyyMMdd";
-
         protected int barCounter = -1;
         protected DataGridView gridView;
 
@@ -61,19 +58,11 @@ namespace IBSampleApp.ui
 
         private void PaintChart()
         {
-            DateTime dt;
             Chart historicalChart = (Chart)uiControl;
             for (int i = 0; i < historicalData.Count; i++)
             {
-                if (historicalData[i].Date.Length == fullDatePattern.Length)
-                    DateTime.TryParseExact(historicalData[i].Date, fullDatePattern, null, DateTimeStyles.None, out dt);
-                else if (historicalData[i].Date.Length == yearMonthDayPattern.Length)
-                    DateTime.TryParseExact(historicalData[i].Date, yearMonthDayPattern, null, DateTimeStyles.None, out dt);
-                else
-                    continue;
-
                 // adding date and high
-                historicalChart.Series[0].Points.AddXY(dt, historicalData[i].High);
+                historicalChart.Series[0].Points.AddXY(historicalData[i].Date, historicalData[i].High);
                 // adding low
                 historicalChart.Series[0].Points[i].YValues[1] = historicalData[i].Low;
                 //adding open

@@ -2746,9 +2746,14 @@ const char* EDecoder::decodeLastTradeDate(const char* ptr, const char* endPtr, C
 	std::string lastTradeDateOrContractMonth;
 	DECODE_FIELD( lastTradeDateOrContractMonth);
 	if (!lastTradeDateOrContractMonth.empty()){
+		char split_with = ' ';
+		if (lastTradeDateOrContractMonth.find("-") != std::string::npos) {
+			split_with = '-';
+		}
 		std::vector<std::string> splitted;
 		std::istringstream buf(lastTradeDateOrContractMonth);
-		for(std::string s; buf >> s; ) {
+		std::string s;
+		while (getline(buf, s, split_with)) {
 			splitted.push_back(s);
 		}
 		if (splitted.size() > 0) {

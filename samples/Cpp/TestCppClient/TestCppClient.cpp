@@ -578,8 +578,8 @@ void TestCppClient::historicalDataRequests()
     char queryTime [80];
 
 	std::time(&rawtime);
-    timeinfo = std::localtime(&rawtime);
-	std::strftime(queryTime, 80, "%Y%m%d %H:%M:%S", timeinfo);
+    timeinfo = std::gmtime(&rawtime);
+	std::strftime(queryTime, 80, "%Y%m%d-%H:%M:%S", timeinfo);
 
 	m_pClient->reqHistoricalData(4001, ContractSamples::EurGbpFx(), queryTime, "1 M", "1 day", "MIDPOINT", 1, 1, false, TagValueListSPtr());
 	m_pClient->reqHistoricalData(4002, ContractSamples::EuropeanStock(), queryTime, "10 D", "1 min", "TRADES", 1, 1, false, TagValueListSPtr());
@@ -866,11 +866,11 @@ void TestCppClient::orderOperations()
 	//! [order_submission]
 
 	//! [manual_order_time]
-	m_pClient->placeOrder(m_orderId++, ContractSamples::USStockAtSmart(), OrderSamples::LimitOrderWithManualOrderTime("BUY", stringToDecimal("100"), 111.11, "20220314 13:00:00"));
+	m_pClient->placeOrder(m_orderId++, ContractSamples::USStockAtSmart(), OrderSamples::LimitOrderWithManualOrderTime("BUY", stringToDecimal("100"), 111.11, "20220314-13:00:00"));
 	//! [manual_order_time]
 
 	//! [manual_order_cancel_time]
-	m_pClient->cancelOrder(m_orderId - 1, "20220314 19:00:00");
+	m_pClient->cancelOrder(m_orderId - 1, "20220314-19:00:00");
 	//! [manual_order_cancel_time]
 
 	//! [pegbest_up_to_mid_order_submission]
@@ -914,7 +914,7 @@ void TestCppClient::conditionSamples()
 	ExecutionCondition* execCondition = dynamic_cast<ExecutionCondition *>(OrderSamples::Execution_Condition("EUR.USD", "CASH", "IDEALPRO", true));
 	MarginCondition* marginCondition = dynamic_cast<MarginCondition *>(OrderSamples::Margin_Condition(30, true, false));
 	PercentChangeCondition* pctChangeCondition = dynamic_cast<PercentChangeCondition *>(OrderSamples::Percent_Change_Condition(15.0, 208813720, "SMART", true, true));
-	TimeCondition* timeCondition = dynamic_cast<TimeCondition *>(OrderSamples::Time_Condition("20160118 23:59:59", true, false));
+	TimeCondition* timeCondition = dynamic_cast<TimeCondition *>(OrderSamples::Time_Condition("20220808 10:00:00 US/Eastern", true, false));
 	VolumeCondition* volumeCondition = dynamic_cast<VolumeCondition *>(OrderSamples::Volume_Condition(208813720, "SMART", false, 100, true));
 
 	lmt.conditions.push_back(std::shared_ptr<PriceCondition>(priceCondition));
@@ -977,23 +977,23 @@ void TestCppClient::testAlgoSamples(){
 	//! [algo_base_order]
 
 	//! [arrivalpx]
-	AvailableAlgoParams::FillArrivalPriceParams(baseOrder, 0.1, "Aggressive", "09:00:00 CET", "16:00:00 CET", true, true, 100000);
+	AvailableAlgoParams::FillArrivalPriceParams(baseOrder, 0.1, "Aggressive", "09:00:00 US/Eastern", "16:00:00 US/Eastern", true, true, 100000);
 	m_pClient->placeOrder(m_orderId++, ContractSamples::USStockAtSmart(), baseOrder);
 	//! [arrivalpx]
 
 	//! [darkice]
-	AvailableAlgoParams::FillDarkIceParams(baseOrder, 10, "09:00:00 CET", "16:00:00 CET", true, 100000);
+	AvailableAlgoParams::FillDarkIceParams(baseOrder, 10, "09:00:00 US/Eastern", "16:00:00 US/Eastern", true, 100000);
 	m_pClient->placeOrder(m_orderId++, ContractSamples::USStockAtSmart(), baseOrder);
 	//! [darkice]
 
 	//! [ad]
 	// The Time Zone in "startTime" and "endTime" attributes is ignored and always defaulted to GMT
-	AvailableAlgoParams::FillAccumulateDistributeParams(baseOrder, 10, 60, true, true, 1, true, true, "20161010-12:00:00 GMT", "20161010-16:00:00 GMT");
+	AvailableAlgoParams::FillAccumulateDistributeParams(baseOrder, 10, 60, true, true, 1, true, true, "12:00:00", "16:00:00");
 	m_pClient->placeOrder(m_orderId++, ContractSamples::USStockAtSmart(), baseOrder);
 	//! [ad]
 
 	//! [twap]
-	AvailableAlgoParams::FillTwapParams(baseOrder, "Marketable", "09:00:00 CET", "16:00:00 CET", true, 100000);
+	AvailableAlgoParams::FillTwapParams(baseOrder, "Marketable", "09:00:00 US/Eastern", "16:00:00 US/Eastern", true, 100000);
 	m_pClient->placeOrder(m_orderId++, ContractSamples::USStockAtSmart(), baseOrder);
 	//! [twap]
 
@@ -1018,37 +1018,37 @@ void TestCppClient::testAlgoSamples(){
 	//! [adaptive]
 
 	//! [closepx]
-    AvailableAlgoParams::FillClosePriceParams(baseOrder, 0.5, "Neutral", "12:00:00 EST", true, 100000);
+    AvailableAlgoParams::FillClosePriceParams(baseOrder, 0.5, "Neutral", "12:00:00 US/Eastern", true, 100000);
     m_pClient->placeOrder(m_orderId++, ContractSamples::USStockAtSmart(), baseOrder);
     //! [closepx]
     
     //! [pctvol]
-    AvailableAlgoParams::FillPctVolParams(baseOrder, 0.5, "12:00:00 EST", "14:00:00 EST", true, 100000);
+    AvailableAlgoParams::FillPctVolParams(baseOrder, 0.5, "12:00:00 US/Eastern", "14:00:00 US/Eastern", true, 100000);
     m_pClient->placeOrder(m_orderId++, ContractSamples::USStockAtSmart(), baseOrder);
     //! [pctvol]               
     
     //! [pctvolpx]
-    AvailableAlgoParams::FillPriceVariantPctVolParams(baseOrder, 0.1, 0.05, 0.01, 0.2, "12:00:00 EST", "14:00:00 EST", true, 100000);
+    AvailableAlgoParams::FillPriceVariantPctVolParams(baseOrder, 0.1, 0.05, 0.01, 0.2, "12:00:00 US/Eastern", "14:00:00 US/Eastern", true, 100000);
     m_pClient->placeOrder(m_orderId++, ContractSamples::USStockAtSmart(), baseOrder);
     //! [pctvolpx]
     
     //! [pctvolsz]
-    AvailableAlgoParams::FillSizeVariantPctVolParams(baseOrder, 0.2, 0.4, "12:00:00 EST", "14:00:00 EST", true, 100000);
+    AvailableAlgoParams::FillSizeVariantPctVolParams(baseOrder, 0.2, 0.4, "12:00:00 US/Eastern", "14:00:00 US/Eastern", true, 100000);
     m_pClient->placeOrder(m_orderId++, ContractSamples::USStockAtSmart(), baseOrder);
     //! [pctvolsz]
     
     //! [pctvoltm]
-    AvailableAlgoParams::FillTimeVariantPctVolParams(baseOrder, 0.2, 0.4, "12:00:00 EST", "14:00:00 EST", true, 100000);
+    AvailableAlgoParams::FillTimeVariantPctVolParams(baseOrder, 0.2, 0.4, "12:00:00 US/Eastern", "14:00:00 US/Eastern", true, 100000);
     m_pClient->placeOrder(m_orderId++, ContractSamples::USStockAtSmart(), baseOrder);
     //! [pctvoltm]
 
 	//! [jeff_vwap_algo]
-	AvailableAlgoParams::FillJefferiesVWAPParams(baseOrder, "10:00:00 EST", "16:00:00 EST", 10, 10, "Exclude_Both", 130, 135, 1, 10, "Patience", false, "Midpoint");
+	AvailableAlgoParams::FillJefferiesVWAPParams(baseOrder, "10:00:00 US/Eastern", "16:00:00 US/Eastern", 10, 10, "Exclude_Both", 130, 135, 1, 10, "Patience", false, "Midpoint");
 	m_pClient->placeOrder(m_orderId++, ContractSamples::JefferiesContract(), baseOrder);
 	//! [jeff_vwap_algo]
 
 	//! [csfb_inline_algo]
-	AvailableAlgoParams::FillCSFBInlineParams(baseOrder, "10:00:00 EST", "16:00:00 EST", "Patient", 10, 20, 100, "Default", false, 40, 100, 100, 35);
+	AvailableAlgoParams::FillCSFBInlineParams(baseOrder, "10:00:00 US/Eastern", "16:00:00 US/Eastern", "Patient", 10, 20, 100, "Default", false, 40, 100, 100, 35);
 	m_pClient->placeOrder(m_orderId++, ContractSamples::CSFBContract(), baseOrder);
 	//! [csfb_inline_algo]
 	
@@ -1350,7 +1350,7 @@ void TestCppClient::continuousFuturesOperations()
     char queryTime [80];
 
 	std::time(&rawtime);
-    timeinfo = std::localtime(&rawtime);
+    timeinfo = std::gmtime(&rawtime);
 	std::strftime(queryTime, 80, "%Y%m%d %H:%M:%S", timeinfo);
 
 	m_pClient->reqHistoricalData(18002, ContractSamples::ContFut(), queryTime, "1 Y", "1 month", "TRADES", 0, 1, false, TagValueListSPtr());
@@ -1366,9 +1366,9 @@ void TestCppClient::continuousFuturesOperations()
 void TestCppClient::reqHistoricalTicks() 
 {
 	//! [reqhistoricalticks]
-    m_pClient->reqHistoricalTicks(19001, ContractSamples::IBMUSStockAtSmart(), "20170621 09:38:33", "", 10, "BID_ASK", 1, true, TagValueListSPtr());
-    m_pClient->reqHistoricalTicks(19002, ContractSamples::IBMUSStockAtSmart(), "20170621 09:38:33", "", 10, "MIDPOINT", 1, true, TagValueListSPtr());
-    m_pClient->reqHistoricalTicks(19003, ContractSamples::IBMUSStockAtSmart(), "20170621 09:38:33", "", 10, "TRADES", 1, true, TagValueListSPtr());
+    m_pClient->reqHistoricalTicks(19001, ContractSamples::IBMUSStockAtSmart(), "20170621 09:38:33 US/Eastern", "", 10, "BID_ASK", 1, true, TagValueListSPtr());
+    m_pClient->reqHistoricalTicks(19002, ContractSamples::IBMUSStockAtSmart(), "20170621 09:38:33 US/Eastern", "", 10, "MIDPOINT", 1, true, TagValueListSPtr());
+    m_pClient->reqHistoricalTicks(19003, ContractSamples::IBMUSStockAtSmart(), "20170621 09:38:33 US/Eastern", "", 10, "TRADES", 1, true, TagValueListSPtr());
     //! [reqhistoricalticks]
     m_state = ST_REQHISTORICALTICKS_ACK;
 }

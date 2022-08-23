@@ -12,6 +12,7 @@ public class Bar {
 	private static final ThreadLocal<SimpleDateFormat> FORMAT_CACHE = ThreadLocal.withInitial(() -> new SimpleDateFormat( "yyyyMMdd HH:mm:ss"));
 
 	private final long m_time;
+	private final String m_timeStr;
 	private final double m_high;
 	private final double m_low;
 	private final double m_open;
@@ -21,6 +22,7 @@ public class Bar {
 	private final int m_count;
 
 	public long time()		{ return m_time; }
+	public String timeStr() { return m_timeStr; }
 	public double high() 	{ return m_high; }
 	public double low() 	{ return m_low; }
 	public double open() 	{ return m_open; }
@@ -31,6 +33,7 @@ public class Bar {
 
 	public Bar( long time, double high, double low, double open, double close, Decimal wap, Decimal volume, int count) {
 		m_time = time;
+		m_timeStr = null;
 		m_high = high;
 		m_low = low;
 		m_open = open;
@@ -40,6 +43,18 @@ public class Bar {
 		m_count = count;
 	}
 
+	public Bar( String timeStr, double high, double low, double open, double close, Decimal wap, Decimal volume, int count) {
+		m_time = Long.MAX_VALUE;
+		m_timeStr = timeStr;
+		m_high = high;
+		m_low = low;
+		m_open = open;
+		m_close = close;
+		m_wap = wap;
+		m_volume = volume;
+		m_count = count;
+	}
+	
 	public String formattedTime() {
 		return Formats.fmtDate( m_time * 1000);
 	}
@@ -50,6 +65,6 @@ public class Bar {
 	}
 
 	@Override public String toString() {
-		return String.format( "%s %s %s %s %s", formattedTime(), m_open, m_high, m_low, m_close);
+		return String.format( "%s %s %s %s %s", m_timeStr != null ? m_timeStr : formattedTime(), m_open, m_high, m_low, m_close);
 	}
 }

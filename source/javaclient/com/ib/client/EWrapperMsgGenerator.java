@@ -500,7 +500,7 @@ public class EWrapperMsgGenerator {
 	}
 
 	public static String tickNews(int tickerId, long timeStamp, String providerCode, String articleId, String headline, String extraData) {
-		return "TickNews. tickerId: " + tickerId + ", timeStamp: " + Util.UnixMillisecondsToString(timeStamp, "yyyy-MM-dd HH:mm:ss zzz") + 
+		return "TickNews. tickerId: " + tickerId + ", timeStamp: " + Util.UnixMillisecondsToString(timeStamp, "yyyyMMdd-HH:mm:ss") + 
 				", providerCode: " + providerCode + ", articleId: " + articleId + ", headline: " + headline + ", extraData: " + extraData;
 	}
 
@@ -627,20 +627,20 @@ public class EWrapperMsgGenerator {
     }
 
     public static String historicalTick(int reqId, long time, double price, Decimal size) {
-        return "Historical Tick. Req Id: " + reqId + ", time: " + Util.UnixSecondsToString(time, "yyyyMMdd-HH:mm:ss zzz") + ", price: " + Util.DoubleMaxString(price) + ", size: " 
+        return "Historical Tick. Req Id: " + reqId + ", time: " + Util.UnixSecondsToString(time, "yyyyMMdd-HH:mm:ss") + ", price: " + Util.DoubleMaxString(price) + ", size: " 
                 + size;
     }
 
     public static String historicalTickBidAsk(int reqId, long time, TickAttribBidAsk tickAttribBidAsk, double priceBid, double priceAsk,
     		Decimal sizeBid, Decimal sizeAsk) {
-        return "Historical Tick Bid/Ask. Req Id: " + reqId + ", time: " + Util.UnixSecondsToString(time, "yyyyMMdd-HH:mm:ss zzz") + ", bid price: " + Util.DoubleMaxString(priceBid) 
+        return "Historical Tick Bid/Ask. Req Id: " + reqId + ", time: " + Util.UnixSecondsToString(time, "yyyyMMdd-HH:mm:ss") + ", bid price: " + Util.DoubleMaxString(priceBid) 
                 + ", ask price: " + Util.DoubleMaxString(priceAsk) + ", bid size: " + sizeBid + ", ask size: " + sizeAsk 
                 + ", tick attribs: " + (tickAttribBidAsk.bidPastLow() ? "bidPastLow " : "") + (tickAttribBidAsk.askPastHigh() ? "askPastHigh " : "");
     }
 
     public static String historicalTickLast(int reqId, long time, TickAttribLast tickAttribLast, double price, Decimal size, String exchange,
             String specialConditions) {        
-        return "Historical Tick Last. Req Id: " + reqId + ", time: " + Util.UnixSecondsToString(time, "yyyyMMdd-HH:mm:ss zzz") + ", price: " + Util.DoubleMaxString(price) + ", size: " 
+        return "Historical Tick Last. Req Id: " + reqId + ", time: " + Util.UnixSecondsToString(time, "yyyyMMdd-HH:mm:ss") + ", price: " + Util.DoubleMaxString(price) + ", size: " 
                 + size + ", exchange: " + exchange + ", special conditions:" + specialConditions 
                 + ", tick attribs: " + (tickAttribLast.pastLimit() ? "pastLimit " : "") + (tickAttribLast.unreported() ? "unreported " : "");
     }
@@ -648,20 +648,20 @@ public class EWrapperMsgGenerator {
     public static String tickByTickAllLast(int reqId, int tickType, long time, double price, Decimal size, TickAttribLast tickAttribLast, 
             String exchange, String specialConditions){
         return (tickType == 1 ? "Last." : "AllLast.") +
-                " Req Id: " + reqId + " Time: " + Util.UnixSecondsToString(time, "yyyyMMdd-HH:mm:ss zzz") + " Price: " + Util.DoubleMaxString(price) + " Size: " + size +
+                " Req Id: " + reqId + " Time: " + Util.UnixSecondsToString(time, "yyyyMMdd-HH:mm:ss") + " Price: " + Util.DoubleMaxString(price) + " Size: " + size +
                 " Exch: " + exchange + " Spec Cond: " + specialConditions + " Tick Attibs: " + (tickAttribLast.pastLimit() ? "pastLimit " : "") +
                 (tickType == 1 ? "" : (tickAttribLast.unreported() ? "unreported " : ""));
     }
     
     public static String tickByTickBidAsk(int reqId, long time, double bidPrice, double askPrice, Decimal bidSize, Decimal askSize,
             TickAttribBidAsk tickAttribBidAsk){
-        return "BidAsk. Req Id: " + reqId + " Time: " + Util.UnixSecondsToString(time, "yyyyMMdd-HH:mm:ss zzz") + " BidPrice: " + Util.DoubleMaxString(bidPrice) + 
+        return "BidAsk. Req Id: " + reqId + " Time: " + Util.UnixSecondsToString(time, "yyyyMMdd-HH:mm:ss") + " BidPrice: " + Util.DoubleMaxString(bidPrice) + 
                 " AskPrice: " + Util.DoubleMaxString(askPrice) + " BidSize: " + bidSize + " AskSize: " + askSize + " Tick Attibs: " + 
                 (tickAttribBidAsk.bidPastLow() ? "bidPastLow " : "") + (tickAttribBidAsk.askPastHigh() ? "askPastHigh " : "");
     }
 
     public static String tickByTickMidPoint(int reqId, long time, double midPoint){
-        return "MidPoint. Req Id: " + reqId + " Time: " + Util.UnixSecondsToString(time, "yyyyMMdd-HH:mm:ss zzz") + " MidPoint: " + Util.DoubleMaxString(midPoint);
+        return "MidPoint. Req Id: " + reqId + " Time: " + Util.UnixSecondsToString(time, "yyyyMMdd-HH:mm:ss") + " MidPoint: " + Util.DoubleMaxString(midPoint);
     }
     
     public static String orderBound(long orderId, int apiClientId, int apiOrderId){

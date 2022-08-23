@@ -36,13 +36,13 @@ namespace IBSampleApp
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(IBSampleAppDialog));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend4 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.connectButton = new System.Windows.Forms.Button();
             this.clientid_CT = new System.Windows.Forms.TextBox();
             this.cliet_label_CT = new System.Windows.Forms.Label();
@@ -726,6 +726,12 @@ namespace IBSampleApp
             this.tbStartDate = new System.Windows.Forms.TextBox();
             this.TabControl = new System.Windows.Forms.TabControl();
             this.wshTab = new System.Windows.Forms.TabPage();
+            this.textBoxWshTotalLimit = new System.Windows.Forms.TextBox();
+            this.labelWshTotalLimit = new System.Windows.Forms.Label();
+            this.textBoxWshEndDate = new System.Windows.Forms.TextBox();
+            this.labelWshEndDate = new System.Windows.Forms.Label();
+            this.textBoxWshStartDate = new System.Windows.Forms.TextBox();
+            this.labelWshStartDate = new System.Windows.Forms.Label();
             this.checkBoxWshFillCompetitors = new System.Windows.Forms.CheckBox();
             this.checkBoxWshFillPortfolio = new System.Windows.Forms.CheckBox();
             this.checkBoxWshFillWatchlist = new System.Windows.Forms.CheckBox();
@@ -738,12 +744,6 @@ namespace IBSampleApp
             this.labelWshConId = new System.Windows.Forms.Label();
             this.button6 = new System.Windows.Forms.Button();
             this.dataGridViewWsh = new System.Windows.Forms.DataGridView();
-            this.textBoxWshStartDate = new System.Windows.Forms.TextBox();
-            this.labelWshStartDate = new System.Windows.Forms.Label();
-            this.textBoxWshEndDate = new System.Windows.Forms.TextBox();
-            this.labelWshEndDate = new System.Windows.Forms.Label();
-            this.textBoxWshTotalLimit = new System.Windows.Forms.TextBox();
-            this.labelWshTotalLimit = new System.Windows.Forms.Label();
             this.comboTab.SuspendLayout();
             this.comboDeltaNeutralBox.SuspendLayout();
             this.comboLegsBox.SuspendLayout();
@@ -5346,14 +5346,14 @@ namespace IBSampleApp
             this.askBookPrice,
             this.askBookSize,
             this.askBookMaker});
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.deepBookGrid.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.deepBookGrid.DefaultCellStyle = dataGridViewCellStyle1;
             this.deepBookGrid.Location = new System.Drawing.Point(4, 19);
             this.deepBookGrid.Name = "deepBookGrid";
             this.deepBookGrid.ReadOnly = true;
@@ -5499,27 +5499,27 @@ namespace IBSampleApp
             this.historicalChart.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.historicalChart.BackImageTransparentColor = System.Drawing.Color.Silver;
             this.historicalChart.BackSecondaryColor = System.Drawing.Color.Silver;
-            chartArea3.AxisX.MajorGrid.Enabled = false;
-            chartArea3.AxisX.MajorTickMark.Enabled = false;
-            chartArea3.AxisY.IsStartedFromZero = false;
-            chartArea3.Name = "ChartArea1";
-            chartArea3.Position.Auto = false;
-            chartArea3.Position.Height = 100F;
-            chartArea3.Position.Width = 100F;
-            this.historicalChart.ChartAreas.Add(chartArea3);
-            legend3.Name = "Legend1";
-            this.historicalChart.Legends.Add(legend3);
+            chartArea1.AxisX.MajorGrid.Enabled = false;
+            chartArea1.AxisX.MajorTickMark.Enabled = false;
+            chartArea1.AxisY.IsStartedFromZero = false;
+            chartArea1.Name = "ChartArea1";
+            chartArea1.Position.Auto = false;
+            chartArea1.Position.Height = 100F;
+            chartArea1.Position.Width = 100F;
+            this.historicalChart.ChartAreas.Add(chartArea1);
+            legend1.Name = "Legend1";
+            this.historicalChart.Legends.Add(legend1);
             this.historicalChart.Location = new System.Drawing.Point(529, 3);
             this.historicalChart.Name = "historicalChart";
-            series3.ChartArea = "ChartArea1";
-            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Candlestick;
-            series3.IsVisibleInLegend = false;
-            series3.IsXValueIndexed = true;
-            series3.Legend = "Legend1";
-            series3.Name = "Series1";
-            series3.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.DateTime;
-            series3.YValuesPerPoint = 4;
-            this.historicalChart.Series.Add(series3);
+            series1.ChartArea = "ChartArea1";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Candlestick;
+            series1.IsVisibleInLegend = false;
+            series1.IsXValueIndexed = true;
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            series1.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.DateTime;
+            series1.YValuesPerPoint = 4;
+            this.historicalChart.Series.Add(series1);
             this.historicalChart.Size = new System.Drawing.Size(699, 199);
             this.historicalChart.TabIndex = 0;
             this.historicalChart.Text = "Historical Data";
@@ -5626,26 +5626,26 @@ namespace IBSampleApp
             this.rtBarsChart.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.rtBarsChart.BackImageTransparentColor = System.Drawing.Color.Silver;
             this.rtBarsChart.BackSecondaryColor = System.Drawing.Color.Silver;
-            chartArea4.AxisX.MajorGrid.Enabled = false;
-            chartArea4.AxisX.MajorTickMark.Enabled = false;
-            chartArea4.AxisY.IsStartedFromZero = false;
-            chartArea4.Name = "ChartArea1";
-            chartArea4.Position.Auto = false;
-            chartArea4.Position.Height = 100F;
-            chartArea4.Position.Width = 100F;
-            this.rtBarsChart.ChartAreas.Add(chartArea4);
-            legend4.Name = "Legend1";
-            this.rtBarsChart.Legends.Add(legend4);
+            chartArea2.AxisX.MajorGrid.Enabled = false;
+            chartArea2.AxisX.MajorTickMark.Enabled = false;
+            chartArea2.AxisY.IsStartedFromZero = false;
+            chartArea2.Name = "ChartArea1";
+            chartArea2.Position.Auto = false;
+            chartArea2.Position.Height = 100F;
+            chartArea2.Position.Width = 100F;
+            this.rtBarsChart.ChartAreas.Add(chartArea2);
+            legend2.Name = "Legend1";
+            this.rtBarsChart.Legends.Add(legend2);
             this.rtBarsChart.Location = new System.Drawing.Point(531, 4);
             this.rtBarsChart.Name = "rtBarsChart";
-            series4.ChartArea = "ChartArea1";
-            series4.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Candlestick;
-            series4.IsVisibleInLegend = false;
-            series4.Legend = "Legend1";
-            series4.Name = "Series1";
-            series4.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.DateTime;
-            series4.YValuesPerPoint = 4;
-            this.rtBarsChart.Series.Add(series4);
+            series2.ChartArea = "ChartArea1";
+            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Candlestick;
+            series2.IsVisibleInLegend = false;
+            series2.Legend = "Legend1";
+            series2.Name = "Series1";
+            series2.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.DateTime;
+            series2.YValuesPerPoint = 4;
+            this.rtBarsChart.Series.Add(series2);
             this.rtBarsChart.Size = new System.Drawing.Size(699, 199);
             this.rtBarsChart.TabIndex = 2;
             this.rtBarsChart.Text = "Historical Data";
@@ -6905,7 +6905,7 @@ namespace IBSampleApp
             this.hdRequest_EndTime.Name = "hdRequest_EndTime";
             this.hdRequest_EndTime.Size = new System.Drawing.Size(156, 20);
             this.hdRequest_EndTime.TabIndex = 45;
-            this.hdRequest_EndTime.Text = "20130808 23:59:59 GMT";
+            this.hdRequest_EndTime.Text = "20220808 23:59:59 US/Eastern";
             // 
             // hdRequest_WhatToShow
             // 
@@ -7482,7 +7482,7 @@ namespace IBSampleApp
             this.tbEndDate.Name = "tbEndDate";
             this.tbEndDate.Size = new System.Drawing.Size(157, 20);
             this.tbEndDate.TabIndex = 2;
-            this.tbEndDate.Text = "20140808 23:59:59";
+            this.tbEndDate.Text = "20220808 23:59:59 US/Eastern";
             // 
             // tbNumOfTicks
             // 
@@ -7501,7 +7501,7 @@ namespace IBSampleApp
             this.tbStartDate.Name = "tbStartDate";
             this.tbStartDate.Size = new System.Drawing.Size(157, 20);
             this.tbStartDate.TabIndex = 0;
-            this.tbStartDate.Text = "20130808 23:59:59";
+            this.tbStartDate.Text = "20220808 23:59:59 US/Eastern";
             // 
             // TabControl
             // 
@@ -7549,6 +7549,54 @@ namespace IBSampleApp
             this.wshTab.TabIndex = 10;
             this.wshTab.Text = "WSHE Calendar";
             this.wshTab.UseVisualStyleBackColor = true;
+            // 
+            // textBoxWshTotalLimit
+            // 
+            this.textBoxWshTotalLimit.Location = new System.Drawing.Point(725, 212);
+            this.textBoxWshTotalLimit.Name = "textBoxWshTotalLimit";
+            this.textBoxWshTotalLimit.Size = new System.Drawing.Size(100, 20);
+            this.textBoxWshTotalLimit.TabIndex = 31;
+            // 
+            // labelWshTotalLimit
+            // 
+            this.labelWshTotalLimit.AutoSize = true;
+            this.labelWshTotalLimit.Location = new System.Drawing.Point(604, 215);
+            this.labelWshTotalLimit.Name = "labelWshTotalLimit";
+            this.labelWshTotalLimit.Size = new System.Drawing.Size(55, 13);
+            this.labelWshTotalLimit.TabIndex = 30;
+            this.labelWshTotalLimit.Text = "Total Limit";
+            // 
+            // textBoxWshEndDate
+            // 
+            this.textBoxWshEndDate.Location = new System.Drawing.Point(725, 186);
+            this.textBoxWshEndDate.Name = "textBoxWshEndDate";
+            this.textBoxWshEndDate.Size = new System.Drawing.Size(100, 20);
+            this.textBoxWshEndDate.TabIndex = 29;
+            // 
+            // labelWshEndDate
+            // 
+            this.labelWshEndDate.AutoSize = true;
+            this.labelWshEndDate.Location = new System.Drawing.Point(604, 193);
+            this.labelWshEndDate.Name = "labelWshEndDate";
+            this.labelWshEndDate.Size = new System.Drawing.Size(52, 13);
+            this.labelWshEndDate.TabIndex = 28;
+            this.labelWshEndDate.Text = "End Date";
+            // 
+            // textBoxWshStartDate
+            // 
+            this.textBoxWshStartDate.Location = new System.Drawing.Point(725, 160);
+            this.textBoxWshStartDate.Name = "textBoxWshStartDate";
+            this.textBoxWshStartDate.Size = new System.Drawing.Size(100, 20);
+            this.textBoxWshStartDate.TabIndex = 27;
+            // 
+            // labelWshStartDate
+            // 
+            this.labelWshStartDate.AutoSize = true;
+            this.labelWshStartDate.Location = new System.Drawing.Point(604, 167);
+            this.labelWshStartDate.Name = "labelWshStartDate";
+            this.labelWshStartDate.Size = new System.Drawing.Size(55, 13);
+            this.labelWshStartDate.TabIndex = 26;
+            this.labelWshStartDate.Text = "Start Date";
             // 
             // checkBoxWshFillCompetitors
             // 
@@ -7663,54 +7711,6 @@ namespace IBSampleApp
             this.dataGridViewWsh.ReadOnly = true;
             this.dataGridViewWsh.Size = new System.Drawing.Size(593, 442);
             this.dataGridViewWsh.TabIndex = 9;
-            // 
-            // textBoxWshStartDate
-            // 
-            this.textBoxWshStartDate.Location = new System.Drawing.Point(725, 160);
-            this.textBoxWshStartDate.Name = "textBoxWshStartDate";
-            this.textBoxWshStartDate.Size = new System.Drawing.Size(100, 20);
-            this.textBoxWshStartDate.TabIndex = 27;
-            // 
-            // labelWshStartDate
-            // 
-            this.labelWshStartDate.AutoSize = true;
-            this.labelWshStartDate.Location = new System.Drawing.Point(604, 167);
-            this.labelWshStartDate.Name = "labelWshStartDate";
-            this.labelWshStartDate.Size = new System.Drawing.Size(55, 13);
-            this.labelWshStartDate.TabIndex = 26;
-            this.labelWshStartDate.Text = "Start Date";
-            // 
-            // textBoxWshEndDate
-            // 
-            this.textBoxWshEndDate.Location = new System.Drawing.Point(725, 186);
-            this.textBoxWshEndDate.Name = "textBoxWshEndDate";
-            this.textBoxWshEndDate.Size = new System.Drawing.Size(100, 20);
-            this.textBoxWshEndDate.TabIndex = 29;
-            // 
-            // labelWshEndDate
-            // 
-            this.labelWshEndDate.AutoSize = true;
-            this.labelWshEndDate.Location = new System.Drawing.Point(604, 193);
-            this.labelWshEndDate.Name = "labelWshEndDate";
-            this.labelWshEndDate.Size = new System.Drawing.Size(52, 13);
-            this.labelWshEndDate.TabIndex = 28;
-            this.labelWshEndDate.Text = "End Date";
-            // 
-            // textBoxWshTotalLimit
-            // 
-            this.textBoxWshTotalLimit.Location = new System.Drawing.Point(725, 212);
-            this.textBoxWshTotalLimit.Name = "textBoxWshTotalLimit";
-            this.textBoxWshTotalLimit.Size = new System.Drawing.Size(100, 20);
-            this.textBoxWshTotalLimit.TabIndex = 31;
-            // 
-            // labelWshTotalLimit
-            // 
-            this.labelWshTotalLimit.AutoSize = true;
-            this.labelWshTotalLimit.Location = new System.Drawing.Point(604, 215);
-            this.labelWshTotalLimit.Name = "labelWshTotalLimit";
-            this.labelWshTotalLimit.Size = new System.Drawing.Size(55, 13);
-            this.labelWshTotalLimit.TabIndex = 30;
-            this.labelWshTotalLimit.Text = "Total Limit";
             // 
             // IBSampleAppDialog
             // 

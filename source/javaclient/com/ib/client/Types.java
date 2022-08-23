@@ -25,6 +25,8 @@ import static com.ib.client.Types.AlgoParam.strategyType;
 import static com.ib.client.Types.AlgoParam.timeBetweenOrders;
 import static com.ib.client.Types.AlgoParam.useOddLots;
 import static com.ib.client.Types.AlgoParam.waitForFill;
+import static com.ib.client.Types.AlgoParam.activeTimeStart;
+import static com.ib.client.Types.AlgoParam.activeTimeEnd;
 
 public class Types {
 	public enum TickByTickType {
@@ -37,7 +39,7 @@ public class Types {
 
 	public enum AlgoParam {
 		startTime, endTime, allowPastEndTime, maxPctVol, pctVol, strategyType, noTakeLiq, riskAversion, forceCompletion, displaySize, getDone, noTradeAhead, useOddLots,
-		componentSize, timeBetweenOrders, randomizeTime20, randomizeSize55, giveUp, catchUp, waitForFill	
+		componentSize, timeBetweenOrders, randomizeTime20, randomizeSize55, giveUp, catchUp, waitForFill, activeTimeStart, activeTimeEnd, 	
 	}
 
 	public enum AlgoStrategy implements IApiEnum {
@@ -47,7 +49,7 @@ public class Types {
 		ArrivalPx( startTime, endTime, allowPastEndTime, maxPctVol, riskAversion, forceCompletion),
 		DarkIce( startTime, endTime, allowPastEndTime, displaySize),
 		PctVol( startTime, endTime, pctVol, noTakeLiq),
-		AD( startTime, endTime, componentSize, timeBetweenOrders, randomizeTime20, randomizeSize55, giveUp, catchUp, waitForFill);
+		AD( activeTimeStart, activeTimeEnd, componentSize, timeBetweenOrders, randomizeTime20, randomizeSize55, giveUp, catchUp, waitForFill);
 
 		private AlgoParam[] m_params;
 

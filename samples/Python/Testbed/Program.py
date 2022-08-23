@@ -487,7 +487,7 @@ class TestApp(TestWrapper, TestClient):
         # ! [reqcontractdetailscontfut]
 
         # ! [reqhistoricaldatacontfut]
-        timeStr = datetime.datetime.fromtimestamp(time.time()).strftime('%Y%m%d %H:%M:%S')
+        timeStr = datetime.datetime.now(datetime.timezone.utc).strftime('%Y%m%d-%H:%M:%S')
         self.reqHistoricalData(18002, ContractSamples.ContFut(), timeStr, "1 Y", "1 month", "TRADES", 0, 1, False, []);
         # ! [reqhistoricaldatacontfut]
 
@@ -887,7 +887,7 @@ class TestApp(TestWrapper, TestClient):
         else:
             print("AllLast.", end='')
         print(" ReqId:", reqId,
-              "Time:", datetime.datetime.fromtimestamp(time).strftime("%Y%m%d %H:%M:%S"),
+              "Time:", datetime.datetime.fromtimestamp(time).strftime("%Y%m%d-%H:%M:%S"),
               "Price:", floatMaxString(price), "Size:", decimalMaxString(size), "Exch:" , exchange,
               "Spec Cond:", specialConditions, "PastLimit:", tickAtrribLast.pastLimit, "Unreported:", tickAtrribLast.unreported)
     # ! [tickbytickalllast]
@@ -899,7 +899,7 @@ class TestApp(TestWrapper, TestClient):
         super().tickByTickBidAsk(reqId, time, bidPrice, askPrice, bidSize,
                                  askSize, tickAttribBidAsk)
         print("BidAsk. ReqId:", reqId,
-              "Time:", datetime.datetime.fromtimestamp(time).strftime("%Y%m%d %H:%M:%S"),
+              "Time:", datetime.datetime.fromtimestamp(time).strftime("%Y%m%d-%H:%M:%S"),
               "BidPrice:", floatMaxString(bidPrice), "AskPrice:", floatMaxString(askPrice), "BidSize:", decimalMaxString(bidSize),
               "AskSize:", decimalMaxString(askSize), "BidPastLow:", tickAttribBidAsk.bidPastLow, "AskPastHigh:", tickAttribBidAsk.askPastHigh)
     # ! [tickbytickbidask]
@@ -909,7 +909,7 @@ class TestApp(TestWrapper, TestClient):
     def tickByTickMidPoint(self, reqId: int, time: int, midPoint: float):
         super().tickByTickMidPoint(reqId, time, midPoint)
         print("Midpoint. ReqId:", reqId,
-              "Time:", datetime.datetime.fromtimestamp(time).strftime("%Y%m%d %H:%M:%S"),
+              "Time:", datetime.datetime.fromtimestamp(time).strftime("%Y%m%d-%H:%M:%S"),
               "MidPoint:", floatMaxString(midPoint))
     # ! [tickbytickmidpoint]
 
@@ -994,7 +994,7 @@ class TestApp(TestWrapper, TestClient):
         # ! [reqHeadTimeStamp]
 
         # ! [reqhistoricaldata]
-        queryTime = (datetime.datetime.today() - datetime.timedelta(days=180)).strftime("%Y%m%d %H:%M:%S")
+        queryTime = (datetime.datetime.today() - datetime.timedelta(days=180)).strftime("%Y%m%d-%H:%M:%S")
         self.reqHistoricalData(4102, ContractSamples.EurGbpFx(), queryTime,
                                "1 M", "1 day", "MIDPOINT", 1, 1, False, [])
         self.reqHistoricalData(4103, ContractSamples.EuropeanStock(), queryTime,
@@ -1022,11 +1022,11 @@ class TestApp(TestWrapper, TestClient):
     def historicalTicksOperations(self):
         # ! [reqhistoricalticks]
         self.reqHistoricalTicks(18001, ContractSamples.USStockAtSmart(),
-                                "20170712 21:39:33", "", 10, "TRADES", 1, True, [])
+                                "20170712 21:39:33 US/Eastern", "", 10, "TRADES", 1, True, [])
         self.reqHistoricalTicks(18002, ContractSamples.USStockAtSmart(),
-                                "20170712 21:39:33", "", 10, "BID_ASK", 1, True, [])
+                                "20170712 21:39:33 US/Eastern", "", 10, "BID_ASK", 1, True, [])
         self.reqHistoricalTicks(18003, ContractSamples.USStockAtSmart(),
-                                "20170712 21:39:33", "", 10, "MIDPOINT", 1, True, [])
+                                "20170712 21:39:33 US/Eastern", "", 10, "MIDPOINT", 1, True, [])
         # ! [reqhistoricalticks]
 
     @iswrapper
@@ -1449,7 +1449,7 @@ class TestApp(TestWrapper, TestClient):
         mkt.conditions.append(OrderSamples.ExecutionCondition("EUR.USD", "CASH", "IDEALPRO", True))
         mkt.conditions.append(OrderSamples.MarginCondition(30, True, False))
         mkt.conditions.append(OrderSamples.PercentageChangeCondition(15.0, 208813720, "SMART", True, True))
-        mkt.conditions.append(OrderSamples.TimeCondition("20160118 23:59:59", True, False))
+        mkt.conditions.append(OrderSamples.TimeCondition("20160118 23:59:59 US/Eastern", True, False))
         mkt.conditions.append(OrderSamples.VolumeCondition(208813720, "SMART", False, 100, True))
         self.placeOrder(self.nextOrderId(), ContractSamples.EuropeanStock(), mkt)
         # ! [order_conditioning_activate]
@@ -1503,12 +1503,12 @@ class TestApp(TestWrapper, TestClient):
         # ! [algo_base_order]
 
         # ! [arrivalpx]
-        AvailableAlgoParams.FillArrivalPriceParams(baseOrder, 0.1, "Aggressive", "09:00:00 CET", "16:00:00 CET", True, True, 100000)
+        AvailableAlgoParams.FillArrivalPriceParams(baseOrder, 0.1, "Aggressive", "09:00:00 US/Eastern", "16:00:00 US/Eastern", True, True, 100000)
         self.placeOrder(self.nextOrderId(), ContractSamples.USStockAtSmart(), baseOrder)
         # ! [arrivalpx]
 
         # ! [darkice]
-        AvailableAlgoParams.FillDarkIceParams(baseOrder, 10, "09:00:00 CET", "16:00:00 CET", True, 100000)
+        AvailableAlgoParams.FillDarkIceParams(baseOrder, 10, "09:00:00 US/Eastern", "16:00:00 US/Eastern", True, 100000)
         self.placeOrder(self.nextOrderId(), ContractSamples.USStockAtSmart(), baseOrder)
         # ! [darkice]
 
@@ -1518,17 +1518,17 @@ class TestApp(TestWrapper, TestClient):
 
         # ! [ad]
         # The Time Zone in "startTime" and "endTime" attributes is ignored and always defaulted to GMT
-        AvailableAlgoParams.FillAccumulateDistributeParams(baseOrder, 10, 60, True, True, 1, True, True, "20161010-12:00:00 GMT", "20161010-16:00:00 GMT")
+        AvailableAlgoParams.FillAccumulateDistributeParams(baseOrder, 10, 60, True, True, 1, True, True, "12:00:00", "16:00:00")
         self.placeOrder(self.nextOrderId(), ContractSamples.USStockAtSmart(), baseOrder)
         # ! [ad]
 
         # ! [twap]
-        AvailableAlgoParams.FillTwapParams(baseOrder, "Marketable", "09:00:00 CET", "16:00:00 CET", True, 100000)
+        AvailableAlgoParams.FillTwapParams(baseOrder, "Marketable", "09:00:00 US/Eastern", "16:00:00 US/Eastern", True, 100000)
         self.placeOrder(self.nextOrderId(), ContractSamples.USStockAtSmart(), baseOrder)
         # ! [twap]
 
         # ! [vwap]
-        AvailableAlgoParams.FillVwapParams(baseOrder, 0.2, "09:00:00 CET", "16:00:00 CET", True, True, 100000)
+        AvailableAlgoParams.FillVwapParams(baseOrder, 0.2, "09:00:00 US/Eastern", "16:00:00 US/Eastern", True, True, 100000)
         self.placeOrder(self.nextOrderId(), ContractSamples.USStockAtSmart(), baseOrder)
         # ! [vwap]
 
@@ -1553,37 +1553,37 @@ class TestApp(TestWrapper, TestClient):
         # ! [closepx]
 
         # ! [pctvol]
-        AvailableAlgoParams.FillPctVolParams(baseOrder, 0.5, "12:00:00 EST", "14:00:00 EST", True, 100000)
+        AvailableAlgoParams.FillPctVolParams(baseOrder, 0.5, "12:00:00 US/Eastern", "14:00:00 US/Eastern", True, 100000)
         self.placeOrder(self.nextOrderId(), ContractSamples.USStockAtSmart(), baseOrder)
         # ! [pctvol]
 
         # ! [pctvolpx]
-        AvailableAlgoParams.FillPriceVariantPctVolParams(baseOrder, 0.1, 0.05, 0.01, 0.2, "12:00:00 EST", "14:00:00 EST", True, 100000)
+        AvailableAlgoParams.FillPriceVariantPctVolParams(baseOrder, 0.1, 0.05, 0.01, 0.2, "12:00:00 US/Eastern", "14:00:00 US/Eastern", True, 100000)
         self.placeOrder(self.nextOrderId(), ContractSamples.USStockAtSmart(), baseOrder)
         # ! [pctvolpx]
 
         # ! [pctvolsz]
-        AvailableAlgoParams.FillSizeVariantPctVolParams(baseOrder, 0.2, 0.4, "12:00:00 EST", "14:00:00 EST", True, 100000)
+        AvailableAlgoParams.FillSizeVariantPctVolParams(baseOrder, 0.2, 0.4, "12:00:00 US/Eastern", "14:00:00 US/Eastern", True, 100000)
         self.placeOrder(self.nextOrderId(), ContractSamples.USStockAtSmart(), baseOrder)
         # ! [pctvolsz]
 
         # ! [pctvoltm]
-        AvailableAlgoParams.FillTimeVariantPctVolParams(baseOrder, 0.2, 0.4, "12:00:00 EST", "14:00:00 EST", True, 100000)
+        AvailableAlgoParams.FillTimeVariantPctVolParams(baseOrder, 0.2, 0.4, "12:00:00 US/Eastern", "14:00:00 US/Eastern", True, 100000)
         self.placeOrder(self.nextOrderId(), ContractSamples.USStockAtSmart(), baseOrder)
         # ! [pctvoltm]
 
         # ! [jeff_vwap_algo]
-        AvailableAlgoParams.FillJefferiesVWAPParams(baseOrder, "10:00:00 EST", "16:00:00 EST", 10, 10, "Exclude_Both", 130, 135, 1, 10, "Patience", False, "Midpoint")
+        AvailableAlgoParams.FillJefferiesVWAPParams(baseOrder, "10:00:00 US/Eastern", "16:00:00 US/Eastern", 10, 10, "Exclude_Both", 130, 135, 1, 10, "Patience", False, "Midpoint")
         self.placeOrder(self.nextOrderId(), ContractSamples.JefferiesContract(), baseOrder)
         # ! [jeff_vwap_algo]
 
         # ! [csfb_inline_algo]
-        AvailableAlgoParams.FillCSFBInlineParams(baseOrder, "10:00:00 EST", "16:00:00 EST", "Patient", 10, 20, 100, "Default", False, 40, 100, 100, 35)
+        AvailableAlgoParams.FillCSFBInlineParams(baseOrder, "10:00:00 US/Eastern", "16:00:00 US/Eastern", "Patient", 10, 20, 100, "Default", False, 40, 100, 100, 35)
         self.placeOrder(self.nextOrderId(), ContractSamples.CSFBContract(), baseOrder)
         # ! [csfb_inline_algo]
 
         # ! [qbalgo_strobe_algo]
-        AvailableAlgoParams.FillQBAlgoInLineParams(baseOrder, "10:00:00 EST", "16:00:00 EST", -99, "TWAP", 0.25, True)
+        AvailableAlgoParams.FillQBAlgoInLineParams(baseOrder, "10:00:00 US/Eastern", "16:00:00 US/Eastern", -99, "TWAP", 0.25, True)
         self.placeOrder(self.nextOrderId(), ContractSamples.QBAlgoContract(), baseOrder)
         # ! [qbalgo_strobe_algo]
 
@@ -1884,7 +1884,7 @@ class TestApp(TestWrapper, TestClient):
 
         # Placing limit order with manual order time
         # ! [place_order_with_manual_order_time]
-        self.placeOrder(self.nextOrderId(), ContractSamples.USStockAtSmart(), OrderSamples.LimitOrderWithManualOrderTime("BUY", Decimal("100"), 111.11, "20220314 13:00:00"))
+        self.placeOrder(self.nextOrderId(), ContractSamples.USStockAtSmart(), OrderSamples.LimitOrderWithManualOrderTime("BUY", Decimal("100"), 111.11, "20220314-13:00:00"))
         # ! [place_order_with_manual_order_time]
 
         # Placing peg best up to mid order
@@ -1916,7 +1916,7 @@ class TestApp(TestWrapper, TestClient):
         # Cancel limit order with manual order cancel time
         if self.simplePlaceOid is not None:
             # ! [cancel_order_with_manual_order_time]
-            self.cancelOrder(self.simplePlaceOid, "2022-03-03 13:00:00")
+            self.cancelOrder(self.simplePlaceOid, "20220303-13:00:00")
             # ! [cancel_order_with_manual_order_time]
 
     def rerouteCFDOperations(self):
@@ -1972,7 +1972,7 @@ class TestApp(TestWrapper, TestClient):
     # ! [currenttime]
     def currentTime(self, time:int):
         super().currentTime(time)
-        print("CurrentTime:", datetime.datetime.fromtimestamp(time).strftime("%Y%m%d %H:%M:%S"))
+        print("CurrentTime:", datetime.datetime.fromtimestamp(time).strftime("%Y%m%d-%H:%M:%S"))
     # ! [currenttime]
 
     @iswrapper

@@ -417,8 +417,8 @@ class TicketDlg extends JDialog {
 	}
 	
 	class MiscTicketPanel extends StackPanel {
-		final UpperField m_goodAfter = new UpperField();
-		final UpperField m_goodTil = new UpperField();
+		final JTextField m_goodAfter = new JTextField();
+		final JTextField m_goodTil = new JTextField();
 		final UpperField m_duration = new UpperField();
 		final UpperField m_postToAts = new UpperField();
 		final JTextField m_orderRef = new JTextField(7);
@@ -672,7 +672,7 @@ class TicketDlg extends JDialog {
 			
 			for (AlgoParam param : AlgoParam.values() ) {
 				int i = param.ordinal();
-				m_params[i] = new UpperField(11);
+				m_params[i] = new UpperField(11, true);
 				add( param.toString(), m_params[param.ordinal()]);
 			}
 			
