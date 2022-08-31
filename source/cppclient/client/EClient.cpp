@@ -50,7 +50,7 @@ void EClient::EncodeField<double>(std::ostream& os, double doubleValue)
     char str[128];
 
     if (doubleValue == INFINITY) {
-        snprintf(str, sizeof(str), INFINITY_STR.c_str());
+        snprintf(str, sizeof(str), "%s", INFINITY_STR.c_str());
     } 
     else {
         snprintf(str, sizeof(str), "%.10g", doubleValue);
