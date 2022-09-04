@@ -79,7 +79,52 @@
 
 	For the purpose of requesting market data, the routing exchange and primary exchange can be specified in a single 'exchange' field if they are separated by a valid component exchange separator, for instance exchange =  "SMART:ARCA". The default separators available are colon ":" and slash "/". Other component exchange separators can be defined using the field defined in TWS Global Configuration under API -> Settings. The component exchange separator syntax in TWS versions prior to 971 can only be used to request market data and not to place orders.
 
+	\section by_figi Contracts specified by FIGI
+
+	Contracts could also be defined by FIGI. In the example below, FIGI code specifies AAPL STK contract.
+
+	<ul id="tab">
+		<li class="active">
+			\snippet ContractSamples.cs ByFIGI
+		</li>
+		<li>
+			\snippet ContractSamples.java ByFIGI
+		</li>
+		<li>
+			\snippet ContractSamples.vb ByFIGI
+		</li>
+		<li>
+			\snippet ContractSamples.cpp ByFIGI
+		</li>
+		<li>
+			\snippet ContractSamples.py ByFIGI
+		</li>
+	</ul>
+
+	\section StockWithIPOPrice_contract Stock Contract with IPO price
+
+	An example Stock contract with IPO price.
+
+	<ul id="tab">
+		<li class="active">
+			\snippet ContractSamples.cs stock_with_IPO_price
+		</li>
+		<li>
+			\snippet ContractSamples.java stock_with_IPO_price
+		</li>
+		<li>
+			\snippet ContractSamples.vb stock_with_IPO_price
+		</li>
+		<li>
+			\snippet ContractSamples.cpp stock_with_IPO_price
+		</li>
+		<li>
+			\snippet ContractSamples.py stock_with_IPO_price
+		</li>
+	</ul>
+
 	\section ind Indexes
+
 	ISINs for indices which are available in IB's database are available in the API as of TWS 965+.
 
 	<ul id="tab">

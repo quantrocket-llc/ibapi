@@ -710,6 +710,16 @@ Namespace Samples
             Return contract
         End Function
 
+        Public Shared Function ByFIGI() As Contract
+            '! [ByFIGI]
+            Dim contract As Contract = New Contract
+            contract.secIdType = "FIGI"
+            contract.secId = "BBG000B9XRY4"
+            contract.Exchange = "SMART"
+            '! [ByFIGI]
+            Return contract
+        End Function
+
     End Class
 
 End Namespace
