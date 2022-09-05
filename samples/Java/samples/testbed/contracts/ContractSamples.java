@@ -642,5 +642,15 @@ public class ContractSamples {
 		//! [stock_with_IPO_price]
 		return contract;
 	}
+
+	public static Contract ByFIGI() {
+		//! [ByFIGI]
+		Contract contract = new Contract();
+		contract.secIdType("FIGI");
+		contract.secId("BBG000B9XRY4");
+		contract.exchange("SMART");
+		//! [ByFIGI]
+		return contract;
+	}
 	
 }

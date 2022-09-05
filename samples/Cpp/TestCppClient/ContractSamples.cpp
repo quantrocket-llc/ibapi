@@ -732,3 +732,14 @@ Contract ContractSamples::StockWithIPOPrice() {
 	//! [stock_with_IPO_price]
 	return contract;
 }
+
+Contract ContractSamples::ByFIGI() {
+	//! [ByFIGI]
+	Contract contract;
+	contract.secIdType = "FIGI";
+	contract.secId = "BBG000B9XRY4";
+	contract.exchange = "SMART";
+	//! [ByFIGI]
+	return contract;
+}
+   

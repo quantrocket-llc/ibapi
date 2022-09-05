@@ -720,5 +720,16 @@ namespace Samples
             return contract;
         }
 
+        public static Contract ByFIGI()
+        {
+            //! [ByFIGI]
+            Contract contract = new Contract();
+            contract.secIdType = "FIGI";
+            contract.secId = "BBG000B9XRY4";
+            contract.Exchange = "SMART";
+            //! [ByFIGI]
+            return contract;
+        }
+
     }
 }
