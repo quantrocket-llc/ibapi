@@ -10,3 +10,4 @@
 *.lib   binary
 *.a     binary
 *.so    binary
+*.cgi   binary
