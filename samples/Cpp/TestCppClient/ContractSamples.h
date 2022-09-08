@@ -60,6 +60,7 @@ public:
 	static Contract IBKRATSContract();
 	static Contract CryptoContract();
 	static Contract StockWithIPOPrice();
+	static Contract ByFIGI();
 };
 
 #endif

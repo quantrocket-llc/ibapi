@@ -724,8 +724,8 @@ namespace Samples
         {
             //! [ByFIGI]
             Contract contract = new Contract();
-            contract.secIdType = "FIGI";
-            contract.secId = "BBG000B9XRY4";
+            contract.SecIdType = "FIGI";
+            contract.SecId = "BBG000B9XRY4";
             contract.Exchange = "SMART";
             //! [ByFIGI]
             return contract;
