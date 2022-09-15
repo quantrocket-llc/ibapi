@@ -536,9 +536,10 @@ Namespace Samples
                     derivSecTypes += derivSecType
                     derivSecTypes += " "
                 Next
-                Console.WriteLine("Contract: conId - " & contractDescription.Contract.ConId & ", symbol - " & contractDescription.Contract.Symbol &
-                                  ", secType -" & contractDescription.Contract.SecType & ", primExchange - " & contractDescription.Contract.PrimaryExch &
-                                  ", currency - " & contractDescription.Contract.Currency & ", derivativeSecTypes - " & derivSecTypes)
+                Console.WriteLine("Contract conId: " & contractDescription.Contract.ConId & ", symbol: " & contractDescription.Contract.Symbol &
+                                  ", secType: " & contractDescription.Contract.SecType & ", primExchange: " & contractDescription.Contract.PrimaryExch &
+                                  ", currency: " & contractDescription.Contract.Currency & ", derivativeSecTypes: " & derivSecTypes &
+                                  ", description: " & contractDescription.Contract.Description & ", issuerId: " & contractDescription.Contract.IssuerId)
             Next
         End Sub
         '! [symbolSamples]

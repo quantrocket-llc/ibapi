@@ -643,6 +643,10 @@ void TestCppClient::contractOperations()
 	m_pClient->reqContractDetails(217, ContractSamples::CryptoContract());
 	//! [reqcontractdetailscrypto]
 
+	//! [reqcontractdetailsbyissuerid]
+	m_pClient->reqContractDetails(218, ContractSamples::ByIssuerId());
+	//! [reqcontractdetailsbyissuerid]
+
 	m_state = ST_CONTRACTOPERATION_ACK;
 }
 
@@ -1475,7 +1479,7 @@ void TestCppClient::nextValidId( OrderId orderId)
 	//m_state = ST_REALTIMEBARS;
 	//m_state = ST_MARKETDATATYPE;
 	//m_state = ST_HISTORICALDATAREQUESTS;
-	//m_state = ST_CONTRACTOPERATION;
+	m_state = ST_CONTRACTOPERATION;
 	//m_state = ST_MARKETSCANNERS;
 	//m_state = ST_FUNDAMENTALS;
 	//m_state = ST_BULLETINS;
@@ -1504,7 +1508,7 @@ void TestCppClient::nextValidId( OrderId orderId)
 	//m_state = ST_MARKETRULE;
 	//m_state = ST_PING;
 	//m_state = ST_WHATIFSAMPLES;
-	m_state = ST_WSH;
+	//m_state = ST_WSH;
 }
 
 
@@ -1992,11 +1996,12 @@ void TestCppClient::symbolSamples(int reqId, const std::vector<ContractDescripti
 	for (unsigned int i = 0; i < contractDescriptions.size(); i++) {
 		Contract contract = contractDescriptions[i].contract;
 		std::vector<std::string> derivativeSecTypes = contractDescriptions[i].derivativeSecTypes;
-		printf("Contract (%u): %ld %s %s %s %s, ", i, contract.conId, contract.symbol.c_str(), contract.secType.c_str(), contract.primaryExchange.c_str(), contract.currency.c_str());
+		printf("Contract (%u): conId: %ld, symbol: %s, secType: %s, primaryExchange: %s, currency: %s, ", i, contract.conId, contract.symbol.c_str(), contract.secType.c_str(), contract.primaryExchange.c_str(), contract.currency.c_str());
 		printf("Derivative Sec-types (%lu):", derivativeSecTypes.size());
 		for (unsigned int j = 0; j < derivativeSecTypes.size(); j++) {
 			printf(" %s", derivativeSecTypes[j].c_str());
 		}
+		printf(", description: %s, issuerId: %s", contract.description.c_str(), contract.issuerId.c_str());
 		printf("\n");
 	}
 }

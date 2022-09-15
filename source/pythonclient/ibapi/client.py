@@ -2118,6 +2118,12 @@ class EClient(object):
                         "  It does not support primaryExchange parameter in reqContractDetails.")
                 return
 
+        if self.serverVersion() < MIN_SERVER_VER_BOND_ISSUERID:
+            if contract.issuerId:
+                self.wrapper.error( reqId, UPDATE_TWS.code(), UPDATE_TWS.msg() +
+                        "  It does not support issuerId parameter in reqContractDetails.")
+                return
+
         try:
             
             VERSION = 8
@@ -2158,6 +2164,9 @@ class EClient(object):
             if self.serverVersion() >= MIN_SERVER_VER_SEC_ID_TYPE:
                 flds += [make_field( contract.secIdType),
                     make_field( contract.secId)]
+    
+            if self.serverVersion() >= MIN_SERVER_VER_BOND_ISSUERID:
+                flds += [make_field(contract.issuerId), ]
     
             msg = "".join(flds)
         

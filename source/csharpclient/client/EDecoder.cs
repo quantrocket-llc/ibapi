@@ -855,6 +855,11 @@ namespace IBApi
                             derivativeSecTypes[j] = ReadString();
                         }
                     }
+                    if (serverVersion >= MinServerVer.MIN_SERVER_VER_BOND_ISSUERID)
+                    {
+                        contract.Description = ReadString();
+                        contract.IssuerId = ReadString();
+                    }
 
                     ContractDescription contractDescription = new ContractDescription(contract, derivativeSecTypes);
                     contractDescriptions[i] = contractDescription;

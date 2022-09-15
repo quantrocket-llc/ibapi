@@ -731,5 +731,13 @@ namespace Samples
             return contract;
         }
 
+        public static Contract ByIssuerId()
+        {
+            //! [ByIssuerId]
+            Contract contract = new Contract();
+            contract.IssuerId = "e1453318";
+            //! [ByIssuerId]
+            return contract;
+        }
     }
 }

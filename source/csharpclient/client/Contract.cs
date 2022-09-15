@@ -110,6 +110,16 @@ namespace IBApi
         public string SecId { get; set; }
 
         /**
+        * @brief Description of the contract
+        */
+        public string Description { get; set; }
+
+        /**
+        * @brief IssuerId of the contract
+        */
+        public string IssuerId { get; set; }
+
+        /**
          * @brief Description of the combo legs.
          */
         public string ComboLegsDescription { get; set; }

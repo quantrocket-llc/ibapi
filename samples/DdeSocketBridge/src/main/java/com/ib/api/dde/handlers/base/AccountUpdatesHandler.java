@@ -63,7 +63,7 @@ public abstract class AccountUpdatesHandler extends BaseHandler {
                 default:
                     break;
             }
-            accountUpdateDataMap.ddeRequestStatus(accountUpdateDataMap.error() == null ? DdeRequestStatus.REQUESTED : DdeRequestStatus.ERROR);
+            accountUpdateDataMap.ddeRequestStatus(Utils.isNull(accountUpdateDataMap.error())  ? DdeRequestStatus.REQUESTED : DdeRequestStatus.ERROR);
         }
 
         ret = accountUpdateDataMap.ddeRequestStatus().toString();

@@ -37,7 +37,7 @@ class TopModel extends AbstractTableModel {
 	}
 
 	void addRow( Contract contract) {
-		TopRow row = new TopRow( this, contract.description(), m_parentPanel );
+		TopRow row = new TopRow( this, contract.textDescription(), m_parentPanel );
 		m_rows.add( row);
 		ApiDemo.INSTANCE.controller().reqTopMktData(contract, m_genericTicks, false, false, row);
 		fireTableRowsInserted( m_rows.size() - 1, m_rows.size() - 1);

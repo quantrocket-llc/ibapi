@@ -593,9 +593,9 @@ namespace Samples
                     derivSecTypes += derivSecType;
                     derivSecTypes += " ";
                 }
-                Console.WriteLine("Contract: conId - {0}, symbol - {1}, secType - {2}, primExchange - {3}, currency - {4}, derivativeSecTypes - {5}", 
+                Console.WriteLine("Contract: conId - {0}, symbol - {1}, secType - {2}, primExchange - {3}, currency - {4}, derivativeSecTypes - {5}, description - {6}, issuerId - {7}", 
                     contractDescription.Contract.ConId, contractDescription.Contract.Symbol, contractDescription.Contract.SecType, 
-                    contractDescription.Contract.PrimaryExch, contractDescription.Contract.Currency, derivSecTypes);
+                    contractDescription.Contract.PrimaryExch, contractDescription.Contract.Currency, derivSecTypes, contractDescription.Contract.Description, contractDescription.Contract.IssuerId);
             }
         }
         //! [symbolSamples]

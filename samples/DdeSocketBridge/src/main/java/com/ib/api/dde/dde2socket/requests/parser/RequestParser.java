@@ -78,7 +78,7 @@ public class RequestParser  {
     }
 
     /** Method parses contract */
-    protected Contract parseContract(ArrayList<String> table, boolean hasPrimExchange, boolean hasComboLegs, boolean hasDeltaNeutral, boolean hasSecIdTypeAndSecId, boolean hasIncludeExpired) {
+    protected Contract parseContract(ArrayList<String> table, boolean hasPrimExchange, boolean hasComboLegs, boolean hasDeltaNeutral, boolean hasSecIdTypeAndSecId, boolean hasIssuerId, boolean hasIncludeExpired) {
         Contract contract = new Contract();
         int size = 11;
         if (hasPrimExchange) {
@@ -92,6 +92,9 @@ public class RequestParser  {
         }
         if (hasSecIdTypeAndSecId) {
             size += 2;
+        }
+        if (hasIssuerId) {
+            size += 1;
         }
         if (hasIncludeExpired) {
             size += 1;
@@ -176,6 +179,12 @@ public class RequestParser  {
             index++;
             if (Utils.isNotNull(table.get(index))) {
                 contract.secId(table.get(index));
+            }
+            index++;
+        }
+        if (hasIssuerId) {
+            if (Utils.isNotNull(table.get(index))) {
+                contract.issuerId(table.get(index));
             }
             index++;
         }

@@ -96,7 +96,7 @@ public class CompletedOrdersPanel extends JPanel implements ICompletedOrdersHand
                 case 6: return completedOrder.m_order.filledQuantity();
                 case 7: return Util.DoubleMaxString(completedOrder.m_order.lmtPrice());
                 case 8: return Util.DoubleMaxString(completedOrder.m_order.auxPrice());
-                case 9: return completedOrder.m_contract.description();
+                case 9: return completedOrder.m_contract.textDescription();
                 case 10: return completedOrder.m_orderState.status();
                 case 11: return completedOrder.m_orderState.completedTime();
                 case 12: return completedOrder.m_orderState.completedStatus();

@@ -126,7 +126,7 @@ public class PositionsPanel extends NewTabPanel {
 			
 			switch( col) {
 				case 0: return row.m_account;
-				case 1: return row.m_contract.description();
+				case 1: return row.m_contract.textDescription();
 				case 2: return row.m_position;
 				case 3: return Formats.fmt( row.m_avgCost);
 				default: return null;

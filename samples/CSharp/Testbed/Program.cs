@@ -95,7 +95,7 @@ namespace Samples
             /****************************/
             /*** Contract information ***/
             /****************************/
-            //contractOperations(client);
+            contractOperations(client);
 
             /***********************/
             /*** Market Scanners ***/
@@ -196,7 +196,7 @@ namespace Samples
             /***********************/
             /*** WSHE Calendar API samples ***/
             /***********************/
-            wshCalendarOperations(client);
+            //wshCalendarOperations(client);
 
             Thread.Sleep(3000);
             Console.WriteLine("Done");
@@ -557,11 +557,12 @@ namespace Samples
             client.reqContractDetails(213, ContractSamples.SimpleFuture());
             client.reqContractDetails(214, ContractSamples.USStockAtSmart());
             client.reqContractDetails(215, ContractSamples.CryptoContract());
+            client.reqContractDetails(216, ContractSamples.ByIssuerId()); 
             //! [reqcontractdetails]
 
             Thread.Sleep(2000);
             //! [reqmatchingsymbols]
-            client.reqMatchingSymbols(211, "IB");
+            client.reqMatchingSymbols(211, "IBM");
             //! [reqmatchingsymbols]
         }
 

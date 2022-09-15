@@ -93,6 +93,8 @@ struct Contract
 	bool		includeExpired;
 	std::string	secIdType;		// CUSIP;SEDOL;ISIN;RIC
 	std::string	secId;
+	std::string description;
+	std::string issuerId;
 
 	// COMBOS
 	std::string comboLegsDescrip; // received in open order 14 and up for all combos

@@ -257,7 +257,7 @@ public class OrdersPanel extends JPanel {
 				case 5: return order.action();
 				case 6: return order.totalQuantity();
 				case 7: return Util.DoubleMaxString(order.cashQty());
-				case 8: return fullOrder.m_contract.description();
+				case 8: return fullOrder.m_contract.textDescription();
 				case 9: return fullOrder.m_state.status();
 				default: return null;
 			}

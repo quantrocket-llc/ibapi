@@ -417,10 +417,10 @@ public class OrdersHandler extends BaseHandler {
                 m_dataChunks.put(requestId,  data);
             }
             if (table1 != null && table2 != null) {
-                contract = parseContract(table1, true, true, true, true, false);
+                contract = parseContract(table1, true, true, true, true, false, false);
                 order = null;
                 if (contract == null) {
-                    contract = parseContract(table2, true, true, true, true, false);
+                    contract = parseContract(table2, true, true, true, true, false, false);
                     order= parseOrder(table2, table1);
                 } else {
                     order= parseOrder(table1, table2);

@@ -1175,6 +1175,13 @@ void EClient::reqContractDetails( int reqId, const Contract& contract)
             return;
         }
     }
+    if (m_serverVersion < MIN_SERVER_VER_BOND_ISSUERID) {
+        if (!contract.issuerId.empty()) {
+            m_pEWrapper->error(reqId, UPDATE_TWS.code(), UPDATE_TWS.msg() +
+                "  It does not support issuerId parameter in reqContractDetails.", "");
+            return;
+        }
+    }
 
     std::stringstream msg;
     prepareBuffer( msg);
@@ -1226,6 +1233,10 @@ void EClient::reqContractDetails( int reqId, const Contract& contract)
         if (m_serverVersion >= MIN_SERVER_VER_SEC_ID_TYPE) {
             ENCODE_FIELD(contract.secIdType);
             ENCODE_FIELD(contract.secId);
+        }
+
+        if (m_serverVersion >= MIN_SERVER_VER_BOND_ISSUERID) {
+            ENCODE_FIELD(contract.issuerId);
         }
     }
     catch (EClientException& ex) {

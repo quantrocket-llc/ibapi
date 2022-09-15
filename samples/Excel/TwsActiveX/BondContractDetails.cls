@@ -18,6 +18,7 @@ Private Enum BondContractColumns
     Col_SECTYPE
     Col_EXCH
     Col_CURRENCY
+    Col_ISSUERID
     Col_STATUS
 End Enum
 
@@ -50,6 +51,7 @@ Public Sub RequestBondContractDetails_Click()
         .SecType = UCase(contractTable(id, Col_SECTYPE).value)
         .Exchange = UCase(contractTable(id, Col_EXCH).value)
         .currency = UCase(contractTable(id, Col_CURRENCY).value)
+        .issuerId = contractTable(id, Col_ISSUERID).value
     End With
 
     Dim sheetName As String
@@ -201,8 +203,8 @@ Private Function GenerateSheetName(contractInfo As TWSLib.IContract)
 End Function
 
 Public Sub Initialise()
-    Set contractTable = Range("$A$7:$E$50")
-    Set newPageTable = Range("$F$7:$G$130")
+    Set contractTable = Range("$A$7:$F$50")
+    Set newPageTable = Range("$G$7:$H$130")
 End Sub
 
 Private Sub Worksheet_Activate()

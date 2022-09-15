@@ -720,6 +720,14 @@ Namespace Samples
             Return contract
         End Function
 
+        Public Shared Function ByIssuerId() As Contract
+            '! [ByIssuerId]
+            Dim contract As Contract = New Contract
+            contract.IssuerId = "e1453318"
+            '! [ByIssuerId]
+            Return contract
+        End Function
+
     End Class
 
 End Namespace

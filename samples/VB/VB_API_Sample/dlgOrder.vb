@@ -160,6 +160,8 @@ Friend Class dlgOrder
     Public WithEvents labelTickByTickType As System.Windows.Forms.Label
     Friend WithEvents chkSmartDepth As System.Windows.Forms.CheckBox
     Friend WithEvents chkUsePriceMgmtAlgo As System.Windows.Forms.CheckBox
+    Friend WithEvents txtIssuerId As TextBox
+    Friend WithEvents Label17 As Label
     Public WithEvents txtIncludeExpired As System.Windows.Forms.TextBox
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.Frame1 = New System.Windows.Forms.GroupBox()
@@ -265,6 +267,8 @@ Friend Class dlgOrder
         Me.labelMarketDataType = New System.Windows.Forms.Label()
         Me.frameMarketDataType = New System.Windows.Forms.GroupBox()
         Me.cmbMarketDataType = New System.Windows.Forms.ComboBox()
+        Me.Label17 = New System.Windows.Forms.Label()
+        Me.txtIssuerId = New System.Windows.Forms.TextBox()
         Me.Frame1.SuspendLayout()
         Me.frameTickerDesc.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
@@ -615,6 +619,8 @@ Friend Class dlgOrder
         'frameTickerDesc
         '
         Me.frameTickerDesc.BackColor = System.Drawing.Color.Gainsboro
+        Me.frameTickerDesc.Controls.Add(Me.txtIssuerId)
+        Me.frameTickerDesc.Controls.Add(Me.Label17)
         Me.frameTickerDesc.Controls.Add(Me.txtTradingClass)
         Me.frameTickerDesc.Controls.Add(Me.Label8)
         Me.frameTickerDesc.Controls.Add(Me.txtSecId)
@@ -663,7 +669,7 @@ Friend Class dlgOrder
         Me.txtTradingClass.Cursor = System.Windows.Forms.Cursors.IBeam
         Me.txtTradingClass.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtTradingClass.ForeColor = System.Drawing.SystemColors.WindowText
-        Me.txtTradingClass.Location = New System.Drawing.Point(120, 336)
+        Me.txtTradingClass.Location = New System.Drawing.Point(120, 325)
         Me.txtTradingClass.MaxLength = 0
         Me.txtTradingClass.Name = "txtTradingClass"
         Me.txtTradingClass.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -676,7 +682,7 @@ Friend Class dlgOrder
         Me.Label8.Cursor = System.Windows.Forms.Cursors.Default
         Me.Label8.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label8.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.Label8.Location = New System.Drawing.Point(8, 336)
+        Me.Label8.Location = New System.Drawing.Point(8, 325)
         Me.Label8.Name = "Label8"
         Me.Label8.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Label8.Size = New System.Drawing.Size(73, 17)
@@ -686,7 +692,7 @@ Friend Class dlgOrder
         'txtSecId
         '
         Me.txtSecId.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.txtSecId.Location = New System.Drawing.Point(120, 423)
+        Me.txtSecId.Location = New System.Drawing.Point(120, 409)
         Me.txtSecId.Name = "txtSecId"
         Me.txtSecId.Size = New System.Drawing.Size(85, 13)
         Me.txtSecId.TabIndex = 29
@@ -694,7 +700,7 @@ Friend Class dlgOrder
         'txtSecIdType
         '
         Me.txtSecIdType.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.txtSecIdType.Location = New System.Drawing.Point(120, 395)
+        Me.txtSecIdType.Location = New System.Drawing.Point(120, 382)
         Me.txtSecIdType.Name = "txtSecIdType"
         Me.txtSecIdType.Size = New System.Drawing.Size(86, 13)
         Me.txtSecIdType.TabIndex = 27
@@ -703,7 +709,7 @@ Friend Class dlgOrder
         '
         Me.Label7.AutoSize = True
         Me.Label7.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.Label7.Location = New System.Drawing.Point(8, 423)
+        Me.Label7.Location = New System.Drawing.Point(8, 410)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(37, 14)
         Me.Label7.TabIndex = 28
@@ -713,7 +719,7 @@ Friend Class dlgOrder
         '
         Me.Label6.AutoSize = True
         Me.Label6.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.Label6.Location = New System.Drawing.Point(8, 395)
+        Me.Label6.Location = New System.Drawing.Point(8, 383)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(63, 14)
         Me.Label6.TabIndex = 26
@@ -756,7 +762,7 @@ Friend Class dlgOrder
         Me.txtIncludeExpired.Cursor = System.Windows.Forms.Cursors.IBeam
         Me.txtIncludeExpired.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtIncludeExpired.ForeColor = System.Drawing.SystemColors.WindowText
-        Me.txtIncludeExpired.Location = New System.Drawing.Point(120, 366)
+        Me.txtIncludeExpired.Location = New System.Drawing.Point(120, 354)
         Me.txtIncludeExpired.MaxLength = 0
         Me.txtIncludeExpired.Name = "txtIncludeExpired"
         Me.txtIncludeExpired.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -770,7 +776,7 @@ Friend Class dlgOrder
         Me.Label39.Cursor = System.Windows.Forms.Cursors.Default
         Me.Label39.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label39.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.Label39.Location = New System.Drawing.Point(8, 366)
+        Me.Label39.Location = New System.Drawing.Point(8, 353)
         Me.Label39.Name = "Label39"
         Me.Label39.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Label39.Size = New System.Drawing.Size(88, 17)
@@ -783,7 +789,7 @@ Friend Class dlgOrder
         Me.Label4.Cursor = System.Windows.Forms.Cursors.Default
         Me.Label4.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label4.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.Label4.Location = New System.Drawing.Point(8, 103)
+        Me.Label4.Location = New System.Drawing.Point(8, 93)
         Me.Label4.Name = "Label4"
         Me.Label4.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Label4.Size = New System.Drawing.Size(96, 32)
@@ -798,7 +804,7 @@ Friend Class dlgOrder
         Me.TextMultiplier.Cursor = System.Windows.Forms.Cursors.IBeam
         Me.TextMultiplier.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TextMultiplier.ForeColor = System.Drawing.SystemColors.WindowText
-        Me.TextMultiplier.Location = New System.Drawing.Point(120, 191)
+        Me.TextMultiplier.Location = New System.Drawing.Point(120, 185)
         Me.TextMultiplier.MaxLength = 0
         Me.TextMultiplier.Name = "TextMultiplier"
         Me.TextMultiplier.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -813,7 +819,7 @@ Friend Class dlgOrder
         Me.TxtPrimaryExchange.Cursor = System.Windows.Forms.Cursors.IBeam
         Me.TxtPrimaryExchange.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TxtPrimaryExchange.ForeColor = System.Drawing.SystemColors.WindowText
-        Me.TxtPrimaryExchange.Location = New System.Drawing.Point(120, 249)
+        Me.TxtPrimaryExchange.Location = New System.Drawing.Point(120, 241)
         Me.TxtPrimaryExchange.MaxLength = 0
         Me.TxtPrimaryExchange.Name = "TxtPrimaryExchange"
         Me.TxtPrimaryExchange.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -829,7 +835,7 @@ Friend Class dlgOrder
         Me.txtRight.Cursor = System.Windows.Forms.Cursors.IBeam
         Me.txtRight.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtRight.ForeColor = System.Drawing.SystemColors.WindowText
-        Me.txtRight.Location = New System.Drawing.Point(120, 163)
+        Me.txtRight.Location = New System.Drawing.Point(120, 158)
         Me.txtRight.MaxLength = 0
         Me.txtRight.Name = "txtRight"
         Me.txtRight.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -844,7 +850,7 @@ Friend Class dlgOrder
         Me.txtLocalSymbol.Cursor = System.Windows.Forms.Cursors.IBeam
         Me.txtLocalSymbol.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtLocalSymbol.ForeColor = System.Drawing.SystemColors.WindowText
-        Me.txtLocalSymbol.Location = New System.Drawing.Point(120, 306)
+        Me.txtLocalSymbol.Location = New System.Drawing.Point(120, 296)
         Me.txtLocalSymbol.MaxLength = 0
         Me.txtLocalSymbol.Name = "txtLocalSymbol"
         Me.txtLocalSymbol.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -859,7 +865,7 @@ Friend Class dlgOrder
         Me.txtCurrency.Cursor = System.Windows.Forms.Cursors.IBeam
         Me.txtCurrency.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtCurrency.ForeColor = System.Drawing.SystemColors.WindowText
-        Me.txtCurrency.Location = New System.Drawing.Point(120, 277)
+        Me.txtCurrency.Location = New System.Drawing.Point(120, 268)
         Me.txtCurrency.MaxLength = 0
         Me.txtCurrency.Name = "txtCurrency"
         Me.txtCurrency.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -875,7 +881,7 @@ Friend Class dlgOrder
         Me.txtExchange.Cursor = System.Windows.Forms.Cursors.IBeam
         Me.txtExchange.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtExchange.ForeColor = System.Drawing.SystemColors.WindowText
-        Me.txtExchange.Location = New System.Drawing.Point(120, 220)
+        Me.txtExchange.Location = New System.Drawing.Point(120, 213)
         Me.txtExchange.MaxLength = 0
         Me.txtExchange.Name = "txtExchange"
         Me.txtExchange.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -891,7 +897,7 @@ Friend Class dlgOrder
         Me.txtStrike.Cursor = System.Windows.Forms.Cursors.IBeam
         Me.txtStrike.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtStrike.ForeColor = System.Drawing.SystemColors.WindowText
-        Me.txtStrike.Location = New System.Drawing.Point(120, 134)
+        Me.txtStrike.Location = New System.Drawing.Point(120, 130)
         Me.txtStrike.MaxLength = 0
         Me.txtStrike.Name = "txtStrike"
         Me.txtStrike.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -907,7 +913,7 @@ Friend Class dlgOrder
         Me.txtLastTradeDateOrContractMonth.Cursor = System.Windows.Forms.Cursors.IBeam
         Me.txtLastTradeDateOrContractMonth.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtLastTradeDateOrContractMonth.ForeColor = System.Drawing.SystemColors.WindowText
-        Me.txtLastTradeDateOrContractMonth.Location = New System.Drawing.Point(120, 104)
+        Me.txtLastTradeDateOrContractMonth.Location = New System.Drawing.Point(120, 101)
         Me.txtLastTradeDateOrContractMonth.MaxLength = 0
         Me.txtLastTradeDateOrContractMonth.Name = "txtLastTradeDateOrContractMonth"
         Me.txtLastTradeDateOrContractMonth.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -922,7 +928,7 @@ Friend Class dlgOrder
         Me.txtSecType.Cursor = System.Windows.Forms.Cursors.IBeam
         Me.txtSecType.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtSecType.ForeColor = System.Drawing.SystemColors.WindowText
-        Me.txtSecType.Location = New System.Drawing.Point(120, 76)
+        Me.txtSecType.Location = New System.Drawing.Point(120, 74)
         Me.txtSecType.MaxLength = 0
         Me.txtSecType.Name = "txtSecType"
         Me.txtSecType.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -938,7 +944,7 @@ Friend Class dlgOrder
         Me.txtSymbol.Cursor = System.Windows.Forms.Cursors.IBeam
         Me.txtSymbol.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtSymbol.ForeColor = System.Drawing.SystemColors.WindowText
-        Me.txtSymbol.Location = New System.Drawing.Point(120, 47)
+        Me.txtSymbol.Location = New System.Drawing.Point(120, 46)
         Me.txtSymbol.MaxLength = 0
         Me.txtSymbol.Name = "txtSymbol"
         Me.txtSymbol.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -952,7 +958,7 @@ Friend Class dlgOrder
         Me.Label5.Cursor = System.Windows.Forms.Cursors.Default
         Me.Label5.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label5.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.Label5.Location = New System.Drawing.Point(8, 134)
+        Me.Label5.Location = New System.Drawing.Point(8, 130)
         Me.Label5.Name = "Label5"
         Me.Label5.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Label5.Size = New System.Drawing.Size(73, 17)
@@ -965,7 +971,7 @@ Friend Class dlgOrder
         Me.Label2.Cursor = System.Windows.Forms.Cursors.Default
         Me.Label2.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label2.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.Label2.Location = New System.Drawing.Point(8, 43)
+        Me.Label2.Location = New System.Drawing.Point(8, 42)
         Me.Label2.Name = "Label2"
         Me.Label2.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Label2.Size = New System.Drawing.Size(73, 17)
@@ -978,7 +984,7 @@ Friend Class dlgOrder
         Me.Label37.Cursor = System.Windows.Forms.Cursors.Default
         Me.Label37.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label37.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.Label37.Location = New System.Drawing.Point(8, 72)
+        Me.Label37.Location = New System.Drawing.Point(8, 70)
         Me.Label37.Name = "Label37"
         Me.Label37.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Label37.Size = New System.Drawing.Size(73, 17)
@@ -991,7 +997,7 @@ Friend Class dlgOrder
         Me.Label53.Cursor = System.Windows.Forms.Cursors.Default
         Me.Label53.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label53.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.Label53.Location = New System.Drawing.Point(8, 192)
+        Me.Label53.Location = New System.Drawing.Point(8, 185)
         Me.Label53.Name = "Label53"
         Me.Label53.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Label53.Size = New System.Drawing.Size(73, 17)
@@ -1004,7 +1010,7 @@ Friend Class dlgOrder
         Me.Label54.Cursor = System.Windows.Forms.Cursors.Default
         Me.Label54.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label54.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.Label54.Location = New System.Drawing.Point(8, 249)
+        Me.Label54.Location = New System.Drawing.Point(8, 240)
         Me.Label54.Name = "Label54"
         Me.Label54.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Label54.Size = New System.Drawing.Size(97, 17)
@@ -1017,7 +1023,7 @@ Friend Class dlgOrder
         Me.Label55.Cursor = System.Windows.Forms.Cursors.Default
         Me.Label55.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label55.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.Label55.Location = New System.Drawing.Point(8, 159)
+        Me.Label55.Location = New System.Drawing.Point(8, 156)
         Me.Label55.Name = "Label55"
         Me.Label55.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Label55.Size = New System.Drawing.Size(73, 17)
@@ -1030,7 +1036,7 @@ Friend Class dlgOrder
         Me.Label56.Cursor = System.Windows.Forms.Cursors.Default
         Me.Label56.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label56.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.Label56.Location = New System.Drawing.Point(8, 306)
+        Me.Label56.Location = New System.Drawing.Point(8, 296)
         Me.Label56.Name = "Label56"
         Me.Label56.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Label56.Size = New System.Drawing.Size(73, 17)
@@ -1043,7 +1049,7 @@ Friend Class dlgOrder
         Me.Label57.Cursor = System.Windows.Forms.Cursors.Default
         Me.Label57.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label57.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.Label57.Location = New System.Drawing.Point(8, 277)
+        Me.Label57.Location = New System.Drawing.Point(8, 268)
         Me.Label57.Name = "Label57"
         Me.Label57.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Label57.Size = New System.Drawing.Size(73, 17)
@@ -1056,7 +1062,7 @@ Friend Class dlgOrder
         Me.Label58.Cursor = System.Windows.Forms.Cursors.Default
         Me.Label58.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label58.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.Label58.Location = New System.Drawing.Point(8, 220)
+        Me.Label58.Location = New System.Drawing.Point(8, 213)
         Me.Label58.Name = "Label58"
         Me.Label58.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Label58.Size = New System.Drawing.Size(73, 17)
@@ -1765,6 +1771,24 @@ Friend Class dlgOrder
         Me.cmbMarketDataType.Size = New System.Drawing.Size(115, 22)
         Me.cmbMarketDataType.TabIndex = 1
         '
+        'Label17
+        '
+        Me.Label17.AutoSize = True
+        Me.Label17.ForeColor = System.Drawing.SystemColors.ControlText
+        Me.Label17.Location = New System.Drawing.Point(8, 437)
+        Me.Label17.Name = "Label17"
+        Me.Label17.Size = New System.Drawing.Size(48, 14)
+        Me.Label17.TabIndex = 30
+        Me.Label17.Text = "Issuer Id"
+        '
+        'txtIssuerId
+        '
+        Me.txtIssuerId.BorderStyle = System.Windows.Forms.BorderStyle.None
+        Me.txtIssuerId.Location = New System.Drawing.Point(120, 437)
+        Me.txtIssuerId.Name = "txtIssuerId"
+        Me.txtIssuerId.Size = New System.Drawing.Size(85, 13)
+        Me.txtIssuerId.TabIndex = 31
+        '
         'dlgOrder
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
@@ -2131,6 +2155,7 @@ Friend Class dlgOrder
         m_contractInfo.IncludeExpired = CBool(txtIncludeExpired.Text)
         m_contractInfo.SecIdType = txtSecIdType.Text
         m_contractInfo.SecId = txtSecId.Text
+        m_contractInfo.IssuerId = txtIssuerId.Text
 
         m_orderInfo.Action = txtAction.Text
         m_orderInfo.TotalQuantity = CDbl(txtQuantity.Text)
@@ -2329,6 +2354,12 @@ Friend Class dlgOrder
         If dlgType = DialogType.CalculateImpliedVolatility Or dlgType = DialogType.CalculateOptionPrice Then
             txtLmtPrice.Enabled = True
             txtAuxPrice.Enabled = True
+        End If
+
+        If dlgType = DialogType.RequestContractDetails Then
+            txtIssuerId.Enabled = True
+        Else
+            txtIssuerId.Enabled = False
         End If
 
         If dlgType = DialogType.PlaceOrder Or dlgType = DialogType.RequestContractDetails Then

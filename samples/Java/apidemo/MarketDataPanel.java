@@ -387,7 +387,9 @@ class MarketDataPanel extends JPanel {
 						contract.secType().getApiString(),
 						contract.primaryExch(),
 						contract.currency(),
-						sb.toString()
+						sb.toString(),
+						contract.description(),
+						contract.issuerId()
 				);
 				m_rows.add(symbolSamplesRow);
 			}
@@ -408,7 +410,7 @@ class MarketDataPanel extends JPanel {
             }
 
             @Override public int getColumnCount() {
-                return 6;
+                return 8;
             }
 
             @Override public String getColumnName(int col) {
@@ -419,6 +421,8 @@ class MarketDataPanel extends JPanel {
                     case 3: return "PrimaryExch";
                     case 4: return "Currency";
                     case 5: return "Derivative SecTypes";
+                    case 6: return "Description";
+                    case 7: return "IssuerId";
                     default: return null;
                 }
             }
@@ -432,6 +436,8 @@ class MarketDataPanel extends JPanel {
                     case 3: return symbolSamplesRow.m_primaryExch;
                     case 4: return symbolSamplesRow.m_currency;
                     case 5: return symbolSamplesRow.m_derivativeSecTypes;
+                    case 6: return symbolSamplesRow.m_description;
+                    case 7: return symbolSamplesRow.m_issuerId;
                     default: return null;
                 }
             }
@@ -443,19 +449,23 @@ class MarketDataPanel extends JPanel {
             String m_secType;
             String m_primaryExch;
             String m_currency;
+            String m_description;
+            String m_issuerId;
             String m_derivativeSecTypes;
 
-            SymbolSamplesRow(int conId, String symbol, String secType, String primaryExch, String currency, String derivativeSecTypes) {
-                update( conId, symbol, secType, primaryExch, currency, derivativeSecTypes);
+            SymbolSamplesRow(int conId, String symbol, String secType, String primaryExch, String currency, String derivativeSecTypes, String description, String issuerId) {
+                update( conId, symbol, secType, primaryExch, currency, derivativeSecTypes, description, issuerId);
             }
 
-            void update( int conId, String symbol, String secType, String primaryExch, String currency, String derivativeSecTypes) {
+            void update( int conId, String symbol, String secType, String primaryExch, String currency, String derivativeSecTypes, String description, String issuerId) {
                 m_conId = conId;
                 m_symbol = symbol;
                 m_secType = secType;
                 m_primaryExch = primaryExch;
                 m_currency = currency;
                 m_derivativeSecTypes = derivativeSecTypes;
+                m_description = description;
+                m_issuerId = issuerId; 
             }
         }
     }

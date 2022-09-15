@@ -389,7 +389,7 @@ public class AccountInfoPanel extends JPanel implements INewTab, IAccountHandler
 		@Override public Object getValueAt(int row, int col) {
 			Position pos = getPosition( row);
 			switch( col) {
-				case 0: return pos.contract().description();
+				case 0: return pos.contract().textDescription();
 				case 1: return pos.position();
 				case 2: return Util.DoubleMaxString(pos.marketPrice());
 				case 3: return format( "" + pos.marketValue(), null);

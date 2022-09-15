@@ -3,6 +3,7 @@
 
 package com.ib.api.impl;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -158,7 +159,9 @@ public class EWrapperImpl implements EWrapper {
         // reqContractDetails errors
         // 800001-900000 - reqContractDetails
         if (id >= 800001 && id <= 900000) {
-            m_twsService.updateContractDetailsRequestError(id, errorMsgStr);
+            if (errorCode != 2130) {
+                m_twsService.updateContractDetailsRequestError(id, errorMsgStr);
+            }
         }
 
         // reqHistoricalData errors
@@ -728,7 +731,8 @@ public class EWrapperImpl implements EWrapper {
             System.out.println("contractDescription ConId [" + contractDescription.contract().conid() + "]"
                     + " Symbol [" + contractDescription.contract().symbol() + "] SecType [" + contractDescription.contract().getSecType() + "]"
                     + " PrimExchange [" + contractDescription.contract().primaryExch() + "] Currency [" + contractDescription.contract().currency() + "]"
-                    + " Derivative SecTypes [" + contractDescription.derivativeSecTypes() + "]");
+                    + " Derivative SecTypes " + Arrays.toString(contractDescription.derivativeSecTypes())
+                    + " Description [" + contractDescription.contract().description() + "] IssuerId [" + contractDescription.contract().issuerId() + "]");
         }
         m_twsService.updateSymbolSamples(reqId, contractDescriptions);
     }

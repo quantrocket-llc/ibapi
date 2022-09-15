@@ -120,7 +120,7 @@ public class HeadTimestampHandler extends BaseHandler {
                 requestId = parseRequestId(messageTokens[0]);
             }
             ArrayList<String> table = Utils.convertArrayToTable(data);
-            Contract contract = parseContract(table, true, true, false, false, true);
+            Contract contract = parseContract(table, true, true, false, false, false, true);
             String whatToShow = "";
             int useRth = 0;
             int formatDate = 0;

@@ -742,4 +742,12 @@ Contract ContractSamples::ByFIGI() {
 	//! [ByFIGI]
 	return contract;
 }
+
+Contract ContractSamples::ByIssuerId() {
+	//! [ByIssuerId]
+	Contract contract;
+	contract.issuerId = "e1453318";
+	//! [ByIssuerId]
+	return contract;
+}
    

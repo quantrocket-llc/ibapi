@@ -55,6 +55,8 @@ namespace IBSampleApp.ui
                     {
                         grid[5, count].Value += (s + " ");
                     }
+                    grid[6, count].Value = cd.Contract.Description;
+                    grid[7, count].Value = cd.Contract.IssuerId;
                     count++;
                 }
             }

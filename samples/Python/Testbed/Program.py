@@ -266,7 +266,7 @@ class TestApp(TestWrapper, TestClient):
             #self.marketScannersOperations_req()
             #self.fundamentalsOperations_req()
             #self.bulletinsOperations_req()
-            #self.contractOperations()
+            self.contractOperations()
             #self.newsOperations_req()
             #self.miscelaneousOperations()
             #self.linkingOperations()
@@ -281,7 +281,7 @@ class TestApp(TestWrapper, TestClient):
             #self.historicalTicksOperations()
             #self.tickByTickOperations_req()
             #self.whatIfOrderOperations()
-            self.wshCalendarOperations()
+            #self.wshCalendarOperations()
             
             print("Executing requests ... finished")
 
@@ -1157,10 +1157,11 @@ class TestApp(TestWrapper, TestClient):
         self.reqContractDetails(214, ContractSamples.SimpleFuture())
         self.reqContractDetails(215, ContractSamples.USStockAtSmart())
         self.reqContractDetails(216, ContractSamples.CryptoContract())
+        self.reqContractDetails(217, ContractSamples.ByIssuerId())
         # ! [reqcontractdetails]
 
         # ! [reqmatchingsymbols]
-        self.reqMatchingSymbols(211, "IB")
+        self.reqMatchingSymbols(218, "IBM")
         # ! [reqmatchingsymbols]
 
     @printWhenExecuting
@@ -1266,15 +1267,17 @@ class TestApp(TestWrapper, TestClient):
         for contractDescription in contractDescriptions:
             derivSecTypes = ""
             for derivSecType in contractDescription.derivativeSecTypes:
-                derivSecTypes += derivSecType
                 derivSecTypes += " "
+                derivSecTypes += derivSecType
             print("Contract: conId:%s, symbol:%s, secType:%s primExchange:%s, "
-                  "currency:%s, derivativeSecTypes:%s" % (
+                  "currency:%s, derivativeSecTypes:%s, description:%s, issuerId:%s" % (
                 contractDescription.contract.conId,
                 contractDescription.contract.symbol,
                 contractDescription.contract.secType,
                 contractDescription.contract.primaryExchange,
-                contractDescription.contract.currency, derivSecTypes))
+                contractDescription.contract.currency, derivSecTypes,
+                contractDescription.contract.description,
+                contractDescription.contract.issuerId))
     # ! [symbolSamples]
 
     @printWhenExecuting

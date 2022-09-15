@@ -200,7 +200,7 @@ class AccountPositionsMultiPanel extends JPanel {
                         case 1:
                             return row.m_modelCode;
                         case 2:
-                            return row.m_contract.description();
+                            return row.m_contract.textDescription();
                         case 3:
                             return row.m_position;
                         case 4:

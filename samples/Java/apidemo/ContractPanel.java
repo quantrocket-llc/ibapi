@@ -7,6 +7,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import com.ib.client.Contract;
 import com.ib.client.Types.Right;
@@ -29,6 +30,7 @@ public class ContractPanel extends JPanel {
 	protected UpperField m_currency = new UpperField();
 	protected UpperField m_localSymbol = new UpperField();
 	protected UpperField m_tradingClass = new UpperField();
+	protected JTextField m_issuerId = new JTextField();
 
 	private Contract m_contract;
 
@@ -54,6 +56,7 @@ public class ContractPanel extends JPanel {
 			m_currency.setText( m_contract.currency());
 			m_localSymbol.setText( m_contract.localSymbol());
 			m_tradingClass.setText( m_contract.tradingClass() );
+			m_issuerId.setText( m_contract.issuerId());
 		}
 		
 		VerticalPanel p = new VerticalPanel();
@@ -69,6 +72,7 @@ public class ContractPanel extends JPanel {
     	p.add( "Currency", m_currency);
     	p.add( "Local symbol", m_localSymbol);
     	p.add( "Trading class", m_tradingClass);
+    	p.add( "Issuer Id", m_issuerId);
     	
     	setLayout( new BorderLayout() );
     	add( p);
@@ -99,5 +103,6 @@ public class ContractPanel extends JPanel {
 		m_contract.currency( m_currency.getText().toUpperCase() ); 
 		m_contract.localSymbol( m_localSymbol.getText().toUpperCase() );
 		m_contract.tradingClass( m_tradingClass.getText().toUpperCase() );
+		m_contract.issuerId( m_issuerId.getText());
 	}
 }

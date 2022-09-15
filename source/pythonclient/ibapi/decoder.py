@@ -358,7 +358,7 @@ class Decoder(Object):
         contract.contract.symbol = decode(str, fields)
         contract.contract.secType = decode(str, fields)
         contract.cusip = decode(str, fields)
-        contract.coupon = decode(int, fields)
+        contract.coupon = decode(float, fields)
         self.readLastTradeDate(fields, contract, True)
         contract.issueDate = decode(str, fields)
         contract.ratings = decode(str, fields)
@@ -803,6 +803,10 @@ class Decoder(Object):
                 derivSecType = decode(str, fields)
                 conDesc.derivativeSecTypes.append(derivSecType)
             contractDescriptions.append(conDesc)
+            
+            if self.serverVersion >= MIN_SERVER_VER_BOND_ISSUERID:
+                conDesc.contract.description = decode(str, fields)
+                conDesc.contract.issuerId = decode(str, fields)
 
         self.wrapper.symbolSamples(reqId, contractDescriptions)
 
