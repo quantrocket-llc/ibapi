@@ -61,6 +61,7 @@ public:
 	static Contract CryptoContract();
 	static Contract StockWithIPOPrice();
 	static Contract ByFIGI();
+	static Contract ByIssuerId();
 };
 
 #endif

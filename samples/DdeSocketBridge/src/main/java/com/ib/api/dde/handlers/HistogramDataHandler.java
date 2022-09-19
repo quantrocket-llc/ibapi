@@ -90,7 +90,7 @@ public class HistogramDataHandler extends BaseListDataHandler<HistogramEntry> {
                 requestId = parseRequestId(messageTokens[0]);
             }
             ArrayList<String> table = Utils.convertArrayToTable(data);
-            Contract contract = parseContract(table, true, false, false, false, true);
+            Contract contract = parseContract(table, true, false, false, false, false, true);
             String timePeriod = "";
             boolean useRth = false;
             

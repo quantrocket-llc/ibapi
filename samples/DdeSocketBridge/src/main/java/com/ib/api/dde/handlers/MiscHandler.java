@@ -134,7 +134,7 @@ public class MiscHandler extends BaseHandler {
         }
         if (dataMap.ddeRequestStatus() == DdeRequestStatus.UNKNOWN) {
             clientSocket().reqSmartComponents(request.requestId(), request.bboExchange());
-            dataMap.ddeRequestStatus(dataMap.error() == null ? DdeRequestStatus.REQUESTED : DdeRequestStatus.ERROR);
+            dataMap.ddeRequestStatus(Utils.isNull(dataMap.error()) ? DdeRequestStatus.REQUESTED : DdeRequestStatus.ERROR);
         }
         String ret = dataMap.ddeRequestStatus().toString();
         if (dataMap.ddeRequestStatus() == DdeRequestStatus.ERROR) {

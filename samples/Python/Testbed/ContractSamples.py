@@ -706,6 +706,13 @@ class ContractSamples:
         # ! [ByFIGI]
         return contract
         
+    @staticmethod
+    def ByIssuerId():
+        # ! [ByIssuerId]
+        contract = Contract()
+        contract.issuerId = "e1453318";
+        # ! [ByIssuerId]
+        return contract
 
 def Test():
     from ibapi.utils import ExerciseStaticMethods

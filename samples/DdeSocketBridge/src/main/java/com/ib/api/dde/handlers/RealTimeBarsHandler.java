@@ -86,7 +86,7 @@ public class RealTimeBarsHandler extends HistoricalDataBaseHandler {
                 requestId = parseRequestId(messageTokens[0]);
             }
             ArrayList<String> table = Utils.convertArrayToTable(data);
-            Contract contract = parseContract(table, true, false, false, false, false);
+            Contract contract = parseContract(table, true, false, false, false, false, false);
             int barSize = 0;
             String whatToShow = "";
             boolean useRth = false;

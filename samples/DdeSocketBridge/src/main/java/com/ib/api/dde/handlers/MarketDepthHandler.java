@@ -179,7 +179,7 @@ public class MarketDepthHandler extends BaseHandler {
                 isSmartDepth = getBooleanFromString(messageTokens[1]);
             }
             ArrayList<String> table = Utils.convertArrayToTable(data);
-            Contract contract = parseContract(table, true, false, false, false, false);
+            Contract contract = parseContract(table, true, false, false, false, false, false);
             
             return new MarketDepthRequest(requestId, contract, 15, isSmartDepth, requestStr);
         }

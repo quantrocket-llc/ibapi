@@ -133,7 +133,7 @@ public class CalcImplVolOptPriceHandler extends MarketDataBaseHandler {
             }
             
             ArrayList<String> table = Utils.convertArrayToTable(data);
-            Contract contract = parseContract(table, true, false, false, false, false);
+            Contract contract = parseContract(table, true, false, false, false, false, false);
             
             switch(requestType) {
                 case CALCULATE_IMPLIED_VOLATILITY:

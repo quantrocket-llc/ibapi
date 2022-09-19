@@ -107,7 +107,7 @@ public class ExerciseOptionsHandler extends BaseHandler {
                 requestId = parseRequestId(messageTokens[0]);
             }
             ArrayList<String> table = Utils.convertArrayToTable(data);
-            Contract contract = parseContract(table, false, false, false, false, false);
+            Contract contract = parseContract(table, false, false, false, false, false, false);
             
             String account = "";
             int exerciseAction = Integer.MAX_VALUE;

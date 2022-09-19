@@ -318,7 +318,7 @@ public class ComboPanel extends JPanel implements INewTab {
                     if (list.size() == 1) {
                         Contract c = list.get( 0).contract();
                         m_dnContract = new DeltaNeutralContract( c.conid(), m_delta.getDouble(), m_price.getDouble() );
-                        m_dnText.setText( String.format( "Delta-neutral: %s Delta: %s  Price: %s", c.description(), m_delta.getText(), m_price.getText() ) );
+                        m_dnText.setText( String.format( "Delta-neutral: %s Delta: %s  Price: %s", c.textDescription(), m_delta.getText(), m_price.getText() ) );
                     }
                     else {
                         ApiDemo.INSTANCE.show( "DN description does not define a uniqe contract");
@@ -499,7 +499,7 @@ public class ComboPanel extends JPanel implements INewTab {
 			}
 
 			void addRow(Contract contract) {
-				EfpRow row = new EfpRow( this, contract.description(), m_parentPanel );
+				EfpRow row = new EfpRow( this, contract.textDescription(), m_parentPanel );
 				m_rows.add( row);
 				ApiDemo.INSTANCE.controller().reqEfpMktData( contract, "", false, false, row);
 				fireTableRowsInserted( m_rows.size() - 1, m_rows.size() - 1);
@@ -614,7 +614,7 @@ public class ComboPanel extends JPanel implements INewTab {
 			switch( col) {
 				case 0: return row.m_leg.action();
 				case 1: return Util.IntMaxString(row.m_leg.ratio());
-				case 2: return row.m_contract.description();
+				case 2: return row.m_contract.textDescription();
 				default: return null;
 			}
 		}

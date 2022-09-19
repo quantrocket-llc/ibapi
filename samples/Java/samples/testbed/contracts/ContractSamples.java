@@ -653,4 +653,13 @@ public class ContractSamples {
 		return contract;
 	}
 	
+	public static Contract ByIssuerId() {
+		//! [ByIssuerId]
+		Contract contract = new Contract();
+		contract.issuerId("e1453318");  
+		//! [ByIssuerId]
+		return contract;
+	}
+	
+	
 }

@@ -1528,13 +1528,16 @@ const char* EDecoder::processSymbolSamplesMsg(const char* ptr, const char* endPt
 
 			int nDerivativeSecTypes = 0;
 			DECODE_FIELD(nDerivativeSecTypes);
-			if (nDerivativeSecTypes <= 0)
-				continue;
-
-			ContractDescription::DerivativeSecTypesList& derivativeSecTypes = contractDescription.derivativeSecTypes;
-			derivativeSecTypes.resize(nDerivativeSecTypes);
-			for (int j = 0; j < nDerivativeSecTypes; ++j){
-				DECODE_FIELD( derivativeSecTypes[j]);
+			if (nDerivativeSecTypes > 0) {
+				ContractDescription::DerivativeSecTypesList& derivativeSecTypes = contractDescription.derivativeSecTypes;
+				derivativeSecTypes.resize(nDerivativeSecTypes);
+				for (int j = 0; j < nDerivativeSecTypes; ++j) {
+					DECODE_FIELD(derivativeSecTypes[j]);
+				}
+			}
+			if (m_serverVersion >= MIN_SERVER_VER_BOND_ISSUERID) {
+				DECODE_FIELD( contract.description);
+				DECODE_FIELD( contract.issuerId);
 			}
 		}
 	}

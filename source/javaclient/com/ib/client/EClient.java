@@ -317,9 +317,10 @@ public abstract class EClient {
     protected static final int MIN_SERVER_VER_WSH_EVENT_DATA_FILTERS_DATE = 173;
     protected static final int MIN_SERVER_VER_INSTRUMENT_TIMEZONE = 174;
     protected static final int MIN_SERVER_VER_HMDS_MARKET_DATA_IN_SHARES = 175;
+    protected static final int MIN_SERVER_VER_BOND_ISSUERID = 176;
     
     public static final int MIN_VERSION = 100; // envelope encoding, applicable to useV100Plus mode only
-    public static final int MAX_VERSION = MIN_SERVER_VER_HMDS_MARKET_DATA_IN_SHARES; // ditto
+    public static final int MAX_VERSION = MIN_SERVER_VER_BOND_ISSUERID; // ditto
 
     protected EReaderSignal m_signal;
     protected EWrapper m_eWrapper;    // msg handler
@@ -1087,6 +1088,14 @@ public abstract class EClient {
                 return;
             }
         }
+
+        if (m_serverVersion < MIN_SERVER_VER_BOND_ISSUERID) {
+            if (!IsEmpty(contract.issuerId())) {
+        		error(reqId, EClientErrors.UPDATE_TWS,
+                    "  It does not support issuerId parameter in reqContractDetails.");
+                return;
+            }
+        }
         
         final int VERSION = 8;
 
@@ -1139,6 +1148,9 @@ public abstract class EClient {
             if (m_serverVersion >= MIN_SERVER_VER_SEC_ID_TYPE) {
             	b.send( contract.getSecIdType());
             	b.send( contract.secId());
+            }
+            if (m_serverVersion >= MIN_SERVER_VER_BOND_ISSUERID) {
+                b.send(contract.issuerId());
             }
             closeAndSend(b);
         }

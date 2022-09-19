@@ -115,7 +115,7 @@ public class TradesPanel extends JPanel implements ITradeReportHandler {
 				case 2: return full.m_trade.modelCode();
 				case 3: return full.m_trade.side();
 				case 4: return full.m_trade.shares();
-				case 5: return full.m_contract.description();
+				case 5: return full.m_contract.textDescription();
 				case 6: return Util.DoubleMaxString(full.m_trade.price());
 				case 7: return full.m_commissionReport != null ? Util.DoubleMaxString(full.m_commissionReport.commission()) : null;
 				case 8: return full.m_trade.lastLiquidity();

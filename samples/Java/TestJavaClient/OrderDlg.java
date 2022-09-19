@@ -71,6 +71,7 @@ public class OrderDlg extends JDialog {
     private JTextField 	m_includeExpired = new JTextField("0");
     private JTextField 	m_secIdType = new JTextField();
     private JTextField 	m_secId = new JTextField();
+    private JTextField 	m_issuerId = new JTextField();
     private JTextField 	m_action = new JTextField( "BUY");
     private JTextField 	m_totalQuantity = new JTextField( "10");
     private JTextField 	m_orderType = new JTextField( "LMT");
@@ -173,6 +174,8 @@ public class OrderDlg extends JDialog {
         pContractDetails.addGBComponent(m_secIdType, gbc, COL2_WIDTH, GridBagConstraints.REMAINDER);
         pContractDetails.addGBComponent(new JLabel( "Sec Id"), gbc, COL1_WIDTH, GridBagConstraints.RELATIVE );
         pContractDetails.addGBComponent(m_secId, gbc, COL2_WIDTH, GridBagConstraints.REMAINDER);
+        pContractDetails.addGBComponent(new JLabel( "Issuer Id"), gbc, COL1_WIDTH, GridBagConstraints.RELATIVE );
+        pContractDetails.addGBComponent(m_issuerId, gbc, COL2_WIDTH, GridBagConstraints.REMAINDER);
 
         // create order panel
         IBGridBagPanel pOrderDetails = new IBGridBagPanel();
@@ -433,6 +436,7 @@ public class OrderDlg extends JDialog {
             }
             m_contract.secIdType(m_secIdType.getText());
             m_contract.secId(m_secId.getText());
+            m_contract.issuerId(m_issuerId.getText());
 
             // set order fields
             m_order.action(m_action.getText());

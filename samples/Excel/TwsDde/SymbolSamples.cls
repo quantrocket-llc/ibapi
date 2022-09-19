@@ -31,9 +31,11 @@ Const COLUMN_SECTYPE = 4
 Const COLUMN_PRIMARY_EXCHANGE = 5
 Const COLUMN_CURRENCY = 7
 Const COLUMN_DERIVATIVE_SECTYPES = 8
+Const COLUMN_DESCRIPTION = 12
+Const COLUMN_ISSUERID = 18
 
 ' range
-Const SYMBOL_SAMPLES_TABLE_RANGE = "A" & SYMBOL_SAMPLES_START_ROW & ":K" & SYMBOL_SAMPLES_END_ROW
+Const SYMBOL_SAMPLES_TABLE_RANGE = "A" & SYMBOL_SAMPLES_START_ROW & ":S" & SYMBOL_SAMPLES_END_ROW
 
 ' vars
 Dim genId As Long
@@ -143,6 +145,8 @@ Private Sub Worksheet_Calculate()
                     .Cells(SYMBOL_SAMPLES_START_ROW + i - 1, COLUMN_PRIMARY_EXCHANGE).value = symbolSamplesArray(i, 4)
                     .Cells(SYMBOL_SAMPLES_START_ROW + i - 1, COLUMN_CURRENCY).value = symbolSamplesArray(i, 5)
                     .Cells(SYMBOL_SAMPLES_START_ROW + i - 1, COLUMN_DERIVATIVE_SECTYPES).value = symbolSamplesArray(i, 6)
+                    .Cells(SYMBOL_SAMPLES_START_ROW + i - 1, COLUMN_DESCRIPTION).value = symbolSamplesArray(i, 7)
+                    .Cells(SYMBOL_SAMPLES_START_ROW + i - 1, COLUMN_ISSUERID).value = symbolSamplesArray(i, 8)
                 Next i
             ElseIf dimension = 1 Then
                 .Cells(SYMBOL_SAMPLES_START_ROW, COLUMN_CONID).value = symbolSamplesArray(1)
@@ -151,6 +155,8 @@ Private Sub Worksheet_Calculate()
                 .Cells(SYMBOL_SAMPLES_START_ROW, COLUMN_PRIMARY_EXCHANGE).value = symbolSamplesArray(4)
                 .Cells(SYMBOL_SAMPLES_START_ROW, COLUMN_CURRENCY).value = symbolSamplesArray(5)
                 .Cells(SYMBOL_SAMPLES_START_ROW, COLUMN_DERIVATIVE_SECTYPES).value = symbolSamplesArray(6)
+                .Cells(SYMBOL_SAMPLES_START_ROW, COLUMN_DESCRIPTION).value = symbolSamplesArray(7)
+                .Cells(SYMBOL_SAMPLES_START_ROW, COLUMN_ISSUERID).value = symbolSamplesArray(8)
             End If
         End If
     End With

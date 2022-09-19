@@ -151,6 +151,9 @@ Public Function hasContractData(sheet As Worksheet, startingRow As Integer, cell
         If contractColumnsArray(i) = "SECIDTYPE" And sheet.Cells(cell.row, i + startIndex).value <> STR_EMPTY Then
             ret = True
         End If
+        If contractColumnsArray(i) = "ISSUERID" And sheet.Cells(cell.row, i + startIndex).value <> STR_EMPTY Then
+            ret = True
+        End If
     Next
     
 hasContractDataEnd:

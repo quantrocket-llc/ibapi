@@ -49,7 +49,7 @@ public class Testbed {
 		//tickOptionComputations(wrapper.getClient());
 		//optionsOperations(wrapper.getClient());
 		//orderOperations(wrapper.getClient(), wrapper.getCurrentOrderId());
-		//contractOperations(wrapper.getClient());
+		contractOperations(wrapper.getClient());
 		//hedgeSample(wrapper.getClient(), wrapper.getCurrentOrderId());
 		//testAlgoSamples(wrapper.getClient(), wrapper.getCurrentOrderId());
 		//bracketSample(wrapper.getClient(), wrapper.getCurrentOrderId());
@@ -72,7 +72,7 @@ public class Testbed {
 		//historicalTicks(wrapper.getClient());
 		//financialAdvisorOperations(wrapper.getClient());
 		//realTimeBars(wrapper.getClient());    
-		wshCalendarOperations(wrapper.getClient());
+		//wshCalendarOperations(wrapper.getClient());
 
 		Thread.sleep(100000);
 		m_client.eDisconnect();
@@ -574,6 +574,7 @@ public class Testbed {
 		client.reqContractDetails(214, ContractSamples.SimpleFuture());
 		client.reqContractDetails(215, ContractSamples.USStockAtSmart());
 		client.reqContractDetails(216, ContractSamples.CryptoContract());
+		client.reqContractDetails(217, ContractSamples.ByIssuerId());
 		//! [reqcontractdetails]
 
 		//! [reqmatchingsymbols]

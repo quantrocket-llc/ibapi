@@ -478,6 +478,8 @@ public class EWrapperMsgGenerator {
                 sb.append(contractDescriptions[i].derivativeSecTypes()[j]).append(' ');
             }
             sb.append("\n");
+            sb.append("description: ").append(Util.NormalizeString(contractDescriptions[i].contract().description())).append("\n");
+            sb.append("issuerId: ").append(Util.NormalizeString(contractDescriptions[i].contract().issuerId())).append("\n");
             sb.append("---- Contract Description End (").append(i).append(") ----\n");
         }
         sb.append("==== Symbol Samples End (total=").append(contractDescriptions.length).append(") reqId: ").append(reqId).append(" ====\n");

@@ -23,6 +23,8 @@ public class ContractDetailsUtils {
         item.add(Utils.toString(contractDescription.contract().primaryExch()));
         item.add(Utils.toString(contractDescription.contract().currency()));
         item.add(String.join(",", contractDescription.derivativeSecTypes()));
+        item.add(Utils.toString(contractDescription.contract().description()));
+        item.add(Utils.toString(contractDescription.contract().issuerId()));
         return item;
     }
     

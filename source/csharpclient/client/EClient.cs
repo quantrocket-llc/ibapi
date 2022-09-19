@@ -1541,6 +1541,9 @@ namespace IBApi
                 " It does not support PrimaryExch parameter when requesting contract details."))
                 return;
 
+            if (!IsEmpty(contract.IssuerId) && !CheckServerVersion(reqId, MinServerVer.MIN_SERVER_VER_BOND_ISSUERID,
+                " It does not support IssuerId parameter when requesting contract details."))
+                return;
 
             int VERSION = 8;
 
@@ -1600,6 +1603,10 @@ namespace IBApi
                 {
                     paramsList.AddParameter(contract.SecIdType);
                     paramsList.AddParameter(contract.SecId);
+                }
+                if (serverVersion >= MinServerVer.MIN_SERVER_VER_BOND_ISSUERID)
+                {
+                    paramsList.AddParameter(contract.IssuerId);
                 }
             }
             catch (EClientException e)

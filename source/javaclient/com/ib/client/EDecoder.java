@@ -789,6 +789,11 @@ class EDecoder implements ObjectInput {
                     }
                 }
 
+                if (m_serverVersion >= EClient.MIN_SERVER_VER_BOND_ISSUERID) {
+                    contract.description(readStr());
+                    contract.issuerId(readStr());
+                }
+
                 ContractDescription contractDescription = new ContractDescription(contract, derivativeSecTypes);
                 contractDescriptions[i] = contractDescription;
             }

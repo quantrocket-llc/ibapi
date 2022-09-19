@@ -3012,6 +3012,10 @@ Friend Class MainForm
                 displayString += (derivativeSecType & " ")
             Next
             m_utils.addListItem(Utils.ListType.ServerResponses, displayString)
+            With cd.Contract
+                m_utils.addListItem(Utils.ListType.ServerResponses, "description=" & .Description)
+                m_utils.addListItem(Utils.ListType.ServerResponses, "issuerId=" & .IssuerId)
+            End With
             m_utils.addListItem(Utils.ListType.ServerResponses, " ---- Contract Description End (" & count & ") ----")
             count += 1
         Next

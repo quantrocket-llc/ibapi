@@ -827,6 +827,7 @@ namespace IBSampleApp
             contract.Strike = stringToDouble(conDetStrike.Text);
             contract.Multiplier = conDetMultiplier.Text;
             contract.LocalSymbol = conDetLocalSymbol.Text;
+            contract.IssuerId = conDetIssuerId.Text;
 
             if (!conDetRight.Text.Equals("") && !conDetRight.Text.Equals("None"))
                 contract.Right = (string)((IBType)conDetRight.SelectedItem).Value;

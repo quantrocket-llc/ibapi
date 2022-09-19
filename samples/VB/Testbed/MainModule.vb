@@ -104,7 +104,7 @@ Module MainModule
         '***************************
         '** Contract information ***
         '***************************
-        'contractOperations(client)
+        contractOperations(client)
 
         '**********************
         '** Market Scanners ***
@@ -201,7 +201,7 @@ Module MainModule
         '*******************
         '** WSH Calendar ***
         '*******************
-        wshCalendarOperations(client)
+        'wshCalendarOperations(client)
 
         Thread.Sleep(15000)
         Console.WriteLine("Done")
@@ -478,16 +478,18 @@ Module MainModule
         client.reqContractDetails(213, ContractSamples.SimpleFuture())
         client.reqContractDetails(214, ContractSamples.USStockAtSmart())
         client.reqContractDetails(215, ContractSamples.CryptoContract())
+        client.reqContractDetails(216, ContractSamples.ByIssuerId())
         '! [reqcontractdetails]
 
         '! [reqcontractdetailsnews]
-        client.reqContractDetails(211, ContractSamples.NewsFeedForQuery())
+        client.reqContractDetails(217, ContractSamples.NewsFeedForQuery())
         '! [reqcontractdetailsnews]
 
         Thread.Sleep(2000)
-        ''! [reqmatchingsymbols]
-        client.reqMatchingSymbols(202, "IB")
-        ''! [reqmatchingsymbols]
+
+        '! [reqmatchingsymbols]
+        client.reqMatchingSymbols(218, "IBM")
+        '! [reqmatchingsymbols]
     End Sub
 
     Private Sub marketScanners(client As EClientSocket)

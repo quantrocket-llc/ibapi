@@ -31,13 +31,13 @@ Const CELL_MARKET_RULE_ERROR = "W9" ' cell with market rule error
 ' columns
 Const startOfContractColumns = 1 ' contract first column index (symbol)
 Const secTypeColumnIndex = 2 ' index of "sec type" column
-Const includeExpiredColumnIndex = 15 ' index of "include expired" column
-Const sheetNameColumnIndex = 16 ' index of "page name" column
-Const activateSheetColumnIndex = 17 ' index of "activate page" column
-Const idColumnIndex = 18 ' index of "id" column
-Const statusColumnIndex = 19 ' index of "status" column
-Const errorColumnIndex = 20 ' index of "error" column
-Const priceIncrementLowEdgeColumnIndex = 22 ' index of "low edge" column of price increments table
+Const includeExpiredColumnIndex = 16 ' index of "include expired" column
+Const sheetNameColumnIndex = 17 ' index of "page name" column
+Const activateSheetColumnIndex = 18 ' index of "activate page" column
+Const idColumnIndex = 19 ' index of "id" column
+Const statusColumnIndex = 20 ' index of "status" column
+Const errorColumnIndex = 21 ' index of "error" column
+Const priceIncrementLowEdgeColumnIndex = 23 ' index of "low edge" column of price increments table
 
 ' rows
 Const dataStartRowIndex = 10 ' starting row of data
@@ -57,7 +57,7 @@ Private Function getContractColumns() As Variant()
     End If
 
     contractColumnsArray = Array("SYMBOL", "SECTYPE", "LASTTRADEDATE", "STRIKE", "RIGHT", "MULTIPLIER", "TRADINGCLASS", "EXCH", "PRIMEXCH", "CURRENCY", "LOCALSYMBOL", "CONID", _
-        "SECIDTYPE", "SECID", "INCLUDEEXPIRED")
+        "SECIDTYPE", "SECID", "ISSUERID", "INCLUDEEXPIRED")
     
 getContractColumnsEnd:
     getContractColumns = contractColumnsArray
