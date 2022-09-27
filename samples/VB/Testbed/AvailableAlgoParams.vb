@@ -22,7 +22,7 @@ Namespace Samples
 
         '! [arrivalpx_params]
         Public Shared Sub FillArrivalPriceParams(baseOrder As Order, maxPctVol As Double, riskAversion As String, startTime As String, endTime As String,
-            forceCompletion As Boolean, allowPastTime As Boolean, monetaryValue As Double)
+            forceCompletion As Boolean, allowPastTime As Boolean)
 
             baseOrder.AlgoStrategy = "ArrivalPx"
             baseOrder.AlgoParams = New List(Of TagValue)
@@ -32,13 +32,12 @@ Namespace Samples
             baseOrder.AlgoParams.Add(New TagValue("endTime", endTime))
             baseOrder.AlgoParams.Add(New TagValue("forceCompletion", BooleantoString(forceCompletion)))
             baseOrder.AlgoParams.Add(New TagValue("allowPastEndTime", BooleantoString(allowPastTime)))
-            baseOrder.AlgoParams.Add(New TagValue("monetaryValue", monetaryValue.ToString()))
         End Sub
         '! [arrivalpx_params]
 
         '! [darkice_params]
         Public Shared Sub FillDarkIceParams(baseOrder As Order, displaySize As Integer, startTime As String, endTime As String,
-            allowPastEndTime As Boolean, monetaryValue As Double)
+            allowPastEndTime As Boolean)
 
             baseOrder.AlgoStrategy = "DarkIce"
             baseOrder.AlgoParams = New List(Of TagValue)
@@ -46,12 +45,11 @@ Namespace Samples
             baseOrder.AlgoParams.Add(New TagValue("startTime", startTime))
             baseOrder.AlgoParams.Add(New TagValue("endTime", endTime))
             baseOrder.AlgoParams.Add(New TagValue("allowPastEndTime", BooleantoString(allowPastEndTime)))
-            baseOrder.AlgoParams.Add(New TagValue("monetaryValue", monetaryValue.ToString()))
         End Sub
         '! [darkice_params]
 
         '! [pctvol_params]
-        Public Shared Sub FillPctVolParams(baseOrder As Order, pctVol As Double, startTime As String, endTime As String, noTakeLiq As Boolean, monetaryValue As Double)
+        Public Shared Sub FillPctVolParams(baseOrder As Order, pctVol As Double, startTime As String, endTime As String, noTakeLiq As Boolean)
 
             baseOrder.AlgoStrategy = "PctVol"
             baseOrder.AlgoParams = New List(Of TagValue)
@@ -59,14 +57,13 @@ Namespace Samples
             baseOrder.AlgoParams.Add(New TagValue("startTime", startTime))
             baseOrder.AlgoParams.Add(New TagValue("endTime", endTime))
             baseOrder.AlgoParams.Add(New TagValue("noTakeLiq", BooleantoString(noTakeLiq)))
-            baseOrder.AlgoParams.Add(New TagValue("monetaryValue", monetaryValue.ToString()))
 
         End Sub
         '! [pctvol_params]
 
         '! [twap_params]
         Public Shared Sub FillTwapParams(baseOrder As Order, strategyType As String, startTime As String, endTime As String,
-            allowPastEndTime As Boolean, monetaryValue As Double)
+            allowPastEndTime As Boolean)
 
             baseOrder.AlgoStrategy = "Twap"
             baseOrder.AlgoParams = New List(Of TagValue)
@@ -74,14 +71,13 @@ Namespace Samples
             baseOrder.AlgoParams.Add(New TagValue("startTime", startTime))
             baseOrder.AlgoParams.Add(New TagValue("endTime", endTime))
             baseOrder.AlgoParams.Add(New TagValue("allowPastEndTime", BooleantoString(allowPastEndTime)))
-            baseOrder.CashQty = monetaryValue
 
         End Sub
         '! [twap_params]
 
         '! [vwap_params]
         Public Shared Sub FillVwapParams(baseOrder As Order, maxPctVol As Double, startTime As String, endTime As String,
-            allowPastEndTime As Boolean, noTakeLiq As Boolean, speedUp As Boolean, monetaryValue As Double)
+            allowPastEndTime As Boolean, noTakeLiq As Boolean, speedUp As Boolean)
 
             baseOrder.AlgoStrategy = "Vwap"
             baseOrder.AlgoParams = New List(Of TagValue)
@@ -91,7 +87,6 @@ Namespace Samples
             baseOrder.AlgoParams.Add(New TagValue("allowPastEndTime", BooleantoString(allowPastEndTime)))
             baseOrder.AlgoParams.Add(New TagValue("noTakeLiq", BooleantoString(noTakeLiq)))
             baseOrder.AlgoParams.Add(New TagValue("speedUp", BooleantoString(speedUp)))
-            baseOrder.AlgoParams.Add(New TagValue("monetaryValue", monetaryValue.ToString()))
 
         End Sub
         '! [vwap_params]
@@ -143,7 +138,7 @@ Namespace Samples
         '! [adaptive_params]
 
         '! [closepx_params]
-        Public Shared Sub FillClosePriceParams(baseOrder As Order, maxPctVol As Double, riskAversion As String, startTime As String, forceCompletion As Boolean, monetaryValue As Double)
+        Public Shared Sub FillClosePriceParams(baseOrder As Order, maxPctVol As Double, riskAversion As String, startTime As String, forceCompletion As Boolean)
 
             baseOrder.AlgoStrategy = "ClosePx"
             baseOrder.AlgoParams = New List(Of TagValue)
@@ -151,14 +146,13 @@ Namespace Samples
             baseOrder.AlgoParams.Add(New TagValue("riskAversion", riskAversion))
             baseOrder.AlgoParams.Add(New TagValue("startTime", startTime))
             baseOrder.AlgoParams.Add(New TagValue("forceCompletion", BooleantoString(forceCompletion)))
-            baseOrder.AlgoParams.Add(New TagValue("monetaryValue", monetaryValue.ToString()))
 
         End Sub
         '! [closepx_params]
 
         '! [pctvolpx_params]
         Public Shared Sub FillPriceVariantPctVolParams(baseOrder As Order, pctVol As Double, deltaPctVol As Double, minPctVol4Px As Double,
-            maxPctVol4Px As Double, startTime As String, endTime As String, noTakeLiq As Boolean, monetaryValue As Double)
+            maxPctVol4Px As Double, startTime As String, endTime As String, noTakeLiq As Boolean)
 
             baseOrder.AlgoStrategy = "PctVolPx"
             baseOrder.AlgoParams = New List(Of TagValue)
@@ -169,14 +163,13 @@ Namespace Samples
             baseOrder.AlgoParams.Add(New TagValue("startTime", startTime))
             baseOrder.AlgoParams.Add(New TagValue("endTime", endTime))
             baseOrder.AlgoParams.Add(New TagValue("noTakeLiq", BooleantoString(noTakeLiq)))
-            baseOrder.AlgoParams.Add(New TagValue("monetaryValue", monetaryValue.ToString()))
 
         End Sub
         '! [pctvolpx_params]
 
         '! [pctvolsz_params]
         Public Shared Sub FillSizeVariantPctVolParams(baseOrder As Order, startPctVol As Double, endPctVol As Double,
-            startTime As String, endTime As String, noTakeLiq As Boolean, monetaryValue As Double)
+            startTime As String, endTime As String, noTakeLiq As Boolean)
 
             baseOrder.AlgoStrategy = "PctVolSz"
             baseOrder.AlgoParams = New List(Of TagValue)
@@ -185,14 +178,13 @@ Namespace Samples
             baseOrder.AlgoParams.Add(New TagValue("startTime", startTime))
             baseOrder.AlgoParams.Add(New TagValue("endTime", endTime))
             baseOrder.AlgoParams.Add(New TagValue("noTakeLiq", BooleantoString(noTakeLiq)))
-            baseOrder.AlgoParams.Add(New TagValue("monetaryValue", monetaryValue.ToString()))
 
         End Sub
         '! [pctvolsz_params]
 
         '! [pctvoltm_params]
         Public Shared Sub FillTimeVariantPctVolParams(baseOrder As Order, startPctVol As Double, endPctVol As Double,
-            startTime As String, endTime As String, noTakeLiq As Boolean, monetaryValue As Double)
+            startTime As String, endTime As String, noTakeLiq As Boolean)
 
             baseOrder.AlgoStrategy = "PctVolTm"
             baseOrder.AlgoParams = New List(Of TagValue)
@@ -201,7 +193,6 @@ Namespace Samples
             baseOrder.AlgoParams.Add(New TagValue("startTime", startTime))
             baseOrder.AlgoParams.Add(New TagValue("endTime", endTime))
             baseOrder.AlgoParams.Add(New TagValue("noTakeLiq", BooleantoString(noTakeLiq)))
-            baseOrder.AlgoParams.Add(New TagValue("monetaryValue", monetaryValue.ToString()))
 
         End Sub
         '! [pctvoltm_params]

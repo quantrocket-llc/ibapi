@@ -14,7 +14,7 @@ namespace Samples
     {
         //! [arrivalpx_params]
         public static void FillArrivalPriceParams(Order baseOrder, double maxPctVol, string riskAversion, string startTime, string endTime, 
-            bool forceCompletion, bool allowPastTime, double monetaryValue)
+            bool forceCompletion, bool allowPastTime)
         {            
             baseOrder.AlgoStrategy = "ArrivalPx";
             baseOrder.AlgoParams = new List<TagValue>();
@@ -24,13 +24,12 @@ namespace Samples
             baseOrder.AlgoParams.Add(new TagValue("endTime", endTime));
             baseOrder.AlgoParams.Add(new TagValue("forceCompletion", forceCompletion ? "1" : "0"));
             baseOrder.AlgoParams.Add(new TagValue("allowPastEndTime", allowPastTime ? "1" : "0"));
-            baseOrder.AlgoParams.Add(new TagValue("monetaryValue", monetaryValue.ToString()));
         }
         //! [arrivalpx_params]
 
         //! [darkice_params]
         public static void FillDarkIceParams(Order baseOrder, int displaySize, string startTime, string endTime, 
-            bool allowPastEndTime, double monetaryValue)
+            bool allowPastEndTime)
         {
             baseOrder.AlgoStrategy = "DarkIce";
             baseOrder.AlgoParams = new List<TagValue>();
@@ -38,12 +37,11 @@ namespace Samples
             baseOrder.AlgoParams.Add(new TagValue("startTime", startTime));
             baseOrder.AlgoParams.Add(new TagValue("endTime", endTime));
             baseOrder.AlgoParams.Add(new TagValue("allowPastEndTime", allowPastEndTime ? "1" : "0"));
-            baseOrder.AlgoParams.Add(new TagValue("monetaryValue", monetaryValue.ToString()));
         }
         //! [darkice_params]
 
         //! [pctvol_params]
-        public static void FillPctVolParams(Order baseOrder, double pctVol, string startTime, string endTime, bool noTakeLiq, double monetaryValue)
+        public static void FillPctVolParams(Order baseOrder, double pctVol, string startTime, string endTime, bool noTakeLiq)
         {
             baseOrder.AlgoStrategy = "PctVol";
             baseOrder.AlgoParams = new List<TagValue>();
@@ -51,12 +49,11 @@ namespace Samples
             baseOrder.AlgoParams.Add(new TagValue("startTime", startTime));
             baseOrder.AlgoParams.Add(new TagValue("endTime", endTime));
             baseOrder.AlgoParams.Add(new TagValue("noTakeLiq", noTakeLiq ? "1" : "0"));
-            baseOrder.AlgoParams.Add(new TagValue("monetaryValue", monetaryValue.ToString()));
         }
         //! [pctvol_params]
 
         //! [twap_params]
-        public static void FillTwapParams(Order baseOrder, string strategyType, string startTime, string endTime, bool allowPastEndTime, double monetaryValue)
+        public static void FillTwapParams(Order baseOrder, string strategyType, string startTime, string endTime, bool allowPastEndTime)
         {
             baseOrder.AlgoStrategy = "Twap";
             baseOrder.AlgoParams = new List<TagValue>();
@@ -64,13 +61,12 @@ namespace Samples
             baseOrder.AlgoParams.Add(new TagValue("startTime", startTime));
             baseOrder.AlgoParams.Add(new TagValue("endTime", endTime));
             baseOrder.AlgoParams.Add(new TagValue("allowPastEndTime", allowPastEndTime ? "1" : "0"));
-            baseOrder.CashQty = monetaryValue;
         }
         //! [twap_params]
 
         //! [vwap_params]
         public static void FillVwapParams(Order baseOrder, double maxPctVol, string startTime, string endTime, 
-            bool allowPastEndTime, bool noTakeLiq, bool speedUp, double monetaryValue)
+            bool allowPastEndTime, bool noTakeLiq, bool speedUp)
         {
             baseOrder.AlgoStrategy = "Vwap";
             baseOrder.AlgoParams = new List<TagValue>();
@@ -80,7 +76,6 @@ namespace Samples
             baseOrder.AlgoParams.Add(new TagValue("allowPastEndTime", allowPastEndTime ? "1" : "0"));
             baseOrder.AlgoParams.Add(new TagValue("noTakeLiq", noTakeLiq ? "1" : "0"));
             baseOrder.AlgoParams.Add(new TagValue("speedUp", speedUp ? "1" : "0"));
-            baseOrder.AlgoParams.Add(new TagValue("monetaryValue", monetaryValue.ToString()));
         }
         //! [vwap_params]
 
@@ -133,7 +128,7 @@ namespace Samples
 
         //! [closepx_params]
         public static void FillClosePriceParams(Order baseOrder, double maxPctVol, string riskAversion, string startTime, 
-            bool forceCompletion, double monetaryValue)
+            bool forceCompletion)
         {
             baseOrder.AlgoStrategy = "ClosePx";
             baseOrder.AlgoParams = new List<TagValue>();
@@ -141,13 +136,12 @@ namespace Samples
             baseOrder.AlgoParams.Add(new TagValue("riskAversion", riskAversion));
             baseOrder.AlgoParams.Add(new TagValue("startTime", startTime));
             baseOrder.AlgoParams.Add(new TagValue("forceCompletion", forceCompletion ? "1" : "0"));
-            baseOrder.AlgoParams.Add(new TagValue("monetaryValue", monetaryValue.ToString()));
         }
         //! [closepx_params]
 
         //! [pctvolpx_params]
         public static void FillPriceVariantPctVolParams(Order baseOrder, double pctVol, double deltaPctVol, double minPctVol4Px, 
-            double maxPctVol4Px, String startTime, String endTime, bool noTakeLiq, double monetaryValue)
+            double maxPctVol4Px, String startTime, String endTime, bool noTakeLiq)
         {
             baseOrder.AlgoStrategy = "PctVolPx";
             baseOrder.AlgoParams = new List<TagValue>();
@@ -158,13 +152,12 @@ namespace Samples
             baseOrder.AlgoParams.Add(new TagValue("startTime", startTime));
             baseOrder.AlgoParams.Add(new TagValue("endTime", endTime));
             baseOrder.AlgoParams.Add(new TagValue("noTakeLiq", noTakeLiq ? "1" : "0"));
-            baseOrder.AlgoParams.Add(new TagValue("monetaryValue", monetaryValue.ToString()));
         }
         //! [pctvolpx_params]
 
         //! [pctvolsz_params]
         public static void FillSizeVariantPctVolParams(Order baseOrder, double startPctVol, double endPctVol, 
-            String startTime, String endTime, bool noTakeLiq, double monetaryValue)
+            String startTime, String endTime, bool noTakeLiq)
         {
             baseOrder.AlgoStrategy = "PctVolSz";
             baseOrder.AlgoParams = new List<TagValue>();
@@ -173,13 +166,12 @@ namespace Samples
             baseOrder.AlgoParams.Add(new TagValue("startTime", startTime));
             baseOrder.AlgoParams.Add(new TagValue("endTime", endTime));
             baseOrder.AlgoParams.Add(new TagValue("noTakeLiq", noTakeLiq ? "1" : "0"));
-            baseOrder.AlgoParams.Add(new TagValue("monetaryValue", monetaryValue.ToString()));
         }
         //! [pctvolsz_params]
 
         //! [pctvoltm_params]
         public static void FillTimeVariantPctVolParams(Order baseOrder, double startPctVol, double endPctVol,
-            String startTime, String endTime, bool noTakeLiq, double monetaryValue)
+            String startTime, String endTime, bool noTakeLiq)
         {
             baseOrder.AlgoStrategy = "PctVolTm";
             baseOrder.AlgoParams = new List<TagValue>();
@@ -188,7 +180,6 @@ namespace Samples
             baseOrder.AlgoParams.Add(new TagValue("startTime", startTime));
             baseOrder.AlgoParams.Add(new TagValue("endTime", endTime));
             baseOrder.AlgoParams.Add(new TagValue("noTakeLiq", noTakeLiq ? "1" : "0"));
-            baseOrder.AlgoParams.Add(new TagValue("monetaryValue", monetaryValue.ToString()));
         }
         //! [pctvoltm_params]
         

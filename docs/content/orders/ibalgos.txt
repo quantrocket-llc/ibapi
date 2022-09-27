@@ -76,7 +76,6 @@
 		<tr><td>endTime</td><td>Algorithm ending time</td><td>hh:mm:ss TMZ or YYYYMMDD-hh:mm:ss TMZ</td></tr>
 		<tr><td>allowPastEndTime</td><td>Allow trading past end time</td><td>1 (true) or 0 (false)</td></tr>
 		<tr><td>forceCompletion</td><td>Attempt completion by the end of the day</td><td>1 (true) or 0 (false)</td></tr>
-		<tr><td>monetaryValue</td><td>Cash Quantity</td><td></td></tr>
 	</table>
 	
 	<br>
@@ -132,7 +131,6 @@
 		<tr><td>riskAversion</td><td>Urgency/risk aversion</td><td>Get Done, Aggressive, Neutral, Passive</td></tr>
 		<tr><td>startTime</td><td>Algorithm starting time</td><td>hh:mm:ss TMZ or YYYYMMDD-hh:mm:ss TMZ</td></tr>
 		<tr><td>forceCompletion</td><td>Attempt completion by the end of the day</td><td>1 (true) or 0 (false)</td></tr>
-		<tr><td>monetaryValue</td><td>Cash Quantity</td><td></td></tr>
 	</table>
 	
 	<br>
@@ -220,7 +218,6 @@
 		<tr><td>startTime</td><td>Algorithm starting time</td><td>hh:mm:ss TMZ or YYYYMMDD-hh:mm:ss TMZ</td></tr>
 		<tr><td>endTime</td><td>Algorithm ending time</td><td>hh:mm:ss TMZ or YYYYMMDD-hh:mm:ss TMZ</td></tr>
 		<tr><td>allowPastEndTime</td><td>Allow trading past end time</td><td>1 (true) or 0 (false)</td></tr>
-		<tr><td>monetaryValue</td><td>Cash Quantity</td><td></td></tr>
 	</table>
 	
 	<br>
@@ -337,7 +334,6 @@
 		<tr><td>startTime</td><td>Algorithm starting time</td><td>hh:mm:ss TMZ or YYYYMMDD-hh:mm:ss TMZ</td></tr>
 		<tr><td>endTime</td><td>Algorithm ending time</td><td>hh:mm:ss TMZ or YYYYMMDD-hh:mm:ss TMZ</td></tr>
 		<tr><td>noTakeLiq</td><td>Attempt to never take liquidity</td><td>1 (true) or 0 (false)</td></tr>
-		<tr><td>monetaryValue</td><td>Cash Quantity</td><td></td></tr>
 	</table>
 	
 	<br>
@@ -395,7 +391,6 @@
 		<tr><td>startTime</td><td>Algorithm starting time</td><td>hh:mm:ss TMZ or YYYYMMDD-hh:mm:ss TMZ</td></tr>
 		<tr><td>endTime</td><td>Algorithm ending time</td><td>hh:mm:ss TMZ or YYYYMMDD-hh:mm:ss TMZ</td></tr>
 		<tr><td>allowPastEndTime</td><td>Allow trading past end time</td><td>1 (true) or 0 (false)</td></tr>
-		<tr><td>monetaryValue</td><td>Cash Quantity</td><td></td></tr>
 	</table>
 	
 	<br>
@@ -452,7 +447,6 @@
 		<tr><td>startTime</td><td>Algorithm starting time</td><td>hh:mm:ss TMZ or YYYYMMDD-hh:mm:ss TMZ</td></tr>
 		<tr><td>endTime</td><td>Algorithm ending time</td><td>hh:mm:ss TMZ or YYYYMMDD-hh:mm:ss TMZ</td></tr>
 		<tr><td>noTakeLiq</td><td>Attempt to never take liquidity</td><td>1 (true) or 0 (false)</td></tr>
-		<tr><td>monetaryValue</td><td>Cash Quantity</td><td></td></tr>
 	</table>
 	
 	<br>
@@ -507,7 +501,6 @@
 		<tr><td>startTime</td><td>Algorithm starting time</td><td>hh:mm:ss TMZ or YYYYMMDD-hh:mm:ss TMZ</td></tr>
 		<tr><td>endTime</td><td>Algorithm ending time</td><td>hh:mm:ss TMZ or YYYYMMDD-hh:mm:ss TMZ</td></tr>
 		<tr><td>noTakeLiq</td><td>Attempt to never take liquidity</td><td>1 (true) or 0 (false)</td></tr>
-		<tr><td>monetaryValue</td><td>Cash Quantity</td><td></td></tr>
 	</table>
 	
 	<br>
@@ -562,7 +555,6 @@
 		<tr><td>startTime</td><td>Algorithm starting time</td><td>hh:mm:ss TMZ or YYYYMMDD-hh:mm:ss TMZ</td></tr>
 		<tr><td>endTime</td><td>Algorithm ending time</td><td>hh:mm:ss TMZ or YYYYMMDD-hh:mm:ss TMZ</td></tr>
 		<tr><td>noTakeLiq</td><td>Attempt to never take liquidity</td><td>1 (true) or 0 (false)</td></tr>
-		<tr><td>monetaryValue</td><td>Cash Quantity</td><td></td></tr>
 	</table>
 	
 	<br>
@@ -624,7 +616,6 @@
 		<tr><td>allowPastEndTime</td><td>Allow trading past end time</td><td>1 (true) or 0 (false)</td></tr>
 		<tr><td>noTakeLiq</td><td>Attempt to never take liquidity</td><td>1 (true) or 0 (false)</td></tr>
 		<tr><td>speedUp</td><td>Compensate for the decreased fill rate due to presence of limit price</td><td>1 (true) or 0 (false)</td></tr>
-		<tr><td>monetaryValue</td><td>Cash Quantity</td><td></td></tr>
 	</table>
 	
 	<br>
