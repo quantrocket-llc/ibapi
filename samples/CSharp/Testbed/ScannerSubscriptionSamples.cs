@@ -34,18 +34,6 @@ namespace IBSamples
             return scanSub;
         }
 
-        public static ScannerSubscription MostActiveFutSoffex()
-        {
-            //! [mostactivefutsoffex]
-            //Most active futures at SOFFEX
-            ScannerSubscription scanSub = new ScannerSubscription();
-            scanSub.Instrument = "FUT.EU";
-            scanSub.LocationCode = "FUT.EU.SOFFEX";
-            scanSub.ScanCode = "MOST_ACTIVE";
-            //! [mostactivefutsoffex]
-            return scanSub;
-        }
-
         public static ScannerSubscription HighOptVolumePCRatioUSIndexes()
         {
             //! [highoptvolume]

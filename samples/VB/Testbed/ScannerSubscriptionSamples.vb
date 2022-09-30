@@ -31,18 +31,6 @@ Namespace Samples
             Return scanSub
         End Function
 
-        Public Shared Function MostActiveFutSoffex() As ScannerSubscription
-
-            '! [mostactivefutsoffex]
-            'Most active futures at SOFFEX
-            Dim scanSub As ScannerSubscription = New ScannerSubscription()
-            scanSub.Instrument = "FUT.EU"
-            scanSub.LocationCode = "FUT.EU.SOFFEX"
-            scanSub.ScanCode = "MOST_ACTIVE"
-            '! [mostactivefutsoffex]
-            Return scanSub
-        End Function
-
         Public Shared Function HighOptVolumePCRatioUSIndexes() As ScannerSubscription
 
             '! [highoptvolume]
@@ -54,8 +42,8 @@ Namespace Samples
             '! [highoptvolume]
             Return scanSub
         End Function
-		
-		Public Shared Function ComplexOrdersAndTrades() As ScannerSubscription
+
+        Public Shared Function ComplexOrdersAndTrades() As ScannerSubscription
 
             '! [combolatesttrade]
             'Complex orders and trades scan, latest trades

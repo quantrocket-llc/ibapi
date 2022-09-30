@@ -30,7 +30,7 @@ class ContractSamples:
         contract.symbol = "DAX"
         contract.secType = "IND"
         contract.currency = "EUR"
-        contract.exchange = "DTB"
+        contract.exchange = "EUREX"
         #! [indcontract]
         return contract
 
@@ -233,9 +233,9 @@ class ContractSamples:
         #! [optcontract_localsymbol]
         contract = Contract()
         #Watch out for the spaces within the local symbol!
-        contract.localSymbol = "C BMW  JUL 20  4800"
+        contract.localSymbol = "P BMW  20221216 72 M"
         contract.secType = "OPT"
-        contract.exchange = "DTB"
+        contract.exchange = "EUREX"
         contract.currency = "EUR"
         #! [optcontract_localsymbol]
         return contract
@@ -261,11 +261,11 @@ class ContractSamples:
     def SimpleFuture():
         #! [futcontract]
         contract = Contract()
-        contract.symbol = "ES"
+        contract.symbol = "GBL"
         contract.secType = "FUT"
-        contract.exchange = "GLOBEX"
-        contract.currency = "USD"
-        contract.lastTradeDateOrContractMonth = "201903"
+        contract.exchange = "EUREX"
+        contract.currency = "EUR"
+        contract.lastTradeDateOrContractMonth = "202303"
         #! [futcontract]
         return contract
 
@@ -278,9 +278,9 @@ class ContractSamples:
         #! [futcontract_local_symbol]
         contract = Contract()
         contract.secType = "FUT"
-        contract.exchange = "GLOBEX"
-        contract.currency = "USD"
-        contract.localSymbol = "ESU6"
+        contract.exchange = "EUREX"
+        contract.currency = "EUR"
+        contract.localSymbol = "FGBL MAR 23"
         #! [futcontract_local_symbol]
         return contract
 
@@ -291,10 +291,10 @@ class ContractSamples:
         contract = Contract()
         contract.symbol = "DAX"
         contract.secType = "FUT"
-        contract.exchange = "DTB"
+        contract.exchange = "EUREX"
         contract.currency = "EUR"
-        contract.lastTradeDateOrContractMonth = "201903"
-        contract.multiplier = "5"
+        contract.lastTradeDateOrContractMonth = "202303"
+        contract.multiplier = "1"
         #! [futcontract_multiplier]
         return contract
 
@@ -315,14 +315,14 @@ class ContractSamples:
     def FuturesOnOptions():
         #! [fopcontract]
         contract = Contract()
-        contract.symbol = "ES"
+        contract.symbol = "GBL"
         contract.secType = "FOP"
-        contract.exchange = "GLOBEX"
-        contract.currency = "USD"
-        contract.lastTradeDateOrContractMonth = "20190315"
-        contract.strike = 2900
+        contract.exchange = "EUREX"
+        contract.currency = "EUR"
+        contract.lastTradeDateOrContractMonth = "20230224"
+        contract.strike = 138
         contract.right = "C"
-        contract.multiplier = "50"
+        contract.multiplier = "1000"
         #! [fopcontract]
         return contract
 
@@ -396,19 +396,19 @@ class ContractSamples:
         contract.symbol = "DBK"
         contract.secType = "BAG"
         contract.currency = "EUR"
-        contract.exchange = "DTB"
+        contract.exchange = "EUREX"
 
         leg1 = ComboLeg()
-        leg1.conId = 317960956 #DBK JUN 21 2019 C
+        leg1.conId = 577164786 #DBK Jun21'24 2 CALL @EUREX
         leg1.ratio = 1
         leg1.action = "BUY"
-        leg1.exchange = "DTB"
+        leg1.exchange = "EUREX"
 
         leg2 = ComboLeg()
-        leg2.conId = 334216780  #DBK MAR 15 2019 C
+        leg2.conId = 577164767 #DBK Dec15'23 2 CALL @EUREX
         leg2.ratio = 1
         leg2.action = "SELL"
-        leg2.exchange = "DTB"
+        leg2.exchange = "EUREX"
 
         contract.comboLegs = []
         contract.comboLegs.append(leg1)
@@ -509,22 +509,22 @@ class ContractSamples:
     def InterCmdtyFuturesContract():
         #! [intcmdfutcontract]
         contract = Contract()
-        contract.symbol = "CL.BZ" #symbol is 'local symbol' of intercommodity spread. 
+        contract.symbol = "COL.WTI" #symbol is 'local symbol' of intercommodity spread. 
         contract.secType = "BAG"
         contract.currency = "USD"
-        contract.exchange = "NYMEX"
+        contract.exchange = "IPE"
 
         leg1 = ComboLeg()
-        leg1.conId = 47207310 #CL Dec'16 @NYMEX
+        leg1.conId = 183405603 #WTI Dec'23 @IPE
         leg1.ratio = 1
         leg1.action = "BUY"
-        leg1.exchange = "NYMEX"
+        leg1.exchange = "IPE"
 
         leg2 = ComboLeg()
-        leg2.conId = 47195961 #BZ Dec'16 @NYMEX
+        leg2.conId = 254011009 #COIL Dec'23 @IPE
         leg2.ratio = 1
         leg2.action = "SELL"
-        leg2.exchange = "NYMEX"
+        leg2.exchange = "IPE"
 
         contract.comboLegs = []
         contract.comboLegs.append(leg1)
@@ -580,9 +580,9 @@ class ContractSamples:
     def ContFut():
         #! [continuousfuturescontract]
         contract = Contract()
-        contract.symbol = "ES"
+        contract.symbol = "GBL"
         contract.secType = "CONTFUT"
-        contract.exchange = "GLOBEX"
+        contract.exchange = "EUREX"
         #! [continuousfuturescontract]
         return contract
 
@@ -590,9 +590,9 @@ class ContractSamples:
     def ContAndExpiringFut():
         #! [contandexpiringfut]
         contract = Contract()
-        contract.symbol = "ES"
+        contract.symbol = "GBL"
         contract.secType = "FUT+CONTFUT"
-        contract.exchange = "GLOBEX"
+        contract.exchange = "EUREX"
         #! [contandexpiringfut]
         return contract
 

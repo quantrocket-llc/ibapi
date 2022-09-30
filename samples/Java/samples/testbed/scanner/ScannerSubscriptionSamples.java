@@ -33,18 +33,6 @@ public class ScannerSubscriptionSamples {
 		
 	}
 	
-	public static ScannerSubscription MostActiveFutSoffex()
-    {
-        //! [mostactivefutsoffex]
-        //Most active futures at SOFFEX
-        ScannerSubscription scanSub = new ScannerSubscription();
-        scanSub.instrument("FUT.EU");
-        scanSub.locationCode("FUT.EU.SOFFEX");
-        scanSub.scanCode("MOST_ACTIVE");
-        //! [mostactivefutsoffex]
-        return scanSub;
-    }
-	
 	public static ScannerSubscription HighOptVolumePCRatioUSIndexes() {
 		
 		//! [highoptvolume]

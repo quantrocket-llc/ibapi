@@ -203,10 +203,8 @@ public class OldMarketDataHandler extends MarketDataHandler {
             // e.g.:
             // id0?req?EUR_CASH_IDEALPRO_USD_~/
             // id3?req?GOOG_OPT_20160115_570_C_100_SMART_USD_~_~/
-            // id5?req2?ESU5_FUT_GLOBEX_USD_~/
             // id3?bidSize
             // id15?req?318?GE_STK_SMART_USD_~/
-            // id37?req?IBM_BAG_IBEFP_USD_CMBLGS_2_336700314_1_BUY_SMART_0_8314_1_SELL_SMART_0_CMBLGS_~/
             int counter = 0;
             int requestId = -1;
             String[] requestTokens = requestStr.split(DDE_REQUEST_SEPARATOR_PARSE);
@@ -235,7 +233,7 @@ public class OldMarketDataHandler extends MarketDataHandler {
         }
 
         public DdeRequest parseCalcRequest(String requestStr, DdeRequestType ddeRequestType) {
-            // e.g.: id14?get?1_10_BMW_OPT_20181116_76_C_100_DTB_EUR_~/
+            // e.g.: id14?get?1_10_BMW_OPT_20221216_72_P_100_EUREX_EUR_~/
             int requestId = -1;
             String[] requestTokens = requestStr.split(DDE_REQUEST_SEPARATOR_PARSE);
             if (requestTokens.length > 0) {

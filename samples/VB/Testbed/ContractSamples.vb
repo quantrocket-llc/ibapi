@@ -37,7 +37,7 @@ Namespace Samples
             contract.Symbol = "DAX"
             contract.SecType = "IND"
             contract.Currency = "EUR"
-            contract.Exchange = "DTB"
+            contract.Exchange = "EUREX"
             '! [indcontract]
             Return contract
         End Function
@@ -227,26 +227,6 @@ Namespace Samples
         End Function
 
         '
-        ' Option contracts require far more information since there are many contracts having the exact same
-        ' attributes such as symbol, currency, strike, etc. 
-        '
-        Public Shared Function NormalOption() As Contract
-
-            Dim contract As Contract = New Contract
-            contract.Symbol = "BAYN"
-            contract.SecType = "OPT"
-            contract.Exchange = "DTB"
-            contract.Currency = "EUR"
-            contract.LastTradeDateOrContractMonth = "20161216"
-            contract.Strike = 100
-            contract.Right = "C"
-            contract.Multiplier = "100"
-            '! Often, contracts will also require a trading class to rule out ambiguities
-            contract.TradingClass = "BAY"
-            Return contract
-
-        End Function
-        '
         '  This contract for example requires the trading class too in order to prevent any ambiguity.
         '
         Public Shared Function OptionWithTradingClass() As Contract
@@ -271,9 +251,9 @@ Namespace Samples
             '! [optcontract_localsymbol]
             Dim contract As Contract = New Contract()
             'Watch out for the spaces within the local symbol!
-            contract.LocalSymbol = "P BMW  JUL 20  4650"
+            contract.LocalSymbol = "P BMW  20221216 72 M"
             contract.SecType = "OPT"
-            contract.Exchange = "DTB"
+            contract.Exchange = "EUREX"
             contract.Currency = "EUR"
             '! [optcontract_localsymbol]
             Return contract
@@ -298,11 +278,11 @@ Namespace Samples
         Public Shared Function SimpleFuture() As Contract
             '! [futcontract]
             Dim contract As Contract = New Contract
-            contract.Symbol = "ES"
+            contract.Symbol = "GBL"
             contract.SecType = "FUT"
-            contract.Exchange = "GLOBEX"
-            contract.Currency = "USD"
-            contract.LastTradeDateOrContractMonth = "201803"
+            contract.Exchange = "EUREX"
+            contract.Currency = "EUR"
+            contract.LastTradeDateOrContractMonth = "202303"
             '! [futcontract]
             Return contract
         End Function
@@ -315,9 +295,9 @@ Namespace Samples
             '! [futcontract_local_symbol]
             Dim contract As Contract = New Contract
             contract.SecType = "FUT"
-            contract.Exchange = "GLOBEX"
-            contract.Currency = "USD"
-            contract.LocalSymbol = "ESU6"
+            contract.Exchange = "EUREX"
+            contract.Currency = "EUR"
+            contract.LocalSymbol = "FGBL MAR 23"
             '! [futcontract_local_symbol]
             Return contract
         End Function
@@ -327,10 +307,10 @@ Namespace Samples
             Dim contract As Contract = New Contract()
             contract.Symbol = "DAX"
             contract.SecType = "FUT"
-            contract.Exchange = "DTB"
+            contract.Exchange = "EUREX"
             contract.Currency = "EUR"
-            contract.LastTradeDateOrContractMonth = "201609"
-            contract.Multiplier = "5"
+            contract.LastTradeDateOrContractMonth = "202303"
+            contract.Multiplier = "1"
             '! [futcontract_multiplier]
             Return contract
         End Function
@@ -353,14 +333,14 @@ Namespace Samples
 
             '! [fopcontract]
             Dim contract As Contract = New Contract
-            contract.Symbol = "ES"
+            contract.Symbol = "GBL"
             contract.SecType = "FOP"
-            contract.Exchange = "GLOBEX"
-            contract.Currency = "USD"
-            contract.LastTradeDateOrContractMonth = "20180316"
-            contract.Strike = 2800
+            contract.Exchange = "EUREX"
+            contract.Currency = "EUR"
+            contract.LastTradeDateOrContractMonth = "20230224"
+            contract.Strike = 138
             contract.Right = "C"
-            contract.Multiplier = "50"
+            contract.Multiplier = "1000"
             '! [fopcontract]
             Return contract
 
@@ -444,19 +424,19 @@ Namespace Samples
             contract.Symbol = "DBK"
             contract.SecType = "BAG"
             contract.Currency = "EUR"
-            contract.Exchange = "DTB"
+            contract.Exchange = "EUREX"
 
             Dim leg1 As ComboLeg = New ComboLeg
-            leg1.ConId = 197397509 'DBK JUN 15 '18 C
+            leg1.ConId = 577164786 'DBK Jun21'24 CALL @EUREX
             leg1.Ratio = 1
             leg1.Action = "BUY"
-            leg1.Exchange = "DTB"
+            leg1.Exchange = "EUREX"
 
             Dim leg2 As ComboLeg = New ComboLeg
-            leg2.ConId = 197397584 'DBK JUN 15 '18 P
+            leg2.ConId = 577164767 'DBK Dec15'23 CALL @EUREX
             leg2.Ratio = 1
             leg2.Action = "SELL"
-            leg2.Exchange = "DTB"
+            leg2.Exchange = "EUREX"
 
             contract.ComboLegs = New List(Of ComboLeg)
             contract.ComboLegs.Add(leg1)
@@ -569,22 +549,22 @@ Namespace Samples
 
             '! [intcmdfutcontract]
             Dim contract As Contract = New Contract
-            contract.Symbol = "CL.BZ"
+            contract.Symbol = "COIL.WTI"
             contract.SecType = "BAG"
             contract.Currency = "USD"
-            contract.Exchange = "NYMEX"
+            contract.Exchange = "IPE"
 
             Dim leg1 As ComboLeg = New ComboLeg
-            leg1.ConId = 47207310 ' CL Dec'16 @NYMEX
+            leg1.ConId = 183405603 ' WTI Dec'23 @IPE
             leg1.Ratio = 1
             leg1.Action = "BUY"
-            leg1.Exchange = "NYMEX"
+            leg1.Exchange = "IPE"
 
             Dim leg2 As ComboLeg = New ComboLeg
-            leg2.ConId = 47195961 ' BZ Dec'16 @NYMEX
+            leg2.ConId = 254011009 ' COIL Dec'23 @IPE
             leg2.Ratio = 1
             leg2.Action = "SELL"
-            leg2.Exchange = "NYMEX"
+            leg2.Exchange = "IPE"
 
             contract.ComboLegs = New List(Of ComboLeg)
             contract.ComboLegs.Add(leg1)
@@ -638,9 +618,9 @@ Namespace Samples
         Public Shared Function ContFut() As Contract
             '! [continuousfuturescontract]
             Dim contract As Contract = New Contract()
-            contract.Symbol = "ES"
+            contract.Symbol = "GBL"
             contract.SecType = "CONTFUT"
-            contract.Exchange = "GLOBEX"
+            contract.Exchange = "EUREX"
             '! [continuousfuturescontract]
             Return contract
         End Function
@@ -648,9 +628,9 @@ Namespace Samples
         Public Shared Function ContAndExpiringFut() As Contract
             '! [contandexpiringfut]
             Dim contract As Contract = New Contract()
-            contract.Symbol = "ES"
+            contract.Symbol = "GBL"
             contract.SecType = "FUT+CONTFUT"
-            contract.Exchange = "GLOBEX"
+            contract.Exchange = "EUREX"
             '! [contandexpiringfut]
             Return contract
         End Function

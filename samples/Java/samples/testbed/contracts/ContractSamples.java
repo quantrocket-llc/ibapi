@@ -84,7 +84,7 @@ public class ContractSamples {
 		contract.symbol("DAX");
 		contract.secType("IND");
 		contract.currency("EUR");
-		contract.exchange("DTB");
+		contract.exchange("EUREX");
 		//! [indcontract]
 		return contract;
 	}
@@ -233,9 +233,9 @@ public class ContractSamples {
 		//! [optcontract_localsymbol]
 		Contract contract = new Contract();
 		//Watch out for the spaces within the local symbol!
-		contract.localSymbol("P BMW  JUL 20  4650");
+		contract.localSymbol("P BMW  20221216 72 M");
 		contract.secType("OPT");
-		contract.exchange("DTB");
+		contract.exchange("EUREX");
 		contract.currency("EUR");
 		//! [optcontract_localsymbol]
 		return contract;
@@ -255,11 +255,11 @@ public class ContractSamples {
 	public static Contract SimpleFuture() {
 		//! [futcontract]
 		Contract contract = new Contract();
-		contract.symbol("ES");
+		contract.symbol("GBL");
 		contract.secType("FUT");
-		contract.currency("USD");
-		contract.exchange("GLOBEX");
-		contract.lastTradeDateOrContractMonth("201803");
+		contract.currency("EUR");
+		contract.exchange("EUREX");
+		contract.lastTradeDateOrContractMonth("202303");
 		//! [futcontract]
 		return contract;
 	}
@@ -267,10 +267,10 @@ public class ContractSamples {
 	public static Contract FutureWithLocalSymbol() {
 		//! [futcontract_local_symbol]
 		Contract contract = new Contract();
-		contract.localSymbol("ESU6");
+		contract.localSymbol("FGBL MAR 23");
 		contract.secType("FUT");
-		contract.currency("USD");
-		contract.exchange("GLOBEX");
+		contract.currency("EUR");
+		contract.exchange("EUREX");
 		//! [futcontract_local_symbol]
 		return contract;
 	}
@@ -281,9 +281,9 @@ public class ContractSamples {
 		contract.symbol("DAX");
 		contract.secType("FUT");
 		contract.currency("EUR");
-		contract.exchange("DTB");
-		contract.lastTradeDateOrContractMonth("201609");
-		contract.multiplier("5");
+		contract.exchange("EUREX");
+		contract.lastTradeDateOrContractMonth("202303");
+		contract.multiplier("1");
 		//! [futcontract_multiplier]
 		return contract;
 	}
@@ -301,14 +301,14 @@ public class ContractSamples {
 	public static Contract FuturesOnOptions() {
 		//! [fopcontract]
 		Contract contract = new Contract();
-		contract.symbol("ES");
+		contract.symbol("GBL");
 		contract.secType("FOP");
-		contract.currency("USD");
-		contract.exchange("GLOBEX");
-		contract.lastTradeDateOrContractMonth("20180316");
+		contract.currency("EUR");
+		contract.exchange("EUREX");
+		contract.lastTradeDateOrContractMonth("20230224");
 		contract.right("C");
-		contract.strike(2800);
-		contract.multiplier("50");
+		contract.strike(138);
+		contract.multiplier("1000");
 		//! [fopcontract]
 		return contract;
 	}
@@ -363,22 +363,22 @@ public class ContractSamples {
 		contract.symbol("DBK");
 		contract.secType("BAG");
 		contract.currency("EUR");
-		contract.exchange("DTB");
+		contract.exchange("EUREX");
 		
 		ComboLeg leg1 = new ComboLeg();
 		ComboLeg leg2 = new ComboLeg();
 
 		List<ComboLeg> addAllLegs = new ArrayList<>();
 
-		leg1.conid(197397509);//DBK JUN 15 '18 C
+		leg1.conid(577164786);//DBK Jun21'24 2 CALL @EUREX
 		leg1.ratio(1);
 		leg1.action("BUY");
-		leg1.exchange("DTB");
+		leg1.exchange("EUREX");
 
-		leg2.conid(197397584);//DBK JUN 15 '18 P
+		leg2.conid(577164767);//DBK Dec15'23 2 CALL @EUREX
 		leg2.ratio(1);
 		leg2.action("SELL");
-		leg2.exchange("DTB");
+		leg2.exchange("EUREX");
 
 		addAllLegs.add(leg1);
 		addAllLegs.add(leg2);
@@ -488,25 +488,25 @@ public class ContractSamples {
 	public static Contract InterCmdtyFuturesContract() {
 		//! [intcmdfutcontract]
 		Contract contract = new Contract();
-		contract.symbol("CL.BZ");
+		contract.symbol("COIL.WTI");
 		contract.secType("BAG");
 		contract.currency("USD");
-		contract.exchange("NYMEX");
+		contract.exchange("IPE");
 		
 		ComboLeg leg1 = new ComboLeg();
 		ComboLeg leg2 = new ComboLeg();
 
 		List<ComboLeg> addAllLegs = new ArrayList<>();
 
-		leg1.conid(47207310); //CL Dec'16 @NYMEX
+		leg1.conid(183405603); //WTI Dec'23 @IPE
 		leg1.ratio(1);
 		leg1.action("BUY");
-		leg1.exchange("NYMEX");
+		leg1.exchange("IPE");
 
-		leg2.conid(47195961); //BZ Dec'16 @NYMEX
+		leg2.conid(254011009); //COIL Dec'23 @IPE
 		leg2.ratio(1);
 		leg2.action("SELL");
-		leg2.exchange("NYMEX");
+		leg2.exchange("IPE");
 
 		addAllLegs.add(leg1);
 		addAllLegs.add(leg2);
@@ -559,9 +559,9 @@ public class ContractSamples {
 	public static Contract ContFut() {
 		//! [continuousfuturescontract]
 		Contract contract = new Contract();
-		contract.symbol("ES");
+		contract.symbol("GBL");
 		contract.secType("CONTFUT");
-		contract.exchange("GLOBEX");
+		contract.exchange("EUREX");
 		//! [continuousfuturescontract]
 		return contract;
 	}
@@ -569,9 +569,9 @@ public class ContractSamples {
     public static Contract ContAndExpiringFut() {
         //! [contandexpiringfut]
         Contract contract = new Contract();
-        contract.symbol("ES");
+        contract.symbol("GBL");
         contract.secType("FUT+CONTFUT");
-        contract.exchange("GLOBEX");
+        contract.exchange("EUREX");
         //! [contandexpiringfut]
         return contract;
     }

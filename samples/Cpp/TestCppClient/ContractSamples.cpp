@@ -72,7 +72,7 @@ Contract ContractSamples::Index(){
 	contract.symbol = "DAX";
 	contract.secType = "IND";
 	contract.currency = "EUR";
-	contract.exchange = "DTB";
+	contract.exchange = "EUREX";
 	//! [indcontract]
 	return contract;
 }
@@ -268,25 +268,6 @@ Contract ContractSamples::OptionAtBox(){
 }
 
 	/*
-	 *Option contracts require far more information since there are many contracts having the exact same
-	 *attributes such as symbol, currency, strike, etc. 
-	 */
-Contract ContractSamples::NormalOption(){
-	Contract contract;
-	contract.symbol = "BAYN";
-	contract.secType = "OPT";
-	contract.exchange = "DTB";
-	contract.currency = "EUR";
-	contract.lastTradeDateOrContractMonth = "20161216";
-	contract.strike = 100;
-	contract.right = "C";
-	contract.multiplier = "100";
-	//Often, contracts will also require a trading class to rule out ambiguities
-	contract.tradingClass = "BAY";
-	return contract;
-}
-
-	/*
      * Option contracts require far more information since there are many contracts having the exact same
      * attributes such as symbol, currency, strike, etc. 
      */
@@ -313,9 +294,9 @@ Contract ContractSamples::OptionWithLocalSymbol(){
 	//! [optcontract_localsymbol]
 	Contract contract;
 	//Watch out for the spaces within the local symbol!
-	contract.localSymbol = "P BMW  JUL 20  4650";
+	contract.localSymbol = "P BMW  20221216 72 M";
 	contract.secType = "OPT";
-	contract.exchange = "DTB";
+	contract.exchange = "EUREX";
 	contract.currency = "EUR";
 	//! [optcontract_localsymbol]
 	return contract;
@@ -342,11 +323,11 @@ Contract ContractSamples::DutchWarrant(){
 Contract ContractSamples::SimpleFuture(){
 	//! [futcontract]
 	Contract contract;
-	contract.symbol = "ES";
+	contract.symbol = "GBL";
 	contract.secType = "FUT";
-	contract.exchange = "GLOBEX";
-	contract.currency = "USD";
-	contract.lastTradeDateOrContractMonth = "201803";
+	contract.exchange = "EUREX";
+	contract.currency = "EUR";
+	contract.lastTradeDateOrContractMonth = "202303";
 	//! [futcontract]
 	return contract;
 }
@@ -359,9 +340,9 @@ Contract ContractSamples::FutureWithLocalSymbol(){
 	//! [futcontract_local_symbol]
 	Contract contract;
 	contract.secType = "FUT";
-	contract.exchange = "GLOBEX";
-	contract.currency = "USD";
-	contract.localSymbol = "ESZ6";
+	contract.exchange = "EUREX";
+	contract.currency = "EUR";
+	contract.localSymbol = "FGBL MAR 23";
 	//! [futcontract_local_symbol]
 	return contract;
 }
@@ -371,10 +352,10 @@ Contract ContractSamples::FutureWithMultiplier(){
 	Contract contract;
 	contract.symbol = "DAX";
 	contract.secType = "FUT";
-	contract.exchange = "DTB";
+	contract.exchange = "EUREX";
 	contract.currency = "EUR";
-	contract.lastTradeDateOrContractMonth = "201609";
-	contract.multiplier = "5";
+	contract.lastTradeDateOrContractMonth = "202303";
+	contract.multiplier = "1";
 	//! [futcontract_multiplier]
 	return contract;
 }
@@ -395,14 +376,14 @@ Contract ContractSamples::WrongContract(){
 Contract ContractSamples::FuturesOnOptions(){
 	//! [fopcontract]
 	Contract contract;
-	contract.symbol = "ES";
+	contract.symbol = "GBL";
 	contract.secType = "FOP";
-	contract.exchange = "GLOBEX";
-	contract.currency = "USD";
-	contract.lastTradeDateOrContractMonth = "20180316";
-	contract.strike = 2800;
+	contract.exchange = "EUREX";
+	contract.currency = "EUR";
+	contract.lastTradeDateOrContractMonth = "20230224";
+	contract.strike = 138;
 	contract.right = "C";
-	contract.multiplier = "50";
+	contract.multiplier = "1000";
 	//! [fopcontract]
 	return contract;
 }
@@ -475,19 +456,19 @@ Contract ContractSamples::OptionComboContract(){
 	contract.symbol = "DBK";
 	contract.secType = "BAG";
 	contract.currency = "EUR";
-	contract.exchange = "DTB";
+	contract.exchange = "EUREX";
 
 	ComboLegSPtr leg1(new ComboLeg);
-	leg1->conId = 197397509;
+	leg1->conId = 577164786;//DBK Jun21'24 CALL @EUREX
 	leg1->action = "BUY";
 	leg1->ratio = 1;
-	leg1->exchange = "DTB";
+	leg1->exchange = "EUREX";
 
 	ComboLegSPtr leg2(new ComboLeg);
-	leg2->conId = 197397584;
+	leg2->conId = 577164767;//DBK Dec15'23 CALL @EUREX
 	leg2->action = "SELL";
 	leg2->ratio = 1;
-	leg2->exchange = "DTB";
+	leg2->exchange = "EUREX";
 
 	contract.comboLegs.reset(new Contract::ComboLegList());
 	contract.comboLegs->push_back(leg1);
@@ -590,22 +571,22 @@ Contract ContractSamples::SmartFutureComboContract(){
 Contract ContractSamples::InterCmdtyFuturesContract(){
 	//! [intcmdfutcontract]
 	Contract contract;
-	contract.symbol = "CL.BZ";
+	contract.symbol = "COIL.WTI";
 	contract.secType = "BAG";
 	contract.currency = "USD";
-	contract.exchange = "NYMEX";
+	contract.exchange = "IPE";
 
 	ComboLegSPtr leg1(new ComboLeg);
-	leg1->conId = 47207310; //CL Dec'16 @NYMEX
+	leg1->conId = 183405603; //WTI Dec'23 @IPE
 	leg1->action = "BUY";
 	leg1->ratio = 1;
-	leg1->exchange = "NYMEX";
+	leg1->exchange = "IPE";
 
 	ComboLegSPtr leg2(new ComboLeg);
-	leg2->conId = 47195961; //BZ Dec'16 @NYMEX
+	leg2->conId = 254011009; //COIL Dec'23 @IPE
 	leg2->action = "SELL";
 	leg2->ratio = 1;
-	leg2->exchange = "NYMEX";
+	leg2->exchange = "IPE";
 
 	contract.comboLegs.reset(new Contract::ComboLegList());
 	contract.comboLegs->push_back(leg1);
@@ -661,9 +642,9 @@ Contract ContractSamples::ContFut()
 {
 	//! [continuousfuturescontract]
 	Contract contract;
-	contract.symbol = "ES";
+	contract.symbol = "GBL";
 	contract.secType = "CONTFUT";
-	contract.exchange = "GLOBEX";
+	contract.exchange = "EUREX";
 	//! [continuousfuturescontract]
 	return contract;
 }
@@ -671,9 +652,9 @@ Contract ContractSamples::ContFut()
 Contract ContractSamples::ContAndExpiringFut(){
 	//! [contandexpiringfut]
 	Contract contract;
-	contract.symbol = "ES";
+	contract.symbol = "GBL";
 	contract.secType = "FUT+CONTFUT";
-	contract.exchange = "GLOBEX";
+	contract.exchange = "EUREX";
 	//! [contandexpiringfut]
 	return contract;
 }

@@ -44,7 +44,7 @@ namespace Samples
             contract.Symbol = "DAX";
             contract.SecType = "IND";
             contract.Currency = "EUR";
-            contract.Exchange = "DTB";
+            contract.Exchange = "EUREX";
             //! [indcontract]
             return contract;
         }
@@ -278,9 +278,9 @@ namespace Samples
             //! [optcontract_localsymbol]
             Contract contract = new Contract();
             //Watch out for the spaces within the local symbol!
-            contract.LocalSymbol = "P BMW  JUL 20  4650";
+            contract.LocalSymbol = "P BMW  20221216 72 M";
             contract.SecType = "OPT";
-            contract.Exchange = "DTB";
+            contract.Exchange = "EUREX";
             contract.Currency = "EUR";
             //! [optcontract_localsymbol]
             return contract;
@@ -310,11 +310,11 @@ namespace Samples
         {
             //! [futcontract]
             Contract contract = new Contract();
-            contract.Symbol = "ES";
+            contract.Symbol = "GBL";
             contract.SecType = "FUT";
-            contract.Exchange = "GLOBEX";
-            contract.Currency = "USD";
-            contract.LastTradeDateOrContractMonth = "201803";
+            contract.Exchange = "EUREX";
+            contract.Currency = "EUR";
+            contract.LastTradeDateOrContractMonth = "202303";
             //! [futcontract]
             return contract;
         }
@@ -328,9 +328,9 @@ namespace Samples
             //! [futcontract_local_symbol]
             Contract contract = new Contract();
             contract.SecType = "FUT";
-            contract.Exchange = "GLOBEX";
-            contract.Currency = "USD";
-            contract.LocalSymbol = "ESU6";
+            contract.Exchange = "EUREX";
+            contract.Currency = "EUR";
+            contract.LocalSymbol = "FGBL MAR 23";
             //! [futcontract_local_symbol]
             return contract;
         }
@@ -341,10 +341,10 @@ namespace Samples
             Contract contract = new Contract();
             contract.Symbol = "DAX";
             contract.SecType = "FUT";
-            contract.Exchange = "DTB";
+            contract.Exchange = "EUREX";
             contract.Currency = "EUR";
-            contract.LastTradeDateOrContractMonth = "201609";
-            contract.Multiplier = "5";
+            contract.LastTradeDateOrContractMonth = "202303";
+            contract.Multiplier = "1";
             //! [futcontract_multiplier]
             return contract;
         }
@@ -367,14 +367,14 @@ namespace Samples
         {
             //! [fopcontract]
             Contract contract = new Contract();
-            contract.Symbol = "ES";
+            contract.Symbol = "GBL";
             contract.SecType = "FOP";
-            contract.Exchange = "GLOBEX";
-            contract.Currency = "USD";
-            contract.LastTradeDateOrContractMonth = "20180316";
-            contract.Strike = 2800;
+            contract.Exchange = "EUREX";
+            contract.Currency = "EUR";
+            contract.LastTradeDateOrContractMonth = "20230224";
+            contract.Strike = 138;
             contract.Right = "C";
-            contract.Multiplier = "50";
+            contract.Multiplier = "1000";
             //! [fopcontract]
             return contract;
         }
@@ -451,19 +451,19 @@ namespace Samples
             contract.Symbol = "DBK";
             contract.SecType = "BAG";
             contract.Currency = "EUR";
-            contract.Exchange = "DTB";
+            contract.Exchange = "EUREX";
 
             ComboLeg leg1 = new ComboLeg();
-            leg1.ConId = 197397509;//DBK JUN 15 '18 C
+            leg1.ConId = 577164786;//DBK Jun21'24 CALL @EUREX
             leg1.Ratio = 1;
             leg1.Action = "BUY";
-            leg1.Exchange = "DTB";
+            leg1.Exchange = "EUREX";
 
             ComboLeg leg2 = new ComboLeg();
-            leg2.ConId = 197397584;//DBK JUN 15 '18 P
+            leg2.ConId = 577164767;//DBK Dec15'23 CALL @EUREX
             leg2.Ratio = 1;
             leg2.Action = "SELL";
-            leg2.Exchange = "DTB";
+            leg2.Exchange = "EUREX";
 
             contract.ComboLegs = new List<ComboLeg>();
             contract.ComboLegs.Add(leg1);
@@ -571,22 +571,22 @@ namespace Samples
         {
             //! [intcmdfutcontract]
             Contract contract = new Contract();
-            contract.Symbol = "CL.BZ";
+            contract.Symbol = "COIL.WTI";
             contract.SecType = "BAG";
             contract.Currency = "USD";
-            contract.Exchange = "NYMEX";
+            contract.Exchange = "IPE";
 
             ComboLeg leg1 = new ComboLeg();
-            leg1.ConId = 47207310; //CL Dec'16 @NYMEX
+            leg1.ConId = 183405603; //WTI Dec'23 @IPE
             leg1.Ratio = 1;
             leg1.Action = "BUY";
-            leg1.Exchange = "NYMEX";
+            leg1.Exchange = "IPE";
 
             ComboLeg leg2 = new ComboLeg();
-            leg2.ConId = 47195961; //BZ Dec'16 @NYMEX
+            leg2.ConId = 254011009; //COIL Dec'23 @IPE
             leg2.Ratio = 1;
             leg2.Action = "SELL";
-            leg2.Exchange = "NYMEX";
+            leg2.Exchange = "IPE";
 
             contract.ComboLegs = new List<ComboLeg>();
             contract.ComboLegs.Add(leg1);
@@ -642,9 +642,9 @@ namespace Samples
         {
             //! [continuousfuturescontract]
             Contract contract = new Contract();
-            contract.Symbol = "ES";
+            contract.Symbol = "GBL";
             contract.SecType = "CONTFUT";
-            contract.Exchange = "GLOBEX";
+            contract.Exchange = "EUREX";
             //! [continuousfuturescontract]
             return contract;
         }
@@ -653,9 +653,9 @@ namespace Samples
         {
             //! [contandexpiringfut]
             Contract contract = new Contract();
-            contract.Symbol = "ES";
+            contract.Symbol = "GBL";
             contract.SecType = "FUT+CONTFUT";
-            contract.Exchange = "GLOBEX";
+            contract.Exchange = "EUREX";
             //! [contandexpiringfut]
             return contract;
         }

@@ -331,10 +331,10 @@ public class ComboPanel extends JPanel implements INewTab {
 	}
 
 	static class EfpPanel extends JPanel {
-		private final UpperField m_symbol = new UpperField( "IBM");
-		private final UpperField m_futExch = new UpperField( "ONE");
-		private final UpperField m_lastTradeDate = new UpperField( "201309");
-		private final UpperField m_stkExch = new UpperField( "SMART");
+		private final UpperField m_symbol = new UpperField( "");
+		private final UpperField m_futExch = new UpperField( "");
+		private final UpperField m_lastTradeDate = new UpperField( "");
+		private final UpperField m_stkExch = new UpperField( "");
 		private final List<LegRow> m_legRows = new ArrayList<>();
 		private final LegModel m_legsModel = new LegModel( m_legRows);
 		private final JTable m_legsTable = new JTable( m_legsModel);

@@ -108,7 +108,7 @@ public class SampleRfq extends SimpleWrapper {
                m_contract.currency("EUR");
                break;
            case 1:
-               m_contract = new FutContract("IBM", "200809");
+               m_contract = new FutContract("GBL", "202303");
                break;
            case 2:
                m_contract = new OptContract("IBM", "200809", 120, "CALL");

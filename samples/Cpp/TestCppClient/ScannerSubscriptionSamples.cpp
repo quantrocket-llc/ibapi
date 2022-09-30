@@ -29,18 +29,6 @@ ScannerSubscription ScannerSubscriptionSamples::TopPercentGainersIbis()
 	return scanSub;
 }
 
-ScannerSubscription ScannerSubscriptionSamples::MostActiveFutSoffex()
-{
-	//! [mostactivefutsoffex]
-	//Most active futures at SOFFEX
-	ScannerSubscription scanSub;
-	scanSub.instrument = "FUT.EU";
-    scanSub.locationCode = "FUT.EU.SOFFEX";
-    scanSub.scanCode = "MOST_ACTIVE";
-	//! [mostactivefutsoffex]
-	return scanSub;
-}
-
 ScannerSubscription ScannerSubscriptionSamples::HighOptVolumePCRatioUSIndexes()
 {
 	//! [highoptvolume]

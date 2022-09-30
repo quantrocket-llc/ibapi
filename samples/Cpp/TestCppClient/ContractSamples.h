@@ -30,7 +30,6 @@ public:
 	static Contract Commodity();
 	static Contract USOptionContract();
 	static Contract OptionAtBox();
-	static Contract NormalOption();
 	static Contract OptionWithTradingClass();
 	static Contract OptionWithLocalSymbol();
 	static Contract DutchWarrant();
