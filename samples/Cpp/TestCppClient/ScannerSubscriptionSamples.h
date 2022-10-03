@@ -13,6 +13,7 @@ class ScannerSubscriptionSamples {
 public:
 	static ScannerSubscription HotUSStkByVolume();
 	static ScannerSubscription TopPercentGainersIbis();
+	static ScannerSubscription MostActiveFutEurex();
 	static ScannerSubscription HighOptVolumePCRatioUSIndexes();
 	static ScannerSubscription ComplexOrdersAndTrades();
 };
