@@ -33,6 +33,17 @@ class ScannerSubscriptionSamples(Object):
         return scanSub
 
     @staticmethod
+    def MostActiveFutEurex():
+        #! [mostactivefuteurex]
+        # Most active futures at EUREX
+        scanSub = ScannerSubscription()
+        scanSub.instrument = "FUT.EU"
+        scanSub.locationCode = "FUT.EU.EUREX"
+        scanSub.scanCode = "MOST_ACTIVE"
+        #! [mostactivefuteurex]
+        return scanSub
+
+    @staticmethod
     def HighOptVolumePCRatioUSIndexes():
         #! [highoptvolume]
         # High option volume P/C ratio US indexes

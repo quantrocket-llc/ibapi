@@ -178,7 +178,6 @@
 		<tr><td><b>ADJUSTED_LAST</b></td><td>Dividend-adjusted first traded price</td><td>Dividend-adjusted high trade</td><td>Dividend-adjusted low trade</td><td>Dividend-adjusted last trade</td><td>Total traded volume</td></tr>
 		<tr><td><b>HISTORICAL_VOLATILITY</b></td><td>Starting volatility</td><td>Highest volatility</td><td>Lowest volatility</td><td>Last volatility</td><td>N/A</td></tr>
 		<tr><td><b>OPTION_IMPLIED_VOLATILITY</b></td><td>Starting implied volatility</td><td>Highest implied volatility</td><td>Lowest implied volatility</td><td>Last implied volatility</td><td>N/A</td></tr>
-		<tr><td><b>REBATE_RATE</b></td><td>Starting rebate rate</td><td>Highest rebate rate</td><td>Lowest rebate rate</td><td>Last rebate rate</td><td>N/A</td></tr>
 		<tr><td><b>FEE_RATE</b></td><td>Starting fee rate</td><td>Highest fee rate</td><td>Lowest fee rate</td><td>Last fee rate</td><td>N/A</td></tr>
 		<tr><td><b>YIELD_BID</b></td><td>Starting bid yield</td><td>Highest bid yield</td><td>Lowest bid yield</td><td>Last bid yield </td><td>N/A</td></tr>
 		<tr><td><b>YIELD_ASK</b></td><td>Starting ask yield</td><td>Highest ask yield</td><td>Lowest ask yield</td><td>Last ask yield</td><td>N/A</td></tr>

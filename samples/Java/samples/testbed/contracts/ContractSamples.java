@@ -370,12 +370,12 @@ public class ContractSamples {
 
 		List<ComboLeg> addAllLegs = new ArrayList<>();
 
-		leg1.conid(577164786);//DBK Jun21'24 2 CALL @EUREX
+		leg1.conid(577164786);//DBK Jun21'24 2 CALL @EUREX
 		leg1.ratio(1);
 		leg1.action("BUY");
 		leg1.exchange("EUREX");
 
-		leg2.conid(577164767);//DBK Dec15'23 2 CALL @EUREX
+		leg2.conid(577164767);//DBK Dec15'23 2 CALL @EUREX
 		leg2.ratio(1);
 		leg2.action("SELL");
 		leg2.exchange("EUREX");
@@ -498,12 +498,12 @@ public class ContractSamples {
 
 		List<ComboLeg> addAllLegs = new ArrayList<>();
 
-		leg1.conid(183405603); //WTI Dec'23 @IPE
+		leg1.conid(183405603); //WTIï¿½Dec'23ï¿½@IPE
 		leg1.ratio(1);
 		leg1.action("BUY");
 		leg1.exchange("IPE");
 
-		leg2.conid(254011009); //COIL Dec'23 @IPE
+		leg2.conid(254011009); //COILï¿½Dec'23ï¿½@IPE
 		leg2.ratio(1);
 		leg2.action("SELL");
 		leg2.exchange("IPE");

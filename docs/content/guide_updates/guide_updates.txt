@@ -3,6 +3,19 @@
 Starting from 13.12.2021 all of the TWS API guide updates will be documented on this page.<br>
 <i>Please note, that above only applies to changes to the TWS API guide and not TWS API source code and samples.</i><br>
 
+<b>3.10.2022</b>
+<ul>
+  <li>Removed <b>"Rebate Rate"</b> from <a href="https://interactivebrokers.github.io/tws-api/historical_bars.html#hd_what_to_show" target="_blank">whatToShow</a> list, <a href="https://interactivebrokers.github.io/tws-api/tick_types.html#shortable" target="_blank">Shortable</a> description and <a href="https://interactivebrokers.github.io/tws-api/classIBApi_1_1EClient.html#aad87a15294377608e59aec1d87420594" target="_blank">reqHistoricalData</a> available whatToShow parameter values.</li>
+  <li>Due to upcoming exchange name change removed <b>de-supported exchanges</b> from TWS API documentation.</li>
+   <ul>
+	  <li>Replaced <i>SOFFEX</i> with <i>EUREX</i></li>
+    <li>Replaced <i>DTB</i> with <i>EUREX</i></li>
+    <li>Replaced <i>GLOBEX</i> with <i>CME</i></li>
+    <li>Replaced <i>NYMEX</i> with <i>COMEX</i></li>
+    <li>Exchange <i>ECBOT</i> will be renamed to <i>CBOT</i></li>
+  </ul>
+</ul>
+
 <b>20.09.2022</b>
 <ul>
   <li>Removed obsolete </b>monetaryValue</b> Parameter from algorithmic orders: @ref ibalgos. Instead of using </b>monetaryValue</b> as an IBApi::TagValue parameter, clients may specify IBApi::Order::CashQty for the same purpose.</li>

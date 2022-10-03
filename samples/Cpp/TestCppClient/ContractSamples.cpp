@@ -459,13 +459,13 @@ Contract ContractSamples::OptionComboContract(){
 	contract.exchange = "EUREX";
 
 	ComboLegSPtr leg1(new ComboLeg);
-	leg1->conId = 577164786;//DBK Jun21'24 CALL @EUREX
+	leg1->conId = 577164786;//DBK Jun21'24 CALL @EUREX
 	leg1->action = "BUY";
 	leg1->ratio = 1;
 	leg1->exchange = "EUREX";
 
 	ComboLegSPtr leg2(new ComboLeg);
-	leg2->conId = 577164767;//DBK Dec15'23 CALL @EUREX
+	leg2->conId = 577164767;//DBK Dec15'23 CALL @EUREX
 	leg2->action = "SELL";
 	leg2->ratio = 1;
 	leg2->exchange = "EUREX";

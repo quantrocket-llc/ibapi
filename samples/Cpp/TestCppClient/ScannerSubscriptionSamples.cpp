@@ -29,6 +29,18 @@ ScannerSubscription ScannerSubscriptionSamples::TopPercentGainersIbis()
 	return scanSub;
 }
 
+ScannerSubscription ScannerSubscriptionSamples::MostActiveFutEurex()
+{
+	//! [mostactivefuteurex]
+	//Most active futures at EUREX
+	ScannerSubscription scanSub;
+	scanSub.instrument = "FUT.EU";
+    scanSub.locationCode = "FUT.EU.EUREX";
+    scanSub.scanCode = "MOST_ACTIVE";
+	//! [mostactivefuteurex]
+	return scanSub;
+}
+
 ScannerSubscription ScannerSubscriptionSamples::HighOptVolumePCRatioUSIndexes()
 {
 	//! [highoptvolume]

@@ -454,13 +454,13 @@ namespace Samples
             contract.Exchange = "EUREX";
 
             ComboLeg leg1 = new ComboLeg();
-            leg1.ConId = 577164786;//DBK Jun21'24 CALL @EUREX
+            leg1.ConId = 577164786;//DBK Jun21'24 CALL @EUREX
             leg1.Ratio = 1;
             leg1.Action = "BUY";
             leg1.Exchange = "EUREX";
 
             ComboLeg leg2 = new ComboLeg();
-            leg2.ConId = 577164767;//DBK Dec15'23 CALL @EUREX
+            leg2.ConId = 577164767;//DBK Dec15'23 CALL @EUREX
             leg2.Ratio = 1;
             leg2.Action = "SELL";
             leg2.Exchange = "EUREX";
