@@ -130,7 +130,7 @@
 		<tr><td>1.5 or less</td><td>Contract is not available for short selling.</td></tr>
 	</table>
 
-	Receiving the actual number of shares available to short requires TWS 974+. For detailed information about shortability data (shortable shares, fee rate, rebate rate) available outside of TWS, IB also provides an FTP site. For more information on the FTP site, see knowledge base article <a href="https://ibkb.interactivebrokers.com/it/article/2024" target="_blank">2024</a>
+	Receiving the actual number of shares available to short requires TWS 974+. For detailed information about shortability data (shortable shares, fee rate) available outside of TWS, IB also provides an FTP site. For more information on the FTP site, see knowledge base article <a href="https://ibkb.interactivebrokers.com/it/article/2024" target="_blank">2024</a>
 
 	\section volume_figures Volume Data
 

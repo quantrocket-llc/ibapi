@@ -163,7 +163,7 @@
 	
 	<i>Example</i>
 	
-	=Ssample123|tik!'id3?req2?ESZ6_FUT_GLOBEX_USD_~/'
+	=Ssample123|tik!'id3?req2?ESZ6_FUT_CME_USD_~/'
 	
 	<b>FUT using underlying’s symbol, multiplier and expiration date</b>
 	
@@ -173,7 +173,7 @@
 	
 	<i>Example</i>
 	
-	=Ssample123|tik!'id3?req?ES_FUT_201612_50_GLOBEX_USD_~_~/'
+	=Ssample123|tik!'id3?req?ES_FUT_201612_50_CME_USD_~_~/'
 	
 	<b>OPT</b>
 	
@@ -185,7 +185,7 @@
 	
 	<i>Example</i>
 	
-	=Ssample123|tik!'id4?req2?C DBK  DEC 16  1300_OPT_DTB_EUR_~/'
+	=Ssample123|tik!'id4?req2?C DBK  DEC 22  1300_OPT_EUREX_EUR_~/'
 	
 	<i>Note: The format of the option local symbol conforms to the <a href="http://ibkb.interactivebrokers.com/article/972" target="_blank">Option Symbology Initiative (OSI)</a>.</i>
 	
@@ -197,7 +197,7 @@
 	
 	<i>Example</i>
 	
-	=Ssample123|tik!'id4?req?DBK_OPT_20161216_13_C_100_DTB_EUR_~_~/'
+	=Ssample123|tik!'id4?req?DBK_OPT_20221007_13_C_100_EUREX_EUR_~_~/'
 	
 	<b>FOP</b>
 	
@@ -209,7 +209,7 @@
 	
 	<i>Example</i>
 	
-	=Ssample123|tik!'id5?req2?XTZ6 C1100_FOP_GLOBEX_USD_~/'
+	=Ssample123|tik!'id5?req2?XTZ6 C1100_FOP_CME_USD_~/'
 	
 	<b>FOP using underlying’s symbol, multiplier and expiration date</b>
 
@@ -219,7 +219,7 @@
 	
 	<i>Example</i>
 	
-	=Ssample123|tik!'id5?req?EUR_FOP_20161209_1.1_C_125000_GLOBEX_USD_~_XT/'
+	=Ssample123|tik!'id5?req?EUR_FOP_20161209_1.1_C_125000_CME_USD_~_XT/'
 	
 	<b>IND</b>
 	
@@ -229,7 +229,7 @@
 	
 	<i>Example</i>
 	
-	=Ssample123|tik!'id6?req?ES_IND_GLOBEX_USD_~/'
+	=Ssample123|tik!'id6?req?ES_IND_CME_USD_~/'
 	
 	<b>BAG</b>
 	

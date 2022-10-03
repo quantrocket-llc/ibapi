@@ -31,6 +31,18 @@ Namespace Samples
             Return scanSub
         End Function
 
+        Public Shared Function MostActiveFutEurex() As ScannerSubscription
+
+            '! [mostactivefuteurex]
+            'Most active futures at EUREX
+            Dim scanSub As ScannerSubscription = New ScannerSubscription()
+            scanSub.Instrument = "FUT.EU"
+            scanSub.LocationCode = "FUT.EU.EUREX"
+            scanSub.ScanCode = "MOST_ACTIVE"
+            '! [mostactivefuteurex]
+            Return scanSub
+        End Function
+
         Public Shared Function HighOptVolumePCRatioUSIndexes() As ScannerSubscription
 
             '! [highoptvolume]
