@@ -30,6 +30,8 @@ namespace IBSampleApp.ui
         private const int SHORTABLE_SHARES_INDEX = 17;
         private const int ESTIMATED_IPO_MIDPOINT = 18;
         private const int FINAL_IPO_LAST = 19;
+        private const int BID_YIELD = 20;
+        private const int ASK_YIELD = 21;
 
         private const int BID_SIZE_INDEX = 2;
         private const int ASK_SIZE_INDEX = 7;
@@ -200,6 +202,20 @@ namespace IBSampleApp.ui
                     {
                         //FINAL_IPO_LAST
                         grid[FINAL_IPO_LAST, GetIndex(dataMessage.RequestId)].Value = Util.DoubleMaxString(dataMessage.Price);
+                        break;
+                    }
+                case TickType.BID_YIELD:
+                case TickType.DELAYED_YIELD_BID:
+                    {
+                        //BID_YIELD
+                        grid[BID_YIELD, GetIndex(dataMessage.RequestId)].Value = Util.DoubleMaxString(dataMessage.Price);
+                        break;
+                    }
+                case TickType.ASK_YIELD:
+                case TickType.DELAYED_YIELD_ASK:
+                    {
+                        //ASK_YIELD
+                        grid[ASK_YIELD, GetIndex(dataMessage.RequestId)].Value = Util.DoubleMaxString(dataMessage.Price);
                         break;
                     }
             }

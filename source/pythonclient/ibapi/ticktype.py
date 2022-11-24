@@ -116,4 +116,6 @@ TickTypeEnum = Enum("BID_SIZE",
                 "SOCIAL_MARKET_ANALYTICS",
                 "ESTIMATED_IPO_MIDPOINT",
                 "FINAL_IPO_LAST",
+                "DELAYED_YIELD_BID",
+                "DELAYED_YIELD_ASK",
                 "NOT_SET")

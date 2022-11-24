@@ -258,6 +258,9 @@ public class Testbed {
 	}
 	
 	private static void tickDataOperations(EClientSocket client) throws InterruptedException {
+		//! [reqmktdatatype]
+		client.reqMarketDataType(4);
+		//! [reqmktdatatype]
 		
 		/*** Requesting real time market data ***/
 		//Thread.sleep(1000);
@@ -322,6 +325,10 @@ public class Testbed {
         //! [IPOPrice]
         client.reqMktData(1018, ContractSamples.StockWithIPOPrice(), "mdoff,586", false, false, null);
         //! [IPOPrice]
+
+        //! [yieldbidask]
+        client.reqMktData(1019, ContractSamples.Bond(), "", false, false, null);
+        //! [yieldbidask]
         
 		Thread.sleep(10000);
 		//! [cancelmktdata]
@@ -333,6 +340,7 @@ public class Testbed {
 		client.cancelMktData(1016);
 		client.cancelMktData(1017);
         client.cancelMktData(1018);
+        client.cancelMktData(1019);
 		//! [cancelmktdata]
 		
 	}

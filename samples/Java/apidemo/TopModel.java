@@ -25,7 +25,7 @@ import com.ib.controller.Formats;
 class TopModel extends AbstractTableModel {
 	private List<TopRow> m_rows = new ArrayList<>();
 	private MarketDataPanel m_parentPanel;
-	private static final int CANCEL_CHBX_COL_INDEX = 28;
+	private static final int CANCEL_CHBX_COL_INDEX = 30;
 	String m_genericTicks = "";
 
 	TopModel(MarketDataPanel parentPanel) {
@@ -82,7 +82,7 @@ class TopModel extends AbstractTableModel {
 	}
 	
 	@Override public int getColumnCount() {
-		return 29;
+		return 31;
 	}
 	
 	@Override public String getColumnName(int col) {
@@ -115,6 +115,8 @@ class TopModel extends AbstractTableModel {
             case 25: return "Shortable Shares";
             case 26: return "Estimated IPO Midpoint";
             case 27: return "Final IPO Last";
+            case 28: return "Yield Bid";
+            case 29: return "Yield Ask";
 			case CANCEL_CHBX_COL_INDEX: return "Cancel";
 
 			default: return null;
@@ -152,6 +154,8 @@ class TopModel extends AbstractTableModel {
             case 25: return row.m_shortableShares;
             case 26: return row.m_estimatedIPOMidpoint;
             case 27: return row.m_finalIPOLast;
+            case 28: return row.m_yieldBid;
+            case 29: return row.m_yieldAsk;
             
 			case CANCEL_CHBX_COL_INDEX: return row.m_cancel;
 			default: return null;
@@ -201,6 +205,8 @@ class TopModel extends AbstractTableModel {
 		Decimal m_shortableShares;
 		double m_estimatedIPOMidpoint;
 		double m_finalIPOLast;
+		double m_yieldBid;
+		double m_yieldAsk;
 		
 		TopRow( AbstractTableModel model, String description, MarketDataPanel parentPanel) {
 			m_model = model;
@@ -254,6 +260,14 @@ class TopModel extends AbstractTableModel {
 					break;
 				case FINAL_IPO_LAST:
 					m_finalIPOLast = price;
+					break;
+				case BID_YIELD:
+				case DELAYED_YIELD_BID:
+					m_yieldBid = price;
+					break;
+				case ASK_YIELD:
+				case DELAYED_YIELD_ASK:
+					m_yieldAsk = price;
 					break;
 				default: break;	
 			}

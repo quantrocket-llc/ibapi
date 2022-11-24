@@ -168,7 +168,7 @@ Namespace Samples
         Public Shared Function Bond() As Contract
             '! [bond]
             Dim Contract As Contract = New Contract
-            Contract.ConId = 285191782
+            Contract.ConId = 456467716
             Contract.exchange = "SMART"
             '! [bond]
             Return Contract

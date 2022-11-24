@@ -276,6 +276,9 @@ Module MainModule
     End Sub
 
     Private Sub tickDataOperations(client As EClientSocket)
+        ' [reqmarketdatatype]
+        client.reqMarketDataType(4)
+        ' [reqmarketdatatype]
 
         ' Requesting real time market data 
         ' Thread.Sleep(1000) 
@@ -339,6 +342,10 @@ Module MainModule
         client.reqMktData(1018, ContractSamples.StockWithIPOPrice(), "mdoff,586", False, False, Nothing)
         '! [IPO_price]
 
+        '! [yieldbidask]
+        client.reqMktData(1019, ContractSamples.Bond(), "", False, False, Nothing)
+        '! [yieldbidask]
+
         Thread.Sleep(10000)
         ' Canceling the market data subscription 
         ' [cancelmktdata]
@@ -352,6 +359,7 @@ Module MainModule
         client.cancelMktData(1016)
         client.cancelMktData(1017)
         client.cancelMktData(1018)
+        client.cancelMktData(1019)
         ' [cancelmktdata]
     End Sub
 

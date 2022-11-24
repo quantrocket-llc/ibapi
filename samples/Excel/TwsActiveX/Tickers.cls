@@ -1735,6 +1735,11 @@ Public Sub UpdateTickersSheetWithPrice(id As Long, tickType As Long, price As Do
                 .EstimatedIPOMidpoint = price
             Case FINAL_IPO_LAST
                 .FinalIPOLast = price
+            Case DELAYED_YIELD_BID
+                .BidYield = price
+            Case DELAYED_YIELD_ASK
+                .AskYield = price
+                
         End Select
     End With
 

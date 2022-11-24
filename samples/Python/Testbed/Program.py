@@ -728,6 +728,9 @@ class TestApp(TestWrapper, TestClient):
         self.reqMktData(1020, ContractSamples.StockWithIPOPrice(), "mdoff,586", False, False, [])
         # ! [reqetfticks]
         
+        # ! [yieldbidask]
+        self.reqMktData(1021, ContractSamples.Bond(), "", False, False, [])
+        # ! [yieldbidask]
 
     @printWhenExecuting
     def tickDataOperations_cancel(self):
@@ -760,6 +763,7 @@ class TestApp(TestWrapper, TestClient):
 
         self.cancelMktData(1019)
         self.cancelMktData(1020)
+        self.cancelMktData(1021)
 
     @printWhenExecuting
     def tickOptionComputations_req(self):

@@ -211,7 +211,7 @@ Contract ContractSamples::BondWithCusip() {
 Contract ContractSamples::Bond() {
 	//! [bond]
 	Contract contract;
-	contract.conId = 285191782;
+	contract.conId = 456467716;
 	contract.exchange = "SMART";
 	//! [bond]
 	return contract;

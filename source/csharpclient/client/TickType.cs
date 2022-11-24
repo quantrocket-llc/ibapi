@@ -111,6 +111,8 @@ namespace IBApi
         public const int SOCIAL_MARKET_ANALYTICS = 100;
         public const int ESTIMATED_IPO_MIDPOINT = 101;
         public const int FINAL_IPO_LAST = 102;
+        public const int DELAYED_YIELD_BID = 103;
+        public const int DELAYED_YIELD_ASK = 104;
 
         public static string getField( int tickType) {
             switch( tickType) {
@@ -217,6 +219,8 @@ namespace IBApi
                 case SOCIAL_MARKET_ANALYTICS:     return "socialMarketAnalytics";
                 case ESTIMATED_IPO_MIDPOINT:      return "estimatedIPOMidpoint";
                 case FINAL_IPO_LAST:              return "finalIPOLast";
+                case DELAYED_YIELD_BID:           return "delayedYieldBid";
+                case DELAYED_YIELD_ASK:           return "delayedYieldAsk";
                 default:                          return "unknown";
             }
         }

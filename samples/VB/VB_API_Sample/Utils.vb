@@ -109,6 +109,8 @@ Friend Class Utils
         SocialMarketAnalytics
         EstimatedIPOMidpoint
         FinalIPOLast
+        DelayedYieldBid
+        DelayedYieldAsk
         Unknown
     End Enum
 

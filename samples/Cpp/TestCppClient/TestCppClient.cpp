@@ -389,6 +389,10 @@ void TestCppClient::pnlSingleOperation()
 
 void TestCppClient::tickDataOperation()
 {
+	//! [reqmarketdatatype]
+	m_pClient->reqMarketDataType(4);
+	//! [reqmarketdatatype]
+
 	/*** Requesting real time market data ***/
     std::this_thread::sleep_for(std::chrono::seconds(1));
     //! [reqmktdata]
@@ -457,6 +461,10 @@ void TestCppClient::tickDataOperation()
 	m_pClient->reqMktData(1019, ContractSamples::StockWithIPOPrice(), "mdoff,586", false, false, TagValueListSPtr());
 	//! [IPOPrice]
 
+	//! [yieldbidask]
+	m_pClient->reqMktData(1020, ContractSamples::Bond(), "", false, false, TagValueListSPtr());
+	//! [yieldbidask]
+
 	std::this_thread::sleep_for(std::chrono::seconds(1));
 	/*** Canceling the market data subscription ***/
 	//! [cancelmktdata]
@@ -469,6 +477,7 @@ void TestCppClient::tickDataOperation()
 	m_pClient->cancelMktData(1017);
 	m_pClient->cancelMktData(1018);
 	m_pClient->cancelMktData(1019);
+	m_pClient->cancelMktData(1020);
 	//! [cancelmktdata]
 
 	m_state = ST_TICKDATAOPERATION_ACK;

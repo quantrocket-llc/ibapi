@@ -317,7 +317,7 @@ Private Function getMktDataColumns() As MktDataCol()
     Dim i As Integer
     Dim arr() As Variant
     arr = Array("error", "mktDataType", "bidSize", "bidPrice", "askPrice", "askSize", "lastPrice", "lastSize", "high", "low", "volume", "open", "close", _
-                "bidExch", "askExch", "lastExchange", "lastTimestamp", "halted", "yieldBid", "yieldAsk", "yieldLast")
+                "bidExch", "askExch", "lastExchange", "lastTimestamp", "halted", "bidYield", "askYield", "lastYield")
 
     size = UBound(arr) - LBound(arr)
     ReDim mktDataColumnsArray(size)

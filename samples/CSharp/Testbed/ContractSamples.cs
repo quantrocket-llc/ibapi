@@ -139,7 +139,7 @@ namespace Samples
         {
             //! [bond]
             Contract contract = new Contract();
-            contract.ConId = 285191782;
+            contract.ConId = 456467716;
             contract.Exchange = "SMART";
             //! [bond]
             return contract;

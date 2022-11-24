@@ -34,6 +34,7 @@ Public Const MaxLongValue As Long = &H7FFFFFFF
 Public Const MaxDoubleValue As Double = (2 - 2 ^ -52) * 2 ^ 1023
 Public Const MaxDecimalString As String = "79228162514264337593543950335"
 
+
 ' error codes
 Public Const ERROR_DUPLICATE_TICKER_ID = 322
 Public Const ERROR_PARTIAL_SUBSCRIPTION = 10090
@@ -234,6 +235,8 @@ Public Enum tickType
     SOCIAL_MARKET_ANALYTICS
     ESTIMATED_IPO_MIDPOINT
     FINAL_IPO_LAST
+    DELAYED_YIELD_BID
+    DELAYED_YIELD_ASK
 End Enum
 
 Public Type MktDataAttr
