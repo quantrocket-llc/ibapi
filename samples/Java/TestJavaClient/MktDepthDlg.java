@@ -20,7 +20,9 @@ import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 
+import com.ib.client.Decimal;
 import com.ib.client.EClient;
+import com.ib.client.Util;
 
 class MktDepthDlg extends JDialog {
     private final static int OPERATION_INSERT 		= 0;
@@ -79,7 +81,7 @@ class MktDepthDlg extends JDialog {
     }
 
     void updateMktDepth( int tickerId, int position, String marketMaker,
-        int operation, int side, double price, int size) {
+        int operation, int side, double price, Decimal size) {
         try {
             MktDepthModel.MktDepthTableRow tmpRow;
 
@@ -150,7 +152,7 @@ class MktDepthDlg extends JDialog {
 class MktDepthModel extends AbstractTableModel {
     private LinkedList<MktDepthTableRow>  m_allData = new LinkedList<>();
 
-    synchronized public void addOrderAt(int position, String marketMaker, double price, int size)
+    synchronized public void addOrderAt(int position, String marketMaker, double price, Decimal size)
     {
         MktDepthTableRow newData = new MktDepthTableRow(marketMaker, price, size);
         m_allData.add(position, newData);
@@ -173,23 +175,23 @@ class MktDepthModel extends AbstractTableModel {
 
     synchronized public void updateCumSizesAndAvgPrices(int baseRow)
     {
-        int     cumSize = 0;
-        double  totalPrice = 0.0;
+        Decimal cumSize = Decimal.ZERO;
+        Decimal  totalPrice = Decimal.ZERO;
         MktDepthTableRow	tmpRow;
 
         if (baseRow > 0) {
             tmpRow = m_allData.get(baseRow - 1);
             cumSize = tmpRow.m_cumSize;
-            totalPrice = tmpRow.m_price * cumSize;
+            totalPrice = cumSize.multiply(Decimal.get(tmpRow.m_price));
         }
 
         for (int ctr = baseRow ; ctr < m_allData.size() ; ctr++)
         {
             tmpRow = m_allData.get(ctr);
-            cumSize += tmpRow.m_size;
-            totalPrice += (tmpRow.m_price * tmpRow.m_size);
+            cumSize = cumSize.add(tmpRow.m_size);
+            totalPrice = totalPrice.add(tmpRow.m_size.multiply(Decimal.get(tmpRow.m_price)));
             tmpRow.m_cumSize = cumSize;
-            tmpRow.m_avgPrice = (totalPrice / cumSize);
+            tmpRow.m_avgPrice = totalPrice.divide(cumSize);
             fireTableCellUpdated(ctr, 3);
             fireTableCellUpdated(ctr, 4);
         }
@@ -239,16 +241,16 @@ class MktDepthModel extends AbstractTableModel {
     static class MktDepthTableRow {
         public String 	m_marketMaker;
         public double 	m_price;
-        public int 		m_size;
-        public int 		m_cumSize;
-        public double	m_avgPrice;
+        public Decimal 	m_size;
+        public Decimal 	m_cumSize;
+        public Decimal	m_avgPrice;
 
-        MktDepthTableRow(String marketMaker, double price,int size) {
+        MktDepthTableRow(String marketMaker, double price, Decimal size) {
             m_marketMaker = marketMaker;
             m_price = price;
             m_size = size;
-            m_cumSize = 0;
-            m_avgPrice = 0.0;
+            m_cumSize = Decimal.ZERO;
+            m_avgPrice = Decimal.ZERO;
         }
 
         Object getValue(int c) {
@@ -257,13 +259,13 @@ class MktDepthModel extends AbstractTableModel {
                 case 0:
                         return m_marketMaker;
                 case 1:
-                        return "" + m_price;
+                        return Util.DoubleMaxString(m_price);
                 case 2:
-                        return "" + m_size;
+                        return Util.decimalToStringNoZero(m_size);
                 case 3:
-                        return "" + m_cumSize;
+                        return Util.decimalToStringNoZero(m_cumSize);
                 case 4:
-                        return "" + m_avgPrice;
+                        return Util.decimalToStringNoZero(m_avgPrice);
                 default:
                         return null;
             }

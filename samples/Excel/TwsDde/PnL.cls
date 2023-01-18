@@ -51,7 +51,7 @@ End Function
 ' ========================================================
 ' checks that row has request data for PnL request
 ' ========================================================
-Public Function hasRequestData(cell As range) As Boolean
+Public Function hasRequestData(cell As Range) As Boolean
     Dim ret As Boolean
     ret = False
 
@@ -75,7 +75,7 @@ End Function
 ' ========================================================
 Sub cancelPnL()
 
-    Dim server As String, id As String, i As Integer, j As Integer, lastRowIndex As Integer, row As range
+    Dim server As String, id As String, i As Integer, j As Integer, lastRowIndex As Integer, row As Range
 
     server = util.getServerVal(STR_SHEET_NAME, CELL_SERVER_NAME)
     If server = util.STR_EMPTY Then Exit Sub
@@ -105,7 +105,7 @@ End Sub
 ' ========================================================
 ' clears PnL cells
 ' ========================================================
-Sub clearPnLColumns(cell As range)
+Sub clearPnLColumns(cell As Range)
     Dim i As Integer
     ' PnL columns
     pnlColumnsArray = getPnLColumns()
@@ -122,7 +122,7 @@ End Sub
 ' request PnL for active row when button is pressed
 ' ========================================================
 Sub requestPnL()
-    Dim server As String, lastRowIndex As Integer, row As range
+    Dim server As String, lastRowIndex As Integer, row As Range
 
     server = util.getServerVal(STR_SHEET_NAME, CELL_SERVER_NAME)
     If server = STR_EMPTY Then Exit Sub
@@ -146,7 +146,7 @@ End Sub
 ' ========================================================
 ' request PnL for row
 ' ========================================================
-Sub sendPnLRequest(server As String, cell As range)
+Sub sendPnLRequest(server As String, cell As Range)
 
     ' get id
     Dim id As String
@@ -156,8 +156,8 @@ Sub sendPnLRequest(server As String, cell As range)
         .Cells(cell.row, idColumnIndex).value = id
         
         ' range to poke
-        Dim rangeToPoke As range
-        Set rangeToPoke = .range(.Cells(cell.row, startOfRequestColumns), .Cells(cell.row, startOfRequestColumns + 2))
+        Dim rangeToPoke As Range
+        Set rangeToPoke = .Range(.Cells(cell.row, startOfRequestColumns), .Cells(cell.row, startOfRequestColumns + 2))
     
         ' fill status column with formula
         .Cells(cell.row, statusColumnIndex).Formula = util.composeLink(server, STR_PNL_TICK, id, util.STR_STATUS)
@@ -185,7 +185,7 @@ End Sub
 ' cancel all PnL for all rows (called when workbook is closed)
 ' ========================================================
 Sub cancelAllPnL()
-    Dim rng As range, row As range, cell As range
+    Dim rng As Range, row As Range, cell As Range
     Dim server As String
     Dim id As String
 
@@ -193,7 +193,7 @@ Sub cancelAllPnL()
     If server = util.STR_EMPTY Then Exit Sub
 
     With Worksheets(STR_SHEET_NAME)
-        Set rng = .range(.Cells(dataStartRowIndex, idColumnIndex), .Cells(dataEndRowIndex, idColumnIndex))
+        Set rng = .Range(.Cells(dataStartRowIndex, idColumnIndex), .Cells(dataEndRowIndex, idColumnIndex))
 
         For Each row In rng.rows
             For Each cell In row.Cells
@@ -213,12 +213,12 @@ Sub requestAllPnL()
     server = util.getServerVal(STR_SHEET_NAME, CELL_SERVER_NAME)
     If server = util.STR_EMPTY Then Exit Sub
 
-    Dim rng As range
+    Dim rng As Range
 
     With Worksheets(STR_SHEET_NAME)
-        Set rng = .range(.Cells(dataStartRowIndex, idColumnIndex), .Cells(dataEndRowIndex, idColumnIndex))
+        Set rng = .Range(.Cells(dataStartRowIndex, idColumnIndex), .Cells(dataEndRowIndex, idColumnIndex))
 
-        Dim row As range, cell As range
+        Dim row As Range, cell As Range
         For Each row In rng.rows
             For Each cell In row.Cells
             If InStr(cell.value, util.IDENTIFIER_PREFIX) <> 0 Then

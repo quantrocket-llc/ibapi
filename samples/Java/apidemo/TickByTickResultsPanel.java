@@ -14,6 +14,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import com.ib.client.BitMask;
+import com.ib.client.Decimal;
 import com.ib.client.HistoricalTick;
 import com.ib.client.HistoricalTickBidAsk;
 import com.ib.client.HistoricalTickLast;
@@ -55,7 +56,7 @@ class TickByTickResultsPanel extends NewTabPanel implements ITickByTickDataHandl
     }
 
     @Override
-    public void tickByTickAllLast(int reqId, int tickType, long time, double price, int size, TickAttribLast tickAttribLast,
+    public void tickByTickAllLast(int reqId, int tickType, long time, double price, Decimal size, TickAttribLast tickAttribLast,
             String exchange, String specialConditions) {
         TickByTick tick = new TickByTick(tickType, time, price, size, tickAttribLast, exchange, specialConditions);
         m_tickByTickRows.add(tick);
@@ -65,7 +66,7 @@ class TickByTickResultsPanel extends NewTabPanel implements ITickByTickDataHandl
     }
 
     @Override
-    public void tickByTickBidAsk(int reqId, long time, double bidPrice, double askPrice, int bidSize, int askSize,
+    public void tickByTickBidAsk(int reqId, long time, double bidPrice, double askPrice, Decimal bidSize, Decimal askSize,
             TickAttribBidAsk tickAttribBidAsk) {
         TickByTick tick = new TickByTick(time, bidPrice, bidSize, askPrice, askSize, tickAttribBidAsk);
         m_tickByTickRows.add(tick);

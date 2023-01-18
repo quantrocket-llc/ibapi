@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>TwsRtdServer</RootNamespace>
     <AssemblyName>TwsRtdServer</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -103,9 +104,6 @@
     <Compile Include="..\client\EClientSocket.cs">
       <Link>CSharpApi\EClientSocket.cs</Link>
     </Compile>
-    <Compile Include="..\client\EClientSocketSSL.cs">
-      <Link>CSharpApi\EClientSocketSSL.cs</Link>
-    </Compile>
     <Compile Include="..\client\EDecoder.cs">
       <Link>CSharpApi\EDecoder.cs</Link>
     </Compile>
@@ -147,6 +145,9 @@
     </Compile>
     <Compile Include="..\client\HistogramEntry.cs">
       <Link>CSharpApi\HistogramEntry.cs</Link>
+    </Compile>
+    <Compile Include="..\client\HistoricalSession.cs">
+      <Link>CSharpApi\HistoricalSession.cs</Link>
     </Compile>
     <Compile Include="..\client\HistoricalTick.cs">
       <Link>CSharpApi\HistoricalTick.cs</Link>
@@ -234,6 +235,9 @@
     </Compile>
     <Compile Include="..\client\VolumeCondition.cs">
       <Link>CSharpApi\VolumeCondition.cs</Link>
+    </Compile>
+    <Compile Include="..\client\WshEventData.cs">
+      <Link>CSharpApi\WshEventData.cs</Link>
     </Compile>
     <Compile Include="TwsRtdServerMktDataTicks.cs" />
     <Compile Include="TwsRtdServerData.cs" />

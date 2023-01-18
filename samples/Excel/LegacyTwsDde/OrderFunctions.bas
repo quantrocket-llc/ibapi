@@ -157,23 +157,18 @@ Sub order2(ByRef orderRange As Range, ByVal serverCell As String, _
         doTheAuxPrice = False
         doTheLmtPrice = False
 
-        If setSecType = util.BAG And setExchange = util.IBEFP Then
-            doTheLmtPrice = True
-            doTheAuxPrice = (lmtPrice = "")
-        Else
-            For ctr = LBound(lmtOrderTypes) To UBound(lmtOrderTypes)
-                If orderType = lmtOrderTypes(ctr) Then
-                    doTheLmtPrice = True
-                    Exit For
-                End If
-            Next ctr
-            For ctr = LBound(auxOrderTypes) To UBound(auxOrderTypes)
-                If orderType = auxOrderTypes(ctr) Then
-                    doTheAuxPrice = True
-                    Exit For
-                End If
-            Next ctr
-        End If
+        For ctr = LBound(lmtOrderTypes) To UBound(lmtOrderTypes)
+            If orderType = lmtOrderTypes(ctr) Then
+                doTheLmtPrice = True
+                Exit For
+            End If
+        Next ctr
+        For ctr = LBound(auxOrderTypes) To UBound(auxOrderTypes)
+            If orderType = auxOrderTypes(ctr) Then
+                doTheAuxPrice = True
+                Exit For
+            End If
+        Next ctr
 
         If doTheLmtPrice Then
             req = req & util.UNDERSCORE & util.orEmpty(lmtPrice)

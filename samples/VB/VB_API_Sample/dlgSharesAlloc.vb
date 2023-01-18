@@ -1,4 +1,4 @@
-﻿' Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+' Copyright (C) 2023 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
 ' and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable.
 
 
@@ -36,7 +36,6 @@ Friend Class dlgSharesAlloc
     'Required by the Windows Form Designer
     Private components As System.ComponentModel.IContainer
     Public ToolTip1 As System.Windows.Forms.ToolTip
-    Public WithEvents txtFaProfile As System.Windows.Forms.TextBox
     Public WithEvents cmdOK As System.Windows.Forms.Button
     Public WithEvents cmdCancel As System.Windows.Forms.Button
     Public WithEvents txtFaGroup As System.Windows.Forms.TextBox
@@ -46,15 +45,12 @@ Friend Class dlgSharesAlloc
     Public WithEvents Label2 As System.Windows.Forms.Label
     Public WithEvents Label1 As System.Windows.Forms.Label
     Public WithEvents Frame1 As System.Windows.Forms.GroupBox
-    Public WithEvents Label3 As System.Windows.Forms.Label
-    Public WithEvents Frame2 As System.Windows.Forms.GroupBox
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.txtFaProfile = New System.Windows.Forms.TextBox()
         Me.cmdOK = New System.Windows.Forms.Button()
         Me.cmdCancel = New System.Windows.Forms.Button()
         Me.txtFaGroup = New System.Windows.Forms.TextBox()
@@ -64,26 +60,8 @@ Friend Class dlgSharesAlloc
         Me.Label4 = New System.Windows.Forms.Label()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.Label1 = New System.Windows.Forms.Label()
-        Me.Frame2 = New System.Windows.Forms.GroupBox()
-        Me.Label3 = New System.Windows.Forms.Label()
         Me.Frame1.SuspendLayout()
-        Me.Frame2.SuspendLayout()
         Me.SuspendLayout()
-        '
-        'txtFaProfile
-        '
-        Me.txtFaProfile.AcceptsReturn = True
-        Me.txtFaProfile.BackColor = System.Drawing.SystemColors.Window
-        Me.txtFaProfile.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.txtFaProfile.Cursor = System.Windows.Forms.Cursors.IBeam
-        Me.txtFaProfile.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtFaProfile.ForeColor = System.Drawing.SystemColors.WindowText
-        Me.txtFaProfile.Location = New System.Drawing.Point(112, 160)
-        Me.txtFaProfile.MaxLength = 0
-        Me.txtFaProfile.Name = "txtFaProfile"
-        Me.txtFaProfile.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.txtFaProfile.Size = New System.Drawing.Size(292, 13)
-        Me.txtFaProfile.TabIndex = 3
         '
         'cmdOK
         '
@@ -218,45 +196,16 @@ Friend Class dlgSharesAlloc
         Me.Label1.TabIndex = 7
         Me.Label1.Text = "Group"
         '
-        'Frame2
-        '
-        Me.Frame2.BackColor = System.Drawing.Color.Gainsboro
-        Me.Frame2.Controls.Add(Me.Label3)
-        Me.Frame2.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Frame2.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.Frame2.Location = New System.Drawing.Point(8, 144)
-        Me.Frame2.Name = "Frame2"
-        Me.Frame2.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.Frame2.Size = New System.Drawing.Size(401, 49)
-        Me.Frame2.TabIndex = 8
-        Me.Frame2.TabStop = False
-        Me.Frame2.Text = "Profile"
-        '
-        'Label3
-        '
-        Me.Label3.BackColor = System.Drawing.Color.Gainsboro
-        Me.Label3.Cursor = System.Windows.Forms.Cursors.Default
-        Me.Label3.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label3.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.Label3.Location = New System.Drawing.Point(24, 18)
-        Me.Label3.Name = "Label3"
-        Me.Label3.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.Label3.Size = New System.Drawing.Size(73, 17)
-        Me.Label3.TabIndex = 9
-        Me.Label3.Text = "Profile"
-        '
         'dlgSharesAlloc
         '
         Me.AcceptButton = Me.cmdOK
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
         Me.BackColor = System.Drawing.Color.Gainsboro
         Me.ClientSize = New System.Drawing.Size(418, 251)
-        Me.Controls.Add(Me.txtFaProfile)
         Me.Controls.Add(Me.cmdOK)
         Me.Controls.Add(Me.cmdCancel)
         Me.Controls.Add(Me.txtFaGroup)
         Me.Controls.Add(Me.Frame1)
-        Me.Controls.Add(Me.Frame2)
         Me.Cursor = System.Windows.Forms.Cursors.Default
         Me.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
@@ -270,7 +219,6 @@ Friend Class dlgSharesAlloc
         Me.Text = "FA Allocation Info"
         Me.Frame1.ResumeLayout(False)
         Me.Frame1.PerformLayout()
-        Me.Frame2.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -301,7 +249,6 @@ Friend Class dlgSharesAlloc
     Private m_faGroup As String
     Private m_faMethod As String
     Private m_faPercentage As String
-    Private m_faProfile As String
     Public ReadOnly Property faGroup() As String
         Get
             faGroup = m_faGroup
@@ -317,11 +264,6 @@ Friend Class dlgSharesAlloc
             faPercentage = m_faPercentage
         End Get
     End Property
-    Public ReadOnly Property faProfile() As String
-        Get
-            faProfile = m_faProfile
-        End Get
-    End Property
     Public ReadOnly Property ok() As Boolean
         Get
             ok = m_ok
@@ -335,7 +277,6 @@ Friend Class dlgSharesAlloc
         m_faGroup = txtFaGroup.Text
         m_faMethod = txtFaMethod.Text
         m_faPercentage = txtFaPercentage.Text
-        m_faProfile = txtFaProfile.Text
         m_ok = True
         Me.Hide()
     End Sub

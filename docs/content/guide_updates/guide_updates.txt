@@ -1,0 +1,90 @@
+/*! \page guide_updates Guide Updates
+
+Starting from 13.12.2021 all of the TWS API guide updates will be documented on this page.<br>
+<i>Please note, that above only applies to changes to the TWS API guide and not TWS API source code and samples.</i><br>
+
+<b>3.10.2022</b>
+<ul>
+  <li>Removed <b>"Rebate Rate"</b> from <a href="https://interactivebrokers.github.io/tws-api/historical_bars.html#hd_what_to_show" target="_blank">whatToShow</a> list, <a href="https://interactivebrokers.github.io/tws-api/tick_types.html#shortable" target="_blank">Shortable</a> description and <a href="https://interactivebrokers.github.io/tws-api/classIBApi_1_1EClient.html#aad87a15294377608e59aec1d87420594" target="_blank">reqHistoricalData</a> available whatToShow parameter values.</li>
+  <li>Due to upcoming exchange name change removed <b>de-supported exchanges</b> from TWS API documentation.</li>
+   <ul>
+	  <li>Replaced <i>SOFFEX</i> with <i>EUREX</i></li>
+    <li>Replaced <i>DTB</i> with <i>EUREX</i></li>
+    <li>Replaced <i>GLOBEX</i> with <i>CME</i></li>
+    <li>Replaced <i>NYMEX</i> with <i>COMEX</i></li>
+    <li>Exchange <i>ECBOT</i> will be renamed to <i>CBOT</i></li>
+  </ul>
+</ul>
+
+<b>20.09.2022</b>
+<ul>
+  <li>Removed obsolete </b>monetaryValue</b> Parameter from algorithmic orders: @ref ibalgos. Instead of using </b>monetaryValue</b> as an IBApi::TagValue parameter, clients may specify IBApi::Order::CashQty for the same purpose.</li>
+</ul>
+
+<b>1.09.2022</b>
+<ul>
+  <li>Added contract examples: @ref by_figi and @ref StockWithIPOPrice_contract.</li>
+  <li>Added a new <b>whatToShow</b> parameter <b>AGGTRADES</b> to @ref hd_what_to_show.</li>
+  <li>With the release of <b>TWS 10.17</b> and <b>TWS API 10.18</b> clients now can send date/time in different formats.</li>
+    <ul>
+      <li>API allows UTC format "yyyymmdd-hh:mm:ss" in date/time fields.</li><br>
+      Example: <i>20220930-15:00:00</i>
+      <li>API allows date/time field format with instrument's exchange timezone (for all non-operator fields) and operator's time zone (for all fields).</li><br>
+      Example: <i>IBM 20220930-15:00:00 US/Eastern</i>
+      <li><a href="https://www.interactivebrokers.com/en/index.php?f=53900" target="_blank">TWS Release Notes 10.17</a></li>
+    </ul>
+</ul>
+
+<b>24.05.2022</b>
+<ul>
+  <li>Added @ref wshe_filters page.</li>
+</ul>
+
+<b>20.05.2022</b>
+<ul>
+  <li>Typos and Fixes throughout the guide.</li>
+  <li>Because of upcoming <i>ISLAND</i> to <i>NASDAQ</i> exchange naming update a new API compatibility setting has been introduced. More information in @ref island_to_nasdaq article.</li>
+  <li>Added Generic tick <b>586</b>, including <i>101: Estimated IPO - Midpoint</i> and <i>102: Final IPO Last</i> in @ref tick_types article.</li>
+  <li>Cleaned up, fixed descriptions and typos in IBApi::Order class.</li>
+</ul>
+
+<b>22.03.2022</b>
+<ul>
+  <li>Added @ref IBApi::Order::Solicited description.</li>
+  <li>Added @ref halted_unhalted and @ref historical_halted_unhalted description.</li>
+  <li>Added @ref limit_order_with_manual_order_time to the @ref basic_orders section.</li>
+  <li>Added @ref peg_mid, @ref peg_best, @ref peg_best_up_to_mid to @ref ibkrats_orders.</li>
+</ul>
+
+<b>21.02.2022</b>
+<ul>
+  <li>Removed <b>ISLAND</b> exchange throughout the guide to reflect upcoming <b>ISLAND</b> to <b>NASDAQ</b> exchange naming change for API.</li>
+  <li>Removed MT (Midnight Trader) from News Sources at @ref news_contract and replaced it with DJ-RT (Dow Jones Real Time). Midnight Trader is currently not supported via TWS API.</li>
+  <li>Added error override functionality description to @ref advanced_order_rejection section.</li>
+  <li>Created @ref wb_user_info page and added description.</li>
+</ul>
+
+<b>14.02.2022</b>
+<ul>
+  <li>Code snippets for @ref IBApi::EWrapper::historicalSchedule have been added for C#, C++, Java and VB in the @ref hd_schedule section.</li>
+  <li>Added Decimal type details for C++ in the @ref intel_library section.</li>
+  <li>Changed the number of allowed active orders per contract per side per account from <b>15</b> to <b>20</b> on @ref order_limitations page.</li>
+  <li>Added @ref advanced_order_rejection section to @ref order_submission page.</li>
+</ul>
+
+<b>24.12.2021</b>
+<ul>
+  <li>Added a new @ref IBApi::EClient::reqHistoricalData <b><i>whatToShow</i></b> parameter SCHEDULE.<br>
+  Added @ref hd_schedule article for SCHEDULE handling. Updated @ref hd_what_to_show and @ref available_products_hd articles with SCHEDULE.<br>
+  <b>Note</b>, that samples @ref IBApi::EWrapper::historicalSchedule code snippets are not yet available for C#, C++, Java and VB. They will be provided shortly.</li>
+</ul>
+
+<b>13.12.2021</b>
+<ul>
+  <li>New page @ref guide_updates has been created.</li>
+  <li>New setting has been introduced with TWS 985, @ref quotes_in_shares "Bypass US Stocks market data in shares warning for API orders."</li>
+</ul>
+
+<br>
+
+*/

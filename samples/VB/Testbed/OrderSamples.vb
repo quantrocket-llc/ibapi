@@ -20,7 +20,7 @@ Namespace Samples
         ''' Supported Exchanges: https://individuals.interactivebrokers.com/en/?f=%2Fen%2Ftrading%2ForderTypeExchanges.php%3Fot%3Dauc
         ''' Reference: http://individuals.interactivebrokers.com/en/trading/orders/auction.php?ib_entity=llc
         ''' </summary>
-        Public Shared Function AtAuction(action As String, quantity As Double, price As Double) As Order
+        Public Shared Function AtAuction(action As String, quantity As Decimal, price As Double) As Order
             '! [auction]
             Dim order As Order = New Order
             order.Action = action
@@ -40,7 +40,7 @@ Namespace Samples
         ''' Supported Exchanges: https://individuals.interactivebrokers.com/en/?f=%2Fen%2Ftrading%2ForderTypeExchanges.php%3Fot%3Ddis
         ''' Reference: http://individuals.interactivebrokers.com/en/trading/orders/discretionary.php?ib_entity=llc
         ''' </summary>
-        Public Shared Function Discretionary(action As String, quantity As Double, price As Double, discretionaryAmount As Double) As Order
+        Public Shared Function Discretionary(action As String, quantity As Decimal, price As Double, discretionaryAmount As Double) As Order
             '! [discretionary]
             Dim order As Order = New Order
             order.Action = action
@@ -61,7 +61,7 @@ Namespace Samples
         ''' Supported Exchanges: https://individuals.interactivebrokers.com/en/trading/orderTypeExchanges.php?ot=mkt
         ''' Reference: http://individuals.interactivebrokers.com/en/trading/orders/market.php?ib_entity=llc
         ''' </summary>
-        Public Shared Function MarketOrder(action As String, quantity As Double) As Order
+        Public Shared Function MarketOrder(action As String, quantity As Decimal) As Order
             '! [market]
             Dim order As Order = New Order
             order.Action = action
@@ -82,7 +82,7 @@ Namespace Samples
         ''' Supported Exchanges: https://individuals.interactivebrokers.com/en/trading/orderTypeExchanges.php?ot=mit
         ''' Reference: http://individuals.interactivebrokers.com/en/trading/orders/mit.php?ib_entity=llc
         ''' </summary>
-        Public Shared Function MarketIfTouched(action As String, quantity As Double, price As Double) As Order
+        Public Shared Function MarketIfTouched(action As String, quantity As Decimal, price As Double) As Order
             '! [market_if_touched]
             Dim order As Order = New Order
             order.Action = action
@@ -100,7 +100,7 @@ Namespace Samples
         ''' Supported Exchanges: https://individuals.interactivebrokers.com/en/trading/orderTypeExchanges.php?ot=moc
         ''' Reference: http://individuals.interactivebrokers.com/en/trading/orders/moc.php?ib_entity=llc
         ''' </summary>
-        Public Shared Function MarketOnClose(action As String, quantity As Double) As Order
+        Public Shared Function MarketOnClose(action As String, quantity As Decimal) As Order
             '! [market_on_close]
             Dim order As Order = New Order
             order.Action = action
@@ -117,7 +117,7 @@ Namespace Samples
         ''' Supported Exchanges: https://individuals.interactivebrokers.com/en/trading/orderTypeExchanges.php?ot=moo
         ''' Reference: http://individuals.interactivebrokers.com/en/trading/orders/moo.php?ib_entity=llc
         ''' </summary>
-        Public Shared Function MarketOnOpen(action As String, quantity As Double) As Order
+        Public Shared Function MarketOnOpen(action As String, quantity As Decimal) As Order
             '! [market_on_open]
             Dim order As Order = New Order
             order.Action = action
@@ -136,7 +136,7 @@ Namespace Samples
         ''' Supported Exchanges: ISE
         ''' Reference: http://individuals.interactivebrokers.com/en/trading/orders/mpm.php?ib_entity=llc
         ''' </summary>
-        Public Shared Function MidpointMatch(action As String, quantity As Double) As Order
+        Public Shared Function MidpointMatch(action As String, quantity As Decimal) As Order
             '! [midpoint_match]
             Dim order As Order = New Order
             order.Action = action
@@ -146,22 +146,22 @@ Namespace Samples
             Return order
         End Function
 
-		''' <summary>
-		''' A Midprice order is designed to split the difference between the bid and ask prices, and fill at the current midpoint of 
-		''' the NBBO or better. Set an optional price cap to define the highest price (for a buy order) or the lowest price (for a sell 
-		''' order) you are willing to accept. Requires TWS 975+. Smart-routing to US stocks only.
+        ''' <summary>
+        ''' A Midprice order is designed to split the difference between the bid and ask prices, and fill at the current midpoint of 
+        ''' the NBBO or better. Set an optional price cap to define the highest price (for a buy order) or the lowest price (for a sell 
+        ''' order) you are willing to accept. Requires TWS 975+. Smart-routing to US stocks only.
         ''' </summary>
-        Public Shared Function Midprice(action As String, quantity As Double, priceCap As Double) As Order
+        Public Shared Function Midprice(action As String, quantity As Decimal, priceCap As Double) As Order
             '! [midprice]
             Dim order As Order = New Order
             order.Action = action
             order.OrderType = "MIDPRICE"
             order.TotalQuantity = quantity
-			order.LmtPrice = priceCap  ''' optional
+            order.LmtPrice = priceCap  ' optional
             '! [midprice]
             Return order
         End Function
-				
+
         ''' <summary>
         ''' A pegged-to-market order Is designed to maintain a purchase price relative to the national best offer (NBO) Or a sale price 
         ''' relative to the national best bid (NBB). Depending on the width of the quote, this order may be passive Or aggressive. 
@@ -173,7 +173,7 @@ Namespace Samples
         ''' Supported Exchanges: https://individuals.interactivebrokers.com/en/trading/orderTypeExchanges.php?ot=pegmkt
         ''' Reference: http://individuals.interactivebrokers.com/en/trading/orders/peggedMarket.php?ib_entity=llc
         ''' </summary>
-        Public Shared Function PeggedToMarket(action As String, quantity As Double, marketOffset As Double) As Order
+        Public Shared Function PeggedToMarket(action As String, quantity As Decimal, marketOffset As Double) As Order
             '! [pegged_market]
             Dim order As Order = New Order
             order.Action = action
@@ -196,7 +196,7 @@ Namespace Samples
         ''' Supported Exchanges: https://individuals.interactivebrokers.com/en/trading/orderTypeExchanges.php?ot=relstk
         ''' Reference: http://individuals.interactivebrokers.com/en/trading/orders/peggedStock.php?ib_entity=llc
         ''' </summary>
-        Public Shared Function PeggedToStock(action As String, quantity As Double, delta As Double, stockReferencePrice As Double, startingPrice As Double) As Order
+        Public Shared Function PeggedToStock(action As String, quantity As Decimal, delta As Double, stockReferencePrice As Double, startingPrice As Double) As Order
             '! [pegged_stock]
             Dim order As Order = New Order
             order.Action = action
@@ -223,7 +223,7 @@ Namespace Samples
         ''' Supported Exchanges: https://individuals.interactivebrokers.com/en/trading/orderTypeExchanges.php?ot=rel
         ''' Reference: http://individuals.interactivebrokers.com/en/trading/orders/relative.php?ib_entity=llc
         ''' </summary>
-        Public Shared Function RelativePeggedToPrimary(action As String, quantity As Double, priceCap As Double, offsetAmount As Double) As Order
+        Public Shared Function RelativePeggedToPrimary(action As String, quantity As Decimal, priceCap As Double, offsetAmount As Double) As Order
             '! ! [relative_pegged_primary]
             Dim order As Order = New Order
             order.Action = action
@@ -244,7 +244,7 @@ Namespace Samples
         ''' Supported Exchanges: SMART
         ''' Reference: http://individuals.interactivebrokers.com/en/trading/orders/sweep.php?ib_entity=llc
         ''' </summary>
-        Public Shared Function SweepToFill(action As String, quantity As Double, price As Double) As Order
+        Public Shared Function SweepToFill(action As String, quantity As Decimal, price As Double) As Order
             '! [sweep_to_fill]
             Dim order As Order = New Order
             order.Action = action
@@ -268,7 +268,7 @@ Namespace Samples
         ''' Supported Exchanges: BOX
         ''' Reference: http://individuals.interactivebrokers.com/en/trading/orders/priceImprovement.php?ib_entity=llc
         ''' </summary>
-        Public Shared Function AuctionLimit(action As String, quantity As Double, price As Double, auctionStrategy As Integer) As Order
+        Public Shared Function AuctionLimit(action As String, quantity As Decimal, price As Double, auctionStrategy As Integer) As Order
             '! [auction_limit]
             Dim order As Order = New Order
             order.Action = action
@@ -295,7 +295,7 @@ Namespace Samples
         ''' Supported Exchanges: BOX
         ''' Reference: http://individuals.interactivebrokers.com/en/trading/orders/priceImprovement.php?ib_entity=llc
         ''' </summary>
-        Public Shared Function AuctionPeggedToStock(action As String, quantity As Double, startingPrice As Double, delta As Double) As Order
+        Public Shared Function AuctionPeggedToStock(action As String, quantity As Decimal, startingPrice As Double, delta As Double) As Order
             '! [auction_pegged_stock]
             Dim order As Order = New Order
             order.Action = action
@@ -322,7 +322,7 @@ Namespace Samples
         ''' Supported Exchanges: BOX
         ''' Reference: http://individuals.interactivebrokers.com/en/trading/orders/priceImprovement.php?ib_entity=llc
         ''' </summary>
-        Public Shared Function AuctionRelative(action As String, quantity As Double, offset As Double) As Order
+        Public Shared Function AuctionRelative(action As String, quantity As Decimal, offset As Double) As Order
             '! [auction_relative]
             Dim order As Order = New Order
             order.Action = action
@@ -340,7 +340,7 @@ Namespace Samples
         ''' Supported Exchanges: https://individuals.interactivebrokers.com/en/trading/orderTypeExchanges.php?ot=block
         ''' Reference: http://individuals.interactivebrokers.com/en/trading/orders/block.php?ib_entity=llc
         ''' </summary>
-        Public Shared Function Block(action As String, quantity As Double, price As Double) As Order
+        Public Shared Function Block(action As String, quantity As Decimal, price As Double) As Order
             '! [block]
             Dim order As Order = New Order
             order.Action = action
@@ -359,7 +359,7 @@ Namespace Samples
         ''' Supported Exchanges: BOX
         ''' Reference: https://individuals.interactivebrokers.com/en/?f=%2Fen%2Ftrading%2Forders%2Fboxtop.php%3Fib_entity%3Dllc
         ''' </summary>
-        Public Shared Function BoxTop(action As String, quantity As Double) As Order
+        Public Shared Function BoxTop(action As String, quantity As Decimal) As Order
             '! [boxtop]
             Dim order As Order = New Order
             order.Action = action
@@ -376,7 +376,7 @@ Namespace Samples
         ''' Supported Exchanges: https://individuals.interactivebrokers.com/en/trading/orderTypeExchanges.php?ot=lmt
         ''' Reference: http://individuals.interactivebrokers.com/en/trading/orders/limit.php?ib_entity=llc
         ''' </summary>
-        Public Shared Function LimitOrder(action As String, quantity As Double, limitPrice As Double) As Order
+        Public Shared Function LimitOrder(action As String, quantity As Decimal, limitPrice As Double) As Order
             '! [limitorder]
             Dim order As Order = New Order
             order.Action = action
@@ -387,12 +387,12 @@ Namespace Samples
             Return order
         End Function
 
-		''' <summary>
-		''' Forex orders can be placed in denomination of second currency in pair using cashQty field
-		''' Requires TWS or IBG 963+
-		''' https://www.interactivebrokers.com/en/index.php?f=23876#963-02
-		''' </summary>
-		Public Shared Function LimitOrderWithCashQty(action As String, limitPrice As Double, cashQty As Double) As Order
+        ''' <summary>
+        ''' Forex orders can be placed in denomination of second currency in pair using cashQty field
+        ''' Requires TWS or IBG 963+
+        ''' https://www.interactivebrokers.com/en/index.php?f=23876#963-02
+        ''' </summary>
+        Public Shared Function LimitOrderWithCashQty(action As String, limitPrice As Double, cashQty As Double) As Order
             '! [limitorderwithcashqty]
             Dim order As Order = New Order
             order.Action = action
@@ -411,7 +411,7 @@ Namespace Samples
         ''' Supported Exchanges: https://individuals.interactivebrokers.com/en/trading/orderTypeExchanges.php?ot=lit
         ''' Reference: http://individuals.interactivebrokers.com/en/trading/orders/lit.php?ib_entity=llc
         ''' </summary>
-        Public Shared Function LimitIfTouched(action As String, quantity As Double, limitPrice As Double, triggerPrice As Double) As Order
+        Public Shared Function LimitIfTouched(action As String, quantity As Decimal, limitPrice As Double, triggerPrice As Double) As Order
             '! [limitiftouched]
             Dim order As Order = New Order
             order.Action = action
@@ -430,7 +430,7 @@ Namespace Samples
         ' Supported Exchanges: https://individuals.interactivebrokers.com/en/trading/orderTypeExchanges.php?ot=loc
         ' Reference: http://individuals.interactivebrokers.com/en/trading/orders/loc.php?ib_entity=llc
         ' </summary>
-        Public Shared Function LimitOnClose(action As String, quantity As Double, limitPrice As Double) As Order
+        Public Shared Function LimitOnClose(action As String, quantity As Decimal, limitPrice As Double) As Order
             '! [limitonclose]
             Dim order As Order = New Order
             order.Action = action
@@ -448,7 +448,7 @@ Namespace Samples
         ''' Supported Exchanges: https://individuals.interactivebrokers.com/en/trading/orderTypeExchanges.php?ot=moo
         ''' Reference: http://individuals.interactivebrokers.com/en/trading/orders/loo.php?ib_entity=llc
         ''' </summary>
-        Public Shared Function LimitOnOpen(action As String, quantity As Double, limitPrice As Double) As Order
+        Public Shared Function LimitOnOpen(action As String, quantity As Decimal, limitPrice As Double) As Order
             '! [limitonopen]
             Dim order As Order = New Order
             order.Action = action
@@ -474,7 +474,7 @@ Namespace Samples
         ''' Supported Exchanges: https://individuals.interactivebrokers.com/en/trading/orderTypeExchanges.php?ot=passvrel
         ''' Reference: http://individuals.interactivebrokers.com/en/trading/orders/passiveRel.php?ib_entity=llc
         ''' </summary>
-        Public Shared Function PassiveRelative(action As String, quantity As Double, offset As Double) As Order
+        Public Shared Function PassiveRelative(action As String, quantity As Decimal, offset As Double) As Order
             '! [passive_relative]
             Dim order As Order = New Order
             order.Action = action
@@ -494,14 +494,14 @@ Namespace Samples
         ''' Supported Exchanges: https://individuals.interactivebrokers.com/en/trading/orderTypeExchanges.php?ot=pegmid
         ''' Reference: http://individuals.interactivebrokers.com/en/trading/orders/pegmid.php?ib_entity=llc
         ''' </summary>
-        Public Shared Function PeggedToMidpoint(action As String, quantity As Double, offset As Double, limitPrice As Double) As Order
+        Public Shared Function PeggedToMidpoint(action As String, quantity As Decimal, offset As Double, limitPrice As Double) As Order
             '! [pegged_midpoint]
             Dim order As Order = New Order
             order.Action = action
             order.OrderType = "PEG MID"
             order.TotalQuantity = quantity
             order.AuxPrice = offset
-			order.LmtPrice = limitPrice
+            order.LmtPrice = limitPrice
             '! [pegged_midpoint]
             Return order
         End Function
@@ -513,7 +513,7 @@ Namespace Samples
         ''' Products: CFD, BAG, FOP, CASH, FUT, OPT, STK, WAR
         ''' Reference: https://individuals.interactivebrokers.com/en/index.php?f=583
         ''' </summary>
-        Public Shared Function BracketOrder(parentOrderId As Integer, action As String, quantity As Double, limitPrice As Double,
+        Public Shared Function BracketOrder(parentOrderId As Integer, action As String, quantity As Decimal, limitPrice As Double,
              takeProfitLimitPrice As Double, stopLossPrice As Double) As List(Of Order)
             '! [bracket]
             'This will be our main Or "parent" order
@@ -567,7 +567,7 @@ Namespace Samples
         ''' Supported Exchanges: https://individuals.interactivebrokers.com/en/trading/orderTypeExchanges.php?ot=mtl
         ''' Reference: http://individuals.interactivebrokers.com/en/trading/orders/mtl.php?ib_entity=llc
         ''' </summary>
-        Public Shared Function MarketToLimit(action As String, quantity As Double) As Order
+        Public Shared Function MarketToLimit(action As String, quantity As Decimal) As Order
             '! [markettolimit]
             Dim order As Order = New Order
             order.Action = action
@@ -585,7 +585,7 @@ Namespace Samples
         ''' Supported Exchanges: https://individuals.interactivebrokers.com/en/trading/orderTypeExchanges.php?ot=mktprot
         ''' Reference: http://individuals.interactivebrokers.com/en/trading/orders/marketProtect.php?ib_entity=llc
         ''' </summary>
-        Public Shared Function MarketWithProtection(action As String, quantity As Double) As Order
+        Public Shared Function MarketWithProtection(action As String, quantity As Decimal) As Order
             '! [marketwithprotection]
             Dim order As Order = New Order
             order.Action = action
@@ -605,7 +605,7 @@ Namespace Samples
         ''' Supported Exchanges: https://individuals.interactivebrokers.com/en/trading/orderTypeExchanges.php?ot=stp
         ''' Reference: http://individuals.interactivebrokers.com/en/trading/orders/stop.php?ib_entity=llc
         ''' </summary>
-        Public Shared Function StopOrder(action As String, quantity As Double, stopPrice As Double) As Order
+        Public Shared Function StopOrder(action As String, quantity As Decimal, stopPrice As Double) As Order
             '! [stop]
             Dim order As Order = New Order
             order.Action = action
@@ -624,7 +624,7 @@ Namespace Samples
         ''' Supported Exchanges: https://individuals.interactivebrokers.com/en/trading/orderTypeExchanges.php?ot=stplmt
         ''' Reference: http://individuals.interactivebrokers.com/en/trading/orders/stopLimit.php?ib_entity=llc
         ''' </summary>
-        Public Shared Function StopLimit(action As String, quantity As Double, limitPrice As Double, stopPrice As Double) As Order
+        Public Shared Function StopLimit(action As String, quantity As Decimal, limitPrice As Double, stopPrice As Double) As Order
             '! [stoplimit]
             Dim order As Order = New Order
             order.Action = action
@@ -646,7 +646,7 @@ Namespace Samples
         ''' Supported Exchanges: https://individuals.interactivebrokers.com/en/trading/orderTypeExchanges.php?ot=stpprot
         ''' Reference: http://individuals.interactivebrokers.com/en/trading/orders/stopProtect.php?ib_entity=llc
         ''' </summary>
-        Public Shared Function StopWithProtection(action As String, quantity As Double, stopPrice As Double) As Order
+        Public Shared Function StopWithProtection(action As String, quantity As Decimal, stopPrice As Double) As Order
             '! [stopwithprotection]
             Dim order As Order = New Order
             order.TotalQuantity = quantity
@@ -667,7 +667,7 @@ Namespace Samples
         ''' Supported Exchanges: https://individuals.interactivebrokers.com/en/trading/orderTypeExchanges.php?ot=trail
         ''' Reference: http://individuals.interactivebrokers.com/en/trading/orders/trailingStops.php?ib_entity=llc
         ''' </summary>
-        Public Shared Function TrailingStop(action As String, quantity As Double, trailingPercent As Double, trailStopPrice As Double) As Order
+        Public Shared Function TrailingStop(action As String, quantity As Decimal, trailingPercent As Double, trailStopPrice As Double) As Order
             '! [trailingstop]
             Dim order As Order = New Order
             order.Action = action
@@ -690,7 +690,7 @@ Namespace Samples
         ''' Products: BOND, CFD, CASH, FUT, FOP, OPT, STK, WAR
         ''' Reference: http://individuals.interactivebrokers.com/en/trading/orders/trailingStopLimit.php?ib_entity=llc
         ''' </summary>
-        Public Shared Function TrailingStopLimit(action As String, quantity As Double, lmtPriceOffset As Double, trailingAmount As Double, trailStopPrice As Double) As Order
+        Public Shared Function TrailingStopLimit(action As String, quantity As Decimal, lmtPriceOffset As Double, trailingAmount As Double, trailStopPrice As Double) As Order
             '! [trailingstoplimit]
             Dim order As Order = New Order
             order.Action = action
@@ -710,7 +710,7 @@ Namespace Samples
         ''' best execution.
         ''' Products: OPT, STK, FUT
         ''' </summary>
-        Public Shared Function ComboLimitOrder(action As String, quantity As Double, limitPrice As Double, nonGuaranteed As Boolean) As Order
+        Public Shared Function ComboLimitOrder(action As String, quantity As Decimal, limitPrice As Double, nonGuaranteed As Boolean) As Order
             '! [combolimit]
             Dim order As Order = New Order
             order.Action = action
@@ -732,7 +732,7 @@ Namespace Samples
         ''' best execution.
         ''' Products: OPT, STK, FUT
         ''' </summary>
-        Public Shared Function ComboMarketOrder(action As String, quantity As Double, nonGuaranteed As Boolean) As Order
+        Public Shared Function ComboMarketOrder(action As String, quantity As Decimal, nonGuaranteed As Boolean) As Order
             '! [combomarket]
             Dim order As Order = New Order
             order.Action = action
@@ -754,7 +754,7 @@ Namespace Samples
         ''' best execution.
         ''' Products: OPT, STK, FUT
         ''' </summary>
-        Public Shared Function LimitOrderForComboWithLegPrices(action As String, quantity As Double, legPrices As Double(), nonGuaranteed As Boolean) As Order
+        Public Shared Function LimitOrderForComboWithLegPrices(action As String, quantity As Decimal, legPrices As Double(), nonGuaranteed As Boolean) As Order
             '! [limitordercombolegprices]
             Dim order As Order = New Order
             order.Action = action
@@ -782,7 +782,7 @@ Namespace Samples
         ''' best execution.
         ''' Products: OPT, STK, FUT
         ''' </summary>
-        Public Shared Function RelativeLimitCombo(action As String, quantity As Double, limitPrice As Double, nonGuaranteed As Boolean) As Order
+        Public Shared Function RelativeLimitCombo(action As String, quantity As Decimal, limitPrice As Double, nonGuaranteed As Boolean) As Order
             '! [relativelimitcombo]
             Dim order As Order = New Order
             order.Action = action
@@ -804,7 +804,7 @@ Namespace Samples
         ''' best execution.
         ''' Products: OPT, STK, FUT
         ''' </summary>
-        Public Shared Function RelativeMarketCombo(action As String, quantity As Double, nonGuaranteed As Boolean) As Order
+        Public Shared Function RelativeMarketCombo(action As String, quantity As Decimal, nonGuaranteed As Boolean) As Order
             '! [relativemarketcombo]
             Dim order As Order = New Order
             order.Action = action
@@ -864,7 +864,7 @@ Namespace Samples
         ''' Supported Exchanges: https://individuals.interactivebrokers.com/en/trading/orderTypeExchanges.php?ot=volat
         ''' Reference: http://individuals.interactivebrokers.com/en/trading/orders/vol.php?ib_entity=llc
         ''' </summary>
-        Public Shared Function Volatility(action As String, quantity As Double, volatilityPercent As Double, volatilityType As Integer) As Order
+        Public Shared Function Volatility(action As String, quantity As Decimal, volatilityPercent As Double, volatilityType As Integer) As Order
             '! [volatility]
             Dim order As Order = New Order
             order.Action = action
@@ -888,7 +888,7 @@ Namespace Samples
         End Function
         '! [fhedge]
 
-        Public Shared Function PeggedToBenchmark(action As String, quantity As Double, startingPrice As Double, peggedChangeAmountDecrease As Boolean, peggedChangeAmount As Double,
+        Public Shared Function PeggedToBenchmark(action As String, quantity As Decimal, startingPrice As Double, peggedChangeAmountDecrease As Boolean, peggedChangeAmount As Double,
               referenceChangeAmount As Double, referenceConId As Integer, referenceExchange As String, stockReferencePrice As Double,
              referenceContractLowerRange As Double, referenceContractUpperRange As Double) As Order
 
@@ -963,8 +963,8 @@ Namespace Samples
             '! [adjustable_stop_limit]
             Return order
         End Function
-		
-		Public Shared Function AttachAdjustableToTrail(parent As Order, attachedOrderStopPrice As Double, triggerPrice As Double, adjustedStopPrice As Double,
+
+        Public Shared Function AttachAdjustableToTrail(parent As Order, attachedOrderStopPrice As Double, triggerPrice As Double, adjustedStopPrice As Double,
              adjustedTrailAmount As Double, trailUnit As Integer) As Order
 
             '! [adjustable_trail]
@@ -989,7 +989,7 @@ Namespace Samples
             Return order
         End Function
 
-        Public Shared Function WhatIfLimitOrder(action As String, quantity As Double, limitPrice As Double) As Order
+        Public Shared Function WhatIfLimitOrder(action As String, quantity As Decimal, limitPrice As Double) As Order
             '! [whatiflimitorder]
             Dim order As Order = LimitOrder(action, quantity, limitPrice)
             order.WhatIf = True
@@ -1097,6 +1097,72 @@ Namespace Samples
 
         End Function
 
+        Public Shared Function LimitIBKRATS(action As String, quantity As Decimal, limitPrice As Double) As Order
+            '! [limit_ibkrats]
+            Dim order As Order = New Order
+            order.Action = action
+            order.OrderType = "LMT"
+            order.LmtPrice = limitPrice
+            order.TotalQuantity = quantity
+            order.NotHeld = True
+            '! [limit_ibkrats]
+            Return order
+        End Function
+
+        Public Shared Function LimitOrderWithManualOrderTime(action As String, quantity As Decimal, limitPrice As Double, manualOrderTime As String) As Order
+            '! [limit_order_with_manual_order_time]
+            Dim order As Order = OrderSamples.LimitOrder(action, quantity, limitPrice)
+            order.ManualOrderTime = manualOrderTime
+            '! [limit_order_with_manual_order_time]
+            Return order
+        End Function
+
+        Public Shared Function PegBestUpToMidOrder(action As String, quantity As Decimal, limitPrice As Double, minTradeQty As Integer, minCompeteSize As Integer, midOffsetAtWhole As Double, midOffsetAtHalf As Double) As Order
+            '! [peg_best_up_to_mid_order]
+            Dim order As Order = New Order
+            order.Action = action
+            order.OrderType = "PEG BEST"
+            order.LmtPrice = limitPrice
+            order.TotalQuantity = quantity
+            order.NotHeld = True
+            order.MinTradeQty = minTradeQty
+            order.MinCompeteSize = minCompeteSize
+            order.CompeteAgainstBestOffset = Order.COMPETE_AGAINST_BEST_OFFSET_UP_TO_MID
+            order.MidOffsetAtWhole = midOffsetAtWhole
+            order.MidOffsetAtHalf = midOffsetAtHalf
+            '! [peg_best_up_to_mid_order]
+            Return order
+        End Function
+
+        Public Shared Function PegBestOrder(action As String, quantity As Decimal, limitPrice As Double, minTradeQty As Integer, minCompeteSize As Integer, competeAgainstBestOffset As Double) As Order
+            '! [peg_best_order]
+            Dim order As Order = New Order
+            order.Action = action
+            order.OrderType = "PEG BEST"
+            order.LmtPrice = limitPrice
+            order.TotalQuantity = quantity
+            order.NotHeld = True
+            order.MinTradeQty = minTradeQty
+            order.MinCompeteSize = minCompeteSize
+            order.CompeteAgainstBestOffset = competeAgainstBestOffset
+            '! [peg_best_order]
+            Return order
+        End Function
+
+        Public Shared Function PegMidOrder(action As String, quantity As Decimal, limitPrice As Double, minTradeQty As Integer, midOffsetAtWhole As Double, midOffsetAtHalf As Double) As Order
+            '! [peg_mid_order]
+            Dim order As Order = New Order
+            order.Action = action
+            order.OrderType = "PEG MID"
+            order.LmtPrice = limitPrice
+            order.TotalQuantity = quantity
+            order.NotHeld = True
+            order.MinTradeQty = minTradeQty
+            order.MidOffsetAtWhole = midOffsetAtWhole
+            order.MidOffsetAtHalf = midOffsetAtHalf
+            '! [peg_mid_order]
+            Return order
+        End Function
     End Class
 
 End Namespace

@@ -102,7 +102,7 @@ Sub cancelCalculateRequest(requestType As String)
         resultColumnIndex = calculateImpliedVolatilityResultColumnIndex
     End If
 
-    Dim server As String, lastRowIndex As Integer, row As range, id As String
+    Dim server As String, lastRowIndex As Integer, row As Range, id As String
 
     server = util.getServerVal(STR_SHEET_NAME, CELL_SERVER_NAME)
     If server = util.STR_EMPTY Then Exit Sub
@@ -137,7 +137,7 @@ End Sub
 ' calculate implied volatility for active row when button is pressed
 ' ========================================================
 Sub calculateImpliedVolatility()
-    Dim server As String, lastRowIndex As Integer, row As range
+    Dim server As String, lastRowIndex As Integer, row As Range
 
     server = util.getServerVal(STR_SHEET_NAME, CELL_SERVER_NAME)
     If server = STR_EMPTY Then Exit Sub
@@ -160,7 +160,7 @@ End Sub
 ' calculate option price for active row when button is pressed
 ' ========================================================
 Sub calculateOptionPrice()
-    Dim server As String, lastRowIndex As Integer, row As range
+    Dim server As String, lastRowIndex As Integer, row As Range
 
     server = util.getServerVal(STR_SHEET_NAME, CELL_SERVER_NAME)
     If server = STR_EMPTY Then Exit Sub
@@ -181,7 +181,7 @@ End Sub
 ' ========================================================
 ' send calculate option price
 ' ========================================================
-Sub sendCalculateRequest(server As String, cell As range, requestType As String)
+Sub sendCalculateRequest(server As String, cell As Range, requestType As String)
 
     Dim idColumnIndex As Integer, statusColumnIndex As Integer, errorColumnIndex As Integer, resultColumnIndex As Integer
     Dim firstValColumnIndex As Integer, secondValColumnIndex As Integer, tickAttribColumnIndex As Integer
@@ -269,7 +269,7 @@ Sub cancelAllCalculateRequests(requestType As String)
         idColumnIndex = calculateImpliedVolatilityIdColumnIndex
     End If
 
-    Dim rng As range, row As range, cell As range
+    Dim rng As Range, row As Range, cell As Range
     Dim server As String
     Dim id As String
 
@@ -277,7 +277,7 @@ Sub cancelAllCalculateRequests(requestType As String)
     If server = util.STR_EMPTY Then Exit Sub
 
     With Worksheets(STR_SHEET_NAME)
-        Set rng = .range(.Cells(dataStartRowIndex, idColumnIndex), .Cells(dataEndRowIndex, idColumnIndex))
+        Set rng = .Range(.Cells(dataStartRowIndex, idColumnIndex), .Cells(dataEndRowIndex, idColumnIndex))
 
         For Each row In rng.rows
             For Each cell In row.Cells
@@ -314,12 +314,12 @@ Sub requestAllCalculateRequests(requestType As String)
     server = util.getServerVal(STR_SHEET_NAME, CELL_SERVER_NAME)
     If server = util.STR_EMPTY Then Exit Sub
 
-    Dim rng As range
+    Dim rng As Range
 
     With Worksheets(STR_SHEET_NAME)
-        Set rng = .range(.Cells(dataStartRowIndex, idColumnIndex), .Cells(dataEndRowIndex, idColumnIndex))
+        Set rng = .Range(.Cells(dataStartRowIndex, idColumnIndex), .Cells(dataEndRowIndex, idColumnIndex))
 
-        Dim row As range, cell As range
+        Dim row As Range, cell As Range
         For Each row In rng.rows
             For Each cell In row.Cells
             If InStr(cell.value, util.IDENTIFIER_PREFIX) <> 0 Then

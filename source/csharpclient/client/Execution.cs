@@ -90,7 +90,7 @@ namespace IBApi
         /**
          * @brief The number of shares filled.
          */
-        public double Shares { get; set; }
+        public decimal Shares { get; set; }
 
         /**
          * @brief The order's execution price excluding commissions.
@@ -111,7 +111,7 @@ namespace IBApi
          * @brief Cumulative quantity. 
          * Used in regular trades, combo trades and legs of the combo.
          */
-        public double CumQty { get; set; }
+        public decimal CumQty { get; set; }
 
         /**
          * @brief Average price. 
@@ -161,8 +161,8 @@ namespace IBApi
         }
 
         public Execution(int orderId, int clientId, string execId, string time,
-                          string acctNumber, string exchange, string side, double shares,
-                          double price, int permId, int liquidation, double cumQty,
+                          string acctNumber, string exchange, string side, decimal shares,
+                          double price, int permId, int liquidation, decimal cumQty,
                           double avgPrice, string orderRef, string evRule, double evMultiplier,
                           string modelCode, Liquidity lastLiquidity)
         {

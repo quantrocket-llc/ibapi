@@ -86,8 +86,12 @@ public class SimpleWrapper implements EWrapper {
 		m_output.println(str);
 	}
 
-	public void error(int id, int errorCode, String errorMsg) {
-		logIn("Error id=" + id + " code=" + errorCode + " msg=" + errorMsg);
+	public void error(int id, int errorCode, String errorMsg, String advancedOrderRejectJson) {
+		String str = "Error id=" + id + " code=" + errorCode + " msg=" + errorMsg;
+		if (advancedOrderRejectJson != null) {
+			str += (" advancedOrderRejectJson=" + advancedOrderRejectJson);
+		}
+		logIn(str);
 	}
 
 	public void connectionClosed() {
@@ -102,7 +106,7 @@ public class SimpleWrapper implements EWrapper {
 		logIn("tickPrice");
 	}
 
-	public void tickSize(int tickerId, int field, int size) {
+	public void tickSize(int tickerId, int field, Decimal size) {
 		logIn("tickSize");
 	}
 
@@ -130,7 +134,7 @@ public class SimpleWrapper implements EWrapper {
 		logIn("tickEFP");
 	}
 
-	public void orderStatus(int orderId, String status, double filled, double remaining,
+	public void orderStatus(int orderId, String status, Decimal filled, Decimal remaining,
 			double avgFillPrice, int permId, int parentId, double lastFillPrice,
 			int clientId, String whyHeld, double mktCapPrice) {
 		logIn("orderStatus");    	
@@ -148,7 +152,7 @@ public class SimpleWrapper implements EWrapper {
 		logIn("updateAccountValue");
 	}
 
-	public void updatePortfolio(Contract contract, double position, double marketPrice, double marketValue,
+	public void updatePortfolio(Contract contract, Decimal position, double marketPrice, double marketValue,
 			double averageCost, double unrealizedPNL, double realizedPNL, String accountName) {
 		logIn("updatePortfolio");
 	}
@@ -185,12 +189,12 @@ public class SimpleWrapper implements EWrapper {
 		logIn("execDetailsEnd");
 	}
 
-	public void updateMktDepth(int tickerId, int position, int operation, int side, double price, int size) {
+	public void updateMktDepth(int tickerId, int position, int operation, int side, double price, Decimal size) {
 		logIn("updateMktDepth");
 	}
 
 	public void updateMktDepthL2(int tickerId, int position, String marketMaker, int operation,
-			int side, double price, int size, boolean isSmartDepth) {
+			int side, double price, Decimal size, boolean isSmartDepth) {
 		logIn("updateMktDepthL2");
 	}
 
@@ -224,7 +228,7 @@ public class SimpleWrapper implements EWrapper {
 	}
 
 	public void realtimeBar(int reqId, long time, double open, double high, double low, double close, 
-			long volume, double wap, int count) {
+			Decimal volume, Decimal wap, int count) {
 		logIn("realtimeBar");
 	}
 
@@ -249,7 +253,7 @@ public class SimpleWrapper implements EWrapper {
 	}
 
 	
-	public void position(String account, Contract contract, double pos, double avgCost) {
+	public void position(String account, Contract contract, Decimal pos, double avgCost) {
 		logIn("position");
 	}
 	
@@ -289,7 +293,7 @@ public class SimpleWrapper implements EWrapper {
 		logIn("displayGroupUpdated");
 	}
 
-	public void positionMulti( int reqId, String account, String modelCode, Contract contract, double pos, double avgCost) {
+	public void positionMulti( int reqId, String account, String modelCode, Contract contract, Decimal pos, double avgCost) {
 		logIn("positionMulti");
 	}
 	
@@ -493,7 +497,7 @@ public class SimpleWrapper implements EWrapper {
 	}
 
     @Override
-    public void pnlSingle(int reqId, int pos, double dailyPnL, double unrealizedPnL, double realizedPnL, double value) {
+    public void pnlSingle(int reqId, Decimal pos, double dailyPnL, double unrealizedPnL, double realizedPnL, double value) {
         // TODO Auto-generated method stub
         
     }
@@ -518,13 +522,13 @@ public class SimpleWrapper implements EWrapper {
     }
 
     @Override
-    public void tickByTickAllLast(int reqId, int tickType, long time, double price, int size, TickAttribLast tickAttribLast,
+    public void tickByTickAllLast(int reqId, int tickType, long time, double price, Decimal size, TickAttribLast tickAttribLast,
             String exchange, String specialConditions) {
         // TODO Auto-generated method stub
     }
 
     @Override
-    public void tickByTickBidAsk(int reqId, long time, double bidPrice, double askPrice, int bidSize, int askSize,
+    public void tickByTickBidAsk(int reqId, long time, double bidPrice, double askPrice, Decimal bidSize, Decimal askSize,
             TickAttribBidAsk tickAttribBidAsk) {
         // TODO Auto-generated method stub
     }
@@ -553,4 +557,28 @@ public class SimpleWrapper implements EWrapper {
     public void replaceFAEnd(int reqId, String text) {
         // TODO Auto-generated method stub
     }
+
+	@Override
+	public void wshMetaData(int reqId, String dataJson) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void wshEventData(int reqId, String dataJson) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void historicalSchedule(int reqId, String startDateTime, String endDateTime, String timeZone, List<HistoricalSession> sessions) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public void userInfo(int reqId, String whiteBrandingId) {
+		// TODO Auto-generated method stub
+		
+	}
 }

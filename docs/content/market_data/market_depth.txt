@@ -2,15 +2,15 @@
 
 	Market depth data, also known as level II, represents an instrument's order book. Via the TWS API it is possible to obtain this information with the @ref IBApi::EClient::reqMarketDepth function (<b>Note:</b> it is named reqMktDepth in Java, C++, and Python).
 	Unlike @ref top_data, market depth data is sent without sampling nor filtering, however we cannot guarantee that every price quoted for a particular security will be displayed when you
-	invoke @ref IBApi::EClient::reqMarketDepth. In particular, odd lot orders are not included. Beginning in <b>API v974</b> and <b>TWS v974</b> it is possible to Smart-route a @ref IBApi::EClient::reqMarketDepth request to receive aggregated data from all available exchanges, similar to the TWS BookTrader display. 
-	
+	invoke @ref IBApi::EClient::reqMarketDepth. In particular, odd lot orders are not included. Beginning in <b>API v974</b> and <b>TWS v974</b> it is possible to Smart-route a @ref IBApi::EClient::reqMarketDepth request to receive aggregated data from all available exchanges, similar to the TWS BookTrader display.
+
 	\section request Requesting
-	
+
 	The @ref IBApi::EClient::reqMarketDepth method receives a request identifier (or ticker Id) with which to identify the incoming data, the @ref IBApi::Contract for which we want to pull this information
 	and the number of rows or depth level that is required. In case the market depth is smaller than the requested number of rows, the TWS will simply return the available entries.
-	
+
 	<ul id="tab">
-		<li class="active"> 
+		<li class="active">
 			\snippet Program.cs reqmarketdepth
 		</li>
 		<li>
@@ -26,17 +26,17 @@
 			\snippet Program.py reqmarketdepth
 		</li>
 	</ul>
-	
+
 	\section reqmktdepthexchanges Market Maker or Exchange
-	
-	Market depth will be returned via the @ref IBApi::EWrapper::updateMktDepth or the @ref IBApi::EWrapper::updateMktDepthL2 callback. The two functions differ in that when there is a market maker or exchange identifier to be returned market depth data will be relayed back through @ref IBApi::EWrapper::updateMktDepthL2. Otherwise it is returned to @ref IBApi::EWrapper::updateMktDepth. 
-	For example, ARCA only has ARCA itself as a Market Maker. Therefore when requesting market depth data from ARCA, the data will be relayed back via @ref IBApi::EWrapper::updateMktDepth. On the other hand, with ISLAND (the ECN for NASDAQ) market maker information is provided, so the market maker MPID will be relayed back via @ref IBApi::EWrapper::updateMktDepthL2. The market maker MPID is reported in the 'marketMaker' string argument of the callback function.
-	If the isSmartDepth boolean (available with API v974+) is True, the marketMaker field will indicate the exchange from which the quote originates. Otherwise it indicates the MPID of a market maker. 
-	
-	To check which exchanges offer deep book data, the function IBApi::EClient::reqMktDepthExchanges can be invoked. It will return a list of exchanges from where market depth is available if the user has the appropriate market data subscription. 
+
+	Market depth will be returned via the @ref IBApi::EWrapper::updateMktDepth or the @ref IBApi::EWrapper::updateMktDepthL2 callback. The two functions differ in that when there is a market maker or exchange identifier to be returned market depth data will be relayed back through @ref IBApi::EWrapper::updateMktDepthL2. Otherwise it is returned to @ref IBApi::EWrapper::updateMktDepth.
+	For example, ARCA only has ARCA itself as a Market Maker. Therefore when requesting market depth data from ARCA, the data will be relayed back via @ref IBApi::EWrapper::updateMktDepth. On the other hand, with NASDAQ market maker information is provided, so the market maker MPID will be relayed back via @ref IBApi::EWrapper::updateMktDepthL2. The market maker MPID is reported in the 'marketMaker' string argument of the callback function.
+	If the isSmartDepth boolean (available with API v974+) is True, the marketMaker field will indicate the exchange from which the quote originates. Otherwise it indicates the MPID of a market maker.
+
+	To check which exchanges offer deep book data, the function IBApi::EClient::reqMktDepthExchanges can be invoked. It will return a list of exchanges from where market depth is available if the user has the appropriate market data subscription.
 
 	<ul id="tab">
-		<li class="active"> 
+		<li class="active">
 		   \snippet Program.cs reqMktDepthExchanges
 		</li>
 		<li>
@@ -77,11 +77,11 @@
 	\section receive Receiving
 
 	Initially, all requested/available rows will be delivered to the client application. As market moves however
-	these rows will inevitably change. To keep the client's order book consistent, the TWS will send updates not only informing which row is to be updated but also the operation to perform in the 
+	these rows will inevitably change. To keep the client's order book consistent, the TWS will send updates not only informing which row is to be updated but also the operation to perform in the
 	row: insert (0), update (1) or remove (2).
-	
+
 	<ul id="tab">
-		<li class="active"> 
+		<li class="active">
 			\snippet EWrapperImpl.cs ewrapperimpl
 		   ...
 		   \snippet EWrapperImpl.cs updatemktdepth
@@ -117,13 +117,13 @@
 			\snippet Program.py updatemktdepthl2
 		</li>
 	</ul>
-	
+
 	\section canceling Canceling
-	
+
 	To cancel an active market depth request simply invoke the @ref IBApi::EClient::cancelMktDepth passing in the request's identifier.
-	
+
 	<ul id="tab">
-		<li class="active"> 
+		<li class="active">
 		   \snippet Program.cs cancelmktdepth
 		</li>
 		<li>
@@ -139,12 +139,12 @@
 			\snippet Program.py cancelmktdepth
 		</li>
 	</ul>
-	
+
 	\section limitations Limitations
-	
+
 	Given the potentially high amount of data being sent, market depth request's are much more limited. Just as with historical data requests, the amount of active depth requests is related
 	to the amount of market data lines, with a minimum of three and maximum of 60:
-	
+
 	<table>
 		<tr><th>Number of lines</th><th>Max. Requests</th></tr>
 		<tr><td>0 - 399</td><td>3</td></tr>
@@ -154,9 +154,9 @@
 		<tr><td colspan="2">etc...</td></tr>
 		</tr>
 	</table>
-	
+
 	<br>
-	Please note that there is a limit of only 10 quote boosters packs per account and rest of the market data lines are allocated using equity and commissions. Also note that each quote booster pack provides 100 market data lines. 
+	Please note that there is a limit of only 10 quote boosters packs per account and rest of the market data lines are allocated using equity and commissions. Also note that each quote booster pack provides 100 market data lines.
 	<br>
 
 */

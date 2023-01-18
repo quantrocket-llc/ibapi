@@ -46,8 +46,8 @@ public class SampleRfq extends SimpleWrapper {
    private double m_bidPrice = 0;
    private double m_askPrice = 0;
 
-   private int m_bidSize = 0;
-   private int m_askSize = 0;
+   private long m_bidSize = 0;
+   private long m_askSize = 0;
 
    private int m_receivedTicks = 0;
 
@@ -108,7 +108,7 @@ public class SampleRfq extends SimpleWrapper {
                m_contract.currency("EUR");
                break;
            case 1:
-               m_contract = new FutContract("IBM", "200809");
+               m_contract = new FutContract("GBL", "202303");
                break;
            case 2:
                m_contract = new OptContract("IBM", "200809", 120, "CALL");
@@ -385,7 +385,7 @@ public class SampleRfq extends SimpleWrapper {
       }
    }    
 
-   public void tickSize(int tickerId, int field, int size) {
+   public void tickSize(int tickerId, int field, long size) {
        TickType tick = TickType.get(field);
        consoleMsg("tickSize:" + tickerId + " field:" + field +
             " (" + tick.field() + ") value:" + size);

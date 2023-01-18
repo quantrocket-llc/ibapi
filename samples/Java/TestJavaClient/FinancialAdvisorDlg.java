@@ -1,4 +1,4 @@
-/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2023 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 package TestJavaClient;
@@ -14,10 +14,8 @@ class FinancialAdvisorDlg extends JDialog {
     private static final int DIALOG_WIDTH = 500;
     private static final int EDITOR_HEIGHT = 240;
     private IBTextPanel groupTextEditor = new IBTextPanel("Groups", true) ;
-    private IBTextPanel profileTextEditor = new IBTextPanel("Allocation Profiles", true) ;
     private IBTextPanel aliasTextEditor = new IBTextPanel("Aliases", true) ;
     String      groupsXML ;
-    String      profilesXML ;
     String      aliasesXML ;
     boolean 	m_rc = false;
 
@@ -27,8 +25,7 @@ class FinancialAdvisorDlg extends JDialog {
         IBGridBagPanel editPanel = new IBGridBagPanel();
 
         editPanel.SetObjectPlacement( groupTextEditor,      0, 0 ) ;
-        editPanel.SetObjectPlacement( profileTextEditor,    0, 1 ) ;
-        editPanel.SetObjectPlacement( aliasTextEditor,      0, 2 ) ;
+        editPanel.SetObjectPlacement( aliasTextEditor,      0, 1 ) ;
         Dimension editPanelSizeDimension =
             new Dimension(DIALOG_WIDTH, 3 * EDITOR_HEIGHT);
         editPanel.setPreferredSize(editPanelSizeDimension) ;
@@ -49,16 +46,14 @@ class FinancialAdvisorDlg extends JDialog {
         pack();
     }
 
-    void receiveInitialXML(String p_groupsXML, String p_profilesXML, String p_aliasesXML) {
+    void receiveInitialXML(String p_groupsXML, String p_aliasesXML) {
         groupTextEditor.setTextDetabbed(p_groupsXML);
-        profileTextEditor.setTextDetabbed(p_profilesXML);
         aliasTextEditor.setTextDetabbed(p_aliasesXML);
     }
 
     void onOk() {
         m_rc = true;
         groupsXML = groupTextEditor.getText();
-        profilesXML = profileTextEditor.getText();
         aliasesXML = aliasTextEditor.getText();
         setVisible( false);
     }

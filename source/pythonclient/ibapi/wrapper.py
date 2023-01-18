@@ -1,5 +1,5 @@
 """
-Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+Copyright (C) 2023 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable.
 """
 
@@ -18,8 +18,6 @@ message use the 'unified version': the agreed up min version of both
 server and client.
 
 """
-
-import logging
 
 from ibapi.common import * # @UnusedWildImport
 from ibapi.utils import * # @UnusedWildImport
@@ -48,13 +46,15 @@ class EWrapper:
             logger.info("ANSWER %s %s", fnName, prms)
 
 
-    def error(self, reqId:TickerId, errorCode:int, errorString:str):
+    def error(self, reqId:TickerId, errorCode:int, errorString:str, advancedOrderRejectJson = ""):
         """This event is called when there is an error with the
         communication or when TWS wants to send a message to the client."""
 
         self.logAnswer(current_fn_name(), vars())
-        logger.error("ERROR %s %s %s", reqId, errorCode, errorString)
-
+        if advancedOrderRejectJson:
+            logger.error("ERROR %s %s %s %s", reqId, errorCode, errorString, advancedOrderRejectJson)
+        else: 
+            logger.error("ERROR %s %s %s", reqId, errorCode, errorString)
 
     def winError(self, text:str, lastError:int):
         self.logAnswer(current_fn_name(), vars())
@@ -84,7 +84,7 @@ class EWrapper:
         self.logAnswer(current_fn_name(), vars())
 
 
-    def tickSize(self, reqId:TickerId, tickType:TickType, size:int):
+    def tickSize(self, reqId:TickerId, tickType:TickType, size:Decimal):
         """Market data tick size callback. Handles all size-related ticks."""
 
         self.logAnswer(current_fn_name(), vars())
@@ -128,8 +128,8 @@ class EWrapper:
         self.logAnswer(current_fn_name(), vars())
 
 
-    def orderStatus(self, orderId:OrderId , status:str, filled:float,
-                    remaining:float, avgFillPrice:float, permId:int,
+    def orderStatus(self, orderId:OrderId , status:str, filled:Decimal,
+                    remaining:Decimal, avgFillPrice:float, permId:int,
                     parentId:int, lastFillPrice:float, clientId:int,
                     whyHeld:str, mktCapPrice: float):
         """This event is called whenever the status of an order changes. It is
@@ -195,7 +195,7 @@ class EWrapper:
         self.logAnswer(current_fn_name(), vars())
 
 
-    def updatePortfolio(self, contract:Contract, position:float,
+    def updatePortfolio(self, contract:Contract, position:Decimal,
                         marketPrice:float, marketValue:float,
                         averageCost:float, unrealizedPNL:float,
                         realizedPNL:float, accountName:str):
@@ -261,7 +261,7 @@ class EWrapper:
 
 
     def updateMktDepth(self, reqId:TickerId , position:int, operation:int,
-                        side:int, price:float, size:int):
+                        side:int, price:float, size:Decimal):
         """Returns the order book.
 
         tickerId -  the request's identifier
@@ -278,7 +278,7 @@ class EWrapper:
 
 
     def updateMktDepthL2(self, reqId:TickerId , position:int, marketMaker:str,
-                          operation:int, side:int, price:float, size:int, isSmartDepth:bool):
+                          operation:int, side:int, price:float, size:Decimal, isSmartDepth:bool):
         """Returns the order book.
 
         tickerId -  the request's identifier
@@ -319,8 +319,6 @@ class EWrapper:
         faDataType - one of:
             Groups: offer traders a way to create a group of accounts and apply
                  a single allocation method to all accounts in the group.
-            Profiles: let you allocate shares on an account-by-account basis
-                using a predefined calculation value.
             Account Aliases: let you easily identify the accounts by meaningful
                  names rather than account numbers.
         faXmlData -  the xml-formatted configuration """
@@ -383,7 +381,7 @@ class EWrapper:
 
 
     def realtimeBar(self, reqId: TickerId, time:int, open_: float, high: float, low: float, close: float,
-                        volume: int, wap: float, count: int):
+                        volume: Decimal, wap: Decimal, count: int):
 
         """ Updates the real time 5 seconds bars
 
@@ -436,7 +434,7 @@ class EWrapper:
         self.logAnswer(current_fn_name(), vars())
 
 
-    def position(self, account:str, contract:Contract, position:float,
+    def position(self, account:str, contract:Contract, position:Decimal,
                  avgCost:float):
         """This event returns real-time positions for all accounts in
         response to the reqPositions() method."""
@@ -516,7 +514,7 @@ class EWrapper:
 
 
     def positionMulti(self, reqId:int, account:str, modelCode:str,
-                      contract:Contract, pos:float, avgCost:float):
+                      contract:Contract, pos:Decimal, avgCost:float):
         """same as position() except it can be for a certain
         account/model"""
 
@@ -665,7 +663,7 @@ class EWrapper:
         """returns the daily PnL for the account"""
         self.logAnswer(current_fn_name(), vars())
 
-    def pnlSingle(self, reqId: int, pos: int, dailyPnL: float, unrealizedPnL: float, realizedPnL: float, value: float):
+    def pnlSingle(self, reqId: int, pos: Decimal, dailyPnL: float, unrealizedPnL: float, realizedPnL: float, value: float):
         """returns the daily PnL for a single position in the account"""
         self.logAnswer(current_fn_name(), vars())
 
@@ -682,13 +680,13 @@ class EWrapper:
         self.logAnswer(current_fn_name(), vars())
 
     def tickByTickAllLast(self, reqId: int, tickType: int, time: int, price: float,
-                          size: int, tickAttribLast: TickAttribLast, exchange: str,
+                          size: Decimal, tickAttribLast: TickAttribLast, exchange: str,
                           specialConditions: str):
         """returns tick-by-tick data for tickType = "Last" or "AllLast" """
         self.logAnswer(current_fn_name(), vars())
 
     def tickByTickBidAsk(self, reqId: int, time: int, bidPrice: float, askPrice: float,
-                         bidSize: int, askSize: int, tickAttribBidAsk: TickAttribBidAsk):
+                         bidSize: Decimal, askSize: Decimal, tickAttribBidAsk: TickAttribBidAsk):
         """returns tick-by-tick data for tickType = "BidAsk" """
         self.logAnswer(current_fn_name(), vars())
 
@@ -717,4 +715,18 @@ class EWrapper:
     def replaceFAEnd(self, reqId: int, text: str):
         """This is called at the end of a replace FA."""
 
+        self.logAnswer(current_fn_name(), vars())
+
+    def wshMetaData(self, reqId: int, dataJson: str):
+        self.logAnswer(current_fn_name(), vars())
+
+    def wshEventData(self, reqId: int, dataJson: str):
+        self.logAnswer(current_fn_name(), vars())
+
+    def historicalSchedule(self, reqId: int, startDateTime: str, endDateTime: str, timeZone: str, sessions: ListOfHistoricalSessions):
+        """returns historical schedule for historical data request with whatToShow=SCHEDULE"""
+        self.logAnswer(current_fn_name(), vars())
+
+    def userInfo(self, reqId: int, whiteBrandingId: str):
+        """returns user info"""
         self.logAnswer(current_fn_name(), vars())

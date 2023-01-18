@@ -86,7 +86,7 @@ public class MarketDataHandler extends MarketDataBaseHandler {
             }
             int requestId = parseRequestId(requestStr);
             ArrayList<String> table = Utils.convertArrayToTable(data);
-            Contract contract = parseContract(table, true, true, true, false, false);
+            Contract contract = parseContract(table, true, true, true, false, false, false);
             String genericTicks = parseGenericTicks(table);
             return new MarketDataRequest(requestId, contract, genericTicks, false, requestStr);
         }

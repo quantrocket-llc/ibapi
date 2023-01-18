@@ -1,4 +1,4 @@
-﻿/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2023 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 #pragma once
@@ -39,5 +39,6 @@ static const CodeMsgPair SOCKET_EXCEPTION(509, "Exception caught while reading s
 static const CodeMsgPair FAIL_CREATE_SOCK(520, "Failed to create socket");
 static const CodeMsgPair SSL_FAIL(530, "SSL specific error: ");
 static const CodeMsgPair INVALID_SYMBOL(579, "Invalid symbol in string - ");
+static const CodeMsgPair FA_PROFILE_NOT_SUPPORTED(585, "FA Profile is not supported anymore, use FA Group instead - ");
 
 #endif

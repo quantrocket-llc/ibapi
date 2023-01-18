@@ -25,6 +25,7 @@ import com.ib.api.dde.socket2dde.data.OrderStatusData;
 import com.ib.api.dde.utils.OrderUtils;
 import com.ib.api.dde.utils.Utils;
 import com.ib.client.Contract;
+import com.ib.client.Decimal;
 import com.ib.client.EClientSocket;
 import com.ib.client.Order;
 
@@ -90,7 +91,7 @@ public class OldOrdersHandler extends OrdersHandler {
                 PlaceOrderRequest request = (PlaceOrderRequest)ddeRequest;  
                 System.out.println("Placing order: id=" + request.requestId() + " for contract=" + Utils.shortContractString(request.contract()) + " order=" + Utils.shortOrderString(request.order()));
                 
-                OrderStatusData orderStatus = new OrderStatusData(request.requestId(), "Sent", 0, 
+                OrderStatusData orderStatus = new OrderStatusData(request.requestId(), "Sent", Decimal.INVALID, 
                         request.order().totalQuantity(), 0, request.order().permId(), request.order().parentId(), 
                         0, request.order().clientId(), "", 0); 
                 OpenOrderData openOrderData = new OpenOrderData(request.requestId(), request.contract(), request.order(), null, orderStatus, false);
@@ -108,7 +109,7 @@ public class OldOrdersHandler extends OrdersHandler {
             } else {
                 // cancel order
                 System.out.println("Cancelling order: id=" + ddeRequest.requestId());
-                clientSocket().cancelOrder(ddeRequest.requestId()); 
+                clientSocket().cancelOrder(ddeRequest.requestId(), Order.EMPTY_STR); 
             }
         }
             
@@ -248,7 +249,7 @@ public class OldOrdersHandler extends OrdersHandler {
             }
             token = getParameter(st);
             if (Utils.isNotNull(token)){
-                order.totalQuantity(Double.parseDouble(token));
+                order.totalQuantity(Decimal.parse(token));
             }
             token = getParameter(st);
             if (Utils.isNotNull(token)){
@@ -344,10 +345,7 @@ public class OldOrdersHandler extends OrdersHandler {
             if (Utils.isNotNull(token)) {
                 order.faPercentage(token);
             }
-            token = getParameter(st);
-            if (Utils.isNotNull(token)) {
-                order.faProfile(token);
-            }
+            token = getParameter(st); // faProfile - deprecated
             token = getParameter(st);
             if (Utils.isNotNull(token)) {
                 order.shortSaleSlot(getIntFromString(token));
@@ -382,18 +380,9 @@ public class OldOrdersHandler extends OrdersHandler {
             if (Utils.isNotNull(token)) {
                 order.percentOffset(getDoubleFromString(token));
             }
-            token = getParameter(st);
-            if (Utils.isNotNull(token)) {
-                order.eTradeOnly(getBooleanFromString(token));
-            }
-            token = getParameter(st);
-            if (Utils.isNotNull(token)) {
-                order.firmQuoteOnly(getBooleanFromString(token));
-            }
-            token = getParameter(st);
-            if (Utils.isNotNull(token)) {
-                order.nbboPriceCap(getDoubleFromString(token));
-            }
+            token = getParameter(st); // empty (not used)
+            token = getParameter(st); // empty (not used)
+            token = getParameter(st); // empty (not used)
             token = getParameter(st); // empty (not used)
             token = getParameter(st);
             if (Utils.isNotNull(token)) {

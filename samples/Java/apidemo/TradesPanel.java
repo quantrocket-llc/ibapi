@@ -20,6 +20,7 @@ import com.ib.client.CommissionReport;
 import com.ib.client.Contract;
 import com.ib.client.Execution;
 import com.ib.client.ExecutionFilter;
+import com.ib.client.Util;
 import com.ib.controller.ApiController.ITradeReportHandler;
 
 import apidemo.util.HtmlButton;
@@ -114,9 +115,9 @@ public class TradesPanel extends JPanel implements ITradeReportHandler {
 				case 2: return full.m_trade.modelCode();
 				case 3: return full.m_trade.side();
 				case 4: return full.m_trade.shares();
-				case 5: return full.m_contract.description();
-				case 6: return full.m_trade.price();
-				case 7: return full.m_commissionReport != null ? full.m_commissionReport.commission() : null;
+				case 5: return full.m_contract.textDescription();
+				case 6: return Util.DoubleMaxString(full.m_trade.price());
+				case 7: return full.m_commissionReport != null ? Util.DoubleMaxString(full.m_commissionReport.commission()) : null;
 				case 8: return full.m_trade.lastLiquidity();
 				default: return null;
 			}

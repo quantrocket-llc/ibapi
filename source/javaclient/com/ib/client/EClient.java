@@ -1,4 +1,4 @@
-/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2023 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 package com.ib.client;
@@ -8,6 +8,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import com.ib.client.Types.SecType;
+import com.ib.client.Types.WhatToShow;
 
 public abstract class EClient {
 
@@ -102,15 +103,12 @@ public abstract class EClient {
     
     // FA msg data types
     public static final int GROUPS = 1;
-    public static final int PROFILES = 2;
     public static final int ALIASES = 3;
 
 	public static String faMsgTypeName(int faDataType) {
         switch (faDataType) {
             case GROUPS:
                 return "GROUPS";
-            case PROFILES:
-                return "PROFILES";
             case ALIASES:
                 return "ALIASES";
         }
@@ -193,6 +191,11 @@ public abstract class EClient {
     private static final int REQ_TICK_BY_TICK_DATA = 97;
     private static final int CANCEL_TICK_BY_TICK_DATA = 98;
     private static final int REQ_COMPLETED_ORDERS = 99;
+    private static final int REQ_WSH_META_DATA = 100;
+    private static final int CANCEL_WSH_META_DATA = 101;
+    private static final int REQ_WSH_EVENT_DATA = 102;
+    private static final int CANCEL_WSH_EVENT_DATA = 103;
+    private static final int REQ_USER_INFO = 104;
 
 	private static final int MIN_SERVER_VER_REAL_TIME_BARS = 34;
 	private static final int MIN_SERVER_VER_SCALE_ORDERS = 35;
@@ -293,9 +296,29 @@ public abstract class EClient {
     protected static final int MIN_SERVER_VER_NO_DEFAULT_OPEN_CLOSE = 155;
     protected static final int MIN_SERVER_VER_PRICE_BASED_VOLATILITY = 156;
     protected static final int MIN_SERVER_VER_REPLACE_FA_END = 157;
+    protected static final int MIN_SERVER_VER_DURATION = 158;
+    protected static final int MIN_SERVER_VER_MARKET_DATA_IN_SHARES = 159;
+    protected static final int MIN_SERVER_VER_POST_TO_ATS = 160;
+    protected static final int MIN_SERVER_VER_WSHE_CALENDAR = 161;
+    protected static final int MIN_SERVER_VER_AUTO_CANCEL_PARENT = 162;
+    protected static final int MIN_SERVER_VER_FRACTIONAL_SIZE_SUPPORT = 163;
+    protected static final int MIN_SERVER_VER_SIZE_RULES = 164;
+    protected static final int MIN_SERVER_VER_HISTORICAL_SCHEDULE = 165;
+    protected static final int MIN_SERVER_VER_ADVANCED_ORDER_REJECT = 166;
+    protected static final int MIN_SERVER_VER_USER_INFO = 167;
+    protected static final int MIN_SERVER_VER_CRYPTO_AGGREGATED_TRADES = 168;
+    protected static final int MIN_SERVER_VER_MANUAL_ORDER_TIME = 169;
+    protected static final int MIN_SERVER_VER_PEGBEST_PEGMID_OFFSETS = 170;
+    protected static final int MIN_SERVER_VER_WSH_EVENT_DATA_FILTERS = 171;
+    protected static final int MIN_SERVER_VER_IPO_PRICES = 172;
+    protected static final int MIN_SERVER_VER_WSH_EVENT_DATA_FILTERS_DATE = 173;
+    protected static final int MIN_SERVER_VER_INSTRUMENT_TIMEZONE = 174;
+    protected static final int MIN_SERVER_VER_HMDS_MARKET_DATA_IN_SHARES = 175;
+    protected static final int MIN_SERVER_VER_BOND_ISSUERID = 176;
+    protected static final int MIN_SERVER_VER_FA_PROFILE_DESUPPORT = 177;
     
     public static final int MIN_VERSION = 100; // envelope encoding, applicable to useV100Plus mode only
-    public static final int MAX_VERSION = MIN_SERVER_VER_REPLACE_FA_END; // ditto
+    public static final int MAX_VERSION = MIN_SERVER_VER_FA_PROFILE_DESUPPORT; // ditto
 
     protected EReaderSignal m_signal;
     protected EWrapper m_eWrapper;    // msg handler
@@ -348,7 +371,7 @@ public abstract class EClient {
     public void disableUseV100Plus() {
     	if( isConnected() ) {
             m_eWrapper.error(EClientErrors.NO_VALID_ID, EClientErrors.ALREADY_CONNECTED.code(),
-                    EClientErrors.ALREADY_CONNECTED.msg());
+                    EClientErrors.ALREADY_CONNECTED.msg(), null);
     		return;
   		}
     	
@@ -359,7 +382,7 @@ public abstract class EClient {
     public void setConnectOptions(String options) {
     	if( isConnected() ) {
             m_eWrapper.error(EClientErrors.NO_VALID_ID, EClientErrors.ALREADY_CONNECTED.code(),
-                    EClientErrors.ALREADY_CONNECTED.msg());
+                    EClientErrors.ALREADY_CONNECTED.msg(), null);
     		return;
   		}
     	
@@ -368,13 +391,13 @@ public abstract class EClient {
 
     protected void connectionError() {
         m_eWrapper.error( EClientErrors.NO_VALID_ID, EClientErrors.CONNECT_FAIL.code(),
-                EClientErrors.CONNECT_FAIL.msg());
+                EClientErrors.CONNECT_FAIL.msg(), null);
     }
 
     protected String checkConnected(String host) {
         if( isConnected()) {
             m_eWrapper.error(EClientErrors.NO_VALID_ID, EClientErrors.ALREADY_CONNECTED.code(),
-                    EClientErrors.ALREADY_CONNECTED.msg());
+                    EClientErrors.ALREADY_CONNECTED.msg(), null);
             return null;
         }
         if( IsEmpty( host) ) {
@@ -798,6 +821,14 @@ public abstract class EClient {
               }
           }
 
+          if (m_serverVersion < MIN_SERVER_VER_HISTORICAL_SCHEDULE) {
+              if (!IsEmpty(whatToShow) && whatToShow.equalsIgnoreCase(WhatToShow.SCHEDULE.name())) {
+                  error(tickerId, EClientErrors.UPDATE_TWS,
+                      "  It does not support requesting of historical schedule.");
+                  return;
+              }
+          }
+
           Builder b = prepareBuffer(); 
 
           b.send(REQ_HISTORICAL_DATA);
@@ -942,7 +973,7 @@ public abstract class EClient {
     		closeAndSend(b);
     	}
     	catch (Exception e) {
-    		error(tickerId, EClientErrors.FAIL_SEND_CANHEADTIMESTAMP, e.toString());
+    		error(tickerId, EClientErrors.FAIL_SEND_CANCELHEADTIMESTAMP, e.toString());
     		close();
         }
    }
@@ -1055,6 +1086,14 @@ public abstract class EClient {
                 return;
             }
         }
+
+        if (m_serverVersion < MIN_SERVER_VER_BOND_ISSUERID) {
+            if (!IsEmpty(contract.issuerId())) {
+        		error(reqId, EClientErrors.UPDATE_TWS,
+                    "  It does not support issuerId parameter in reqContractDetails.");
+                return;
+            }
+        }
         
         final int VERSION = 8;
 
@@ -1107,6 +1146,9 @@ public abstract class EClient {
             if (m_serverVersion >= MIN_SERVER_VER_SEC_ID_TYPE) {
             	b.send( contract.getSecIdType());
             	b.send( contract.secId());
+            }
+            if (m_serverVersion >= MIN_SERVER_VER_BOND_ISSUERID) {
+                b.send(contract.issuerId());
             }
             closeAndSend(b);
         }
@@ -1622,9 +1664,54 @@ public abstract class EClient {
         if (m_serverVersion < MIN_SERVER_VER_PRICE_MGMT_ALGO 
                 && order.usePriceMgmtAlgo() != null) {
             error(id, EClientErrors.UPDATE_TWS, "  It does not support price management algo parameter");
+            return;
         }
 
+        if (m_serverVersion < MIN_SERVER_VER_DURATION 
+                && order.duration() != Integer.MAX_VALUE) {
+            error(id, EClientErrors.UPDATE_TWS, "  It does not support duration attribute");
+            return;
+        }
 
+        if (m_serverVersion < MIN_SERVER_VER_POST_TO_ATS 
+                && order.postToAts() != Integer.MAX_VALUE) {
+            error(id, EClientErrors.UPDATE_TWS, "  It does not support postToAts attribute");
+            return;
+        }
+
+        if (m_serverVersion < MIN_SERVER_VER_AUTO_CANCEL_PARENT 
+                && order.autoCancelParent()) {
+            error(id, EClientErrors.UPDATE_TWS, "  It does not support autoCancelParent attribute");
+            return;
+        }
+        
+        if (m_serverVersion < MIN_SERVER_VER_ADVANCED_ORDER_REJECT) {
+            if (!IsEmpty(order.advancedErrorOverride())) {
+                error(id, EClientErrors.UPDATE_TWS, "  It does not support advanced error override attribute");
+                return;
+            }
+        }
+
+        if (m_serverVersion < MIN_SERVER_VER_MANUAL_ORDER_TIME) {
+            if (!IsEmpty(order.manualOrderTime())) {
+                error(id, EClientErrors.UPDATE_TWS, "  It does not support manual order time attribute");
+                return;
+            }
+        }
+        
+        if (m_serverVersion < MIN_SERVER_VER_PEGBEST_PEGMID_OFFSETS) {
+            if (order.minTradeQty() != Integer.MAX_VALUE ||
+                order.minCompeteSize() != Integer.MAX_VALUE ||
+                order.competeAgainstBestOffset() != Double.MAX_VALUE ||
+                order.midOffsetAtWhole() != Double.MAX_VALUE ||
+                order.midOffsetAtHalf() != Double.MAX_VALUE) {
+                error(id, EClientErrors.UPDATE_TWS,
+                    "  It does not support PEG BEST / PEG MID order parameters: minTradeQty, minCompeteSize, " +
+                    "competeAgainstBestOffset, midOffsetAtWhole and midOffsetAtHalf");
+                return;
+            }
+        }
+        
         int VERSION = (m_serverVersion < MIN_SERVER_VER_NOT_HELD) ? 27 : 45;
 
         // send place order msg
@@ -1671,9 +1758,9 @@ public abstract class EClient {
             b.send( order.getAction());
             
 			if (m_serverVersion >= MIN_SERVER_VER_FRACTIONAL_POSITIONS)
-				b.send(order.totalQuantity());
+				b.send(order.totalQuantity().toString());
 			else
-				b.send((int) order.totalQuantity());
+				b.send((int) order.totalQuantity().longValue());
             
 			b.send( order.getOrderType());
             if (m_serverVersion < MIN_SERVER_VER_ORDER_COMBO_LEGS_PRICE) {
@@ -1792,7 +1879,9 @@ public abstract class EClient {
                b.send( order.faGroup());
                b.send( order.getFaMethod());
                b.send( order.faPercentage());
-               b.send( order.faProfile());
+               if ( m_serverVersion < MIN_SERVER_VER_FA_PROFILE_DESUPPORT ) {
+                   b.send( ""); // send deprecated faProfile field
+               }
            }
 
            if ( m_serverVersion >= MIN_SERVER_VER_MODELS_SUPPORT ) {
@@ -1817,9 +1906,9 @@ public abstract class EClient {
                b.send( order.allOrNone());
                b.sendMax( order.minQty());
                b.sendMax( order.percentOffset());
-               b.send( order.eTradeOnly());
-               b.send( order.firmQuoteOnly());
-               b.sendMax( order.nbboPriceCap());
+               b.send( false); 
+               b.send( false);
+               b.sendMax( Double.MAX_VALUE);
                b.sendMax( order.auctionStrategy());
                b.sendMax( order.startingPrice());
                b.sendMax( order.stockRefPrice());
@@ -2049,6 +2138,46 @@ public abstract class EClient {
                b.send(order.usePriceMgmtAlgo());
            }
 
+           if (m_serverVersion >= MIN_SERVER_VER_DURATION) {
+               b.send(order.duration());
+           }
+
+           if (m_serverVersion >= MIN_SERVER_VER_POST_TO_ATS) {
+               b.send(order.postToAts());
+           }
+
+           if (m_serverVersion >= MIN_SERVER_VER_AUTO_CANCEL_PARENT) {
+               b.send(order.autoCancelParent());
+           }
+           
+           if (m_serverVersion >= MIN_SERVER_VER_ADVANCED_ORDER_REJECT) {
+               b.send(order.advancedErrorOverride());
+           }
+
+           if (m_serverVersion >= MIN_SERVER_VER_MANUAL_ORDER_TIME) {
+               b.send(order.manualOrderTime());
+           }
+
+           if (m_serverVersion >= MIN_SERVER_VER_PEGBEST_PEGMID_OFFSETS) {
+               if (contract.exchange().equals("IBKRATS")) {
+                   b.sendMax(order.minTradeQty());
+               }
+               boolean sendMidOffsets = false;
+               if (order.orderType().equals(OrderType.PEG_BEST)) {
+                   b.sendMax(order.minCompeteSize());
+                   b.sendMax(order.competeAgainstBestOffset());
+                   if (order.isCompeteAgainstBestOffsetUpToMid()) {
+                       sendMidOffsets = true;
+                   }
+               } else if (order.orderType().equals(OrderType.PEG_MID)) {
+                   sendMidOffsets = true;
+               }
+               if (sendMidOffsets) {
+                   b.sendMax(order.midOffsetAtWhole());
+                   b.sendMax(order.midOffsetAtHalf());
+               }
+           }
+
            closeAndSend(b);
         }
         catch(EClientException e) {
@@ -2117,7 +2246,7 @@ public abstract class EClient {
                 b.send( filter.clientId());
                 b.send( filter.acctCode());
 
-                // Note that the valid format for m_time is "yyyymmdd-hh:mm:ss"
+                // Note that the valid format for m_time is "yyyyMMdd-HH:mm:ss" (UTC) or "yyyyMMdd HH:mm:ss timezone"
                 b.send( filter.time());
                 b.send( filter.symbol());
                 b.send( filter.secType());
@@ -2135,11 +2264,18 @@ public abstract class EClient {
         }
     }
 
-    public synchronized void cancelOrder( int id) {
+    public synchronized void cancelOrder( int id, String manualOrderCancelTime) {
         // not connected?
         if( !isConnected()) {
             notConnected();
             return;
+        }
+
+        if (m_serverVersion < MIN_SERVER_VER_MANUAL_ORDER_TIME) {
+            if (!IsEmpty(manualOrderCancelTime)) {
+                error(id, EClientErrors.UPDATE_TWS, "  It does not support manual order cancel time attribute");
+                return;
+            }
         }
 
         final int VERSION = 1;
@@ -2151,6 +2287,10 @@ public abstract class EClient {
             b.send( CANCEL_ORDER);
             b.send( VERSION);
             b.send( id);
+
+            if (m_serverVersion >= MIN_SERVER_VER_MANUAL_ORDER_TIME) {
+                b.send(manualOrderCancelTime);
+            }
 
             closeAndSend(b);
         }
@@ -2361,10 +2501,9 @@ public abstract class EClient {
             return;
         }
 
-        // This feature is only available for versions of TWS >= 13
-        if( m_serverVersion < 13) {
-            error(EClientErrors.NO_VALID_ID, EClientErrors.UPDATE_TWS.code(),
-                    EClientErrors.UPDATE_TWS.msg());
+        if (m_serverVersion >= MIN_SERVER_VER_FA_PROFILE_DESUPPORT && faDataType == 2) {
+            error(EClientErrors.NO_VALID_ID, EClientErrors.FA_PROFILE_NOT_SUPPORTED.code(),
+                    EClientErrors.FA_PROFILE_NOT_SUPPORTED.msg());
             return;
         }
 
@@ -2392,10 +2531,9 @@ public abstract class EClient {
             return;
         }
 
-        // This feature is only available for versions of TWS >= 13
-        if( m_serverVersion < 13) {
-            error(EClientErrors.NO_VALID_ID, EClientErrors.UPDATE_TWS.code(),
-                    EClientErrors.UPDATE_TWS.msg());
+        if (m_serverVersion >= MIN_SERVER_VER_FA_PROFILE_DESUPPORT && faDataType == 2) {
+            error(reqId, EClientErrors.FA_PROFILE_NOT_SUPPORTED.code(),
+                    EClientErrors.FA_PROFILE_NOT_SUPPORTED.msg());
             return;
         }
 
@@ -3610,7 +3748,7 @@ public abstract class EClient {
             error(tickerId, e.error(), e.text());
         }
         catch (Exception e) {
-            error(tickerId, EClientErrors.FAIL_SEND_REQHISTDATA, e.toString());
+            error(tickerId, EClientErrors.FAIL_SEND_REQHISTOGRAMDATA, e.toString());
             close();
         }
     }
@@ -3638,7 +3776,7 @@ public abstract class EClient {
             closeAndSend(b);
         }
         catch( Exception e) {
-            error( tickerId, EClientErrors.FAIL_SEND_CANHISTDATA, e.toString());
+            error( tickerId, EClientErrors.FAIL_SEND_CANCELHISTOGRAMDATA, e.toString());
             close();
         }
     }
@@ -3723,7 +3861,7 @@ public abstract class EClient {
             closeAndSend(b);
         } 
         catch(Exception e) {
-            error(reqId, EClientErrors.FAIL_SEND_CANPNL, e.toString());
+            error(reqId, EClientErrors.FAIL_SEND_CANCELPNL, e.toString());
             close();
         }
     }
@@ -3755,7 +3893,7 @@ public abstract class EClient {
             error(reqId, e.error(), e.text());
         }
         catch(Exception e) {
-            error(reqId, EClientErrors.FAIL_SEND_REQPNL_SINGLE, e.toString());
+            error(reqId, EClientErrors.FAIL_SEND_REQPNLSINGLE, e.toString());
             close();
         }
     }
@@ -3780,7 +3918,7 @@ public abstract class EClient {
 
             closeAndSend(b);
         } catch(Exception e) {
-            error(reqId, EClientErrors.FAIL_SEND_CANPNL_SINGLE, e.toString());
+            error(reqId, EClientErrors.FAIL_SEND_CANCELPNLSINGLE, e.toString());
             close();
         }
     }
@@ -3819,7 +3957,7 @@ public abstract class EClient {
             error(reqId, e.error(), e.text());
         }
         catch(Exception e) {
-            error(reqId, EClientErrors.FAIL_SEND_HISTORICAL_TICK, e.toString());
+            error(reqId, EClientErrors.FAIL_SEND_REQHISTORICALTICKS, e.toString());
             close();
         }        
     }
@@ -3874,7 +4012,7 @@ public abstract class EClient {
             error(reqId, e.error(), e.text());
         }
         catch(Exception e) {
-            error(reqId, EClientErrors.FAIL_SEND_REQTICKBYTICK, e.toString());
+            error(reqId, EClientErrors.FAIL_SEND_REQTICKBYTICKDATA, e.toString());
             close();
         }
     }
@@ -3902,7 +4040,7 @@ public abstract class EClient {
         }
         catch( Exception e) {
             error( EClientErrors.NO_VALID_ID,
-                   EClientErrors.FAIL_SEND_CANTICKBYTICK, e.toString());
+                   EClientErrors.FAIL_SEND_CANCELTICKBYTICKDATA, e.toString());
             close();
         }
     }
@@ -3930,10 +4068,177 @@ public abstract class EClient {
         }
         catch( Exception e) {
             error( EClientErrors.NO_VALID_ID,
-                   EClientErrors.FAIL_SEND_REQ_COMPLETED_ORDERS, e.toString());
+                   EClientErrors.FAIL_SEND_REQCOMPLETEDORDERS, e.toString());
             close();
         }
     }
+    
+    public synchronized void reqWshMetaData(int reqId) {
+        // not connected?
+        if( !isConnected()) {
+            notConnected();
+            return;
+        }
+
+        if (m_serverVersion < MIN_SERVER_VER_WSHE_CALENDAR) {
+          error(EClientErrors.NO_VALID_ID, EClientErrors.UPDATE_TWS,
+                "  It does not support WSHE Calendar API.");
+          return;
+        }
+
+        try {
+            Builder b = prepareBuffer(); 
+
+            b.send(REQ_WSH_META_DATA);
+            b.send(reqId);
+
+            closeAndSend(b);
+        }
+        catch( Exception e) {
+            error( EClientErrors.NO_VALID_ID,
+                   EClientErrors.FAIL_SEND_REQ_WSH_META_DATA, e.toString());
+            close();
+        }   	
+    }
+    
+    public synchronized void cancelWshMetaData(int reqId) {
+        // not connected?
+        if( !isConnected()) {
+            notConnected();
+            return;
+        }
+
+        if (m_serverVersion < MIN_SERVER_VER_WSHE_CALENDAR) {
+          error(EClientErrors.NO_VALID_ID, EClientErrors.UPDATE_TWS,
+                "  It does not support WSHE Calendar API.");
+          return;
+        }
+
+        try {
+            Builder b = prepareBuffer(); 
+
+            b.send(CANCEL_WSH_META_DATA);
+            b.send(reqId);
+
+            closeAndSend(b);
+        }
+        catch( Exception e) {
+            error( EClientErrors.NO_VALID_ID,
+                   EClientErrors.FAIL_SEND_CAN_WSH_META_DATA, e.toString());
+            close();
+        }   	
+    }
+    
+    public synchronized void reqWshEventData(int reqId, WshEventData wshEventData) {
+        // not connected?
+        if( !isConnected()) {
+            notConnected();
+            return;
+        }
+
+        if (m_serverVersion < MIN_SERVER_VER_WSHE_CALENDAR) {
+          error(EClientErrors.NO_VALID_ID, EClientErrors.UPDATE_TWS,
+                "  It does not support WSHE Calendar API.");
+          return;
+        }
+
+        if (m_serverVersion < MIN_SERVER_VER_WSH_EVENT_DATA_FILTERS) {
+            if (!IsEmpty(wshEventData.filter()) || wshEventData.fillWatchlist() || wshEventData.fillPortfolio() || wshEventData.fillCompetitors()) {
+                error(EClientErrors.NO_VALID_ID, EClientErrors.UPDATE_TWS, "  It does not support WSH event data filters.");
+                return;
+            }
+        }
+
+        if (m_serverVersion < MIN_SERVER_VER_WSH_EVENT_DATA_FILTERS_DATE) {
+            if (!IsEmpty(wshEventData.startDate()) || !IsEmpty(wshEventData.endDate()) || wshEventData.totalLimit() != Integer.MAX_VALUE) {
+                error(EClientErrors.NO_VALID_ID, EClientErrors.UPDATE_TWS, "  It does not support WSH event data date filters.");
+                return;
+            }
+        }
+        
+        try {
+            Builder b = prepareBuffer(); 
+
+            b.send(REQ_WSH_EVENT_DATA);
+            b.send(reqId);
+            b.send(wshEventData.conId());
+
+            if (m_serverVersion >= MIN_SERVER_VER_WSH_EVENT_DATA_FILTERS) {
+                b.send(wshEventData.filter());
+                b.send(wshEventData.fillWatchlist());
+                b.send(wshEventData.fillPortfolio());
+                b.send(wshEventData.fillCompetitors());
+            }
+
+            if (m_serverVersion >= MIN_SERVER_VER_WSH_EVENT_DATA_FILTERS_DATE) {
+                b.send(wshEventData.startDate());
+                b.send(wshEventData.endDate());
+                b.send(wshEventData.totalLimit());
+            }
+            
+            closeAndSend(b);
+        }
+        catch( Exception e) {
+            error( EClientErrors.NO_VALID_ID,
+                   EClientErrors.FAIL_SEND_REQ_WSH_EVENT_DATA, e.toString());
+            close();
+        }   	
+    }
+    
+    public synchronized void cancelWshEventData(int reqId) {
+        // not connected?
+        if( !isConnected()) {
+            notConnected();
+            return;
+        }
+
+        if (m_serverVersion < MIN_SERVER_VER_WSHE_CALENDAR) {
+          error(EClientErrors.NO_VALID_ID, EClientErrors.UPDATE_TWS,
+                "  It does not support WSHE Calendar API.");
+          return;
+        }
+
+        try {
+            Builder b = prepareBuffer(); 
+
+            b.send(CANCEL_WSH_EVENT_DATA);
+            b.send(reqId);
+
+            closeAndSend(b);
+        }
+        catch( Exception e) {
+            error( EClientErrors.NO_VALID_ID,
+                   EClientErrors.FAIL_SEND_CAN_WSH_EVENT_DATA, e.toString());
+            close();
+        }   	
+    }
+    
+    public synchronized void reqUserInfo(int reqId) {
+
+        // not connected?
+        if( !isConnected()) {
+            notConnected();
+            return;
+        }
+
+        if (m_serverVersion < MIN_SERVER_VER_USER_INFO) {
+            error(reqId, EClientErrors.UPDATE_TWS, " It does not support user info requests.");
+            return;
+        }
+
+        try {
+            Builder b = prepareBuffer(); 
+
+            b.send(REQ_USER_INFO);
+            b.send(reqId);
+
+            closeAndSend(b);
+        }
+        catch( Exception e) {
+            error(reqId, EClientErrors.FAIL_SEND_REQ_USER_INFO, e.toString());
+            close();
+        }
+    }    
     
     /**
      * @deprecated This method is never called.
@@ -3944,7 +4249,7 @@ public abstract class EClient {
     }
 
     protected synchronized void error( int id, int errorCode, String errorMsg) {
-        m_eWrapper.error( id, errorCode, errorMsg);
+        m_eWrapper.error( id, errorCode, errorMsg, null);
     }
 
     protected void close() {

@@ -82,9 +82,9 @@ Sub requestScannerParameters()
     If server = util.STR_EMPTY Then Exit Sub
     
     With Worksheets(STR_SHEET_NAME)
-        .range(CELL_SCANNER_PARAMETERS_CONTROL).Formula = util.composeLink(server, STR_REQ_SCANNER_PARAMETERS, util.IDENTIFIER_ZERO, util.STR_EMPTY) ' subscription control
-        If util.cleanOnError(.range(CELL_SCANNER_PARAMETERS_CONTROL)) Then
-            .range(CELL_SCANNER_PARAMETERS_CONTROL).value = util.STR_EMPTY
+        .Range(CELL_SCANNER_PARAMETERS_CONTROL).Formula = util.composeLink(server, STR_REQ_SCANNER_PARAMETERS, util.IDENTIFIER_ZERO, util.STR_EMPTY) ' subscription control
+        If util.cleanOnError(.Range(CELL_SCANNER_PARAMETERS_CONTROL)) Then
+            .Range(CELL_SCANNER_PARAMETERS_CONTROL).value = util.STR_EMPTY
             Exit Sub
         End If
     End With
@@ -95,7 +95,7 @@ End Sub
 ' cancel scanner parameters when button is pressed
 ' ========================================================
 Sub cancelScannerParameters()
-    Worksheets(STR_SHEET_NAME).range(CELL_SCANNER_PARAMETERS_CONTROL).Formula = util.STR_EMPTY
+    Worksheets(STR_SHEET_NAME).Range(CELL_SCANNER_PARAMETERS_CONTROL).Formula = util.STR_EMPTY
 End Sub
 
 
@@ -103,7 +103,7 @@ End Sub
 ' request scanner subscription for active row when button is pressed
 ' ========================================================
 Sub requestScannerSubscription()
-    Dim row As range, server As String
+    Dim row As Range, server As String
 
     server = util.getServerVal(STR_SHEET_NAME, CELL_SERVER_NAME)
     If server = STR_EMPTY Then Exit Sub
@@ -119,7 +119,7 @@ End Sub
 ' ========================================================
 ' request scanner subscription for active row when button is pressed
 ' ========================================================
-Sub sendScannerSubscription(server As String, cell As range)
+Sub sendScannerSubscription(server As String, cell As Range)
     ' get id
     Dim id As String
     id = util.getIDpost(genId, util.ID_REQ_SCANNER_SUBSCRIPTION)
@@ -130,8 +130,8 @@ Sub sendScannerSubscription(server As String, cell As range)
         .Cells(cell.row, idColumnIndex).value = id
         
         ' range to poke
-        Dim rangeToPoke As range
-        Set rangeToPoke = .range(.Cells(cell.row, startOfScannerFilterColumns), .Cells(cell.row, endOfScannerFilterColumns))
+        Dim rangeToPoke As Range
+        Set rangeToPoke = .Range(.Cells(cell.row, startOfScannerFilterColumns), .Cells(cell.row, endOfScannerFilterColumns))
     
         ' fill status column with formula
         .Cells(cell.row, statusColumnIndex).Formula = util.composeLink(server, STR_SCANNER_SUBSCRIPTION_TICK, id, util.STR_STATUS)
@@ -159,7 +159,7 @@ End Sub
 ' cancel all scanner subscriptions for all rows (called when workbook is closed)
 ' ========================================================
 Sub cancelAllScannerSubscriptions()
-    Dim rng As range, row As range, cell As range
+    Dim rng As Range, row As Range, cell As Range
     Dim server As String
 
     server = util.getServerVal(STR_SHEET_NAME, CELL_SERVER_NAME)
@@ -167,7 +167,7 @@ Sub cancelAllScannerSubscriptions()
 
     With Worksheets(STR_SHEET_NAME)
 
-        Set rng = .range(.Cells(dataStartRowIndex, idColumnIndex), .Cells(dataEndRowIndex, idColumnIndex))
+        Set rng = .Range(.Cells(dataStartRowIndex, idColumnIndex), .Cells(dataEndRowIndex, idColumnIndex))
     
         For Each row In rng.rows
             For Each cell In row.Cells
@@ -187,11 +187,11 @@ Sub requestAllScannerSubscriptions()
     server = util.getServerVal(STR_SHEET_NAME, CELL_SERVER_NAME)
     If server = util.STR_EMPTY Then Exit Sub
 
-    Dim rng As range
+    Dim rng As Range
     With Worksheets(STR_SHEET_NAME)
-        Set rng = .range(.Cells(dataStartRowIndex, idColumnIndex), .Cells(dataEndRowIndex, idColumnIndex))
+        Set rng = .Range(.Cells(dataStartRowIndex, idColumnIndex), .Cells(dataEndRowIndex, idColumnIndex))
     
-        Dim row As range, cell As range
+        Dim row As Range, cell As Range
         For Each row In rng.rows
             For Each cell In row.Cells
             If InStr(cell.value, STR_ID) <> 0 Then
@@ -216,7 +216,7 @@ Private Sub Worksheet_Calculate()
 
     With Worksheets(STR_SHEET_NAME)
     
-        If CStr(.range(CELL_SCANNER_PARAMETERS_CONTROL)) = util.STR_RECEIVED Then
+        If CStr(.Range(CELL_SCANNER_PARAMETERS_CONTROL)) = util.STR_RECEIVED Then
                 Dim scannerParamsArray() As Variant
                 scannerParamsArray = util.sendRequest(server, STR_REQ_SCANNER_PARAMETERS, id & "scanParameters") ' returned array can be 1-Dimension or 2-Dimension
                 

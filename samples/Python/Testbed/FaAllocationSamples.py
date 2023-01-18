@@ -1,5 +1,5 @@
 """
-Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+Copyright (C) 2023 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable.
 """
 
@@ -7,112 +7,130 @@ from ibapi.object_implem import Object
 
 
 class FaAllocationSamples(Object):
-    #! [faonegroup]
-    FaOneGroup = "".join(("<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
-        , "<ListOfGroups>"                                                   
-                    , "<Group>"                                              
-                            , "<name>Equal_Quantity</name>"                  
-                            , "<ListOfAccts varName=\"list\">"               
-                                    #Replace with your own accountIds
-                                    , "<String>DU119915</String>"            
-                                    , "<String>DU119916</String>"            
-                            , "</ListOfAccts>"                               
-                            , "<defaultMethod>EqualQuantity</defaultMethod>" 
-                    , "</Group>"                                             
-            , "</ListOfGroups>"))
-    #! [faonegroup]
-
-    #! [fatwogroups]
-    FaTwoGroups = "".join(("<?xml version=\"1.0\" encoding=\"UTF-8\"?>"               
-                ,"<ListOfGroups>"                                            
-                    , "<Group>"                                              
-                            , "<name>Equal_Quantity</name>"                  
-                            , "<ListOfAccts varName=\"list\">"               
-                                    #Replace with your own accountIds                            
-                                    , "<String>DU119915</String>"                                
-                                    , "<String>DU119916</String>"            
-                            , "</ListOfAccts>"                               
-                            , "<defaultMethod>EqualQuantity</defaultMethod>" 
-                    , "</Group>"                                             
-                    , "<Group>"                                              
-                            , "<name>Pct_Change</name>"                      
-                            , "<ListOfAccts varName=\"list\">"               
-                #Replace with your own accountIds                            
-                , "<String>DU119915</String>"                                
-                                    , "<String>DU119916</String>"            
-                            , "</ListOfAccts>"                               
-                            , "<defaultMethod>PctChange</defaultMethod>"     
-                    , "</Group>"                                             
-            , "</ListOfGroups>"))
-    #! [fatwogroups]
-
-
-    #! [faoneprofile]
-    FaOneProfile = "".join(("<?xml version=\"1.0\" encoding=\"UTF-8\"?>"              
-                , "<ListOfAllocationProfiles>"                               
-                    , "<AllocationProfile>"                                  
-                            , "<name>Percent_60_40</name>"                   
-                            , "<type>1</type>"                               
-                            , "<ListOfAllocations varName=\"listOfAllocations\">"
-                                    , "<Allocation>"                         
-                                            #Replace with your own accountIds                        
-                                            , "<acct>DU119915</acct>"                                
-                                            , "<amount>60.0</amount>"        
-                                    , "</Allocation>"                        
-                                    , "<Allocation>"                         
-                                            #Replace with your own accountIds                        
-                                            , "<acct>DU119916</acct>"                                
-                                            , "<amount>40.0</amount>"        
-                                    , "</Allocation>"                        
-                            , "</ListOfAllocations>"                         
-                    , "</AllocationProfile>"                                 
-            , "</ListOfAllocationProfiles>"))
-    #! [faoneprofile]
-
-    #! [fatwoprofiles]
-    FaTwoProfiles = "".join(("<?xml version=\"1.0\" encoding=\"UTF-8\"?>"             
-                , "<ListOfAllocationProfiles>"                               
-                    , "<AllocationProfile>"                                  
-                            , "<name>Percent_60_40</name>"                   
-                            , "<type>1</type>"                               
-                            , "<ListOfAllocations varName=\"listOfAllocations\">" 
-                                    , "<Allocation>"                         
-                                            #Replace with your own accountIds                        
-                                            , "<acct>DU119915</acct>"                                
-                                            , "<amount>60.0</amount>"        
-                                    , "</Allocation>"                        
-                                    , "<Allocation>"                         
-                                            #Replace with your own accountIds                        
-                                            , "<acct>DU119916</acct>"                                
-                                            , "<amount>40.0</amount>"        
-                                    , "</Allocation>"                        
-                            , "</ListOfAllocations>"                         
-                    , "</AllocationProfile>"                                 
-                    , "<AllocationProfile>"                                  
-                            , "<name>Ratios_2_1</name>"                      
-                            , "<type>2</type>"                               
-                            , "<ListOfAllocations varName=\"listOfAllocations\">"
-                                    , "<Allocation>"                         
-                                            #Replace with your own accountIds                        
-                                            , "<acct>DU119915</acct>"                                
-                                            , "<amount>2.0</amount>"         
-                                    , "</Allocation>"                        
-                                    , "<Allocation>"                         
-                                            #Replace with your own accountIds                        
-                                            , "<acct>DU119916</acct>"                                
-                                            , "<amount>1.0</amount>"         
-                                    , "</Allocation>"                        
-                            , "</ListOfAllocations>"                         
-                    , "</AllocationProfile>"                                 
-            , "</ListOfAllocationProfiles>"))
-    #! [fatwoprofiles]
-
+    #! [faupdatedgroup]
+    FaUpdatedGroup = "".join(("<?xml version=\"1.0\" encoding=\"UTF-8\"?>" ,
+        "<ListOfGroups>" ,
+            "<Group>" ,
+                "<name>MyTestProfile1</name>" ,
+                "<defaultMethod>ContractsOrShares</defaultMethod>" ,
+                "<ListOfAccts varName=\"list\">" ,
+                    "<Account>" ,
+                        "<acct>DU6202167</acct>" ,
+                        "<amount>100.0</amount>" ,
+                        "</Account>" ,
+                    "<Account>" ,
+                        "<acct>DU6202168</acct>" ,
+                        "<amount>200.0</amount>" ,
+                    "</Account>" ,
+                "</ListOfAccts>" ,
+            "</Group>" ,
+            "<Group>" ,
+                "<name>MyTestProfile2</name>" ,
+                "<defaultMethod>Ratio</defaultMethod>" ,
+                "<ListOfAccts varName=\"list\">" ,
+                    "<Account>" ,
+                        "<acct>DU6202167</acct>" ,
+                        "<amount>1.0</amount>" ,
+                    "</Account>" ,
+                    "<Account>" ,
+                        "<acct>DU6202168</acct>" ,
+                        "<amount>2.0</amount>" ,
+                    "</Account>" ,
+                "</ListOfAccts>" ,
+            "</Group>" ,
+            "<Group>" ,
+                "<name>MyTestProfile3</name>" ,
+                "<defaultMethod>Percent</defaultMethod>" ,
+                "<ListOfAccts varName=\"list\">" ,
+                    "<Account>" ,
+                        "<acct>DU6202167</acct>" ,
+                        "<amount>60.0</amount>" ,
+                    "</Account>" ,
+                    "<Account>" ,
+                        "<acct>DU6202168</acct>" ,
+                        "<amount>40.0</amount>" ,
+                    "</Account>" ,
+                "</ListOfAccts>" ,
+            "</Group>" ,
+            "<Group>" ,
+            "<name>MyTestProfile4</name>" ,
+                "<defaultMethod>MonetaryAmount</defaultMethod>" ,
+                "<ListOfAccts varName=\"list\">" ,
+                    "<Account>" ,
+                        "<acct>DU6202167</acct>" ,
+                        "<amount>1000.0</amount>" ,
+                    "</Account>" ,
+                    "<Account>" ,
+                        "<acct>DU6202168</acct>" ,
+                        "<amount>2000.0</amount>" ,
+                    "</Account>" ,
+                "</ListOfAccts>" ,
+            "</Group>" ,
+            "<Group>" ,
+                "<name>Group_1</name>" ,
+                "<defaultMethod>NetLiq</defaultMethod>" ,
+                "<ListOfAccts varName=\"list\">" ,
+                    "<Account>" ,
+                        "<acct>DU6202167</acct>" ,
+                    "</Account>" ,
+                    "<Account>" ,
+                        "<acct>DU6202168</acct>" ,
+                    "</Account>" ,
+                "</ListOfAccts>" ,
+            "</Group>" ,
+            "<Group>" ,
+                "<name>MyTestGroup1</name>" ,
+                "<defaultMethod>AvailableEquity</defaultMethod>" ,
+                "<ListOfAccts varName=\"list\">" ,
+                    "<Account>" ,
+                        "<acct>DU6202167</acct>" ,
+                    "</Account>" ,
+                    "<Account>" ,
+                        "<acct>DU6202168</acct>" ,
+                    "</Account>" ,
+                "</ListOfAccts>" ,
+            "</Group>" ,
+            "<Group>" ,
+                "<name>MyTestGroup2</name>" ,
+                "<defaultMethod>NetLiq</defaultMethod>" ,
+                "<ListOfAccts varName=\"list\">" ,
+                    "<Account>" ,
+                        "<acct>DU6202167</acct>" ,
+                    "</Account>" ,
+                    "<Account>" ,
+                        "<acct>DU6202168</acct>" ,
+                    "</Account>" ,
+                "</ListOfAccts>" ,
+            "</Group>" ,
+            "<Group>" ,
+                "<name>MyTestGroup3</name>" ,
+                "<defaultMethod>Equal</defaultMethod>" ,
+                "<ListOfAccts varName=\"list\">" ,
+                    "<Account>" ,
+                        "<acct>DU6202167</acct>" ,
+                    "</Account>" ,
+                    "<Account>" ,
+                        "<acct>DU6202168</acct>" ,
+                    "</Account>" ,
+                "</ListOfAccts>" ,
+            "</Group>" ,
+            "<Group>" ,
+                "<name>Group_2</name>" ,
+                "<defaultMethod>AvailableEquity</defaultMethod>" ,
+                "<ListOfAccts varName=\"list\">" ,
+                    "<Account>" ,
+                        "<acct>DU6202167</acct>" ,
+                    "</Account>" ,
+                    "<Account>" ,
+                        "<acct>DU6202168</acct>" ,
+                    "</Account>" ,
+                "</ListOfAccts>" ,
+            "</Group>" ,
+        "</ListOfGroups>"))
+    #! [faupdatedgroup]
 
 def Test():
-    print(FaAllocationSamples.FaOneGroup)
-    print(FaAllocationSamples.FaTwoGroups)
-    print(FaAllocationSamples.FaOneProfile)
-    print(FaAllocationSamples.FaTwoProfiles)
+    print(FaAllocationSamples.FaUpdatedGroup)
 
 if "__main__" == __name__:
     Test()

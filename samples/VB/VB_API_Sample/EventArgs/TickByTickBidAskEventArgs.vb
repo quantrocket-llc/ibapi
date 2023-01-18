@@ -13,9 +13,9 @@ Class TickByTickBidAskEventArgs
 
     Property askPrice As Double
 
-    Property bidSize As Integer
+    Property bidSize As Decimal
 
-    Property askSize As Integer
+    Property askSize As Decimal
 
     Property tickAttribBidAsk As TickAttribBidAsk
 

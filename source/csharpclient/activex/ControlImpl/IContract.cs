@@ -52,5 +52,9 @@ namespace TWSLib
         string secIdType { get; set; }
         [DispId(18)]
         string secId { get; set; }
+        [DispId(19)]
+        string description { get; set; }
+        [DispId(20)]
+        string issuerId { get; set; }
     }
 }

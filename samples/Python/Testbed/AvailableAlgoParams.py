@@ -35,8 +35,7 @@ class AvailableAlgoParams(Object):
     @staticmethod
     def FillArrivalPriceParams(baseOrder: Order, maxPctVol: float,
                                riskAversion: str, startTime: str, endTime: str,
-                               forceCompletion: bool, allowPastTime: bool,
-                               monetaryValue: float):
+                               forceCompletion: bool, allowPastTime: bool):
         baseOrder.algoStrategy = "ArrivalPx"
         baseOrder.algoParams = []
         baseOrder.algoParams.append(TagValue("maxPctVol", maxPctVol))
@@ -47,7 +46,7 @@ class AvailableAlgoParams(Object):
                                              int(forceCompletion)))
         baseOrder.algoParams.append(TagValue("allowPastEndTime",
                                              int(allowPastTime)))
-        baseOrder.algoParams.append(TagValue("monetaryValue", monetaryValue))
+
 
     # ! [arrivalpx_params]
 
@@ -55,8 +54,7 @@ class AvailableAlgoParams(Object):
     # ! [darkice_params]
     @staticmethod
     def FillDarkIceParams(baseOrder: Order, displaySize: int, startTime: str,
-                          endTime: str, allowPastEndTime: bool,
-                          monetaryValue: float):
+                          endTime: str, allowPastEndTime: bool):
         baseOrder.algoStrategy = "DarkIce"
         baseOrder.algoParams = []
         baseOrder.algoParams.append(TagValue("displaySize", displaySize))
@@ -64,7 +62,7 @@ class AvailableAlgoParams(Object):
         baseOrder.algoParams.append(TagValue("endTime", endTime))
         baseOrder.algoParams.append(TagValue("allowPastEndTime",
                                              int(allowPastEndTime)))
-        baseOrder.algoParams.append(TagValue("monetaryValue", monetaryValue))
+
 
     # ! [darkice_params]
 
@@ -72,15 +70,14 @@ class AvailableAlgoParams(Object):
     # ! [pctvol_params]
     @staticmethod
     def FillPctVolParams(baseOrder: Order, pctVol: float, startTime: str,
-                         endTime: str, noTakeLiq: bool,
-                         monetaryValue: float):
+                         endTime: str, noTakeLiq: bool):
         baseOrder.algoStrategy = "PctVol"
         baseOrder.algoParams = []
         baseOrder.algoParams.append(TagValue("pctVol", pctVol))
         baseOrder.algoParams.append(TagValue("startTime", startTime))
         baseOrder.algoParams.append(TagValue("endTime", endTime))
         baseOrder.algoParams.append(TagValue("noTakeLiq", int(noTakeLiq)))
-        baseOrder.algoParams.append(TagValue("monetaryValue", monetaryValue))
+
 
     # ! [pctvol_params]
 
@@ -88,8 +85,7 @@ class AvailableAlgoParams(Object):
     # ! [twap_params]
     @staticmethod
     def FillTwapParams(baseOrder: Order, strategyType: str, startTime: str,
-                       endTime: str, allowPastEndTime: bool,
-                       monetaryValue: float):
+                       endTime: str, allowPastEndTime: bool):
         baseOrder.algoStrategy = "Twap"
         baseOrder.algoParams = []
         baseOrder.algoParams.append(TagValue("strategyType", strategyType))
@@ -97,7 +93,6 @@ class AvailableAlgoParams(Object):
         baseOrder.algoParams.append(TagValue("endTime", endTime))
         baseOrder.algoParams.append(TagValue("allowPastEndTime",
                                              int(allowPastEndTime)))
-        baseOrder.algoParams.append(TagValue("monetaryValue", monetaryValue))
 
     # ! [twap_params]
 
@@ -105,8 +100,7 @@ class AvailableAlgoParams(Object):
     # ! [vwap_params]
     @staticmethod
     def FillVwapParams(baseOrder: Order, maxPctVol: float, startTime: str,
-                       endTime: str, allowPastEndTime: bool, noTakeLiq: bool,
-                       monetaryValue: float):
+                       endTime: str, allowPastEndTime: bool, noTakeLiq: bool):
         baseOrder.algoStrategy = "Vwap"
         baseOrder.algoParams = []
         baseOrder.algoParams.append(TagValue("maxPctVol", maxPctVol))
@@ -115,7 +109,7 @@ class AvailableAlgoParams(Object):
         baseOrder.algoParams.append(TagValue("allowPastEndTime",
                                              int(allowPastEndTime)))
         baseOrder.algoParams.append(TagValue("noTakeLiq", int(noTakeLiq)))
-        baseOrder.algoParams.append(TagValue("monetaryValue", monetaryValue))
+
 
     # ! [vwap_params]
 
@@ -179,15 +173,14 @@ class AvailableAlgoParams(Object):
     # ! [closepx_params]
     @staticmethod
     def FillClosePriceParams(baseOrder: Order, maxPctVol: float, riskAversion: str,
-                             startTime: str, forceCompletion: bool,
-                             monetaryValue: float):
+                             startTime: str, forceCompletion: bool):
         baseOrder.algoStrategy = "ClosePx"
         baseOrder.algoParams = []
         baseOrder.algoParams.append(TagValue("maxPctVol", maxPctVol))
         baseOrder.algoParams.append(TagValue("riskAversion", riskAversion))
         baseOrder.algoParams.append(TagValue("startTime", startTime))
         baseOrder.algoParams.append(TagValue("forceCompletion", int(forceCompletion)))
-        baseOrder.algoParams.append(TagValue("monetaryValue", monetaryValue))
+
 
     # ! [closepx_params]
 
@@ -197,8 +190,7 @@ class AvailableAlgoParams(Object):
     def FillPriceVariantPctVolParams(baseOrder: Order, pctVol: float,
                                      deltaPctVol: float, minPctVol4Px: float,
                                      maxPctVol4Px: float, startTime: str,
-                                     endTime: str, noTakeLiq: bool,
-                                     monetaryValue: float):
+                                     endTime: str, noTakeLiq: bool):
         baseOrder.algoStrategy = "PctVolPx"
         baseOrder.algoParams = []
         baseOrder.algoParams.append(TagValue("pctVol", pctVol))
@@ -208,7 +200,7 @@ class AvailableAlgoParams(Object):
         baseOrder.algoParams.append(TagValue("startTime", startTime))
         baseOrder.algoParams.append(TagValue("endTime", endTime))
         baseOrder.algoParams.append(TagValue("noTakeLiq", int(noTakeLiq)))
-        baseOrder.algoParams.append(TagValue("monetaryValue", monetaryValue))
+
 
     # ! [pctvolpx_params]
 
@@ -217,8 +209,7 @@ class AvailableAlgoParams(Object):
     @staticmethod
     def FillSizeVariantPctVolParams(baseOrder: Order, startPctVol: float,
                                     endPctVol: float, startTime: str,
-                                    endTime: str, noTakeLiq: bool,
-                                    monetaryValue: float):
+                                    endTime: str, noTakeLiq: bool):
         baseOrder.algoStrategy = "PctVolSz"
         baseOrder.algoParams = []
         baseOrder.algoParams.append(TagValue("startPctVol", startPctVol))
@@ -226,7 +217,7 @@ class AvailableAlgoParams(Object):
         baseOrder.algoParams.append(TagValue("startTime", startTime))
         baseOrder.algoParams.append(TagValue("endTime", endTime))
         baseOrder.algoParams.append(TagValue("noTakeLiq", int(noTakeLiq)))
-        baseOrder.algoParams.append(TagValue("monetaryValue", monetaryValue))
+
 
     # ! [pctvolsz_params]
 
@@ -235,8 +226,7 @@ class AvailableAlgoParams(Object):
     @staticmethod
     def FillTimeVariantPctVolParams(baseOrder: Order, startPctVol: float,
                                     endPctVol: float, startTime: str,
-                                    endTime: str, noTakeLiq: bool,
-                                    monetaryValue: float):
+                                    endTime: str, noTakeLiq: bool):
         baseOrder.algoStrategy = "PctVolTm"
         baseOrder.algoParams = []
         baseOrder.algoParams.append(TagValue("startPctVol", startPctVol))
@@ -244,7 +234,7 @@ class AvailableAlgoParams(Object):
         baseOrder.algoParams.append(TagValue("startTime", startTime))
         baseOrder.algoParams.append(TagValue("endTime", endTime))
         baseOrder.algoParams.append(TagValue("noTakeLiq", int(noTakeLiq)))
-        baseOrder.algoParams.append(TagValue("monetaryValue", monetaryValue))
+
     # ! [pctvoltm_params]
 
     # ! [jefferies_vwap_params]

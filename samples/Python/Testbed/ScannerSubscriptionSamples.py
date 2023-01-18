@@ -33,14 +33,14 @@ class ScannerSubscriptionSamples(Object):
         return scanSub
 
     @staticmethod
-    def MostActiveFutSoffex():
-        #! [mostactivefutsoffex]
-        # Most active futures at SOFFEX
+    def MostActiveFutEurex():
+        #! [mostactivefuteurex]
+        # Most active futures at EUREX
         scanSub = ScannerSubscription()
         scanSub.instrument = "FUT.EU"
-        scanSub.locationCode = "FUT.EU.SOFFEX"
+        scanSub.locationCode = "FUT.EU.EUREX"
         scanSub.scanCode = "MOST_ACTIVE"
-        #! [mostactivefutsoffex]
+        #! [mostactivefuteurex]
         return scanSub
 
     @staticmethod
@@ -64,7 +64,7 @@ class ScannerSubscriptionSamples(Object):
         scanSub.scanCode = "COMBO_LATEST_TRADE"
         #! [combolatesttrade]
         return scanSub
-		
+
 def Test():
     print(ScannerSubscriptionSamples.HotUSStkByVolume())
     print(ScannerSubscriptionSamples.TopPercentGainersIbis())

@@ -4,7 +4,7 @@ Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is su
 """
 
 
-from ibapi.order import (OrderComboLeg, Order)
+from ibapi.order import (OrderComboLeg, Order, COMPETE_AGAINST_BEST_OFFSET_UP_TO_MID)
 from ibapi.common import * # @UnusedWildImport
 from ibapi.tag_value import TagValue
 from ibapi import order_condition
@@ -20,7 +20,7 @@ class OrderSamples:
     #/ Products: FUT, STK
     </summary>"""
     @staticmethod
-    def AtAuction(action:str, quantity:float, price:float):
+    def AtAuction(action:str, quantity:Decimal, price:float):
         #! [auction]
         order = Order()
         order.action = action
@@ -37,7 +37,7 @@ class OrderSamples:
     #/ Products: STK
     </summary>"""
     @staticmethod
-    def Discretionary(action:str, quantity:float, price:float, discretionaryAmount:float):
+    def Discretionary(action:str, quantity:Decimal, price:float, discretionaryAmount:float):
     
         #! [discretionary]
         order = Order()
@@ -57,7 +57,7 @@ class OrderSamples:
     #/ Products: BOND, CFD, EFP, CASH, FUND, FUT, FOP, OPT, STK, WAR
     </summary>"""
     @staticmethod
-    def MarketOrder(action:str, quantity:float):
+    def MarketOrder(action:str, quantity:Decimal):
     
         #! [market]
         order = Order()
@@ -78,7 +78,7 @@ class OrderSamples:
     #/ Products: BOND, CFD, CASH, FUT, FOP, OPT, STK, WAR
     </summary>"""
     @staticmethod
-    def MarketIfTouched(action:str, quantity:float, price:float):
+    def MarketIfTouched(action:str, quantity:Decimal, price:float):
     
         #! [market_if_touched]
         order = Order()
@@ -95,7 +95,7 @@ class OrderSamples:
     #/ Products: CFD, FUT, STK, WAR
     </summary>"""
     @staticmethod
-    def MarketOnClose(action:str, quantity:float):
+    def MarketOnClose(action:str, quantity:Decimal):
     
         #! [market_on_close]
         order = Order()
@@ -112,7 +112,7 @@ class OrderSamples:
     #/ Products: CFD, STK, OPT, WAR
     </summary>"""
     @staticmethod
-    def MarketOnOpen(action:str, quantity:float):
+    def MarketOnOpen(action:str, quantity:Decimal):
     
         #! [market_on_open]
         order = Order()
@@ -131,7 +131,7 @@ class OrderSamples:
     #/ Products: STK
     </summary>"""
     @staticmethod
-    def MidpointMatch(action:str, quantity:float):
+    def MidpointMatch(action:str, quantity:Decimal):
     
         #! [midpoint_match]
         order = Order()
@@ -148,7 +148,7 @@ class OrderSamples:
 	#/ order) you are willing to accept. Requires TWS 975+. Smart-routing to US stocks only.
     </summary>"""
     @staticmethod
-    def Midprice(action:str, quantity:float, priceCap:float):
+    def Midprice(action:str, quantity:Decimal, priceCap:float):
     
         #! [midprice]
         order = Order()
@@ -158,7 +158,7 @@ class OrderSamples:
         order.lmtPrice = priceCap # optional
         #! [midprice]
         return order
-	
+
     """ <summary>
     #/ A pegged-to-market order is designed to maintain a purchase price relative to the national best offer (NBO) or a sale price 
     #/ relative to the national best bid (NBB). Depending on the width of the quote, this order may be passive or aggressive. 
@@ -169,7 +169,7 @@ class OrderSamples:
     #/ Products: STK
     </summary>"""
     @staticmethod
-    def PeggedToMarket(action:str, quantity:float, marketOffset:float):
+    def PeggedToMarket(action:str, quantity:Decimal, marketOffset:float):
     
         #! [pegged_market]
         order = Order()
@@ -192,7 +192,7 @@ class OrderSamples:
     #/ Products: OPT
     </summary>"""
     @staticmethod
-    def PeggedToStock(action:str, quantity:float, delta:float, stockReferencePrice:float, startingPrice:float):
+    def PeggedToStock(action:str, quantity:Decimal, delta:float, stockReferencePrice:float, startingPrice:float):
     
         #! [pegged_stock]
         order = Order()
@@ -219,7 +219,7 @@ class OrderSamples:
     #/ Products: CFD, STK, OPT, FUT
     </summary>"""
     @staticmethod
-    def RelativePeggedToPrimary(action:str, quantity:float, priceCap:float, 
+    def RelativePeggedToPrimary(action:str, quantity:Decimal, priceCap:float, 
                                 offsetAmount:float):
     
         #! [relative_pegged_primary]
@@ -241,7 +241,7 @@ class OrderSamples:
     #/ Products: CFD, STK, WAR
     </summary>"""
     @staticmethod
-    def SweepToFill(action:str, quantity:float, price:float):
+    def SweepToFill(action:str, quantity:Decimal, price:float):
     
         #! [sweep_to_fill]
         order = Order()
@@ -266,7 +266,7 @@ class OrderSamples:
     #/ Supported Exchanges: BOX
     </summary>"""
     @staticmethod
-    def AuctionLimit(action:str, quantity:float, price:float, 
+    def AuctionLimit(action:str, quantity:Decimal, price:float, 
                      auctionStrategy:int):
     
         #! [auction_limit]
@@ -295,7 +295,7 @@ class OrderSamples:
     #/ Supported Exchanges: BOX
     </summary>"""
     @staticmethod
-    def AuctionPeggedToStock(action:str, quantity:float, startingPrice:float, 
+    def AuctionPeggedToStock(action:str, quantity:Decimal, startingPrice:float, 
                              delta:float):
     
         #! [auction_pegged_stock]
@@ -324,7 +324,7 @@ class OrderSamples:
     #/ Supported Exchanges: BOX
     </summary>"""
     @staticmethod
-    def AuctionRelative(action:str, quantity:float, offset:float):
+    def AuctionRelative(action:str, quantity:Decimal, offset:float):
     
         #! [auction_relative]
         order = Order()
@@ -342,7 +342,7 @@ class OrderSamples:
     #/ Products: OPT
     </summary>"""
     @staticmethod
-    def Block(action:str, quantity:float, price:float):
+    def Block(action:str, quantity:Decimal, price:float):
     
         # ! [block]
         order = Order()
@@ -362,7 +362,7 @@ class OrderSamples:
     #/ Supported Exchanges: BOX
     </summary>"""
     @staticmethod
-    def BoxTop(action:str, quantity:float):
+    def BoxTop(action:str, quantity:Decimal):
     
         # ! [boxtop]
         order = Order()
@@ -379,7 +379,7 @@ class OrderSamples:
     #/ Products: BOND, CFD, CASH, FUT, FOP, OPT, STK, WAR
     </summary>"""
     @staticmethod
-    def LimitOrder(action:str, quantity:float, limitPrice:float):
+    def LimitOrder(action:str, quantity:Decimal, limitPrice:float):
     
         # ! [limitorder]
         order = Order()
@@ -416,7 +416,7 @@ class OrderSamples:
     #/ Products: BOND, CFD, CASH, FUT, FOP, OPT, STK, WAR
     </summary>"""
     @staticmethod
-    def LimitIfTouched(action:str, quantity:float, limitPrice:float, 
+    def LimitIfTouched(action:str, quantity:Decimal, limitPrice:float, 
                         triggerPrice:float):
     
         # ! [limitiftouched]
@@ -436,7 +436,7 @@ class OrderSamples:
     #/ Products: CFD, FUT, STK, WAR
     </summary>"""
     @staticmethod
-    def LimitOnClose(action:str, quantity:float, limitPrice:float):
+    def LimitOnClose(action:str, quantity:Decimal, limitPrice:float):
     
         # ! [limitonclose]
         order = Order()
@@ -454,7 +454,7 @@ class OrderSamples:
     #/ Products: CFD, STK, OPT, WAR
     </summary>"""
     @staticmethod
-    def LimitOnOpen(action:str, quantity:float, limitPrice:float):
+    def LimitOnOpen(action:str, quantity:Decimal, limitPrice:float):
     
         # ! [limitonopen]
         order = Order()
@@ -480,7 +480,7 @@ class OrderSamples:
     #/ Products: STK, WAR
     </summary>"""
     @staticmethod
-    def PassiveRelative(action:str, quantity:float, offset:float):
+    def PassiveRelative(action:str, quantity:Decimal, offset:float):
     
         # ! [passive_relative]
         order = Order()
@@ -500,7 +500,7 @@ class OrderSamples:
     #/ Products: STK
     </summary>"""
     @staticmethod
-    def PeggedToMidpoint(action:str, quantity:float, offset:float, limitPrice:float):
+    def PeggedToMidpoint(action:str, quantity:Decimal, offset:float, limitPrice:float):
     
         # ! [pegged_midpoint]
         order = Order()
@@ -521,7 +521,7 @@ class OrderSamples:
     </summary>"""
     #! [bracket]
     @staticmethod
-    def BracketOrder(parentOrderId:int, action:str, quantity:float, 
+    def BracketOrder(parentOrderId:int, action:str, quantity:Decimal, 
                      limitPrice:float, takeProfitLimitPrice:float, 
                      stopLossPrice:float):
     
@@ -569,7 +569,7 @@ class OrderSamples:
     #/ at which the filled portion of the order executed.
     </summary>"""
     @staticmethod
-    def MarketToLimit(action:str, quantity:float):
+    def MarketToLimit(action:str, quantity:Decimal):
     
         # ! [markettolimit]
         order = Order()
@@ -587,7 +587,7 @@ class OrderSamples:
     #/ Products: FUT, FOP
     </summary>"""
     @staticmethod
-    def MarketWithProtection(action:str, quantity:float):
+    def MarketWithProtection(action:str, quantity:Decimal):
     
         # ! [marketwithprotection]
         order = Order()
@@ -607,7 +607,7 @@ class OrderSamples:
     #/ Products: CFD, BAG, CASH, FUT, FOP, OPT, STK, WAR
     </summary>"""
     @staticmethod
-    def Stop(action:str, quantity:float, stopPrice:float):
+    def Stop(action:str, quantity:Decimal, stopPrice:float):
     
         # ! [stop]
         order = Order()
@@ -626,7 +626,7 @@ class OrderSamples:
     #/ Products: CFD, CASH, FUT, FOP, OPT, STK, WAR
     </summary>"""
     @staticmethod
-    def StopLimit(action:str, quantity:float, limitPrice:float, stopPrice:float):
+    def StopLimit(action:str, quantity:Decimal, limitPrice:float, stopPrice:float):
     
         # ! [stoplimit]
         order = Order()
@@ -648,7 +648,7 @@ class OrderSamples:
     #/ Products: FUT
     </summary>"""
     @staticmethod
-    def StopWithProtection(action:str, quantity:float, stopPrice:float):
+    def StopWithProtection(action:str, quantity:Decimal, stopPrice:float):
     
         # ! [stopwithprotection]
         order = Order()
@@ -669,7 +669,7 @@ class OrderSamples:
     #/ Products: CFD, CASH, FOP, FUT, OPT, STK, WAR
     </summary>"""
     @staticmethod
-    def TrailingStop(action:str, quantity:float, trailingPercent:float,
+    def TrailingStop(action:str, quantity:Decimal, trailingPercent:float,
                      trailStopPrice:float):
     
         # ! [trailingstop]
@@ -694,7 +694,7 @@ class OrderSamples:
     #/ Products: BOND, CFD, CASH, FUT, FOP, OPT, STK, WAR
     </summary>"""
     @staticmethod
-    def TrailingStopLimit(action:str, quantity:float, lmtPriceOffset:float, 
+    def TrailingStopLimit(action:str, quantity:Decimal, lmtPriceOffset:float, 
                           trailingAmount:float, trailStopPrice:float):
     
         # ! [trailingstoplimit]
@@ -717,7 +717,7 @@ class OrderSamples:
     #/ Products: OPT, STK, FUT
     </summary>"""
     @staticmethod
-    def ComboLimitOrder(action:str, quantity:float, limitPrice:float, 
+    def ComboLimitOrder(action:str, quantity:Decimal, limitPrice:float, 
                         nonGuaranteed:bool):
     
         # ! [combolimit]
@@ -743,7 +743,7 @@ class OrderSamples:
     #/ Products: OPT, STK, FUT
     </summary>"""
     @staticmethod
-    def ComboMarketOrder(action:str, quantity:float, nonGuaranteed:bool):
+    def ComboMarketOrder(action:str, quantity:Decimal, nonGuaranteed:bool):
     
         # ! [combomarket]
         order = Order()
@@ -767,7 +767,7 @@ class OrderSamples:
     #/ Products: OPT, STK, FUT
     </summary>"""
     @staticmethod
-    def LimitOrderForComboWithLegPrices(action:str, quantity:float,
+    def LimitOrderForComboWithLegPrices(action:str, quantity:Decimal,
                                         legPrices:list, nonGuaranteed:bool):
     
         # ! [limitordercombolegprices]
@@ -798,7 +798,7 @@ class OrderSamples:
     #/ Products: OPT, STK, FUT
     </summary>"""
     @staticmethod
-    def RelativeLimitCombo(action:str, quantity:float, limitPrice:float, 
+    def RelativeLimitCombo(action:str, quantity:Decimal, limitPrice:float, 
                            nonGuaranteed:bool):
     
         # ! [relativelimitcombo]
@@ -824,7 +824,7 @@ class OrderSamples:
     #/ Products: OPT, STK, FUT
     </summary>"""
     @staticmethod
-    def RelativeMarketCombo(action:str, quantity:float, nonGuaranteed:bool):
+    def RelativeMarketCombo(action:str, quantity:Decimal, nonGuaranteed:bool):
     
         # ! [relativemarketcombo]
         order = Order()
@@ -877,7 +877,7 @@ class OrderSamples:
     #/ Products: FOP, OPT
     </summary>"""
     @staticmethod
-    def Volatility(action:str, quantity:float, volatilityPercent:float, 
+    def Volatility(action:str, quantity:Decimal, volatilityPercent:float, 
                    volatilityType:int):
     
         # ! [volatility]
@@ -904,7 +904,7 @@ class OrderSamples:
     #! [fhedge]
 
     @staticmethod
-    def PeggedToBenchmark(action:str, quantity:float, startingPrice:float, 
+    def PeggedToBenchmark(action:str, quantity:Decimal, startingPrice:float, 
                            peggedChangeAmountDecrease:bool, 
                            peggedChangeAmount:float,
                            referenceChangeAmount:float, referenceConId:int, 
@@ -1113,7 +1113,78 @@ class OrderSamples:
         volCond.isConjunctionConnection = isConjunction
         #! [volume_condition]
         return volCond
+        
+    @staticmethod
+    def LimitIBKRATS(action:str, quantity:Decimal, limitPrice:float):
+    
+        # ! [limit_ibkrats]
+        order = Order()
+        order.action = action
+        order.orderType = "LMT"
+        order.lmtPrice = limitPrice
+        order.totalQuantity = quantity
+        order.notHeld = True
+        # ! [limit_ibkrats]
+        return order
 
+    @staticmethod
+    def LimitOrderWithManualOrderTime(action:str, quantity:Decimal, limitPrice:float, manualOrderTime:str):
+
+        # ! [limit_order_with_manual_order_time]
+        order = OrderSamples.LimitOrder(action, quantity, limitPrice)
+        order.manualOrderTime = manualOrderTime
+        # ! [limit_order_with_manual_order_time]
+        return order
+
+    @staticmethod
+    def PegBestUpToMidOrder(action:str, quantity:Decimal, limitPrice:float, minTradeQty:int, minCompeteSize:int, midOffsetAtWhole:float, midOffsetAtHalf:float):
+
+        # ! [peg_best_up_to_mid_order]
+        order = Order()
+        order.action = action
+        order.orderType = "PEG BEST"
+        order.lmtPrice = limitPrice
+        order.totalQuantity = quantity
+        order.notHeld = True
+        order.minTradeQty = minTradeQty
+        order.minCompeteSize = minCompeteSize
+        order.competeAgainstBestOffset = COMPETE_AGAINST_BEST_OFFSET_UP_TO_MID
+        order.midOffsetAtWhole = midOffsetAtWhole
+        order.midOffsetAtHalf = midOffsetAtHalf
+        # ! [peg_best_up_to_mid_order]
+        return order
+
+    @staticmethod
+    def PegBestOrder(action:str, quantity:Decimal, limitPrice:float, minTradeQty:int, minCompeteSize:int, competeAgainstBestOffset:float):
+
+        # ! [peg_best_order]
+        order = Order()
+        order.action = action
+        order.orderType = "PEG BEST"
+        order.lmtPrice = limitPrice
+        order.totalQuantity = quantity
+        order.notHeld = True
+        order.minTradeQty = minTradeQty
+        order.minCompeteSize = minCompeteSize
+        order.competeAgainstBestOffset = competeAgainstBestOffset
+        # ! [peg_best_order]
+        return order
+
+    @staticmethod
+    def PegMidOrder(action:str, quantity:Decimal, limitPrice:float, minTradeQty:int, midOffsetAtWhole:float, midOffsetAtHalf:float):
+
+        # ! [peg_mid_order]
+        order = Order()
+        order.action = action
+        order.orderType = "PEG MID"
+        order.lmtPrice = limitPrice
+        order.totalQuantity = quantity
+        order.notHeld = True
+        order.minTradeQty = minTradeQty
+        order.midOffsetAtWhole = midOffsetAtWhole
+        order.midOffsetAtHalf = midOffsetAtHalf
+        # ! [peg_mid_order]
+        return order
 
 def Test():
     os = OrderSamples() # @UnusedVariable

@@ -155,8 +155,12 @@ public class ApiDemo implements IConnectionHandler {
 		show( e.toString() );
 	}
 	
-	@Override public void message(int id, int errorCode, String errorMsg) {
-		show( id + " " + errorCode + " " + errorMsg);
+	@Override public void message(int id, int errorCode, String errorMsg, String advancedOrderRejectJson) {
+		String error = id + " " + errorCode + " " + errorMsg;
+		if (advancedOrderRejectJson != null) {
+			error += (" " + advancedOrderRejectJson);
+		}
+		show(error);
 	}
 	
     private class ConnectionPanel extends JPanel {

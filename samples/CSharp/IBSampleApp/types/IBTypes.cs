@@ -1,4 +1,4 @@
-﻿/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2023 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 using System.Data;
@@ -107,13 +107,32 @@ namespace IBSampleApp.types
     {
         public static object[] GetAll()
         {
-            return new object[] { None, EqualQuantity, AvailableEquity, NetLiq, PctChange };
+            return new object[] { None, Equal, AvailableEquity, NetLiq, ContractsOrShares, Ratio, Percent };
         }
         public static IBType None = new IBType("None", "");
-        public static IBType EqualQuantity = new IBType("EqualQuantity", "EqualQuantity");
+        public static IBType Equal = new IBType("Equal", "Equal");
         public static IBType AvailableEquity = new IBType("AvailableEquity", "AvailableEquity");
         public static IBType NetLiq = new IBType("NetLiq", "NetLiq");
-        public static IBType PctChange = new IBType("PctChange", "PctChange");
+        public static IBType ContractsOrShares = new IBType("ContractsOrShares", "ContractsOrShares");
+        public static IBType Ratio = new IBType("Ratio", "Ratio");
+        public static IBType Percent = new IBType("Percent", "Percent");
+        public static IBType MonetaryAmount = new IBType("MonetaryAmount", "MonetaryAmount");
+
+        //The DataTable will then properly populate the grid's ComboBox cell
+        public static DataTable GetAsData()
+        {
+            DataTable faDefaultMethods = new DataTable();
+            faDefaultMethods.Columns.Add(new DataColumn("Name", typeof(string)));
+            faDefaultMethods.Columns.Add(new DataColumn("Value", typeof(string)));
+            faDefaultMethods.Rows.Add(FaMethod.Equal.Name, FaMethod.Equal.Value);
+            faDefaultMethods.Rows.Add(FaMethod.AvailableEquity.Name, FaMethod.AvailableEquity.Value);
+            faDefaultMethods.Rows.Add(FaMethod.NetLiq.Name, FaMethod.NetLiq.Value);
+            faDefaultMethods.Rows.Add(FaMethod.ContractsOrShares.Name, FaMethod.ContractsOrShares.Value);
+            faDefaultMethods.Rows.Add(FaMethod.Ratio.Name, FaMethod.Ratio.Value);
+            faDefaultMethods.Rows.Add(FaMethod.Percent.Name, FaMethod.Percent.Value);
+            faDefaultMethods.Rows.Add(FaMethod.MonetaryAmount.Name, FaMethod.MonetaryAmount.Value);
+            return faDefaultMethods;
+        }
     }
 
     class ContractRight
@@ -144,47 +163,11 @@ namespace IBSampleApp.types
     {
         public static object[] GetAll()
         {
-            return new object[] { Groups, Profiles, Aliases };
+            return new object[] { Groups, Aliases };
         }
 
         public static IBType Groups = new IBType("Groups", 1);
-        public static IBType Profiles = new IBType("Profiles", 2);
         public static IBType Aliases = new IBType("Alias", 3);
-    }
-
-    class AllocationGroupMethod
-    {
-        //The DataTable will then properly populate the grid's ComboBox cell
-        public static DataTable GetAsData()
-        {
-            DataTable faDefaultMethods = new DataTable();
-            faDefaultMethods.Columns.Add(new DataColumn("Name", typeof(string)));
-            faDefaultMethods.Columns.Add(new DataColumn("Value", typeof(string)));
-            faDefaultMethods.Rows.Add("Equal quantity", "EqualQuantity");
-            faDefaultMethods.Rows.Add("Available equity", "AvailableEquity");
-            faDefaultMethods.Rows.Add("Net liquidity", "NetLiq");
-            faDefaultMethods.Rows.Add("Percent change", "PctChange");
-            return faDefaultMethods;
-        }
-
-        public static IBType EqualQuantity = new IBType("Equal quantity", "EqualQuantity");
-        public static IBType AvailableEquity = new IBType("Available equity", "AvailableEquity");
-        public static IBType NetLiquidity = new IBType("Net liquidity", "NetLiq");
-        public static IBType PercentChange = new IBType("Percent change", "PctChange");
-    }
-
-    class AllocationProfileType
-    {
-        public static DataTable GetAsData()
-        {
-            DataTable allocationProfileTypes = new DataTable();
-            allocationProfileTypes.Columns.Add(new DataColumn("Name", typeof(string)));
-            allocationProfileTypes.Columns.Add(new DataColumn("Value", typeof(int)));
-            allocationProfileTypes.Rows.Add("Percentages", 1);
-            allocationProfileTypes.Rows.Add("Financial Ratios", 2);
-            allocationProfileTypes.Rows.Add("Shares", 3);
-            return allocationProfileTypes;
-        }
     }
 
     class MarketDataType

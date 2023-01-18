@@ -1,4 +1,4 @@
-/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2023 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 package apidemo;
@@ -19,6 +19,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
 import com.ib.client.Contract;
+import com.ib.client.Decimal;
 import com.ib.client.Order;
 import com.ib.client.OrderState;
 import com.ib.client.OrderStatus;
@@ -38,6 +39,7 @@ import com.ib.client.Types.TimeInForce;
 import com.ib.client.Types.TriggerMethod;
 import com.ib.client.Types.UsePriceMgmtAlgo;
 import com.ib.client.Types.VolatilityType;
+import com.ib.controller.ApiController.IOrderCancelHandler;
 import com.ib.controller.ApiController.IOrderHandler;
 
 import apidemo.util.HtmlButton;
@@ -62,10 +64,15 @@ class TicketDlg extends JDialog {
 	private final AlgoPanel m_algoPanel;
 	private final ScalePanel m_scalePanel;
 	private final PegBenchPanel m_pegBenchPanel;
+	private final PegBestPegMidPanel m_pegBestPegMidPanel;
 	private final AdjustedPanel m_adjustedPanel;
 	private final ConditionsPanel m_conditionPanel;
-	
-	TicketDlg(Contract contract, Order order) {
+
+    TicketDlg(Contract contract, Order order) {
+        this(contract, order, false);
+    }
+
+    TicketDlg(Contract contract, Order order, boolean cancel) {
 		super( ApiDemo.INSTANCE.frame());
 		
 		if (contract == null) {
@@ -75,7 +82,7 @@ class TicketDlg extends JDialog {
 
 		if (order == null) {
 			order = new Order();
-			order.totalQuantity( 100);
+			order.totalQuantity( Decimal.ONE_HUNDRED);
 			order.lmtPrice( 1);
 		}
 		
@@ -85,6 +92,7 @@ class TicketDlg extends JDialog {
 		m_contractPanel = new ContractPanel( m_contract);
 		m_pegBenchPanel = new PegBenchPanel(this, m_order,
 				c -> lookupContract(ApiDemo.INSTANCE.controller(), c));
+		m_pegBestPegMidPanel = new PegBestPegMidPanel(this, m_order);
 		m_advisorPanel = new AdvisorTicketPanel();
 		m_attribTicketPanel = new MiscTicketPanel();
 		m_volPanel = new VolatilityTicketPanel();
@@ -96,9 +104,13 @@ class TicketDlg extends JDialog {
 		m_conditionPanel = new ConditionsPanel(this, m_order,
 				c -> lookupContract(ApiDemo.INSTANCE.controller(), c));
 		
-		HtmlButton transmitOrder = new HtmlButton( "Transmit Order") {
+        HtmlButton transmitOrder = new HtmlButton(cancel ? "Cancel Order" : "Transmit Order") {
 			@Override public void actionPerformed() {
-				onTransmitOrder();
+                if (cancel) {
+                    onCancelOrder();
+                } else {
+                    onTransmitOrder();
+                }
 			}
 		};
 		
@@ -120,6 +132,7 @@ class TicketDlg extends JDialog {
 		}
 		tabbedPanel.addTab( "Order", m_orderPanel);
 		tabbedPanel.addTab("Pegged to benchmark", m_pegBenchPanel);
+		tabbedPanel.addTab("Peg Best / Peg Mid", m_pegBestPegMidPanel);
 		tabbedPanel.addTab("Adjustable stops", m_adjustedPanel);
 		tabbedPanel.addTab( "Misc", m_attribTicketPanel);
 		tabbedPanel.addTab( "Advisor", m_advisorPanel);
@@ -162,7 +175,7 @@ class TicketDlg extends JDialog {
 				ApiDemo.INSTANCE.controller().removeOrderHandler( this);
 				SwingUtilities.invokeLater(() -> dispose());
 			}
-			@Override public void orderStatus(OrderStatus status, double filled, double remaining, double avgFillPrice, int permId, int parentId, double lastFillPrice, int clientId, String whyHeld, double mktCapPrice) {
+			@Override public void orderStatus(OrderStatus status, Decimal filled, Decimal remaining, double avgFillPrice, int permId, int parentId, double lastFillPrice, int clientId, String whyHeld, double mktCapPrice) {
 			}
 			@Override public void handle(int errorCode, final String errorMsg) {
 				m_order.orderId( 0);
@@ -170,6 +183,22 @@ class TicketDlg extends JDialog {
 			}
 		});
 	}
+
+    private void onCancelOrder() {
+        String manualOrderCancelTime = m_orderPanel.m_manualOrderCancelTime.getText();
+
+        if (m_order != null) {
+            ApiDemo.INSTANCE.controller().cancelOrder(m_order.orderId(), manualOrderCancelTime, new IOrderCancelHandler() {
+                @Override public void orderStatus(String orderStatus) {
+                    ApiDemo.INSTANCE.controller().removeOrderCancelHandler(this);
+                    SwingUtilities.invokeLater(() -> dispose());
+                }
+                @Override public void handle(int errorCode, final String errorMsg) {
+                    SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog( TicketDlg.this, errorMsg));
+                }
+            });
+        }
+    }
 
 	private void onCheckMargin() {
 		scrape();
@@ -182,7 +211,7 @@ class TicketDlg extends JDialog {
 			@Override public void handle(int errorCode, final String errorMsg) {
 				SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog( TicketDlg.this, errorMsg));
 			}
-			@Override public void orderStatus(OrderStatus status, double filled, double remaining, double avgFillPrice, int permId, int parentId, double lastFillPrice, int clientId, String whyHeld, double mktCapPrice) {
+			@Override public void orderStatus(OrderStatus status, Decimal filled, Decimal remaining, double avgFillPrice, int permId, int parentId, double lastFillPrice, int clientId, String whyHeld, double mktCapPrice) {
 			}
 		});
 		
@@ -224,6 +253,7 @@ class TicketDlg extends JDialog {
 			m_comboPanel.onOK();
 		}
 		m_pegBenchPanel.onOK();
+		m_pegBestPegMidPanel.onOK();
 		m_adjustedPanel.onOK();
 		m_conditionPanel.onOK();
 	}
@@ -273,6 +303,9 @@ class TicketDlg extends JDialog {
         final UpperField m_mifid2ExecutionTrader = new UpperField();
         final UpperField m_mifid2ExecutionAlgo = new UpperField();
         final TCombo<UsePriceMgmtAlgo> m_usePriceMgmtAlgo = new TCombo<>(UsePriceMgmtAlgo.values());
+        final JTextField m_advancedErrorOverride = new JTextField();
+        final JTextField m_manualOrderTime = new JTextField();
+        final JTextField m_manualOrderCancelTime = new JTextField();
 
 		OrderPanel() {
 			m_orderType.removeItemAt( 0); // remove None
@@ -280,7 +313,7 @@ class TicketDlg extends JDialog {
 			m_account.setSelectedItem( m_order.account() != null ? m_order.account() : ApiDemo.INSTANCE.accountList().get( 0) ); 
 			m_modelCode.setText( m_order.modelCode() );
 			m_action.setSelectedItem( m_order.action() );
-			m_quantity.setText( m_order.totalQuantity());
+			m_quantity.setText( m_order.totalQuantity().toString());
 			m_cashQty.setText( m_order.cashQty());
 			m_displaySize.setText( m_order.displaySize());
 			m_orderType.setSelectedItem( m_order.orderType() );
@@ -321,13 +354,16 @@ class TicketDlg extends JDialog {
 			}
 			
 			add("Use Price Management Algo", m_usePriceMgmtAlgo);
+            add("Advanced Error Override", m_advancedErrorOverride);
+            add("Manual Order Time", m_manualOrderTime);
+            add("Manual Order Cancel Time", m_manualOrderCancelTime);
 		}
 		
 		private void onOK() {
 			m_order.account( m_account.getText().toUpperCase() );
 			m_order.modelCode( m_modelCode.getText().trim() );
 			m_order.action( m_action.getSelectedItem() );
-			m_order.totalQuantity( m_quantity.getDouble() );
+			m_order.totalQuantity( Decimal.parse(m_quantity.getText().trim()) );
 			m_order.cashQty( m_cashQty.getDouble() );
 			m_order.displaySize( m_displaySize.getInt() );
 			m_order.orderType( m_orderType.getSelectedItem() );
@@ -341,6 +377,8 @@ class TicketDlg extends JDialog {
 			m_order.mifid2ExecutionTrader(m_mifid2ExecutionTrader.getText());
 			m_order.mifid2ExecutionAlgo(m_mifid2ExecutionAlgo.getText());
 			m_order.usePriceMgmtAlgo(m_usePriceMgmtAlgo.getSelectedItem().toBoolean());
+			m_order.advancedErrorOverride(m_advancedErrorOverride.getText());
+            m_order.manualOrderTime(m_manualOrderTime.getText());
 			
 			if (m_contract.isCombo() ) {
 				TagValue tv = new TagValue( ComboParam.NonGuaranteed.toString(), m_nonGuaranteed.isSelected() ? "1" : "0");
@@ -350,37 +388,32 @@ class TicketDlg extends JDialog {
 	}
 	
 	class AdvisorTicketPanel extends VerticalPanel {
-		final UpperField m_faGroup = new UpperField();
+		final JTextField m_faGroup = new JTextField();
 		final TCombo<Method> m_faMethod = new TCombo<>( Method.values() );
 		final UpperField m_faPercentage = new UpperField();
-		final UpperField m_faProfile = new UpperField();
 		
 		AdvisorTicketPanel() {
 			m_faGroup.setText( m_order.faGroup() );
 			m_faMethod.setSelectedItem( m_order.faMethod() );
 			m_faPercentage.setText( m_order.faPercentage() );
-			m_faProfile.setText( m_order.faProfile() );
 			
 			add( "Group", m_faGroup);
 			add( "Method", m_faMethod);
 			add( "Percentage", m_faPercentage);
-			add( Box.createVerticalStrut(10));
-			add( "--or--");
-			add( Box.createVerticalStrut(10));
-			add( "Profile", m_faProfile);
 		}
 		
 		void onOK() {
 			m_order.faGroup( m_faGroup.getText() );
 			m_order.faMethod( m_faMethod.getSelectedItem() );
 			m_order.faPercentage( m_faPercentage.getText() );
-			m_order.faProfile( m_faProfile.getText() );
 		}
 	}
 	
 	class MiscTicketPanel extends StackPanel {
-		final UpperField m_goodAfter = new UpperField();
-		final UpperField m_goodTil = new UpperField();
+		final JTextField m_goodAfter = new JTextField();
+		final JTextField m_goodTil = new JTextField();
+		final UpperField m_duration = new UpperField();
+		final UpperField m_postToAts = new UpperField();
 		final JTextField m_orderRef = new JTextField(7);
 		final JTextField m_ocaGroup = new JTextField(7);
 		final UpperField m_minQty = new UpperField();
@@ -388,7 +421,6 @@ class TicketDlg extends JDialog {
 		final UpperField m_trailingStopPrice = new UpperField();
 		final UpperField m_trailingPercent = new UpperField();
 		final UpperField m_discretionaryAmt = new UpperField();
-		final UpperField m_nbboPriceCap = new UpperField();
 		final UpperField m_algoId = new UpperField();
 		final UpperField m_extOperator = new UpperField();
 		final TCombo<SoftDollarTier> m_softDollarTiers = new TCombo<>();
@@ -408,12 +440,12 @@ class TicketDlg extends JDialog {
 		final JCheckBox m_overrideConstraints = new JCheckBox();
 		final JCheckBox m_notHeld = new JCheckBox();
 		final JCheckBox m_transmit = new JCheckBox();
-		final JCheckBox m_eTradeOnly = new JCheckBox();
-		final JCheckBox m_firmQuoteOnly = new JCheckBox();
 		final JCheckBox m_optOutSmartRouting = new JCheckBox();
         final JCheckBox m_dontUseAutoPriceForHedge = new JCheckBox();
         final JCheckBox m_omsContainer = new JCheckBox();
         final JCheckBox m_discretionaryUpToLimitPrice = new JCheckBox();
+        final JCheckBox m_autoCancelParent = new JCheckBox();
+        final JCheckBox m_solicited = new JCheckBox();
 		
 		
 
@@ -423,13 +455,14 @@ class TicketDlg extends JDialog {
 			top.add("Min Qty", m_minQty);
 			top.add("Good after", m_goodAfter);
 			top.add("Good until", m_goodTil);
+			top.add("Duration", m_duration);
+			top.add("Post To Ats", m_postToAts);
 			top.add("Rule 80A", m_rule80A);
 			top.add("Trigger method", m_trigger);
 			top.add("Percent Offset", m_percentOffset);
 			top.add("Trail order stop price", m_trailingStopPrice);
 			top.add("Trailing percent", m_trailingPercent);
 			top.add("Discretionary amount", m_discretionaryAmt);
-			top.add("NBBO price cap", m_nbboPriceCap);
 			top.add("Algo Id", m_algoId);
 			top.add("OCA group and type", m_ocaGroup, m_ocaType);
 			top.add("Hedge type and param" , m_hedgeType, m_hedgeParam);
@@ -447,12 +480,12 @@ class TicketDlg extends JDialog {
 
 			VerticalPanel right = new VerticalPanel();
 			right.add("Override constraints", m_overrideConstraints);
-			right.add("E-trade only", m_eTradeOnly);
-			right.add("Firm quote only", m_firmQuoteOnly);
 			right.add("Opt out SMART routing", m_optOutSmartRouting);
 			right.add("Don't use auto price for hedge", m_dontUseAutoPriceForHedge);
 			right.add("Transmit", m_transmit);
             right.add("OMS Container", m_omsContainer);
+			right.add("Auto Cancel Parent", m_autoCancelParent);
+			right.add("Solicited", m_solicited);
 			
 			HorzPanel checks = new HorzPanel();
 			checks.add( left);
@@ -467,6 +500,8 @@ class TicketDlg extends JDialog {
 			m_minQty.setText( m_order.minQty() );
 			m_goodAfter.setText( m_order.goodAfterTime() );
 			m_goodTil.setText( m_order.goodTillDate() );
+			m_duration.setText( m_order.duration() );
+			m_postToAts.setText( m_order.postToAts() );
 			m_orderRef.setText( m_order.orderRef() );
 			m_ocaGroup.setText( m_order.ocaGroup() );
 			m_ocaType.setSelectedItem( m_order.ocaType() );
@@ -485,9 +520,6 @@ class TicketDlg extends JDialog {
 			m_trailingStopPrice.setText( m_order.trailStopPrice() );
 			m_trailingPercent.setText( m_order.trailingPercent() );
 			m_discretionaryAmt.setText( m_order.discretionaryAmt() );
-			m_eTradeOnly.setSelected( m_order.eTradeOnly() );
-			m_firmQuoteOnly.setSelected( m_order.firmQuoteOnly() );
-			m_nbboPriceCap.setText( m_order.nbboPriceCap() );
 			m_optOutSmartRouting.setSelected( m_order.optOutSmartRouting() );
 			m_algoId.setText( m_order.algoId() );
 			m_transmit.setSelected( true);
@@ -496,6 +528,8 @@ class TicketDlg extends JDialog {
 			m_dontUseAutoPriceForHedge.setSelected( m_order.dontUseAutoPriceForHedge());
 			m_omsContainer.setSelected(m_order.isOmsContainer());
 			m_discretionaryUpToLimitPrice.setSelected(m_order.discretionaryUpToLimitPrice());
+			m_autoCancelParent.setSelected(m_order.autoCancelParent());
+			m_solicited.setSelected(m_order.solicited());
 			
 			ApiDemo.INSTANCE.controller().reqSoftDollarTiers(tiers -> {
                 m_softDollarTiers.invalidate();
@@ -513,6 +547,8 @@ class TicketDlg extends JDialog {
 			m_order.minQty( m_minQty.getInt() );
 			m_order.goodAfterTime( m_goodAfter.getText() );
 			m_order.goodTillDate( m_goodTil.getText() );
+			m_order.duration( m_duration.getInt() );
+			m_order.postToAts( m_postToAts.getInt() );
 			m_order.orderRef( m_orderRef.getText() );
 			m_order.ocaGroup( m_ocaGroup.getText() );
 			m_order.ocaType( m_ocaType.getSelectedItem() );
@@ -530,9 +566,6 @@ class TicketDlg extends JDialog {
 			m_order.trailStopPrice( m_trailingStopPrice.getDouble() );
 			m_order.trailingPercent( m_trailingPercent.getDouble() );
 			m_order.discretionaryAmt( m_discretionaryAmt.getDouble() );
-			m_order.eTradeOnly( m_eTradeOnly.isSelected() );
-			m_order.firmQuoteOnly( m_firmQuoteOnly.isSelected() );
-			m_order.nbboPriceCap( m_nbboPriceCap.getDouble() );
 			m_order.optOutSmartRouting( m_optOutSmartRouting.isSelected() );
 			m_order.algoId( m_algoId.getText() );
 			m_order.transmit( m_transmit.isSelected() );
@@ -541,6 +574,8 @@ class TicketDlg extends JDialog {
 			m_order.dontUseAutoPriceForHedge( m_dontUseAutoPriceForHedge.isSelected() );
 			m_order.isOmsContainer(m_omsContainer.isSelected());
 			m_order.discretionaryUpToLimitPrice(m_discretionaryUpToLimitPrice.isSelected());
+			m_order.autoCancelParent(m_autoCancelParent.isSelected());
+			m_order.solicited(m_solicited.isSelected());
 		}
 	}
 	
@@ -630,7 +665,7 @@ class TicketDlg extends JDialog {
 			
 			for (AlgoParam param : AlgoParam.values() ) {
 				int i = param.ordinal();
-				m_params[i] = new UpperField(11);
+				m_params[i] = new UpperField(11, true);
 				add( param.toString(), m_params[param.ordinal()]);
 			}
 			

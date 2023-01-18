@@ -11,8 +11,11 @@ Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is su
 	UNKNOWN_POS = unknown
 """
 
-
 from ibapi.object_implem import Object
+from ibapi.common import UNSET_DECIMAL
+from ibapi.utils import intMaxString
+from ibapi.utils import floatMaxString
+from ibapi.utils import decimalMaxString
 
 
 (SAME_POS, OPEN_POS, CLOSE_POS, UNKNOWN_POS) = range(4)
@@ -33,14 +36,14 @@ class ComboLeg(Object):
 
     def __str__(self):
         return ",".join((
-            str(self.conId),
-            str(self.ratio),
+            intMaxString(self.conId),
+            intMaxString(self.ratio),
             str(self.action),
             str(self.exchange),
-            str(self.openClose),
-            str(self.shortSaleSlot),
+            intMaxString(self.openClose),
+            intMaxString(self.shortSaleSlot),
             str(self.designatedLocation),
-            str(self.exemptCode)))
+            intMaxString(self.exemptCode)))
 
 
 class DeltaNeutralContract(Object):
@@ -52,8 +55,8 @@ class DeltaNeutralContract(Object):
     def __str__(self):
         return ",".join((
             str(self.conId),
-            str(self.delta),
-            str(self.price)))
+            floatMaxString(self.delta),
+            floatMaxString(self.price)))
 
 
 class Contract(Object):
@@ -73,6 +76,8 @@ class Contract(Object):
         self.includeExpired = False
         self.secIdType = ""	  # CUSIP;SEDOL;ISIN;RIC
         self.secId = ""
+        self.description = ""
+        self.issuerId = ""
 
         #combos
         self.comboLegsDescrip = ""  # type: str; received in open order 14 and up for all combos
@@ -86,7 +91,7 @@ class Contract(Object):
             str(self.symbol),
             str(self.secType),
             str(self.lastTradeDateOrContractMonth),
-            str(self.strike),
+            floatMaxString(self.strike),
             str(self.right),
             str(self.multiplier),
             str(self.exchange),
@@ -96,7 +101,9 @@ class Contract(Object):
             str(self.tradingClass),
             str(self.includeExpired),
             str(self.secIdType),
-            str(self.secId)))
+            str(self.secId),
+            str(self.description),
+            str(self.issuerId)))
         s += "combo:" + self.comboLegsDescrip
 
         if self.comboLegs:
@@ -128,7 +135,6 @@ class ContractDetails(Object):
         self.liquidHours = ""
         self.evRule = ""
         self.evMultiplier = 0
-        self.mdSizeMultiplier = 0
         self.aggGroup = 0
         self.underSymbol = ""
         self.underSecType = ""
@@ -137,6 +143,9 @@ class ContractDetails(Object):
         self.realExpirationDate = ""
         self.lastTradeTime = ""
         self.stockType = ""
+        self.minSize = UNSET_DECIMAL
+        self.sizeIncrement = UNSET_DECIMAL
+        self.suggestedSizeIncrement = UNSET_DECIMAL
         # BOND values
         self.cusip = ""
         self.ratings = ""
@@ -158,11 +167,11 @@ class ContractDetails(Object):
         s = ",".join((
             str(self.contract),
             str(self.marketName),
-            str(self.minTick),
+            floatMaxString(self.minTick),
             str(self.orderTypes),
             str(self.validExchanges),
-            str(self.priceMagnifier),
-            str(self.underConId),
+            intMaxString(self.priceMagnifier),
+            intMaxString(self.underConId),
             str(self.longName),
             str(self.contractMonth),
             str(self.industry),
@@ -172,12 +181,11 @@ class ContractDetails(Object):
             str(self.tradingHours),
             str(self.liquidHours),
             str(self.evRule),
-            str(self.evMultiplier),
-            str(self.mdSizeMultiplier),
+            intMaxString(self.evMultiplier),
             str(self.underSymbol),
             str(self.underSecType),
             str(self.marketRuleIds),
-            str(self.aggGroup),
+            intMaxString(self.aggGroup),
             str(self.secIdList),
             str(self.realExpirationDate),
             str(self.stockType),
@@ -195,7 +203,11 @@ class ContractDetails(Object):
             str(self.nextOptionDate),
             str(self.nextOptionType),
             str(self.nextOptionPartial),
-            str(self.notes)))
+            str(self.notes),
+            decimalMaxString(self.minSize),
+            decimalMaxString(self.sizeIncrement),
+            decimalMaxString(self.suggestedSizeIncrement)))
+            
         return s
 
 

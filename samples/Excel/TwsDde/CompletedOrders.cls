@@ -21,14 +21,14 @@ Const COMPLETED_ORDERS_START_ROW = 10
 Const COMPLETED_ORDERS_END_ROW = 200
 
 'range
-Const COMPLETED_ORDERS_TABLE_RANGE = "A" & COMPLETED_ORDERS_START_ROW & ":DF" & COMPLETED_ORDERS_END_ROW
+Const COMPLETED_ORDERS_TABLE_RANGE = "A" & COMPLETED_ORDERS_START_ROW & ":DJ" & COMPLETED_ORDERS_END_ROW
 
 
 ' ========================================================
 ' Request completed orders when button is pressed
 ' ========================================================
 Sub requestCompletedOrders()
-    If CStr(Worksheets(STR_SHEET_NAME).range(CELL_REQUEST_CONTROL).value) = util.STR_EMPTY Then ' only if not subscribed
+    If CStr(Worksheets(STR_SHEET_NAME).Range(CELL_REQUEST_CONTROL).value) = util.STR_EMPTY Then ' only if not subscribed
         sendCompletedOrdersRequest True
     End If
 End Sub
@@ -38,7 +38,7 @@ End Sub
 ' ========================================================
 Sub requestAllCompletedOrders()
 
-    If CStr(Worksheets(STR_SHEET_NAME).range(CELL_REQUEST_CONTROL).value) = util.STR_EMPTY Then ' only if not subscribed
+    If CStr(Worksheets(STR_SHEET_NAME).Range(CELL_REQUEST_CONTROL).value) = util.STR_EMPTY Then ' only if not subscribed
         sendCompletedOrdersRequest False
     End If
 End Sub
@@ -56,10 +56,10 @@ Sub sendCompletedOrdersRequest(apiOnly As Boolean)
     If server = util.STR_EMPTY Then Exit Sub
     
     With Worksheets(STR_SHEET_NAME)
-        .range(CELL_REQUEST_CONTROL).Formula = util.composeLink(server, STR_REQ_COMPLETED_ORDERS, util.IDENTIFIER_ZERO, apiOnly) ' request control
+        .Range(CELL_REQUEST_CONTROL).Formula = util.composeLink(server, STR_REQ_COMPLETED_ORDERS, util.IDENTIFIER_ZERO, apiOnly) ' request control
 
-        If util.cleanOnError(.range(CELL_REQUEST_CONTROL)) Then
-            .range(CELL_REQUEST_CONTROL).value = util.STR_EMPTY
+        If util.cleanOnError(.Range(CELL_REQUEST_CONTROL)) Then
+            .Range(CELL_REQUEST_CONTROL).value = util.STR_EMPTY
             Exit Sub
         End If
     End With
@@ -72,8 +72,8 @@ End Sub
 Sub clearCompletedOrdersTable()
     ' clear completed orders table
     With Worksheets(STR_SHEET_NAME)
-        .range(COMPLETED_ORDERS_TABLE_RANGE).ClearContents
-        .range(CELL_REQUEST_CONTROL).Formula = ""
+        .Range(COMPLETED_ORDERS_TABLE_RANGE).ClearContents
+        .Range(CELL_REQUEST_CONTROL).Formula = ""
     End With
 End Sub
 
@@ -85,7 +85,7 @@ Private Sub Worksheet_Calculate()
     If Not util.sheetExists(STR_SHEET_NAME) Then Exit Sub
     
     With Worksheets(STR_SHEET_NAME)
-       If CStr(.range(CELL_REQUEST_CONTROL).value) = util.STR_RECEIVED Then
+       If CStr(.Range(CELL_REQUEST_CONTROL).value) = util.STR_RECEIVED Then
             Dim server As String, id As String
             Dim completedOrdersArray() As Variant
             server = util.getServerVal(STR_SHEET_NAME, CELL_SERVER_NAME)

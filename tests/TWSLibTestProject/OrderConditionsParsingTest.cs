@@ -56,7 +56,7 @@ namespace OrderConditionsParsingTestProject
         [TestMethod]
         public void ParsePercentChangeCondition()
         {
-            ParseCondition<PercentChangeCondition>("PercentCange of 43645865(ISLAND) is <= 0");
+            ParseCondition<PercentChangeCondition>("PercentChange of 43645865(ARCA) is <= 0");
         }
 
         [TestMethod]
@@ -74,7 +74,7 @@ namespace OrderConditionsParsingTestProject
         [TestMethod]
         public void ParseConditionList()
         {
-            var conditions = (new Tws().ParseConditions("default Price of 8314(SMART) is <= 0 and the margin cushion percent is <= 5 or trade occurs for ANY symbol on ANY exchange for * security type and time is <= 20151030 21:56:26 GMT+03:00 or Volume of 265598(SMART) is <= 8 and PercentCange of 43645865(ISLAND) is <= 0") as ArrayList).OfType<OrderCondition>();
+            var conditions = (new Tws().ParseConditions("default Price of 8314(SMART) is <= 0 and the margin cushion percent is <= 5 or trade occurs for ANY symbol on ANY exchange for * security type and time is <= 20151030 21:56:26 GMT+03:00 or Volume of 265598(SMART) is <= 8 and PercentCange of 43645865(ARCA) is <= 0") as ArrayList).OfType<OrderCondition>();
 
             var conds = new[] { 
                 OperatorCondition.Parse("default Price of 8314(SMART) is <= 0 and"), 
@@ -82,7 +82,7 @@ namespace OrderConditionsParsingTestProject
                 OperatorCondition.Parse("trade occurs for ANY symbol on ANY exchange for * security type and"),
                 OperatorCondition.Parse("time is <= 20151030 21:56:26 GMT+03:00 or"),
                 OperatorCondition.Parse("Volume of 265598(SMART) is <= 8 and"),
-                OperatorCondition.Parse("PercentCange of 43645865(ISLAND) is <= 0")
+                OperatorCondition.Parse("PercentChange of 43645865(ARCA) is <= 0")
             };
 
             Assert.IsTrue(conds.SequenceEqual(conditions));

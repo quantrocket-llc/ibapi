@@ -22,6 +22,7 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableCellRenderer;
 
 import com.ib.client.Types.SecType;
+import com.ib.client.Util;
 import com.ib.controller.ApiController.IAccountHandler;
 import com.ib.controller.MarketValueTag;
 import com.ib.controller.Position;
@@ -57,6 +58,7 @@ public class AccountInfoPanel extends JPanel implements INewTab, IAccountHandler
 		tabbedPanel.addTab( "Market Value Summary", new MarketValueSummaryPanel() );
 		tabbedPanel.addTab( "Positions (all accounts)", new PositionsPanel() );
 		tabbedPanel.addTab( "Family Codes", new FamilyCodesPanel() );
+		tabbedPanel.addTab( "User Info", new UserInfoPanel() );
 		
 		setLayout( new BorderLayout() );
 		add( acctScroll, BorderLayout.NORTH);
@@ -356,7 +358,7 @@ public class AccountInfoPanel extends JPanel implements INewTab, IAccountHandler
 				return;
 			}
 
-			if (!m_portfolioMap.containsKey( position.conid() ) && position.position() != 0) {
+			if (!m_portfolioMap.containsKey( position.conid() ) && !position.position().isZero()) {
 				m_positions.add( position.conid() );
 			}
 			m_portfolioMap.put( position.conid(), position);
@@ -387,13 +389,13 @@ public class AccountInfoPanel extends JPanel implements INewTab, IAccountHandler
 		@Override public Object getValueAt(int row, int col) {
 			Position pos = getPosition( row);
 			switch( col) {
-				case 0: return pos.contract().description();
+				case 0: return pos.contract().textDescription();
 				case 1: return pos.position();
-				case 2: return pos.marketPrice();
+				case 2: return Util.DoubleMaxString(pos.marketPrice());
 				case 3: return format( "" + pos.marketValue(), null);
-				case 4: return pos.averageCost();
-				case 5: return pos.unrealPnl();
-				case 6: return pos.realPnl();
+				case 4: return Util.DoubleMaxString(pos.averageCost());
+				case 5: return Util.DoubleMaxString(pos.unrealPnl());
+				case 6: return Util.DoubleMaxString(pos.realPnl());
 				default: return null;
 			}
 		}

@@ -1,4 +1,4 @@
-﻿' Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+' Copyright (C) 2023 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
 ' and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable.
 
 Imports IBApi
@@ -104,7 +104,7 @@ Module MainModule
         '***************************
         '** Contract information ***
         '***************************
-        'contractOperations(client)
+        contractOperations(client)
 
         '**********************
         '** Market Scanners ***
@@ -134,7 +134,7 @@ Module MainModule
         '***********************************
         '** Financial Advisor Exclusive Operations ***
         '***********************************
-        financialAdvisorOperations(client)
+        'financialAdvisorOperations(client)
 
         '*******************
         '** Miscellaneous ***
@@ -198,16 +198,46 @@ Module MainModule
         '**********************
         'whatIfSamples(client, nextValidId)
 
+        '*******************
+        '** WSH Calendar ***
+        '*******************
+        'wshCalendarOperations(client)
+
         Thread.Sleep(15000)
         Console.WriteLine("Done")
         Thread.Sleep(500000)
     End Sub
 
+    Private Sub wshCalendarOperations(client As EClientSocket)
+		' [reqmetadata]
+        client.reqWshMetaData(1100)
+		' [reqmetadata]
+
+        Thread.Sleep(1000)
+
+        client.cancelWshMetaData(1100)
+
+        ' [reqeventdata]
+        client.reqWshEventData(1101, New WshEventData(8314, False, False, False, "20220511", "", 5))
+        ' [reqeventdata]
+
+        Thread.Sleep(3000)
+
+        ' [reqeventdata]
+        client.reqWshEventData(1102, New WshEventData("{""watchlist"":[""8314""]}", False, False, False, "", "20220512", Integer.MaxValue))
+        ' [reqeventdata]
+
+        Thread.Sleep(1000)
+
+        client.cancelWshEventData(1101)
+        client.cancelWshEventData(1102)
+    End Sub
+
     Private Sub historicalTicks(client As EClientSocket)
 		' [reqhistoricalticks]
-        client.reqHistoricalTicks(18001, ContractSamples.USStockAtSmart(), "20170712 21:39:33", Nothing, 10, "TRADES", 1, True, Nothing)
-        client.reqHistoricalTicks(18002, ContractSamples.USStockAtSmart(), "20170712 21:39:33", Nothing, 10, "BID_ASK", 1, True, Nothing)
-        client.reqHistoricalTicks(18003, ContractSamples.USStockAtSmart(), "20170712 21:39:33", Nothing, 10, "MIDPOINT", 1, True, Nothing)
+        client.reqHistoricalTicks(18001, ContractSamples.USStockAtSmart(), "20170712 21:39:33 US/Eastern", Nothing, 10, "TRADES", 1, True, Nothing)
+        client.reqHistoricalTicks(18002, ContractSamples.USStockAtSmart(), "20170712 21:39:33 US/Eastern", Nothing, 10, "BID_ASK", 1, True, Nothing)
+        client.reqHistoricalTicks(18003, ContractSamples.USStockAtSmart(), "20170712 21:39:33 US/Eastern", Nothing, 10, "MIDPOINT", 1, True, Nothing)
 		' [reqhistoricalticks]
     End Sub
 
@@ -246,6 +276,9 @@ Module MainModule
     End Sub
 
     Private Sub tickDataOperations(client As EClientSocket)
+        ' [reqmarketdatatype]
+        client.reqMarketDataType(4)
+        ' [reqmarketdatatype]
 
         ' Requesting real time market data 
         ' Thread.Sleep(1000) 
@@ -272,7 +305,7 @@ Module MainModule
         client.reqMktData(1005, ContractSamples.USStock(), "mdoff,292:BZ", False, False, Nothing)
         client.reqMktData(1006, ContractSamples.USStock(), "mdoff,292:BT", False, False, Nothing)
         client.reqMktData(1007, ContractSamples.USStock(), "mdoff,292:FLY", False, False, Nothing)
-        client.reqMktData(1008, ContractSamples.USStock(), "mdoff,292:MT", False, False, Nothing)
+        client.reqMktData(1008, ContractSamples.USStock(), "mdoff,292:DJ-RT", False, False, Nothing)
         '! [reqmktdata_contractnews]
         '! [reqmktdata_broadtapenews]
         client.reqMktData(1009, ContractSamples.BTbroadtapeNewsFeed(), "mdoff,292", False, False, Nothing)
@@ -305,6 +338,14 @@ Module MainModule
         client.reqMktData(1017, ContractSamples.etf(), "mdoff,576,577,578,614,623", False, False, Nothing)
         '! [reqetfticks]
 
+        '! [IPO_price]
+        client.reqMktData(1018, ContractSamples.StockWithIPOPrice(), "mdoff,586", False, False, Nothing)
+        '! [IPO_price]
+
+        '! [yieldbidask]
+        client.reqMktData(1019, ContractSamples.Bond(), "", False, False, Nothing)
+        '! [yieldbidask]
+
         Thread.Sleep(10000)
         ' Canceling the market data subscription 
         ' [cancelmktdata]
@@ -317,6 +358,8 @@ Module MainModule
         client.cancelMktData(1015)
         client.cancelMktData(1016)
         client.cancelMktData(1017)
+        client.cancelMktData(1018)
+        client.cancelMktData(1019)
         ' [cancelmktdata]
     End Sub
 
@@ -392,15 +435,17 @@ Module MainModule
 
         '** Requesting historical data ***
         '! [reqhistoricaldata]
-        Dim queryTime As String = DateTime.Now.AddMonths(-6).ToString("yyyyMMdd HH:mm:ss")
+        Dim queryTime As String = DateTime.Now.ToUniversalTime.AddMonths(-6).ToString("yyyyMMdd-HH:mm:ss")
         client.reqHistoricalData(4001, ContractSamples.EurGbpFx(), queryTime, "1 M", "1 day", "MIDPOINT", 1, 1, False, Nothing)
         client.reqHistoricalData(4002, ContractSamples.EuropeanStock(), queryTime, "10 D", "1 min", "TRADES", 1, 1, False, Nothing)
+        client.reqHistoricalData(4003, ContractSamples.USStockAtSmart(), queryTime, "1 M", "1 day", "SCHEDULE", 1, 1, False, Nothing)
         '! [reqhistoricaldata]
         Thread.Sleep(2000)
         '** Canceling historical data requests ***
         '! [cancelhistoricaldata]
         client.cancelHistoricalData(4001)
         client.cancelHistoricalData(4002)
+        client.cancelHistoricalData(4003)
         '! [cancelhistoricaldata]
     End Sub
 
@@ -440,16 +485,19 @@ Module MainModule
         client.reqContractDetails(212, ContractSamples.FuturesOnOptions())
         client.reqContractDetails(213, ContractSamples.SimpleFuture())
         client.reqContractDetails(214, ContractSamples.USStockAtSmart())
+        client.reqContractDetails(215, ContractSamples.CryptoContract())
+        client.reqContractDetails(216, ContractSamples.ByIssuerId())
         '! [reqcontractdetails]
 
         '! [reqcontractdetailsnews]
-        client.reqContractDetails(211, ContractSamples.NewsFeedForQuery())
+        client.reqContractDetails(217, ContractSamples.NewsFeedForQuery())
         '! [reqcontractdetailsnews]
 
         Thread.Sleep(2000)
-        ''! [reqmatchingsymbols]
-        client.reqMatchingSymbols(202, "IB")
-        ''! [reqmatchingsymbols]
+
+        '! [reqmatchingsymbols]
+        client.reqMatchingSymbols(218, "IBM")
+        '! [reqmatchingsymbols]
     End Sub
 
     Private Sub marketScanners(client As EClientSocket)
@@ -591,6 +639,11 @@ Module MainModule
         client.reqFamilyCodes()
         ''! [reqfamilycodes]
 
+        Thread.Sleep(2000)
+        ''! [requserinfo]
+        client.reqUserInfo(0)
+        ''! [requserinfo]
+
     End Sub
 
     Private Sub orderOperations(client As EClientSocket, nextOrderId As Integer)
@@ -622,10 +675,10 @@ Module MainModule
         client.placeOrder(increment(nextOrderId), ContractSamples.USStock(), OrderSamples.LimitOrder("SELL", 1, 50))
         '! [order_submission]
 
-		'! [place_midprice]
+        '! [place_midprice]
         client.placeOrder(increment(nextOrderId), ContractSamples.USStockAtSmart(), OrderSamples.Midprice("BUY", 1, 150))
         '! [place_midprice]
-		
+
         '! [faorderoneaccount]
         Dim faOrderOneAccount As Order = OrderSamples.MarketOrder("BUY", 100)
         ' Specify the Account Number directly
@@ -633,27 +686,18 @@ Module MainModule
         client.placeOrder(increment(nextOrderId), ContractSamples.USStock(), faOrderOneAccount)
         '! [faorderoneaccount]
 
-        '! [faordergroupequalquantity]
-        Dim faOrderGroupEQ As Order = OrderSamples.LimitOrder("SELL", 200, 2000)
-        faOrderGroupEQ.FaGroup = "Group_Equal_Quantity"
-        faOrderGroupEQ.FaMethod = "EqualQuantity"
-        client.placeOrder(increment(nextOrderId), ContractSamples.SimpleFuture(), faOrderGroupEQ)
-        '! [faordergroupequalquantity]
+        '! [faordergroup]
+        Dim faOrderGroup As Order = OrderSamples.LimitOrder("BUY", 200, 10)
+        faOrderGroup.FaGroup = "MyTestGroup1"
+        faOrderGroup.FaMethod = "AvailableEquity"
+        client.placeOrder(increment(nextOrderId), ContractSamples.USStockAtSmart(), faOrderGroup)
+        '! [faordergroup]
 
-        '! [faordergrouppctchange]
-        Dim faOrderGroupPC As Order = OrderSamples.MarketOrder("BUY", 0)
-        ' You should not specify any order quantity for PctChange allocation method
-        faOrderGroupPC.FaGroup = "Pct_Change"
-        faOrderGroupPC.FaMethod = "PctChange"
-        faOrderGroupPC.FaPercentage = "100"
-        client.placeOrder(increment(nextOrderId), ContractSamples.EurGbpFx(), faOrderGroupPC)
-        '! [faordergrouppctchange]
-
-        '! [faorderprofile]
-        Dim faOrderProfile As Order = OrderSamples.LimitOrder("BUY", 200, 100)
-        faOrderProfile.FaProfile = "Percent_60_40"
-        client.placeOrder(increment(nextOrderId), ContractSamples.EuropeanStock(), faOrderProfile)
-        '! [faorderprofile]
+        '! [faorderuserdefinedgroup]
+        Dim faOrderUserDefinedGroup As Order = OrderSamples.LimitOrder("BUY", 200, 10)
+        faOrderUserDefinedGroup.FaGroup = "MyTestProfile1"
+        client.placeOrder(increment(nextOrderId), ContractSamples.USStockAtSmart(), faOrderUserDefinedGroup)
+        '! [faorderuserdefinedgroup]
 
         '! [modelorder]
         Dim modelOrder As Order = OrderSamples.LimitOrder("BUY", 200, 100)
@@ -700,7 +744,7 @@ Module MainModule
 
         '208813720 (GOOG)
         'client.placeOrder(nextOrderId, ContractSamples.USStock(),
-        'OrderSamples.PeggedToBenchmark("SELL", 100, 33, True, 0.1, 1, 208813720, "ISLAND", 750, 650, 800))
+        'OrderSamples.PeggedToBenchmark("SELL", 100, 33, True, 0.1, 1, 208813720, "ARCA", 750, 650, 800))
 
 
         'Stop ADJUSTABLE ORDERS
@@ -721,7 +765,7 @@ Module MainModule
 
         'Thread.Sleep(3000)
         '! [cancelorder]
-        client.cancelOrder(nextOrderId - 1)
+        client.cancelOrder(nextOrderId - 1, "")
         '! [cancelorder]
         '** Cancel all orders for all accounts ***
         '! [reqglobalcancel]
@@ -736,6 +780,29 @@ Module MainModule
         client.reqCompletedOrders(False)
         '! [reqcompletedorders]
 
+        '! [crypto_order_submission]
+        client.placeOrder(increment(nextOrderId), ContractSamples.CryptoContract(), OrderSamples.LimitOrder("BUY", Util.StringToDecimal("0.00001234"), 3370))
+        '! [crypto_order_submission]
+
+        '! [order_submission_with_manual_order_time]
+        client.placeOrder(increment(nextOrderId), ContractSamples.USStockAtSmart(), OrderSamples.LimitOrderWithManualOrderTime("BUY", Util.StringToDecimal("100"), 111.11, "20220314-13:00:00"))
+        '! [order_submission_with_manual_order_time]
+        Thread.Sleep(3000)
+        '! [cancel_order_with_manual_order_cancel_time]
+        client.cancelOrder(nextOrderId - 1, "20220314-19:00:00")
+        '! [cancel_order_with_manual_order_cancel_time]
+
+        '! [pegbest_up_to_mid_order_submission]]
+        client.placeOrder(increment(nextOrderId), ContractSamples.IBKRATSContract(), OrderSamples.PegBestUpToMidOrder("BUY", Util.StringToDecimal("100"), 111.11, 100, 200, 0.02, 0.025))
+        '! [pegbest_up_to_mid_order_submission]]
+
+        '! [pegbest_order_submission]]
+        client.placeOrder(increment(nextOrderId), ContractSamples.IBKRATSContract(), OrderSamples.PegBestOrder("BUY", Util.StringToDecimal("100"), 111.11, 100, 200, 0.03))
+        '! [pegbest_order_submission]]
+
+        '! [pegmid_order_submission]]
+        client.placeOrder(increment(nextOrderId), ContractSamples.IBKRATSContract(), OrderSamples.PegMidOrder("BUY", Util.StringToDecimal("100"), 111.11, 100, 0.02, 0.025))
+        '! [pegmid_order_submission]]
     End Sub
 
     Private Sub newsOperations(client As EClientSocket)
@@ -797,7 +864,7 @@ Module MainModule
         mkt.Conditions.Add(OrderSamples.ExecutionCondition("EUR.USD", "CASH", "IDEALPRO", True))
         mkt.Conditions.Add(OrderSamples.MarginCondition(30, True, False))
         mkt.Conditions.Add(OrderSamples.PercentageChangeCondition(15.0, 208813720, "SMART", True, True))
-        mkt.Conditions.Add(OrderSamples.TimeCondition("20160118 23:59:59", True, False))
+        mkt.Conditions.Add(OrderSamples.TimeCondition("20160118 23:59:59 US/Eastern", True, False))
         mkt.Conditions.Add(OrderSamples.VolumeCondition(208813720, "SMART", False, 100, True))
         client.placeOrder(increment(nextOrderId), ContractSamples.EuropeanStock(), mkt)
         '! [order_conditioning_activate]
@@ -847,14 +914,14 @@ Module MainModule
         '! [algo_base_order]
 
         '! [arrivalpx]
-        AvailableAlgoParams.FillArrivalPriceParams(baseOrder, 0.10000000000000001, "Aggressive", "09:00:00 CET", "16:00:00 CET", True, True, 100000)
+        AvailableAlgoParams.FillArrivalPriceParams(baseOrder, 0.1, "Aggressive", "09:00:00 US/Eastern", "16:00:00 US/Eastern", True, True)
         client.placeOrder(increment(nextOrderId), ContractSamples.USStockAtSmart(), baseOrder)
         '! [arrivalpx]
 
         Thread.Sleep(500)
 
         '! [darkice]
-        AvailableAlgoParams.FillDarkIceParams(baseOrder, 10, "09:00:00 CET", "16:00:00 CET", True, 100000)
+        AvailableAlgoParams.FillDarkIceParams(baseOrder, 10, "09:00:00 US/Eastern", "16:00:00 US/Eastern", True)
         client.placeOrder(increment(nextOrderId), ContractSamples.USStockAtSmart(), baseOrder)
         '! [darkice]
 
@@ -862,21 +929,21 @@ Module MainModule
 
         '! [ad]
         ' The Time Zone in "startTime" and "endTime" attributes is ignored and always defaulted to GMT
-        AvailableAlgoParams.FillAccumulateDistributeParams(baseOrder, 10, 60, True, True, 1, True, True, "20161010-12:00:00 GMT", "20161010-16:00:00 GMT")
+        AvailableAlgoParams.FillAccumulateDistributeParams(baseOrder, 10, 60, True, True, 1, True, True, "12:00:00", "16:00:00")
         client.placeOrder(increment(nextOrderId), ContractSamples.USStockAtSmart(), baseOrder)
         '! [ad]
 
         Thread.Sleep(500)
 
         '! [twap]
-        AvailableAlgoParams.FillTwapParams(baseOrder, "Marketable", "09:00:00 CET", "16:00:00 CET", True, 100000)
+        AvailableAlgoParams.FillTwapParams(baseOrder, "Marketable", "09:00:00 US/Eastern", "16:00:00 US/Eastern", True)
         client.placeOrder(increment(nextOrderId), ContractSamples.USStockAtSmart(), baseOrder)
         '! [twap]
 
         Thread.Sleep(500)
 
         '! [vwap]
-        AvailableAlgoParams.FillVwapParams(baseOrder, 0.20000000000000001, "09:00:00 CET", "16:00:00 CET", True, True, True, 100000)
+        AvailableAlgoParams.FillVwapParams(baseOrder, 0.2, "09:00:00 US/Eastern", "16:00:00 US/Eastern", True, True, True)
         client.placeOrder(increment(nextOrderId), ContractSamples.USStockAtSmart(), baseOrder)
         '! [vwap]
 
@@ -900,37 +967,37 @@ Module MainModule
         '! [adaptive]
 
         '! [closepx]
-        AvailableAlgoParams.FillClosePriceParams(baseOrder, 0.5, "Neutral", "12:00:00 EST", True, 100000)
+        AvailableAlgoParams.FillClosePriceParams(baseOrder, 0.5, "Neutral", "12:00:00 US/Eastern", True)
         client.placeOrder(increment(nextOrderId), ContractSamples.USStockAtSmart(), baseOrder)
         '! [closepx]
 
         '! [pctvol]
-        AvailableAlgoParams.FillPctVolParams(baseOrder, 0.5, "12:00:00 EST", "14:00:00 EST", True, 100000)
+        AvailableAlgoParams.FillPctVolParams(baseOrder, 0.5, "12:00:00 US/Eastern", "14:00:00 US/Eastern", True)
         client.placeOrder(increment(nextOrderId), ContractSamples.USStockAtSmart(), baseOrder)
         '! [pctvol]               
 
         '! [pctvolpx]
-        AvailableAlgoParams.FillPriceVariantPctVolParams(baseOrder, 0.10000000000000001, 0.050000000000000003, 0.01, 0.20000000000000001, "12:00:00 EST", "14:00:00 EST", True, 100000)
+        AvailableAlgoParams.FillPriceVariantPctVolParams(baseOrder, 0.1, 0.05, 0.01, 0.2, "12:00:00 US/Eastern", "14:00:00 US/Eastern", True)
         client.placeOrder(increment(nextOrderId), ContractSamples.USStockAtSmart(), baseOrder)
         '! [pctvolpx]
 
         '! [pctvolsz]
-        AvailableAlgoParams.FillSizeVariantPctVolParams(baseOrder, 0.20000000000000001, 0.40000000000000002, "12:00:00 EST", "14:00:00 EST", True, 100000)
+        AvailableAlgoParams.FillSizeVariantPctVolParams(baseOrder, 0.2, 0.4, "12:00:00 US/Eastern", "14:00:00 US/Eastern", True)
         client.placeOrder(increment(nextOrderId), ContractSamples.USStockAtSmart(), baseOrder)
         '! [pctvolsz]
 
         '! [pctvoltm]
-        AvailableAlgoParams.FillTimeVariantPctVolParams(baseOrder, 0.20000000000000001, 0.40000000000000002, "12:00:00 EST", "14:00:00 EST", True, 100000)
+        AvailableAlgoParams.FillTimeVariantPctVolParams(baseOrder, 0.2, 0.4, "12:00:00 US/Eastern", "14:00:00 US/Eastern", True)
         client.placeOrder(increment(nextOrderId), ContractSamples.USStockAtSmart(), baseOrder)
         '! [pctvoltm]
 
         '! [jeff_vwap_algo]
-        AvailableAlgoParams.FillJefferiesVWAPParams(baseOrder, "10:00:00 EST", "16:00:00 EST", 10, 10, "Exclude_Both", 130, 135, 1, 10, "Patience", False, "Midpoint")
+        AvailableAlgoParams.FillJefferiesVWAPParams(baseOrder, "10:00:00 US/Eastern", "16:00:00 US/Eastern", 10, 10, "Exclude_Both", 130, 135, 1, 10, "Patience", False, "Midpoint")
         client.placeOrder(increment(nextOrderId), ContractSamples.JefferiesContract(), baseOrder)
         '! [jeff_vwap_algo]
 
         '! [csfb_inline_algo]
-        AvailableAlgoParams.FillCSFBInlineParams(baseOrder, "10:00:00 EST", "16:00:00 EST", "Patient", 10, 20, 100, "Default", False, 40, 100, 100, 35)
+        AvailableAlgoParams.FillCSFBInlineParams(baseOrder, "10:00:00 US/Eastern", "16:00:00 US/Eastern", "Patient", 10, 20, 100, "Default", False, 40, 100, 100, 35)
         client.placeOrder(increment(nextOrderId), ContractSamples.CSFBContract(), baseOrder)
         '! [csfb_inline_algo]
     End Sub
@@ -948,26 +1015,10 @@ Module MainModule
         client.requestFA(Constants.FaGroups)
         ''! [requestfagroups]
 
-        ''! [requestfaprofiles]
-        client.requestFA(Constants.FaProfiles)
-        ''! [requestfaprofiles]
-
         ''*** Replacing FA information - Fill in with the appropriate XML string. ***/
-        ''! [replacefaonegroup]
-        client.replaceFA(1000, Constants.FaGroups, FaAllocationSamples.FaOneGroup)
-        ''! [replacefaonegroup]
-
-        ''! [replacefatwogroups]
-        client.replaceFA(1001, Constants.FaGroups, FaAllocationSamples.FaTwoGroups)
-        ''! [replacefatwogroups]
-
-        ''! [replacefaoneprofile]
-        client.replaceFA(1002, Constants.FaProfiles, FaAllocationSamples.FaOneProfile)
-        ''! [replacefaoneprofile]
-
-        ''! [replacefatwoprofiles]
-        client.replaceFA(1003, Constants.FaProfiles, FaAllocationSamples.FaTwoProfiles)
-        ''! [replacefatwoprofiles]
+        ''! [replacefaupdatedgroup]
+        client.replaceFA(1000, Constants.FaGroups, FaAllocationSamples.FaUpdatedGroup)
+        ''! [replacefaupdatedgroup]
 
         ''! [reqSoftDollarTiers]
         client.reqSoftDollarTiers(4001)
@@ -1071,7 +1122,7 @@ Module MainModule
         client.reqContractDetails(18001, ContractSamples.ContFut())
 
         '! [reqhistoricaldatacontfut]
-        Dim queryTime As String = DateTime.Now.ToString("yyyyMMdd HH:mm:ss")
+        Dim queryTime As String = DateTime.Now.ToUniversalTime.ToString("yyyyMMdd-HH:mm:ss")
         client.reqHistoricalData(18002, ContractSamples.ContFut(), queryTime, "1 Y", "1 month", "TRADES", 0, 1, False, Nothing)
         Thread.Sleep(10000)
         client.cancelHistoricalData(18002)
@@ -1124,6 +1175,14 @@ Module MainModule
         '! [whatiforder]
         client.placeOrder(increment(nextOrderId), ContractSamples.USStockAtSmart(), OrderSamples.WhatIfLimitOrder("BUY", 200, 120))
         '! [whatiforder]
+    End Sub
+	
+	Private Sub ibkratsSample(client As EClientSocket, nextOrderId As Integer)
+
+        '! [ibkratssubmit]
+        Dim ibkratsOrder As Order = OrderSamples.LimitIBKRATS("BUY", 100, 330)
+        client.placeOrder(increment(nextOrderId), ContractSamples.IBKRATSContract(), ibkratsOrder)
+        '! [ibkratssubmit]
     End Sub
 
 End Module

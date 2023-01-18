@@ -20,9 +20,11 @@ import java.util.Set;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.table.AbstractTableModel;
@@ -40,11 +42,14 @@ import com.ib.controller.ApiController.IDeepMktDataHandler;
 import com.ib.controller.ApiController.IHeadTimestampHandler;
 import com.ib.controller.ApiController.IHistogramDataHandler;
 import com.ib.controller.ApiController.IHistoricalDataHandler;
+import com.ib.controller.ApiController.IHistoricalScheduleHandler;
 import com.ib.controller.ApiController.IRealTimeBarHandler;
 import com.ib.controller.ApiController.IScannerHandler;
 import com.ib.controller.ApiController.ISecDefOptParamsReqHandler;
 import com.ib.controller.ApiController.ISmartComponentsHandler;
 import com.ib.controller.ApiController.ISymbolSamplesHandler;
+import com.ib.controller.ApiController.IWshEventDataHandler;
+import com.ib.controller.ApiController.IWshMetaDataHandler;
 
 import TestJavaClient.SmartComboRoutingParamsDlg;
 
@@ -83,6 +88,7 @@ class MarketDataPanel extends JPanel {
 		requestPanel.addTab("Smart Components", m_smartComponentsPanel);
 		requestPanel.addTab("PnL", new PnLPanel());
 		requestPanel.addTab("Tick-By-Tick", new TickByTickRequestPanel());
+		requestPanel.addTab("WSHE Calendar", new WSHCalendarRequestPanel());
 		
 		setLayout( new BorderLayout() );
 		add( requestPanel, BorderLayout.NORTH);
@@ -93,6 +99,116 @@ class MarketDataPanel extends JPanel {
 		m_bboExchanges.add(exch);
 		m_smartComponentsPanel.updateBboExchSet(m_bboExchanges);
 	}
+	
+	private class WSHCalendarRequestPanel extends JPanel {
+	    
+        final UpperField m_conId = new UpperField();
+        final JTextField m_filter = new JTextField();
+        private JCheckBox m_fillWatchlistCheckbox = new JCheckBox();
+        private JCheckBox m_fillPortfolioCheckbox = new JCheckBox();
+        private JCheckBox m_fillCompetitorsCheckbox = new JCheckBox();
+        final UpperField m_startDate = new UpperField();
+        final UpperField m_endDate = new UpperField();
+        final UpperField m_totalLimit = new UpperField();
+
+        WSHCalendarRequestPanel() {
+            VerticalPanel paramsPanel = new VerticalPanel();
+            HtmlButton reqWSHMetaData = 
+                    new HtmlButton("Request WSH Meta Data") { @Override protected void actionPerformed() { onReqMeta(); } };
+            HtmlButton reqWSHEventData = 
+                    new HtmlButton("Request WSH Event Data") { @Override protected void actionPerformed() { onReqEvent(); } };
+                     
+            paramsPanel.add("Con Id", m_conId);
+            paramsPanel.add("Filter", m_filter);
+            paramsPanel.add("Fill Watchlist", m_fillWatchlistCheckbox);
+            paramsPanel.add("Fill Portfolio", m_fillPortfolioCheckbox);
+            paramsPanel.add("Fill Competitors", m_fillCompetitorsCheckbox);
+            paramsPanel.add("Start Date", m_startDate);
+            paramsPanel.add("End Date", m_endDate);
+            paramsPanel.add("Total Limit", m_totalLimit);
+            paramsPanel.add(reqWSHMetaData);
+            paramsPanel.add(reqWSHEventData);
+            setLayout(new BorderLayout());
+            add(paramsPanel, BorderLayout.NORTH);
+        }
+
+        protected void onReqMeta() {
+            final WSHMetaDataModel wshMetaDataModel = new WSHMetaDataModel();
+            WSHResultsPanel resultsPanel = new WSHResultsPanel(wshMetaDataModel);
+            
+            m_resultsPanel.addTab("WSH Meta Data", resultsPanel, true, true);
+            
+            IWshMetaDataHandler handler = (reqId, dataJson) -> 
+                SwingUtilities.invokeLater(() -> wshMetaDataModel.addRow(dataJson));
+            
+            resultsPanel.handler(handler);
+            ApiDemo.INSTANCE.controller().reqWshMetaData(handler);
+            
+        }
+
+        protected void onReqEvent() { 
+            final WSHEventDataModel wshEventDataModel = new WSHEventDataModel();
+            WSHResultsPanel resultsPanel = new WSHResultsPanel(wshEventDataModel);
+            int conId = m_conId.getInt();
+            int totalLimit = m_totalLimit.getInt();
+            WshEventData wshEventData = conId > 0 ? 
+                   new WshEventData(conId, 
+                       m_fillWatchlistCheckbox.isSelected(), m_fillPortfolioCheckbox.isSelected(), 
+                       m_fillCompetitorsCheckbox.isSelected(), m_startDate.getText(), m_endDate.getText(),
+                       totalLimit > 0 ? totalLimit : Integer.MAX_VALUE) : 
+                   new WshEventData(m_filter.getText(), 
+                       m_fillWatchlistCheckbox.isSelected(), m_fillPortfolioCheckbox.isSelected(), 
+                       m_fillCompetitorsCheckbox.isSelected(), m_startDate.getText(), m_endDate.getText(),
+                       totalLimit > 0 ? totalLimit : Integer.MAX_VALUE);
+
+            m_resultsPanel.addTab("WSH Event Data", resultsPanel, true, true);
+            
+            IWshEventDataHandler handler = (reqId, jsonData) -> 
+                SwingUtilities.invokeLater(() -> wshEventDataModel.addRow(jsonData));
+            
+            resultsPanel.handler(handler);
+            ApiDemo.INSTANCE.controller().reqWshEventData(wshEventData, handler);
+        }
+        
+	}
+	
+    static class WSHResultsPanel extends NewTabPanel {
+
+        public WSHResultsPanel(AbstractTableModel wshDataModel) {
+            JTable table = new JTable(wshDataModel);
+            JScrollPane scroll = new JScrollPane(table);
+
+            setLayout(new BorderLayout());
+            add(scroll);
+        }
+
+        private IWshMetaDataHandler m_metaDataHandler;
+        private IWshEventDataHandler m_eventDataHandler;
+
+        public void handler(IWshMetaDataHandler v) {
+            m_metaDataHandler = v;
+        }
+
+        public void handler(IWshEventDataHandler v) {
+            m_eventDataHandler = v;
+        }
+
+        @Override
+        public void activated() {
+            // TODO Auto-generated method stub
+
+        }
+
+        @Override
+        public void closed() {
+            if (m_metaDataHandler != null) {
+                ApiDemo.INSTANCE.controller().cancelWshMetaData(m_metaDataHandler);
+            } else if (m_eventDataHandler != null) {
+                ApiDemo.INSTANCE.controller().cancelWshEventData(m_eventDataHandler);
+            }
+        }
+
+    }
 	
 	private class RequestSmartComponentsPanel extends JPanel {
 		final TCombo<String> m_BBOExchList = new TCombo<>(m_bboExchanges.toArray(new String[0]));
@@ -271,7 +387,9 @@ class MarketDataPanel extends JPanel {
 						contract.secType().getApiString(),
 						contract.primaryExch(),
 						contract.currency(),
-						sb.toString()
+						sb.toString(),
+						contract.description(),
+						contract.issuerId()
 				);
 				m_rows.add(symbolSamplesRow);
 			}
@@ -292,7 +410,7 @@ class MarketDataPanel extends JPanel {
             }
 
             @Override public int getColumnCount() {
-                return 6;
+                return 8;
             }
 
             @Override public String getColumnName(int col) {
@@ -303,6 +421,8 @@ class MarketDataPanel extends JPanel {
                     case 3: return "PrimaryExch";
                     case 4: return "Currency";
                     case 5: return "Derivative SecTypes";
+                    case 6: return "Description";
+                    case 7: return "IssuerId";
                     default: return null;
                 }
             }
@@ -316,6 +436,8 @@ class MarketDataPanel extends JPanel {
                     case 3: return symbolSamplesRow.m_primaryExch;
                     case 4: return symbolSamplesRow.m_currency;
                     case 5: return symbolSamplesRow.m_derivativeSecTypes;
+                    case 6: return symbolSamplesRow.m_description;
+                    case 7: return symbolSamplesRow.m_issuerId;
                     default: return null;
                 }
             }
@@ -327,19 +449,23 @@ class MarketDataPanel extends JPanel {
             String m_secType;
             String m_primaryExch;
             String m_currency;
+            String m_description;
+            String m_issuerId;
             String m_derivativeSecTypes;
 
-            SymbolSamplesRow(int conId, String symbol, String secType, String primaryExch, String currency, String derivativeSecTypes) {
-                update( conId, symbol, secType, primaryExch, currency, derivativeSecTypes);
+            SymbolSamplesRow(int conId, String symbol, String secType, String primaryExch, String currency, String derivativeSecTypes, String description, String issuerId) {
+                update( conId, symbol, secType, primaryExch, currency, derivativeSecTypes, description, issuerId);
             }
 
-            void update( int conId, String symbol, String secType, String primaryExch, String currency, String derivativeSecTypes) {
+            void update( int conId, String symbol, String secType, String primaryExch, String currency, String derivativeSecTypes, String description, String issuerId) {
                 m_conId = conId;
                 m_symbol = symbol;
                 m_secType = secType;
                 m_primaryExch = primaryExch;
                 m_currency = currency;
                 m_derivativeSecTypes = derivativeSecTypes;
+                m_description = description;
+                m_issuerId = issuerId; 
             }
         }
     }
@@ -514,7 +640,7 @@ class MarketDataPanel extends JPanel {
 			ApiDemo.INSTANCE.controller().cancelDeepMktData( m_isSmartDepth, this);
 		}
 		
-		@Override public void updateMktDepth(int pos, String mm, DeepType operation, DeepSide side, double price, int size) {
+		@Override public void updateMktDepth(int pos, String mm, DeepType operation, DeepSide side, double price, Decimal size) {
 			if (side == DeepSide.BUY) {
 				m_buy.updateMktDepth(pos, mm, operation, price, size);
 			}
@@ -530,7 +656,7 @@ class MarketDataPanel extends JPanel {
 				return m_rows.size();
 			}
 
-			public void updateMktDepth(int pos, String mm, DeepType operation, double price, int size) {
+			public void updateMktDepth(int pos, String mm, DeepType operation, double price, Decimal size) {
 				switch( operation) {
 					case INSERT:
 						m_rows.add( pos, new DeepRow( mm, price, size) );
@@ -571,7 +697,7 @@ class MarketDataPanel extends JPanel {
 				
 				switch( col) {
 					case 0: return row.m_mm;
-					case 1: return row.m_price;
+					case 1: return Util.DoubleMaxString(row.m_price);
 					case 2: return row.m_size;
 					default: return null;
 				}
@@ -581,13 +707,13 @@ class MarketDataPanel extends JPanel {
 		static class DeepRow {
 			String m_mm;
 			double m_price;
-			int m_size;
+			Decimal m_size;
 
-			DeepRow(String mm, double price, int size) {
+			DeepRow(String mm, double price, Decimal size) {
 				update( mm, price, size);
 			}
 			
-			void update( String mm, double price, int size) {
+			void update( String mm, double price, Decimal size) {
 				m_mm = mm;
 				m_price = price;
 				m_size = size;
@@ -597,8 +723,8 @@ class MarketDataPanel extends JPanel {
 
 	private class HistRequestPanel extends JPanel {
 		final ContractPanel m_contractPanel = new ContractPanel(m_contract);
-        final UpperField m_begin = new UpperField();
-        final UpperField m_end = new UpperField();
+        final UpperField m_begin = new UpperField(true);
+        final UpperField m_end = new UpperField(true);
         final UpperField m_nTicks = new UpperField();
 		final UpperField m_duration = new UpperField();
 		final TCombo<DurationUnit> m_durationUnit = new TCombo<>( DurationUnit.values() );
@@ -609,7 +735,7 @@ class MarketDataPanel extends JPanel {
 		final JCheckBox m_ignoreSize = new JCheckBox();
 		
 		HistRequestPanel() { 		
-			m_end.setText("20120101 12:00:00");
+			m_end.setText("20200101 12:00:00 US/Eastern");
 			m_duration.setText("1");
 			m_durationUnit.setSelectedItem(DurationUnit.WEEK);
 			m_barSize.setSelectedItem(BarSize._1_hour);
@@ -631,7 +757,13 @@ class MarketDataPanel extends JPanel {
                     onHistoricalTick();
                 }
 			};
-			
+
+            HtmlButton bReqHistoricalSchedule = new HtmlButton("Request historical schedule") {
+                @Override protected void actionPerformed() {
+                    onHistoricalSchedule();
+                }
+            };
+
 	    	VerticalPanel paramPanel = new VerticalPanel();
 	    	paramPanel.add("Begin", m_begin);
 			paramPanel.add("End", m_end);
@@ -648,6 +780,7 @@ class MarketDataPanel extends JPanel {
 			butPanel.add(bReqHistoricalData);
 			butPanel.add(bReqHistogramData);
 			butPanel.add(bReqHistoricalTick);
+			butPanel.add(bReqHistoricalSchedule);
 			
 			JPanel rightPanel = new StackPanel();
 			rightPanel.add(paramPanel);
@@ -659,7 +792,15 @@ class MarketDataPanel extends JPanel {
 			add(Box.createHorizontalStrut(20) );
 			add(rightPanel);
 		}
-	
+
+        protected void onHistoricalSchedule() {
+            m_contractPanel.onOK();
+            HistoricalScheduleResultsPanel panel = new HistoricalScheduleResultsPanel();
+            ApiDemo.INSTANCE.controller().reqHistoricalSchedule(m_contract, m_end.getText(), m_duration.getInt(), 
+                    m_durationUnit.getSelectedItem(), m_rthOnly.isSelected(), panel);
+            m_resultsPanel.addTab("Historical schedule " + m_contract.symbol(), panel, true, true);
+        }
+		
 		protected void onHistoricalTick() {
 		    m_contractPanel.onOK();
 		    
@@ -819,6 +960,80 @@ class MarketDataPanel extends JPanel {
 
 	}
 
+    class HistoricalScheduleResultsPanel extends NewTabPanel implements IHistoricalScheduleHandler {
+        final HistoricalSessionModel m_model = new HistoricalSessionModel();
+        final List<HistoricalSession> m_rows = new ArrayList<>();
+        JLabel m_label = new JLabel();
+        JTextArea m_text = new JTextArea();
+
+        HistoricalScheduleResultsPanel() {
+            JTable m_tab = new JTable( m_model);
+            JScrollPane m_scroll = new JScrollPane( m_tab) {
+                public Dimension getPreferredSize() {
+                    Dimension d = super.getPreferredSize();
+                    d.width = 200;
+                    return d;
+                }
+            };
+            setLayout( new BorderLayout() );
+            add( m_text, BorderLayout.NORTH);
+            add( m_scroll, BorderLayout.CENTER);
+        }
+
+        @Override public void historicalSchedule(int reqId, String startDateTime, String endDateTime, String timeZone, List<HistoricalSession> sessions) {
+            // set label
+            m_label.setText("Historical schedule");
+
+            // set text
+            m_text.setText("Start: " + startDateTime + " End: " + endDateTime + " TimeZone: " + timeZone);
+
+            for (HistoricalSession session: sessions) {
+                m_rows.add(session);		
+                SwingUtilities.invokeLater(() -> {
+                    m_model.fireTableRowsInserted(0, m_rows.size() - 1);
+                });
+            }
+        }
+
+        /** Called when the tab is first visited. */
+        @Override public void activated() { /* not supported */ }
+
+        /** Called when the tab is closed by clicking the X. */
+        @Override public void closed() {
+             ApiDemo.INSTANCE.controller().cancelHistoricalSchedule(this);
+        }
+
+        class HistoricalSessionModel extends AbstractTableModel {
+            @Override public int getRowCount() {
+                return m_rows.size();
+            }
+
+            @Override public int getColumnCount() {
+                return 3;
+            }
+
+            @Override public String getColumnName(int col) {
+                switch( col) {
+                    case 0: return "Start";
+                    case 1: return "End";
+                    case 2: return "Ref Date";
+                    default: return null;
+                }
+            }
+
+            @Override public Object getValueAt(int rowIn, int col) {
+                HistoricalSession row = m_rows.get( rowIn);
+
+                switch( col) {
+                    case 0: return row.startDateTime();
+                    case 1: return row.endDateTime();
+                    case 2: return row.refDate();
+                    default: return null;
+                }
+            }
+        }
+    }
+
 	static class HistogramResultsPanel extends NewTabPanel implements IHistogramDataHandler {
 		final HistogramModel m_model = new HistogramModel();
 		final List<HistogramEntry> m_rows = new ArrayList<>();
@@ -878,7 +1093,7 @@ class MarketDataPanel extends JPanel {
 				HistogramEntry row = m_rows.get(rowIn);
 				
 				switch(col) {
-					case 0: return row.price();
+					case 0: return Util.DoubleMaxString(row.price());
 					case 1: return row.size();
 					default: return null;
 				}
@@ -976,11 +1191,11 @@ class MarketDataPanel extends JPanel {
 			@Override public Object getValueAt(int rowIn, int col) {
 				Bar row = m_rows.get( rowIn);
 				switch( col) {
-					case 0: return row.formattedTime();
-					case 1: return row.open();
-					case 2: return row.high();
-					case 3: return row.low();
-					case 4: return row.close();
+					case 0: return row.timeStr() != null ? row.timeStr() : row.formattedTime();
+					case 1: return Util.DoubleMaxString(row.open());
+					case 2: return Util.DoubleMaxString(row.high());
+					case 3: return Util.DoubleMaxString(row.low());
+					case 4: return Util.DoubleMaxString(row.close());
 					case 5: return row.volume();
 					case 6: return row.wap();
 					default: return null;

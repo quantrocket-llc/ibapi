@@ -59,7 +59,7 @@ public abstract class PositionUpdatesHandler extends BaseHandler {
                 default:
                     break;
             }
-            positionDataMap.ddeRequestStatus(positionDataMap.error() == null ? DdeRequestStatus.REQUESTED : DdeRequestStatus.ERROR);
+            positionDataMap.ddeRequestStatus(Utils.isNull(positionDataMap.error()) ? DdeRequestStatus.REQUESTED : DdeRequestStatus.ERROR);
         }
 
         ret = positionDataMap.ddeRequestStatus().toString();

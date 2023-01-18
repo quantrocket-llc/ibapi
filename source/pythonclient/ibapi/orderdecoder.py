@@ -1,5 +1,5 @@
 """
-Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+Copyright (C) 2023 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable.
 """
 
@@ -46,10 +46,7 @@ class OrderDecoder(Object):
         self.order.action = decode(str, fields)
 
     def decodeTotalQuantity(self, fields):
-        if self.serverVersion >= MIN_SERVER_VER_FRACTIONAL_POSITIONS:
-            self.order.totalQuantity = decode(float, fields)
-        else:
-            self.order.totalQuantity = decode(int, fields)
+        self.order.totalQuantity = decode(Decimal, fields)
 
     def decodeOrderType(self, fields):
         self.order.orderType = decode(str, fields)
@@ -109,7 +106,8 @@ class OrderDecoder(Object):
         self.order.faGroup = decode(str, fields)
         self.order.faMethod = decode(str, fields)
         self.order.faPercentage = decode(str, fields)
-        self.order.faProfile = decode(str, fields)
+        if self.serverVersion < MIN_SERVER_VER_FA_PROFILE_DESUPPORT:
+            _faProfile = decode(str, fields) # skip deprecated faProfile field
 
     def decodeModelCode(self, fields):
         if self.serverVersion >= MIN_SERVER_VER_MODELS_SUPPORT:
@@ -148,7 +146,7 @@ class OrderDecoder(Object):
         self.order.stockRangeUpper = decode(float, fields, SHOW_UNSET)
 
     def decodeDisplaySize(self, fields):
-        self.order.displaySize = decode(int, fields)
+        self.order.displaySize = decode(int, fields, SHOW_UNSET)
 
     def decodeBlockOrder(self, fields):
         self.order.blockOrder = decode(bool, fields)
@@ -165,14 +163,14 @@ class OrderDecoder(Object):
     def decodeOcaType(self, fields):
         self.order.ocaType = decode(int, fields)
 
-    def decodeETradeOnly(self, fields):
-        self.order.eTradeOnly = decode(bool, fields)
+    def skipETradeOnly(self, fields):
+        _eTradeOnly = decode(bool, fields) # deprecated
 
-    def decodeFirmQuoteOnly(self, fields):
-        self.order.firmQuoteOnly = decode(bool, fields)
+    def skipFirmQuoteOnly(self, fields):
+        _firmQuoteOnly = decode(bool, fields) #` deprecated
 
-    def decodeNbboPriceCap(self, fields):
-        self.order.nbboPriceCap = decode(float, fields, SHOW_UNSET)
+    def skipNbboPriceCap(self, fields):
+        _nbboPriceCap = decode(float, fields, SHOW_UNSET) # deprecated
         
     def decodeParentId(self, fields):
         self.order.parentId = decode(int, fields)
@@ -412,13 +410,14 @@ class OrderDecoder(Object):
         self.order.autoCancelDate = decode(str, fields)
 
     def decodeFilledQuantity(self, fields):
-        self.order.filledQuantity = decode(float, fields)
+        self.order.filledQuantity = decode(Decimal, fields)
 
     def decodeRefFuturesConId(self, fields):
         self.order.refFuturesConId = decode(int, fields)
 
-    def decodeAutoCancelParent(self, fields):
-        self.order.autoCancelParent = decode(bool, fields)
+    def decodeAutoCancelParent(self, fields, minVersionAutoCancelParent = MIN_CLIENT_VER):
+        if self.serverVersion >= minVersionAutoCancelParent:
+            self.order.autoCancelParent = decode(bool, fields)
 
     def decodeShareholder(self, fields):
         self.order.shareholder = decode(str, fields)
@@ -441,3 +440,19 @@ class OrderDecoder(Object):
     def decodeUsePriceMgmtAlgo(self, fields):
         if self.serverVersion >= MIN_SERVER_VER_PRICE_MGMT_ALGO:
             self.order.usePriceMgmtAlgo = decode(bool, fields)
+            
+    def decodeDuration(self, fields):
+        if self.serverVersion >= MIN_SERVER_VER_DURATION:
+            self.order.duration = decode(int, fields, SHOW_UNSET)
+            
+    def decodePostToAts(self, fields):
+        if self.serverVersion >= MIN_SERVER_VER_POST_TO_ATS:
+            self.order.postToAts = decode(int, fields, SHOW_UNSET)
+
+    def decodePegBestPegMidOrderAttributes(self, fields):
+        if self.serverVersion >= MIN_SERVER_VER_PEGBEST_PEGMID_OFFSETS:
+            self.order.minTradeQty = decode(int, fields, SHOW_UNSET)
+            self.order.minCompeteSize = decode(int, fields, SHOW_UNSET)
+            self.order.competeAgainstBestOffset = decode(float, fields, SHOW_UNSET)
+            self.order.midOffsetAtWhole = decode(float, fields, SHOW_UNSET)
+            self.order.midOffsetAtHalf = decode(float, fields, SHOW_UNSET)

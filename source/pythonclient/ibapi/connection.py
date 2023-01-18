@@ -14,6 +14,9 @@ import socket
 import threading
 import logging
 import sys
+from ibapi.errors import FAIL_CREATE_SOCK
+from ibapi.errors import CONNECT_FAIL
+from ibapi.common import NO_VALID_ID
 
 
 #TODO: support SSL !!

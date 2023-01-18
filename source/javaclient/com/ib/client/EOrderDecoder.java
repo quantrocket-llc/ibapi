@@ -1,4 +1,4 @@
-/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2023 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 package com.ib.client;
@@ -56,11 +56,7 @@ public class EOrderDecoder {
     }
 
     public void readTotalQuantity() throws IOException {
-        if (m_serverVersion >= EClient.MIN_SERVER_VER_FRACTIONAL_POSITIONS) {     
-            m_order.totalQuantity(m_eDecoder.readDouble());
-        } else {
-            m_order.totalQuantity(m_eDecoder.readInt());
-        }
+        m_order.totalQuantity(m_eDecoder.readDecimal());
     }
 
     public void readOrderType() throws IOException {
@@ -163,7 +159,9 @@ public class EOrderDecoder {
             m_order.faGroup(m_eDecoder.readStr());
             m_order.faMethod(m_eDecoder.readStr());
             m_order.faPercentage(m_eDecoder.readStr());
-            m_order.faProfile(m_eDecoder.readStr());
+            if ( m_serverVersion < EClient.MIN_SERVER_VER_FA_PROFILE_DESUPPORT ) {
+                m_eDecoder.readStr(); // skip deprecated faProfile field
+            }
         }
     }
 
@@ -233,7 +231,7 @@ public class EOrderDecoder {
 
     public void readDisplaySize() throws IOException {
         if ( m_version >= 9) {
-            m_order.displaySize(m_eDecoder.readInt());
+            m_order.displaySize(m_eDecoder.readIntMax());
         }
     }
 
@@ -278,19 +276,22 @@ public class EOrderDecoder {
 
     public void readETradeOnly() throws IOException {
         if ( m_version >= 9) {
-            m_order.eTradeOnly(m_eDecoder.readBoolFromInt());
+            // skip deprecated field
+            m_eDecoder.readBoolFromInt();
         }
     }
 
     public void readFirmQuoteOnly() throws IOException {
         if ( m_version >= 9) {
-            m_order.firmQuoteOnly(m_eDecoder.readBoolFromInt());
+            // skip deprecated field
+            m_eDecoder.readBoolFromInt();
         }
     }
 
     public void readNbboPriceCap() throws IOException {
         if ( m_version >= 9) {
-            m_order.nbboPriceCap(m_eDecoder.readDoubleMax());
+            // skip deprecated field
+            m_eDecoder.readDoubleMax();
         }
     }
 
@@ -623,7 +624,7 @@ public class EOrderDecoder {
     }
 
     public void readFilledQuantity() throws IOException {
-        m_order.filledQuantity(m_eDecoder.readDoubleMax());
+        m_order.filledQuantity(m_eDecoder.readDecimal());
     }
 
     public void readRefFuturesConId() throws IOException {
@@ -631,7 +632,13 @@ public class EOrderDecoder {
     }
 
     public void readAutoCancelParent() throws IOException {
-        m_order.autoCancelParent(m_eDecoder.readBoolFromInt());
+        readAutoCancelParent(EClient.MIN_VERSION);
+    }
+
+    public void readAutoCancelParent(int minVersionAutoCancelParent) throws IOException {
+        if (m_serverVersion >= minVersionAutoCancelParent) {
+            m_order.autoCancelParent(m_eDecoder.readBoolFromInt());
+        }
     }
 
     public void readShareholder() throws IOException {
@@ -661,6 +668,28 @@ public class EOrderDecoder {
     public void readUsePriceMgmtAlgo() throws IOException {
         if (m_serverVersion >= EClient.MIN_SERVER_VER_PRICE_MGMT_ALGO) {
             m_order.usePriceMgmtAlgo(m_eDecoder.readBoolFromInt());
+        }
+    }
+    
+    public void readDuration() throws IOException {
+        if (m_serverVersion >= EClient.MIN_SERVER_VER_DURATION) {
+            m_order.duration(m_eDecoder.readInt());
+        }
+    }
+
+    public void readPostToAts() throws IOException {
+        if (m_serverVersion >= EClient.MIN_SERVER_VER_POST_TO_ATS) {
+            m_order.postToAts(m_eDecoder.readIntMax());
+        }
+    }
+
+    public void readPegBestPegMidOrderAttributes() throws IOException {
+        if (m_serverVersion >= EClient.MIN_SERVER_VER_PEGBEST_PEGMID_OFFSETS) {
+            m_order.minTradeQty(m_eDecoder.readIntMax());
+            m_order.minCompeteSize(m_eDecoder.readIntMax());
+            m_order.competeAgainstBestOffset(m_eDecoder.readDoubleMax());
+            m_order.midOffsetAtWhole(m_eDecoder.readDoubleMax());
+            m_order.midOffsetAtHalf(m_eDecoder.readDoubleMax());
         }
     }
 }

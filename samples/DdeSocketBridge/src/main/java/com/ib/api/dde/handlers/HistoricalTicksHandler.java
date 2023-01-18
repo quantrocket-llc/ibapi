@@ -88,7 +88,7 @@ public class HistoricalTicksHandler extends BaseListDataHandler<TickByTickData> 
                 requestId = parseRequestId(messageTokens[0]);
             }
             ArrayList<String> table = Utils.convertArrayToTable(data);
-            Contract contract = parseContract(table, true, false, false, false, true);
+            Contract contract = parseContract(table, true, false, false, false, false, true);
             String startDateTime = "";
             String endDateTime = "";
             int numberOfTicks = 0;

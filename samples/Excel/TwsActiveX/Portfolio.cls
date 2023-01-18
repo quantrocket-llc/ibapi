@@ -58,7 +58,7 @@ Private Sub ExerciseOptions_Click()
             .lastTradeDateOrContractMonth = contractTable(id, Col_LASTTRADEDATE).value
             .Strike = contractTable(id, Col_STRIKE).value
             .Right = UCase(contractTable(id, Col_RIGHT).value)
-            .exchange = UCase(contractTable(id, Col_EXCH).value)
+            .Exchange = UCase(contractTable(id, Col_EXCH).value)
             .primaryExchange = UCase(contractTable(id, Col_PRIMEXCH).value)
             .currency = UCase(contractTable(id, Col_CURRENCY).value)
             .multiplier = contractTable(id, Col_MULTIPLIER).value
@@ -107,7 +107,7 @@ End Function
 '=================
 
 ' update portfolio
-Public Sub UpdatePortfolio(contract As TWSLib.IContract, position As Double, marketPrice As Double, marketValue As Double, averageCost As Double, unrealizedPNL As Double, realizedPNL As Double, accountName As String)
+Public Sub UpdatePortfolio(contract As TWSLib.IContract, position As Variant, marketPrice As Double, marketValue As Double, averageCost As Double, unrealizedPNL As Double, realizedPNL As Double, accountName As String)
     Dim id As Long
     id = FindRowByConId(contract.conId)
     
@@ -124,12 +124,12 @@ Public Sub UpdatePortfolio(contract As TWSLib.IContract, position As Double, mar
         End If
         contractTable(id, Col_CURRENCY).value = .currency
         contractTable(id, Col_LOCALSYMBOL).value = .localSymbol
-        contractTable(id, Col_EXCH).value = .exchange
+        contractTable(id, Col_EXCH).value = .Exchange
         contractTable(id, Col_PRIMEXCH).value = .primaryExchange
         contractTable(id, Col_MULTIPLIER).value = .multiplier
     End With
      
-    portfolioTable(id, Col_PORTF_POS).value = position
+    portfolioTable(id, Col_PORTF_POS).value = Util.DecimalToString(position)
     portfolioTable(id, Col_PORTF_MKTPRICE).value = marketPrice
     portfolioTable(id, Col_PORTF_MKTVAL).value = marketValue
     portfolioTable(id, Col_PORTF_AVGCOST).value = averageCost
@@ -141,7 +141,7 @@ End Sub
 
 Public Sub ProcessError(ByVal id As Long, ByVal errorCode As Long, ByVal errorMsg As String)
     
-    portfolioTable(id - ID_PORTFOLIO, Col_PORTF_STATUS).value = STR_ERROR + STR_COLON + Str(errorCode) + STR_SPACE + errorMsg
+    portfolioTable(id - ID_PORTFOLIO, Col_PORTF_STATUS).value = STR_ERROR + STR_COLON + str(errorCode) + STR_SPACE + errorMsg
         
 End Sub
 

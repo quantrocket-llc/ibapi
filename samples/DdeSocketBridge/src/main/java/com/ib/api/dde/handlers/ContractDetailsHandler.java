@@ -224,7 +224,7 @@ public class ContractDetailsHandler extends BaseHandler {
                 requestId = parseRequestId(messageTokens[0]);
             }
             ArrayList<String> table = Utils.convertArrayToTable(data);
-            Contract contract = parseContract(table, true, false, false, true, true);
+            Contract contract = parseContract(table, true, false, false, true, true, true);
 
             return new ContractDetailsRequest(requestId, contract, requestStr);
         }

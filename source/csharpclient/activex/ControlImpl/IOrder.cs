@@ -1,4 +1,4 @@
-/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2023 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 using System;
@@ -21,7 +21,7 @@ namespace TWSLib
         [DispId(4)]
         string action { get; set; }
         [DispId(5)]
-        double totalQuantity { get; set; }
+        object totalQuantity { get; set; }
         [DispId(6)]
         string orderType { get; set; }
         [DispId(7)]
@@ -84,8 +84,6 @@ namespace TWSLib
         // Financial advisors only
         [DispId(60)]
         string faGroup { get; set; }
-        [DispId(61)]
-        string faProfile { get; set; }
         [DispId(62)]
         string faMethod { get; set; }
         [DispId(63)]
@@ -106,12 +104,6 @@ namespace TWSLib
         // SMART routing only
         [DispId(80)]
         double discretionaryAmt { get; set; }
-        [DispId(81)]
-        bool eTradeOnly { [return: MarshalAs(UnmanagedType.Bool)] get; [param: MarshalAs(UnmanagedType.Bool)] set; }
-        [DispId(82)]
-        bool firmQuoteOnly { [return: MarshalAs(UnmanagedType.Bool)] get; [param: MarshalAs(UnmanagedType.Bool)] set; }
-        [DispId(83)]
-        double nbboPriceCap { get; set; }
         [DispId(84)]
         bool optOutSmartRouting { [return: MarshalAs(UnmanagedType.Bool)] get; [param: MarshalAs(UnmanagedType.Bool)] set; }
 
@@ -320,7 +312,7 @@ namespace TWSLib
         string autoCancelDate { get; set; }
 
         [DispId(177)]
-        double filledQuantity { get; set; }
+        object filledQuantity { get; set; }
 
         [DispId(178)]
         int refFuturesConId { get; set; }
@@ -342,5 +334,32 @@ namespace TWSLib
 
         [DispId(184)]
         bool usePriceMgmtAlgo { get; set; }
+
+        [DispId(185)]
+        int duration { get; set; }
+
+        [DispId(186)]
+        int postToAts { get; set; }
+
+        [DispId(187)]
+        string advancedErrorOverride { get; set; }
+
+        [DispId(188)]
+        string manualOrderTime { get; set; }
+
+        [DispId(189)]
+        int minTradeQty { get; set; }
+
+        [DispId(190)]
+        int minCompeteSize { get; set; }
+
+        [DispId(191)]
+        double competeAgainstBestOffset { get; set; }
+
+        [DispId(192)]
+        double midOffsetAtWhole { get; set; }
+
+        [DispId(193)]
+        double midOffsetAtHalf { get; set; }
     }
 }

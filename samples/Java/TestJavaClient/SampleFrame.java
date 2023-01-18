@@ -1,14 +1,12 @@
-/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2023 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 package TestJavaClient;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -52,6 +50,8 @@ class SampleFrame extends JFrame implements EWrapper {
 	private MarketRuleDlg   m_marketRuleDlg = new MarketRuleDlg(this);
     private PnLDlg     m_pnlDlg = new PnLDlg(this);
     private PnLSingleDlg   m_pnlSingleDlg = new PnLSingleDlg(this);
+    private WSHDlg         m_wshMetaDlg = new WSHDlg(this, false);
+    private WSHDlg         m_wshEventDlg = new WSHDlg(this, true);
 
     private List<TagValue> m_mktDataOptions = new ArrayList<>();
     private List<TagValue> m_chartOptions = new ArrayList<>();
@@ -61,7 +61,6 @@ class SampleFrame extends JFrame implements EWrapper {
     private List<TagValue> m_newsArticleOptions = new ArrayList<>();
     
     private String faGroupXML ;
-    private String faProfilesXML ;
     private String faAliasesXML ;
     String m_FAAcctCodes;
     boolean m_bIsFAAccount = false;
@@ -262,6 +261,16 @@ class SampleFrame extends JFrame implements EWrapper {
         butReqCompletedOrders.addActionListener(e -> onReqCompletedOrders());
         JButton butReqAllCompletedOrders = new JButton("Req All Completed Orders");
         butReqAllCompletedOrders.addActionListener(e -> onReqAllCompletedOrders());
+        JButton butReqWshMetaData = new JButton("Req WSH Meta Data");
+        butReqWshMetaData.addActionListener(e -> onReqWshMetaData());
+        JButton butCancelWshMetaData = new JButton("Cancel WSH Meta Data");
+        butCancelWshMetaData.addActionListener(e -> onCancelWshMetaData());
+        JButton butReqWshEventData = new JButton("Req WSH Event Data");
+        butReqWshEventData.addActionListener(e -> onReqWshEventData());
+        JButton butCancelWshEventData = new JButton("Cancel WSH Event Data");
+        butCancelWshEventData.addActionListener(e -> onCancelWshEventData());
+        JButton butReqUserInfo = new JButton("Req User Info");
+        butReqUserInfo.addActionListener(e -> onReqUserInfo());
 
         JButton butClear = new JButton( "Clear");
         butClear.addActionListener(e -> onClear());
@@ -323,14 +332,48 @@ class SampleFrame extends JFrame implements EWrapper {
         buttonPanel.add(butReqMarketRule);
         pairSlot.add(butReqPnL, butCancelPnL);
         pairSlot.add(butReqPnLSingle, butCancelPnLSingle);
-        buttonPanel.add(butReqHistoricalTicks);
+        pairSlot.add(butReqHistoricalTicks, butReqUserInfo);
         pairSlot.add(butReqTickByTickData, butCancelTickByTickData);
         pairSlot.add(butReqCompletedOrders, butReqAllCompletedOrders);
+        pairSlot.add(butReqWshMetaData, butCancelWshMetaData);
+        pairSlot.add(butReqWshEventData, butCancelWshEventData);
 
         buttonPanel.add( new JPanel() );
         pairSlot.add(butClear, butClose);
 
         return buttonPanel;
+    }
+
+    private void onCancelWshEventData() {
+        m_client.cancelWshMetaData(m_wshEventDlg.m_reqId);
+    }
+
+    private void onReqWshEventData() {
+        m_wshEventDlg.setVisible(true);
+
+        if (!m_wshEventDlg.isOk()) {
+            return;
+        }
+
+        m_client.reqWshEventData(m_wshEventDlg.m_reqId, m_wshEventDlg.m_wshEventData);
+    }
+
+    private void onCancelWshMetaData() {
+        m_client.cancelWshMetaData(m_wshMetaDlg.m_reqId);
+    }
+
+    private void onReqWshMetaData() {
+        m_wshMetaDlg.setVisible(true);
+
+        if (!m_wshMetaDlg.isOk()) {
+            return;
+        }
+
+        m_client.reqWshMetaData(m_wshMetaDlg.m_reqId);
+    }
+
+    private void onReqUserInfo() {
+        m_client.reqUserInfo(0);
     }
 
     class BtnPairSlot {
@@ -797,7 +840,7 @@ class SampleFrame extends JFrame implements EWrapper {
         }
 
         // cancel order
-        m_client.cancelOrder( m_orderDlg.id() );
+        m_client.cancelOrder( m_orderDlg.id(), m_extOrdDlg.manualOrderCancelTime() );
     }
 
     private void onExtendedOrder() {
@@ -829,10 +872,9 @@ class SampleFrame extends JFrame implements EWrapper {
     }
 
     private void onFinancialAdvisor() {
-      faGroupXML = faProfilesXML = faAliasesXML = null ;
+      faGroupXML = faAliasesXML = null ;
       faError = false ;
       m_client.requestFA(EClientSocket.GROUPS) ;
-      m_client.requestFA(EClientSocket.PROFILES) ;
       m_client.requestFA(EClientSocket.ALIASES) ;
     }
 
@@ -1123,7 +1165,7 @@ class SampleFrame extends JFrame implements EWrapper {
         m_tickers.add( msg );
     }
 
-    public void tickSize( int tickerId, int field, int size) {
+    public void tickSize( int tickerId, int field, Decimal size) {
         // received size tick
     	String msg = EWrapperMsgGenerator.tickSize( tickerId, field, size);
         m_tickers.add( msg);
@@ -1155,7 +1197,7 @@ class SampleFrame extends JFrame implements EWrapper {
         m_tickers.add(msg);
     }
 
-    public void orderStatus( int orderId, String status, double filled, double remaining,
+    public void orderStatus( int orderId, String status, Decimal filled, Decimal remaining,
     						 double avgFillPrice, int permId, int parentId,
     						 double lastFillPrice, int clientId, String whyHeld, double mktCapPrice) {
         // received order status
@@ -1236,7 +1278,7 @@ class SampleFrame extends JFrame implements EWrapper {
     }
 
     public void updateMktDepth( int tickerId, int position, int operation,
-                    int side, double price, int size) {
+                    int side, double price, Decimal size) {
 
         MktDepthDlg depthDialog = m_mapRequestToMktDepthDlg.get(tickerId);
         if ( depthDialog != null ) {
@@ -1249,7 +1291,7 @@ class SampleFrame extends JFrame implements EWrapper {
     }
 
     public void updateMktDepthL2( int tickerId, int position, String marketMaker,
-                    int operation, int side, double price, int size, boolean isSmartDepth) {
+                    int operation, int side, double price, Decimal size, boolean isSmartDepth) {
         MktDepthDlg depthDialog = null;
         
         if (isSmartDepth) {
@@ -1284,7 +1326,7 @@ class SampleFrame extends JFrame implements EWrapper {
         m_errors.add( msg);
     }
 
-    public void error( int id, int errorCode, String errorMsg) {
+    public void error( int id, int errorCode, String errorMsg, String advancedOrderRejectJson) {
         // received error
         final ContractDetailsCallback callback;
         synchronized (m_callbackMap) {
@@ -1303,7 +1345,7 @@ class SampleFrame extends JFrame implements EWrapper {
             }
     	}
     	
-    	String msg = EWrapperMsgGenerator.error(id, errorCode, errorMsg);
+    	String msg = EWrapperMsgGenerator.error(id, errorCode, errorMsg, advancedOrderRejectJson);
         m_errors.add( msg);
         for (int faErrorCode : faErrorCodes) {
             faError |= (errorCode == faErrorCode);
@@ -1329,7 +1371,7 @@ class SampleFrame extends JFrame implements EWrapper {
         m_acctDlg.updateAccountValue(key, value, currency, accountName);
     }
 
-    public void updatePortfolio(Contract contract, double position, double marketPrice,
+    public void updatePortfolio(Contract contract, Decimal position, double marketPrice,
         double marketValue, double averageCost, double unrealizedPNL, double realizedPNL,
         String accountName) {
         m_acctDlg.updatePortfolio(contract, position, marketPrice, marketValue,
@@ -1369,7 +1411,7 @@ class SampleFrame extends JFrame implements EWrapper {
     	m_tickers.add( msg );
     }
     
-	public void realtimeBar(int reqId, long time, double open, double high, double low, double close, long volume, double wap, int count) {
+	public void realtimeBar(int reqId, long time, double open, double high, double low, double close, Decimal volume, Decimal wap, int count) {
 		String msg = EWrapperMsgGenerator.realtimeBar(reqId, time, open, high, low, close, volume, wap, count);
         m_tickers.add( msg );
 	}
@@ -1401,9 +1443,6 @@ class SampleFrame extends JFrame implements EWrapper {
             case EClientSocket.GROUPS:
                 faGroupXML = xml;
                 break;
-            case EClientSocket.PROFILES:
-                faProfilesXML = xml;
-                break;
             case EClientSocket.ALIASES:
                 faAliasesXML = xml;
                 break;
@@ -1412,9 +1451,9 @@ class SampleFrame extends JFrame implements EWrapper {
       }
 
       if (!faError &&
-          !(faGroupXML == null || faProfilesXML == null || faAliasesXML == null)) {
+          !(faGroupXML == null || faAliasesXML == null)) {
           FinancialAdvisorDlg dlg = new FinancialAdvisorDlg(this);
-          dlg.receiveInitialXML(faGroupXML, faProfilesXML, faAliasesXML);
+          dlg.receiveInitialXML(faGroupXML, faAliasesXML);
           dlg.setVisible(true);
 
           if (!dlg.m_rc) {
@@ -1422,8 +1461,7 @@ class SampleFrame extends JFrame implements EWrapper {
           }
 
           m_client.replaceFA( 0, EClientSocket.GROUPS, dlg.groupsXML );
-          m_client.replaceFA( 1, EClientSocket.PROFILES, dlg.profilesXML );
-          m_client.replaceFA( 2, EClientSocket.ALIASES, dlg.aliasesXML );
+          m_client.replaceFA( 1, EClientSocket.ALIASES, dlg.aliasesXML );
 
       }
     }
@@ -1440,6 +1478,8 @@ class SampleFrame extends JFrame implements EWrapper {
 
     private static void copyExtendedOrderDetails( Order destOrder, Order srcOrder) {
         destOrder.tif(srcOrder.getTif());
+        destOrder.duration(srcOrder.duration());
+        destOrder.postToAts(srcOrder.postToAts());
         destOrder.activeStartTime(srcOrder.activeStartTime());
         destOrder.activeStopTime(srcOrder.activeStopTime());
         destOrder.ocaGroup(srcOrder.ocaGroup());
@@ -1465,9 +1505,6 @@ class SampleFrame extends JFrame implements EWrapper {
         destOrder.allOrNone(srcOrder.allOrNone());
         destOrder.minQty(srcOrder.minQty());
         destOrder.percentOffset(srcOrder.percentOffset());
-        destOrder.eTradeOnly(srcOrder.eTradeOnly());
-        destOrder.firmQuoteOnly(srcOrder.firmQuoteOnly());
-        destOrder.nbboPriceCap(srcOrder.nbboPriceCap());
         destOrder.optOutSmartRouting(srcOrder.optOutSmartRouting());
         destOrder.auctionStrategy(srcOrder.auctionStrategy());
         destOrder.startingPrice(srcOrder.startingPrice());
@@ -1520,9 +1557,18 @@ class SampleFrame extends JFrame implements EWrapper {
         destOrder.dontUseAutoPriceForHedge(srcOrder.dontUseAutoPriceForHedge());
         destOrder.isOmsContainer(srcOrder.isOmsContainer());
         destOrder.discretionaryUpToLimitPrice(srcOrder.discretionaryUpToLimitPrice());
+        destOrder.notHeld(srcOrder.notHeld());
+        destOrder.autoCancelParent(srcOrder.autoCancelParent());
+        destOrder.advancedErrorOverride(srcOrder.advancedErrorOverride());
+        destOrder.manualOrderTime(srcOrder.manualOrderTime());
+        destOrder.minTradeQty(srcOrder.minTradeQty());
+        destOrder.minCompeteSize(srcOrder.minCompeteSize());
+        destOrder.competeAgainstBestOffset(srcOrder.competeAgainstBestOffset());
+        destOrder.midOffsetAtWhole(srcOrder.midOffsetAtWhole());
+        destOrder.midOffsetAtHalf(srcOrder.midOffsetAtHalf());
     }
 
-    public void position(String account, Contract contract, double pos, double avgCost) {
+    public void position(String account, Contract contract, Decimal pos, double avgCost) {
         String msg = EWrapperMsgGenerator.position(account, contract, pos, avgCost);
         m_TWS.add(msg);
     }
@@ -1542,7 +1588,7 @@ class SampleFrame extends JFrame implements EWrapper {
         m_TWS.add(msg);
     }
 
-    public void positionMulti( int reqId, String account, String modelCode, Contract contract, double pos, double avgCost) {
+    public void positionMulti( int reqId, String account, String modelCode, Contract contract, Decimal pos, double avgCost) {
         String msg = EWrapperMsgGenerator.positionMulti(reqId, account, modelCode, contract, pos, avgCost);
         m_TWS.add(msg);
     }
@@ -1720,7 +1766,7 @@ class SampleFrame extends JFrame implements EWrapper {
     }
 
     @Override
-    public void pnlSingle(int reqId, int pos, double dailyPnL, double unrealizedPnL, double realizedPnL, double value) {
+    public void pnlSingle(int reqId, Decimal pos, double dailyPnL, double unrealizedPnL, double realizedPnL, double value) {
         String msg = EWrapperMsgGenerator.pnlSingle(reqId, pos, dailyPnL, unrealizedPnL, realizedPnL, value);
         
         m_TWS.add(msg);
@@ -1766,7 +1812,7 @@ class SampleFrame extends JFrame implements EWrapper {
     }
 
     @Override
-    public void tickByTickAllLast(int reqId, int tickType, long time, double price, int size, TickAttribLast tickAttribLast,
+    public void tickByTickAllLast(int reqId, int tickType, long time, double price, Decimal size, TickAttribLast tickAttribLast,
             String exchange, String specialConditions) {
         String msg = EWrapperMsgGenerator.tickByTickAllLast(reqId, tickType, time, price, size, tickAttribLast, exchange, specialConditions);
 
@@ -1774,7 +1820,7 @@ class SampleFrame extends JFrame implements EWrapper {
     }
 
     @Override
-    public void tickByTickBidAsk(int reqId, long time, double bidPrice, double askPrice, int bidSize, int askSize,
+    public void tickByTickBidAsk(int reqId, long time, double bidPrice, double askPrice, Decimal bidSize, Decimal askSize,
             TickAttribBidAsk tickAttribBidAsk) {
         String msg = EWrapperMsgGenerator.tickByTickBidAsk(reqId, time, bidPrice, askPrice, bidSize, askSize, tickAttribBidAsk);
 
@@ -1810,6 +1856,30 @@ class SampleFrame extends JFrame implements EWrapper {
     @Override
     public void replaceFAEnd(int reqId, String text) {
         String msg = EWrapperMsgGenerator.replaceFAEnd(reqId, text);
+        m_TWS.add(msg);
+    }
+
+	@Override
+	public void wshMetaData(int reqId, String dataJson) {
+		String msg = EWrapperMsgGenerator.wshMetaData(reqId, dataJson);
+        m_TWS.add(msg);
+	}
+
+	@Override
+	public void wshEventData(int reqId, String dataJson) {
+		String msg = EWrapperMsgGenerator.wshEventData(reqId, dataJson);
+        m_TWS.add(msg);
+	}
+
+    @Override
+    public void historicalSchedule(int reqId, String startDateTime, String endDateTime, String timeZone, List<HistoricalSession> sessions) {
+        String msg = EWrapperMsgGenerator.historicalSchedule(reqId, startDateTime, endDateTime, timeZone, sessions);
+        m_TWS.add(msg);
+    }
+    
+    @Override
+    public void userInfo(int reqId, String whiteBrandingId) {
+        String msg = EWrapperMsgGenerator.userInfo(reqId, whiteBrandingId);
         m_TWS.add(msg);
     }
 }

@@ -31,13 +31,13 @@ Const CELL_MARKET_RULE_ERROR = "W9" ' cell with market rule error
 ' columns
 Const startOfContractColumns = 1 ' contract first column index (symbol)
 Const secTypeColumnIndex = 2 ' index of "sec type" column
-Const includeExpiredColumnIndex = 15 ' index of "include expired" column
-Const sheetNameColumnIndex = 16 ' index of "page name" column
-Const activateSheetColumnIndex = 17 ' index of "activate page" column
-Const idColumnIndex = 18 ' index of "id" column
-Const statusColumnIndex = 19 ' index of "status" column
-Const errorColumnIndex = 20 ' index of "error" column
-Const priceIncrementLowEdgeColumnIndex = 22 ' index of "low edge" column of price increments table
+Const includeExpiredColumnIndex = 16 ' index of "include expired" column
+Const sheetNameColumnIndex = 17 ' index of "page name" column
+Const activateSheetColumnIndex = 18 ' index of "activate page" column
+Const idColumnIndex = 19 ' index of "id" column
+Const statusColumnIndex = 20 ' index of "status" column
+Const errorColumnIndex = 21 ' index of "error" column
+Const priceIncrementLowEdgeColumnIndex = 23 ' index of "low edge" column of price increments table
 
 ' rows
 Const dataStartRowIndex = 10 ' starting row of data
@@ -57,7 +57,7 @@ Private Function getContractColumns() As Variant()
     End If
 
     contractColumnsArray = Array("SYMBOL", "SECTYPE", "LASTTRADEDATE", "STRIKE", "RIGHT", "MULTIPLIER", "TRADINGCLASS", "EXCH", "PRIMEXCH", "CURRENCY", "LOCALSYMBOL", "CONID", _
-        "SECIDTYPE", "SECID", "INCLUDEEXPIRED")
+        "SECIDTYPE", "SECID", "ISSUERID", "INCLUDEEXPIRED")
     
 getContractColumnsEnd:
     getContractColumns = contractColumnsArray
@@ -68,16 +68,17 @@ End Function
 ' ========================================================
 Private Function getHeaderColumns() As Variant()
     getHeaderColumns = Array("Symbol", "SecType", "LastTradeDate", "Strike", "Right", "Exchange", "Currency", "LocalSymbol", "MarketName", "TradingClass", "ConId", "MinTick", _
-                            "MdSizeMultiplier", "Multiplier", "OrderTypes", "ValidExchanges", "PriceMagnifier", "UnderConId", "LongName", "PrimExchange", "ContractMonth", _
+                            "Multiplier", "OrderTypes", "ValidExchanges", "PriceMagnifier", "UnderConId", "LongName", "PrimExchange", "ContractMonth", _
                             "Industry", "Category", "Subcategory", "TimeZoneId", "TradingHours", "LiquidHours", "EvRule", "EvMultiplier", "SecIdList", "AggGroup", _
-                            "UnderSymbol", "UnderSecType", "MarketRuleIds", "RealExpirationDate", "StockType")
+                            "UnderSymbol", "UnderSecType", "MarketRuleIds", "RealExpirationDate", "StockType", "MinSize", "SizeIncrement", "SuggestedSizeIncrement")
 End Function
 
 Private Function getHeaderColumnsFixedIncome() As Variant()
     getHeaderColumnsFixedIncome = Array("Symbol", "SecType", "Cusip", "Coupon", "Maturity", "LastTradeTime", "TimeZoneId", "IssueDate", "Ratings", "BondType", "CouponType", "Convertible", _
-                            "Callable", "Putable", "DescAppend", "Exchange", "Currency", "MarketName", "TradingClass", "ConId", "MinTick", "MdSizeMultiplier", "OrderTypes", _
+                            "Callable", "Putable", "DescAppend", "Exchange", "Currency", "MarketName", "TradingClass", "ConId", "MinTick", "OrderTypes", _
                             "ValidExchanges", "NextOptionDate", "NextOptionType", "NextOptionPartial", "Notes", "LongName", "EvRule", "EvMultiplier", "SecIdList", "AggGroup", _
-                            "MarketRuleIds")
+                            "MarketRuleIds", "MinSize", "SizeIncrement", "SuggestedSizeIncrement")
+                            
 End Function
 
 
@@ -163,14 +164,14 @@ Private Sub Worksheet_Calculate()
     With Worksheets(STR_SHEET_NAME)
     
         ' market rule error
-        If CStr(.range(CELL_MARKET_RULE_CONTROL).value) = util.STR_ERROR_UPPER And CStr(.range(CELL_MARKET_RULE_ERROR).value) = util.STR_EMPTY Then
+        If CStr(.Range(CELL_MARKET_RULE_CONTROL).value) = util.STR_ERROR_UPPER And CStr(.Range(CELL_MARKET_RULE_ERROR).value) = util.STR_EMPTY Then
             server = util.getServerVal(STR_SHEET_NAME, CELL_SERVER_NAME)
             If server = util.STR_EMPTY Then Exit Sub
-            .range(CELL_MARKET_RULE_ERROR).Formula = util.composeLink(server, STR_REQ_MARKET_RULE_ERROR, util.IDENTIFIER_ZERO, util.STR_EMPTY)
+            .Range(CELL_MARKET_RULE_ERROR).Formula = util.composeLink(server, STR_REQ_MARKET_RULE_ERROR, util.IDENTIFIER_ZERO, util.STR_EMPTY)
         End If
     
         ' market rule
-        If CStr(.range(CELL_MARKET_RULE_CONTROL).value) = util.STR_RECEIVED Then
+        If CStr(.Range(CELL_MARKET_RULE_CONTROL).value) = util.STR_RECEIVED Then
             Dim priceIncrementArray() As Variant
             server = util.getServerVal(STR_SHEET_NAME, CELL_SERVER_NAME)
             If server = util.STR_EMPTY Then Exit Sub
@@ -244,7 +245,7 @@ End Sub
 ' Requests market rule when button is pressed
 ' ========================================================
 Sub requestMarketRule()
-    If CStr(Worksheets(STR_SHEET_NAME).range(CELL_MARKET_RULE_CONTROL).value) = util.STR_EMPTY Then ' only if not subscribed
+    If CStr(Worksheets(STR_SHEET_NAME).Range(CELL_MARKET_RULE_CONTROL).value) = util.STR_EMPTY Then ' only if not subscribed
         With Worksheets(STR_SHEET_NAME)
             clearMarketRuleTable
     
@@ -252,10 +253,10 @@ Sub requestMarketRule()
             server = util.getServerVal(STR_SHEET_NAME, CELL_SERVER_NAME)
             If server = util.STR_EMPTY Then Exit Sub
             Dim marketRuleId As Integer
-            marketRuleId = .range(CELL_MARKET_RULE_ID).value
+            marketRuleId = .Range(CELL_MARKET_RULE_ID).value
     
-            .range(CELL_MARKET_RULE_CONTROL).Formula = util.composeLink(server, STR_REQ_MARKET_RULE, util.IDENTIFIER_ZERO, marketRuleId) ' subscription control
-            If util.cleanOnError(.range(CELL_MARKET_RULE_CONTROL)) Then
+            .Range(CELL_MARKET_RULE_CONTROL).Formula = util.composeLink(server, STR_REQ_MARKET_RULE, util.IDENTIFIER_ZERO, marketRuleId) ' subscription control
+            If util.cleanOnError(.Range(CELL_MARKET_RULE_CONTROL)) Then
                 Exit Sub
             End If
         End With
@@ -269,9 +270,9 @@ End Sub
 Sub clearMarketRuleTable()
     ' clear market rule table
     With Worksheets(STR_SHEET_NAME)
-        .range(PRICE_INCREMENT_TABLE_RANGE).ClearContents
-        .range(CELL_MARKET_RULE_CONTROL).ClearContents
-        .range(CELL_MARKET_RULE_ERROR).ClearContents
+        .Range(PRICE_INCREMENT_TABLE_RANGE).ClearContents
+        .Range(CELL_MARKET_RULE_CONTROL).ClearContents
+        .Range(CELL_MARKET_RULE_ERROR).ClearContents
     End With
 End Sub
 

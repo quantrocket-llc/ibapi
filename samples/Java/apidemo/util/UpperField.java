@@ -16,22 +16,40 @@ public class UpperField extends JTextField {
 		this( null);
 	}
 	
+	public UpperField(boolean allowLowerCase) {
+		this( null, allowLowerCase);
+	}
+
 	public UpperField( int i) {
-		this( null, i);
+		this( null, i, false);
+	}
+
+	public UpperField( int i, boolean allowLowerCase) {
+		this( null, i, allowLowerCase);
 	}
 	
 	public UpperField( String s) {
-		this( s, 7);
+		this( s, 7, false);
+	}
+
+	public UpperField( String s, boolean allowLowerCase) {
+		this( s, 7, allowLowerCase);
+	}
+
+	public UpperField( String s, int i) {
+		this( s, i, false);
 	}
 	
-	public UpperField( String s, int i) {
+	public UpperField( String s, int i, boolean allowLowerCase) {
 		super( i);
 		
-		setDocument( new PlainDocument() {
-			@Override public void insertString(int offs, String str, AttributeSet a) throws BadLocationException {
-				super.insertString(offs, str.toUpperCase(), a);
-			}
-		});
+		if (!allowLowerCase) {
+			setDocument( new PlainDocument() {
+				@Override public void insertString(int offs, String str, AttributeSet a) throws BadLocationException {
+					super.insertString(offs, str.toUpperCase(), a);
+				}
+			});
+		}
 		
 		setText( s);
 	}

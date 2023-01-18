@@ -68,7 +68,7 @@ Attribute RequestHeadTimestamp_Click.VB_ProcData.VB_Invoke_Func = "T\n14"
                 .Strike = contractTable(id, Col_STRIKE).value
                 .Right = IIf(UCase(contractTable(id, Col_RIGHT).value) = "", 0#, UCase(contractTable(id, Col_RIGHT).value))
                 .multiplier = UCase(contractTable(id, Col_MULTIPLIER).value)
-                .exchange = UCase(contractTable(id, Col_EXCH).value)
+                .Exchange = UCase(contractTable(id, Col_EXCH).value)
                 .primaryExchange = UCase(contractTable(id, Col_PRIMEXCH).value)
                 .currency = UCase(contractTable(id, Col_CURRENCY).value)
                 .localSymbol = UCase(contractTable(id, Col_LOCALSYMBOL).value)
@@ -105,7 +105,7 @@ End Sub
 
 Public Sub ProcessError(ByVal id As Long, ByVal errorCode As Long, ByVal errorMsg As String)
     
-    querySpecificationTable(id - ID_HEADTIMESTAMP, Col_STATUS).value = STR_ERROR + STR_COLON + Str(errorCode) + STR_SPACE + errorMsg
+    querySpecificationTable(id - ID_HEADTIMESTAMP, Col_STATUS).value = STR_ERROR + STR_COLON + str(errorCode) + STR_SPACE + errorMsg
         
 End Sub
 

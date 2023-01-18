@@ -20,9 +20,9 @@ namespace TWSLib
             get { return data != null ? data.Price : default(double); }
         }
 
-        long Size
+        object Size
         {
-            get { return data != null ? data.Size : default(long); }
+            get { return data != null ? data.Size : default(object); }
         }
 
         public ComHistoricalTick()
@@ -39,9 +39,9 @@ namespace TWSLib
             get { return Price; }
         }
 
-        int TWSLib.IHistoricalTick.size
+        object TWSLib.IHistoricalTick.size
         {
-            get { return (int)Size; }
+            get { return Size; }
         }
 
         public static explicit operator HistoricalTick(ComHistoricalTick comHistoricalTick)

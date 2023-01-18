@@ -26,8 +26,9 @@ Const orderBaseColumnsStart = 17 ' index of first column in Order Description
 Const orderBaseColumnsEnd = 21 ' index of last column in Order Description
 Const errorColumnIndex = 22 ' index of error column
 Const idColumnIndex = 23 ' index of id column
+Const idManualOrderCancelTime = 149 ' index of manual order cancel time column
 Const orderExtColumnsStart = 34 ' index of first column in Extended Order Attributes
-Const orderExtColumnsEnd = 146 ' index of last column in Extended Order Attributes
+Const orderExtColumnsEnd = 153 ' index of last column in Extended Order Attributes
 
 ' rows
 Const dataStartRowIndex = 10 ' starting row of data
@@ -81,7 +82,7 @@ End Sub
 ' clear order for active row
 ' ========================================================
 Sub clearOrder()
-    Dim server As String, id As String, i As Integer, row As range, lastRowIndex As Integer
+    Dim server As String, id As String, i As Integer, row As Range, lastRowIndex As Integer
     
     server = util.getServerVal(STR_SHEET_NAME, CELL_SERVER_NAME)
     If server = util.STR_EMPTY Then Exit Sub
@@ -108,7 +109,7 @@ End Sub
 ' ========================================================
 ' clears tick-by-tick data cells
 ' ========================================================
-Sub clearOrderStatusColumns(cell As range)
+Sub clearOrderStatusColumns(cell As Range)
     Dim i As Integer
     With Worksheets(STR_SHEET_NAME)
         .Cells(cell.row, idColumnIndex).value = util.STR_EMPTY
@@ -136,7 +137,7 @@ End Sub
 ' cancel order for active row
 ' ========================================================
 Sub cancelOrder()
-    Dim server As String, id As String, i As Integer, row As range, lastRowIndex As Integer
+    Dim server As String, id As String, manualOrderCancelTime As String, i As Integer, row As Range, lastRowIndex As Integer
     
     server = util.getServerVal(STR_SHEET_NAME, CELL_SERVER_NAME)
     If server = util.STR_EMPTY Then Exit Sub
@@ -148,7 +149,9 @@ Sub cancelOrder()
             If Not util.hasContractData(Worksheets(STR_SHEET_NAME), dataStartRowIndex, row, startOfContractColumns, getContractColumns()) Then GoTo Continue
             
             id = .Cells(row.row, idColumnIndex).value
-            util.sendRequest server, STR_CANCELORDER, id
+            manualOrderCancelTime = .Cells(row.row, idManualOrderCancelTime).value
+            
+            util.sendRequest server, STR_CANCELORDER, id & util.QMARK & manualOrderCancelTime
             
 Continue:
         Next row
@@ -162,7 +165,7 @@ End Sub
 ' place order for active row
 ' ========================================================
 Sub placeOrder()
-    Dim row As range, server As String, lastRowIndex As Integer
+    Dim row As Range, server As String, lastRowIndex As Integer
     
     server = util.getServerVal(STR_SHEET_NAME, CELL_SERVER_NAME)
     If server = util.STR_EMPTY Then Exit Sub
@@ -182,7 +185,7 @@ End Sub
 ' ========================================================
 ' sends place order for row
 ' ========================================================
-Sub sendPlaceOrder(server As String, cell As range)
+Sub sendPlaceOrder(server As String, cell As Range)
 
     ' get id
     Dim id As String

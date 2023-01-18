@@ -387,6 +387,7 @@ namespace TwsRtdServer
                     {
                         case "STK":
                             genericTicksStr = TwsRtdServerData.GENERIC_TICKS_STK;
+                            genericTicksStr += TwsRtdServerData.GetTickIdsForUnifiedVersionStk(m_twsRtdServerConnection.Socket().ServerVersion);
                             break;
                         case "OPT":
                             genericTicksStr = TwsRtdServerData.GENERIC_TICKS_OPT;

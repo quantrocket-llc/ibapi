@@ -42,7 +42,7 @@ namespace IBApi
 		/**
          * @brief The bid size of the historical tick 
          */
-        public long SizeBid
+        public decimal SizeBid
         {
             [return: MarshalAs(UnmanagedType.I8)]
             get;
@@ -53,7 +53,7 @@ namespace IBApi
 		/**
          * @brief The ask size of the historical tick 
          */
-        public long SizeAsk
+        public decimal SizeAsk
         {
             [return: MarshalAs(UnmanagedType.I8)]
             get;
@@ -65,7 +65,7 @@ namespace IBApi
         {
         }
 
-        public HistoricalTickBidAsk(long time, TickAttribBidAsk tickAttribBidAsk, double priceBid, double priceAsk, long sizeBid, long sizeAsk)
+        public HistoricalTickBidAsk(long time, TickAttribBidAsk tickAttribBidAsk, double priceBid, double priceAsk, decimal sizeBid, decimal sizeAsk)
         {
             Time = time;
             TickAttribBidAsk = tickAttribBidAsk;

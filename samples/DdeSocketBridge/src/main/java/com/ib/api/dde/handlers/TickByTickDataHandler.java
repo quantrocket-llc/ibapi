@@ -158,7 +158,7 @@ public class TickByTickDataHandler extends MarketDataBaseHandler {
             }
             
             ArrayList<String> table = Utils.convertArrayToTable(data);
-            Contract contract = parseContract(table, true, false, false, false, false);
+            Contract contract = parseContract(table, true, false, false, false, false, false);
             
             return new TickByTickRequest(requestId, contract, tickType, 0, ignoreSize, requestStr);
         }
@@ -182,7 +182,7 @@ public class TickByTickDataHandler extends MarketDataBaseHandler {
                 numberOfRows = getIntFromString(messageTokens[2]);
             }
             ArrayList<String> table = Utils.convertArrayToTable(data);
-            Contract contract = parseContract(table, true, false, false, false, false);
+            Contract contract = parseContract(table, true, false, false, false, false, false);
             String tickType = TickByTickData.ALL_LAST;
             if (contract.secType() == SecType.CASH) {
                 tickType = TickByTickData.MID_POINT;

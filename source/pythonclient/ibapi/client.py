@@ -1,5 +1,5 @@
 """
-Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+Copyright (C) 2023 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable.
 """
 
@@ -22,7 +22,7 @@ from ibapi.connection import Connection
 from ibapi.message import OUT
 from ibapi.common import * # @UnusedWildImport
 from ibapi.contract import Contract
-from ibapi.order import Order
+from ibapi.order import Order, COMPETE_AGAINST_BEST_OFFSET_UP_TO_MID
 from ibapi.execution import ExecutionFilter
 from ibapi.scanner import ScannerSubscription
 from ibapi.comm import (make_field, make_field_handle_empty)
@@ -1091,6 +1091,37 @@ class EClient(object):
             self.wrapper.error(orderId, UPDATE_TWS.code(), UPDATE_TWS.msg() + " It does not support Use price management algo requests")
             return
 
+        if self.serverVersion() < MIN_SERVER_VER_DURATION and order.duration != UNSET_INTEGER:
+            self.wrapper.error(orderId, UPDATE_TWS.code(), UPDATE_TWS.msg() + " It does not support duration attribute")
+            return
+
+        if self.serverVersion() < MIN_SERVER_VER_POST_TO_ATS and order.postToAts != UNSET_INTEGER:
+            self.wrapper.error(orderId, UPDATE_TWS.code(), UPDATE_TWS.msg() + " It does not support postToAts attribute")
+            return
+
+        if self.serverVersion() < MIN_SERVER_VER_AUTO_CANCEL_PARENT and order.autoCancelParent:
+            self.wrapper.error(orderId, UPDATE_TWS.code(), UPDATE_TWS.msg() + " It does not support autoCancelParent attribute")
+            return
+
+        if self.serverVersion() < MIN_SERVER_VER_ADVANCED_ORDER_REJECT and order.advancedErrorOverride:
+            self.wrapper.error(orderId, UPDATE_TWS.code(), UPDATE_TWS.msg() + "  It does not support advanced error override attribute")
+            return
+
+        if self.serverVersion() < MIN_SERVER_VER_MANUAL_ORDER_TIME and order.manualOrderTime:
+            self.wrapper.error(orderId, UPDATE_TWS.code(), UPDATE_TWS.msg() + "  It does not support manual order time attribute")
+            return
+
+        if self.serverVersion() < MIN_SERVER_VER_PEGBEST_PEGMID_OFFSETS:
+            if order.minTradeQty != UNSET_INTEGER \
+                    or order.minCompeteSize != UNSET_INTEGER \
+                    or order.competeAgainstBestOffset != UNSET_DOUBLE \
+                    or order.midOffsetAtWhole != UNSET_DOUBLE \
+                    or order.midOffsetAtHalf != UNSET_DOUBLE:
+                self.wrapper.error(orderId, UPDATE_TWS.code(), UPDATE_TWS.msg() +
+                        "  It does not support PEG BEST / PEG MID order parameters: minTradeQty, minCompeteSize, " +
+                        "competeAgainstBestOffset, midOffsetAtWhole and midOffsetAtHalf")
+                return
+
         try:
                 
             VERSION = 27 if (self.serverVersion() < MIN_SERVER_VER_NOT_HELD) else 45
@@ -1215,8 +1246,9 @@ class EClient(object):
     
                 make_field( order.faGroup),      # srv v13 and above
                 make_field( order.faMethod),     # srv v13 and above
-                make_field( order.faPercentage), # srv v13 and above
-                make_field( order.faProfile)]    # srv v13 and above
+                make_field( order.faPercentage)] # srv v13 and above
+            if self.serverVersion() < MIN_SERVER_VER_FA_PROFILE_DESUPPORT:
+                flds.append(make_field( "")) # send deprecated faProfile field
     
             if self.serverVersion() >= MIN_SERVER_VER_MODELS_SUPPORT:
                 flds.append(make_field( order.modelCode))
@@ -1241,9 +1273,9 @@ class EClient(object):
                 make_field( order.allOrNone),
                 make_field_handle_empty( order.minQty),
                 make_field_handle_empty( order.percentOffset),
-                make_field( order.eTradeOnly),
-                make_field( order.firmQuoteOnly),
-                make_field_handle_empty( order.nbboPriceCap),
+                make_field( False),
+                make_field( False),
+                make_field_handle_empty( UNSET_DOUBLE),
                 make_field( order.auctionStrategy), # AUCTION_MATCH, AUCTION_IMPROVEMENT, AUCTION_TRANSPARENT
                 make_field_handle_empty( order.startingPrice),
                 make_field_handle_empty( order.stockRefPrice),
@@ -1416,7 +1448,37 @@ class EClient(object):
     
             if self.serverVersion() >= MIN_SERVER_VER_PRICE_MGMT_ALGO:
                 flds.append(make_field_handle_empty(UNSET_INTEGER if order.usePriceMgmtAlgo == None else 1 if order.usePriceMgmtAlgo else 0))
+
+            if self.serverVersion() >= MIN_SERVER_VER_DURATION:
+                flds.append(make_field(order.duration))
     
+            if self.serverVersion() >= MIN_SERVER_VER_POST_TO_ATS:
+                flds.append(make_field(order.postToAts))
+
+            if self.serverVersion() >= MIN_SERVER_VER_AUTO_CANCEL_PARENT:
+                flds.append(make_field(order.autoCancelParent))
+
+            if self.serverVersion() >= MIN_SERVER_VER_ADVANCED_ORDER_REJECT:
+                flds.append(make_field(order.advancedErrorOverride))
+
+            if self.serverVersion() >= MIN_SERVER_VER_MANUAL_ORDER_TIME:
+                flds.append(make_field(order.manualOrderTime))
+
+            if self.serverVersion() >= MIN_SERVER_VER_PEGBEST_PEGMID_OFFSETS:
+                sendMidOffsets = False;
+                if contract.exchange == "IBKRATS":
+                    flds.append(make_field_handle_empty(order.minTradeQty))
+                if order.orderType == "PEG BEST":
+                    flds.append(make_field_handle_empty(order.minCompeteSize))
+                    flds.append(make_field_handle_empty(order.competeAgainstBestOffset))
+                    if order.competeAgainstBestOffset == COMPETE_AGAINST_BEST_OFFSET_UP_TO_MID:
+                        sendMidOffsets = True;
+                elif order.orderType == "PEG MID":
+                        sendMidOffsets = True;
+                if sendMidOffsets:
+                    flds.append(make_field_handle_empty(order.midOffsetAtWhole))
+                    flds.append(make_field_handle_empty(order.midOffsetAtHalf))
+
             msg = "".join(flds)
             
         except ClientException as ex:
@@ -1426,7 +1488,7 @@ class EClient(object):
         self.sendMsg(msg)
 
 
-    def cancelOrder(self, orderId:OrderId):
+    def cancelOrder(self, orderId:OrderId, manualCancelOrderTime:str):
         """Call this function to cancel an order.
 
         orderId:OrderId - The order ID that was specified previously in the call
@@ -1438,11 +1500,21 @@ class EClient(object):
             self.wrapper.error(NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg())
             return
 
+        if self.serverVersion() < MIN_SERVER_VER_MANUAL_ORDER_TIME and manualCancelOrderTime:
+            self.wrapper.error(orderId, UPDATE_TWS.code(), UPDATE_TWS.msg() + "  It does not support manual order cancel time attribute")
+            return
+
         VERSION = 1
 
-        msg = make_field(OUT.CANCEL_ORDER) \
-            + make_field(VERSION) \
-            + make_field(orderId)
+        flds = []
+        flds += [make_field(OUT.CANCEL_ORDER)]
+        flds += [make_field(VERSION)]
+        flds += [make_field(orderId)]
+
+        if self.serverVersion() >= MIN_SERVER_VER_MANUAL_ORDER_TIME:
+            flds += [make_field(manualCancelOrderTime)]
+
+        msg = "".join(flds)
 
         self.sendMsg(msg)
 
@@ -2047,6 +2119,12 @@ class EClient(object):
                         "  It does not support primaryExchange parameter in reqContractDetails.")
                 return
 
+        if self.serverVersion() < MIN_SERVER_VER_BOND_ISSUERID:
+            if contract.issuerId:
+                self.wrapper.error( reqId, UPDATE_TWS.code(), UPDATE_TWS.msg() +
+                        "  It does not support issuerId parameter in reqContractDetails.")
+                return
+
         try:
             
             VERSION = 8
@@ -2087,6 +2165,9 @@ class EClient(object):
             if self.serverVersion() >= MIN_SERVER_VER_SEC_ID_TYPE:
                 flds += [make_field( contract.secIdType),
                     make_field( contract.secId)]
+    
+            if self.serverVersion() >= MIN_SERVER_VER_BOND_ISSUERID:
+                flds += [make_field(contract.issuerId), ]
     
             msg = "".join(flds)
         
@@ -2321,13 +2402,16 @@ class EClient(object):
         faData:FaDataType - Specifies the type of Financial Advisor
             configuration data beingingg requested. Valid values include:
             1 = GROUPS
-            2 = PROFILE
             3 = ACCOUNT ALIASES"""
 
         self.logRequest(current_fn_name(), vars())
 
         if not self.isConnected():
             self.wrapper.error(NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg())
+            return
+        
+        if self.serverVersion() >= MIN_SERVER_VER_FA_PROFILE_DESUPPORT and faData == 2:
+            self.wrapper.error(NO_VALID_ID, FA_PROFILE_NOT_SUPPORTED.code(), FA_PROFILE_NOT_SUPPORTED.msg())
             return
 
         VERSION = 1
@@ -2347,7 +2431,6 @@ class EClient(object):
         faData:FaDataType - Specifies the type of Financial Advisor
             configuration data beingingg requested. Valid values include:
             1 = GROUPS
-            2 = PROFILE
             3 = ACCOUNT ALIASES
         cxml: str - The XML string containing the new FA configuration
             information.  """
@@ -2355,7 +2438,11 @@ class EClient(object):
         self.logRequest(current_fn_name(), vars())
 
         if not self.isConnected():
-            self.wrapper.error(NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg())
+            self.wrapper.error(reqId, NOT_CONNECTED.code(), NOT_CONNECTED.msg())
+            return
+
+        if self.serverVersion() >= MIN_SERVER_VER_FA_PROFILE_DESUPPORT and faData == 2:
+            self.wrapper.error(reqId, FA_PROFILE_NOT_SUPPORTED.code(), FA_PROFILE_NOT_SUPPORTED.msg())
             return
 
         try: 
@@ -2423,6 +2510,7 @@ class EClient(object):
             BID_ASK
             HISTORICAL_VOLATILITY
             OPTION_IMPLIED_VOLATILITY
+            SCHEDULE
         useRTH:int - Determines whether to return all data available during the requested time span,
             or only data that falls within regular trading hours. Valid values include:
 
@@ -2449,6 +2537,12 @@ class EClient(object):
             if contract.tradingClass or contract.conId > 0:
                 self.wrapper.error(reqId, UPDATE_TWS.code(),
                     UPDATE_TWS.msg() + "  It does not support conId and tradingClass parameters in reqHistoricalData.")
+                return
+
+        if self.serverVersion() < MIN_SERVER_VER_HISTORICAL_SCHEDULE:
+            if whatToShow == "SCHEDULE":
+                self.wrapper.error(reqId, UPDATE_TWS.code(),
+                    UPDATE_TWS.msg() + "  It does not support requesting of historical schedule.")
                 return
 
         try:
@@ -3536,3 +3630,127 @@ class EClient(object):
 
         self.sendMsg(msg)
 
+    def reqWshMetaData(self, reqId: int):
+
+        self.logRequest(current_fn_name(), vars())
+
+        if not self.isConnected():
+            self.wrapper.error(NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg())
+            return
+
+        if self.serverVersion() < MIN_SERVER_VER_WSHE_CALENDAR:
+            self.wrapper.error(NO_VALID_ID, UPDATE_TWS.code(), UPDATE_TWS.msg() +
+                    " It does not support WSHE Calendar API.")
+            return
+
+        try:
+            
+            msg = make_field(OUT.REQ_WSH_META_DATA) \
+                + make_field(reqId)
+
+        except ClientException as ex:
+            self.wrapper.error(reqId, ex.code, ex.msg + ex.text)
+            return
+
+        self.sendMsg(msg)
+
+    def cancelWshMetaData(self, reqId: int):
+
+        self.logRequest(current_fn_name(), vars())
+
+        if not self.isConnected():
+            self.wrapper.error(NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg())
+            return
+
+        if self.serverVersion() < MIN_SERVER_VER_WSHE_CALENDAR:
+            self.wrapper.error(NO_VALID_ID, UPDATE_TWS.code(), UPDATE_TWS.msg() +
+                    " It does not support WSHE Calendar API.")
+            return
+
+        msg = make_field(OUT.CANCEL_WSH_META_DATA) \
+            + make_field(reqId)
+
+        self.sendMsg(msg)
+
+    def reqWshEventData(self, reqId: int, wshEventData: WshEventData):
+
+        self.logRequest(current_fn_name(), vars())
+
+        if not self.isConnected():
+            self.wrapper.error(NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg())
+            return
+
+        if self.serverVersion() < MIN_SERVER_VER_WSHE_CALENDAR:
+            self.wrapper.error(NO_VALID_ID, UPDATE_TWS.code(), UPDATE_TWS.msg() +
+                    " It does not support WSHE Calendar API.")
+            return
+
+        if self.serverVersion() < MIN_SERVER_VER_WSH_EVENT_DATA_FILTERS:
+            if wshEventData.filter != "" or wshEventData.fillWatchlist or wshEventData.fillPortfolio or wshEventData.fillCompetitors:
+                self.wrapper.error(NO_VALID_ID, UPDATE_TWS.code(), UPDATE_TWS.msg() + " It does not support WSH event data filters.")
+                return
+
+        if self.serverVersion() < MIN_SERVER_VER_WSH_EVENT_DATA_FILTERS_DATE:
+            if wshEventData.startDate != "" or wshEventData.endDate != "" or wshEventData.totalLimit != UNSET_INTEGER:
+                self.wrapper.error(NO_VALID_ID, UPDATE_TWS.code(), UPDATE_TWS.msg() + " It does not support WSH event data date filters.")
+                return
+
+        try:
+            flds = []
+            flds.append(make_field(OUT.REQ_WSH_EVENT_DATA))
+            flds.append(make_field(reqId))
+            flds.append(make_field(wshEventData.conId))
+
+            if self.serverVersion() >= MIN_SERVER_VER_WSH_EVENT_DATA_FILTERS:
+                flds.append(make_field(wshEventData.filter))
+                flds.append(make_field(wshEventData.fillWatchlist))
+                flds.append(make_field(wshEventData.fillPortfolio))
+                flds.append(make_field(wshEventData.fillCompetitors))
+
+            if self.serverVersion() >= MIN_SERVER_VER_WSH_EVENT_DATA_FILTERS_DATE:
+                flds.append(make_field(wshEventData.startDate))
+                flds.append(make_field(wshEventData.endDate))
+                flds.append(make_field(wshEventData.totalLimit))
+
+            msg = "".join(flds)
+
+        except ClientException as ex:
+            self.wrapper.error(reqId, ex.code, ex.msg + ex.text)
+            return
+
+        self.sendMsg(msg)
+
+    def cancelWshEventData(self, reqId: int):
+
+        self.logRequest(current_fn_name(), vars())
+
+        if not self.isConnected():
+            self.wrapper.error(NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg())
+            return
+
+        if self.serverVersion() < MIN_SERVER_VER_WSHE_CALENDAR:
+            self.wrapper.error(NO_VALID_ID, UPDATE_TWS.code(), UPDATE_TWS.msg() +
+                    " It does not support WSHE Calendar API.")
+            return
+
+        msg = make_field(OUT.CANCEL_WSH_EVENT_DATA) \
+            + make_field(reqId)
+
+        self.sendMsg(msg)
+
+    def reqUserInfo(self, reqId: int):
+
+        self.logRequest(current_fn_name(), vars())
+
+        if not self.isConnected():
+            self.wrapper.error(NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg())
+            return
+
+        if self.serverVersion() < MIN_SERVER_VER_USER_INFO:
+            self.wrapper.error(NO_VALID_ID, UPDATE_TWS.code(), UPDATE_TWS.msg() + " It does not support user info requests.")
+            return
+
+        msg = make_field(OUT.REQ_USER_INFO) \
+            + make_field(reqId)
+
+        self.sendMsg(msg)        

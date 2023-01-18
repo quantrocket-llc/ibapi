@@ -43,7 +43,7 @@ Friend Class ApiEventSource
                          End Sub)
     End Sub
 
-    Private Sub EWrapper_PnLSingle(reqId As Integer, pos As Integer, dailyPnL As Double, unrealizedPnL As Double, realizedPnL As Double, value As Double) Implements EWrapper.pnlSingle
+    Private Sub EWrapper_PnLSingle(reqId As Integer, pos As Decimal, dailyPnL As Double, unrealizedPnL As Double, realizedPnL As Double, value As Double) Implements EWrapper.pnlSingle
         InvokeIfRequired(Sub()
                              RaiseEvent PnLSingle(Me, New PnLSingleEventArgs With {
                                  .requestId = reqId,
@@ -168,9 +168,9 @@ Friend Class ApiEventSource
                          End Sub)
     End Sub
 
-    Private Sub EWrapper_Error(id As Integer, errorCode As Integer, errorMsg As String) Implements IBApi.EWrapper.error
+    Private Sub EWrapper_Error(id As Integer, errorCode As Integer, errorMsg As String, advancedOrderRejectJson As String) Implements IBApi.EWrapper.error
         InvokeIfRequired(Sub()
-                             RaiseEvent ErrMsg(Me, New ErrMsgEventArgs With {.id = id, .errorCode = errorCode, .errorMsg = errorMsg})
+                             RaiseEvent ErrMsg(Me, New ErrMsgEventArgs With {.id = id, .errorCode = errorCode, .errorMsg = errorMsg, .advancedOrderRejectJson = advancedOrderRejectJson})
                          End Sub)
     End Sub
 
@@ -279,7 +279,7 @@ Friend Class ApiEventSource
                          End Sub)
     End Sub
 
-    Private Sub EWrapper_OrderStatus(orderId As Integer, status As String, filled As Double, remaining As Double, avgFillPrice As Double, permId As Integer, parentId As Integer, lastFillPrice As Double, clientId As Integer, whyHeld As String, mktCapPrice As Double) Implements IBApi.EWrapper.orderStatus
+    Private Sub EWrapper_OrderStatus(orderId As Integer, status As String, filled As Decimal, remaining As Decimal, avgFillPrice As Double, permId As Integer, parentId As Integer, lastFillPrice As Double, clientId As Integer, whyHeld As String, mktCapPrice As Double) Implements IBApi.EWrapper.orderStatus
         InvokeIfRequired(Sub()
                              RaiseEvent OrderStatus(Me, New OrderStatusEventArgs With {
                                                                      .orderId = orderId,
@@ -297,7 +297,7 @@ Friend Class ApiEventSource
                          End Sub)
     End Sub
 
-    Private Sub EWrapper_Position(account As String, contract As IBApi.Contract, pos As Double, avgCost As Double) Implements IBApi.EWrapper.position
+    Private Sub EWrapper_Position(account As String, contract As IBApi.Contract, pos As Decimal, avgCost As Double) Implements IBApi.EWrapper.position
         InvokeIfRequired(Sub()
                              RaiseEvent Position(Me, New PositionEventArgs With {
                                                                      .account = account,
@@ -314,7 +314,7 @@ Friend Class ApiEventSource
                          End Sub)
     End Sub
 
-    Private Sub EWrapper_RealtimeBar(reqId As Integer, time As Long, open As Double, high As Double, low As Double, close As Double, volume As Long, WAP As Double, count As Integer) Implements IBApi.EWrapper.realtimeBar
+    Private Sub EWrapper_RealtimeBar(reqId As Integer, time As Long, open As Double, high As Double, low As Double, close As Double, volume As Decimal, WAP As Decimal, count As Integer) Implements IBApi.EWrapper.realtimeBar
         InvokeIfRequired(Sub()
                              RaiseEvent RealtimeBar(Me, New RealtimeBarEventArgs With {
                                                                      .reqId = reqId,
@@ -415,7 +415,7 @@ Friend Class ApiEventSource
                          End Sub)
     End Sub
 
-    Private Sub EWrapper_TickSize(tickerId As Integer, field As Integer, size As Integer) Implements IBApi.EWrapper.tickSize
+    Private Sub EWrapper_TickSize(tickerId As Integer, field As Integer, size As Decimal) Implements IBApi.EWrapper.tickSize
         InvokeIfRequired(Sub()
                              RaiseEvent TickSize(Me, New TickSizeEventArgs With {.id = tickerId, .size = size, .tickType = field})
                          End Sub)
@@ -454,7 +454,7 @@ Friend Class ApiEventSource
                          End Sub)
     End Sub
 
-    Private Sub EWrapper_UpdateMktDepth(tickerId As Integer, position As Integer, operation As Integer, side As Integer, price As Double, size As Integer) Implements IBApi.EWrapper.updateMktDepth
+    Private Sub EWrapper_UpdateMktDepth(tickerId As Integer, position As Integer, operation As Integer, side As Integer, price As Double, size As Decimal) Implements IBApi.EWrapper.updateMktDepth
         InvokeIfRequired(Sub()
                              RaiseEvent UpdateMktDepth(Me, New UpdateMktDepthEventArgs With {
                                                                                                  .tickerId = tickerId,
@@ -467,7 +467,7 @@ Friend Class ApiEventSource
                          End Sub)
     End Sub
 
-    Private Sub EWrapper_UpdateMktDepthL2(tickerId As Integer, position As Integer, marketMaker As String, operation As Integer, side As Integer, price As Double, size As Integer, isSmartDepth As Boolean) Implements IBApi.EWrapper.updateMktDepthL2
+    Private Sub EWrapper_UpdateMktDepthL2(tickerId As Integer, position As Integer, marketMaker As String, operation As Integer, side As Integer, price As Double, size As Decimal, isSmartDepth As Boolean) Implements IBApi.EWrapper.updateMktDepthL2
         InvokeIfRequired(Sub()
                              RaiseEvent UpdateMktDepthL2(Me, New UpdateMktDepthL2EventArgs With {
                                                                                                    .tickerId = tickerId,
@@ -493,7 +493,7 @@ Friend Class ApiEventSource
                          End Sub)
     End Sub
 
-    Private Sub EWrapper_UpdatePortfolio(contract As IBApi.Contract, position As Double, marketPrice As Double, marketValue As Double, averageCost As Double, unrealizedPNL As Double, realizedPNL As Double, accountName As String) Implements IBApi.EWrapper.updatePortfolio
+    Private Sub EWrapper_UpdatePortfolio(contract As IBApi.Contract, position As Decimal, marketPrice As Double, marketValue As Double, averageCost As Double, unrealizedPNL As Double, realizedPNL As Double, accountName As String) Implements IBApi.EWrapper.updatePortfolio
         InvokeIfRequired(Sub()
                              RaiseEvent UpdatePortfolio(Me, New UpdatePortfolioEventArgs With {
                                                                      .contract = contract,
@@ -549,7 +549,7 @@ Friend Class ApiEventSource
         End If
     End Sub
 
-    Private Sub EWrapper_PositionMulti(reqId As Integer, account As String, modelCode As String, contract As IBApi.Contract, pos As Double, avgCost As Double) Implements IBApi.EWrapper.positionMulti
+    Private Sub EWrapper_PositionMulti(reqId As Integer, account As String, modelCode As String, contract As IBApi.Contract, pos As Decimal, avgCost As Double) Implements IBApi.EWrapper.positionMulti
         InvokeIfRequired(Sub()
                              RaiseEvent PositionMulti(Me, New PositionMultiEventArgs With {
                                                            .reqId = reqId,
@@ -780,7 +780,7 @@ Friend Class ApiEventSource
                          End Sub)
     End Sub
 
-    Public Sub EWrapper_TickByTickAllLast(reqId As Integer, tickType As Integer, time As Long, price As Double, size As Integer,
+    Public Sub EWrapper_TickByTickAllLast(reqId As Integer, tickType As Integer, time As Long, price As Double, size As Decimal,
                                           tickAttribLast As TickAttribLast, exchange As String, specialConditions As String) Implements EWrapper.tickByTickAllLast
         InvokeIfRequired(Sub()
                              RaiseEvent TickByTickAllLast(Me, New TickByTickAllLastEventArgs With {
@@ -796,7 +796,7 @@ Friend Class ApiEventSource
                          End Sub)
     End Sub
 
-    Public Sub EWrapper_TickByTickBidAsk(reqId As Integer, time As Long, bidPrice As Double, askPrice As Double, bidSize As Integer, askSize As Integer, tickAttribBidAsk As TickAttribBidAsk) Implements EWrapper.tickByTickBidAsk
+    Public Sub EWrapper_TickByTickBidAsk(reqId As Integer, time As Long, bidPrice As Double, askPrice As Double, bidSize As Decimal, askSize As Decimal, tickAttribBidAsk As TickAttribBidAsk) Implements EWrapper.tickByTickBidAsk
         InvokeIfRequired(Sub()
                              RaiseEvent TickByTickBidAsk(Me, New TickByTickBidAskEventArgs With {
                                                             .reqId = reqId,
@@ -853,6 +853,46 @@ Friend Class ApiEventSource
                                                               })
                          End Sub)
     End Sub
+
+    Private Sub EWrapper_wshMetaData(reqId As Integer, dataJson As String) Implements EWrapper.wshMetaData
+        InvokeIfRequired(Sub()
+                             RaiseEvent WshMetaData(Me, New WshMetaDataEventArgs With {
+                                                              .reqId = reqId,
+                                                              .dataJson = dataJson
+                                                              })
+                         End Sub)
+    End Sub
+
+    Private Sub EWrapper_wshEventData(reqId As Integer, dataJson As String) Implements EWrapper.wshEventData
+        InvokeIfRequired(Sub()
+                             RaiseEvent WshEventData(Me, New WshEventDataEventArgs With {
+                                                              .reqId = reqId,
+                                                              .dataJson = dataJson
+                                                              })
+                         End Sub)
+    End Sub
+
+    Private Sub EWrapper_historicalSchedule(reqId As Integer, startDateTime As String, endDateTime As String, timeZone As String, sessions As HistoricalSession()) Implements EWrapper.historicalSchedule
+        InvokeIfRequired(Sub()
+                             RaiseEvent HistoricalSchedule(Me, New HistoricalScheduleEventArgs With {
+                                                              .reqId = reqId,
+                                                              .startDateTime = startDateTime,
+                                                              .endDateTime = endDateTime,
+                                                              .timeZone = timeZone,
+                                                             .sessions = sessions
+                                                              })
+                         End Sub)
+    End Sub
+
+    Private Sub EWrapper_userInfo(reqId As Integer, whiteBrandingId As String) Implements EWrapper.userInfo
+        InvokeIfRequired(Sub()
+                             RaiseEvent UserInfo(Me, New UserInfoEventArgs With {
+                                                              .reqId = reqId,
+                                                              .whiteBrandingId = whiteBrandingId
+                                                              })
+                         End Sub)
+    End Sub
+
 #End Region
 
 #Region "Event declarations"
@@ -938,7 +978,10 @@ Friend Class ApiEventSource
     Event CompletedOrder(sender As Object, e As OpenOrderEventArgs)
     Event CompletedOrdersEnd(sender As Object, e As EventArgs)
     Event ReplaceFAEnd(sender As Object, e As ReplaceFAEndEventArgs)
-
+    Event WshMetaData(sender As Object, e As WshMetaDataEventArgs)
+    Event WshEventData(sender As Object, e As WshEventDataEventArgs)
+    Event HistoricalSchedule(sender As Object, e As HistoricalScheduleEventArgs)
+    Event UserInfo(sender As Object, e As UserInfoEventArgs)
 
 
 

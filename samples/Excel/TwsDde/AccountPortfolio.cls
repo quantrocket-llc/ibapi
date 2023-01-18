@@ -18,6 +18,7 @@ Const STR_REQ_PORTFOLIO = "reqPortfolio"
 Const STR_CANCEL_ACCOUNT_PORTFOLIO = "cancelAccountPortfolio"
 Const STR_REQ_ACCOUNT_PORTFOLIO_ERROR = "reqAccountPortfolioError"
 Const STR_REQ_ACCOUNT_UPDATE_TIME = "reqAccountUpdateTime"
+Const STR_REQ_USER_INFO = "reqUserInfo"
 
 Const STR_EXERCISE_OPTIONS = "exerciseOptions"
 Const STR_EXERCISE_OPTIONS_TICK = "exerciseOptionsTick"
@@ -29,6 +30,7 @@ Const CELL_ACCOUNT = "A9" ' cell with account name
 Const CELL_SUBSCRIPTION_CONTROL = "D9" ' cell with subscription control
 Const CELL_ERROR = "F9" ' cell with error
 Const CELL_ACCOUNT_UPDATE_TIME = "H12" ' cell with account update time
+Const CELL_USER_INFO = "S9" ' cell with user info
 
 ' rows
 Const ACCOUNT_UPDATES_START_ROW = 14
@@ -76,9 +78,9 @@ End Function
 ' clear exercise options when workbook is closed
 ' ========================================================
 Sub clearExerciseOptionsOnExit()
-    Dim rng As range, row As range, cell As range
+    Dim rng As Range, row As Range, cell As Range
     With Worksheets(STR_SHEET_NAME)
-        Set rng = .range(.Cells(ACCOUNT_UPDATES_START_ROW, EXERCISE_OPTIONS_ID), .Cells(ACCOUNT_UPDATES_END_ROW, EXERCISE_OPTIONS_ID))
+        Set rng = .Range(.Cells(ACCOUNT_UPDATES_START_ROW, EXERCISE_OPTIONS_ID), .Cells(ACCOUNT_UPDATES_END_ROW, EXERCISE_OPTIONS_ID))
         For Each row In rng.rows
             For Each cell In row.Cells
             If InStr(cell.value, util.IDENTIFIER_PREFIX) <> 0 Then
@@ -99,7 +101,7 @@ End Sub
 ' ========================================================
 ' clear exercise options for row
 ' ========================================================
-Sub clearExerciseOptionsForRow(row As range)
+Sub clearExerciseOptionsForRow(row As Range)
     With Worksheets(STR_SHEET_NAME)
         .Cells(row.row, EXERCISE_OPTIONS_ID).value = util.STR_EMPTY
         .Cells(row.row, EXERCISE_OPTIONS_STATUS).value = util.STR_EMPTY
@@ -145,8 +147,8 @@ Sub exerciseOptions()
         account = .Cells(ActiveCell.row, COLUMN_PORTFOLIO_ACCOUNT).value
 
         ' range to poke
-        Dim rangeToPoke As range
-        Set rangeToPoke = .range(.Cells(ActiveCell.row, COLUMN_PORTFOLIO_SYMBOL), .Cells(ActiveCell.row, COLUMN_PORTFOLIO_SYMBOL + 10))
+        Dim rangeToPoke As Range
+        Set rangeToPoke = .Range(.Cells(ActiveCell.row, COLUMN_PORTFOLIO_SYMBOL), .Cells(ActiveCell.row, COLUMN_PORTFOLIO_SYMBOL + 10))
 
         ' send request
         util.sendPokeSimple Worksheets(STR_SHEET_NAME), server, STR_EXERCISE_OPTIONS, id & util.QMARK & account & util.UNDERSCORE & action & util.UNDERSCORE & quantity & util.UNDERSCORE & override, rangeToPoke
@@ -166,7 +168,7 @@ End Sub
 ' Subscribes to account + portfolio updates when button is pressed
 ' ========================================================
 Sub subscribeAccountPortfolio()
-    If CStr(Worksheets(STR_SHEET_NAME).range(CELL_SUBSCRIPTION_CONTROL).value) = util.STR_EMPTY Then ' only if not subscribed
+    If CStr(Worksheets(STR_SHEET_NAME).Range(CELL_SUBSCRIPTION_CONTROL).value) = util.STR_EMPTY Then ' only if not subscribed
         requestAccountPortfolio
     End If
 End Sub
@@ -175,7 +177,7 @@ End Sub
 ' Re-subscribes to account + portfolio updates when workbook is opened
 ' ========================================================
 Sub resubscribeAccountPortfolio()
-    If CStr(Worksheets(STR_SHEET_NAME).range(CELL_SUBSCRIPTION_CONTROL).value) = util.STR_CANCELLED Then ' re-subscribe only if cancelled
+    If CStr(Worksheets(STR_SHEET_NAME).Range(CELL_SUBSCRIPTION_CONTROL).value) = util.STR_CANCELLED Then ' re-subscribe only if cancelled
         requestAccountPortfolio
     End If
 End Sub
@@ -192,14 +194,14 @@ Sub requestAccountPortfolio()
 
     Dim account As String
     With Worksheets(STR_SHEET_NAME)
-        account = .range(CELL_ACCOUNT).value
+        account = .Range(CELL_ACCOUNT).value
     
-        .range(CELL_SUBSCRIPTION_CONTROL).Formula = util.composeLink(server, STR_REQ_ACCOUNT_PORTFOLIO, util.IDENTIFIER_ZERO, account) ' subscription control
-        If util.cleanOnError(.range(CELL_SUBSCRIPTION_CONTROL)) Then
+        .Range(CELL_SUBSCRIPTION_CONTROL).Formula = util.composeLink(server, STR_REQ_ACCOUNT_PORTFOLIO, util.IDENTIFIER_ZERO, account) ' subscription control
+        If util.cleanOnError(.Range(CELL_SUBSCRIPTION_CONTROL)) Then
             Exit Sub
         End If
         
-        .range(CELL_ACCOUNT_UPDATE_TIME).Formula = util.composeLink(server, STR_REQ_ACCOUNT_UPDATE_TIME, util.IDENTIFIER_ZERO, util.STR_EMPTY)
+        .Range(CELL_ACCOUNT_UPDATE_TIME).Formula = util.composeLink(server, STR_REQ_ACCOUNT_UPDATE_TIME, util.IDENTIFIER_ZERO, util.STR_EMPTY)
     End With
 End Sub
 
@@ -209,9 +211,9 @@ End Sub
 Sub clearAccountPortfolioTable()
     ' clear account portfolio table
     With Worksheets(STR_SHEET_NAME)
-        .range(ACCOUNT_UPDATES_TABLE_RANGE).ClearContents
-        .range(PORTFOLIO_TABLE_RANGE).ClearContents
-        .range(CELL_ACCOUNT_UPDATE_TIME).value = util.STR_EMPTY
+        .Range(ACCOUNT_UPDATES_TABLE_RANGE).ClearContents
+        .Range(PORTFOLIO_TABLE_RANGE).ClearContents
+        .Range(CELL_ACCOUNT_UPDATE_TIME).value = util.STR_EMPTY
     End With
 End Sub
 
@@ -234,8 +236,8 @@ End Sub
 ' ========================================================
 Sub cancelAccountPortfolio(controlValue As String)
     With Worksheets(STR_SHEET_NAME)
-        If .range(CELL_SUBSCRIPTION_CONTROL).value = util.STR_SUBSCRIBED Or .range(CELL_SUBSCRIPTION_CONTROL).value = util.STR_ERROR_UPPER Then
-            If .range(CELL_SUBSCRIPTION_CONTROL).value = util.STR_SUBSCRIBED Then
+        If .Range(CELL_SUBSCRIPTION_CONTROL).value = util.STR_SUBSCRIBED Or .Range(CELL_SUBSCRIPTION_CONTROL).value = util.STR_ERROR_UPPER Then
+            If .Range(CELL_SUBSCRIPTION_CONTROL).value = util.STR_SUBSCRIBED Then
                 Dim server As String
                 server = util.getServerVal(STR_SHEET_NAME, CELL_SERVER_NAME)
                 If server = util.STR_EMPTY Then Exit Sub
@@ -243,11 +245,24 @@ Sub cancelAccountPortfolio(controlValue As String)
                 util.sendRequest server, STR_CANCEL_ACCOUNT_PORTFOLIO, util.IDENTIFIER_ZERO
             End If
     
-            .range(CELL_SUBSCRIPTION_CONTROL).value = controlValue ' subscription control
-            .range(CELL_ERROR).value = util.STR_EMPTY
+            .Range(CELL_SUBSCRIPTION_CONTROL).value = controlValue ' subscription control
+            .Range(CELL_ERROR).value = util.STR_EMPTY
         End If
     End With
 End Sub
+
+' ========================================================
+' Request User Info
+' ========================================================
+Sub reqUserInfo()
+    With Worksheets(STR_SHEET_NAME)
+        Dim server As String
+        server = util.getServerVal(STR_SHEET_NAME, CELL_SERVER_NAME)
+        If server = util.STR_EMPTY Then Exit Sub
+        .Range(CELL_USER_INFO).Formula = util.composeLink(server, STR_REQ_USER_INFO, util.IDENTIFIER_ZERO, util.STR_EMPTY)
+    End With
+End Sub
+
 
 ' ========================================================
 ' Requests account + portfolio updates table/array
@@ -260,13 +275,13 @@ Private Sub Worksheet_Calculate()
     
     With Worksheets(STR_SHEET_NAME)
         
-        If CStr(.range(CELL_SUBSCRIPTION_CONTROL).value) = util.STR_ERROR_UPPER And CStr(.range(CELL_ERROR).value) = util.STR_EMPTY Then
+        If CStr(.Range(CELL_SUBSCRIPTION_CONTROL).value) = util.STR_ERROR_UPPER And CStr(.Range(CELL_ERROR).value) = util.STR_EMPTY Then
             server = util.getServerVal(STR_SHEET_NAME, CELL_SERVER_NAME)
             If server = util.STR_EMPTY Then Exit Sub
-            .range(CELL_ERROR).Formula = util.composeLink(server, STR_REQ_ACCOUNT_PORTFOLIO_ERROR, util.IDENTIFIER_ZERO, util.STR_EMPTY)
+            .Range(CELL_ERROR).Formula = util.composeLink(server, STR_REQ_ACCOUNT_PORTFOLIO_ERROR, util.IDENTIFIER_ZERO, util.STR_EMPTY)
         End If
     
-        If CStr(.range(CELL_SUBSCRIPTION_CONTROL).value) = util.STR_RECEIVED Then
+        If CStr(.Range(CELL_SUBSCRIPTION_CONTROL).value) = util.STR_RECEIVED Then
             Dim accountUpdatesArray() As Variant
             Dim portfolioArray() As Variant
             
@@ -274,7 +289,7 @@ Private Sub Worksheet_Calculate()
             If server = util.STR_EMPTY Then Exit Sub
     
             Dim account As String
-            account = .range(CELL_ACCOUNT).value
+            account = .Range(CELL_ACCOUNT).value
     
             ' send request and receive account updates table/array
             accountUpdatesArray = util.sendRequest(server, STR_REQ_ACCOUNT_PORTFOLIO, util.IDENTIFIER_ZERO & util.QMARK & account) ' returned array can be 1-Dimension or 2-Dimension
@@ -366,9 +381,9 @@ Private Function findAccountUpdateRow(account As String, key As String, curr As 
     Dim row As Integer, i As Integer
     Dim arr1 As Variant, arr2 As Variant, arr3 As Variant
     With Worksheets(STR_SHEET_NAME)
-        arr1 = .range(.Cells(ACCOUNT_UPDATES_START_ROW, COLUMN_ACCOUNT_ACCOUNT), .Cells(ACCOUNT_UPDATES_END_ROW, COLUMN_ACCOUNT_ACCOUNT)).value
-        arr2 = .range(.Cells(ACCOUNT_UPDATES_START_ROW, COLUMN_ACCOUNT_KEY), .Cells(ACCOUNT_UPDATES_END_ROW, COLUMN_ACCOUNT_KEY)).value
-        arr3 = .range(.Cells(ACCOUNT_UPDATES_START_ROW, COLUMN_ACCOUNT_CURRENCY), .Cells(ACCOUNT_UPDATES_END_ROW, COLUMN_ACCOUNT_CURRENCY)).value
+        arr1 = .Range(.Cells(ACCOUNT_UPDATES_START_ROW, COLUMN_ACCOUNT_ACCOUNT), .Cells(ACCOUNT_UPDATES_END_ROW, COLUMN_ACCOUNT_ACCOUNT)).value
+        arr2 = .Range(.Cells(ACCOUNT_UPDATES_START_ROW, COLUMN_ACCOUNT_KEY), .Cells(ACCOUNT_UPDATES_END_ROW, COLUMN_ACCOUNT_KEY)).value
+        arr3 = .Range(.Cells(ACCOUNT_UPDATES_START_ROW, COLUMN_ACCOUNT_CURRENCY), .Cells(ACCOUNT_UPDATES_END_ROW, COLUMN_ACCOUNT_CURRENCY)).value
         For i = 1 To ACCOUNT_UPDATES_END_ROW - ACCOUNT_UPDATES_START_ROW + 1
             If CStr(arr1(i, 1)) = util.STR_EMPTY And CStr(arr2(i, 1)) = util.STR_EMPTY And CStr(arr3(i, 1)) = util.STR_EMPTY Or _
                 CStr(arr1(i, 1)) = account And CStr(arr2(i, 1)) = key And CStr(arr3(i, 1)) = curr Then
@@ -385,8 +400,8 @@ Private Function FindPortfolioRow(conid As String, account As String) As Integer
     Dim row As Integer, i As Integer
     Dim arr1 As Variant, arr2 As Variant
     With Worksheets(STR_SHEET_NAME)
-        arr1 = .range(.Cells(ACCOUNT_UPDATES_START_ROW, COLUMN_PORTFOLIO_CONID), .Cells(ACCOUNT_UPDATES_END_ROW, COLUMN_PORTFOLIO_CONID)).value
-        arr2 = .range(.Cells(ACCOUNT_UPDATES_START_ROW, COLUMN_PORTFOLIO_ACCOUNT), .Cells(ACCOUNT_UPDATES_END_ROW, COLUMN_PORTFOLIO_ACCOUNT)).value
+        arr1 = .Range(.Cells(ACCOUNT_UPDATES_START_ROW, COLUMN_PORTFOLIO_CONID), .Cells(ACCOUNT_UPDATES_END_ROW, COLUMN_PORTFOLIO_CONID)).value
+        arr2 = .Range(.Cells(ACCOUNT_UPDATES_START_ROW, COLUMN_PORTFOLIO_ACCOUNT), .Cells(ACCOUNT_UPDATES_END_ROW, COLUMN_PORTFOLIO_ACCOUNT)).value
         For i = 1 To ACCOUNT_UPDATES_END_ROW - ACCOUNT_UPDATES_START_ROW + 1
             If CStr(arr1(i, 1)) = util.STR_EMPTY And CStr(arr2(i, 1)) = util.STR_EMPTY Or _
                 CStr(arr1(i, 1)) = conid And CStr(arr2(i, 1)) = account Then

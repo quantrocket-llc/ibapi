@@ -42,6 +42,7 @@ Public Const DELTA_NEUTRAL_COLUMN = 14
 Public Const SERVER_NAME_CHAR = "S"
 Public Const maxRowsToFormat = 200 ' increase this if your spreadsheets go beyond the 200th row
 Public Const IDENTIFIER_ZERO = "id0"
+Public Const ADVANCED_ORDER_REJECT_JSON = "advancedOrderRejectJson"
 
 ' request ids
 Public Const ID_REQ_MARKET_DATA = 100001
@@ -70,6 +71,7 @@ Public Const ID_CALCULATE_OPTION_PRICE = 2300001
 Public Const ID_EXERCISE_OPTIONS = 2400001
 Public Const ID_REQ_SMART_COMPONENTS = 2500001
 Public Const ID_REQ_HISTOGRAM_DATA = 2600001
+Public Const ID_REQ_HISTORICAL_SCHEDULE = 2700001
 
 Public Function sheetExists(sheetToFind As String) As Boolean
     Dim sheet As Worksheet
@@ -91,7 +93,7 @@ Public Function createLongValue(theArray As Variant) As String
     createLongValue = longValue
 End Function
 
-Public Function cleanOnError(cell As range) As Boolean
+Public Function cleanOnError(cell As Range) As Boolean
     If (CStr(cell.value) = "Error 2023") Or (CStr(cell.value) = "Error 2015") Then
         cell.value = ""
         cleanOnError = True
@@ -102,7 +104,7 @@ End Function
 
 Public Function getServerVal(ByVal sheetName As String, ByVal descRangeName As String) As String
     Dim server As String
-    server = Worksheets(sheetName).range(descRangeName).value
+    server = Worksheets(sheetName).Range(descRangeName).value
     If server = "" Or IsEmpty(server) Then
         MsgBox ("You must enter a valid user name.")
     End If
@@ -128,7 +130,7 @@ Public Function IsInArray(stringToBeFound As String, arr As Variant) As Boolean
   IsInArray = (UBound(Filter(arr, stringToBeFound)) > -1)
 End Function
 
-Public Function hasContractData(sheet As Worksheet, startingRow As Integer, cell As range, startIndex As Integer, contractColumnsArray As Variant) As Boolean
+Public Function hasContractData(sheet As Worksheet, startingRow As Integer, cell As Range, startIndex As Integer, contractColumnsArray As Variant) As Boolean
 
     Dim ret As Boolean
     ret = False
@@ -149,13 +151,16 @@ Public Function hasContractData(sheet As Worksheet, startingRow As Integer, cell
         If contractColumnsArray(i) = "SECIDTYPE" And sheet.Cells(cell.row, i + startIndex).value <> STR_EMPTY Then
             ret = True
         End If
+        If contractColumnsArray(i) = "ISSUERID" And sheet.Cells(cell.row, i + startIndex).value <> STR_EMPTY Then
+            ret = True
+        End If
     Next
     
 hasContractDataEnd:
     hasContractData = ret
 End Function
 
-Public Function hasRequestData(sheet As Worksheet, startingRow As Integer, cell As range, columnIndex As Integer) As Boolean
+Public Function hasRequestData(sheet As Worksheet, startingRow As Integer, cell As Range, columnIndex As Integer) As Boolean
 
     Dim ret As Boolean
     ret = False
@@ -189,11 +194,11 @@ End Function
 ' ========================================================
 ' send poke
 ' ========================================================
-Sub sendPoke(sheet As Worksheet, serverName As String, topic As String, request As String, cell As range, startOfContractColumns As Integer, contractColumnsArray As Variant, genericTicksColumnIndex As Integer, idColumnIndex As Integer, _
+Sub sendPoke(sheet As Worksheet, serverName As String, topic As String, request As String, cell As Range, startOfContractColumns As Integer, contractColumnsArray As Variant, genericTicksColumnIndex As Integer, idColumnIndex As Integer, _
         orderBaseColumnsStart As Integer, orderBaseColumnsEnd As Integer, orderExtColumnsStart As Integer, orderExtColumnsEnd As Integer)
     On Error Resume Next
     
-    Dim rangeToPoke As range
+    Dim rangeToPoke As Range
     Set rangeToPoke = Nothing
     
     Dim chan As Integer, i As Integer
@@ -221,7 +226,7 @@ Sub sendPoke(sheet As Worksheet, serverName As String, topic As String, request 
             End If
         Next
 
-        Set rangeToPoke = sheet.range(sheet.Cells(cell.row, 1), sheet.Cells(cell.row, size + 1))
+        Set rangeToPoke = sheet.Range(sheet.Cells(cell.row, 1), sheet.Cells(cell.row, size + 1))
 
     End If
     
@@ -236,7 +241,7 @@ Sub sendPoke(sheet As Worksheet, serverName As String, topic As String, request 
             sheet.Cells(cell.row, genericTicksColumnIndex).Value2 = CStr(sheet.Cells(cell.row, genericTicksColumnIndex).Value2)
         End If
         
-        Set rangeToPoke = Union(rangeToPoke, sheet.range(sheet.Cells(cell.row, genericTicksColumnIndex), sheet.Cells(cell.row, genericTicksColumnIndex)))
+        Set rangeToPoke = Union(rangeToPoke, sheet.Range(sheet.Cells(cell.row, genericTicksColumnIndex), sheet.Cells(cell.row, genericTicksColumnIndex)))
     End If
         
     ' change order base values to sent
@@ -255,7 +260,7 @@ Sub sendPoke(sheet As Worksheet, serverName As String, topic As String, request 
             End If
         Next
 
-        Set rangeToPoke = Union(rangeToPoke, sheet.range(sheet.Cells(cell.row, orderBaseColumnsStart), sheet.Cells(cell.row, orderBaseColumnsEnd)))
+        Set rangeToPoke = Union(rangeToPoke, sheet.Range(sheet.Cells(cell.row, orderBaseColumnsStart), sheet.Cells(cell.row, orderBaseColumnsEnd)))
     End If
         
     ' change order extended values to sent
@@ -274,12 +279,12 @@ Sub sendPoke(sheet As Worksheet, serverName As String, topic As String, request 
             End If
         Next
 
-        Set rangeToPoke = Union(rangeToPoke, sheet.range(sheet.Cells(cell.row, orderExtColumnsStart), sheet.Cells(cell.row, orderExtColumnsEnd)))
+        Set rangeToPoke = Union(rangeToPoke, sheet.Range(sheet.Cells(cell.row, orderExtColumnsStart), sheet.Cells(cell.row, orderExtColumnsEnd)))
     End If
     
     ' sent values via DDEPoke
     If Not rangeToPoke Is Nothing Then
-        Dim singleArea As range
+        Dim singleArea As Range
         For Each singleArea In rangeToPoke.Areas
             Application.DDEPoke chan, request, singleArea
         Next singleArea
@@ -624,7 +629,7 @@ Private Sub InitializeSheet(sheet As Worksheet, numOfRows As Long, headerText As
     numOfColumns = UBound(headerColumns) - LBound(headerColumns) + 1
     
     ' header
-    With sheet.range(sheet.Cells(1, 1), sheet.Cells(1, numOfColumns))
+    With sheet.Range(sheet.Cells(1, 1), sheet.Cells(1, numOfColumns))
         .Interior.Color = RGB(0, 0, 128)
         .Font.Color = RGB(255, 255, 255)
         .Font.Bold = True

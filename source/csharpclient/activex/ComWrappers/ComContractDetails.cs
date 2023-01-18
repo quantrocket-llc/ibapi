@@ -177,15 +177,6 @@ namespace TWSLib
         }
 
         /**
-        * @brief MD Size Multiplier
-        */
-        int MdSizeMultiplier
-        {
-            get { return data != null ? data.MdSizeMultiplier : default(int); }
-            set { if (data != null) data.MdSizeMultiplier = value; }
-        }
-
-        /**
         * @brief Aggregated group
         */
         int AggGroup
@@ -406,7 +397,34 @@ namespace TWSLib
             get { return data != null ? data.Notes : default(string); }
             set { if (data != null) data.Notes = value; }
         }
-        
+
+        /**
+        * @brief Order's minimal size
+        */
+        object MinSize
+        {
+            get { return data != null ? data.MinSize : default(object); }
+            set { if (data != null) data.MinSize = Util.GetDecimal(value); }
+        }
+
+        /**
+        * @brief Order's size increment
+        */
+        object SizeIncrement
+        {
+            get { return data != null ? data.SizeIncrement : default(object); }
+            set { if (data != null) data.SizeIncrement = Util.GetDecimal(value); }
+        }
+
+        /**
+        * @brief Order's suggested size increment
+        */
+        object SuggestedSizeIncrement
+        {
+            get { return data != null ? data.SuggestedSizeIncrement : default(object); }
+            set { if (data != null) data.SuggestedSizeIncrement = Util.GetDecimal(value); }
+        }
+
         string TWSLib.IContractDetails.marketName
         {
             get { return MarketName; }
@@ -572,11 +590,6 @@ namespace TWSLib
             get { return EvMultiplier; }
         }
 
-        int TWSLib.IContractDetails.mdSizeMultiplier
-        {
-            get { return MdSizeMultiplier; }
-        }
-
         int TWSLib.IContractDetails.aggGroup
         {
             get { return AggGroup; }
@@ -610,6 +623,21 @@ namespace TWSLib
         string TWSLib.IContractDetails.stockType
         {
             get { return StockType; }
+        }
+
+        object TWSLib.IContractDetails.minSize
+        {
+            get { return MinSize; }
+        }
+
+        object TWSLib.IContractDetails.sizeIncrement
+        {
+            get { return SizeIncrement; }
+        }
+
+        object TWSLib.IContractDetails.suggestedSizeIncrement
+        {
+            get { return SuggestedSizeIncrement; }
         }
 
         public static explicit operator ComContractDetails(ContractDetails cd)

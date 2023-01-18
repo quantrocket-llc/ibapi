@@ -56,7 +56,7 @@ Private Sub RequestHistogramData_Click()
 End Sub
 
 ' update soft dollar tiers table
-Sub UpdateHistogramData(msgId As Long, price As Double, size As Long)
+Sub UpdateHistogramData(msgId As Long, price As Double, Size As Variant)
     Dim rowId As Long
     
     For rowId = 1 To histogramDataTable.Rows.Count
@@ -67,7 +67,7 @@ Sub UpdateHistogramData(msgId As Long, price As Double, size As Long)
 
     histogramDataTable(rowId, Col_MSG_ID).value = msgId
     histogramDataTable(rowId, Col_PRICE).value = price
-    histogramDataTable(rowId, Col_SIZE).value = size
+    histogramDataTable(rowId, Col_SIZE).value = Util.DecimalToString(Size)
 End Sub
 
 Public Sub Initialise()

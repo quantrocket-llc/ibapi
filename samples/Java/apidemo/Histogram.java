@@ -3,7 +3,9 @@
 
 package apidemo;
 
+import com.ib.client.Decimal;
 import com.ib.client.HistogramEntry;
+import com.ib.client.Util;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -19,7 +21,7 @@ public class Histogram extends JComponent {
 	private static final long serialVersionUID = 1L;
 	private static final int m_barHeight = 15;
 	private final List<HistogramEntry> m_rows;
-	private static final int m_x0 = 40;
+	private static final int m_x0 = 80;
 	
 	public Histogram(List<HistogramEntry> rows) {
 		m_rows = rows;
@@ -27,14 +29,14 @@ public class Histogram extends JComponent {
 	
 	@Override protected void paintComponent(Graphics g) {
 		int y = 0;
-		long max = getMax();
+		Decimal max = getMax();
 
 		int width = getWidth() - m_x0;
 		
 		for (HistogramEntry bar : m_rows) {
-			int x1 = (int)((bar.size() * width) / max);
+			int x1 = (int)(bar.size().multiply(Decimal.get(width)).divide(max).longValue());
 
-			String label = bar.price() + "";
+			String label = Util.DoubleMaxString(bar.price());
 			
 			g.setColor(Color.red);
 			g.fillRect(m_x0, y, x1, m_barHeight);
@@ -46,8 +48,8 @@ public class Histogram extends JComponent {
 		}
 	}
 
-	long getMax() {
-		return m_rows.stream().map(entry -> entry.size()).max(Long::compare).orElse((long) -1);
+	Decimal getMax() {
+		return m_rows.stream().map(entry -> entry.size()).max(Decimal::compare).orElse(Decimal.MINUS_ONE);
 	}
 		
 	@Override public Dimension getPreferredSize() {// why on main screen 1 is okay but not here?

@@ -32,6 +32,7 @@ public class MiscHandler extends BaseHandler {
     protected String m_accountsList = "";
     protected String m_accountUpdateTime = "";
     protected String m_currentTime = "";
+    protected String m_whiteBrandingId = "";
     
     // parser
     private MiscRequestParser m_requestParser = new MiscRequestParser();
@@ -133,7 +134,7 @@ public class MiscHandler extends BaseHandler {
         }
         if (dataMap.ddeRequestStatus() == DdeRequestStatus.UNKNOWN) {
             clientSocket().reqSmartComponents(request.requestId(), request.bboExchange());
-            dataMap.ddeRequestStatus(dataMap.error() == null ? DdeRequestStatus.REQUESTED : DdeRequestStatus.ERROR);
+            dataMap.ddeRequestStatus(Utils.isNull(dataMap.error()) ? DdeRequestStatus.REQUESTED : DdeRequestStatus.ERROR);
         }
         String ret = dataMap.ddeRequestStatus().toString();
         if (dataMap.ddeRequestStatus() == DdeRequestStatus.ERROR) {
@@ -256,6 +257,27 @@ public class MiscHandler extends BaseHandler {
             BaseListDataMap<SoftDollarTier> dataMap = m_softDollarTiersRequests.get(requestId);
             return (dataMap != null ? dataMap.syncCopyList() : new ArrayList<SoftDollarTier>());
         }
+    }
+    
+    /* *****************************************************************************************************
+     *                                          User Info
+    /* *****************************************************************************************************/
+    /** Method handles user info request */
+    public String handleUserInfoRequest() {
+        System.out.println("Handling user info request.");
+        if (Utils.isNull(m_whiteBrandingId)) {
+            clientSocket().reqUserInfo(0);
+        }
+        String ret = m_whiteBrandingId;
+        m_whiteBrandingId = "";
+        return ret;
+    }
+    
+    /** Method updates user info */
+    public void updateUserInfo(String whiteBrandingId) {
+        m_whiteBrandingId = whiteBrandingId;
+        DdeNotificationEvent event = RequestParser.createDdeNotificationEvent(DdeRequestType.REQ_USER_INFO.topic(), RequestParser.ID_ZERO);
+        twsService().notifyDde(event);
     }
     
     /* *****************************************************************************************************

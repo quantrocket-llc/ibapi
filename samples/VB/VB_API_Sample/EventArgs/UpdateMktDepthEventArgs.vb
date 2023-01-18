@@ -13,7 +13,7 @@ Class UpdateMktDepthEventArgs
 
     Property price As Double
 
-    Property size As Integer
+    Property size As Decimal
 
 End Class
 

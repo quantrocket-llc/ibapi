@@ -1,4 +1,4 @@
-﻿/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2023 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 namespace IBApi
@@ -9,12 +9,12 @@ namespace IBApi
         public const byte EOL = 0;
         public const string BagSecType = "BAG";
         public const int REDIRECT_COUNT_MAX = 2;
+        public const string INFINITY_STR = "Infinity";
 
         public const int FaGroups = 1;
-        public const int FaProfiles = 2;
         public const int FaAliases = 3;
         public const int MinVersion = 100;
-        public const int MaxVersion = MinServerVer.REPLACE_FA_END;
+        public const int MaxVersion = MinServerVer.MIN_SERVER_VER_FA_PROFILE_DESUPPORT;
         public const int MaxMsgSize = 0x00FFFFFF;
     }
 }

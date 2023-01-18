@@ -22,6 +22,7 @@ import com.ib.api.dde.handlers.FundamentalDataHandler;
 import com.ib.api.dde.handlers.HeadTimestampHandler;
 import com.ib.api.dde.handlers.HistogramDataHandler;
 import com.ib.api.dde.handlers.HistoricalDataHandler;
+import com.ib.api.dde.handlers.HistoricalScheduleHandler;
 import com.ib.api.dde.handlers.HistoricalTicksHandler;
 import com.ib.api.dde.handlers.MarketDataHandler;
 import com.ib.api.dde.handlers.MarketDepthHandler;
@@ -73,6 +74,7 @@ import com.ib.client.EReader;
 import com.ib.client.EReaderSignal;
 import com.ib.client.FamilyCode;
 import com.ib.client.HistogramEntry;
+import com.ib.client.HistoricalSession;
 import com.ib.client.NewsProvider;
 import com.ib.client.PriceIncrement;
 import com.ib.client.SoftDollarTier;
@@ -116,6 +118,7 @@ public class TwsService {
     private final ExerciseOptionsHandler m_exerciseOptionsHandler;
     private final MiscHandler m_miscHandler;
     private final HistogramDataHandler m_histogramDataHandler;
+    private final HistoricalScheduleHandler m_historicalScheduleHandler;
     
     // old-style
     private final OldMarketDataHandler m_oldMarketDataHandler;
@@ -167,6 +170,7 @@ public class TwsService {
         m_exerciseOptionsHandler = new ExerciseOptionsHandler(m_clientSocket, this);
         m_miscHandler = new MiscHandler(m_clientSocket, this);
         m_histogramDataHandler = new HistogramDataHandler(m_clientSocket, this);
+        m_historicalScheduleHandler = new HistoricalScheduleHandler(m_clientSocket, this);
 
         // old-style
         m_oldMarketDataHandler = new OldMarketDataHandler(m_clientSocket, this);
@@ -497,6 +501,18 @@ public class TwsService {
             case REQ_COMPLETED_ORDERS:
                 return withData ? (T) m_ordersHandler.handleCompletedOrdersArrayRequest(requestStr) : (T) m_ordersHandler.handleCompletedOrdersRequest(requestStr);
 
+            // historical schedule
+            case REQUEST_HISTORICAL_SCHEDULE:
+                return (T) m_historicalScheduleHandler.handleHistoricalScheduleRequest(requestStr, (byte[]) data);
+            case CANCEL_HISTORICAL_SCHEDULE:
+                return (T) m_historicalScheduleHandler.handleHistoricalScheduleCancel(requestStr);
+            case HISTORICAL_SCHEDULE_TICK:
+                return (T) m_historicalScheduleHandler.handleHistoricalScheduleTickRequest(requestStr);
+                
+            // user info
+            case REQ_USER_INFO:
+                return (T) m_miscHandler.handleUserInfoRequest();
+                
             // old-style
             case TIK:
                 return (T) m_oldMarketDataHandler.handleTickRequest(requestStr, false);
@@ -670,6 +686,9 @@ public class TwsService {
                 break;
             case REQ_COMPLETED_ORDERS:
                 m_ordersHandler.handleCompletedOrdersCancel();
+                break;
+            case HISTORICAL_SCHEDULE_TICK:
+                m_historicalScheduleHandler.handleHistoricalScheduleCancel(requestStr);
                 break;
                 
             
@@ -1346,5 +1365,26 @@ public class TwsService {
     /** Method updates replace FA end */
     public void replaceFAEnd(int requestId, String text) {
         m_accountUpdatesMultiHandler.updateFAReplaceEnd(requestId, text);
+    }
+    
+    /* *****************************************************************************************************
+     *                                             Historical Schedule
+    /* *****************************************************************************************************/
+    /** Method updates historical schedule */
+    public void updateHistoricalSchedule(int reqId, String startDateTime, String endDateTime, String timeZone, List<HistoricalSession> sessions) {
+        m_historicalScheduleHandler.updateHistoricalSchedule(reqId, startDateTime, endDateTime, timeZone, sessions);
+    }
+
+    /** Method updates historical schedule request error */
+    public void updateHistoricalScheduleRequestError(int requestId, String errorMsgStr) {
+        m_historicalScheduleHandler.updateHistoricalScheduleRequestError(requestId, errorMsgStr);
+    }
+    
+    /* *****************************************************************************************************
+     *                                          User Info
+    /* *****************************************************************************************************/
+    /** Method updates user info */
+    public void updateUserInfo(String whiteBrandingId) {
+        m_miscHandler.updateUserInfo(whiteBrandingId);
     }
 }

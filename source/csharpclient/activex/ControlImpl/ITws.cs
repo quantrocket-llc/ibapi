@@ -1,4 +1,4 @@
-/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2023 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 using System;
@@ -77,12 +77,6 @@ namespace TWSLib
         int minQty { get; set; }
         [DispId(32)]
         double percentOffset { get; set; }
-        [DispId(33)]
-        bool eTradeOnly { get; set; }
-        [DispId(34)]
-        bool firmQuoteOnly { get; set; }
-        [DispId(35)]
-        double nbboPriceCap { get; set; }
         [DispId(36)]
         int auctionStrategy { get; set; }
         [DispId(37)]
@@ -127,15 +121,12 @@ namespace TWSLib
         [DispId(55)]
         void cancelMktData(int id);
 
-        [DispId(56)]
-        void cancelOrder(int id);
-
         [DispId(57)]
         void placeOrder(int id, string action, double quantity, string symbol, string secType,
                   string lastTradeDate, double strike, string right, string multiplier,
                   string exchange, string primaryExchange, string curency, string orderType,
                   double price, double auxPrice, string goodAfterTime, string group,
-                  string faMethod, string faPercentage, string faProfile, string goodTillDate);
+                  string faMethod, string faPercentage, /* deprecated */ string faProfile, string goodTillDate);
 
         [DispId(58)]
         void disconnect();
@@ -170,7 +161,7 @@ namespace TWSLib
                   string secType, string exchange, string primaryExchange, string curency,
                   string orderType, double lmtPrice, double auxPrice,
                   string goodAfterTime, string group,
-                  string faMethod, string faPercentage, string faProfile, string goodTillDate);
+                  string faMethod, string faPercentage, /* deprecated */ string faProfile, string goodTillDate);
         [DispId(67)]
         void reqContractDetails(string symbol, string secType, string lastTradeDate, double strike,
                   string right, string multiplier, string exchange, string curency, int includeExpired);
@@ -379,7 +370,20 @@ namespace TWSLib
         void reqHistoricalTicks(int reqId, IContract contract, string startDateTime, string endDateTime, int numberOfTicks, string whatToShow, int useRth, bool ignoreSize, ITagValueList options);
         [DispId(234)]
         void reqCompletedOrders(bool apiOnly);
-
+        [DispId(235)]
+        void reqWshMetaData(int reqId);
+        [DispId(236)]
+        void reqWshEventData(int reqId, IWshEventData wshEventData);
+        [DispId(237)]
+        void cancelWshMetaData(int reqId);
+        [DispId(238)]
+        void cancelWshEventData(int reqId);
+        [DispId(239)]
+        void reqUserInfo(int reqId);
+        [DispId(240)]
+        void cancelOrder(int reqId, string manualOrderCancelTime);
+        [DispId(241)]
+        IWshEventData createWshEventData();
         #endregion
     }
 }

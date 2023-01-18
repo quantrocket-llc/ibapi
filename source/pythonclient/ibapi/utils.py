@@ -13,7 +13,8 @@ import sys
 import logging
 import inspect
 
-from ibapi.common import UNSET_INTEGER, UNSET_DOUBLE, UNSET_LONG
+from decimal import Decimal
+from ibapi.common import UNSET_INTEGER, UNSET_DOUBLE, UNSET_LONG, UNSET_DECIMAL, DOUBLE_INFINITY, INFINITY_STR
 
 
 logger = logging.getLogger(__name__)
@@ -64,25 +65,35 @@ def setattr_log(self, var_name, var_value):
 SHOW_UNSET = True
 
 
-def decode(the_type, fields, show_unset = False):
+def decode(the_type, fields, show_unset = False, use_unicode = False):
     try:
         s = next(fields)
     except StopIteration:
         raise BadMessage("no more fields")
 
     logger.debug("decode %s %s", the_type, s)
+    
+    if the_type is Decimal:
+        if s is None or len(s) == 0 or s.decode() == "2147483647" or s.decode() == "9223372036854775807" or s.decode() == "1.7976931348623157E308":
+            return UNSET_DECIMAL
+        else:
+            return the_type(s.decode())
 
     if the_type is str:
         if type(s) is str:
             return s
         elif type(s) is bytes:
-            return s.decode(errors='backslashreplace')
+            return s.decode('unicode-escape' if use_unicode else 'UTF-8', errors='backslashreplace')
         else:
             raise TypeError("unsupported incoming type " + type(s) + " for desired type 'str")
 
     orig_type = the_type
     if the_type is bool:
         the_type = int
+        
+    if the_type is float:
+        if s.decode() == INFINITY_STR:
+            return DOUBLE_INFINITY
 
     if show_unset:
         if s is None or len(s) == 0:
@@ -114,13 +125,17 @@ def ExerciseStaticMethods(klass):
             print(var())
             print()
             
-           
-def floatToStr(val):
-    return str(val) if val != UNSET_DOUBLE else ""
+def floatMaxString(val: float):
+    return "{:.8f}".format(val).rstrip('0').rstrip('.').rstrip(',') if val != UNSET_DOUBLE else ""
 
- 
-def longToStr(val):
+def longMaxString(val):
     return str(val) if val != UNSET_LONG else ""
+
+def intMaxString(val):
+    return str(val) if val != UNSET_INTEGER else ""
 
 def isAsciiPrintable(val):
     return all(ord(c) >=32 and ord(c) < 128 for c in val)
+
+def decimalMaxString(val: Decimal):
+    return "{:f}".format(val) if val != UNSET_DECIMAL else ""

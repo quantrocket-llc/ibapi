@@ -1,4 +1,4 @@
-﻿/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2023 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 using System;
@@ -178,6 +178,11 @@ namespace IBSampleApp
             return contract;
         }
 
+        private string GetManualOrderCancelTime()
+        {
+            return manualOrderCancelTime.Text;
+        }
+
         public void SetOrderContract(Contract contract)
         {
             contractSymbol.Text = contract.Symbol;
@@ -202,7 +207,7 @@ namespace IBSampleApp
             if (!lmtPrice.Text.Equals(""))
                 order.LmtPrice = double.Parse(lmtPrice.Text);
             if (!quantity.Text.Equals(""))
-                order.TotalQuantity = double.Parse(quantity.Text);
+                order.TotalQuantity = Util.StringToDecimal(quantity.Text);
             order.Account = account.Text;
             order.ModelCode = modelCode.Text;
             order.Tif = timeInForce.Text;
@@ -223,6 +228,7 @@ namespace IBSampleApp
             FillPegToBench(order);
             FillAdjustedStops(order);
             FillConditions(order);
+            FillPegBestPegMid(order);
 
             return order;
         }
@@ -302,8 +308,10 @@ namespace IBSampleApp
                 order.TrailingPercent = double.Parse(trailingPercent.Text);
             if (!discretionaryAmount.Text.Equals(""))
                 order.DiscretionaryAmt = int.Parse(discretionaryAmount.Text);
-            if (!nbboPriceCap.Text.Equals(""))
-                order.NbboPriceCap = double.Parse(nbboPriceCap.Text);
+            if (!duration.Text.Equals(""))
+                order.Duration = int.Parse(duration.Text);
+            if (!postToAts.Text.Equals(""))
+                order.PostToAts = int.Parse(postToAts.Text);
 
             order.OcaGroup = ocaGroup.Text;
             order.OcaType = (int)((IBType)ocaType.SelectedItem).Value;
@@ -317,8 +325,6 @@ namespace IBSampleApp
             order.OutsideRth = outsideRTH.Checked;
             order.AllOrNone = allOrNone.Checked;
             order.OverridePercentageConstraints = overrideConstraints.Checked;
-            order.ETradeOnly = eTrade.Checked;
-            order.FirmQuoteOnly = firmQuote.Checked;
             order.OptOutSmartRouting = optOutSmart.Checked;
             order.Transmit = transmit.Checked;
             order.Tier = softDollarTier.SelectedItem as SoftDollarTier ?? new SoftDollarTier("", "", "");
@@ -329,6 +335,10 @@ namespace IBSampleApp
             order.DontUseAutoPriceForHedge = dontUseAutoPriceForHedge.Checked;
             order.IsOmsContainer = omsContainer.Checked;
             order.DiscretionaryUpToLimitPrice = relativeDiscretionary.Checked;
+            order.AutoCancelParent = autoCancelParent.Checked;
+            order.AdvancedErrorOverride = advancedErrorOverride.Text;
+            order.ManualOrderTime = manualOrderTime.Text;
+            order.Solicited = solicited.Checked;
         }
 
         private void FillVolatilityAttributes(Order order)
@@ -360,7 +370,6 @@ namespace IBSampleApp
             order.FaGroup = faGroup.Text;
             order.FaPercentage = faPercentage.Text;
             order.FaMethod = (string)((IBType)faMethod.SelectedItem).Value;
-            order.FaProfile = faProfile.Text;
         }
 
         private void FillScaleAttributes(Order order)
@@ -435,23 +444,41 @@ namespace IBSampleApp
             order.AlgoParams = algoParams;
         }
 
+        private void FillPegBestPegMid(Order order)
+        {
+            if (!string.IsNullOrWhiteSpace(tbMinTradeQty.Text))
+                order.MinTradeQty = int.Parse(tbMinTradeQty.Text);
+            if (!string.IsNullOrWhiteSpace(tbMinCompeteSize.Text))
+                order.MinCompeteSize = int.Parse(tbMinCompeteSize.Text);
+            if (cbCompeteAgainstBestOffsetUpToMid.Checked)
+                order.CompeteAgainstBestOffset = Order.COMPETE_AGAINST_BEST_OFFSET_UP_TO_MID;
+            else if (!string.IsNullOrWhiteSpace(tbCompeteAgainstBestOffset.Text))
+                order.CompeteAgainstBestOffset = double.Parse(tbCompeteAgainstBestOffset.Text);
+            if (!string.IsNullOrWhiteSpace(tbMidOffsetAtWhole.Text))
+                order.MidOffsetAtWhole = double.Parse(tbMidOffsetAtWhole.Text);
+            if (!string.IsNullOrWhiteSpace(tbMidOffsetAtHalf.Text))
+                order.MidOffsetAtHalf = double.Parse(tbMidOffsetAtHalf.Text);
+        }
+
         public async void SetOrder(Order order)
         {
             orderId = order.OrderId;
             action.Text = order.Action;
             orderType.Text = order.OrderType;
             lmtPrice.Text = doubleToStr(order.LmtPrice);
-            quantity.Text = doubleToStr(order.TotalQuantity);
+            quantity.Text = Util.DecimalMaxString(order.TotalQuantity);
             account.Text = order.Account;
             modelCode.Text = order.ModelCode;
             timeInForce.Text = order.Tif;
             auxPrice.Text = doubleToStr(order.AuxPrice);
-            displaySize.Text = order.DisplaySize.ToString();
+            displaySize.Text = integerToStr(order.DisplaySize);
             cashQty.Text = doubleToStr(order.CashQty);
             dontUseAutoPriceForHedge.Checked = order.DontUseAutoPriceForHedge;
             usePriceMgmtAlgo.CheckState = order.UsePriceMgmtAlgo.HasValue 
                 ? order.UsePriceMgmtAlgo.Value ? CheckState.Checked : CheckState.Unchecked 
                 : CheckState.Indeterminate;
+            duration.Text = integerToStr(order.Duration);
+            postToAts.Text = integerToStr(order.PostToAts);
 
             //order = GetExtendedOrderAttributes(order);
             //order = GetAdvisorAttributes(order);
@@ -483,6 +510,18 @@ namespace IBSampleApp
             orderBindingSource.DataSource = order.Conditions;
             ignoreRth.Checked = order.ConditionsIgnoreRth;
             cancelOrder.SelectedIndex = order.ConditionsCancelOrder ? 1 : 0;
+
+            tbMinTradeQty.Text = integerToStr(order.MinTradeQty);
+            tbMinCompeteSize.Text = integerToStr(order.MinCompeteSize);
+            if (order.CompeteAgainstBestOffset == Order.COMPETE_AGAINST_BEST_OFFSET_UP_TO_MID)
+                cbCompeteAgainstBestOffsetUpToMid.Checked = true;
+            else
+                tbCompeteAgainstBestOffset.Text = doubleToStr(order.CompeteAgainstBestOffset);
+            tbMidOffsetAtWhole.Text = doubleToStr(order.MidOffsetAtWhole);
+            tbMidOffsetAtHalf.Text = doubleToStr(order.MidOffsetAtHalf);
+            solicited.Checked = order.Solicited;
+            faGroup.Text = order.FaGroup;
+            faMethod.Text = order.FaMethod;
         }
 
         public void SetParentOrderId(int id)
@@ -498,6 +537,11 @@ namespace IBSampleApp
         string doubleToStr(double val)
         {
             return val != double.MaxValue ? val.ToString() : "";
+        }
+
+        string integerToStr(int val)
+        {
+            return val != int.MaxValue ? val.ToString() : "";
         }
 
         private void EnableVWap()
@@ -659,6 +703,21 @@ namespace IBSampleApp
                 if (dlg.ShowDialog() == DialogResult.OK)
                     selectedCondition = dlg.Condition;
             }
+        }
+
+        private void cancelOrderButton_Click(object sender, EventArgs e)
+        {
+            Order order = GetOrder();
+            String manualOrderCancelTime = GetManualOrderCancelTime();
+            orderManager.CancelOrder(order, manualOrderCancelTime);
+            if (orderId != 0)
+                orderId = 0;
+            Visible = false;
+        }
+
+        private void cbCompeteAgainstBestOffsetUpToMid_CheckedChanged(object sender, EventArgs e)
+        {
+            tbCompeteAgainstBestOffset.Enabled = !cbCompeteAgainstBestOffsetUpToMid.Checked;
         }
     }
 }

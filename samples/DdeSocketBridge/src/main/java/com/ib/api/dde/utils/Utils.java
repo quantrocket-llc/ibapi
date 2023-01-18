@@ -44,6 +44,7 @@ import com.ib.client.ComboLeg;
 import com.ib.client.Contract;
 import com.ib.client.ContractDescription;
 import com.ib.client.ContractDetails;
+import com.ib.client.Decimal;
 import com.ib.client.DeltaNeutralContract;
 import com.ib.client.DepthMktDataDescription;
 import com.ib.client.Execution;
@@ -113,6 +114,10 @@ public class Utils {
     
     public static final String LONGVALUE = "LONGVALUE";
     
+    public static final String ADVANCED_ORDER_REJECT_JSON_STR = "advancedOrderRejectJson";
+
+    public static final String UP_TO_MID = "UpToMid";
+
     @SuppressWarnings("serial")
     static final Hashtable<Integer, String> delayedToRegularMap = new Hashtable<Integer, String>() {{
         put(TickType.DELAYED_BID.index(), TickType.BID.field());
@@ -132,6 +137,8 @@ public class Utils {
         put(TickType.DELAYED_MODEL_OPTION.index(), TickType.MODEL_OPTION.field());
         put(TickType.DELAYED_LAST_TIMESTAMP.index(), TickType.LAST_TIMESTAMP.field());
         put(TickType.DELAYED_HALTED.index(), TickType.HALTED.field());
+        put(TickType.DELAYED_YIELD_BID.index(), TickType.BID_YIELD.field());
+        put(TickType.DELAYED_YIELD_ASK.index(), TickType.ASK_YIELD.field());
     }};
 
     /** Method decodes string to byte array and saves it to PDF file 
@@ -617,6 +624,11 @@ public class Utils {
     /** Method converts long to non-null string with default value */
     public static String toString(Long l, String defaultString) {
         return (l == 0 || l == Long.MAX_VALUE) ? defaultString : String.valueOf(l);
+    }
+
+    /** Method converts Decimal to non-null string */
+    public static String toString(Decimal d) {
+        return d == null ? "" : d.toString();
     }
     
     /** Method converts boolean to non-null string */
