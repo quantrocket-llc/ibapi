@@ -31,7 +31,6 @@ End Enum
 
 ' other constants
 Const FA_DATATYPE_GROUPS = 1
-Const FA_DATATYPE_PROFILE = 2
 Const FA_DATATYPE_ACCOUNT_ALIASES = 3
 
 Const STR_FA_CONFIG = "Financial Advisor configuration"
@@ -153,8 +152,6 @@ Public Sub UpdateFA(ByVal faDataType As Long, ByVal cxml As String)
     Select Case faDataTypeValue
         Case FA_DATATYPE_GROUPS
             captionStr = captionStr & " - Groups"
-        Case FA_DATATYPE_PROFILE
-            captionStr = captionStr & " - Profile"
         Case FA_DATATYPE_ACCOUNT_ALIASES
             captionStr = captionStr & " - Account Aliases"
     

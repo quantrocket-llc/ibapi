@@ -1,5 +1,5 @@
 """
-Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+Copyright (C) 2023 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable.
 """
 
@@ -1246,8 +1246,9 @@ class EClient(object):
     
                 make_field( order.faGroup),      # srv v13 and above
                 make_field( order.faMethod),     # srv v13 and above
-                make_field( order.faPercentage), # srv v13 and above
-                make_field( order.faProfile)]    # srv v13 and above
+                make_field( order.faPercentage)] # srv v13 and above
+            if self.serverVersion() < MIN_SERVER_VER_FA_PROFILE_DESUPPORT:
+                flds.append(make_field( "")) # send deprecated faProfile field
     
             if self.serverVersion() >= MIN_SERVER_VER_MODELS_SUPPORT:
                 flds.append(make_field( order.modelCode))
@@ -2401,13 +2402,16 @@ class EClient(object):
         faData:FaDataType - Specifies the type of Financial Advisor
             configuration data beingingg requested. Valid values include:
             1 = GROUPS
-            2 = PROFILE
             3 = ACCOUNT ALIASES"""
 
         self.logRequest(current_fn_name(), vars())
 
         if not self.isConnected():
             self.wrapper.error(NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg())
+            return
+        
+        if self.serverVersion() >= MIN_SERVER_VER_FA_PROFILE_DESUPPORT and faData == 2:
+            self.wrapper.error(NO_VALID_ID, FA_PROFILE_NOT_SUPPORTED.code(), FA_PROFILE_NOT_SUPPORTED.msg())
             return
 
         VERSION = 1
@@ -2427,7 +2431,6 @@ class EClient(object):
         faData:FaDataType - Specifies the type of Financial Advisor
             configuration data beingingg requested. Valid values include:
             1 = GROUPS
-            2 = PROFILE
             3 = ACCOUNT ALIASES
         cxml: str - The XML string containing the new FA configuration
             information.  """
@@ -2435,7 +2438,11 @@ class EClient(object):
         self.logRequest(current_fn_name(), vars())
 
         if not self.isConnected():
-            self.wrapper.error(NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg())
+            self.wrapper.error(reqId, NOT_CONNECTED.code(), NOT_CONNECTED.msg())
+            return
+
+        if self.serverVersion() >= MIN_SERVER_VER_FA_PROFILE_DESUPPORT and faData == 2:
+            self.wrapper.error(reqId, FA_PROFILE_NOT_SUPPORTED.code(), FA_PROFILE_NOT_SUPPORTED.msg())
             return
 
         try: 

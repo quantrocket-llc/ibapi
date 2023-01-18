@@ -1,5 +1,5 @@
 """
-Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+Copyright (C) 2023 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable.
 """
 
@@ -319,8 +319,6 @@ class EWrapper:
         faDataType - one of:
             Groups: offer traders a way to create a group of accounts and apply
                  a single allocation method to all accounts in the group.
-            Profiles: let you allocate shares on an account-by-account basis
-                using a predefined calculation value.
             Account Aliases: let you easily identify the accounts by meaningful
                  names rather than account numbers.
         faXmlData -  the xml-formatted configuration """

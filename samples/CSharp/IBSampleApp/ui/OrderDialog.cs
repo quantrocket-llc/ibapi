@@ -1,4 +1,4 @@
-﻿/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2023 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 using System;
@@ -370,7 +370,6 @@ namespace IBSampleApp
             order.FaGroup = faGroup.Text;
             order.FaPercentage = faPercentage.Text;
             order.FaMethod = (string)((IBType)faMethod.SelectedItem).Value;
-            order.FaProfile = faProfile.Text;
         }
 
         private void FillScaleAttributes(Order order)
@@ -472,14 +471,14 @@ namespace IBSampleApp
             modelCode.Text = order.ModelCode;
             timeInForce.Text = order.Tif;
             auxPrice.Text = doubleToStr(order.AuxPrice);
-            displaySize.Text = order.DisplaySize.ToString();
+            displaySize.Text = integerToStr(order.DisplaySize);
             cashQty.Text = doubleToStr(order.CashQty);
             dontUseAutoPriceForHedge.Checked = order.DontUseAutoPriceForHedge;
             usePriceMgmtAlgo.CheckState = order.UsePriceMgmtAlgo.HasValue 
                 ? order.UsePriceMgmtAlgo.Value ? CheckState.Checked : CheckState.Unchecked 
                 : CheckState.Indeterminate;
-            duration.Text = order.Duration.ToString();
-            postToAts.Text = order.PostToAts.ToString();
+            duration.Text = integerToStr(order.Duration);
+            postToAts.Text = integerToStr(order.PostToAts);
 
             //order = GetExtendedOrderAttributes(order);
             //order = GetAdvisorAttributes(order);
@@ -521,6 +520,8 @@ namespace IBSampleApp
             tbMidOffsetAtWhole.Text = doubleToStr(order.MidOffsetAtWhole);
             tbMidOffsetAtHalf.Text = doubleToStr(order.MidOffsetAtHalf);
             solicited.Checked = order.Solicited;
+            faGroup.Text = order.FaGroup;
+            faMethod.Text = order.FaMethod;
         }
 
         public void SetParentOrderId(int id)

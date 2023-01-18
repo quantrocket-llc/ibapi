@@ -1,5 +1,5 @@
 """
-Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+Copyright (C) 2023 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable.
 """
 
@@ -346,7 +346,8 @@ class TestApp(TestWrapper, TestClient):
               "LmtPrice:", floatMaxString(order.lmtPrice), "AuxPrice:", floatMaxString(order.auxPrice), "Status:", orderState.status,
               "MinTradeQty:", intMaxString(order.minTradeQty), "MinCompeteSize:", intMaxString(order.minCompeteSize),
               "competeAgainstBestOffset:", "UpToMid" if order.competeAgainstBestOffset == COMPETE_AGAINST_BEST_OFFSET_UP_TO_MID else floatMaxString(order.competeAgainstBestOffset),
-              "MidOffsetAtWhole:", floatMaxString(order.midOffsetAtWhole),"MidOffsetAtHalf:" ,floatMaxString(order.midOffsetAtHalf))
+              "MidOffsetAtWhole:", floatMaxString(order.midOffsetAtWhole),"MidOffsetAtHalf:" ,floatMaxString(order.midOffsetAtHalf),
+              "FAGroup:", order.faGroup, "FAMethod:", order.faMethod)
 
         order.contract = contract
         self.permId2ord[order.permId] = order
@@ -1605,26 +1606,10 @@ class TestApp(TestWrapper, TestClient):
         self.requestFA(FaDataTypeEnum.GROUPS)
         # ! [requestfagroups]
 
-        # ! [requestfaprofiles]
-        self.requestFA(FaDataTypeEnum.PROFILES)
-        # ! [requestfaprofiles]
-
         # Replacing FA information - Fill in with the appropriate XML string.
-        # ! [replacefaonegroup]
-        self.replaceFA(1000, FaDataTypeEnum.GROUPS, FaAllocationSamples.FaOneGroup)
-        # ! [replacefaonegroup]
-
-        # ! [replacefatwogroups]
-        self.replaceFA(1001, FaDataTypeEnum.GROUPS, FaAllocationSamples.FaTwoGroups)
-        # ! [replacefatwogroups]
-
-        # ! [replacefaoneprofile]
-        self.replaceFA(1002, FaDataTypeEnum.PROFILES, FaAllocationSamples.FaOneProfile)
-        # ! [replacefaoneprofile]
-
-        # ! [replacefatwoprofiles]
-        self.replaceFA(1003, FaDataTypeEnum.PROFILES, FaAllocationSamples.FaTwoProfiles)
-        # ! [replacefatwoprofiles]
+        # ! [replacefaupdatedgroup]
+        self.replaceFA(1000, FaDataTypeEnum.GROUPS, FaAllocationSamples.FaUpdatedGroup)
+        # ! [replacefaupdatedgroup]
 
         # ! [reqSoftDollarTiers]
         self.reqSoftDollarTiers(14001)
@@ -1760,27 +1745,18 @@ class TestApp(TestWrapper, TestClient):
         self.placeOrder(self.nextOrderId(), ContractSamples.USStock(), faOrderOneAccount)
         # ! [faorderoneaccount]
 
-        # ! [faordergroupequalquantity]
-        faOrderGroupEQ = OrderSamples.LimitOrder("SELL", 200, 2000)
-        faOrderGroupEQ.faGroup = "Group_Equal_Quantity"
-        faOrderGroupEQ.faMethod = "EqualQuantity"
-        self.placeOrder(self.nextOrderId(), ContractSamples.SimpleFuture(), faOrderGroupEQ)
-        # ! [faordergroupequalquantity]
+        # ! [faordergroup]
+        faOrderGroup = OrderSamples.LimitOrder("BUY", 200, 10)
+        faOrderGroup.faGroup = "MyTestGroup1"
+        faOrderGroup.faMethod = "AvailableEquity"
+        self.placeOrder(self.nextOrderId(), ContractSamples.USStockAtSmart(), faOrderGroup)
+        # ! [faordergroup]
 
-        # ! [faordergrouppctchange]
-        faOrderGroupPC = OrderSamples.MarketOrder("BUY", 0)
-        # You should not specify any order quantity for PctChange allocation method
-        faOrderGroupPC.faGroup = "Pct_Change"
-        faOrderGroupPC.faMethod = "PctChange"
-        faOrderGroupPC.faPercentage = "100"
-        self.placeOrder(self.nextOrderId(), ContractSamples.EurGbpFx(), faOrderGroupPC)
-        # ! [faordergrouppctchange]
-
-        # ! [faorderprofile]
-        faOrderProfile = OrderSamples.LimitOrder("BUY", 200, 100)
-        faOrderProfile.faProfile = "Percent_60_40"
-        self.placeOrder(self.nextOrderId(), ContractSamples.EuropeanStock(), faOrderProfile)
-        # ! [faorderprofile]
+        # ! [faorderuserdefinedgroup]
+        faOrderUserDefinedGroup = OrderSamples.LimitOrder("BUY", 200, 10)
+        faOrderUserDefinedGroup.faGroup = "MyTestProfile1"
+        self.placeOrder(self.nextOrderId(), ContractSamples.USStockAtSmart(), faOrderUserDefinedGroup)
+        # ! [faorderuserdefinedgroup]
 
         # ! [modelorder]
         modelOrder = OrderSamples.LimitOrder("BUY", 200, 100)

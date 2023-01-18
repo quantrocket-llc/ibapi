@@ -1,7 +1,8 @@
-﻿/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2023 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 using System;
 using System.Collections.Generic;
+using System.Windows.Markup;
 
 namespace IBSampleApp.types
 {
@@ -34,7 +35,7 @@ namespace IBSampleApp.types
         public AdvisorGroup(string name, string defaultMethod)
         {
             Name = name;
-            Accounts = new List<string>();
+            Accounts = new List<Account>();
             DefaultMethod = defaultMethod;
         }
 
@@ -44,8 +45,8 @@ namespace IBSampleApp.types
                  "  <Group>"
                 +"      <name>"+Name+"</name>"
                 +"      <ListOfAccts varName=\"list\">";
-            foreach(string account in Accounts)
-                xml+="         <String>"+account+"</String>";
+            foreach(Account account in Accounts)
+                xml += account.ToXmlString();
 
             xml +=
                  "      </ListOfAccts>"
@@ -57,110 +58,54 @@ namespace IBSampleApp.types
 
         public string AccountsToString()
         {
-            string accountStr = Accounts[0];
-            for (int i = 1; i < Accounts.Count; i++)
-                accountStr += "," + Accounts[i];
+            string accountStr = "";
+            for (int i = 0; i < Accounts.Count; i++)
+                accountStr += (i == 0 ? "" : ";") + Accounts[i].Name + "," + Accounts[i].Amount;
             return accountStr;
         }
 
         public void AccountsFromString(string accStr)
         {
-            string[] accts = accStr.Split(',');
+            string[] accts = accStr.Split(';');
+
             foreach (string s in accts)
-                Accounts.Add(s);
+            {
+                string[] values = s.Split(',');
+                Accounts.Add(new Account(values[0], values[1]));
+            }
         }
 
         public string Name { get; set; }
 
         public string DefaultMethod { get; set; }
 
-        public List<string> Accounts { get; set; }
+        public List<Account> Accounts { get; set; }
     }
 
-    class AllocationProfile
+    class Account
     {
-        public AllocationProfile(string name, int type)
+        public Account(string name, string amount)
         {
             Name = name;
-            Type = type;
-            Allocations = new List<Allocation>();
-        }
-
-        public string ToXmlString()
-        {
-            string xml = 
-                 "  <AllocationProfile>"
-                +"      <name>"+Name+"</name>"
-                +"      <type>"+Type+"</type>"
-                +"      <ListOfAllocations varName=\"listOfAllocations\">";
-
-            foreach (Allocation profileAllocation in Allocations)
-                xml += profileAllocation.ToXmlString();
-
-            xml +=
-                 "      </ListOfAllocations>"
-                +"  </AllocationProfile>";
-
-            return xml;
-        }
-
-        public string AllocationsToString()
-        {
-            string str = Allocations[0].Account+"/"+Allocations[0].Amount;
-            for(int i=1; i<Allocations.Count; i++)
-            {
-                str += "," + Allocations[i].Account + "/" + Allocations[i].Amount;
-            }
-            return str;
-        }
-
-        public bool AllocationsFromString(string allocString)
-        {
-            try
-            {
-                string[] allocations = allocString.Split(',');
-                foreach (string s in allocations)
-                {
-                    string[] accountAndValue = s.Split('/');
-                    Allocations.Add(new Allocation(accountAndValue[0], double.Parse(accountAndValue[1])));
-                }
-                return true;
-            }
-            catch(Exception)
-            {
-                return false;
-            }                
+            Amount = amount;
         }
 
         public string Name { get; set; }
 
-        public int Type { get; set; }
-
-        public List<Allocation> Allocations { get; set; }
-    }
-
-    class Allocation
-    {
-        public Allocation(string account, double amount)
-        {
-            Account = account;
-            Amount = amount;
-        }
+        public String Amount { get; set; }
 
         public string ToXmlString()
         {
-            string xml = 
-                 "          <Allocation>"
-                +"              <acct>"+Account+"</acct>"
-                +"              <amount>"+Amount+"</amount>"
-                +"              <posEff>O</posEff>"
-                +"          </Allocation>";
+            string xml =
+                       "    <Account>"
+                     + "        <acct>" + Name + "</acct>";
+            if (Amount != null)
+            {
+                xml += "       <amount>" + Amount + "</amount>";
+            }
+            xml += "    </Account>";
 
             return xml;
         }
-
-        public string Account { get; set; }
-
-        public double Amount { get; set; }
     }
 }

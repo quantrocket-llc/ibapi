@@ -1,4 +1,4 @@
-/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2023 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 using System.Collections.Generic;
@@ -199,7 +199,10 @@ namespace IBApi
                 order.FaGroup = eDecoder.ReadString();
                 order.FaMethod = eDecoder.ReadString();
                 order.FaPercentage = eDecoder.ReadString();
-                order.FaProfile = eDecoder.ReadString();
+                if (serverVersion < MinServerVer.MIN_SERVER_VER_FA_PROFILE_DESUPPORT)
+                {
+                    eDecoder.ReadString(); // skip deprecated faProfile field
+                }
             }
         }
 

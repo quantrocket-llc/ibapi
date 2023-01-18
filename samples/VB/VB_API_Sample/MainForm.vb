@@ -1,4 +1,4 @@
-﻿' Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+' Copyright (C) 2023 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
 ' and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable.
 
 
@@ -1254,7 +1254,6 @@ Friend Class MainForm
     Private m_faAccount, faError As Boolean
     Private m_faAcctsList As String
     Private m_faGroupXML As String
-    Private m_faProfilesXML As String
     Private m_faAliasesXML As String
     Private m_faErrorCodes(5) As Integer
 
@@ -1709,12 +1708,10 @@ Friend Class MainForm
 
     Private Sub cmdFinancialAdvisor_Click(sender As Object, e As EventArgs) Handles cmdFinancialAdvisor.Click
         m_faGroupXML = ""
-        m_faProfilesXML = ""
         m_faAliasesXML = ""
         faError = False
         m_api.requestFA(Utils.FaMessageType.Aliases)
         m_api.requestFA(Utils.FaMessageType.Groups)
-        m_api.requestFA(Utils.FaMessageType.Profiles)
     End Sub
 
     '--------------------------------------------------------------------------------
@@ -2740,19 +2737,16 @@ Friend Class MainForm
         Select Case e.faDataType
             Case Utils.FaMessageType.Groups
                 m_faGroupXML = e.faXmlData
-            Case Utils.FaMessageType.Profiles
-                m_faProfilesXML = e.faXmlData
             Case Utils.FaMessageType.Aliases
                 m_faAliasesXML = e.faXmlData
         End Select
 
-        If faError = False And m_faGroupXML <> "" And m_faProfilesXML <> "" And m_faAliasesXML <> "" Then
+        If faError = False And m_faGroupXML <> "" And m_faAliasesXML <> "" Then
 
-            m_dlgFinancialAdvisor.init(m_utils, m_faGroupXML, m_faProfilesXML, m_faAliasesXML)
+            m_dlgFinancialAdvisor.init(m_utils, m_faGroupXML, m_faAliasesXML)
             m_dlgFinancialAdvisor.ShowDialog()
             If m_dlgFinancialAdvisor.ok Then
                 m_api.replaceFA(0, Utils.FaMessageType.Groups, m_dlgFinancialAdvisor.groupsXML)
-                m_api.replaceFA(1, Utils.FaMessageType.Profiles, m_dlgFinancialAdvisor.profilesXML)
                 m_api.replaceFA(2, Utils.FaMessageType.Aliases, m_dlgFinancialAdvisor.aliasesXML)
             End If
 
@@ -3561,7 +3555,6 @@ Friend Class MainForm
         appendNonEmptyString(Utils.ListType.ServerResponses, "faGroup", order.FaGroup)
         appendNonEmptyString(Utils.ListType.ServerResponses, "faMethod", order.FaMethod)
         appendNonEmptyString(Utils.ListType.ServerResponses, "faPercentage", order.FaPercentage)
-        appendNonEmptyString(Utils.ListType.ServerResponses, "faProfile", order.FaProfile)
         appendPositiveIntValue(Utils.ListType.ServerResponses, "shortSaleSlot", order.ShortSaleSlot)
         If order.ShortSaleSlot > 0 Then
             appendNonEmptyString(Utils.ListType.ServerResponses, "designatedLocation", order.DesignatedLocation)

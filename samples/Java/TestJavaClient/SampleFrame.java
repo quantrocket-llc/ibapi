@@ -1,4 +1,4 @@
-/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2023 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 package TestJavaClient;
@@ -61,7 +61,6 @@ class SampleFrame extends JFrame implements EWrapper {
     private List<TagValue> m_newsArticleOptions = new ArrayList<>();
     
     private String faGroupXML ;
-    private String faProfilesXML ;
     private String faAliasesXML ;
     String m_FAAcctCodes;
     boolean m_bIsFAAccount = false;
@@ -873,10 +872,9 @@ class SampleFrame extends JFrame implements EWrapper {
     }
 
     private void onFinancialAdvisor() {
-      faGroupXML = faProfilesXML = faAliasesXML = null ;
+      faGroupXML = faAliasesXML = null ;
       faError = false ;
       m_client.requestFA(EClientSocket.GROUPS) ;
-      m_client.requestFA(EClientSocket.PROFILES) ;
       m_client.requestFA(EClientSocket.ALIASES) ;
     }
 
@@ -1445,9 +1443,6 @@ class SampleFrame extends JFrame implements EWrapper {
             case EClientSocket.GROUPS:
                 faGroupXML = xml;
                 break;
-            case EClientSocket.PROFILES:
-                faProfilesXML = xml;
-                break;
             case EClientSocket.ALIASES:
                 faAliasesXML = xml;
                 break;
@@ -1456,9 +1451,9 @@ class SampleFrame extends JFrame implements EWrapper {
       }
 
       if (!faError &&
-          !(faGroupXML == null || faProfilesXML == null || faAliasesXML == null)) {
+          !(faGroupXML == null || faAliasesXML == null)) {
           FinancialAdvisorDlg dlg = new FinancialAdvisorDlg(this);
-          dlg.receiveInitialXML(faGroupXML, faProfilesXML, faAliasesXML);
+          dlg.receiveInitialXML(faGroupXML, faAliasesXML);
           dlg.setVisible(true);
 
           if (!dlg.m_rc) {
@@ -1466,8 +1461,7 @@ class SampleFrame extends JFrame implements EWrapper {
           }
 
           m_client.replaceFA( 0, EClientSocket.GROUPS, dlg.groupsXML );
-          m_client.replaceFA( 1, EClientSocket.PROFILES, dlg.profilesXML );
-          m_client.replaceFA( 2, EClientSocket.ALIASES, dlg.aliasesXML );
+          m_client.replaceFA( 1, EClientSocket.ALIASES, dlg.aliasesXML );
 
       }
     }

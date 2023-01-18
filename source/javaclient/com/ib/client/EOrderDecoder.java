@@ -1,4 +1,4 @@
-/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2023 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 package com.ib.client;
@@ -159,7 +159,9 @@ public class EOrderDecoder {
             m_order.faGroup(m_eDecoder.readStr());
             m_order.faMethod(m_eDecoder.readStr());
             m_order.faPercentage(m_eDecoder.readStr());
-            m_order.faProfile(m_eDecoder.readStr());
+            if ( m_serverVersion < EClient.MIN_SERVER_VER_FA_PROFILE_DESUPPORT ) {
+                m_eDecoder.readStr(); // skip deprecated faProfile field
+            }
         }
     }
 

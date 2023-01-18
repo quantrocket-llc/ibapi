@@ -1,5 +1,5 @@
 """
-Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+Copyright (C) 2023 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable.
 """
 
@@ -39,3 +39,4 @@ SOCKET_EXCEPTION = CodeMsgPair(509, "Exception caught while reading socket - ")
 FAIL_CREATE_SOCK = CodeMsgPair(520, "Failed to create socket")
 SSL_FAIL = CodeMsgPair(530, "SSL specific error: ")
 INVALID_SYMBOL = CodeMsgPair(579, "Invalid symbol in string - ")
+FA_PROFILE_NOT_SUPPORTED = CodeMsgPair(585, "FA Profile is not supported anymore, use FA Group instead - ");

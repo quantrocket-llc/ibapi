@@ -1,4 +1,4 @@
-/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2023 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 package apidemo;
@@ -8,7 +8,6 @@ import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JOptionPane;
@@ -26,8 +25,6 @@ import com.ib.client.Types.Method;
 import com.ib.controller.Alias;
 import com.ib.controller.ApiController.IAdvisorHandler;
 import com.ib.controller.Group;
-import com.ib.controller.Profile;
-import com.ib.controller.Profile.Type;
 
 import apidemo.util.HtmlButton;
 import apidemo.util.NewTabbedPanel.NewTabPanel;
@@ -41,7 +38,6 @@ public class AdvisorPanel extends NewTabPanel implements IAdvisorHandler {
 	}
 	
 	private final GroupModel m_groupModel = new GroupModel();
-	private final ProfileModel m_profileModel = new ProfileModel();
 	private final AliasModel m_aliasModel = new AliasModel();
 	
 	private final JTable m_groupTable = new JTable( m_groupModel) {
@@ -50,19 +46,11 @@ public class AdvisorPanel extends NewTabPanel implements IAdvisorHandler {
 		}
 	};
 
-	private final JTable m_profileTable = new JTable( m_profileModel) {
-		public TableCellEditor getCellEditor(int row, int col) {
-			return m_profileModel.getCellEditor(row, col);
-		}
-	};
-
 	AdvisorPanel() {
 		JPanel mainPanel = new JPanel();
 		mainPanel.setLayout( new BoxLayout( mainPanel, BoxLayout.Y_AXIS));
 		mainPanel.setBorder( new EmptyBorder( 0, 10, 0, 0) );
 		mainPanel.add( new GroupsPanel() );
-		mainPanel.add( Box.createVerticalStrut(10));
-		mainPanel.add( new ProfilesPanel() );
 
 		JScrollPane aliasScroll = new JScrollPane(new JTable( m_aliasModel));
 		aliasScroll.setBorder( new TitledBorder( "Aliases"));
@@ -76,7 +64,6 @@ public class AdvisorPanel extends NewTabPanel implements IAdvisorHandler {
 	/** Called when the tab is first visited. */
 	@Override public void activated() {
 		ApiDemo.INSTANCE.controller().reqAdvisorData( FADataType.GROUPS, this);
-		ApiDemo.INSTANCE.controller().reqAdvisorData( FADataType.PROFILES, this );
 		ApiDemo.INSTANCE.controller().reqAdvisorData( FADataType.ALIASES, this );
 	}
 	
@@ -88,20 +75,12 @@ public class AdvisorPanel extends NewTabPanel implements IAdvisorHandler {
 		m_groupModel.update( groups);
 	}
 
-	@Override public void profiles(List<Profile> profiles) {
-		m_profileModel.update( profiles);
-	}
-
 	@Override public void aliases(List<Alias> aliases) {
 		m_aliasModel.update( aliases);
 	}
 	
 	@Override public void updateGroupsEnd(String text) {
 		JOptionPane.showMessageDialog(this, "The groups have been updated: " + text);
-	}
-
-	@Override public void updateProfilesEnd(String text) {
-		JOptionPane.showMessageDialog(this, "The profiles have been updated: " + text);
 	}
 
 	private static class AliasModel extends AbstractTableModel {
@@ -211,14 +190,16 @@ public class AdvisorPanel extends NewTabPanel implements IAdvisorHandler {
 		}
 
 		@Override public int getColumnCount() {
-			return 3;
+			return 5;
 		}
 
 		@Override public String getColumnName(int col) {
 			switch( col) {
 				case 0: return "Name";
 				case 1: return "Default Method";
-				case 2: return "Accounts";
+				case 2: return "Default Size";
+				case 3: return "Risk Criteria";
+				case 4: return "Accounts (acc1,amount1;acct2,amount2;...)";
 				default: return null;
 			}
 		}
@@ -228,7 +209,9 @@ public class AdvisorPanel extends NewTabPanel implements IAdvisorHandler {
 			switch( col) {
 				case 0: return row.name();
 				case 1: return row.defaultMethod();
-				case 2: return row.accounts().toString().substring( 1, row.accounts().toString().length() - 1);
+				case 2: return row.defaultSize();
+				case 3: return row.riskCriteria();
+				case 4: return row.getAllAccounts();
 				default: return null;
 			}
 		}
@@ -246,121 +229,9 @@ public class AdvisorPanel extends NewTabPanel implements IAdvisorHandler {
 			switch( col) {
 				case 0: row.name( (String)val); break;
 				case 1: row.defaultMethod( (Method)val); break;
-				case 2: row.setAllAccounts( (String)val); break;
-				default: break;
-			}
-		}
-	}
-	
-	private class ProfilesPanel extends JPanel {
-		ProfilesPanel() {
-			JScrollPane profileScroll = new JScrollPane( m_profileTable);
-			profileScroll.setBorder( new TitledBorder( "Profiles"));
-
-			HtmlButton create = new HtmlButton( "Create Profile") {
-				@Override protected void actionPerformed() {
-					onCreateProfile();
-				}
-			};
-
-			HtmlButton update = new HtmlButton( "Update") {
-				@Override protected void actionPerformed() {
-					onTransmit();
-				}
-			};
-
-			JPanel buts = new VerticalPanel();
-			buts.add( create);
-			buts.add( update);
-
-			setLayout( new BorderLayout() );
-			add( profileScroll);
-			add( buts, BorderLayout.EAST);
-		}
-
-		void onCreateProfile() {
-			String name = JOptionPane.showInputDialog( this, "Enter profile name");
-			if (name != null) {
-				m_profileModel.add( name);
-			}
-		}
-
-		void onTransmit() {
-			int rc = JOptionPane.showConfirmDialog( this, "This will replace all Profiles in TWS with the ones shown here.\nAre you sure you want to do that?", "Confirm", JOptionPane.YES_NO_OPTION);
-			if (rc == 0) {
-				m_profileModel.transmit();
-			}
-		}
-	}
-	
-	private static class ProfileModel extends AbstractTableModel {
-		TCombo<Type> combo = new TCombo<>(Type.values());
-		DefaultCellEditor EDITOR = new DefaultCellEditor( combo);
-		List<Profile> m_profiles = new ArrayList<>();
-		
-		ProfileModel() {		
-			EDITOR.setClickCountToStart( 1);
-			combo.removeItemAt( 0);
-		}
-		
-		public void update(List<Profile> profiles) {
-			m_profiles.clear();
-			m_profiles.addAll( profiles);
-			fireTableDataChanged();
-		}
-
-		public void add(String name) {
-			Profile profile = new Profile();
-			profile.name( name);
-			m_profiles.add( profile);
-			fireTableDataChanged();
-		}
-
-		public void transmit() {
-			ApiDemo.INSTANCE.controller().updateProfiles( m_profiles);
-		}
-
-		@Override public int getRowCount() {
-			return m_profiles.size();
-		}
-
-		@Override public int getColumnCount() {
-			return 3;
-		}
-
-		@Override public String getColumnName(int col) {
-			switch( col) {
-				case 0: return "Name";
-				case 1: return "Type";
-				case 2: return "Allocations";
-				default: return null;
-			}
-		}
-		
-		@Override public Object getValueAt(int rowIn, int col) {
-			Profile row = m_profiles.get( rowIn);
-			switch( col) {
-				case 0: return row.name();
-				case 1: return row.type();
-				case 2: return row.allocations().toString().substring( 1, row.allocations().toString().length() - 1);
-				default: return null;
-			}
-		}
-		
-		@Override public boolean isCellEditable(int rowIndex, int columnIndex) {
-			return true;
-		}
-		
-		TableCellEditor getCellEditor(int row, int col) {
-			return col == 1 ? EDITOR : DEF_CELL_EDITOR;
-		}
-
-		@Override public void setValueAt(Object val, int rowIn, int col) {
-			Profile row = m_profiles.get( rowIn);
-			switch( col) {
-				case 0: row.name( (String)val); break;
-				case 1: row.type( (Type)val); break;
-				case 2: row.setAllocations( (String)val); break;
+				case 2: row.defaultSize( (String)val); break;
+				case 3: row.riskCriteria( (String)val); break;
+				case 4: row.setAllAccounts( (String)val); break;
 				default: break;
 			}
 		}

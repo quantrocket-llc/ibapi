@@ -1,4 +1,4 @@
-/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2023 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 package com.ib.client;
@@ -299,13 +299,24 @@ public class Types {
 		}
 	}
 
-	public enum FADataType {
-		UNUSED, GROUPS, PROFILES, ALIASES;
+    public enum FADataType {
+        UNUSED(0), GROUPS(1), ALIASES(3);
 
-		public static FADataType get( int ordinal) {
-			return getEnum( ordinal, values() );
-		}
-	}
+        private int id;
+
+        FADataType(int id) {
+            this.id = id;
+        }
+
+        public static FADataType getById(int id) {
+            for (FADataType faDataType: values()) {
+                if (faDataType.id == id) {
+                    return faDataType;
+                }
+            }
+            return FADataType.UNUSED;
+        }
+    }
 
 	public enum SecIdType implements IApiEnum {
 	    None, CUSIP, SEDOL, ISIN, RIC;
@@ -340,7 +351,7 @@ public class Types {
 	}
 
 	public enum Method implements IApiEnum {
-		None, EqualQuantity, AvailableEquity, NetLiq, PctChange;
+		None, Equal, AvailableEquity, NetLiq, ContractsOrShares, Ratio, Percent, MonetaryAmount;
 
 	    public static Method get( String str) {
             return getValueOf(str, values(), None);

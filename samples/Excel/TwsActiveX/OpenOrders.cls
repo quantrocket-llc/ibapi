@@ -32,7 +32,6 @@ Private Enum ExtendedOpenOrderAttributesColumns
     Col_FAGROUP
     Col_FAMETHOD
     Col_FAPERCENTAGE
-    Col_FAPROFILE
     Col_SHORTSALESLOT
     Col_DESIGNLOC
     Col_EXEMPTCODE
@@ -228,7 +227,6 @@ Sub UpdateOpenOrder(orderId As Long, contract As TWSLib.IContract, order As TWSL
         ExtendedAttributesTable(rowId, Col_FAGROUP).value = .faGroup
         ExtendedAttributesTable(rowId, Col_FAMETHOD).value = .faMethod
         ExtendedAttributesTable(rowId, Col_FAPERCENTAGE).value = .faPercentage
-        ExtendedAttributesTable(rowId, Col_FAPROFILE).value = .faProfile
         ExtendedAttributesTable(rowId, Col_SHORTSALESLOT).value = .shortSaleSlot
         ExtendedAttributesTable(rowId, Col_DESIGNLOC).value = .designatedLocation
         ExtendedAttributesTable(rowId, Col_EXEMPTCODE).value = .exemptCode
@@ -356,7 +354,7 @@ Public Sub Initialise()
     Set contractTable = Range("$A$7:$M$100")
     Set orderDescriptionTable = Range("$N$7:$S$100")
     Set orderStatusTable = Range("$T$7:$AA$100")
-    Set ExtendedAttributesTable = Range("$AB$7:$DX$100")
+    Set ExtendedAttributesTable = Range("$AB$7:$DW$100")
 End Sub
 
 Private Sub Worksheet_Activate()

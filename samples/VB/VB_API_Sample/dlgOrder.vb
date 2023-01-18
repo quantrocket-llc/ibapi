@@ -1,4 +1,4 @@
-﻿' Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+' Copyright (C) 2023 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
 ' and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable.
 
 
@@ -1900,7 +1900,6 @@ Friend Class dlgOrder
     Private m_deltaNeutralContract As IBApi.DeltaNeutralContract
 
     Private m_faMethod, m_faGroup, m_faPercentage As Object
-    Private m_faProfile As String
 
     Private m_genericTickTags As String
     Private m_snapshotMktData As Boolean
@@ -2118,7 +2117,6 @@ Friend Class dlgOrder
                 m_faGroup = .faGroup
                 m_faMethod = .faMethod
                 m_faPercentage = .faPercentage
-                m_faProfile = .faProfile
             End If
         End With
     End Sub
@@ -2170,7 +2168,6 @@ Friend Class dlgOrder
         m_orderInfo.FaGroup = m_faGroup
         m_orderInfo.FaMethod = m_faMethod
         m_orderInfo.FaPercentage = m_faPercentage
-        m_orderInfo.FaProfile = m_faProfile
 
         m_orderInfo.UsePriceMgmtAlgo = If(chkUsePriceMgmtAlgo.CheckState = CheckState.Indeterminate, Nothing, CType(chkUsePriceMgmtAlgo.Checked, Boolean?))
 

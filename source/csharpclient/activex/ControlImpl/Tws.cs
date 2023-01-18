@@ -1,4 +1,4 @@
-/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2023 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 using IBApi;
@@ -177,7 +177,7 @@ namespace TWSLib
                    string lastTradeDateOrContractMonth, double strike, string right, string multiplier,
                    string exchange, string primaryExchange, string curency, string orderType,
                    double lmtPrice, double auxPrice, string goodAfterTime, string faGroup,
-                   string faMethod, string faPercentage, string faProfile, string goodTillDate)
+                   string faMethod, string faPercentage, /* deprecated */ string faProfile, string goodTillDate)
         {
             var order = new Order()
             {
@@ -187,7 +187,6 @@ namespace TWSLib
                 LmtPrice = lmtPrice,
                 AuxPrice = auxPrice,
                 FaGroup = faGroup,
-                FaProfile = faProfile,
                 FaMethod = faMethod,
                 FaPercentage = faPercentage,
                 GoodAfterTime = goodAfterTime,
@@ -325,7 +324,7 @@ namespace TWSLib
                    string secType, string exchange, string primaryExchange, string curency,
                    string orderType, double lmtPrice, double auxPrice,
                    string goodAfterTime, string faGroup,
-                   string faMethod, string faPercentage, string faProfile, string goodTillDate)
+                   string faMethod, string faPercentage, /* deprecated */ string faProfile, string goodTillDate)
         {
             // set contract fields
             Contract contract = new Contract();
@@ -348,7 +347,6 @@ namespace TWSLib
             order.LmtPrice = lmtPrice;
             order.AuxPrice = auxPrice;
             order.FaGroup = faGroup;
-            order.FaProfile = faProfile;
             order.FaMethod = faMethod;
             order.FaPercentage = faPercentage;
             order.GoodAfterTime = goodAfterTime;
@@ -1122,10 +1120,10 @@ namespace TWSLib
         public delegate void openOrder2Delegate(int id, string action, double quantity, string orderType, double lmtPrice, double auxPrice, string tif, string ocaGroup, string account, string openClose, int origin, string orderRef, int clientId);
         public event openOrder2Delegate openOrder2;
 
-        public delegate void openOrder3Delegate(int id, string symbol, string secType, string lastTradeDate, double strike, string right, string exchange, string curency, string localSymbol, string action, double quantity, string orderType, double lmtPrice, double auxPrice, string tif, string ocaGroup, string account, string openClose, int origin, string orderRef, int clientId, int permId, string sharesAllocation, string faGroup, string faMethod, string faPercentage, string faProfile, string goodAfterTime, string goodTillDate);
+        public delegate void openOrder3Delegate(int id, string symbol, string secType, string lastTradeDate, double strike, string right, string exchange, string curency, string localSymbol, string action, double quantity, string orderType, double lmtPrice, double auxPrice, string tif, string ocaGroup, string account, string openClose, int origin, string orderRef, int clientId, int permId, string sharesAllocation, string faGroup, string faMethod, string faPercentage, /* deprecated */ string faProfile, string goodAfterTime, string goodTillDate);
         public event openOrder3Delegate openOrder3;
 
-        public delegate void openOrder4Delegate(int id, string symbol, string secType, string lastTradeDate, double strike, string right, string exchange, string curency, string localSymbol, string action, double quantity, string orderType, double lmtPrice, double auxPrice, string tif, string ocaGroup, string account, string openClose, int origin, string orderRef, int clientId, int permId, string sharesAllocation, string faGroup, string faMethod, string faPercentage, string faProfile, string goodAfterTime, string goodTillDate, int ocaType, string rule80A, string settlingFirm, int allOrNone, int minQty, double percentOffset, int eTradeOnly, int firmQuoteOnly, double nbboPriceCap, int auctionStrategy, double startingPrice, double stockRefPrice, double delta, double stockRangeLower, double stockRangeUpper, int blockOrder, int sweepToFill, int ignoreRth, int hidden, double discretionaryAmt, int displaySize, int parentId, int triggerMethod, int shortSaleSlot, string designatedLocation, double volatility, int volatilityType, string deltaNeutralOrderType, double deltaNeutralAuxPrice, int continuousUpdate, int referencePriceType, double trailStopPrice, double basisPoints, int basisPointsType, string legsStr, int scaleInitLevelSize, int scaleSubsLevelSize, double scalePriceIncrement);
+        public delegate void openOrder4Delegate(int id, string symbol, string secType, string lastTradeDate, double strike, string right, string exchange, string curency, string localSymbol, string action, double quantity, string orderType, double lmtPrice, double auxPrice, string tif, string ocaGroup, string account, string openClose, int origin, string orderRef, int clientId, int permId, string sharesAllocation, string faGroup, string faMethod, string faPercentage, /* deprecated */ string faProfile, string goodAfterTime, string goodTillDate, int ocaType, string rule80A, string settlingFirm, int allOrNone, int minQty, double percentOffset, int eTradeOnly, int firmQuoteOnly, double nbboPriceCap, int auctionStrategy, double startingPrice, double stockRefPrice, double delta, double stockRangeLower, double stockRangeUpper, int blockOrder, int sweepToFill, int ignoreRth, int hidden, double discretionaryAmt, int displaySize, int parentId, int triggerMethod, int shortSaleSlot, string designatedLocation, double volatility, int volatilityType, string deltaNeutralOrderType, double deltaNeutralAuxPrice, int continuousUpdate, int referencePriceType, double trailStopPrice, double basisPoints, int basisPointsType, string legsStr, int scaleInitLevelSize, int scaleSubsLevelSize, double scalePriceIncrement);
         public event openOrder4Delegate openOrder4;
 
         public delegate void openOrderExDelegate(int orderId, IContract contract, IOrder order, IOrderState orderState);
@@ -1193,7 +1191,7 @@ namespace TWSLib
                                 order.FaGroup,
                                 order.FaMethod,
                                 order.FaPercentage,
-                                order.FaProfile,
+                                "", // deprecated FaProfile
                                 order.GoodAfterTime,
                                 order.GoodTillDate), null);
 
@@ -1227,7 +1225,7 @@ namespace TWSLib
                                 order.FaGroup,
                                 order.FaMethod,
                                 order.FaPercentage,
-                                order.FaProfile,
+                                "", // deprecated FaProfile
                                 order.GoodAfterTime,
                                 order.GoodTillDate,
                                 order.OcaType,

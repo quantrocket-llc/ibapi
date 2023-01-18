@@ -1,4 +1,4 @@
-/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2023 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 package apidemo;
@@ -388,31 +388,24 @@ class TicketDlg extends JDialog {
 	}
 	
 	class AdvisorTicketPanel extends VerticalPanel {
-		final UpperField m_faGroup = new UpperField();
+		final JTextField m_faGroup = new JTextField();
 		final TCombo<Method> m_faMethod = new TCombo<>( Method.values() );
 		final UpperField m_faPercentage = new UpperField();
-		final UpperField m_faProfile = new UpperField();
 		
 		AdvisorTicketPanel() {
 			m_faGroup.setText( m_order.faGroup() );
 			m_faMethod.setSelectedItem( m_order.faMethod() );
 			m_faPercentage.setText( m_order.faPercentage() );
-			m_faProfile.setText( m_order.faProfile() );
 			
 			add( "Group", m_faGroup);
 			add( "Method", m_faMethod);
 			add( "Percentage", m_faPercentage);
-			add( Box.createVerticalStrut(10));
-			add( "--or--");
-			add( Box.createVerticalStrut(10));
-			add( "Profile", m_faProfile);
 		}
 		
 		void onOK() {
 			m_order.faGroup( m_faGroup.getText() );
 			m_order.faMethod( m_faMethod.getSelectedItem() );
 			m_order.faPercentage( m_faPercentage.getText() );
-			m_order.faProfile( m_faProfile.getText() );
 		}
 	}
 	

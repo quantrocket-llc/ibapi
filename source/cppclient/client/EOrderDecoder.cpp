@@ -1,4 +1,4 @@
-/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2023 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
 * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 #include "StdAfx.h"
@@ -170,7 +170,10 @@ bool EOrderDecoder::decodeFAParams(const char*& ptr, const char* endPtr) {
     DECODE_FIELD( m_order->faGroup);
     DECODE_FIELD( m_order->faMethod);
     DECODE_FIELD( m_order->faPercentage);
-    DECODE_FIELD( m_order->faProfile);
+    if (m_serverVersion < MIN_SERVER_VER_FA_PROFILE_DESUPPORT) {
+        std::string faProfile;
+        DECODE_FIELD(faProfile); // skip deprecated faProfile field
+    }
 
     return true;
 }

@@ -1,4 +1,4 @@
-/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2023 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 using System;
 using IBApi;
@@ -748,10 +748,10 @@ namespace Samples
             client.placeOrder(nextOrderId++, ContractSamples.USStock(), OrderSamples.TrailingStopLimit("BUY", 1, 5, 5, 110));
             //! [order_submission]
 
-			//! [place_midprice]
-			client.placeOrder(nextOrderId++, ContractSamples.USStockAtSmart(), OrderSamples.Midprice("BUY", 1, 150));
-			//! [place_midprice]
-			
+            //! [place_midprice]
+            client.placeOrder(nextOrderId++, ContractSamples.USStockAtSmart(), OrderSamples.Midprice("BUY", 1, 150));
+            //! [place_midprice]
+
             //! [faorderoneaccount]
             Order faOrderOneAccount = OrderSamples.MarketOrder("BUY", 100);
             // Specify the Account Number directly
@@ -759,29 +759,20 @@ namespace Samples
             client.placeOrder(nextOrderId++, ContractSamples.USStock(), faOrderOneAccount);
             //! [faorderoneaccount]
 
-            //! [faordergroupequalquantity]
-            Order faOrderGroupEQ = OrderSamples.LimitOrder("SELL", 200, 2000);
-            faOrderGroupEQ.FaGroup = "Group_Equal_Quantity";
-            faOrderGroupEQ.FaMethod = "EqualQuantity";
-            client.placeOrder(nextOrderId++, ContractSamples.SimpleFuture(), faOrderGroupEQ);
-            //! [faordergroupequalquantity]
+            //! [faordergroup]
+            Order faOrderGroup = OrderSamples.LimitOrder("BUY", 200, 10);
+            faOrderGroup.FaGroup = "MyTestGroup1";
+            faOrderGroup.FaMethod = "AvailableEquity";
+            client.placeOrder(nextOrderId++, ContractSamples.USStockAtSmart(), faOrderGroup);
+            //! [faordergroup]
 
-            //! [faordergrouppctchange]
-            Order faOrderGroupPC = OrderSamples.MarketOrder("BUY", 0); ;
-            // You should not specify any order quantity for PctChange allocation method
-            faOrderGroupPC.FaGroup = "Pct_Change";
-            faOrderGroupPC.FaMethod = "PctChange";
-            faOrderGroupPC.FaPercentage = "100";
-            client.placeOrder(nextOrderId++, ContractSamples.EurGbpFx(), faOrderGroupPC);
-            //! [faordergrouppctchange]
+            //! [faorderuserdefinedgroup]
+            Order faOrderUserDefinedGroup = OrderSamples.LimitOrder("BUY", 200, 10);
+            faOrderUserDefinedGroup.FaGroup = "MyTestProfile1";
+            client.placeOrder(nextOrderId++, ContractSamples.USStockAtSmart(), faOrderUserDefinedGroup);
+            //! [faorderuserdefinedgroup]
 
-            //! [faorderprofile]
-            Order faOrderProfile = OrderSamples.LimitOrder("BUY", 200, 100);
-            faOrderProfile.FaProfile = "Percent_60_40";
-            client.placeOrder(nextOrderId++, ContractSamples.EuropeanStock(), faOrderProfile);
-            //! [faorderprofile]
-		
-			//! [modelorder]
+            //! [modelorder]
             Order modelOrder = OrderSamples.LimitOrder("BUY", 200, 100);
             modelOrder.Account = "DF12345";  // master FA account number
             modelOrder.ModelCode = "Technology"; // model for tech stocks first created in TWS
@@ -1093,26 +1084,10 @@ namespace Samples
             client.requestFA(Constants.FaGroups);
             //! [requestfagroups]
 
-            //! [requestfaprofiles]
-            client.requestFA(Constants.FaProfiles);
-            //! [requestfaprofiles]
-
             /*** Replacing FA information - Fill in with the appropriate XML string. ***/
-            //! [replacefaonegroup]
-            client.replaceFA(1000, Constants.FaGroups, FaAllocationSamples.FaOneGroup);
-            //! [replacefaonegroup]
-
-            //! [replacefatwogroups]
-            client.replaceFA(1001, Constants.FaGroups, FaAllocationSamples.FaTwoGroups);
-            //! [replacefatwogroups]
-
-            //! [replacefaoneprofile]
-            client.replaceFA(1002, Constants.FaProfiles, FaAllocationSamples.FaOneProfile);
-            //! [replacefaoneprofile]
-
-            //! [replacefatwoprofiles]
-            client.replaceFA(1003, Constants.FaProfiles, FaAllocationSamples.FaTwoProfiles);
-            //! [replacefatwoprofiles]
+            //! [replacefaupdatedgroup]
+            client.replaceFA(1000, Constants.FaGroups, FaAllocationSamples.FaUpdatedGroup);
+            //! [replacefaupdatedgroup]
 
             //! [reqSoftDollarTiers]
             client.reqSoftDollarTiers(4001);

@@ -1,4 +1,4 @@
-/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2023 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 package com.ib.client;
@@ -754,7 +754,6 @@ public class EWrapperMsgGenerator {
         Util.appendNonEmptyString(sb, "faGroup", order.faGroup());
         Util.appendNonEmptyString(sb, "faMethod", order.getFaMethod());
         Util.appendNonEmptyString(sb, "faPercentage", order.faPercentage());
-        Util.appendNonEmptyString(sb, "faProfile", order.faProfile());
         Util.appendPositiveIntValue(sb, "shortSaleSlot", order.shortSaleSlot());
         if (order.shortSaleSlot() > 0) {
             Util.appendNonEmptyString(sb, "designatedLocation", order.designatedLocation());

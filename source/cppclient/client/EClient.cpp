@@ -1,4 +1,4 @@
-/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2023 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 #include "StdAfx.h"
@@ -86,7 +86,8 @@ void EClient::EncodeField<std::string>(std::ostream& os, std::string value)
 bool EClient::isAsciiPrintable(const std::string& s)
 {
     return std::all_of(s.begin(), s.end(), [](char c) {
-        return static_cast<unsigned char>(c) >= 32 && static_cast<unsigned char>(c) < 127;
+        return static_cast<unsigned char>(c) >= 32 && static_cast<unsigned char>(c) < 127 || 
+            static_cast<unsigned char>(c) == 9 || static_cast<unsigned char>(c) == 10 || static_cast<unsigned char>(c) == 13;
     });
 }
 
@@ -1787,7 +1788,9 @@ void EClient::placeOrder( OrderId id, const Contract& contract, const Order& ord
         ENCODE_FIELD( order.faGroup); // srv v13 and above
         ENCODE_FIELD( order.faMethod); // srv v13 and above
         ENCODE_FIELD( order.faPercentage); // srv v13 and above
-        ENCODE_FIELD( order.faProfile); // srv v13 and above
+        if (m_serverVersion < MIN_SERVER_VER_FA_PROFILE_DESUPPORT) {
+            ENCODE_FIELD(""); // send deprecated faProfile field
+        }
 
         if (m_serverVersion >= MIN_SERVER_VER_MODELS_SUPPORT) {
             ENCODE_FIELD( order.modelCode);
@@ -2365,11 +2368,10 @@ void EClient::requestFA(faDataType pFaDataType)
         return;
     }
 
-    // Not needed anymore validation
-    //if( m_serverVersion < 13) {
-    //	m_pEWrapper->error( NO_VALID_ID, UPDATE_TWS.code(), UPDATE_TWS.msg());
-    //	return;
-    //}
+    if (m_serverVersion >= MIN_SERVER_VER_FA_PROFILE_DESUPPORT && pFaDataType == 2) {
+        m_pEWrapper->error( NO_VALID_ID, FA_PROFILE_NOT_SUPPORTED.code(), FA_PROFILE_NOT_SUPPORTED.msg(), "");
+        return;
+    }
 
     std::stringstream msg;
     prepareBuffer( msg);
@@ -2387,15 +2389,14 @@ void EClient::replaceFA(int reqId, faDataType pFaDataType, const std::string& cx
 {
     // not connected?
     if( !isConnected()) {
-        m_pEWrapper->error( NO_VALID_ID, NOT_CONNECTED.code(), NOT_CONNECTED.msg(), "");
+        m_pEWrapper->error( reqId, NOT_CONNECTED.code(), NOT_CONNECTED.msg(), "");
         return;
     }
 
-    // Not needed anymore validation
-    //if( m_serverVersion < 13) {
-    //	m_pEWrapper->error( NO_VALID_ID, UPDATE_TWS.code(), UPDATE_TWS.msg());
-    //	return;
-    //}
+    if (m_serverVersion >= MIN_SERVER_VER_FA_PROFILE_DESUPPORT && pFaDataType == 2) {
+        m_pEWrapper->error( reqId, FA_PROFILE_NOT_SUPPORTED.code(), FA_PROFILE_NOT_SUPPORTED.msg(), "");
+        return;
+    }
 
     std::stringstream msg;
     prepareBuffer( msg);

@@ -1,4 +1,4 @@
-/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2023 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 using System;
 using System.Net;
@@ -940,7 +940,10 @@ namespace IBApi
                     paramsList.AddParameter(order.FaGroup);
                     paramsList.AddParameter(order.FaMethod);
                     paramsList.AddParameter(order.FaPercentage);
-                    paramsList.AddParameter(order.FaProfile);
+                    if (serverVersion < MinServerVer.MIN_SERVER_VER_FA_PROFILE_DESUPPORT)
+                    {
+                        paramsList.AddParameter(""); // send deprecated faProfile field
+                    }
                 }
 
                 if (serverVersion >= MinServerVer.MODELS_SUPPORT)
@@ -1313,10 +1316,9 @@ namespace IBApi
          * @brief Replaces Financial Advisor's settings
          * A Financial Advisor can define three different configurations:
          *    1. Groups: offer traders a way to create a group of accounts and apply a single allocation method to all accounts in the group.
-         *    2. Profiles: let you allocate shares on an account-by-account basis using a predefined calculation value.
          *    3. Account Aliases: let you easily identify the accounts by meaningful names rather than account numbers.
          * More information at https://www.interactivebrokers.com/en/?f=%2Fen%2Fsoftware%2Fpdfhighlights%2FPDF-AdvisorAllocations.php%3Fib_entity%3Dllc
-         * @param faDataType the configuration to change. Set to 1, 2 or 3 as defined above.
+         * @param faDataType the configuration to change. Set to 1 or 3 as defined above.
          * @param xml the xml-formatted configuration string
          * @sa requestFA
          */
@@ -1324,6 +1326,12 @@ namespace IBApi
         {
             if (!CheckConnection())
                 return;
+
+            if (serverVersion >= MinServerVer.MIN_SERVER_VER_FA_PROFILE_DESUPPORT && faDataType == 2)
+            {
+                wrapper.error(reqId, EClientErrors.FA_PROFILE_NOT_SUPPORTED.Code, EClientErrors.FA_PROFILE_NOT_SUPPORTED.Message, "");
+                return;
+            }
 
             var paramsList = new BinaryWriter(new MemoryStream());
             var lengthPos = prepareBuffer(paramsList);
@@ -1352,16 +1360,22 @@ namespace IBApi
          * @brief Requests the FA configuration
          * A Financial Advisor can define three different configurations:
          *      1. Groups: offer traders a way to create a group of accounts and apply a single allocation method to all accounts in the group.
-         *      2. Profiles: let you allocate shares on an account-by-account basis using a predefined calculation value.
          *      3. Account Aliases: let you easily identify the accounts by meaningful names rather than account numbers.
          * More information at https://www.interactivebrokers.com/en/?f=%2Fen%2Fsoftware%2Fpdfhighlights%2FPDF-AdvisorAllocations.php%3Fib_entity%3Dllc
-         * @param faDataType the configuration to change. Set to 1, 2 or 3 as defined above.
+         * @param faDataType the configuration to change. Set to 1 or 3 as defined above.
          * @sa replaceFA
          */
         public void requestFA(int faDataType)
         {
             if (!CheckConnection())
                 return;
+
+            if (serverVersion >= MinServerVer.MIN_SERVER_VER_FA_PROFILE_DESUPPORT && faDataType == 2)
+            {
+                wrapper.error(IncomingMessage.NotValid, EClientErrors.FA_PROFILE_NOT_SUPPORTED.Code, EClientErrors.FA_PROFILE_NOT_SUPPORTED.Message, "");
+                return;
+            }
+
             const int VERSION = 1;
             var paramsList = new BinaryWriter(new MemoryStream());
             var lengthPos = prepareBuffer(paramsList);

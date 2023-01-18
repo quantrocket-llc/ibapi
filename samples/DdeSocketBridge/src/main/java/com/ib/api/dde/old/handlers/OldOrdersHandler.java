@@ -345,10 +345,7 @@ public class OldOrdersHandler extends OrdersHandler {
             if (Utils.isNotNull(token)) {
                 order.faPercentage(token);
             }
-            token = getParameter(st);
-            if (Utils.isNotNull(token)) {
-                order.faProfile(token);
-            }
+            token = getParameter(st); // faProfile - deprecated
             token = getParameter(st);
             if (Utils.isNotNull(token)) {
                 order.shortSaleSlot(getIntFromString(token));

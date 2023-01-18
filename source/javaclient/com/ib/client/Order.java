@@ -1,4 +1,4 @@
-/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2023 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 package com.ib.client;
@@ -80,7 +80,6 @@ public class Order {
     private String m_faGroup;
     private String m_faMethod = ""; // None;
     private String m_faPercentage;
-    private String m_faProfile;
 
     // volatility orders
     private double  m_volatility = Double.MAX_VALUE;  // enter percentage not decimal, e.g. 2 not .02
@@ -294,7 +293,6 @@ public class Order {
     public String algoId()                          { return m_algoId; }
     public String faGroup()                         { return m_faGroup; }
     public String faPercentage()                    { return m_faPercentage; }
-    public String faProfile()                       { return m_faProfile; }
     public String goodAfterTime()                   { return m_goodAfterTime; }
     public String goodTillDate()                    { return m_goodTillDate; }
     public String hedgeParam()                      { return m_hedgeParam; }
@@ -407,7 +405,6 @@ public class Order {
     public void faMethod(Method v)                                      { m_faMethod = ( v == null ) ? null : v.getApiString(); }
     public void faMethod(String v)                                      { m_faMethod = v; }
     public void faPercentage(String v)                                  { m_faPercentage = v; }
-    public void faProfile(String v)                                     { m_faProfile = v; }
     public void goodAfterTime(String v)                                 { m_goodAfterTime = v; }
     public void goodTillDate(String v)                                  { m_goodTillDate = v; }
     public void hedgeParam(String v)                                    { m_hedgeParam = v; }
@@ -705,7 +702,6 @@ public class Order {
         	|| Util.StringCompare(m_goodTillDate, l_theOther.m_goodTillDate) != 0 
         	|| Util.StringCompare(m_rule80A, l_theOther.m_rule80A) != 0 
         	|| Util.StringCompare(m_faGroup, l_theOther.m_faGroup) != 0 
-        	|| Util.StringCompare(m_faProfile, l_theOther.m_faProfile) != 0 
         	|| Util.StringCompare(m_faMethod, l_theOther.m_faMethod) != 0 
         	|| Util.StringCompare(m_faPercentage, l_theOther.m_faPercentage) != 0 
         	|| Util.StringCompare(m_openClose, l_theOther.m_openClose) != 0

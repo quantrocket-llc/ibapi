@@ -1,5 +1,5 @@
 """
-Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+Copyright (C) 2023 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable.
 """
 
@@ -106,7 +106,8 @@ class OrderDecoder(Object):
         self.order.faGroup = decode(str, fields)
         self.order.faMethod = decode(str, fields)
         self.order.faPercentage = decode(str, fields)
-        self.order.faProfile = decode(str, fields)
+        if self.serverVersion < MIN_SERVER_VER_FA_PROFILE_DESUPPORT:
+            _faProfile = decode(str, fields) # skip deprecated faProfile field
 
     def decodeModelCode(self, fields):
         if self.serverVersion >= MIN_SERVER_VER_MODELS_SUPPORT:

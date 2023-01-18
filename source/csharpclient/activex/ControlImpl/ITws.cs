@@ -1,4 +1,4 @@
-/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2023 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 using System;
@@ -126,7 +126,7 @@ namespace TWSLib
                   string lastTradeDate, double strike, string right, string multiplier,
                   string exchange, string primaryExchange, string curency, string orderType,
                   double price, double auxPrice, string goodAfterTime, string group,
-                  string faMethod, string faPercentage, string faProfile, string goodTillDate);
+                  string faMethod, string faPercentage, /* deprecated */ string faProfile, string goodTillDate);
 
         [DispId(58)]
         void disconnect();
@@ -161,7 +161,7 @@ namespace TWSLib
                   string secType, string exchange, string primaryExchange, string curency,
                   string orderType, double lmtPrice, double auxPrice,
                   string goodAfterTime, string group,
-                  string faMethod, string faPercentage, string faProfile, string goodTillDate);
+                  string faMethod, string faPercentage, /* deprecated */ string faProfile, string goodTillDate);
         [DispId(67)]
         void reqContractDetails(string symbol, string secType, string lastTradeDate, double strike,
                   string right, string multiplier, string exchange, string curency, int includeExpired);

@@ -1,4 +1,4 @@
-/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2023 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 package com.ib.controller;
@@ -767,14 +767,11 @@ public class ApiController implements EWrapper {
 	// ---------------------------------------- Advisor info ----------------------------------------
 	public interface IAdvisorHandler {
 		void groups(List<Group> groups);
-		void profiles(List<Profile> profiles);
 		void aliases(List<Alias> aliases);
 		void updateGroupsEnd(String text);
-		void updateProfilesEnd(String text);
 	}
 	
 	private static final int REPLACE_FA_GROUPS_REQ_ID = 0;
-	private static final int REPLACE_FA_PROFILES_REQ_ID = 1;
 
 	public void reqAdvisorData( FADataType type, IAdvisorHandler handler) {
 		if (!checkConnection())
@@ -793,30 +790,17 @@ public class ApiController implements EWrapper {
 		sendEOM();
 	}
 
-	public void updateProfiles(List<Profile> profiles) {
-		if (!checkConnection())
-			return;
-
-		m_client.replaceFA( REPLACE_FA_PROFILES_REQ_ID, FADataType.PROFILES.ordinal(), AdvisorUtil.getProfilesXml( profiles) );
-		sendEOM();
-	}
-
 	@Override public final void receiveFA(int faDataType, String xml) {
 		if (m_advisorHandler == null) {
 			return;
 		}
 
-		FADataType type = FADataType.get( faDataType);
+		FADataType type = FADataType.getById( faDataType);
 
 		switch( type) {
 			case GROUPS:
 				List<Group> groups = AdvisorUtil.getGroups( xml);
 				m_advisorHandler.groups(groups);
-				break;
-
-			case PROFILES:
-				List<Profile> profiles = AdvisorUtil.getProfiles( xml);
-				m_advisorHandler.profiles(profiles);
 				break;
 
 			case ALIASES:
@@ -834,9 +818,6 @@ public class ApiController implements EWrapper {
 		switch(reqId) {
 		case REPLACE_FA_GROUPS_REQ_ID:
 			m_advisorHandler.updateGroupsEnd(text);	
-			break;
-		case REPLACE_FA_PROFILES_REQ_ID:
-			m_advisorHandler.updateProfilesEnd(text);	
 			break;
 		default:
 			break;

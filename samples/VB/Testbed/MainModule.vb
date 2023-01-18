@@ -1,4 +1,4 @@
-﻿' Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+' Copyright (C) 2023 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
 ' and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable.
 
 Imports IBApi
@@ -675,10 +675,10 @@ Module MainModule
         client.placeOrder(increment(nextOrderId), ContractSamples.USStock(), OrderSamples.LimitOrder("SELL", 1, 50))
         '! [order_submission]
 
-		'! [place_midprice]
+        '! [place_midprice]
         client.placeOrder(increment(nextOrderId), ContractSamples.USStockAtSmart(), OrderSamples.Midprice("BUY", 1, 150))
         '! [place_midprice]
-		
+
         '! [faorderoneaccount]
         Dim faOrderOneAccount As Order = OrderSamples.MarketOrder("BUY", 100)
         ' Specify the Account Number directly
@@ -686,27 +686,18 @@ Module MainModule
         client.placeOrder(increment(nextOrderId), ContractSamples.USStock(), faOrderOneAccount)
         '! [faorderoneaccount]
 
-        '! [faordergroupequalquantity]
-        Dim faOrderGroupEQ As Order = OrderSamples.LimitOrder("SELL", 200, 2000)
-        faOrderGroupEQ.FaGroup = "Group_Equal_Quantity"
-        faOrderGroupEQ.FaMethod = "EqualQuantity"
-        client.placeOrder(increment(nextOrderId), ContractSamples.SimpleFuture(), faOrderGroupEQ)
-        '! [faordergroupequalquantity]
+        '! [faordergroup]
+        Dim faOrderGroup As Order = OrderSamples.LimitOrder("BUY", 200, 10)
+        faOrderGroup.FaGroup = "MyTestGroup1"
+        faOrderGroup.FaMethod = "AvailableEquity"
+        client.placeOrder(increment(nextOrderId), ContractSamples.USStockAtSmart(), faOrderGroup)
+        '! [faordergroup]
 
-        '! [faordergrouppctchange]
-        Dim faOrderGroupPC As Order = OrderSamples.MarketOrder("BUY", 0)
-        ' You should not specify any order quantity for PctChange allocation method
-        faOrderGroupPC.FaGroup = "Pct_Change"
-        faOrderGroupPC.FaMethod = "PctChange"
-        faOrderGroupPC.FaPercentage = "100"
-        client.placeOrder(increment(nextOrderId), ContractSamples.EurGbpFx(), faOrderGroupPC)
-        '! [faordergrouppctchange]
-
-        '! [faorderprofile]
-        Dim faOrderProfile As Order = OrderSamples.LimitOrder("BUY", 200, 100)
-        faOrderProfile.FaProfile = "Percent_60_40"
-        client.placeOrder(increment(nextOrderId), ContractSamples.EuropeanStock(), faOrderProfile)
-        '! [faorderprofile]
+        '! [faorderuserdefinedgroup]
+        Dim faOrderUserDefinedGroup As Order = OrderSamples.LimitOrder("BUY", 200, 10)
+        faOrderUserDefinedGroup.FaGroup = "MyTestProfile1"
+        client.placeOrder(increment(nextOrderId), ContractSamples.USStockAtSmart(), faOrderUserDefinedGroup)
+        '! [faorderuserdefinedgroup]
 
         '! [modelorder]
         Dim modelOrder As Order = OrderSamples.LimitOrder("BUY", 200, 100)
@@ -1024,26 +1015,10 @@ Module MainModule
         client.requestFA(Constants.FaGroups)
         ''! [requestfagroups]
 
-        ''! [requestfaprofiles]
-        client.requestFA(Constants.FaProfiles)
-        ''! [requestfaprofiles]
-
         ''*** Replacing FA information - Fill in with the appropriate XML string. ***/
-        ''! [replacefaonegroup]
-        client.replaceFA(1000, Constants.FaGroups, FaAllocationSamples.FaOneGroup)
-        ''! [replacefaonegroup]
-
-        ''! [replacefatwogroups]
-        client.replaceFA(1001, Constants.FaGroups, FaAllocationSamples.FaTwoGroups)
-        ''! [replacefatwogroups]
-
-        ''! [replacefaoneprofile]
-        client.replaceFA(1002, Constants.FaProfiles, FaAllocationSamples.FaOneProfile)
-        ''! [replacefaoneprofile]
-
-        ''! [replacefatwoprofiles]
-        client.replaceFA(1003, Constants.FaProfiles, FaAllocationSamples.FaTwoProfiles)
-        ''! [replacefatwoprofiles]
+        ''! [replacefaupdatedgroup]
+        client.replaceFA(1000, Constants.FaGroups, FaAllocationSamples.FaUpdatedGroup)
+        ''! [replacefaupdatedgroup]
 
         ''! [reqSoftDollarTiers]
         client.reqSoftDollarTiers(4001)

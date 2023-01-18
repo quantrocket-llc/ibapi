@@ -128,7 +128,6 @@ public class OrderUtils {
             item.add(Utils.toString(completedOrderData.order().faGroup()));
             item.add(Utils.toString(completedOrderData.order().getFaMethod()));
             item.add(Utils.toString(completedOrderData.order().faPercentage()));
-            item.add(Utils.toString(completedOrderData.order().faProfile()));
             item.add(Utils.toString(completedOrderData.order().volatility()));
             item.add(Utils.toString(completedOrderData.order().getVolatilityType()));
             item.add(Utils.toString(completedOrderData.order().continuousUpdate()));
@@ -189,7 +188,7 @@ public class OrderUtils {
             item.add(Utils.toString(completedOrderData.order().midOffsetAtWhole()));
             item.add(Utils.toString(completedOrderData.order().midOffsetAtHalf()));
         } else {
-            for (int j = 0; j < 91; j++) {
+            for (int j = 0; j < 90; j++) {
                 item.add(Utils.toString(""));
             }
         }
@@ -297,7 +296,6 @@ public class OrderUtils {
                 item.add(Utils.toString(openOrderData.order().faGroup()));
                 item.add(Utils.toString(openOrderData.order().getFaMethod()));
                 item.add(Utils.toString(openOrderData.order().faPercentage()));
-                item.add(Utils.toString(openOrderData.order().faProfile()));
                 item.add(Utils.toString(openOrderData.order().volatility()));
                 item.add(Utils.toString(openOrderData.order().getVolatilityType()));
                 item.add(Utils.toString(openOrderData.order().continuousUpdate()));
@@ -371,7 +369,7 @@ public class OrderUtils {
                 item.add(Utils.toString(openOrderData.order().midOffsetAtWhole()));
                 item.add(Utils.toString(openOrderData.order().midOffsetAtHalf()));
             } else {
-                for (int j = 0; j < 105; j++) {
+                for (int j = 0; j < 104; j++) {
                     item.add(Utils.toString(""));
                 }
             }
@@ -414,7 +412,6 @@ public class OrderUtils {
                 item.add(Utils.toString(openOrderData.order().faGroup()));
                 item.add(Utils.toString(openOrderData.order().getFaMethod()));
                 item.add(Utils.toString(openOrderData.order().faPercentage()));
-                item.add(Utils.toString(openOrderData.order().faProfile()));
                 item.add(Utils.toString(openOrderData.order().openClose()));
                 item.add(Utils.toString(openOrderData.order().origin()));
                 item.add(Utils.toString(openOrderData.order().settlingFirm()));
@@ -430,7 +427,7 @@ public class OrderUtils {
                 item.add(Utils.toString(openOrderData.order().randomizeSize()));
                 item.add(Utils.toString(openOrderData.order().randomizePrice()));
             } else {
-                for (int j = 0; j < 49; j++) {
+                for (int j = 0; j < 48; j++) {
                     item.add(Utils.toString(""));
                 }
             }

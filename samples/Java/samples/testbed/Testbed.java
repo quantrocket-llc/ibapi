@@ -1,4 +1,4 @@
-/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2023 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 package samples.testbed;
@@ -160,27 +160,18 @@ public class Testbed {
         client.placeOrder(nextOrderId++, ContractSamples.USStock(), faOrderOneAccount);
         //! [faorderoneaccount]
         
-        //! [faordergroupequalquantity]
-        Order faOrderGroupEQ = OrderSamples.LimitOrder("SELL", Decimal.get(200), 2000);
-        faOrderGroupEQ.faGroup("Group_Equal_Quantity");
-        faOrderGroupEQ.faMethod("EqualQuantity");
-        client.placeOrder(nextOrderId++, ContractSamples.USStock(), faOrderGroupEQ);
-        //! [faordergroupequalquantity]
+        //! [faordergroup]
+        Order faOrderGroup = OrderSamples.LimitOrder("BUY", Decimal.get(200), 10);
+        faOrderGroup.faGroup("MyTestGroup1");
+        faOrderGroup.faMethod("AvailableEquity");
+        client.placeOrder(nextOrderId++, ContractSamples.USStockAtSmart(), faOrderGroup);
+        //! [faordergroup]
         
-        //! [faordergrouppctchange]
-        Order faOrderGroupPC = OrderSamples.MarketOrder("BUY", Decimal.ZERO);
-        // You should not specify any order quantity for PctChange allocation method
-        faOrderGroupPC.faGroup("Pct_Change");
-        faOrderGroupPC.faMethod("PctChange");
-        faOrderGroupPC.faPercentage("100");
-        client.placeOrder(nextOrderId++, ContractSamples.EurGbpFx(), faOrderGroupPC);
-        //! [faordergrouppctchange]
-        
-        //! [faorderprofile]
-        Order faOrderProfile = OrderSamples.LimitOrder("BUY", Decimal.get(200), 100);
-        faOrderProfile.faProfile("Percent_60_40");
-		client.placeOrder(nextOrderId++, ContractSamples.EuropeanStock(), faOrderProfile);
-        //! [faorderprofile]
+        //! [faorderuserdefinedgroup]
+        Order faOrderUserDefinedGroup = OrderSamples.LimitOrder("BUY", Decimal.get(200), 10);
+        faOrderUserDefinedGroup.faGroup("MyTestProfile1");
+        client.placeOrder(nextOrderId++, ContractSamples.USStockAtSmart(), faOrderUserDefinedGroup);
+        //! [faorderuserdefinedgroup]
         
 		//! [modelorder]
         Order modelOrder = OrderSamples.LimitOrder("BUY", Decimal.get(200), 100);
@@ -849,26 +840,10 @@ public class Testbed {
 		client.requestFA(FADataType.GROUPS.ordinal());
 		//! [requestfagroups]
 		
-		//! [requestfaprofiles]
-		client.requestFA(FADataType.PROFILES.ordinal());
-		//! [requestfaprofiles]
-		
 		/*** Replacing FA information - Fill in with the appropriate XML string. ***/
-		//! [replacefaonegroup]
-		client.replaceFA(1000, FADataType.GROUPS.ordinal(), FAMethodSamples.FA_ONE_GROUP);
-		//! [replacefaonegroup]
-		
-		//! [replacefatwogroups]
-		client.replaceFA(1001, FADataType.GROUPS.ordinal(), FAMethodSamples.FA_TWO_GROUPS);
-		//! [replacefatwogroups]
-		
-		//! [replacefaoneprofile]
-		client.replaceFA(1002, FADataType.PROFILES.ordinal(), FAMethodSamples.FA_ONE_PROFILE);
-		//! [replacefaoneprofile]
-		
-		//! [replacefatwoprofiles]
-		client.replaceFA(1003, FADataType.PROFILES.ordinal(), FAMethodSamples.FA_TWO_PROFILES);
-		//! [replacefatwoprofiles]
+		//! [replacefaupdatedgroup]
+		client.replaceFA(1000, FADataType.GROUPS.ordinal(), FAMethodSamples.FA_UPDATED_GROUP);
+		//! [replacefaupdatedgroup]
 		
         //! [reqSoftDollarTiers]
         client.reqSoftDollarTiers(4001);

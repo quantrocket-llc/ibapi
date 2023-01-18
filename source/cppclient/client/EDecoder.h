@@ -1,4 +1,4 @@
-/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2023 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 #pragma once
@@ -134,12 +134,13 @@ const int MIN_SERVER_VER_WSH_EVENT_DATA_FILTERS_DATE = 173;
 const int MIN_SERVER_VER_INSTRUMENT_TIMEZONE         = 174;
 const int MIN_SERVER_VER_HMDS_MARKET_DATA_IN_SHARES  = 175;
 const int MIN_SERVER_VER_BOND_ISSUERID               = 176;
+const int MIN_SERVER_VER_FA_PROFILE_DESUPPORT        = 177;
 
 /* 100+ messaging */
 // 100 = enhanced handshake, msg length prefixes
 
 const int MIN_CLIENT_VER = 100;
-const int MAX_CLIENT_VER = MIN_SERVER_VER_BOND_ISSUERID;
+const int MAX_CLIENT_VER = MIN_SERVER_VER_FA_PROFILE_DESUPPORT;
 
 
 // incoming msg id's

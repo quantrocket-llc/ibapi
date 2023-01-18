@@ -1,4 +1,4 @@
-﻿' Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+' Copyright (C) 2023 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
 ' and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable.
 
 Imports IBApi
@@ -312,7 +312,8 @@ Namespace Samples
                               Util.DoubleMaxString(order.LmtPrice) & ", AuxPrice: " & Util.DoubleMaxString(order.AuxPrice) & ", Status: " & orderState.Status &
                               ", MinTradeQty: " & Util.IntMaxString(order.MinTradeQty) & ", MinCompeteSize: " & Util.IntMaxString(order.MinCompeteSize) &
                               ", CompeteAgainstBestOffset: " & If(order.CompeteAgainstBestOffset = Order.COMPETE_AGAINST_BEST_OFFSET_UP_TO_MID, "UpToMid", Util.DoubleMaxString(order.CompeteAgainstBestOffset)) &
-                              ", MidOffsetAtWhole: " & Util.DoubleMaxString(order.MidOffsetAtWhole) & ", MidOffsetAtHalf: " & Util.DoubleMaxString(order.MidOffsetAtHalf))
+                              ", MidOffsetAtWhole: " & Util.DoubleMaxString(order.MidOffsetAtWhole) & ", MidOffsetAtHalf: " & Util.DoubleMaxString(order.MidOffsetAtHalf) &
+                              ", FAGroup: " & order.FaGroup & ", FAMethod: " & order.FaMethod)
         End Sub
         '! [openorder]
 

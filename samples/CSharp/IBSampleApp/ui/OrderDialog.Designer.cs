@@ -1,4 +1,4 @@
-﻿/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2023 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 using IBSampleApp.types;
 using IBSampleApp.ui;
@@ -80,6 +80,7 @@ namespace IBSampleApp
             this.contractCurrency = new System.Windows.Forms.TextBox();
             this.contractExchange = new System.Windows.Forms.TextBox();
             this.extendedOrderTab = new System.Windows.Forms.TabPage();
+            this.solicited = new System.Windows.Forms.CheckBox();
             this.manualOrderCancelTime = new System.Windows.Forms.TextBox();
             this.labelManualOrderCancelTime = new System.Windows.Forms.Label();
             this.manualOrderTime = new System.Windows.Forms.TextBox();
@@ -141,11 +142,8 @@ namespace IBSampleApp
             this.orderReference = new System.Windows.Forms.TextBox();
             this.advisorTab = new System.Windows.Forms.TabPage();
             this.faPercentage = new System.Windows.Forms.TextBox();
-            this.faProfile = new System.Windows.Forms.TextBox();
             this.faMethod = new System.Windows.Forms.ComboBox();
             this.faGroup = new System.Windows.Forms.TextBox();
-            this.profileLabel = new System.Windows.Forms.Label();
-            this.orLabel = new System.Windows.Forms.Label();
             this.percentageLabel = new System.Windows.Forms.Label();
             this.methodLabel = new System.Windows.Forms.Label();
             this.groupLabel = new System.Windows.Forms.Label();
@@ -272,7 +270,6 @@ namespace IBSampleApp
             this.checkMarginButton = new System.Windows.Forms.Button();
             this.closeOrderDialogButton = new System.Windows.Forms.Button();
             this.cancelOrderButton = new System.Windows.Forms.Button();
-            this.solicited = new System.Windows.Forms.CheckBox();
             this.conditionsTab.SuspendLayout();
             this.orderContractTab.SuspendLayout();
             this.baseGroup.SuspendLayout();
@@ -885,6 +882,18 @@ namespace IBSampleApp
             this.extendedOrderTab.TabIndex = 1;
             this.extendedOrderTab.Text = "Extended Attributes";
             // 
+            // solicited
+            // 
+            this.solicited.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.solicited.AutoSize = true;
+            this.solicited.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.solicited.Location = new System.Drawing.Point(474, 185);
+            this.solicited.Name = "solicited";
+            this.solicited.Size = new System.Drawing.Size(66, 17);
+            this.solicited.TabIndex = 59;
+            this.solicited.Text = "Solicited";
+            this.solicited.UseVisualStyleBackColor = true;
+            // 
             // manualOrderCancelTime
             // 
             this.manualOrderCancelTime.Location = new System.Drawing.Point(339, 327);
@@ -1430,11 +1439,8 @@ namespace IBSampleApp
             // 
             this.advisorTab.BackColor = System.Drawing.Color.LightGray;
             this.advisorTab.Controls.Add(this.faPercentage);
-            this.advisorTab.Controls.Add(this.faProfile);
             this.advisorTab.Controls.Add(this.faMethod);
             this.advisorTab.Controls.Add(this.faGroup);
-            this.advisorTab.Controls.Add(this.profileLabel);
-            this.advisorTab.Controls.Add(this.orLabel);
             this.advisorTab.Controls.Add(this.percentageLabel);
             this.advisorTab.Controls.Add(this.methodLabel);
             this.advisorTab.Controls.Add(this.groupLabel);
@@ -1452,13 +1458,6 @@ namespace IBSampleApp
             this.faPercentage.Size = new System.Drawing.Size(71, 20);
             this.faPercentage.TabIndex = 8;
             // 
-            // faProfile
-            // 
-            this.faProfile.Location = new System.Drawing.Point(76, 117);
-            this.faProfile.Name = "faProfile";
-            this.faProfile.Size = new System.Drawing.Size(71, 20);
-            this.faProfile.TabIndex = 7;
-            // 
             // faMethod
             // 
             this.faMethod.FormattingEnabled = true;
@@ -1473,24 +1472,6 @@ namespace IBSampleApp
             this.faGroup.Name = "faGroup";
             this.faGroup.Size = new System.Drawing.Size(71, 20);
             this.faGroup.TabIndex = 5;
-            // 
-            // profileLabel
-            // 
-            this.profileLabel.AutoSize = true;
-            this.profileLabel.Location = new System.Drawing.Point(34, 117);
-            this.profileLabel.Name = "profileLabel";
-            this.profileLabel.Size = new System.Drawing.Size(36, 13);
-            this.profileLabel.TabIndex = 4;
-            this.profileLabel.Text = "Profile";
-            // 
-            // orLabel
-            // 
-            this.orLabel.AutoSize = true;
-            this.orLabel.Location = new System.Drawing.Point(42, 94);
-            this.orLabel.Name = "orLabel";
-            this.orLabel.Size = new System.Drawing.Size(28, 13);
-            this.orLabel.TabIndex = 3;
-            this.orLabel.Text = "--or--";
             // 
             // percentageLabel
             // 
@@ -2757,18 +2738,6 @@ namespace IBSampleApp
             this.cancelOrderButton.UseVisualStyleBackColor = true;
             this.cancelOrderButton.Click += new System.EventHandler(this.cancelOrderButton_Click);
             // 
-            // solicited
-            // 
-            this.solicited.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.solicited.AutoSize = true;
-            this.solicited.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.solicited.Location = new System.Drawing.Point(474, 185);
-            this.solicited.Name = "solicited";
-            this.solicited.Size = new System.Drawing.Size(66, 17);
-            this.solicited.TabIndex = 59;
-            this.solicited.Text = "Solicited";
-            this.solicited.UseVisualStyleBackColor = true;
-            // 
             // OrderDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2902,13 +2871,10 @@ namespace IBSampleApp
         private System.Windows.Forms.TextBox lmtPrice;
         private System.Windows.Forms.TabPage advisorTab;
         private System.Windows.Forms.Label groupLabel;
-        private System.Windows.Forms.Label profileLabel;
-        private System.Windows.Forms.Label orLabel;
         private System.Windows.Forms.Label percentageLabel;
         private System.Windows.Forms.Label methodLabel;
         private System.Windows.Forms.TextBox faGroup;
         private System.Windows.Forms.ComboBox faMethod;
-        private System.Windows.Forms.TextBox faProfile;
         private System.Windows.Forms.TextBox faPercentage;
         private System.Windows.Forms.TabPage volatilityTab;
         private System.Windows.Forms.TabPage scaleTab;

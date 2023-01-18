@@ -1,4 +1,4 @@
-﻿/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2023 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 #include "StdAfx.h"
@@ -906,9 +906,9 @@ void TestCppClient::ocaSamples()
 	//OCA ORDER
 	//! [ocasubmit]
 	std::vector<Order> ocaOrders;
-	ocaOrders.push_back(OrderSamples::LimitOrder("BUY", 1, 10));
-	ocaOrders.push_back(OrderSamples::LimitOrder("BUY", 1, 11));
-	ocaOrders.push_back(OrderSamples::LimitOrder("BUY", 1, 12));
+	ocaOrders.push_back(OrderSamples::LimitOrder("BUY", stringToDecimal("1"), 10));
+	ocaOrders.push_back(OrderSamples::LimitOrder("BUY", stringToDecimal("1"), 11));
+	ocaOrders.push_back(OrderSamples::LimitOrder("BUY", stringToDecimal("1"), 12));
 	for(unsigned int i = 0; i < ocaOrders.size(); i++){
 		OrderSamples::OneCancelsAll("TestOca", ocaOrders[i], 2);
 		m_pClient->placeOrder(m_orderId++, ContractSamples::USStock(), ocaOrders[i]);
@@ -921,7 +921,7 @@ void TestCppClient::ocaSamples()
 void TestCppClient::conditionSamples()
 {
 	//! [order_conditioning_activate]
-	Order lmt = OrderSamples::LimitOrder("BUY", 100, 10);
+	Order lmt = OrderSamples::LimitOrder("BUY", stringToDecimal("100"), 10);
 	//Order will become active if conditioning criteria is met
 	PriceCondition* priceCondition = dynamic_cast<PriceCondition *>(OrderSamples::Price_Condition(208813720, "SMART", 600, false, false));
 	ExecutionCondition* execCondition = dynamic_cast<ExecutionCondition *>(OrderSamples::Execution_Condition("EUR.USD", "CASH", "IDEALPRO", true));
@@ -941,7 +941,7 @@ void TestCppClient::conditionSamples()
 
 	//Conditions can make the order active or cancel it. Only LMT orders can be conditionally canceled.
 	//! [order_conditioning_cancel]
-	Order lmt2 = OrderSamples::LimitOrder("BUY", 100, 20);
+	Order lmt2 = OrderSamples::LimitOrder("BUY", stringToDecimal("100"), 20);
 	//The active order will be cancelled if conditioning criteria is met
 	lmt2.conditionsCancelOrder = true;
 	PriceCondition* priceCondition2 = dynamic_cast<PriceCondition *>(OrderSamples::Price_Condition(208813720, "SMART", 600, false, false));
@@ -957,7 +957,7 @@ void TestCppClient::bracketSample(){
 	Order takeProfit;
 	Order stopLoss;
 	//! [bracketsubmit]
-	OrderSamples::BracketOrder(m_orderId++, parent, takeProfit, stopLoss, "BUY", 100, 30, 40, 20);
+	OrderSamples::BracketOrder(m_orderId++, parent, takeProfit, stopLoss, "BUY", stringToDecimal("100"), 30, 40, 20);
 	m_pClient->placeOrder(parent.orderId, ContractSamples::EuropeanStock(), parent);
 	m_pClient->placeOrder(takeProfit.orderId, ContractSamples::EuropeanStock(), takeProfit);
 	m_pClient->placeOrder(stopLoss.orderId, ContractSamples::EuropeanStock(), stopLoss);
@@ -970,7 +970,7 @@ void TestCppClient::hedgeSample(){
 	//F Hedge order
 	//! [hedgesubmit]
 	//Parent order on a contract which currency differs from your base currency
-	Order parent = OrderSamples::LimitOrder("BUY", 100, 10);
+	Order parent = OrderSamples::LimitOrder("BUY", stringToDecimal("100"), 10);
 	parent.orderId = m_orderId++;
 	parent.transmit = false;
 	//Hedge on the currency conversion
@@ -986,7 +986,7 @@ void TestCppClient::hedgeSample(){
 
 void TestCppClient::testAlgoSamples(){
 	//! [algo_base_order]
-	Order baseOrder = OrderSamples::LimitOrder("BUY", 1000, 1);
+	Order baseOrder = OrderSamples::LimitOrder("BUY", stringToDecimal("1000"), 1);
 	//! [algo_base_order]
 
 	//! [arrivalpx]
@@ -1071,41 +1071,30 @@ void TestCppClient::testAlgoSamples(){
 void TestCppClient::financialAdvisorOrderSamples()
 {
 	//! [faorderoneaccount]
-	Order faOrderOneAccount = OrderSamples::MarketOrder("BUY", 100);
+	Order faOrderOneAccount = OrderSamples::MarketOrder("BUY", stringToDecimal("100"));
 	// Specify the Account Number directly
 	faOrderOneAccount.account = "DU119915";
 	m_pClient->placeOrder(m_orderId++, ContractSamples::USStock(), faOrderOneAccount);
 	//! [faorderoneaccount]
 	std::this_thread::sleep_for(std::chrono::seconds(1));
 
-	//! [faordergroupequalquantity]
-	Order faOrderGroupEQ = OrderSamples::LimitOrder("SELL", 200, 2000);
-	faOrderGroupEQ.faGroup = "Group_Equal_Quantity";
-	faOrderGroupEQ.faMethod = "EqualQuantity";
-	m_pClient->placeOrder(m_orderId++, ContractSamples::SimpleFuture(), faOrderGroupEQ);
-	//! [faordergroupequalquantity]
+	//! [faordergroup]
+	Order faOrderGroup = OrderSamples::LimitOrder("BUY", stringToDecimal("200"), 10);
+	faOrderGroup.faGroup = "MyTestGroup1";
+	faOrderGroup.faMethod = "AvailableEquity";
+	m_pClient->placeOrder(m_orderId++, ContractSamples::USStockAtSmart(), faOrderGroup);
+	//! [faordergroup]
 	std::this_thread::sleep_for(std::chrono::seconds(1));
 
-	//! [faordergrouppctchange]
-	Order faOrderGroupPC;
-	faOrderGroupPC.action = "BUY";
-	faOrderGroupPC.orderType = "MKT";
-	// You should not specify any order quantity for PctChange allocation method
-	faOrderGroupPC.faGroup = "Pct_Change";
-	faOrderGroupPC.faMethod = "PctChange";
-	faOrderGroupPC.faPercentage = "100";
-	m_pClient->placeOrder(m_orderId++, ContractSamples::EurGbpFx(), faOrderGroupPC);
-	//! [faordergrouppctchange]
+	//! [faorderuserdefinedgroup]
+	Order faOrderUserDefinedGroup = OrderSamples::LimitOrder("BUY", stringToDecimal("200"), 10);
+	faOrderUserDefinedGroup.faGroup = "MyTestProfile1";
+	m_pClient->placeOrder(m_orderId++, ContractSamples::USStockAtSmart(), faOrderUserDefinedGroup);
+	//! [faorderuserdefinedgroup]
 	std::this_thread::sleep_for(std::chrono::seconds(1));
-
-	//! [faorderprofile]
-	Order faOrderProfile = OrderSamples::LimitOrder("BUY", 200, 100);
-	faOrderProfile.faProfile = "Percent_60_40";
-	m_pClient->placeOrder(m_orderId++, ContractSamples::EuropeanStock(), faOrderProfile);
-	//! [faorderprofile]
 
 	//! [modelorder]
-	Order modelOrder = OrderSamples::LimitOrder("BUY", 200, 100);
+	Order modelOrder = OrderSamples::LimitOrder("BUY", stringToDecimal("200"), 100);
 	modelOrder.account = "DF12345";
 	modelOrder.modelCode = "Technology";
 	m_pClient->placeOrder(m_orderId++, ContractSamples::USStock(), modelOrder);
@@ -1125,26 +1114,10 @@ void TestCppClient::financialAdvisorOperations()
 	m_pClient->requestFA(faDataType::GROUPS);
 	//! [requestfagroups]
 
-	//! [requestfaprofiles]
-	m_pClient->requestFA(faDataType::PROFILES);
-	//! [requestfaprofiles]
-
 	/*** Replacing FA information - Fill in with the appropriate XML string. ***/
-	//! [replacefaonegroup]
-	m_pClient->replaceFA(1000, faDataType::GROUPS, FAMethodSamples::FAOneGroup());
-	//! [replacefaonegroup]
-
-	//! [replacefatwogroups]
-	m_pClient->replaceFA(1001, faDataType::GROUPS, FAMethodSamples::FATwoGroups());
-	//! [replacefatwogroups]
-
-	//! [replacefaoneprofile]
-	m_pClient->replaceFA(1002, faDataType::PROFILES, FAMethodSamples::FAOneProfile());
-	//! [replacefaoneprofile]
-
-	//! [replacefatwoprofiles]
-	m_pClient->replaceFA(1003, faDataType::PROFILES, FAMethodSamples::FATwoProfiles());
-	//! [replacefatwoprofiles]
+	//! [replacefaupdatedgroup]
+	m_pClient->replaceFA(1000, faDataType::GROUPS, FAMethodSamples::FAUpdatedGroup());
+	//! [replacefaupdatedgroup]
 
 	//! [reqSoftDollarTiers]
 	m_pClient->reqSoftDollarTiers(4001);
@@ -1426,7 +1399,7 @@ void TestCppClient::whatIfSamples()
 {
     /*** Placing waht-if order ***/
     //! [whatiforder]
-    m_pClient->placeOrder(m_orderId++, ContractSamples::USStockAtSmart(), OrderSamples::WhatIfLimitOrder("BUY", 200, 120));
+    m_pClient->placeOrder(m_orderId++, ContractSamples::USStockAtSmart(), OrderSamples::WhatIfLimitOrder("BUY", stringToDecimal("200"), 120));
     //! [whatiforder]
 
     m_state = ST_WHATIFSAMPLES_ACK;
@@ -1434,7 +1407,7 @@ void TestCppClient::whatIfSamples()
 
 void TestCppClient::ibkratsSample(){
 	//! [ibkratssubmit]
-	Order ibkratsOrder = OrderSamples::LimitIBKRATS("BUY", 100, 330);
+	Order ibkratsOrder = OrderSamples::LimitIBKRATS("BUY", stringToDecimal("100"), 330);
 	m_pClient->placeOrder(m_orderId++, ContractSamples::IBKRATSContract(), ibkratsOrder);
 	//! [ibkratssubmit]
 	
@@ -1600,13 +1573,15 @@ void TestCppClient::orderStatus(OrderId orderId, const std::string& status, Deci
 //! [openorder]
 void TestCppClient::openOrder( OrderId orderId, const Contract& contract, const Order& order, const OrderState& orderState) {
     printf( "OpenOrder. PermId: %s, ClientId: %s, OrderId: %s, Account: %s, Symbol: %s, SecType: %s, Exchange: %s:, Action: %s, OrderType:%s, TotalQty: %s, CashQty: %s, "
-        "LmtPrice: %s, AuxPrice: %s, Status: %s, MinTradeQty: %s, MinCompeteSize: %s, CompeteAgainstBestOffset: %s, MidOffsetAtWhole: %s, MidOffsetAtHalf: %s\n", 
+        "LmtPrice: %s, AuxPrice: %s, Status: %s, MinTradeQty: %s, MinCompeteSize: %s, CompeteAgainstBestOffset: %s, MidOffsetAtWhole: %s, MidOffsetAtHalf: %s, " 
+        "FAGroup: %s, FAMethod: %s\n",
         Utils::intMaxString(order.permId).c_str(), Utils::longMaxString(order.clientId).c_str(), Utils::longMaxString(orderId).c_str(), order.account.c_str(), contract.symbol.c_str(), 
         contract.secType.c_str(), contract.exchange.c_str(), order.action.c_str(), order.orderType.c_str(), decimalStringToDisplay(order.totalQuantity).c_str(), 
         Utils::doubleMaxString(order.cashQty).c_str(), Utils::doubleMaxString(order.lmtPrice).c_str(), Utils::doubleMaxString(order.auxPrice).c_str(), orderState.status.c_str(),
         Utils::intMaxString(order.minTradeQty).c_str(), Utils::intMaxString(order.minCompeteSize).c_str(), 
         order.competeAgainstBestOffset == COMPETE_AGAINST_BEST_OFFSET_UP_TO_MID ? "UpToMid" : Utils::doubleMaxString(order.competeAgainstBestOffset).c_str(),
-        Utils::doubleMaxString(order.midOffsetAtWhole).c_str(), Utils::doubleMaxString(order.midOffsetAtHalf).c_str());
+        Utils::doubleMaxString(order.midOffsetAtWhole).c_str(), Utils::doubleMaxString(order.midOffsetAtHalf).c_str(),
+        order.faGroup.c_str(), order.faMethod.c_str());
 }
 //! [openorder]
 

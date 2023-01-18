@@ -1,4 +1,4 @@
-/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2023 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 using System;
@@ -282,11 +282,6 @@ namespace IBApi
          * @brief The Financial Advisor group the trade will be allocated to. <i>Use an empty string if not applicable.</i>
          */
         public string FaGroup { get; set; }
-
-        /**
-         * @brief The Financial Advisor allocation profile the trade will be allocated to. <i>Use an empty string if not applicable.</i>
-         */
-        public string FaProfile { get; set; }
 
         /**
          * @brief The Financial Advisor allocation method the trade will be allocated to. <i>Use an empty string if not applicable.</i>
@@ -969,7 +964,6 @@ namespace IBApi
                 Util.StringCompare(GoodTillDate, l_theOther.GoodTillDate) != 0 ||
                 Util.StringCompare(Rule80A, l_theOther.Rule80A) != 0 ||
                 Util.StringCompare(FaGroup, l_theOther.FaGroup) != 0 ||
-                Util.StringCompare(FaProfile, l_theOther.FaProfile) != 0 ||
                 Util.StringCompare(FaMethod, l_theOther.FaMethod) != 0 ||
                 Util.StringCompare(FaPercentage, l_theOther.FaPercentage) != 0 ||
                 Util.StringCompare(OpenClose, l_theOther.OpenClose) != 0 ||
@@ -1052,7 +1046,6 @@ namespace IBApi
             hashCode = hashCode * -1521134295 + TrailStopPrice.GetHashCode();
             hashCode = hashCode * -1521134295 + TrailingPercent.GetHashCode();
             hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(FaGroup);
-            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(FaProfile);
             hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(FaMethod);
             hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(FaPercentage);
             hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(OpenClose);

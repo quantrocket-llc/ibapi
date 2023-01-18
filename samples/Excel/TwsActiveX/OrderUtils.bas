@@ -62,7 +62,6 @@ Public Enum ExtendedOrderAttributesColumns
     Col_FAGROUP
     Col_FAMETHOD
     Col_FAPERCENTAGE
-    Col_FAPROFILE
     Col_SHORTSALESLOT
     Col_DESIGNLOC
     Col_EXEMPTCODE
@@ -313,7 +312,6 @@ Private Sub PlaceModifyOrder( _
         .faGroup = Util.SetNonEmptyValue(extendedAttributeTable(orderIndex, Col_FAGROUP).value, .faGroup)
         .faMethod = Util.SetNonEmptyValue(extendedAttributeTable(orderIndex, Col_FAMETHOD).value, .faMethod)
         .faPercentage = Util.SetNonEmptyValue(extendedAttributeTable(orderIndex, Col_FAPERCENTAGE).value, .faPercentage)
-        .faProfile = Util.SetNonEmptyValue(extendedAttributeTable(orderIndex, Col_FAPROFILE).value, .faProfile)
         .shortSaleSlot = Util.SetNonEmptyValue(extendedAttributeTable(orderIndex, Col_SHORTSALESLOT).value, .shortSaleSlot)
         .designatedLocation = Util.SetNonEmptyValue(extendedAttributeTable(orderIndex, Col_DESIGNLOC).value, .designatedLocation)
         .exemptCode = Util.SetNonEmptyValue(extendedAttributeTable(orderIndex, Col_EXEMPTCODE).value, .exemptCode)

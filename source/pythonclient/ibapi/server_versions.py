@@ -1,5 +1,5 @@
 """
-Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+Copyright (C) 2023 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable.
 """
 
@@ -124,11 +124,12 @@ MIN_SERVER_VER_WSH_EVENT_DATA_FILTERS_DATE = 173
 MIN_SERVER_VER_INSTRUMENT_TIMEZONE         = 174
 MIN_SERVER_VER_HMDS_MARKET_DATA_IN_SHARES  = 175
 MIN_SERVER_VER_BOND_ISSUERID               = 176
+MIN_SERVER_VER_FA_PROFILE_DESUPPORT        = 177
 
 
 # 100+ messaging */
 # 100 = enhanced handshake, msg length prefixes
 
 MIN_CLIENT_VER = 100
-MAX_CLIENT_VER = MIN_SERVER_VER_BOND_ISSUERID
+MAX_CLIENT_VER = MIN_SERVER_VER_FA_PROFILE_DESUPPORT
 
