@@ -3,12 +3,14 @@
 
 package com.ib.api.dde.socket2dde.data;
 
+import com.ib.client.Decimal;
+
 /** Class represents order status data received from TWS */
 public class OrderStatusData {
     private final int m_orderId;
     private final String m_status;
-    private final double m_filled;
-    private final double m_remaining;
+    private final Decimal m_filled;
+    private final Decimal m_remaining;
     private final double m_avgFillPrice;
     private final int m_permId;
     private final int m_parentId; 
@@ -21,8 +23,8 @@ public class OrderStatusData {
     // gets
     public int orderId()          { return m_orderId; }
     public String status()        { return m_status; }
-    public double filled()        { return m_filled; }
-    public double remaining()     { return m_remaining; }
+    public Decimal filled()       { return m_filled; }
+    public Decimal remaining()    { return m_remaining; }
     public double avgFillPrice()  { return m_avgFillPrice; }
     public int permId()           { return m_permId; }
     public int parentId()         { return m_parentId; }
@@ -35,8 +37,8 @@ public class OrderStatusData {
     // sets
     public void errorMessage(String errorMessage) { m_errorMessage = errorMessage; }
     
-    public OrderStatusData(int orderId, String status, double filled, 
-                double remaining, double avgFillPrice, int permId, int parentId, 
+    public OrderStatusData(int orderId, String status, Decimal filled, 
+                Decimal remaining, double avgFillPrice, int permId, int parentId, 
                 double lastFillPrice, int clientId, String whyHeld, double mktCapPrice) {
         m_orderId = orderId;
         m_status = status;

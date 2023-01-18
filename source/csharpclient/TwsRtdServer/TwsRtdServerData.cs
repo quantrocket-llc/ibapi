@@ -66,7 +66,7 @@ namespace TwsRtdServer{
         // LAST_OPTION_COMPUTATION (IMPLIED_VOL, DELTA, OPT_PRICE, PV_DIVIDEND, GAMMA, VEGA, THETA, UNDER_PRICE)
         // MODEL_OPTION_COMPUTATION (IMPLIED_VOL, DELTA, OPT_PRICE, PV_DIVIDEND, GAMMA, VEGA, THETA, UNDER_PRICE)
         // BID_EFP_COMPUTATION, ASK_EFP_COMPUTATION, LAST_EFP_COMPUTATION, OPEN_EFP_COMPUTATION, CLOSE_EFP_COMPUTATION, HIGH_EFP_COMPUTATION, LOW_EFP_COMPUTATION,
-        // YIELD_BID, YIELD_ASK, YIELD_LAST
+        // YIELD_BID, YIELD_ASK, YIELD_LAST, DELAYED_YIELD_BID, DELAYED_YIELD_ASK
 
         // TODO:
         // generic ticks
@@ -89,6 +89,10 @@ namespace TwsRtdServer{
         public const string GENERIC_TICKS_OPT = GENERIC_TICKS_BASE + ",104,411,456,595"; // OPT
         public const string GENERIC_TICKS_IND = GENERIC_TICKS_BASE + ",104,162,411"; // IND
 
+        // map minServerVersion -> generic tick(s) for STK
+        private static Dictionary<int, string> m_minServerVersionToTickIdMapStk = new Dictionary<int, string> {
+            { IBApi.MinServerVer.MIN_SERVER_VER_IPO_PRICES, ",586" }
+        };
 
 
 
@@ -120,6 +124,9 @@ namespace TwsRtdServer{
         // SHORTABLE (236)
         public const string GEN_TICK_SHORTABLE = "SHORTABLE";
         public const string GEN_TICK_SHORTABLE_SHARES = "SHORTABLESHARES";
+        // IPO_PRICES (586)
+        public const string GEN_TICK_ESTIMATED_IPO_MIDPOINT = "ESTIMATEDIPOMIDPOINT";
+        public const string GEN_TICK_FINAL_IPO_LAST = "FINALIPOLAST";
         // FUNDAMENTALS (258)
         public const string GEN_TICK_FUNDAMENTALS = "FUNDAMENTALS";
         // TRADE_COUNT (293)
@@ -163,6 +170,8 @@ namespace TwsRtdServer{
         // ETF_NAV_MISC (614)
         public const string GEN_TICK_ETF_NAV_HIGH = "ETFNAVHIGH";
         public const string GEN_TICK_ETF_NAV_LOW = "ETFNAVLOW";
+        // Not used
+        public const string GEN_TICK_SOCIAL_MARKET_ANALYTICS = "SOCIALMARKETANALYTICS";
 
         // DELAYED_TICKS
         public const string DELAYED_BID = "DELAYEDBID";
@@ -275,6 +284,7 @@ namespace TwsRtdServer{
             GEN_TICK_OPTION_IMPLIED_VOL, // OPTION_IMPLIED_VOLATILITY (106)
             GEN_TICK_INDEX_FUTURE_PREMIUM, // INDEX_FUTURE_PREM (162) - IND only
             GEN_TICK_SHORTABLE, GEN_TICK_SHORTABLE_SHARES, // SHORTABLE (236)
+            GEN_TICK_ESTIMATED_IPO_MIDPOINT, GEN_TICK_FINAL_IPO_LAST, // IPO_PRICES (586)
             GEN_TICK_FUNDAMENTALS, // FUNDAMENTALS (258)
             GEN_TICK_TRADE_COUNT, // TRADE_COUNT (293)
             GEN_TICK_TRADE_RATE, // TRADE_RATE (294)
@@ -397,7 +407,10 @@ namespace TwsRtdServer{
             { 96, GEN_TICK_ETF_NAV_LAST },
             { 97, GEN_TICK_ETF_FROZEN_NAV_LAST },
             { 98, GEN_TICK_ETF_NAV_HIGH },
-            { 99, GEN_TICK_ETF_NAV_LOW }
+            { 99, GEN_TICK_ETF_NAV_LOW },
+            { 100, GEN_TICK_SOCIAL_MARKET_ANALYTICS },
+            { 101, GEN_TICK_ESTIMATED_IPO_MIDPOINT },
+            { 102, GEN_TICK_FINAL_IPO_LAST }
         };
 
 
@@ -410,6 +423,19 @@ namespace TwsRtdServer{
         {
             string res;
             return m_tickIdToTickTypeMap.TryGetValue(tickId, out res) ? res : null;
+        }
+
+        public static string GetTickIdsForUnifiedVersionStk(int unifiedVersion)
+        {
+            string res = "";
+            foreach (KeyValuePair<int, string> item in m_minServerVersionToTickIdMapStk)
+            {
+                if (unifiedVersion >= item.Key) 
+                {
+                    res += item.Value;
+                }
+            }
+            return res;
         }
 
         public class OptionComputationData

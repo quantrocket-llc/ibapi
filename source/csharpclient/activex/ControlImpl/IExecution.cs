@@ -28,13 +28,13 @@ namespace TWSLib
         [DispId(8)]
         string side { get; }
         [DispId(9)]
-        double shares { get; }
+        object shares { get; }
         [DispId(10)]
         double price { get; }
         [DispId(11)]
         int liquidation { get; }
         [DispId(12)]
-        double cumQty { get; }
+        object cumQty { get; }
         [DispId(13)]
         double avgPrice { get; }
         [DispId(14)]

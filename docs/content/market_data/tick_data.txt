@@ -1,15 +1,15 @@
 /*! \page tick_data Tick-by-Tick Data
 
-	Tick-by-tick data corresponding to the data shown in the TWS Time & Sales Window is available starting with TWS v969 and API v973.04. The maximum number of simultaneous tick-by-tick subscriptions allowed for a user is determined by the same formula used to calculate maximum number of market depth subscriptions @ref limitations. 
-	
-	- The tick type field is case sensitive - it must be BidAsk, Last, AllLast, MidPoint. AllLast has additional trade types such as combos, derivatives, and average price trades which are not included in Last. 
+	Tick-by-tick data corresponding to the data shown in the TWS Time & Sales Window is available starting with TWS v969 and API v973.04. The maximum number of simultaneous tick-by-tick subscriptions allowed for a user is determined by the same formula used to calculate maximum number of market depth subscriptions @ref limitations.
+
+	- The tick type field is case sensitive - it must be BidAsk, Last, AllLast, MidPoint. AllLast has additional trade types such as combos, derivatives, and average price trades which are not included in Last.
 	- Tick-by-tick data for options is currently only available historically and not in real time.
-	- Tick-by-tick data for indices is only provided for indices which are on CME. 
-	- Tick-by-tick data is not available for combos. 
+	- Tick-by-tick data for indices is only provided for indices which are on CME.
+	- Tick-by-tick data is not available for combos.
 	- No more than 1 tick-by-tick request can be made for the same instrument within 15 seconds.
-	
+
 	<ul id="tab">
-		<li class="active"> 
+		<li class="active">
 			\snippet Program.cs reqtickbytick
 		</li>
 		<li>
@@ -26,7 +26,7 @@
 		</li>
 	</ul>
 
-	Depending on the data type chosen in IBApi::EClient::reqTickByTickData, data will be returned to one of the functions IBApi::EWrapper::tickByTickAllLast, IBApi::EWrapper::tickByTickBidAsk, or IBApi::EWrapper::tickByTickMidPoint. Additionally, if a non-zero value is input for the argument <i>numberOfTicks</i>  in IBApi::EClient::reqTickByTickData, historical tick data is first returned to one of the functions IBApi::EWrapper::historicalTicksLast, IBApi::EWrapper::historicalTicksBidAsk, or IBApi::EWrapper::historicalTicks, respectively. 
+	Depending on the data type chosen in IBApi::EClient::reqTickByTickData, data will be returned to one of the functions IBApi::EWrapper::tickByTickAllLast, IBApi::EWrapper::tickByTickBidAsk, or IBApi::EWrapper::tickByTickMidPoint. Additionally, if a non-zero value is input for the argument <i>numberOfTicks</i>  in IBApi::EClient::reqTickByTickData, historical tick data is first returned to one of the functions IBApi::EWrapper::historicalTicksLast, IBApi::EWrapper::historicalTicksBidAsk, or IBApi::EWrapper::historicalTicks, respectively.
 
 	<ul id="tab">
 		<li class="active">
@@ -45,9 +45,9 @@
 			\snippet Program.py tickbytickbidask
 		</li>
 	</ul>
-	
-	<br>	
-			
+
+	<br>
+
 	<ul id="tab">
 		<li class="active">
 			\snippet EWrapperImpl.cs tickbytickalllast
@@ -65,11 +65,11 @@
 			\snippet Program.py tickbytickalllast
 		</li>
 	</ul>
-	
+
 	- Trade data for non-reportable trades, such as combos and block trades, are included in the 'AllLast' data type available with the real time data feed but are not recorded in the historical database.
-	
+
 	<br>
-	
+
 	<ul id="tab">
 		<li class="active">
 			\snippet EWrapperImpl.cs tickbytickmidpoint
@@ -87,14 +87,18 @@
 			\snippet Program.py tickbytickmidpoint
 		</li>
 	</ul>
-	
-	<br>
-	
+
+	\section halted_unhalted Halted and Unhalted ticks
+	Effective with <b>TWS 10.15+</b> and <b>TWS API 10.15+</b> a new Tick-By-Tick attribute has been introduced. The tick attribute <i>pastLimit</i> is also returned with historical Tick-By-Tick responses. Check @ref historical_halted_unhalted section.
+	- If tick has zero price, zero size and pastLimit flag is set - this is "Halted" tick.
+	- If tick has zero price, zero size and followed immediately after "Halted" tick - this is "Unhalted" tick.
+
+	\section cancel_md Canceling Tick-By-Tick Subscriptions
 	Tick-by-tick subscriptions can be cancelled using the function IBApi::EClient::cancelTickByTickData
 	<br>
-	
+
 	<ul id="tab">
-		<li class="active"> 
+		<li class="active">
 			\snippet Program.cs canceltickbytick
 		</li>
 		<li>
@@ -110,6 +114,6 @@
 			\snippet Program.py canceltickbytick
 		</li>
 	</ul>
-	
+
 	<br><br>
 */

@@ -1,4 +1,4 @@
-/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2023 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 using IBSampleApp.types;
@@ -229,13 +229,6 @@ namespace IBSampleApp
             this.exerciseAccountLabel = new System.Windows.Forms.Label();
             this.exerciseAccount = new System.Windows.Forms.ComboBox();
             this.advisorTab = new System.Windows.Forms.TabPage();
-            this.advisorProfilesBox = new System.Windows.Forms.GroupBox();
-            this.saveProfiles = new System.Windows.Forms.Button();
-            this.loadProfiles = new System.Windows.Forms.Button();
-            this.advisorProfilesGrid = new System.Windows.Forms.DataGridView();
-            this.profileName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.profileType = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.profileAllocations = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.advisorGroupsBox = new System.Windows.Forms.GroupBox();
             this.saveGroups = new System.Windows.Forms.Button();
             this.loadGroups = new System.Windows.Forms.Button();
@@ -255,6 +248,8 @@ namespace IBSampleApp
             this.fundamentalsReportTypeLabel = new System.Windows.Forms.Label();
             this.fundamentalsReportType = new System.Windows.Forms.ComboBox();
             this.contractDetailsGroupBox = new System.Windows.Forms.GroupBox();
+            this.conDetIssuerIdLabel = new System.Windows.Forms.Label();
+            this.conDetIssuerId = new System.Windows.Forms.TextBox();
             this.conDetSymbolLabel = new System.Windows.Forms.Label();
             this.conDetRightLabel = new System.Windows.Forms.Label();
             this.conDetStrikeLabel = new System.Windows.Forms.Label();
@@ -276,6 +271,29 @@ namespace IBSampleApp
             this.contractInfoTab = new System.Windows.Forms.TabControl();
             this.contractDetailsPage = new System.Windows.Forms.TabPage();
             this.contractDetailsGrid = new System.Windows.Forms.DataGridView();
+            this.conResSymbol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.conResLocalSymbol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.conResSecType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.conResCurrency = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.conResExchange = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.conResPrimaryExch = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.conResLastTradeDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.conResMultiplier = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.conResStrike = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.conResRight = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.conResConId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.conResAggGroup = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.conResUnderSymbol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.conResUnderSecType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.conResMarketRuleIds = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.conResRealExpirationDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.conResContractMonth = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.conResLastTradeTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.conResTimeZoneId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.conResStockType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.conResMinSize = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.conResSizeIncrement = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.conResSuggestedSizeIncrement = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.fundamentalsPage = new System.Windows.Forms.TabPage();
             this.fundamentalsOutput = new System.Windows.Forms.TextBox();
             this.optionChainPage = new System.Windows.Forms.TabPage();
@@ -308,12 +326,14 @@ namespace IBSampleApp
             this.symbolSamplesTabContractInfo = new System.Windows.Forms.TabPage();
             this.clearSymbolSamplesContractInfo = new System.Windows.Forms.LinkLabel();
             this.symbolSamplesDataGridContractInfo = new System.Windows.Forms.DataGridView();
-            this.dataGridViewTextBoxColumn9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn12 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn13 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.symbolSamplesConId2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.symbolSamplesSymbol2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.symbolSamplesSecType2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.symbolSamplesPrimExch2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.symbolSamplesCurrency2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn14 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.symbolSamplesDescription2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.symbolSamplesIssuerId2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.bondContractDetailsPage = new System.Windows.Forms.TabPage();
             this.bondContractDetailsGrid = new System.Windows.Forms.DataGridView();
             this.bondContractDetailsConId = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -326,7 +346,6 @@ namespace IBSampleApp
             this.bondContractDetailsOrderTypes = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.bondContractDetailsValidExchanges = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.bondContractDetailsLongName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.bondContractDetailsMdSizeMultiplier = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.bondContractDetailsAggGroup = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.bondContractDetailsMarketRuleIds = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.bondContractDetailsCusip = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -346,12 +365,16 @@ namespace IBSampleApp
             this.bondContractDetailsNotes = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.bondContractDetailsLastTradeTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.bondContractDetsilsTimeZoneId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.bondContractDetailsMinSize = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.bondContractDetailsSizeIncrement = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.bondContractDetailsSuggestedSizeIncrement = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.marketRulePage = new System.Windows.Forms.TabPage();
             this.labelMarketRuleIdRes = new System.Windows.Forms.Label();
             this.dataGridViewMarketRule = new System.Windows.Forms.DataGridView();
             this.dataGridViewPriceIncrementLowEdge = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewPriceIncrementIncrement = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.accountInfoTab = new System.Windows.Forms.TabPage();
+            this.reqUserInfo = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.accSummaryTab = new System.Windows.Forms.TabPage();
             this.accSummaryRequest = new System.Windows.Forms.Button();
@@ -491,6 +514,10 @@ namespace IBSampleApp
             this.futuresOpenInterestTickerColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.avgOptVolumeTickerColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.shortableSharesTickerColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.estimatedIPOMidpointTickerColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.finalIPOLastTickerColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.yieldBidTickerColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.yieldAskTickerColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.deepBookTab_MDT = new System.Windows.Forms.TabPage();
             this.closeDeepBookLink = new System.Windows.Forms.LinkLabel();
             this.deepBookGrid = new System.Windows.Forms.DataGridView();
@@ -550,6 +577,8 @@ namespace IBSampleApp
             this.symbolSamplesPrimExch = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.symbolSamplesCurrency = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.symbolSamplesDerivativeSecTypes = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.symbolSamplesDescription = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.symbolSamplesIssuerId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.smartComponentsTabPage = new System.Windows.Forms.TabPage();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.dataGridViewSmartComponents = new System.Windows.Forms.DataGridView();
@@ -589,6 +618,14 @@ namespace IBSampleApp
             this.linkLabelClearTickByTick = new System.Windows.Forms.LinkLabel();
             this.labelTickByTick = new System.Windows.Forms.Label();
             this.dataGridViewTickByTick = new System.Windows.Forms.DataGridView();
+            this.tabHistoricalSchedule = new System.Windows.Forms.TabPage();
+            this.historicalScheduleGrid = new System.Windows.Forms.DataGridView();
+            this.historicalSchduleGridStartDateTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.historicalSchduleGridEndDateTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.historicalSchduleGridRefDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.linkLabelClearHistoricalSchedule = new System.Windows.Forms.LinkLabel();
+            this.labelHistoricalSchedule = new System.Windows.Forms.Label();
+            this.historicalScheduleOutput = new System.Windows.Forms.TextBox();
             this.dataResults_MDT = new System.Windows.Forms.TabControl();
             this.topMktData_MDT = new System.Windows.Forms.TabPage();
             this.requestMatchingSymbolsMD = new System.Windows.Forms.Button();
@@ -631,6 +668,7 @@ namespace IBSampleApp
             this.lastTradeDate_label_TMD_MDT = new System.Windows.Forms.Label();
             this.strike_label_TMD_MDT = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.histScheduleButton = new System.Windows.Forms.Button();
             this.cbKeepUpToDate = new System.Windows.Forms.CheckBox();
             this.headTimestamp_button = new System.Windows.Forms.Button();
             this.contractMDRTH = new System.Windows.Forms.CheckBox();
@@ -688,27 +726,25 @@ namespace IBSampleApp
             this.tbNumOfTicks = new System.Windows.Forms.TextBox();
             this.tbStartDate = new System.Windows.Forms.TextBox();
             this.TabControl = new System.Windows.Forms.TabControl();
-            this.conResSymbol = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.conResLocalSymbol = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.conResSecType = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.conResCurrency = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.conResExchange = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.conResPrimaryExch = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.conResLastTradeDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.conResMultiplier = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.conResStrike = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.conResRight = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.conResConId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.conResMdSizeMultiplier = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.conResAggGroup = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.conResUnderSymbol = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.conResUnderSecType = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.conResMarketRuleIds = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.conResRealExpirationDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.conResContractMonth = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.conResLastTradeTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.conResTimeZoneId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.conResStockType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.wshTab = new System.Windows.Forms.TabPage();
+            this.textBoxWshTotalLimit = new System.Windows.Forms.TextBox();
+            this.labelWshTotalLimit = new System.Windows.Forms.Label();
+            this.textBoxWshEndDate = new System.Windows.Forms.TextBox();
+            this.labelWshEndDate = new System.Windows.Forms.Label();
+            this.textBoxWshStartDate = new System.Windows.Forms.TextBox();
+            this.labelWshStartDate = new System.Windows.Forms.Label();
+            this.checkBoxWshFillCompetitors = new System.Windows.Forms.CheckBox();
+            this.checkBoxWshFillPortfolio = new System.Windows.Forms.CheckBox();
+            this.checkBoxWshFillWatchlist = new System.Windows.Forms.CheckBox();
+            this.textBoxWshFilter = new System.Windows.Forms.TextBox();
+            this.labelWshFilter = new System.Windows.Forms.Label();
+            this.button3 = new System.Windows.Forms.Button();
+            this.button4 = new System.Windows.Forms.Button();
+            this.button5 = new System.Windows.Forms.Button();
+            this.textBoxWshConId = new System.Windows.Forms.TextBox();
+            this.labelWshConId = new System.Windows.Forms.Label();
+            this.button6 = new System.Windows.Forms.Button();
+            this.dataGridViewWsh = new System.Windows.Forms.DataGridView();
             this.comboTab.SuspendLayout();
             this.comboDeltaNeutralBox.SuspendLayout();
             this.comboLegsBox.SuspendLayout();
@@ -748,8 +784,6 @@ namespace IBSampleApp
             this.optionsPositionsGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.optionPositionsGrid)).BeginInit();
             this.advisorTab.SuspendLayout();
-            this.advisorProfilesBox.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.advisorProfilesGrid)).BeginInit();
             this.advisorGroupsBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.advisorGroupsGrid)).BeginInit();
             this.advisorAliasesBox.SuspendLayout();
@@ -824,6 +858,8 @@ namespace IBSampleApp
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewHistoricalTicks)).BeginInit();
             this.tabPageTickByTick.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewTickByTick)).BeginInit();
+            this.tabHistoricalSchedule.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.historicalScheduleGrid)).BeginInit();
             this.dataResults_MDT.SuspendLayout();
             this.topMktData_MDT.SuspendLayout();
             this.groupBox6.SuspendLayout();
@@ -838,6 +874,8 @@ namespace IBSampleApp
             this.groupBoxTickByTickType.SuspendLayout();
             this.groupBox7.SuspendLayout();
             this.TabControl.SuspendLayout();
+            this.wshTab.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewWsh)).BeginInit();
             this.SuspendLayout();
             // 
             // connectButton
@@ -980,7 +1018,7 @@ namespace IBSampleApp
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(68, 20);
             this.textBox1.TabIndex = 84;
-            this.textBox1.Text = "IBKR";
+            this.textBox1.Text = "SPY";
             // 
             // label6
             // 
@@ -1005,7 +1043,7 @@ namespace IBSampleApp
             this.textBox4.Name = "textBox4";
             this.textBox4.Size = new System.Drawing.Size(68, 20);
             this.textBox4.TabIndex = 92;
-            this.textBox4.Text = "ISLAND";
+            this.textBox4.Text = "ARCA";
             // 
             // textBox3
             // 
@@ -1039,7 +1077,8 @@ namespace IBSampleApp
             "CMDTY",
             "BSK",
             "ICU",
-            "ICS"});
+            "ICS",
+            "CRYPTO"});
             this.comboBox1.Location = new System.Drawing.Point(71, 45);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(68, 21);
@@ -1166,7 +1205,7 @@ namespace IBSampleApp
             this.comboSymbol.Name = "comboSymbol";
             this.comboSymbol.Size = new System.Drawing.Size(68, 20);
             this.comboSymbol.TabIndex = 60;
-            this.comboSymbol.Text = "IBKR";
+            this.comboSymbol.Text = "SPY";
             // 
             // comboStrike
             // 
@@ -1266,7 +1305,8 @@ namespace IBSampleApp
             "CMDTY",
             "BSK",
             "ICU",
-            "ICS"});
+            "ICS",
+            "CRYPTO"});
             this.comboSecType.Location = new System.Drawing.Point(63, 44);
             this.comboSecType.Name = "comboSecType";
             this.comboSecType.Size = new System.Drawing.Size(68, 21);
@@ -1295,7 +1335,7 @@ namespace IBSampleApp
             this.comboExchange.Name = "comboExchange";
             this.comboExchange.Size = new System.Drawing.Size(68, 20);
             this.comboExchange.TabIndex = 71;
-            this.comboExchange.Text = "ISLAND";
+            this.comboExchange.Text = "ARCA";
             // 
             // comboSecTypeLabel
             // 
@@ -1438,7 +1478,7 @@ namespace IBSampleApp
             this.searchContractDetails.Location = new System.Drawing.Point(309, 144);
             this.searchContractDetails.Name = "searchContractDetails";
             this.searchContractDetails.Size = new System.Drawing.Size(75, 23);
-            this.searchContractDetails.TabIndex = 34;
+            this.searchContractDetails.TabIndex = 21;
             this.searchContractDetails.Text = "Search";
             this.informationTooltip.SetToolTip(this.searchContractDetails, "Looks for all contracts matching the description provided.");
             this.searchContractDetails.UseMnemonic = false;
@@ -1450,7 +1490,7 @@ namespace IBSampleApp
             this.requestMatchingSymbolsCD.Location = new System.Drawing.Point(211, 144);
             this.requestMatchingSymbolsCD.Name = "requestMatchingSymbolsCD";
             this.requestMatchingSymbolsCD.Size = new System.Drawing.Size(75, 23);
-            this.requestMatchingSymbolsCD.TabIndex = 60;
+            this.requestMatchingSymbolsCD.TabIndex = 20;
             this.requestMatchingSymbolsCD.Text = "Match Symb";
             this.informationTooltip.SetToolTip(this.requestMatchingSymbolsCD, "Looks for all contracts matching the description provided.");
             this.requestMatchingSymbolsCD.UseVisualStyleBackColor = true;
@@ -1461,7 +1501,7 @@ namespace IBSampleApp
             this.fundamentalsQueryButton.Location = new System.Drawing.Point(120, 43);
             this.fundamentalsQueryButton.Name = "fundamentalsQueryButton";
             this.fundamentalsQueryButton.Size = new System.Drawing.Size(75, 23);
-            this.fundamentalsQueryButton.TabIndex = 36;
+            this.fundamentalsQueryButton.TabIndex = 2;
             this.fundamentalsQueryButton.Text = "Query";
             this.informationTooltip.SetToolTip(this.fundamentalsQueryButton, "Requests Reuter\'s Fundamentals selected report for the given contract.");
             this.fundamentalsQueryButton.UseVisualStyleBackColor = true;
@@ -1476,7 +1516,7 @@ namespace IBSampleApp
             this.groupBox3.Location = new System.Drawing.Point(425, 6);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(204, 95);
-            this.groupBox3.TabIndex = 45;
+            this.groupBox3.TabIndex = 1;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Options chain";
             this.informationTooltip.SetToolTip(this.groupBox3, "Requests all options available for the description provided on the Contract\'s det" +
@@ -1487,7 +1527,7 @@ namespace IBSampleApp
             this.queryOptionChain.Location = new System.Drawing.Point(120, 66);
             this.queryOptionChain.Name = "queryOptionChain";
             this.queryOptionChain.Size = new System.Drawing.Size(75, 23);
-            this.queryOptionChain.TabIndex = 44;
+            this.queryOptionChain.TabIndex = 3;
             this.queryOptionChain.Text = "Request";
             this.informationTooltip.SetToolTip(this.queryOptionChain, "Requests all options available for the underlying provided on the Contract\'s deta" +
         "ils section.");
@@ -1501,7 +1541,7 @@ namespace IBSampleApp
             this.optionChainUseSnapshot.Location = new System.Drawing.Point(37, 42);
             this.optionChainUseSnapshot.Name = "optionChainUseSnapshot";
             this.optionChainUseSnapshot.Size = new System.Drawing.Size(115, 17);
-            this.optionChainUseSnapshot.TabIndex = 38;
+            this.optionChainUseSnapshot.TabIndex = 2;
             this.optionChainUseSnapshot.Text = "Use snapshot data";
             this.optionChainUseSnapshot.UseVisualStyleBackColor = true;
             // 
@@ -1511,7 +1551,7 @@ namespace IBSampleApp
             this.optionChainOptionExchangeLabel.Location = new System.Drawing.Point(34, 19);
             this.optionChainOptionExchangeLabel.Name = "optionChainOptionExchangeLabel";
             this.optionChainOptionExchangeLabel.Size = new System.Drawing.Size(55, 13);
-            this.optionChainOptionExchangeLabel.TabIndex = 36;
+            this.optionChainOptionExchangeLabel.TabIndex = 0;
             this.optionChainOptionExchangeLabel.Text = "Exchange";
             // 
             // optionChainExchange
@@ -1519,7 +1559,7 @@ namespace IBSampleApp
             this.optionChainExchange.Location = new System.Drawing.Point(95, 16);
             this.optionChainExchange.Name = "optionChainExchange";
             this.optionChainExchange.Size = new System.Drawing.Size(100, 20);
-            this.optionChainExchange.TabIndex = 37;
+            this.optionChainExchange.TabIndex = 1;
             this.optionChainExchange.Text = "SMART";
             // 
             // groupBox5
@@ -1530,7 +1570,7 @@ namespace IBSampleApp
             this.groupBox5.Location = new System.Drawing.Point(635, 6);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Size = new System.Drawing.Size(186, 95);
-            this.groupBox5.TabIndex = 46;
+            this.groupBox5.TabIndex = 3;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Option parameters";
             this.informationTooltip.SetToolTip(this.groupBox5, "Requests all options available for the description provided on the Contract\'s det" +
@@ -1542,7 +1582,7 @@ namespace IBSampleApp
             this.label14.Location = new System.Drawing.Point(10, 22);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(35, 13);
-            this.label14.TabIndex = 49;
+            this.label14.TabIndex = 0;
             this.label14.Text = "ConId";
             // 
             // underlyingConId
@@ -1550,7 +1590,7 @@ namespace IBSampleApp
             this.underlyingConId.Location = new System.Drawing.Point(71, 19);
             this.underlyingConId.Name = "underlyingConId";
             this.underlyingConId.Size = new System.Drawing.Size(100, 20);
-            this.underlyingConId.TabIndex = 50;
+            this.underlyingConId.TabIndex = 1;
             // 
             // queryOptionParams
             // 
@@ -1558,7 +1598,7 @@ namespace IBSampleApp
             this.queryOptionParams.Location = new System.Drawing.Point(102, 66);
             this.queryOptionParams.Name = "queryOptionParams";
             this.queryOptionParams.Size = new System.Drawing.Size(75, 23);
-            this.queryOptionParams.TabIndex = 44;
+            this.queryOptionParams.TabIndex = 2;
             this.queryOptionParams.Text = "Request";
             this.informationTooltip.SetToolTip(this.queryOptionParams, "Requests security definition option parameters");
             this.queryOptionParams.UseVisualStyleBackColor = true;
@@ -1572,7 +1612,7 @@ namespace IBSampleApp
             this.groupBoxMarketRule.Location = new System.Drawing.Point(827, 6);
             this.groupBoxMarketRule.Name = "groupBoxMarketRule";
             this.groupBoxMarketRule.Size = new System.Drawing.Size(186, 95);
-            this.groupBoxMarketRule.TabIndex = 51;
+            this.groupBoxMarketRule.TabIndex = 5;
             this.groupBoxMarketRule.TabStop = false;
             this.groupBoxMarketRule.Text = "Market Rule";
             this.informationTooltip.SetToolTip(this.groupBoxMarketRule, "Requests all options available for the description provided on the Contract\'s det" +
@@ -1584,7 +1624,7 @@ namespace IBSampleApp
             this.comboBoxMarketRuleId.Location = new System.Drawing.Point(99, 18);
             this.comboBoxMarketRuleId.Name = "comboBoxMarketRuleId";
             this.comboBoxMarketRuleId.Size = new System.Drawing.Size(78, 21);
-            this.comboBoxMarketRuleId.TabIndex = 61;
+            this.comboBoxMarketRuleId.TabIndex = 1;
             // 
             // labelMarketRuleId
             // 
@@ -1592,7 +1632,7 @@ namespace IBSampleApp
             this.labelMarketRuleId.Location = new System.Drawing.Point(10, 22);
             this.labelMarketRuleId.Name = "labelMarketRuleId";
             this.labelMarketRuleId.Size = new System.Drawing.Size(77, 13);
-            this.labelMarketRuleId.TabIndex = 49;
+            this.labelMarketRuleId.TabIndex = 0;
             this.labelMarketRuleId.Text = "Market Rule Id";
             // 
             // buttonReqMarketRule
@@ -1601,7 +1641,7 @@ namespace IBSampleApp
             this.buttonReqMarketRule.Location = new System.Drawing.Point(17, 66);
             this.buttonReqMarketRule.Name = "buttonReqMarketRule";
             this.buttonReqMarketRule.Size = new System.Drawing.Size(160, 23);
-            this.buttonReqMarketRule.TabIndex = 44;
+            this.buttonReqMarketRule.TabIndex = 2;
             this.buttonReqMarketRule.Text = "Request Market Rule";
             this.informationTooltip.SetToolTip(this.buttonReqMarketRule, "Request market rule");
             this.buttonReqMarketRule.UseVisualStyleBackColor = true;
@@ -2722,7 +2762,6 @@ namespace IBSampleApp
             // advisorTab
             // 
             this.advisorTab.BackColor = System.Drawing.Color.LightGray;
-            this.advisorTab.Controls.Add(this.advisorProfilesBox);
             this.advisorTab.Controls.Add(this.advisorGroupsBox);
             this.advisorTab.Controls.Add(this.advisorAliasesBox);
             this.advisorTab.Location = new System.Drawing.Point(4, 22);
@@ -2732,69 +2771,6 @@ namespace IBSampleApp
             this.advisorTab.TabIndex = 5;
             this.advisorTab.Text = "Financial Advisor";
             // 
-            // advisorProfilesBox
-            // 
-            this.advisorProfilesBox.Controls.Add(this.saveProfiles);
-            this.advisorProfilesBox.Controls.Add(this.loadProfiles);
-            this.advisorProfilesBox.Controls.Add(this.advisorProfilesGrid);
-            this.advisorProfilesBox.Location = new System.Drawing.Point(366, 229);
-            this.advisorProfilesBox.Name = "advisorProfilesBox";
-            this.advisorProfilesBox.Size = new System.Drawing.Size(774, 236);
-            this.advisorProfilesBox.TabIndex = 2;
-            this.advisorProfilesBox.TabStop = false;
-            this.advisorProfilesBox.Text = "Profiles";
-            // 
-            // saveProfiles
-            // 
-            this.saveProfiles.Location = new System.Drawing.Point(87, 19);
-            this.saveProfiles.Name = "saveProfiles";
-            this.saveProfiles.Size = new System.Drawing.Size(75, 23);
-            this.saveProfiles.TabIndex = 3;
-            this.saveProfiles.Text = "Save";
-            this.saveProfiles.UseVisualStyleBackColor = true;
-            this.saveProfiles.Click += new System.EventHandler(this.saveProfiles_Click);
-            // 
-            // loadProfiles
-            // 
-            this.loadProfiles.Location = new System.Drawing.Point(6, 19);
-            this.loadProfiles.Name = "loadProfiles";
-            this.loadProfiles.Size = new System.Drawing.Size(75, 23);
-            this.loadProfiles.TabIndex = 2;
-            this.loadProfiles.Text = "Load";
-            this.loadProfiles.UseVisualStyleBackColor = true;
-            this.loadProfiles.Click += new System.EventHandler(this.loadProfiles_Click);
-            // 
-            // advisorProfilesGrid
-            // 
-            this.advisorProfilesGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.advisorProfilesGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.profileName,
-            this.profileType,
-            this.profileAllocations});
-            this.advisorProfilesGrid.Location = new System.Drawing.Point(6, 48);
-            this.advisorProfilesGrid.Name = "advisorProfilesGrid";
-            this.advisorProfilesGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.advisorProfilesGrid.Size = new System.Drawing.Size(759, 182);
-            this.advisorProfilesGrid.TabIndex = 1;
-            // 
-            // profileName
-            // 
-            this.profileName.HeaderText = "Name";
-            this.profileName.Name = "profileName";
-            this.profileName.Width = 150;
-            // 
-            // profileType
-            // 
-            this.profileType.HeaderText = "Type";
-            this.profileType.Name = "profileType";
-            this.profileType.Width = 150;
-            // 
-            // profileAllocations
-            // 
-            this.profileAllocations.HeaderText = "Allocations";
-            this.profileAllocations.Name = "profileAllocations";
-            this.profileAllocations.Width = 400;
-            // 
             // advisorGroupsBox
             // 
             this.advisorGroupsBox.Controls.Add(this.saveGroups);
@@ -2802,7 +2778,7 @@ namespace IBSampleApp
             this.advisorGroupsBox.Controls.Add(this.advisorGroupsGrid);
             this.advisorGroupsBox.Location = new System.Drawing.Point(366, 6);
             this.advisorGroupsBox.Name = "advisorGroupsBox";
-            this.advisorGroupsBox.Size = new System.Drawing.Size(774, 217);
+            this.advisorGroupsBox.Size = new System.Drawing.Size(774, 430);
             this.advisorGroupsBox.TabIndex = 1;
             this.advisorGroupsBox.TabStop = false;
             this.advisorGroupsBox.Text = "Groups";
@@ -2837,7 +2813,7 @@ namespace IBSampleApp
             this.advisorGroupsGrid.Location = new System.Drawing.Point(6, 48);
             this.advisorGroupsGrid.Name = "advisorGroupsGrid";
             this.advisorGroupsGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.advisorGroupsGrid.Size = new System.Drawing.Size(759, 163);
+            this.advisorGroupsGrid.Size = new System.Drawing.Size(759, 371);
             this.advisorGroupsGrid.TabIndex = 0;
             // 
             // groupName
@@ -2866,7 +2842,7 @@ namespace IBSampleApp
             this.advisorAliasesBox.Controls.Add(this.advisorAliasesGrid);
             this.advisorAliasesBox.Location = new System.Drawing.Point(6, 6);
             this.advisorAliasesBox.Name = "advisorAliasesBox";
-            this.advisorAliasesBox.Size = new System.Drawing.Size(354, 459);
+            this.advisorAliasesBox.Size = new System.Drawing.Size(354, 430);
             this.advisorAliasesBox.TabIndex = 0;
             this.advisorAliasesBox.TabStop = false;
             this.advisorAliasesBox.Text = "Aliases";
@@ -2890,7 +2866,7 @@ namespace IBSampleApp
             this.advisorAliasesGrid.Location = new System.Drawing.Point(6, 48);
             this.advisorAliasesGrid.Name = "advisorAliasesGrid";
             this.advisorAliasesGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.advisorAliasesGrid.Size = new System.Drawing.Size(342, 405);
+            this.advisorAliasesGrid.Size = new System.Drawing.Size(342, 371);
             this.advisorAliasesGrid.TabIndex = 0;
             // 
             // advisorAccount
@@ -2929,7 +2905,7 @@ namespace IBSampleApp
             this.groupBoxMarketDataType_CDT.Location = new System.Drawing.Point(635, 107);
             this.groupBoxMarketDataType_CDT.Name = "groupBoxMarketDataType_CDT";
             this.groupBoxMarketDataType_CDT.Size = new System.Drawing.Size(186, 47);
-            this.groupBoxMarketDataType_CDT.TabIndex = 37;
+            this.groupBoxMarketDataType_CDT.TabIndex = 4;
             this.groupBoxMarketDataType_CDT.TabStop = false;
             this.groupBoxMarketDataType_CDT.Text = "Market Data Type";
             // 
@@ -2940,7 +2916,7 @@ namespace IBSampleApp
             this.comboBoxMarketDataType_CDT.Location = new System.Drawing.Point(13, 16);
             this.comboBoxMarketDataType_CDT.Name = "comboBoxMarketDataType_CDT";
             this.comboBoxMarketDataType_CDT.Size = new System.Drawing.Size(158, 21);
-            this.comboBoxMarketDataType_CDT.TabIndex = 34;
+            this.comboBoxMarketDataType_CDT.TabIndex = 0;
             this.comboBoxMarketDataType_CDT.SelectedIndexChanged += new System.EventHandler(this.comboBoxMarketDataType_CDT_SelectedIndexChanged);
             // 
             // contractFundamentalsGroupBox
@@ -2951,7 +2927,7 @@ namespace IBSampleApp
             this.contractFundamentalsGroupBox.Location = new System.Drawing.Point(425, 107);
             this.contractFundamentalsGroupBox.Name = "contractFundamentalsGroupBox";
             this.contractFundamentalsGroupBox.Size = new System.Drawing.Size(204, 72);
-            this.contractFundamentalsGroupBox.TabIndex = 36;
+            this.contractFundamentalsGroupBox.TabIndex = 2;
             this.contractFundamentalsGroupBox.TabStop = false;
             this.contractFundamentalsGroupBox.Text = "Fundamentals";
             // 
@@ -2961,7 +2937,7 @@ namespace IBSampleApp
             this.fundamentalsReportTypeLabel.Location = new System.Drawing.Point(6, 19);
             this.fundamentalsReportTypeLabel.Name = "fundamentalsReportTypeLabel";
             this.fundamentalsReportTypeLabel.Size = new System.Drawing.Size(62, 13);
-            this.fundamentalsReportTypeLabel.TabIndex = 35;
+            this.fundamentalsReportTypeLabel.TabIndex = 0;
             this.fundamentalsReportTypeLabel.Text = "Report type";
             // 
             // fundamentalsReportType
@@ -2970,10 +2946,12 @@ namespace IBSampleApp
             this.fundamentalsReportType.Location = new System.Drawing.Point(74, 16);
             this.fundamentalsReportType.Name = "fundamentalsReportType";
             this.fundamentalsReportType.Size = new System.Drawing.Size(121, 21);
-            this.fundamentalsReportType.TabIndex = 34;
+            this.fundamentalsReportType.TabIndex = 1;
             // 
             // contractDetailsGroupBox
             // 
+            this.contractDetailsGroupBox.Controls.Add(this.conDetIssuerIdLabel);
+            this.contractDetailsGroupBox.Controls.Add(this.conDetIssuerId);
             this.contractDetailsGroupBox.Controls.Add(this.requestMatchingSymbolsCD);
             this.contractDetailsGroupBox.Controls.Add(this.searchContractDetails);
             this.contractDetailsGroupBox.Controls.Add(this.conDetSymbolLabel);
@@ -2997,9 +2975,25 @@ namespace IBSampleApp
             this.contractDetailsGroupBox.Location = new System.Drawing.Point(8, 6);
             this.contractDetailsGroupBox.Name = "contractDetailsGroupBox";
             this.contractDetailsGroupBox.Size = new System.Drawing.Size(399, 173);
-            this.contractDetailsGroupBox.TabIndex = 33;
+            this.contractDetailsGroupBox.TabIndex = 0;
             this.contractDetailsGroupBox.TabStop = false;
             this.contractDetailsGroupBox.Text = "Contract details";
+            // 
+            // conDetIssuerIdLabel
+            // 
+            this.conDetIssuerIdLabel.AutoSize = true;
+            this.conDetIssuerIdLabel.Location = new System.Drawing.Point(224, 121);
+            this.conDetIssuerIdLabel.Name = "conDetIssuerIdLabel";
+            this.conDetIssuerIdLabel.Size = new System.Drawing.Size(44, 13);
+            this.conDetIssuerIdLabel.TabIndex = 18;
+            this.conDetIssuerIdLabel.Text = "IssuerId";
+            // 
+            // conDetIssuerId
+            // 
+            this.conDetIssuerId.Location = new System.Drawing.Point(284, 118);
+            this.conDetIssuerId.Name = "conDetIssuerId";
+            this.conDetIssuerId.Size = new System.Drawing.Size(100, 20);
+            this.conDetIssuerId.TabIndex = 19;
             // 
             // conDetSymbolLabel
             // 
@@ -3007,7 +3001,7 @@ namespace IBSampleApp
             this.conDetSymbolLabel.Location = new System.Drawing.Point(20, 26);
             this.conDetSymbolLabel.Name = "conDetSymbolLabel";
             this.conDetSymbolLabel.Size = new System.Drawing.Size(41, 13);
-            this.conDetSymbolLabel.TabIndex = 17;
+            this.conDetSymbolLabel.TabIndex = 0;
             this.conDetSymbolLabel.Text = "Symbol";
             // 
             // conDetRightLabel
@@ -3016,16 +3010,16 @@ namespace IBSampleApp
             this.conDetRightLabel.Location = new System.Drawing.Point(16, 127);
             this.conDetRightLabel.Name = "conDetRightLabel";
             this.conDetRightLabel.Size = new System.Drawing.Size(45, 13);
-            this.conDetRightLabel.TabIndex = 59;
+            this.conDetRightLabel.TabIndex = 8;
             this.conDetRightLabel.Text = "Put/Call";
             // 
             // conDetStrikeLabel
             // 
             this.conDetStrikeLabel.AutoSize = true;
-            this.conDetStrikeLabel.Location = new System.Drawing.Point(234, 91);
+            this.conDetStrikeLabel.Location = new System.Drawing.Point(234, 69);
             this.conDetStrikeLabel.Name = "conDetStrikeLabel";
             this.conDetStrikeLabel.Size = new System.Drawing.Size(34, 13);
-            this.conDetStrikeLabel.TabIndex = 21;
+            this.conDetStrikeLabel.TabIndex = 14;
             this.conDetStrikeLabel.Text = "Strike";
             // 
             // conDetRight
@@ -3034,14 +3028,14 @@ namespace IBSampleApp
             this.conDetRight.Location = new System.Drawing.Point(86, 127);
             this.conDetRight.Name = "conDetRight";
             this.conDetRight.Size = new System.Drawing.Size(100, 21);
-            this.conDetRight.TabIndex = 58;
+            this.conDetRight.TabIndex = 9;
             // 
             // conDetLastTradeDateLabel
             // 
-            this.conDetLastTradeDateLabel.Location = new System.Drawing.Point(192, 51);
+            this.conDetLastTradeDateLabel.Location = new System.Drawing.Point(192, 28);
             this.conDetLastTradeDateLabel.Name = "conDetLastTradeDateLabel";
             this.conDetLastTradeDateLabel.Size = new System.Drawing.Size(86, 33);
-            this.conDetLastTradeDateLabel.TabIndex = 20;
+            this.conDetLastTradeDateLabel.TabIndex = 12;
             this.conDetLastTradeDateLabel.Text = "Last trade date / contract month";
             // 
             // conDetSecType
@@ -3069,20 +3063,21 @@ namespace IBSampleApp
             "CMDTY",
             "BSK",
             "ICU",
-            "ICS"});
+            "ICS",
+            "CRYPTO"});
             this.conDetSecType.Location = new System.Drawing.Point(86, 48);
             this.conDetSecType.Name = "conDetSecType";
             this.conDetSecType.Size = new System.Drawing.Size(100, 21);
-            this.conDetSecType.TabIndex = 18;
+            this.conDetSecType.TabIndex = 3;
             this.conDetSecType.Text = "STK";
             // 
             // conDetMultiplierLabel
             // 
             this.conDetMultiplierLabel.AutoSize = true;
-            this.conDetMultiplierLabel.Location = new System.Drawing.Point(220, 26);
+            this.conDetMultiplierLabel.Location = new System.Drawing.Point(220, 13);
             this.conDetMultiplierLabel.Name = "conDetMultiplierLabel";
             this.conDetMultiplierLabel.Size = new System.Drawing.Size(48, 13);
-            this.conDetMultiplierLabel.TabIndex = 22;
+            this.conDetMultiplierLabel.TabIndex = 10;
             this.conDetMultiplierLabel.Text = "Multiplier";
             // 
             // conDetSecTypeLabel
@@ -3091,16 +3086,16 @@ namespace IBSampleApp
             this.conDetSecTypeLabel.Location = new System.Drawing.Point(11, 48);
             this.conDetSecTypeLabel.Name = "conDetSecTypeLabel";
             this.conDetSecTypeLabel.Size = new System.Drawing.Size(50, 13);
-            this.conDetSecTypeLabel.TabIndex = 19;
+            this.conDetSecTypeLabel.TabIndex = 2;
             this.conDetSecTypeLabel.Text = "SecType";
             // 
             // conDetLocalSymbolLabel
             // 
             this.conDetLocalSymbolLabel.AutoSize = true;
-            this.conDetLocalSymbolLabel.Location = new System.Drawing.Point(198, 117);
+            this.conDetLocalSymbolLabel.Location = new System.Drawing.Point(198, 95);
             this.conDetLocalSymbolLabel.Name = "conDetLocalSymbolLabel";
             this.conDetLocalSymbolLabel.Size = new System.Drawing.Size(70, 13);
-            this.conDetLocalSymbolLabel.TabIndex = 25;
+            this.conDetLocalSymbolLabel.TabIndex = 16;
             this.conDetLocalSymbolLabel.Text = "Local Symbol";
             // 
             // conDetExchangeLabel
@@ -3109,7 +3104,7 @@ namespace IBSampleApp
             this.conDetExchangeLabel.Location = new System.Drawing.Point(6, 101);
             this.conDetExchangeLabel.Name = "conDetExchangeLabel";
             this.conDetExchangeLabel.Size = new System.Drawing.Size(55, 13);
-            this.conDetExchangeLabel.TabIndex = 23;
+            this.conDetExchangeLabel.TabIndex = 6;
             this.conDetExchangeLabel.Text = "Exchange";
             // 
             // conDetExchange
@@ -3117,22 +3112,22 @@ namespace IBSampleApp
             this.conDetExchange.Location = new System.Drawing.Point(86, 101);
             this.conDetExchange.Name = "conDetExchange";
             this.conDetExchange.Size = new System.Drawing.Size(100, 20);
-            this.conDetExchange.TabIndex = 27;
+            this.conDetExchange.TabIndex = 7;
             this.conDetExchange.Text = "SMART";
             // 
             // conDetLocalSymbol
             // 
-            this.conDetLocalSymbol.Location = new System.Drawing.Point(284, 117);
+            this.conDetLocalSymbol.Location = new System.Drawing.Point(284, 91);
             this.conDetLocalSymbol.Name = "conDetLocalSymbol";
             this.conDetLocalSymbol.Size = new System.Drawing.Size(100, 20);
-            this.conDetLocalSymbol.TabIndex = 31;
+            this.conDetLocalSymbol.TabIndex = 17;
             // 
             // conDetMultiplier
             // 
-            this.conDetMultiplier.Location = new System.Drawing.Point(284, 19);
+            this.conDetMultiplier.Location = new System.Drawing.Point(284, 13);
             this.conDetMultiplier.Name = "conDetMultiplier";
             this.conDetMultiplier.Size = new System.Drawing.Size(100, 20);
-            this.conDetMultiplier.TabIndex = 28;
+            this.conDetMultiplier.TabIndex = 11;
             // 
             // conDetCurrencyLabel
             // 
@@ -3140,7 +3135,7 @@ namespace IBSampleApp
             this.conDetCurrencyLabel.Location = new System.Drawing.Point(12, 75);
             this.conDetCurrencyLabel.Name = "conDetCurrencyLabel";
             this.conDetCurrencyLabel.Size = new System.Drawing.Size(49, 13);
-            this.conDetCurrencyLabel.TabIndex = 24;
+            this.conDetCurrencyLabel.TabIndex = 4;
             this.conDetCurrencyLabel.Text = "Currency";
             // 
             // conDetCurrency
@@ -3148,22 +3143,22 @@ namespace IBSampleApp
             this.conDetCurrency.Location = new System.Drawing.Point(86, 75);
             this.conDetCurrency.Name = "conDetCurrency";
             this.conDetCurrency.Size = new System.Drawing.Size(100, 20);
-            this.conDetCurrency.TabIndex = 26;
+            this.conDetCurrency.TabIndex = 5;
             this.conDetCurrency.Text = "USD";
             // 
             // conDetLastTradeDateOrContractMonth
             // 
-            this.conDetLastTradeDateOrContractMonth.Location = new System.Drawing.Point(284, 58);
+            this.conDetLastTradeDateOrContractMonth.Location = new System.Drawing.Point(284, 39);
             this.conDetLastTradeDateOrContractMonth.Name = "conDetLastTradeDateOrContractMonth";
             this.conDetLastTradeDateOrContractMonth.Size = new System.Drawing.Size(100, 20);
-            this.conDetLastTradeDateOrContractMonth.TabIndex = 30;
+            this.conDetLastTradeDateOrContractMonth.TabIndex = 13;
             // 
             // conDetStrike
             // 
-            this.conDetStrike.Location = new System.Drawing.Point(284, 91);
+            this.conDetStrike.Location = new System.Drawing.Point(284, 65);
             this.conDetStrike.Name = "conDetStrike";
             this.conDetStrike.Size = new System.Drawing.Size(100, 20);
-            this.conDetStrike.TabIndex = 29;
+            this.conDetStrike.TabIndex = 15;
             this.conDetStrike.Text = "10";
             // 
             // conDetSymbol
@@ -3171,7 +3166,7 @@ namespace IBSampleApp
             this.conDetSymbol.Location = new System.Drawing.Point(86, 23);
             this.conDetSymbol.Name = "conDetSymbol";
             this.conDetSymbol.Size = new System.Drawing.Size(100, 20);
-            this.conDetSymbol.TabIndex = 16;
+            this.conDetSymbol.TabIndex = 1;
             this.conDetSymbol.Text = "IBKR";
             // 
             // contractInfoTab
@@ -3224,7 +3219,6 @@ namespace IBSampleApp
             this.conResStrike,
             this.conResRight,
             this.conResConId,
-            this.conResMdSizeMultiplier,
             this.conResAggGroup,
             this.conResUnderSymbol,
             this.conResUnderSecType,
@@ -3233,12 +3227,144 @@ namespace IBSampleApp
             this.conResContractMonth,
             this.conResLastTradeTime,
             this.conResTimeZoneId,
-            this.conResStockType});
+            this.conResStockType,
+            this.conResMinSize,
+            this.conResSizeIncrement,
+            this.conResSuggestedSizeIncrement});
             this.contractDetailsGrid.Location = new System.Drawing.Point(6, 6);
             this.contractDetailsGrid.Name = "contractDetailsGrid";
             this.contractDetailsGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.contractDetailsGrid.Size = new System.Drawing.Size(1216, 231);
             this.contractDetailsGrid.TabIndex = 0;
+            // 
+            // conResSymbol
+            // 
+            this.conResSymbol.HeaderText = "Symbol";
+            this.conResSymbol.Name = "conResSymbol";
+            this.conResSymbol.ReadOnly = true;
+            // 
+            // conResLocalSymbol
+            // 
+            this.conResLocalSymbol.HeaderText = "Local Symbol";
+            this.conResLocalSymbol.Name = "conResLocalSymbol";
+            this.conResLocalSymbol.ReadOnly = true;
+            // 
+            // conResSecType
+            // 
+            this.conResSecType.HeaderText = "Type";
+            this.conResSecType.Name = "conResSecType";
+            this.conResSecType.ReadOnly = true;
+            // 
+            // conResCurrency
+            // 
+            this.conResCurrency.HeaderText = "Currency";
+            this.conResCurrency.Name = "conResCurrency";
+            this.conResCurrency.ReadOnly = true;
+            // 
+            // conResExchange
+            // 
+            this.conResExchange.HeaderText = "Exchange";
+            this.conResExchange.Name = "conResExchange";
+            this.conResExchange.ReadOnly = true;
+            // 
+            // conResPrimaryExch
+            // 
+            this.conResPrimaryExch.HeaderText = "Primary Exch.";
+            this.conResPrimaryExch.Name = "conResPrimaryExch";
+            this.conResPrimaryExch.ReadOnly = true;
+            // 
+            // conResLastTradeDate
+            // 
+            this.conResLastTradeDate.HeaderText = "LastTradeDate";
+            this.conResLastTradeDate.Name = "conResLastTradeDate";
+            this.conResLastTradeDate.ReadOnly = true;
+            this.conResLastTradeDate.Width = 150;
+            // 
+            // conResMultiplier
+            // 
+            this.conResMultiplier.HeaderText = "Multiplier";
+            this.conResMultiplier.Name = "conResMultiplier";
+            this.conResMultiplier.ReadOnly = true;
+            // 
+            // conResStrike
+            // 
+            this.conResStrike.HeaderText = "Strike";
+            this.conResStrike.Name = "conResStrike";
+            this.conResStrike.ReadOnly = true;
+            // 
+            // conResRight
+            // 
+            this.conResRight.HeaderText = "P/C";
+            this.conResRight.Name = "conResRight";
+            this.conResRight.ReadOnly = true;
+            // 
+            // conResConId
+            // 
+            this.conResConId.HeaderText = "ConId";
+            this.conResConId.Name = "conResConId";
+            this.conResConId.ReadOnly = true;
+            // 
+            // conResAggGroup
+            // 
+            this.conResAggGroup.HeaderText = "Agg Group";
+            this.conResAggGroup.Name = "conResAggGroup";
+            // 
+            // conResUnderSymbol
+            // 
+            this.conResUnderSymbol.HeaderText = "Under Symb";
+            this.conResUnderSymbol.Name = "conResUnderSymbol";
+            // 
+            // conResUnderSecType
+            // 
+            this.conResUnderSecType.HeaderText = "Under SecType";
+            this.conResUnderSecType.Name = "conResUnderSecType";
+            this.conResUnderSecType.Width = 120;
+            // 
+            // conResMarketRuleIds
+            // 
+            this.conResMarketRuleIds.HeaderText = "Market Rule Ids";
+            this.conResMarketRuleIds.Name = "conResMarketRuleIds";
+            this.conResMarketRuleIds.Width = 300;
+            // 
+            // conResRealExpirationDate
+            // 
+            this.conResRealExpirationDate.HeaderText = "Real Exp Date";
+            this.conResRealExpirationDate.Name = "conResRealExpirationDate";
+            // 
+            // conResContractMonth
+            // 
+            this.conResContractMonth.HeaderText = "Contract Month";
+            this.conResContractMonth.Name = "conResContractMonth";
+            // 
+            // conResLastTradeTime
+            // 
+            this.conResLastTradeTime.HeaderText = "Last Trade Time";
+            this.conResLastTradeTime.Name = "conResLastTradeTime";
+            // 
+            // conResTimeZoneId
+            // 
+            this.conResTimeZoneId.HeaderText = "Time Zone";
+            this.conResTimeZoneId.Name = "conResTimeZoneId";
+            // 
+            // conResStockType
+            // 
+            this.conResStockType.HeaderText = "Stock Type";
+            this.conResStockType.Name = "conResStockType";
+            // 
+            // conResMinSize
+            // 
+            this.conResMinSize.HeaderText = "Min Size";
+            this.conResMinSize.Name = "conResMinSize";
+            // 
+            // conResSizeIncrement
+            // 
+            this.conResSizeIncrement.HeaderText = "Size Incr";
+            this.conResSizeIncrement.Name = "conResSizeIncrement";
+            // 
+            // conResSuggestedSizeIncrement
+            // 
+            this.conResSuggestedSizeIncrement.HeaderText = "Sugg Size Incr";
+            this.conResSuggestedSizeIncrement.Name = "conResSuggestedSizeIncrement";
             // 
             // fundamentalsPage
             // 
@@ -3472,6 +3598,7 @@ namespace IBSampleApp
             this.columnHeader1,
             this.columnHeader2});
             this.listViewOptionParams.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listViewOptionParams.HideSelection = false;
             this.listViewOptionParams.Location = new System.Drawing.Point(0, 0);
             this.listViewOptionParams.Name = "listViewOptionParams";
             this.listViewOptionParams.Size = new System.Drawing.Size(1228, 243);
@@ -3522,49 +3649,51 @@ namespace IBSampleApp
             | System.Windows.Forms.AnchorStyles.Right)));
             this.symbolSamplesDataGridContractInfo.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.symbolSamplesDataGridContractInfo.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dataGridViewTextBoxColumn9,
-            this.dataGridViewTextBoxColumn10,
-            this.dataGridViewTextBoxColumn11,
-            this.dataGridViewTextBoxColumn12,
-            this.dataGridViewTextBoxColumn13,
-            this.dataGridViewTextBoxColumn14});
+            this.symbolSamplesConId2,
+            this.symbolSamplesSymbol2,
+            this.symbolSamplesSecType2,
+            this.symbolSamplesPrimExch2,
+            this.symbolSamplesCurrency2,
+            this.dataGridViewTextBoxColumn14,
+            this.symbolSamplesDescription2,
+            this.symbolSamplesIssuerId2});
             this.symbolSamplesDataGridContractInfo.Location = new System.Drawing.Point(3, 22);
             this.symbolSamplesDataGridContractInfo.Name = "symbolSamplesDataGridContractInfo";
             this.symbolSamplesDataGridContractInfo.ReadOnly = true;
             this.symbolSamplesDataGridContractInfo.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.symbolSamplesDataGridContractInfo.Size = new System.Drawing.Size(847, 215);
+            this.symbolSamplesDataGridContractInfo.Size = new System.Drawing.Size(1180, 215);
             this.symbolSamplesDataGridContractInfo.TabIndex = 4;
             this.symbolSamplesDataGridContractInfo.Visible = false;
             // 
-            // dataGridViewTextBoxColumn9
+            // symbolSamplesConId2
             // 
-            this.dataGridViewTextBoxColumn9.HeaderText = "ConId";
-            this.dataGridViewTextBoxColumn9.Name = "dataGridViewTextBoxColumn9";
-            this.dataGridViewTextBoxColumn9.ReadOnly = true;
+            this.symbolSamplesConId2.HeaderText = "ConId";
+            this.symbolSamplesConId2.Name = "symbolSamplesConId2";
+            this.symbolSamplesConId2.ReadOnly = true;
             // 
-            // dataGridViewTextBoxColumn10
+            // symbolSamplesSymbol2
             // 
-            this.dataGridViewTextBoxColumn10.HeaderText = "Symbol";
-            this.dataGridViewTextBoxColumn10.Name = "dataGridViewTextBoxColumn10";
-            this.dataGridViewTextBoxColumn10.ReadOnly = true;
+            this.symbolSamplesSymbol2.HeaderText = "Symbol";
+            this.symbolSamplesSymbol2.Name = "symbolSamplesSymbol2";
+            this.symbolSamplesSymbol2.ReadOnly = true;
             // 
-            // dataGridViewTextBoxColumn11
+            // symbolSamplesSecType2
             // 
-            this.dataGridViewTextBoxColumn11.HeaderText = "SecType";
-            this.dataGridViewTextBoxColumn11.Name = "dataGridViewTextBoxColumn11";
-            this.dataGridViewTextBoxColumn11.ReadOnly = true;
+            this.symbolSamplesSecType2.HeaderText = "SecType";
+            this.symbolSamplesSecType2.Name = "symbolSamplesSecType2";
+            this.symbolSamplesSecType2.ReadOnly = true;
             // 
-            // dataGridViewTextBoxColumn12
+            // symbolSamplesPrimExch2
             // 
-            this.dataGridViewTextBoxColumn12.HeaderText = "Prim Exch";
-            this.dataGridViewTextBoxColumn12.Name = "dataGridViewTextBoxColumn12";
-            this.dataGridViewTextBoxColumn12.ReadOnly = true;
+            this.symbolSamplesPrimExch2.HeaderText = "Prim Exch";
+            this.symbolSamplesPrimExch2.Name = "symbolSamplesPrimExch2";
+            this.symbolSamplesPrimExch2.ReadOnly = true;
             // 
-            // dataGridViewTextBoxColumn13
+            // symbolSamplesCurrency2
             // 
-            this.dataGridViewTextBoxColumn13.HeaderText = "Currency";
-            this.dataGridViewTextBoxColumn13.Name = "dataGridViewTextBoxColumn13";
-            this.dataGridViewTextBoxColumn13.ReadOnly = true;
+            this.symbolSamplesCurrency2.HeaderText = "Currency";
+            this.symbolSamplesCurrency2.Name = "symbolSamplesCurrency2";
+            this.symbolSamplesCurrency2.ReadOnly = true;
             // 
             // dataGridViewTextBoxColumn14
             // 
@@ -3572,6 +3701,19 @@ namespace IBSampleApp
             this.dataGridViewTextBoxColumn14.Name = "dataGridViewTextBoxColumn14";
             this.dataGridViewTextBoxColumn14.ReadOnly = true;
             this.dataGridViewTextBoxColumn14.Width = 200;
+            // 
+            // symbolSamplesDescription2
+            // 
+            this.symbolSamplesDescription2.HeaderText = "Description";
+            this.symbolSamplesDescription2.Name = "symbolSamplesDescription2";
+            this.symbolSamplesDescription2.ReadOnly = true;
+            this.symbolSamplesDescription2.Width = 300;
+            // 
+            // symbolSamplesIssuerId2
+            // 
+            this.symbolSamplesIssuerId2.HeaderText = "Issuer Id";
+            this.symbolSamplesIssuerId2.Name = "symbolSamplesIssuerId2";
+            this.symbolSamplesIssuerId2.ReadOnly = true;
             // 
             // bondContractDetailsPage
             // 
@@ -3604,7 +3746,6 @@ namespace IBSampleApp
             this.bondContractDetailsOrderTypes,
             this.bondContractDetailsValidExchanges,
             this.bondContractDetailsLongName,
-            this.bondContractDetailsMdSizeMultiplier,
             this.bondContractDetailsAggGroup,
             this.bondContractDetailsMarketRuleIds,
             this.bondContractDetailsCusip,
@@ -3623,7 +3764,10 @@ namespace IBSampleApp
             this.bondContractDetailsNextOptionPartial,
             this.bondContractDetailsNotes,
             this.bondContractDetailsLastTradeTime,
-            this.bondContractDetsilsTimeZoneId});
+            this.bondContractDetsilsTimeZoneId,
+            this.bondContractDetailsMinSize,
+            this.bondContractDetailsSizeIncrement,
+            this.bondContractDetailsSuggestedSizeIncrement});
             this.bondContractDetailsGrid.Location = new System.Drawing.Point(6, 6);
             this.bondContractDetailsGrid.Name = "bondContractDetailsGrid";
             this.bondContractDetailsGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -3680,11 +3824,6 @@ namespace IBSampleApp
             // 
             this.bondContractDetailsLongName.HeaderText = "LongName";
             this.bondContractDetailsLongName.Name = "bondContractDetailsLongName";
-            // 
-            // bondContractDetailsMdSizeMultiplier
-            // 
-            this.bondContractDetailsMdSizeMultiplier.HeaderText = "MD Size Mult";
-            this.bondContractDetailsMdSizeMultiplier.Name = "bondContractDetailsMdSizeMultiplier";
             // 
             // bondContractDetailsAggGroup
             // 
@@ -3781,6 +3920,21 @@ namespace IBSampleApp
             this.bondContractDetsilsTimeZoneId.HeaderText = "Time Zone";
             this.bondContractDetsilsTimeZoneId.Name = "bondContractDetsilsTimeZoneId";
             // 
+            // bondContractDetailsMinSize
+            // 
+            this.bondContractDetailsMinSize.HeaderText = "Min Size";
+            this.bondContractDetailsMinSize.Name = "bondContractDetailsMinSize";
+            // 
+            // bondContractDetailsSizeIncrement
+            // 
+            this.bondContractDetailsSizeIncrement.HeaderText = "Size Incr";
+            this.bondContractDetailsSizeIncrement.Name = "bondContractDetailsSizeIncrement";
+            // 
+            // bondContractDetailsSuggestedSizeIncrement
+            // 
+            this.bondContractDetailsSuggestedSizeIncrement.HeaderText = "Sugg Size Incr";
+            this.bondContractDetailsSuggestedSizeIncrement.Name = "bondContractDetailsSuggestedSizeIncrement";
+            // 
             // marketRulePage
             // 
             this.marketRulePage.BackColor = System.Drawing.Color.LightGray;
@@ -3835,6 +3989,7 @@ namespace IBSampleApp
             // accountInfoTab
             // 
             this.accountInfoTab.BackColor = System.Drawing.Color.LightGray;
+            this.accountInfoTab.Controls.Add(this.reqUserInfo);
             this.accountInfoTab.Controls.Add(this.tabControl1);
             this.accountInfoTab.Controls.Add(this.accountSelectorLabel);
             this.accountInfoTab.Controls.Add(this.accountSelector);
@@ -3844,6 +3999,16 @@ namespace IBSampleApp
             this.accountInfoTab.Size = new System.Drawing.Size(1248, 448);
             this.accountInfoTab.TabIndex = 3;
             this.accountInfoTab.Text = "Account Info";
+            // 
+            // reqUserInfo
+            // 
+            this.reqUserInfo.Location = new System.Drawing.Point(251, 3);
+            this.reqUserInfo.Name = "reqUserInfo";
+            this.reqUserInfo.Size = new System.Drawing.Size(75, 23);
+            this.reqUserInfo.TabIndex = 2;
+            this.reqUserInfo.Text = "User Info";
+            this.reqUserInfo.UseVisualStyleBackColor = true;
+            this.reqUserInfo.Click += new System.EventHandler(this.reqUserInfo_Click);
             // 
             // tabControl1
             // 
@@ -4918,6 +5083,7 @@ namespace IBSampleApp
             this.marketData_MDT.Controls.Add(this.histogramTabPage);
             this.marketData_MDT.Controls.Add(this.historicalTicksTabPage);
             this.marketData_MDT.Controls.Add(this.tabPageTickByTick);
+            this.marketData_MDT.Controls.Add(this.tabHistoricalSchedule);
             this.marketData_MDT.Location = new System.Drawing.Point(0, 210);
             this.marketData_MDT.Margin = new System.Windows.Forms.Padding(0);
             this.marketData_MDT.Name = "marketData_MDT";
@@ -4975,7 +5141,11 @@ namespace IBSampleApp
             this.lowTickerColumn,
             this.futuresOpenInterestTickerColumn,
             this.avgOptVolumeTickerColumn,
-            this.shortableSharesTickerColumn});
+            this.shortableSharesTickerColumn,
+            this.estimatedIPOMidpointTickerColumn,
+            this.finalIPOLastTickerColumn,
+            this.yieldBidTickerColumn,
+            this.yieldAskTickerColumn});
             this.marketDataGrid_MDT.Location = new System.Drawing.Point(3, 19);
             this.marketDataGrid_MDT.Name = "marketDataGrid_MDT";
             this.marketDataGrid_MDT.ReadOnly = true;
@@ -5095,6 +5265,30 @@ namespace IBSampleApp
             this.shortableSharesTickerColumn.HeaderText = "Shortable Shares";
             this.shortableSharesTickerColumn.Name = "shortableSharesTickerColumn";
             this.shortableSharesTickerColumn.ReadOnly = true;
+            // 
+            // estimatedIPOMidpointTickerColumn
+            // 
+            this.estimatedIPOMidpointTickerColumn.HeaderText = "Est IPO Mid";
+            this.estimatedIPOMidpointTickerColumn.Name = "estimatedIPOMidpointTickerColumn";
+            this.estimatedIPOMidpointTickerColumn.ReadOnly = true;
+            // 
+            // finalIPOLastTickerColumn
+            // 
+            this.finalIPOLastTickerColumn.HeaderText = "Final IPO Last";
+            this.finalIPOLastTickerColumn.Name = "finalIPOLastTickerColumn";
+            this.finalIPOLastTickerColumn.ReadOnly = true;
+            // 
+            // yieldBidTickerColumn
+            // 
+            this.yieldBidTickerColumn.HeaderText = "Yield Bid";
+            this.yieldBidTickerColumn.Name = "yieldBidTickerColumn";
+            this.yieldBidTickerColumn.ReadOnly = true;
+            // 
+            // yieldAskTickerColumn
+            // 
+            this.yieldAskTickerColumn.HeaderText = "Yield Ask";
+            this.yieldAskTickerColumn.Name = "yieldAskTickerColumn";
+            this.yieldAskTickerColumn.ReadOnly = true;
             // 
             // deepBookTab_MDT
             // 
@@ -5651,12 +5845,14 @@ namespace IBSampleApp
             this.symbolSamplesSecType,
             this.symbolSamplesPrimExch,
             this.symbolSamplesCurrency,
-            this.symbolSamplesDerivativeSecTypes});
+            this.symbolSamplesDerivativeSecTypes,
+            this.symbolSamplesDescription,
+            this.symbolSamplesIssuerId});
             this.symbolSamplesDataGridData.Location = new System.Drawing.Point(9, 22);
             this.symbolSamplesDataGridData.Name = "symbolSamplesDataGridData";
             this.symbolSamplesDataGridData.ReadOnly = true;
             this.symbolSamplesDataGridData.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.symbolSamplesDataGridData.Size = new System.Drawing.Size(1025, 180);
+            this.symbolSamplesDataGridData.Size = new System.Drawing.Size(1202, 180);
             this.symbolSamplesDataGridData.TabIndex = 3;
             this.symbolSamplesDataGridData.Visible = false;
             // 
@@ -5696,6 +5892,19 @@ namespace IBSampleApp
             this.symbolSamplesDerivativeSecTypes.Name = "symbolSamplesDerivativeSecTypes";
             this.symbolSamplesDerivativeSecTypes.ReadOnly = true;
             this.symbolSamplesDerivativeSecTypes.Width = 200;
+            // 
+            // symbolSamplesDescription
+            // 
+            this.symbolSamplesDescription.HeaderText = "Description";
+            this.symbolSamplesDescription.Name = "symbolSamplesDescription";
+            this.symbolSamplesDescription.ReadOnly = true;
+            this.symbolSamplesDescription.Width = 300;
+            // 
+            // symbolSamplesIssuerId
+            // 
+            this.symbolSamplesIssuerId.HeaderText = "IssuerId";
+            this.symbolSamplesIssuerId.Name = "symbolSamplesIssuerId";
+            this.symbolSamplesIssuerId.ReadOnly = true;
             // 
             // smartComponentsTabPage
             // 
@@ -6068,6 +6277,87 @@ namespace IBSampleApp
             this.dataGridViewTickByTick.Size = new System.Drawing.Size(1225, 184);
             this.dataGridViewTickByTick.TabIndex = 3;
             // 
+            // tabHistoricalSchedule
+            // 
+            this.tabHistoricalSchedule.BackColor = System.Drawing.Color.LightGray;
+            this.tabHistoricalSchedule.Controls.Add(this.historicalScheduleGrid);
+            this.tabHistoricalSchedule.Controls.Add(this.linkLabelClearHistoricalSchedule);
+            this.tabHistoricalSchedule.Controls.Add(this.labelHistoricalSchedule);
+            this.tabHistoricalSchedule.Controls.Add(this.historicalScheduleOutput);
+            this.tabHistoricalSchedule.Location = new System.Drawing.Point(4, 22);
+            this.tabHistoricalSchedule.Name = "tabHistoricalSchedule";
+            this.tabHistoricalSchedule.Padding = new System.Windows.Forms.Padding(3);
+            this.tabHistoricalSchedule.Size = new System.Drawing.Size(1234, 209);
+            this.tabHistoricalSchedule.TabIndex = 11;
+            this.tabHistoricalSchedule.Text = "Historical Schedule";
+            // 
+            // historicalScheduleGrid
+            // 
+            this.historicalScheduleGrid.AllowUserToAddRows = false;
+            this.historicalScheduleGrid.AllowUserToDeleteRows = false;
+            this.historicalScheduleGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.historicalScheduleGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.historicalSchduleGridStartDateTime,
+            this.historicalSchduleGridEndDateTime,
+            this.historicalSchduleGridRefDate});
+            this.historicalScheduleGrid.Location = new System.Drawing.Point(6, 53);
+            this.historicalScheduleGrid.Name = "historicalScheduleGrid";
+            this.historicalScheduleGrid.ReadOnly = true;
+            this.historicalScheduleGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.historicalScheduleGrid.Size = new System.Drawing.Size(565, 130);
+            this.historicalScheduleGrid.TabIndex = 11;
+            // 
+            // historicalSchduleGridStartDateTime
+            // 
+            this.historicalSchduleGridStartDateTime.HeaderText = "Start";
+            this.historicalSchduleGridStartDateTime.Name = "historicalSchduleGridStartDateTime";
+            this.historicalSchduleGridStartDateTime.ReadOnly = true;
+            this.historicalSchduleGridStartDateTime.Width = 200;
+            // 
+            // historicalSchduleGridEndDateTime
+            // 
+            this.historicalSchduleGridEndDateTime.HeaderText = "End";
+            this.historicalSchduleGridEndDateTime.Name = "historicalSchduleGridEndDateTime";
+            this.historicalSchduleGridEndDateTime.ReadOnly = true;
+            this.historicalSchduleGridEndDateTime.Width = 200;
+            // 
+            // historicalSchduleGridRefDate
+            // 
+            this.historicalSchduleGridRefDate.HeaderText = "Ref Date";
+            this.historicalSchduleGridRefDate.Name = "historicalSchduleGridRefDate";
+            this.historicalSchduleGridRefDate.ReadOnly = true;
+            // 
+            // linkLabelClearHistoricalSchedule
+            // 
+            this.linkLabelClearHistoricalSchedule.AutoSize = true;
+            this.linkLabelClearHistoricalSchedule.Location = new System.Drawing.Point(11, 5);
+            this.linkLabelClearHistoricalSchedule.Name = "linkLabelClearHistoricalSchedule";
+            this.linkLabelClearHistoricalSchedule.Size = new System.Drawing.Size(31, 13);
+            this.linkLabelClearHistoricalSchedule.TabIndex = 10;
+            this.linkLabelClearHistoricalSchedule.TabStop = true;
+            this.linkLabelClearHistoricalSchedule.Text = "Clear";
+            this.linkLabelClearHistoricalSchedule.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelClearHistoricalSchedule_LinkClicked);
+            // 
+            // labelHistoricalSchedule
+            // 
+            this.labelHistoricalSchedule.AutoSize = true;
+            this.labelHistoricalSchedule.Location = new System.Drawing.Point(51, 5);
+            this.labelHistoricalSchedule.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.labelHistoricalSchedule.Name = "labelHistoricalSchedule";
+            this.labelHistoricalSchedule.Size = new System.Drawing.Size(98, 13);
+            this.labelHistoricalSchedule.TabIndex = 9;
+            this.labelHistoricalSchedule.Text = "HistoricalSchedule:";
+            // 
+            // historicalScheduleOutput
+            // 
+            this.historicalScheduleOutput.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.historicalScheduleOutput.Location = new System.Drawing.Point(5, 21);
+            this.historicalScheduleOutput.Name = "historicalScheduleOutput";
+            this.historicalScheduleOutput.ReadOnly = true;
+            this.historicalScheduleOutput.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.historicalScheduleOutput.Size = new System.Drawing.Size(566, 20);
+            this.historicalScheduleOutput.TabIndex = 1;
+            // 
             // dataResults_MDT
             // 
             this.dataResults_MDT.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -6107,7 +6397,7 @@ namespace IBSampleApp
             this.requestMatchingSymbolsMD.Location = new System.Drawing.Point(413, 87);
             this.requestMatchingSymbolsMD.Name = "requestMatchingSymbolsMD";
             this.requestMatchingSymbolsMD.Size = new System.Drawing.Size(75, 23);
-            this.requestMatchingSymbolsMD.TabIndex = 65;
+            this.requestMatchingSymbolsMD.TabIndex = 1;
             this.requestMatchingSymbolsMD.Text = "Match Symb";
             this.requestMatchingSymbolsMD.UseVisualStyleBackColor = true;
             this.requestMatchingSymbolsMD.Click += new System.EventHandler(this.requestMatchingSymbolsData_Click);
@@ -6117,7 +6407,7 @@ namespace IBSampleApp
             this.cancelMarketDataRequests.Location = new System.Drawing.Point(413, 152);
             this.cancelMarketDataRequests.Name = "cancelMarketDataRequests";
             this.cancelMarketDataRequests.Size = new System.Drawing.Size(75, 23);
-            this.cancelMarketDataRequests.TabIndex = 63;
+            this.cancelMarketDataRequests.TabIndex = 3;
             this.cancelMarketDataRequests.Text = "Stop";
             this.cancelMarketDataRequests.UseVisualStyleBackColor = true;
             this.cancelMarketDataRequests.Click += new System.EventHandler(this.cancelMarketDataRequests_Click);
@@ -6127,7 +6417,7 @@ namespace IBSampleApp
             this.marketData_Button.Location = new System.Drawing.Point(413, 119);
             this.marketData_Button.Name = "marketData_Button";
             this.marketData_Button.Size = new System.Drawing.Size(75, 23);
-            this.marketData_Button.TabIndex = 64;
+            this.marketData_Button.TabIndex = 2;
             this.marketData_Button.Text = "Add Ticker";
             this.marketData_Button.UseVisualStyleBackColor = true;
             this.marketData_Button.Click += new System.EventHandler(this.marketData_Click);
@@ -6137,7 +6427,7 @@ namespace IBSampleApp
             this.histogram_button.Location = new System.Drawing.Point(1092, 151);
             this.histogram_button.Name = "histogram_button";
             this.histogram_button.Size = new System.Drawing.Size(75, 23);
-            this.histogram_button.TabIndex = 60;
+            this.histogram_button.TabIndex = 9;
             this.histogram_button.Text = "Histogram";
             this.histogram_button.UseVisualStyleBackColor = true;
             this.histogram_button.Click += new System.EventHandler(this.histogram_button_Click);
@@ -6148,7 +6438,7 @@ namespace IBSampleApp
             this.ReqSmartComponents_Button.Location = new System.Drawing.Point(1093, 78);
             this.ReqSmartComponents_Button.Name = "ReqSmartComponents_Button";
             this.ReqSmartComponents_Button.Size = new System.Drawing.Size(75, 23);
-            this.ReqSmartComponents_Button.TabIndex = 2;
+            this.ReqSmartComponents_Button.TabIndex = 8;
             this.ReqSmartComponents_Button.Text = "Request";
             this.ReqSmartComponents_Button.UseVisualStyleBackColor = true;
             this.ReqSmartComponents_Button.Click += new System.EventHandler(this.ReqSmartComponents_Button_Click);
@@ -6160,7 +6450,7 @@ namespace IBSampleApp
             this.groupBox6.Location = new System.Drawing.Point(1084, 7);
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.Size = new System.Drawing.Size(136, 98);
-            this.groupBox6.TabIndex = 2;
+            this.groupBox6.TabIndex = 7;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Smart Components";
             // 
@@ -6170,7 +6460,7 @@ namespace IBSampleApp
             this.label8.Location = new System.Drawing.Point(6, 21);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(83, 13);
-            this.label8.TabIndex = 1;
+            this.label8.TabIndex = 0;
             this.label8.Text = "BBO Exchange:";
             // 
             // bboExchange_comboBox
@@ -6180,7 +6470,7 @@ namespace IBSampleApp
             this.bboExchange_comboBox.Location = new System.Drawing.Point(6, 37);
             this.bboExchange_comboBox.Name = "bboExchange_comboBox";
             this.bboExchange_comboBox.Size = new System.Drawing.Size(121, 21);
-            this.bboExchange_comboBox.TabIndex = 0;
+            this.bboExchange_comboBox.TabIndex = 1;
             // 
             // groupBoxMarketDataType_MDT
             // 
@@ -6188,7 +6478,7 @@ namespace IBSampleApp
             this.groupBoxMarketDataType_MDT.Location = new System.Drawing.Point(864, 135);
             this.groupBoxMarketDataType_MDT.Name = "groupBoxMarketDataType_MDT";
             this.groupBoxMarketDataType_MDT.Size = new System.Drawing.Size(214, 50);
-            this.groupBoxMarketDataType_MDT.TabIndex = 59;
+            this.groupBoxMarketDataType_MDT.TabIndex = 6;
             this.groupBoxMarketDataType_MDT.TabStop = false;
             this.groupBoxMarketDataType_MDT.Text = "Market Data Type";
             // 
@@ -6199,7 +6489,7 @@ namespace IBSampleApp
             this.comboBoxMarketDataType_MDT.Location = new System.Drawing.Point(13, 16);
             this.comboBoxMarketDataType_MDT.Name = "comboBoxMarketDataType_MDT";
             this.comboBoxMarketDataType_MDT.Size = new System.Drawing.Size(183, 21);
-            this.comboBoxMarketDataType_MDT.TabIndex = 34;
+            this.comboBoxMarketDataType_MDT.TabIndex = 0;
             this.comboBoxMarketDataType_MDT.SelectedIndexChanged += new System.EventHandler(this.comboBoxMarketDataType_MDT_SelectedIndexChanged);
             // 
             // deepBookGroupBox
@@ -6212,7 +6502,7 @@ namespace IBSampleApp
             this.deepBookGroupBox.Location = new System.Drawing.Point(862, 6);
             this.deepBookGroupBox.Name = "deepBookGroupBox";
             this.deepBookGroupBox.Size = new System.Drawing.Size(214, 104);
-            this.deepBookGroupBox.TabIndex = 58;
+            this.deepBookGroupBox.TabIndex = 5;
             this.deepBookGroupBox.TabStop = false;
             this.deepBookGroupBox.Text = "Market Depth";
             // 
@@ -6224,7 +6514,7 @@ namespace IBSampleApp
             this.cbSmartDepth.Location = new System.Drawing.Point(10, 49);
             this.cbSmartDepth.Name = "cbSmartDepth";
             this.cbSmartDepth.Size = new System.Drawing.Size(96, 17);
-            this.cbSmartDepth.TabIndex = 63;
+            this.cbSmartDepth.TabIndex = 2;
             this.cbSmartDepth.Text = "SMART Depth";
             this.cbSmartDepth.UseVisualStyleBackColor = true;
             // 
@@ -6233,7 +6523,7 @@ namespace IBSampleApp
             this.ReqMktDepthExchanges_Button.Location = new System.Drawing.Point(10, 72);
             this.ReqMktDepthExchanges_Button.Name = "ReqMktDepthExchanges_Button";
             this.ReqMktDepthExchanges_Button.Size = new System.Drawing.Size(82, 23);
-            this.ReqMktDepthExchanges_Button.TabIndex = 58;
+            this.ReqMktDepthExchanges_Button.TabIndex = 3;
             this.ReqMktDepthExchanges_Button.Text = "Exchanges";
             this.ReqMktDepthExchanges_Button.UseVisualStyleBackColor = true;
             this.ReqMktDepthExchanges_Button.Click += new System.EventHandler(this.ReqMktDepthExchanges_Button_Click);
@@ -6243,7 +6533,7 @@ namespace IBSampleApp
             this.deepBookEntries.Location = new System.Drawing.Point(104, 20);
             this.deepBookEntries.Name = "deepBookEntries";
             this.deepBookEntries.Size = new System.Drawing.Size(100, 20);
-            this.deepBookEntries.TabIndex = 57;
+            this.deepBookEntries.TabIndex = 1;
             this.deepBookEntries.Text = "20";
             // 
             // deepBookEntriesLabel
@@ -6252,7 +6542,7 @@ namespace IBSampleApp
             this.deepBookEntriesLabel.Location = new System.Drawing.Point(6, 23);
             this.deepBookEntriesLabel.Name = "deepBookEntriesLabel";
             this.deepBookEntriesLabel.Size = new System.Drawing.Size(90, 13);
-            this.deepBookEntriesLabel.TabIndex = 56;
+            this.deepBookEntriesLabel.TabIndex = 0;
             this.deepBookEntriesLabel.Text = "Number of entries";
             // 
             // deepBook_Button
@@ -6260,7 +6550,7 @@ namespace IBSampleApp
             this.deepBook_Button.Location = new System.Drawing.Point(122, 72);
             this.deepBook_Button.Name = "deepBook_Button";
             this.deepBook_Button.Size = new System.Drawing.Size(82, 23);
-            this.deepBook_Button.TabIndex = 16;
+            this.deepBook_Button.TabIndex = 4;
             this.deepBook_Button.Text = "Deep Book";
             this.deepBook_Button.UseVisualStyleBackColor = true;
             this.deepBook_Button.Click += new System.EventHandler(this.deepBook_Click);
@@ -6292,7 +6582,7 @@ namespace IBSampleApp
             this.groupBox2.Location = new System.Drawing.Point(6, 6);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(401, 179);
-            this.groupBox2.TabIndex = 55;
+            this.groupBox2.TabIndex = 0;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Contract";
             // 
@@ -6301,7 +6591,7 @@ namespace IBSampleApp
             this.primaryExchange.Location = new System.Drawing.Point(85, 146);
             this.primaryExchange.Name = "primaryExchange";
             this.primaryExchange.Size = new System.Drawing.Size(100, 20);
-            this.primaryExchange.TabIndex = 61;
+            this.primaryExchange.TabIndex = 11;
             // 
             // primaryExchLabel
             // 
@@ -6309,7 +6599,7 @@ namespace IBSampleApp
             this.primaryExchLabel.Location = new System.Drawing.Point(8, 149);
             this.primaryExchLabel.Name = "primaryExchLabel";
             this.primaryExchLabel.Size = new System.Drawing.Size(71, 13);
-            this.primaryExchLabel.TabIndex = 60;
+            this.primaryExchLabel.TabIndex = 10;
             this.primaryExchLabel.Text = "Primary Exch.";
             // 
             // genericTickList
@@ -6319,7 +6609,7 @@ namespace IBSampleApp
             this.genericTickList.Location = new System.Drawing.Point(292, 15);
             this.genericTickList.Name = "genericTickList";
             this.genericTickList.Size = new System.Drawing.Size(104, 20);
-            this.genericTickList.TabIndex = 59;
+            this.genericTickList.TabIndex = 13;
             // 
             // genericTickListLabel
             // 
@@ -6327,7 +6617,7 @@ namespace IBSampleApp
             this.genericTickListLabel.Location = new System.Drawing.Point(191, 18);
             this.genericTickListLabel.Name = "genericTickListLabel";
             this.genericTickListLabel.Size = new System.Drawing.Size(79, 13);
-            this.genericTickListLabel.TabIndex = 58;
+            this.genericTickListLabel.TabIndex = 12;
             this.genericTickListLabel.Text = "Generic tick list";
             // 
             // mdRightLabel
@@ -6336,7 +6626,7 @@ namespace IBSampleApp
             this.mdRightLabel.Location = new System.Drawing.Point(225, 86);
             this.mdRightLabel.Name = "mdRightLabel";
             this.mdRightLabel.Size = new System.Drawing.Size(45, 13);
-            this.mdRightLabel.TabIndex = 57;
+            this.mdRightLabel.TabIndex = 16;
             this.mdRightLabel.Text = "Put/Call";
             // 
             // mdContractRight
@@ -6345,7 +6635,7 @@ namespace IBSampleApp
             this.mdContractRight.Location = new System.Drawing.Point(292, 85);
             this.mdContractRight.Name = "mdContractRight";
             this.mdContractRight.Size = new System.Drawing.Size(104, 21);
-            this.mdContractRight.TabIndex = 56;
+            this.mdContractRight.TabIndex = 17;
             // 
             // putcall_label_TMD_MDT
             // 
@@ -6353,7 +6643,7 @@ namespace IBSampleApp
             this.putcall_label_TMD_MDT.Location = new System.Drawing.Point(221, 142);
             this.putcall_label_TMD_MDT.Name = "putcall_label_TMD_MDT";
             this.putcall_label_TMD_MDT.Size = new System.Drawing.Size(48, 13);
-            this.putcall_label_TMD_MDT.TabIndex = 6;
+            this.putcall_label_TMD_MDT.TabIndex = 20;
             this.putcall_label_TMD_MDT.Text = "Multiplier";
             // 
             // multiplier_TMD_MDT
@@ -6361,7 +6651,7 @@ namespace IBSampleApp
             this.multiplier_TMD_MDT.Location = new System.Drawing.Point(292, 142);
             this.multiplier_TMD_MDT.Name = "multiplier_TMD_MDT";
             this.multiplier_TMD_MDT.Size = new System.Drawing.Size(104, 20);
-            this.multiplier_TMD_MDT.TabIndex = 12;
+            this.multiplier_TMD_MDT.TabIndex = 21;
             // 
             // symbol_label_TMD_MDT
             // 
@@ -6369,7 +6659,7 @@ namespace IBSampleApp
             this.symbol_label_TMD_MDT.Location = new System.Drawing.Point(38, 18);
             this.symbol_label_TMD_MDT.Name = "symbol_label_TMD_MDT";
             this.symbol_label_TMD_MDT.Size = new System.Drawing.Size(41, 13);
-            this.symbol_label_TMD_MDT.TabIndex = 1;
+            this.symbol_label_TMD_MDT.TabIndex = 0;
             this.symbol_label_TMD_MDT.Text = "Symbol";
             // 
             // secType_TMD_MDT
@@ -6397,11 +6687,12 @@ namespace IBSampleApp
             "CMDTY",
             "BSK",
             "ICU",
-            "ICS"});
+            "ICS",
+            "CRYPTO"});
             this.secType_TMD_MDT.Location = new System.Drawing.Point(85, 40);
             this.secType_TMD_MDT.Name = "secType_TMD_MDT";
             this.secType_TMD_MDT.Size = new System.Drawing.Size(100, 21);
-            this.secType_TMD_MDT.TabIndex = 2;
+            this.secType_TMD_MDT.TabIndex = 3;
             this.secType_TMD_MDT.Text = "CASH";
             // 
             // label1
@@ -6410,7 +6701,7 @@ namespace IBSampleApp
             this.label1.Location = new System.Drawing.Point(29, 40);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(50, 13);
-            this.label1.TabIndex = 3;
+            this.label1.TabIndex = 2;
             this.label1.Text = "SecType";
             // 
             // exchange_label_TMD_MDT
@@ -6419,7 +6710,7 @@ namespace IBSampleApp
             this.exchange_label_TMD_MDT.Location = new System.Drawing.Point(24, 93);
             this.exchange_label_TMD_MDT.Name = "exchange_label_TMD_MDT";
             this.exchange_label_TMD_MDT.Size = new System.Drawing.Size(55, 13);
-            this.exchange_label_TMD_MDT.TabIndex = 7;
+            this.exchange_label_TMD_MDT.TabIndex = 6;
             this.exchange_label_TMD_MDT.Text = "Exchange";
             // 
             // localSymbol_TMD_MDT
@@ -6427,7 +6718,7 @@ namespace IBSampleApp
             this.localSymbol_TMD_MDT.Location = new System.Drawing.Point(85, 120);
             this.localSymbol_TMD_MDT.Name = "localSymbol_TMD_MDT";
             this.localSymbol_TMD_MDT.Size = new System.Drawing.Size(100, 20);
-            this.localSymbol_TMD_MDT.TabIndex = 15;
+            this.localSymbol_TMD_MDT.TabIndex = 9;
             // 
             // currency_label_TMD_MDT
             // 
@@ -6435,7 +6726,7 @@ namespace IBSampleApp
             this.currency_label_TMD_MDT.Location = new System.Drawing.Point(30, 67);
             this.currency_label_TMD_MDT.Name = "currency_label_TMD_MDT";
             this.currency_label_TMD_MDT.Size = new System.Drawing.Size(49, 13);
-            this.currency_label_TMD_MDT.TabIndex = 8;
+            this.currency_label_TMD_MDT.TabIndex = 4;
             this.currency_label_TMD_MDT.Text = "Currency";
             // 
             // lastTradeDateOrContractMonth_TMD_MDT
@@ -6443,14 +6734,14 @@ namespace IBSampleApp
             this.lastTradeDateOrContractMonth_TMD_MDT.Location = new System.Drawing.Point(292, 46);
             this.lastTradeDateOrContractMonth_TMD_MDT.Name = "lastTradeDateOrContractMonth_TMD_MDT";
             this.lastTradeDateOrContractMonth_TMD_MDT.Size = new System.Drawing.Size(104, 20);
-            this.lastTradeDateOrContractMonth_TMD_MDT.TabIndex = 14;
+            this.lastTradeDateOrContractMonth_TMD_MDT.TabIndex = 15;
             // 
             // symbol_TMD_MDT
             // 
             this.symbol_TMD_MDT.Location = new System.Drawing.Point(85, 15);
             this.symbol_TMD_MDT.Name = "symbol_TMD_MDT";
             this.symbol_TMD_MDT.Size = new System.Drawing.Size(100, 20);
-            this.symbol_TMD_MDT.TabIndex = 0;
+            this.symbol_TMD_MDT.TabIndex = 1;
             this.symbol_TMD_MDT.Text = "EUR";
             // 
             // strike_TMD_MDT
@@ -6458,14 +6749,14 @@ namespace IBSampleApp
             this.strike_TMD_MDT.Location = new System.Drawing.Point(292, 113);
             this.strike_TMD_MDT.Name = "strike_TMD_MDT";
             this.strike_TMD_MDT.Size = new System.Drawing.Size(104, 20);
-            this.strike_TMD_MDT.TabIndex = 13;
+            this.strike_TMD_MDT.TabIndex = 19;
             // 
             // currency_TMD_MDT
             // 
             this.currency_TMD_MDT.Location = new System.Drawing.Point(85, 67);
             this.currency_TMD_MDT.Name = "currency_TMD_MDT";
             this.currency_TMD_MDT.Size = new System.Drawing.Size(100, 20);
-            this.currency_TMD_MDT.TabIndex = 10;
+            this.currency_TMD_MDT.TabIndex = 5;
             this.currency_TMD_MDT.Text = "USD";
             // 
             // exchange_TMD_MDT
@@ -6473,7 +6764,7 @@ namespace IBSampleApp
             this.exchange_TMD_MDT.Location = new System.Drawing.Point(85, 93);
             this.exchange_TMD_MDT.Name = "exchange_TMD_MDT";
             this.exchange_TMD_MDT.Size = new System.Drawing.Size(100, 20);
-            this.exchange_TMD_MDT.TabIndex = 11;
+            this.exchange_TMD_MDT.TabIndex = 7;
             this.exchange_TMD_MDT.Text = "IDEALPRO";
             // 
             // localSymbol_label_TMD_MDT
@@ -6482,7 +6773,7 @@ namespace IBSampleApp
             this.localSymbol_label_TMD_MDT.Location = new System.Drawing.Point(9, 120);
             this.localSymbol_label_TMD_MDT.Name = "localSymbol_label_TMD_MDT";
             this.localSymbol_label_TMD_MDT.Size = new System.Drawing.Size(70, 13);
-            this.localSymbol_label_TMD_MDT.TabIndex = 9;
+            this.localSymbol_label_TMD_MDT.TabIndex = 8;
             this.localSymbol_label_TMD_MDT.Text = "Local Symbol";
             // 
             // lastTradeDate_label_TMD_MDT
@@ -6490,7 +6781,7 @@ namespace IBSampleApp
             this.lastTradeDate_label_TMD_MDT.Location = new System.Drawing.Point(191, 46);
             this.lastTradeDate_label_TMD_MDT.Name = "lastTradeDate_label_TMD_MDT";
             this.lastTradeDate_label_TMD_MDT.Size = new System.Drawing.Size(92, 28);
-            this.lastTradeDate_label_TMD_MDT.TabIndex = 4;
+            this.lastTradeDate_label_TMD_MDT.TabIndex = 14;
             this.lastTradeDate_label_TMD_MDT.Text = "Last trade date / contract month";
             // 
             // strike_label_TMD_MDT
@@ -6499,11 +6790,12 @@ namespace IBSampleApp
             this.strike_label_TMD_MDT.Location = new System.Drawing.Point(236, 113);
             this.strike_label_TMD_MDT.Name = "strike_label_TMD_MDT";
             this.strike_label_TMD_MDT.Size = new System.Drawing.Size(34, 13);
-            this.strike_label_TMD_MDT.TabIndex = 5;
+            this.strike_label_TMD_MDT.TabIndex = 18;
             this.strike_label_TMD_MDT.Text = "Strike";
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.histScheduleButton);
             this.groupBox1.Controls.Add(this.cbKeepUpToDate);
             this.groupBox1.Controls.Add(this.headTimestamp_button);
             this.groupBox1.Controls.Add(this.contractMDRTH);
@@ -6522,9 +6814,19 @@ namespace IBSampleApp
             this.groupBox1.Location = new System.Drawing.Point(508, 6);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(325, 179);
-            this.groupBox1.TabIndex = 54;
+            this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Bar request";
+            // 
+            // histScheduleButton
+            // 
+            this.histScheduleButton.Location = new System.Drawing.Point(59, 118);
+            this.histScheduleButton.Name = "histScheduleButton";
+            this.histScheduleButton.Size = new System.Drawing.Size(119, 23);
+            this.histScheduleButton.TabIndex = 12;
+            this.histScheduleButton.Text = "Historical Schedule";
+            this.histScheduleButton.UseVisualStyleBackColor = true;
+            this.histScheduleButton.Click += new System.EventHandler(this.histScheduleButton_Click);
             // 
             // cbKeepUpToDate
             // 
@@ -6532,7 +6834,7 @@ namespace IBSampleApp
             this.cbKeepUpToDate.Location = new System.Drawing.Point(221, 66);
             this.cbKeepUpToDate.Name = "cbKeepUpToDate";
             this.cbKeepUpToDate.Size = new System.Drawing.Size(102, 17);
-            this.cbKeepUpToDate.TabIndex = 62;
+            this.cbKeepUpToDate.TabIndex = 9;
             this.cbKeepUpToDate.Text = "Keep up to date";
             this.cbKeepUpToDate.UseVisualStyleBackColor = true;
             // 
@@ -6541,7 +6843,7 @@ namespace IBSampleApp
             this.headTimestamp_button.Location = new System.Drawing.Point(221, 146);
             this.headTimestamp_button.Name = "headTimestamp_button";
             this.headTimestamp_button.Size = new System.Drawing.Size(91, 23);
-            this.headTimestamp_button.TabIndex = 61;
+            this.headTimestamp_button.TabIndex = 15;
             this.headTimestamp_button.Text = "Head timestamp";
             this.headTimestamp_button.UseVisualStyleBackColor = true;
             this.headTimestamp_button.Click += new System.EventHandler(this.headTimestamp_button_Click);
@@ -6552,7 +6854,7 @@ namespace IBSampleApp
             this.contractMDRTH.Location = new System.Drawing.Point(221, 19);
             this.contractMDRTH.Name = "contractMDRTH";
             this.contractMDRTH.Size = new System.Drawing.Size(71, 17);
-            this.contractMDRTH.TabIndex = 60;
+            this.contractMDRTH.TabIndex = 2;
             this.contractMDRTH.Text = "RTH only";
             this.contractMDRTH.UseVisualStyleBackColor = true;
             // 
@@ -6561,7 +6863,7 @@ namespace IBSampleApp
             this.realTime_Button.Location = new System.Drawing.Point(140, 146);
             this.realTime_Button.Name = "realTime_Button";
             this.realTime_Button.Size = new System.Drawing.Size(75, 23);
-            this.realTime_Button.TabIndex = 56;
+            this.realTime_Button.TabIndex = 14;
             this.realTime_Button.Text = "Real Time";
             this.realTime_Button.UseVisualStyleBackColor = true;
             this.realTime_Button.Click += new System.EventHandler(this.realTime_Button_Click);
@@ -6571,7 +6873,7 @@ namespace IBSampleApp
             this.histData_Button.Location = new System.Drawing.Point(59, 146);
             this.histData_Button.Name = "histData_Button";
             this.histData_Button.Size = new System.Drawing.Size(75, 23);
-            this.histData_Button.TabIndex = 54;
+            this.histData_Button.TabIndex = 13;
             this.histData_Button.Text = "Historical";
             this.histData_Button.UseVisualStyleBackColor = true;
             this.histData_Button.Click += new System.EventHandler(this.histDataButton_Click);
@@ -6582,7 +6884,7 @@ namespace IBSampleApp
             this.hdEndDate_label_HDT.Location = new System.Drawing.Point(27, 18);
             this.hdEndDate_label_HDT.Name = "hdEndDate_label_HDT";
             this.hdEndDate_label_HDT.Size = new System.Drawing.Size(26, 13);
-            this.hdEndDate_label_HDT.TabIndex = 46;
+            this.hdEndDate_label_HDT.TabIndex = 0;
             this.hdEndDate_label_HDT.Text = "End";
             // 
             // label12
@@ -6591,7 +6893,7 @@ namespace IBSampleApp
             this.label12.Location = new System.Drawing.Point(19, 93);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(34, 13);
-            this.label12.TabIndex = 53;
+            this.label12.TabIndex = 10;
             this.label12.Text = "Show";
             // 
             // hdRequest_EndTime
@@ -6599,8 +6901,8 @@ namespace IBSampleApp
             this.hdRequest_EndTime.Location = new System.Drawing.Point(59, 18);
             this.hdRequest_EndTime.Name = "hdRequest_EndTime";
             this.hdRequest_EndTime.Size = new System.Drawing.Size(156, 20);
-            this.hdRequest_EndTime.TabIndex = 45;
-            this.hdRequest_EndTime.Text = "20130808 23:59:59 GMT";
+            this.hdRequest_EndTime.TabIndex = 1;
+            this.hdRequest_EndTime.Text = "20220808 23:59:59 US/Eastern";
             // 
             // hdRequest_WhatToShow
             // 
@@ -6622,7 +6924,7 @@ namespace IBSampleApp
             this.hdRequest_WhatToShow.Location = new System.Drawing.Point(59, 92);
             this.hdRequest_WhatToShow.Name = "hdRequest_WhatToShow";
             this.hdRequest_WhatToShow.Size = new System.Drawing.Size(156, 20);
-            this.hdRequest_WhatToShow.TabIndex = 52;
+            this.hdRequest_WhatToShow.TabIndex = 11;
             this.hdRequest_WhatToShow.Text = "MIDPOINT";
             // 
             // hdRequest_Duration
@@ -6630,7 +6932,7 @@ namespace IBSampleApp
             this.hdRequest_Duration.Location = new System.Drawing.Point(59, 41);
             this.hdRequest_Duration.Name = "hdRequest_Duration";
             this.hdRequest_Duration.Size = new System.Drawing.Size(67, 20);
-            this.hdRequest_Duration.TabIndex = 47;
+            this.hdRequest_Duration.TabIndex = 4;
             this.hdRequest_Duration.Text = "10";
             // 
             // includeExpired
@@ -6639,7 +6941,7 @@ namespace IBSampleApp
             this.includeExpired.Location = new System.Drawing.Point(221, 45);
             this.includeExpired.Name = "includeExpired";
             this.includeExpired.Size = new System.Drawing.Size(61, 17);
-            this.includeExpired.TabIndex = 56;
+            this.includeExpired.TabIndex = 6;
             this.includeExpired.Text = "Expired";
             this.includeExpired.UseVisualStyleBackColor = true;
             // 
@@ -6665,7 +6967,7 @@ namespace IBSampleApp
             this.hdRequest_BarSize.Location = new System.Drawing.Point(59, 66);
             this.hdRequest_BarSize.Name = "hdRequest_BarSize";
             this.hdRequest_BarSize.Size = new System.Drawing.Size(156, 21);
-            this.hdRequest_BarSize.TabIndex = 51;
+            this.hdRequest_BarSize.TabIndex = 8;
             this.hdRequest_BarSize.Text = "1 day";
             // 
             // label10
@@ -6674,7 +6976,7 @@ namespace IBSampleApp
             this.label10.Location = new System.Drawing.Point(6, 41);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(47, 13);
-            this.label10.TabIndex = 48;
+            this.label10.TabIndex = 3;
             this.label10.Text = "Duration";
             // 
             // label11
@@ -6683,7 +6985,7 @@ namespace IBSampleApp
             this.label11.Location = new System.Drawing.Point(7, 70);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(46, 13);
-            this.label11.TabIndex = 50;
+            this.label11.TabIndex = 7;
             this.label11.Text = "Bar Size";
             // 
             // hdRequest_TimeUnit
@@ -6698,7 +7000,7 @@ namespace IBSampleApp
             this.hdRequest_TimeUnit.Location = new System.Drawing.Point(132, 41);
             this.hdRequest_TimeUnit.Name = "hdRequest_TimeUnit";
             this.hdRequest_TimeUnit.Size = new System.Drawing.Size(83, 21);
-            this.hdRequest_TimeUnit.TabIndex = 49;
+            this.hdRequest_TimeUnit.TabIndex = 5;
             this.hdRequest_TimeUnit.Text = "D";
             // 
             // marketScanner_MDT
@@ -6795,6 +7097,7 @@ namespace IBSampleApp
             this.columnHeader3,
             this.columnHeader4});
             this.listViewFilterOptions.FullRowSelect = true;
+            this.listViewFilterOptions.HideSelection = false;
             this.listViewFilterOptions.Location = new System.Drawing.Point(6, 17);
             this.listViewFilterOptions.Name = "listViewFilterOptions";
             this.listViewFilterOptions.Size = new System.Drawing.Size(240, 156);
@@ -7176,7 +7479,7 @@ namespace IBSampleApp
             this.tbEndDate.Name = "tbEndDate";
             this.tbEndDate.Size = new System.Drawing.Size(157, 20);
             this.tbEndDate.TabIndex = 2;
-            this.tbEndDate.Text = "20140808 23:59:59";
+            this.tbEndDate.Text = "20220808 23:59:59 US/Eastern";
             // 
             // tbNumOfTicks
             // 
@@ -7195,7 +7498,7 @@ namespace IBSampleApp
             this.tbStartDate.Name = "tbStartDate";
             this.tbStartDate.Size = new System.Drawing.Size(157, 20);
             this.tbStartDate.TabIndex = 0;
-            this.tbStartDate.Text = "20130808 23:59:59";
+            this.tbStartDate.Text = "20220808 23:59:59 US/Eastern";
             // 
             // TabControl
             // 
@@ -7210,130 +7513,201 @@ namespace IBSampleApp
             this.TabControl.Controls.Add(this.optionsTab);
             this.TabControl.Controls.Add(this.acctPosTab);
             this.TabControl.Controls.Add(this.newsTab);
+            this.TabControl.Controls.Add(this.wshTab);
             this.TabControl.Location = new System.Drawing.Point(0, 68);
             this.TabControl.Name = "TabControl";
             this.TabControl.SelectedIndex = 0;
             this.TabControl.Size = new System.Drawing.Size(1256, 474);
             this.TabControl.TabIndex = 7;
             // 
-            // conResSymbol
+            // wshTab
             // 
-            this.conResSymbol.HeaderText = "Symbol";
-            this.conResSymbol.Name = "conResSymbol";
-            this.conResSymbol.ReadOnly = true;
+            this.wshTab.Controls.Add(this.textBoxWshTotalLimit);
+            this.wshTab.Controls.Add(this.labelWshTotalLimit);
+            this.wshTab.Controls.Add(this.textBoxWshEndDate);
+            this.wshTab.Controls.Add(this.labelWshEndDate);
+            this.wshTab.Controls.Add(this.textBoxWshStartDate);
+            this.wshTab.Controls.Add(this.labelWshStartDate);
+            this.wshTab.Controls.Add(this.checkBoxWshFillCompetitors);
+            this.wshTab.Controls.Add(this.checkBoxWshFillPortfolio);
+            this.wshTab.Controls.Add(this.checkBoxWshFillWatchlist);
+            this.wshTab.Controls.Add(this.textBoxWshFilter);
+            this.wshTab.Controls.Add(this.labelWshFilter);
+            this.wshTab.Controls.Add(this.button3);
+            this.wshTab.Controls.Add(this.button4);
+            this.wshTab.Controls.Add(this.button5);
+            this.wshTab.Controls.Add(this.textBoxWshConId);
+            this.wshTab.Controls.Add(this.labelWshConId);
+            this.wshTab.Controls.Add(this.button6);
+            this.wshTab.Controls.Add(this.dataGridViewWsh);
+            this.wshTab.Location = new System.Drawing.Point(4, 22);
+            this.wshTab.Name = "wshTab";
+            this.wshTab.Size = new System.Drawing.Size(1248, 448);
+            this.wshTab.TabIndex = 10;
+            this.wshTab.Text = "WSHE Calendar";
+            this.wshTab.UseVisualStyleBackColor = true;
             // 
-            // conResLocalSymbol
+            // textBoxWshTotalLimit
             // 
-            this.conResLocalSymbol.HeaderText = "Local Symbol";
-            this.conResLocalSymbol.Name = "conResLocalSymbol";
-            this.conResLocalSymbol.ReadOnly = true;
+            this.textBoxWshTotalLimit.Location = new System.Drawing.Point(725, 212);
+            this.textBoxWshTotalLimit.Name = "textBoxWshTotalLimit";
+            this.textBoxWshTotalLimit.Size = new System.Drawing.Size(100, 20);
+            this.textBoxWshTotalLimit.TabIndex = 31;
             // 
-            // conResSecType
+            // labelWshTotalLimit
             // 
-            this.conResSecType.HeaderText = "Type";
-            this.conResSecType.Name = "conResSecType";
-            this.conResSecType.ReadOnly = true;
+            this.labelWshTotalLimit.AutoSize = true;
+            this.labelWshTotalLimit.Location = new System.Drawing.Point(604, 215);
+            this.labelWshTotalLimit.Name = "labelWshTotalLimit";
+            this.labelWshTotalLimit.Size = new System.Drawing.Size(55, 13);
+            this.labelWshTotalLimit.TabIndex = 30;
+            this.labelWshTotalLimit.Text = "Total Limit";
             // 
-            // conResCurrency
+            // textBoxWshEndDate
             // 
-            this.conResCurrency.HeaderText = "Currency";
-            this.conResCurrency.Name = "conResCurrency";
-            this.conResCurrency.ReadOnly = true;
+            this.textBoxWshEndDate.Location = new System.Drawing.Point(725, 186);
+            this.textBoxWshEndDate.Name = "textBoxWshEndDate";
+            this.textBoxWshEndDate.Size = new System.Drawing.Size(100, 20);
+            this.textBoxWshEndDate.TabIndex = 29;
             // 
-            // conResExchange
+            // labelWshEndDate
             // 
-            this.conResExchange.HeaderText = "Exchange";
-            this.conResExchange.Name = "conResExchange";
-            this.conResExchange.ReadOnly = true;
+            this.labelWshEndDate.AutoSize = true;
+            this.labelWshEndDate.Location = new System.Drawing.Point(604, 193);
+            this.labelWshEndDate.Name = "labelWshEndDate";
+            this.labelWshEndDate.Size = new System.Drawing.Size(52, 13);
+            this.labelWshEndDate.TabIndex = 28;
+            this.labelWshEndDate.Text = "End Date";
             // 
-            // conResPrimaryExch
+            // textBoxWshStartDate
             // 
-            this.conResPrimaryExch.HeaderText = "Primary Exch.";
-            this.conResPrimaryExch.Name = "conResPrimaryExch";
-            this.conResPrimaryExch.ReadOnly = true;
+            this.textBoxWshStartDate.Location = new System.Drawing.Point(725, 160);
+            this.textBoxWshStartDate.Name = "textBoxWshStartDate";
+            this.textBoxWshStartDate.Size = new System.Drawing.Size(100, 20);
+            this.textBoxWshStartDate.TabIndex = 27;
             // 
-            // conResLastTradeDate
+            // labelWshStartDate
             // 
-            this.conResLastTradeDate.HeaderText = "LastTradeDate";
-            this.conResLastTradeDate.Name = "conResLastTradeDate";
-            this.conResLastTradeDate.ReadOnly = true;
-            this.conResLastTradeDate.Width = 150;
+            this.labelWshStartDate.AutoSize = true;
+            this.labelWshStartDate.Location = new System.Drawing.Point(604, 167);
+            this.labelWshStartDate.Name = "labelWshStartDate";
+            this.labelWshStartDate.Size = new System.Drawing.Size(55, 13);
+            this.labelWshStartDate.TabIndex = 26;
+            this.labelWshStartDate.Text = "Start Date";
             // 
-            // conResMultiplier
+            // checkBoxWshFillCompetitors
             // 
-            this.conResMultiplier.HeaderText = "Multiplier";
-            this.conResMultiplier.Name = "conResMultiplier";
-            this.conResMultiplier.ReadOnly = true;
+            this.checkBoxWshFillCompetitors.AutoSize = true;
+            this.checkBoxWshFillCompetitors.Location = new System.Drawing.Point(725, 137);
+            this.checkBoxWshFillCompetitors.Name = "checkBoxWshFillCompetitors";
+            this.checkBoxWshFillCompetitors.Size = new System.Drawing.Size(96, 17);
+            this.checkBoxWshFillCompetitors.TabIndex = 25;
+            this.checkBoxWshFillCompetitors.Text = "Fill Competitors";
+            this.checkBoxWshFillCompetitors.UseVisualStyleBackColor = true;
             // 
-            // conResStrike
+            // checkBoxWshFillPortfolio
             // 
-            this.conResStrike.HeaderText = "Strike";
-            this.conResStrike.Name = "conResStrike";
-            this.conResStrike.ReadOnly = true;
+            this.checkBoxWshFillPortfolio.AutoSize = true;
+            this.checkBoxWshFillPortfolio.Location = new System.Drawing.Point(725, 114);
+            this.checkBoxWshFillPortfolio.Name = "checkBoxWshFillPortfolio";
+            this.checkBoxWshFillPortfolio.Size = new System.Drawing.Size(79, 17);
+            this.checkBoxWshFillPortfolio.TabIndex = 24;
+            this.checkBoxWshFillPortfolio.Text = "Fill Portfolio";
+            this.checkBoxWshFillPortfolio.UseVisualStyleBackColor = true;
             // 
-            // conResRight
+            // checkBoxWshFillWatchlist
             // 
-            this.conResRight.HeaderText = "P/C";
-            this.conResRight.Name = "conResRight";
-            this.conResRight.ReadOnly = true;
+            this.checkBoxWshFillWatchlist.AutoSize = true;
+            this.checkBoxWshFillWatchlist.Location = new System.Drawing.Point(725, 91);
+            this.checkBoxWshFillWatchlist.Name = "checkBoxWshFillWatchlist";
+            this.checkBoxWshFillWatchlist.Size = new System.Drawing.Size(85, 17);
+            this.checkBoxWshFillWatchlist.TabIndex = 23;
+            this.checkBoxWshFillWatchlist.Text = "Fill Watchlist";
+            this.checkBoxWshFillWatchlist.UseVisualStyleBackColor = true;
             // 
-            // conResConId
+            // textBoxWshFilter
             // 
-            this.conResConId.HeaderText = "ConId";
-            this.conResConId.Name = "conResConId";
-            this.conResConId.ReadOnly = true;
+            this.textBoxWshFilter.Location = new System.Drawing.Point(725, 57);
+            this.textBoxWshFilter.Name = "textBoxWshFilter";
+            this.textBoxWshFilter.Size = new System.Drawing.Size(100, 20);
+            this.textBoxWshFilter.TabIndex = 19;
             // 
-            // conResMdSizeMultiplier
+            // labelWshFilter
             // 
-            this.conResMdSizeMultiplier.HeaderText = "MD Size Mult";
-            this.conResMdSizeMultiplier.Name = "conResMdSizeMultiplier";
+            this.labelWshFilter.AutoSize = true;
+            this.labelWshFilter.Location = new System.Drawing.Point(604, 64);
+            this.labelWshFilter.Name = "labelWshFilter";
+            this.labelWshFilter.Size = new System.Drawing.Size(29, 13);
+            this.labelWshFilter.TabIndex = 18;
+            this.labelWshFilter.Text = "Filter";
             // 
-            // conResAggGroup
+            // button3
             // 
-            this.conResAggGroup.HeaderText = "Agg Group";
-            this.conResAggGroup.Name = "conResAggGroup";
+            this.button3.Location = new System.Drawing.Point(988, 29);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(151, 23);
+            this.button3.TabIndex = 17;
+            this.button3.Text = "Cancel WSH Event Data";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.buttonCancelWshEventData_Click);
             // 
-            // conResUnderSymbol
+            // button4
             // 
-            this.conResUnderSymbol.HeaderText = "Under Symb";
-            this.conResUnderSymbol.Name = "conResUnderSymbol";
+            this.button4.Location = new System.Drawing.Point(988, 3);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(151, 23);
+            this.button4.TabIndex = 16;
+            this.button4.Text = "Cancel WSH Meta Data";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.buttonCancelWshMetaData_Click);
             // 
-            // conResUnderSecType
+            // button5
             // 
-            this.conResUnderSecType.HeaderText = "Under SecType";
-            this.conResUnderSecType.Name = "conResUnderSecType";
-            this.conResUnderSecType.Width = 120;
+            this.button5.Location = new System.Drawing.Point(831, 29);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(151, 23);
+            this.button5.TabIndex = 15;
+            this.button5.Text = "Request WSH Event Data";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.buttonRequestWshEventData_Click);
             // 
-            // conResMarketRuleIds
+            // textBoxWshConId
             // 
-            this.conResMarketRuleIds.HeaderText = "Market Rule Ids";
-            this.conResMarketRuleIds.Name = "conResMarketRuleIds";
-            this.conResMarketRuleIds.Width = 300;
+            this.textBoxWshConId.Location = new System.Drawing.Point(725, 31);
+            this.textBoxWshConId.Name = "textBoxWshConId";
+            this.textBoxWshConId.Size = new System.Drawing.Size(100, 20);
+            this.textBoxWshConId.TabIndex = 14;
+            this.textBoxWshConId.Text = "0";
             // 
-            // conResRealExpirationDate
+            // labelWshConId
             // 
-            this.conResRealExpirationDate.HeaderText = "Real Exp Date";
-            this.conResRealExpirationDate.Name = "conResRealExpirationDate";
+            this.labelWshConId.AutoSize = true;
+            this.labelWshConId.Location = new System.Drawing.Point(604, 34);
+            this.labelWshConId.Name = "labelWshConId";
+            this.labelWshConId.Size = new System.Drawing.Size(38, 13);
+            this.labelWshConId.TabIndex = 13;
+            this.labelWshConId.Text = "Con Id";
             // 
-            // conResContractMonth
+            // button6
             // 
-            this.conResContractMonth.HeaderText = "Contract Month";
-            this.conResContractMonth.Name = "conResContractMonth";
+            this.button6.Location = new System.Drawing.Point(831, 3);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(151, 23);
+            this.button6.TabIndex = 10;
+            this.button6.Text = "Request WSH Meta Data";
+            this.button6.UseVisualStyleBackColor = true;
+            this.button6.Click += new System.EventHandler(this.buttonRequestWshMetaData_Click);
             // 
-            // conResLastTradeTime
+            // dataGridViewWsh
             // 
-            this.conResLastTradeTime.HeaderText = "Last Trade Time";
-            this.conResLastTradeTime.Name = "conResLastTradeTime";
-            // 
-            // conResTimeZoneId
-            // 
-            this.conResTimeZoneId.HeaderText = "Time Zone";
-            this.conResTimeZoneId.Name = "conResTimeZoneId";
-            // 
-            // conResStockType
-            // 
-            this.conResStockType.HeaderText = "Stock Type";
-            this.conResStockType.Name = "conResStockType";
+            this.dataGridViewWsh.AllowUserToAddRows = false;
+            this.dataGridViewWsh.AllowUserToDeleteRows = false;
+            this.dataGridViewWsh.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewWsh.Location = new System.Drawing.Point(9, 3);
+            this.dataGridViewWsh.Name = "dataGridViewWsh";
+            this.dataGridViewWsh.ReadOnly = true;
+            this.dataGridViewWsh.Size = new System.Drawing.Size(593, 442);
+            this.dataGridViewWsh.TabIndex = 9;
             // 
             // IBSampleAppDialog
             // 
@@ -7412,8 +7786,6 @@ namespace IBSampleApp
             this.optionsPositionsGroupBox.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.optionPositionsGrid)).EndInit();
             this.advisorTab.ResumeLayout(false);
-            this.advisorProfilesBox.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.advisorProfilesGrid)).EndInit();
             this.advisorGroupsBox.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.advisorGroupsGrid)).EndInit();
             this.advisorAliasesBox.ResumeLayout(false);
@@ -7511,6 +7883,9 @@ namespace IBSampleApp
             this.tabPageTickByTick.ResumeLayout(false);
             this.tabPageTickByTick.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewTickByTick)).EndInit();
+            this.tabHistoricalSchedule.ResumeLayout(false);
+            this.tabHistoricalSchedule.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.historicalScheduleGrid)).EndInit();
             this.dataResults_MDT.ResumeLayout(false);
             this.topMktData_MDT.ResumeLayout(false);
             this.groupBox6.ResumeLayout(false);
@@ -7532,6 +7907,9 @@ namespace IBSampleApp
             this.groupBox7.ResumeLayout(false);
             this.groupBox7.PerformLayout();
             this.TabControl.ResumeLayout(false);
+            this.wshTab.ResumeLayout(false);
+            this.wshTab.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewWsh)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -7706,13 +8084,6 @@ namespace IBSampleApp
         private System.Windows.Forms.Label exerciseAccountLabel;
         private System.Windows.Forms.ComboBox exerciseAccount;
         private System.Windows.Forms.TabPage advisorTab;
-        private System.Windows.Forms.GroupBox advisorProfilesBox;
-        private System.Windows.Forms.Button saveProfiles;
-        private System.Windows.Forms.Button loadProfiles;
-        private System.Windows.Forms.DataGridView advisorProfilesGrid;
-        private System.Windows.Forms.DataGridViewTextBoxColumn profileName;
-        private System.Windows.Forms.DataGridViewComboBoxColumn profileType;
-        private System.Windows.Forms.DataGridViewTextBoxColumn profileAllocations;
         private System.Windows.Forms.GroupBox advisorGroupsBox;
         private System.Windows.Forms.Button saveGroups;
         private System.Windows.Forms.Button loadGroups;
@@ -7797,12 +8168,6 @@ namespace IBSampleApp
         private System.Windows.Forms.TabPage symbolSamplesTabContractInfo;
         private System.Windows.Forms.LinkLabel clearSymbolSamplesContractInfo;
         private System.Windows.Forms.DataGridView symbolSamplesDataGridContractInfo;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn9;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn10;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn11;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn12;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn13;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn14;
         private System.Windows.Forms.TabPage bondContractDetailsPage;
         private System.Windows.Forms.DataGridView bondContractDetailsGrid;
         private System.Windows.Forms.TabPage accountInfoTab;
@@ -7937,12 +8302,6 @@ namespace IBSampleApp
         private System.Windows.Forms.TabPage symbolSamplesTabData;
         private System.Windows.Forms.LinkLabel clearSymbolSamplesMarketData;
         private System.Windows.Forms.DataGridView symbolSamplesDataGridData;
-        private System.Windows.Forms.DataGridViewTextBoxColumn symbolSamplesConId;
-        private System.Windows.Forms.DataGridViewTextBoxColumn symbolSamplesSymbol;
-        private System.Windows.Forms.DataGridViewTextBoxColumn symbolSamplesSecType;
-        private System.Windows.Forms.DataGridViewTextBoxColumn symbolSamplesPrimExch;
-        private System.Windows.Forms.DataGridViewTextBoxColumn symbolSamplesCurrency;
-        private System.Windows.Forms.DataGridViewTextBoxColumn symbolSamplesDerivativeSecTypes;
         private System.Windows.Forms.TabPage smartComponentsTabPage;
         private System.Windows.Forms.LinkLabel linkLabel1;
         private System.Windows.Forms.DataGridView dataGridViewSmartComponents;
@@ -8105,6 +8464,68 @@ namespace IBSampleApp
         private System.Windows.Forms.Button buttonCancelTickByTick;
         private System.Windows.Forms.Button buttonRequestTickByTick;
         private System.Windows.Forms.ComboBox comboBoxTickByTickType;
+        private System.Windows.Forms.TextBox textBoxNewsArticlePath;
+        private System.Windows.Forms.Label labelNewsArticlePath;
+        private System.Windows.Forms.Button buttonPdfPathDialog;
+        private System.Windows.Forms.Button buttonAttachOrder;
+        private System.Windows.Forms.GroupBox groupBox8;
+        private System.Windows.Forms.Button FilterOptionRemove_button;
+        private System.Windows.Forms.Button FilterOptionAdd_button;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.TextBox textBoxFilterValue;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.ComboBox comboBoxFilterName;
+        private System.Windows.Forms.ListView listViewFilterOptions;
+        private System.Windows.Forms.ColumnHeader columnHeader3;
+        private System.Windows.Forms.ColumnHeader columnHeader4;
+        private System.Windows.Forms.CheckBox cbSmartDepth;
+        private System.Windows.Forms.GroupBox completedOrdersGroup;
+        private System.Windows.Forms.Button completedOrdersButton;
+        private System.Windows.Forms.DataGridView completedOrdersGrid;
+        private System.Windows.Forms.DataGridViewTextBoxColumn completedOrdersBoxColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn completedOrdersBoxColumn2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn completedOrdersBoxColumn3;
+        private System.Windows.Forms.DataGridViewTextBoxColumn completedOrdersBoxColumn4;
+        private System.Windows.Forms.DataGridViewTextBoxColumn completedOrdersBoxColumn5;
+        private System.Windows.Forms.DataGridViewTextBoxColumn completedOrdersBoxColumn6;
+        private System.Windows.Forms.DataGridViewTextBoxColumn completedOrdersBoxColumn7;
+        private System.Windows.Forms.DataGridViewTextBoxColumn completedOrdersBoxColumn8;
+        private System.Windows.Forms.DataGridViewTextBoxColumn completedOrdersBoxColumn9;
+        private System.Windows.Forms.DataGridViewTextBoxColumn completedOrdersBoxColumn10;
+        private System.Windows.Forms.DataGridViewTextBoxColumn completedOrdersBoxColumn11;
+        private System.Windows.Forms.DataGridViewTextBoxColumn completedOrdersBoxColumn12;
+        private System.Windows.Forms.DataGridViewTextBoxColumn completedOrdersBoxColumn13;
+        private System.Windows.Forms.TabPage wshTab;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.TextBox textBoxWshConId;
+        private System.Windows.Forms.Label labelWshConId;
+        private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.DataGridView dataGridViewWsh;
+        private System.Windows.Forms.DataGridViewTextBoxColumn conResSymbol;
+        private System.Windows.Forms.DataGridViewTextBoxColumn conResLocalSymbol;
+        private System.Windows.Forms.DataGridViewTextBoxColumn conResSecType;
+        private System.Windows.Forms.DataGridViewTextBoxColumn conResCurrency;
+        private System.Windows.Forms.DataGridViewTextBoxColumn conResExchange;
+        private System.Windows.Forms.DataGridViewTextBoxColumn conResPrimaryExch;
+        private System.Windows.Forms.DataGridViewTextBoxColumn conResLastTradeDate;
+        private System.Windows.Forms.DataGridViewTextBoxColumn conResMultiplier;
+        private System.Windows.Forms.DataGridViewTextBoxColumn conResStrike;
+        private System.Windows.Forms.DataGridViewTextBoxColumn conResRight;
+        private System.Windows.Forms.DataGridViewTextBoxColumn conResConId;
+        private System.Windows.Forms.DataGridViewTextBoxColumn conResAggGroup;
+        private System.Windows.Forms.DataGridViewTextBoxColumn conResUnderSymbol;
+        private System.Windows.Forms.DataGridViewTextBoxColumn conResUnderSecType;
+        private System.Windows.Forms.DataGridViewTextBoxColumn conResMarketRuleIds;
+        private System.Windows.Forms.DataGridViewTextBoxColumn conResRealExpirationDate;
+        private System.Windows.Forms.DataGridViewTextBoxColumn conResContractMonth;
+        private System.Windows.Forms.DataGridViewTextBoxColumn conResLastTradeTime;
+        private System.Windows.Forms.DataGridViewTextBoxColumn conResTimeZoneId;
+        private System.Windows.Forms.DataGridViewTextBoxColumn conResStockType;
+        private System.Windows.Forms.DataGridViewTextBoxColumn conResMinSize;
+        private System.Windows.Forms.DataGridViewTextBoxColumn conResSizeIncrement;
+        private System.Windows.Forms.DataGridViewTextBoxColumn conResSuggestedSizeIncrement;
         private System.Windows.Forms.DataGridViewTextBoxColumn bondContractDetailsConId;
         private System.Windows.Forms.DataGridViewTextBoxColumn bondContractDetailsSymbol;
         private System.Windows.Forms.DataGridViewTextBoxColumn bondContractDetailsExchange;
@@ -8115,7 +8536,6 @@ namespace IBSampleApp
         private System.Windows.Forms.DataGridViewTextBoxColumn bondContractDetailsOrderTypes;
         private System.Windows.Forms.DataGridViewTextBoxColumn bondContractDetailsValidExchanges;
         private System.Windows.Forms.DataGridViewTextBoxColumn bondContractDetailsLongName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn bondContractDetailsMdSizeMultiplier;
         private System.Windows.Forms.DataGridViewTextBoxColumn bondContractDetailsAggGroup;
         private System.Windows.Forms.DataGridViewTextBoxColumn bondContractDetailsMarketRuleIds;
         private System.Windows.Forms.DataGridViewTextBoxColumn bondContractDetailsCusip;
@@ -8135,21 +8555,48 @@ namespace IBSampleApp
         private System.Windows.Forms.DataGridViewTextBoxColumn bondContractDetailsNotes;
         private System.Windows.Forms.DataGridViewTextBoxColumn bondContractDetailsLastTradeTime;
         private System.Windows.Forms.DataGridViewTextBoxColumn bondContractDetsilsTimeZoneId;
-        private System.Windows.Forms.TextBox textBoxNewsArticlePath;
-        private System.Windows.Forms.Label labelNewsArticlePath;
-        private System.Windows.Forms.Button buttonPdfPathDialog;
-        private System.Windows.Forms.Button buttonAttachOrder;
-        private System.Windows.Forms.GroupBox groupBox8;
-        private System.Windows.Forms.Button FilterOptionRemove_button;
-        private System.Windows.Forms.Button FilterOptionAdd_button;
-        private System.Windows.Forms.Label label17;
-        private System.Windows.Forms.TextBox textBoxFilterValue;
-        private System.Windows.Forms.Label label16;
-        private System.Windows.Forms.ComboBox comboBoxFilterName;
-        private System.Windows.Forms.ListView listViewFilterOptions;
-        private System.Windows.Forms.ColumnHeader columnHeader3;
-        private System.Windows.Forms.ColumnHeader columnHeader4;
-        private System.Windows.Forms.CheckBox cbSmartDepth;
+        private System.Windows.Forms.DataGridViewTextBoxColumn bondContractDetailsMinSize;
+        private System.Windows.Forms.DataGridViewTextBoxColumn bondContractDetailsSizeIncrement;
+        private System.Windows.Forms.DataGridViewTextBoxColumn bondContractDetailsSuggestedSizeIncrement;
+        private System.Windows.Forms.Button histScheduleButton;
+        private System.Windows.Forms.TabPage tabHistoricalSchedule;
+        private System.Windows.Forms.DataGridView historicalScheduleGrid;
+        private System.Windows.Forms.DataGridViewTextBoxColumn historicalSchduleGridStartDateTime;
+        private System.Windows.Forms.DataGridViewTextBoxColumn historicalSchduleGridEndDateTime;
+        private System.Windows.Forms.DataGridViewTextBoxColumn historicalSchduleGridRefDate;
+        private System.Windows.Forms.LinkLabel linkLabelClearHistoricalSchedule;
+        private System.Windows.Forms.Label labelHistoricalSchedule;
+        private System.Windows.Forms.TextBox historicalScheduleOutput;
+        private System.Windows.Forms.Button reqUserInfo;
+        private System.Windows.Forms.CheckBox checkBoxWshFillCompetitors;
+        private System.Windows.Forms.CheckBox checkBoxWshFillPortfolio;
+        private System.Windows.Forms.CheckBox checkBoxWshFillWatchlist;
+        private System.Windows.Forms.TextBox textBoxWshFilter;
+        private System.Windows.Forms.Label labelWshFilter;
+        private System.Windows.Forms.TextBox textBoxWshTotalLimit;
+        private System.Windows.Forms.Label labelWshTotalLimit;
+        private System.Windows.Forms.TextBox textBoxWshEndDate;
+        private System.Windows.Forms.Label labelWshEndDate;
+        private System.Windows.Forms.TextBox textBoxWshStartDate;
+        private System.Windows.Forms.Label labelWshStartDate;
+        private System.Windows.Forms.TextBox conDetIssuerId;
+        private System.Windows.Forms.Label conDetIssuerIdLabel;
+        private System.Windows.Forms.DataGridViewTextBoxColumn symbolSamplesConId2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn symbolSamplesSymbol2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn symbolSamplesSecType2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn symbolSamplesPrimExch2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn symbolSamplesCurrency2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn14;
+        private System.Windows.Forms.DataGridViewTextBoxColumn symbolSamplesDescription2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn symbolSamplesIssuerId2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn symbolSamplesConId;
+        private System.Windows.Forms.DataGridViewTextBoxColumn symbolSamplesSymbol;
+        private System.Windows.Forms.DataGridViewTextBoxColumn symbolSamplesSecType;
+        private System.Windows.Forms.DataGridViewTextBoxColumn symbolSamplesPrimExch;
+        private System.Windows.Forms.DataGridViewTextBoxColumn symbolSamplesCurrency;
+        private System.Windows.Forms.DataGridViewTextBoxColumn symbolSamplesDerivativeSecTypes;
+        private System.Windows.Forms.DataGridViewTextBoxColumn symbolSamplesDescription;
+        private System.Windows.Forms.DataGridViewTextBoxColumn symbolSamplesIssuerId;
         private System.Windows.Forms.DataGridViewTextBoxColumn marketDataContract;
         private System.Windows.Forms.DataGridViewTextBoxColumn marketDataTypeTickerColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn bidSize;
@@ -8168,43 +8615,10 @@ namespace IBSampleApp
         private System.Windows.Forms.DataGridViewTextBoxColumn futuresOpenInterestTickerColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn avgOptVolumeTickerColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn shortableSharesTickerColumn;
-        private System.Windows.Forms.GroupBox completedOrdersGroup;
-        private System.Windows.Forms.Button completedOrdersButton;
-        private System.Windows.Forms.DataGridView completedOrdersGrid;
-        private System.Windows.Forms.DataGridViewTextBoxColumn completedOrdersBoxColumn1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn completedOrdersBoxColumn2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn completedOrdersBoxColumn3;
-        private System.Windows.Forms.DataGridViewTextBoxColumn completedOrdersBoxColumn4;
-        private System.Windows.Forms.DataGridViewTextBoxColumn completedOrdersBoxColumn5;
-        private System.Windows.Forms.DataGridViewTextBoxColumn completedOrdersBoxColumn6;
-        private System.Windows.Forms.DataGridViewTextBoxColumn completedOrdersBoxColumn7;
-        private System.Windows.Forms.DataGridViewTextBoxColumn completedOrdersBoxColumn8;
-        private System.Windows.Forms.DataGridViewTextBoxColumn completedOrdersBoxColumn9;
-        private System.Windows.Forms.DataGridViewTextBoxColumn completedOrdersBoxColumn10;
-        private System.Windows.Forms.DataGridViewTextBoxColumn completedOrdersBoxColumn11;
-        private System.Windows.Forms.DataGridViewTextBoxColumn completedOrdersBoxColumn12;
-        private System.Windows.Forms.DataGridViewTextBoxColumn completedOrdersBoxColumn13;
-        private System.Windows.Forms.DataGridViewTextBoxColumn conResSymbol;
-        private System.Windows.Forms.DataGridViewTextBoxColumn conResLocalSymbol;
-        private System.Windows.Forms.DataGridViewTextBoxColumn conResSecType;
-        private System.Windows.Forms.DataGridViewTextBoxColumn conResCurrency;
-        private System.Windows.Forms.DataGridViewTextBoxColumn conResExchange;
-        private System.Windows.Forms.DataGridViewTextBoxColumn conResPrimaryExch;
-        private System.Windows.Forms.DataGridViewTextBoxColumn conResLastTradeDate;
-        private System.Windows.Forms.DataGridViewTextBoxColumn conResMultiplier;
-        private System.Windows.Forms.DataGridViewTextBoxColumn conResStrike;
-        private System.Windows.Forms.DataGridViewTextBoxColumn conResRight;
-        private System.Windows.Forms.DataGridViewTextBoxColumn conResConId;
-        private System.Windows.Forms.DataGridViewTextBoxColumn conResMdSizeMultiplier;
-        private System.Windows.Forms.DataGridViewTextBoxColumn conResAggGroup;
-        private System.Windows.Forms.DataGridViewTextBoxColumn conResUnderSymbol;
-        private System.Windows.Forms.DataGridViewTextBoxColumn conResUnderSecType;
-        private System.Windows.Forms.DataGridViewTextBoxColumn conResMarketRuleIds;
-        private System.Windows.Forms.DataGridViewTextBoxColumn conResRealExpirationDate;
-        private System.Windows.Forms.DataGridViewTextBoxColumn conResContractMonth;
-        private System.Windows.Forms.DataGridViewTextBoxColumn conResLastTradeTime;
-        private System.Windows.Forms.DataGridViewTextBoxColumn conResTimeZoneId;
-        private System.Windows.Forms.DataGridViewTextBoxColumn conResStockType;
+        private System.Windows.Forms.DataGridViewTextBoxColumn estimatedIPOMidpointTickerColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn finalIPOLastTickerColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn yieldBidTickerColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn yieldAskTickerColumn;
     }
 }
 

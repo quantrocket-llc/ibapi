@@ -48,7 +48,7 @@ Public Sub RequestContractDetails_Click()
         .Strike = contractTable(id, Col_STRIKE).value
         .Right = UCase(contractTable(id, Col_RIGHT).value)
         .multiplier = UCase(contractTable(id, Col_MULTIPLIER).value)
-        .exchange = UCase(contractTable(id, Col_EXCH).value)
+        .Exchange = UCase(contractTable(id, Col_EXCH).value)
         .primaryExchange = UCase(contractTable(id, Col_PRIMEXCH).value)
         .currency = UCase(contractTable(id, Col_CURRENCY).value)
         .localSymbol = UCase(contractTable(id, Col_LOCALSYMBOL).value)
@@ -100,7 +100,7 @@ Public Sub UpdateContractDetails(ByVal reqId As Long, ByVal ContractDetails As T
         .Cells(5).value = contract.Strike
         .Cells(6).value = contract.Right
         .Cells(7).value = contract.multiplier
-        .Cells(8).value = contract.exchange
+        .Cells(8).value = contract.Exchange
         .Cells(9).value = contract.primaryExchange
         .Cells(10).value = contract.currency
         .Cells(11).value = contract.localSymbol
@@ -121,13 +121,15 @@ Public Sub UpdateContractDetails(ByVal reqId As Long, ByVal ContractDetails As T
         .Cells(26).value = ContractDetails.liquidHours
         .Cells(27).value = ContractDetails.evRule
         .Cells(28).value = ContractDetails.evMultiplier
-        .Cells(29).value = ContractDetails.mdSizeMultiplier
-        .Cells(30).value = ContractDetails.aggGroup
-        .Cells(31).value = ContractDetails.underSymbol
-        .Cells(32).value = ContractDetails.underSecType
-        .Cells(33).value = ContractDetails.marketRuleIds
-        .Cells(34).value = ContractDetails.realExpirationDate
-        .Cells(35).value = ContractDetails.stockType
+        .Cells(29).value = ContractDetails.aggGroup
+        .Cells(30).value = ContractDetails.underSymbol
+        .Cells(31).value = ContractDetails.underSecType
+        .Cells(32).value = ContractDetails.marketRuleIds
+        .Cells(33).value = ContractDetails.realExpirationDate
+        .Cells(34).value = ContractDetails.stockType
+        .Cells(35).value = Util.DecimalToString(ContractDetails.minSize)
+        .Cells(36).value = Util.DecimalToString(ContractDetails.sizeIncrement)
+        .Cells(37).value = Util.DecimalToString(ContractDetails.suggestedSizeIncrement)
     End With
     
     IncrementSheetRowId sheet
@@ -167,13 +169,15 @@ Private Sub InitialiseSheet(sheet As Worksheet)
     sheet.Cells(2, 26).value = "Liquid Hours"
     sheet.Cells(2, 27).value = "EvRule"
     sheet.Cells(2, 28).value = "EvMultiplier"
-    sheet.Cells(2, 29).value = "MD Size Multiplier"
-    sheet.Cells(2, 30).value = "Agg Group"
-    sheet.Cells(2, 31).value = "Under Symbol"
-    sheet.Cells(2, 32).value = "Under SecType"
-    sheet.Cells(2, 33).value = "Market Rule Ids"
-    sheet.Cells(2, 34).value = "RealExpirationDate"
-    sheet.Cells(2, 35).value = "Stock Type"
+    sheet.Cells(2, 29).value = "Agg Group"
+    sheet.Cells(2, 30).value = "Under Symbol"
+    sheet.Cells(2, 31).value = "Under SecType"
+    sheet.Cells(2, 32).value = "Market Rule Ids"
+    sheet.Cells(2, 33).value = "RealExpirationDate"
+    sheet.Cells(2, 34).value = "Stock Type"
+    sheet.Cells(2, 35).value = "Min Size"
+    sheet.Cells(2, 36).value = "Size Incr"
+    sheet.Cells(2, 37).value = "Sugg Size Incr"
 End Sub
 
 
@@ -197,7 +201,7 @@ End Sub
 
 Public Sub ProcessError(ByVal id As Long, ByVal errorCode As Long, ByVal errorMsg As String)
     
-    queryTable(id - ID_CONTRACTDETAILS, Col_STATUS).value = STR_ERROR + STR_COLON + Str(errorCode) + STR_SPACE + errorMsg
+    queryTable(id - ID_CONTRACTDETAILS, Col_STATUS).value = STR_ERROR + STR_COLON + str(errorCode) + STR_SPACE + errorMsg
         
 End Sub
 

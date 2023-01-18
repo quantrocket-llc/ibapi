@@ -98,6 +98,10 @@ class EDecoder implements ObjectInput {
     private static final int COMPLETED_ORDER = 101;
     private static final int COMPLETED_ORDERS_END = 102;
     private static final int REPLACE_FA_END = 103;
+    private static final int WSH_META_DATA = 104;
+    private static final int WSH_EVENT_DATA = 105;
+    private static final int HISTORICAL_SCHEDULE = 106;
+    private static final int USER_INFO = 107;
 
     static final int MAX_MSG_LENGTH = 0xffffff;
     private static final int REDIRECT_MSG_ID = -1;
@@ -482,8 +486,24 @@ class EDecoder implements ObjectInput {
                 processReplaceFAEndMsg();
                 break;
                 
+            case WSH_META_DATA:
+            	processWshMetaData();
+            	break;
+            	
+            case WSH_EVENT_DATA:
+            	processWshEventData();
+            	break;
+
+            case HISTORICAL_SCHEDULE:
+                processHistoricalSchedule();
+                break;
+
+            case USER_INFO:
+                processUserInfo();
+                break;
+                
             default: {
-                m_EWrapper.error( EClientErrors.NO_VALID_ID, EClientErrors.UNKNOWN_ID.code(), EClientErrors.UNKNOWN_ID.msg());
+                m_EWrapper.error( EClientErrors.NO_VALID_ID, EClientErrors.UNKNOWN_ID.code(), EClientErrors.UNKNOWN_ID.msg(), null);
                 return 0;
             }
         }
@@ -506,7 +526,7 @@ class EDecoder implements ObjectInput {
             tickAttribLast.unreported(mask.get(1));
             
             double price = readDouble();
-            long size = readLong();
+            Decimal size = readDecimal();
             String exchange = readStr(),
                    specialConditions = readStr();
 
@@ -533,8 +553,8 @@ class EDecoder implements ObjectInput {
             
             double priceBid = readDouble(),
                    priceAsk = readDouble();
-            long sizeBid = readLong(),
-                 sizeAsk = readLong();
+            Decimal sizeBid = readDecimal(),
+                    sizeAsk = readDecimal();
 
             ticks.add(new HistoricalTickBidAsk(time, tickAttribBidAsk, priceBid, priceAsk, sizeBid, sizeAsk));
         }
@@ -554,7 +574,7 @@ class EDecoder implements ObjectInput {
             long time = readLong();
             readInt();//for consistency
             double price = readDouble();
-            long size = readLong();
+            Decimal size = readDecimal();
             
             ticks.add(new HistoricalTick(time, price, size));
         }
@@ -605,15 +625,15 @@ class EDecoder implements ObjectInput {
         double close = readDouble();
         double high = readDouble();
         double low = readDouble();
-        double WAP = readDouble();
-        long volume = readLong();
+        Decimal WAP = readDecimal();
+        Decimal volume = readDecimal();
 
         m_EWrapper.historicalDataUpdate(reqId, new Bar(date, open, high, low, close, volume, barCount, WAP));
     }
 
     private void processPnLSingleMsg() throws IOException {
     	int reqId = readInt();
-    	int pos = readInt();
+    	Decimal pos = readDecimal();
     	double dailyPnL = readDouble();
     	double unrealizedPnL = Double.MAX_VALUE;
         double realizedPnL = Double.MAX_VALUE;
@@ -654,7 +674,7 @@ class EDecoder implements ObjectInput {
     	List<HistogramEntry> items = new ArrayList<>(n);
     	
     	for (int i = 0; i < n; i++) {
-    		items.add(new HistogramEntry(readDouble(), readLong()));
+    		items.add(new HistogramEntry(readDouble(), readDecimal()));
     	}
     	
     	m_EWrapper.histogramData(reqId, items);
@@ -767,6 +787,11 @@ class EDecoder implements ObjectInput {
                     {
                         derivativeSecTypes[j] = readStr();
                     }
+                }
+
+                if (m_serverVersion >= EClient.MIN_SERVER_VER_BOND_ISSUERID) {
+                    contract.description(readStr());
+                    contract.issuerId(readStr());
                 }
 
                 ContractDescription contractDescription = new ContractDescription(contract, derivativeSecTypes);
@@ -958,8 +983,8 @@ class EDecoder implements ObjectInput {
 		double high = readDouble();
 		double low = readDouble();
 		double close = readDouble();
-		long volume = readLong();
-		double wap = readDouble();
+		Decimal volume = readDecimal();
+		Decimal wap = readDecimal();
 		int count = readInt();
 		m_EWrapper.realtimeBar(reqId, time, open, high, low, close, volume, wap, count);
 	}
@@ -998,8 +1023,8 @@ class EDecoder implements ObjectInput {
 	        double high = readDouble();
 	        double low = readDouble();
 	        double close = readDouble();
-            long volume = m_serverVersion < EClient.MIN_SERVER_VER_SYNT_REALTIME_BARS ? readInt() : readLong();
-	        double WAP = readDouble();
+            Decimal volume = readDecimal();
+	        Decimal WAP = readDecimal();
 	        
 	        if (m_serverVersion < EClient.MIN_SERVER_VER_SYNT_REALTIME_BARS) {	        
 	            /*String hasGaps = */readStr();
@@ -1051,7 +1076,7 @@ class EDecoder implements ObjectInput {
 		int operation = readInt();
 		int side = readInt();
 		double price = readDouble();
-		int size = readInt();
+		Decimal size = readDecimal();
 		
 		boolean isSmartDepth = false;
 		if (m_serverVersion >= EClient.MIN_SERVER_VER_SMART_DEPTH) {
@@ -1070,7 +1095,7 @@ class EDecoder implements ObjectInput {
 		int operation = readInt();
 		int side = readInt();
 		double price = readDouble();
-		int size = readInt();
+		Decimal size = readDecimal();
 
 		m_EWrapper.updateMktDepth(id, position, operation,
 		                side, price, size);
@@ -1117,12 +1142,7 @@ class EDecoder implements ObjectInput {
 		exec.acctNumber(readStr());
 		exec.exchange(readStr());
 		exec.side(readStr());
-		
-		if (m_serverVersion >= EClient.MIN_SERVER_VER_FRACTIONAL_POSITIONS)			
-			exec.shares(readDouble());
-		else
-			exec.shares(readInt());
-				
+		exec.shares(readDecimal());
 		exec.price(readDouble());
 		if ( version >= 2 ) {
 		    exec.permId(readInt());
@@ -1134,7 +1154,7 @@ class EDecoder implements ObjectInput {
 		    exec.liquidation(readInt());
 		}
 		if (version >= 6) {
-			exec.cumQty(readDouble());
+			exec.cumQty(readDecimal());
 			exec.avgPrice(readDouble());
 		}
 		if (version >= 8) {
@@ -1157,7 +1177,10 @@ class EDecoder implements ObjectInput {
 	}
 
 	private void processBondContractDataMsg() throws IOException {
-		int version = readInt();
+		int version = 6;
+		if (m_serverVersion < EClient.MIN_SERVER_VER_SIZE_RULES) {
+			version = readInt();
+		}
 
 		int reqId = -1;
 		if (version >= 3) {
@@ -1185,8 +1208,8 @@ class EDecoder implements ObjectInput {
 		contract.contract().tradingClass(readStr());
 		contract.contract().conid(readInt());
 		contract.minTick(readDouble());
-		if (m_serverVersion >= EClient.MIN_SERVER_VER_MD_SIZE_MULTIPLIER) {
-			contract.mdSizeMultiplier(readInt());
+		if (m_serverVersion >= EClient.MIN_SERVER_VER_MD_SIZE_MULTIPLIER && m_serverVersion < EClient.MIN_SERVER_VER_SIZE_RULES) {
+			readInt(); // mdSizeMultiplier - not used anymore
 		}
 		contract.orderTypes(readStr());
 		contract.validExchanges(readStr());
@@ -1221,12 +1244,20 @@ class EDecoder implements ObjectInput {
 		if (m_serverVersion >= EClient.MIN_SERVER_VER_MARKET_RULES) {
 			contract.marketRuleIds(readStr());
 		}
+		if (m_serverVersion >= EClient.MIN_SERVER_VER_SIZE_RULES) {
+		    contract.minSize(readDecimal());
+		    contract.sizeIncrement(readDecimal());
+		    contract.suggestedSizeIncrement(readDecimal());
+		}
 		
 		m_EWrapper.bondContractDetails( reqId, contract);
 	}
 
 	private void processContractDataMsg() throws IOException {
-		int version = readInt();
+		int version = 8;
+		if (m_serverVersion < EClient.MIN_SERVER_VER_SIZE_RULES) {
+			version = readInt();
+		}
 
 		int reqId = -1;
 		if (version >= 3) {
@@ -1246,8 +1277,8 @@ class EDecoder implements ObjectInput {
 		contract.contract().tradingClass(readStr());
 		contract.contract().conid(readInt());
 		contract.minTick(readDouble());
-		if (m_serverVersion >= EClient.MIN_SERVER_VER_MD_SIZE_MULTIPLIER) {
-			contract.mdSizeMultiplier(readInt());
+		if (m_serverVersion >= EClient.MIN_SERVER_VER_MD_SIZE_MULTIPLIER && m_serverVersion < EClient.MIN_SERVER_VER_SIZE_RULES) {
+			readInt(); // mdSizeMultiplier - not used anymore
 		}
 		contract.contract().multiplier(readStr());
 		contract.orderTypes(readStr());
@@ -1303,7 +1334,15 @@ class EDecoder implements ObjectInput {
 		if (m_serverVersion >= EClient.MIN_SERVER_VER_STOCK_TYPE) {
 		    contract.stockType(readStr());
 		}
-
+		if (m_serverVersion >= EClient.MIN_SERVER_VER_FRACTIONAL_SIZE_SUPPORT && m_serverVersion < EClient.MIN_SERVER_VER_SIZE_RULES) {
+		    readDecimal(); // sizeMinTick - not used anymore
+		}
+		if (m_serverVersion >= EClient.MIN_SERVER_VER_SIZE_RULES) {
+		    contract.minSize(readDecimal());
+		    contract.sizeIncrement(readDecimal());
+		    contract.suggestedSizeIncrement(readDecimal());
+		}
+		
 		m_EWrapper.contractDetails( reqId, contract);
 	}
 
@@ -1427,6 +1466,10 @@ class EDecoder implements ObjectInput {
         eOrderDecoder.readIsOmsContainer();
         eOrderDecoder.readDiscretionaryUpToLimitPrice();
         eOrderDecoder.readUsePriceMgmtAlgo();
+        eOrderDecoder.readDuration();
+        eOrderDecoder.readPostToAts();
+        eOrderDecoder.readAutoCancelParent(EClient.MIN_SERVER_VER_AUTO_CANCEL_PARENT);
+        eOrderDecoder.readPegBestPegMidOrderAttributes();
 
         m_EWrapper.openOrder(order.orderId(), contract, order, orderState);
     }
@@ -1440,7 +1483,11 @@ class EDecoder implements ObjectInput {
 		    int id = readInt();
 		    int errorCode   = readInt();
 		    String errorMsg = m_serverVersion >= EClient.MIN_SERVER_VER_ENCODE_MSG_ASCII7 ? decodeUnicodeEscapedString(readStr()) : readStr();
-		    m_EWrapper.error(id, errorCode, errorMsg);
+		    String advancedOrderRejectJson = null;
+		    if (m_serverVersion >= EClient.MIN_SERVER_VER_ADVANCED_ORDER_REJECT) {
+		        advancedOrderRejectJson = decodeUnicodeEscapedString(readStr());
+		    }
+	        m_EWrapper.error(id, errorCode, errorMsg, advancedOrderRejectJson);
 		}
 	}
 
@@ -1473,7 +1520,7 @@ class EDecoder implements ObjectInput {
 		    contract.tradingClass(readStr());
 		}
 
-		double position = m_serverVersion >= EClient.MIN_SERVER_VER_FRACTIONAL_POSITIONS ? readDouble() : readInt();
+		Decimal position = readDecimal();
 		double marketPrice = readDouble();
 		double marketValue = readDouble();
 		double  averageCost = 0.0;
@@ -1514,8 +1561,8 @@ class EDecoder implements ObjectInput {
 		int version = m_serverVersion >= EClient.MIN_SERVER_VER_MARKET_CAP_PRICE ? Integer.MAX_VALUE : readInt();
 		int id = readInt();
 		String status = readStr();
-		double filled = m_serverVersion >= EClient.MIN_SERVER_VER_FRACTIONAL_POSITIONS ? readDouble() : readInt();
-		double remaining = m_serverVersion >= EClient.MIN_SERVER_VER_FRACTIONAL_POSITIONS ? readDouble() : readInt();
+		Decimal filled = readDecimal();
+		Decimal remaining = readDecimal();
 		double avgFillPrice = readDouble();
 
 		int permId = 0;
@@ -1682,7 +1729,7 @@ class EDecoder implements ObjectInput {
 			contract.tradingClass(readStr());
 		}
 
-		double pos = m_serverVersion >= EClient.MIN_SERVER_VER_FRACTIONAL_POSITIONS ? readDouble() : readInt();
+		Decimal pos = readDecimal();
 		double avgCost = 0;
 		if (version >= 3) {
 			avgCost = readDouble();
@@ -1695,7 +1742,7 @@ class EDecoder implements ObjectInput {
 		/*int version =*/ readInt();
 		int tickerId = readInt();
 		int tickType = readInt();
-		int size = readInt();
+		Decimal size = readDecimal();
 
 		m_EWrapper.tickSize( tickerId, tickType, size);
 	}
@@ -1705,11 +1752,11 @@ class EDecoder implements ObjectInput {
 		int tickerId = readInt();
 		int tickType = readInt();
 		double price = readDouble();
-		int size = 0;
+		Decimal size = Decimal.INVALID;
 		TickAttrib attribs = new TickAttrib();
 		
 		if( version >= 2) {
-		    size = readInt();
+		    size = readDecimal();
 		}
 		
 		if (version >= 3) {		
@@ -1778,7 +1825,7 @@ class EDecoder implements ObjectInput {
         contract.currency(readStr());
         contract.localSymbol(readStr());
         contract.tradingClass(readStr());
-        double pos = readDouble();
+        Decimal pos = readDecimal();
         double avgCost = readDouble();
         String modelCode = readStr();
 
@@ -1848,7 +1895,7 @@ class EDecoder implements ObjectInput {
             case 1: // Last
             case 2: // AllLast
                 double price = readDouble();
-                int size = readInt();
+                Decimal size = readDecimal();
                 mask = new BitMask(readInt());
                 TickAttribLast tickAttribLast = new TickAttribLast();
                 tickAttribLast.pastLimit(mask.get(0));
@@ -1860,8 +1907,8 @@ class EDecoder implements ObjectInput {
             case 3: // BidAsk
                 double bidPrice = readDouble();
                 double askPrice = readDouble();
-                int bidSize = readInt();
-                int askSize = readInt();
+                Decimal bidSize = readDecimal();
+                Decimal askSize = readDecimal();
                 mask = new BitMask(readInt());
                 TickAttribBidAsk tickAttribBidAsk = new TickAttribBidAsk();
                 tickAttribBidAsk.bidPastLow(mask.get(0));
@@ -1953,6 +2000,7 @@ class EDecoder implements ObjectInput {
         eOrderDecoder.readParentPermId();
         eOrderDecoder.readCompletedTime();
         eOrderDecoder.readCompletedStatus();
+        eOrderDecoder.readPegBestPegMidOrderAttributes();
 
         m_EWrapper.completedOrder(contract, order, orderState);
     }
@@ -1968,10 +2016,49 @@ class EDecoder implements ObjectInput {
         m_EWrapper.replaceFAEnd(reqId, text);
     }
     
+    private void processWshMetaData() throws IOException {
+    	int reqId = readInt();
+    	String dataJson = readStr();
+    	
+    	m_EWrapper.wshMetaData(reqId, dataJson);
+    }
+    
+    private void processWshEventData() throws IOException {
+    	int reqId = readInt();    	
+    	String dataJson = readStr();
+    	
+    	m_EWrapper.wshEventData(reqId, dataJson);
+    }
+
+    private void processHistoricalSchedule() throws IOException {
+        int reqId = readInt();
+        String startDateTime = readStr();
+        String endDateTime = readStr();
+        String timeZone = readStr();
+
+        int sessionsCount = readInt();
+        List<HistoricalSession> sessions = new ArrayList<>();
+        for (int i = 0; i < sessionsCount; i++) {
+            String sessionStartDateTime = readStr();
+            String sessionEndDateTime = readStr();
+            String sessionRefDate = readStr();
+            sessions.add(new HistoricalSession(sessionStartDateTime, sessionEndDateTime, sessionRefDate));
+        }
+
+        m_EWrapper.historicalSchedule(reqId, startDateTime, endDateTime, timeZone, sessions);
+    }
+    
+    private void processUserInfo() throws IOException {
+        int reqId = readInt();
+        String whiteBrandingId = readStr();
+
+        m_EWrapper.userInfo(reqId, whiteBrandingId);
+    }
+    
     private void readLastTradeDate(ContractDetails contract, boolean isBond) throws IOException {
         String lastTradeDateOrContractMonth = readStr();
         if (lastTradeDateOrContractMonth != null) {
-            String[] splitted = lastTradeDateOrContractMonth.split("\\s+");
+            String[] splitted = lastTradeDateOrContractMonth.contains("-") ? lastTradeDateOrContractMonth.split("-") : lastTradeDateOrContractMonth.split("\\s+");
             if (splitted.length > 0) {
                 if (isBond) {
                     contract.maturity(splitted[0]);
@@ -2024,6 +2111,14 @@ class EDecoder implements ObjectInput {
         	                                      : Double.parseDouble( str);
     }
 
+    public Decimal readDecimal() throws IOException {
+        String str = readStr();
+        return (str == null || str.isEmpty() || 
+                str.equals(String.valueOf(Long.MAX_VALUE)) ||
+                str.equals(String.valueOf(Integer.MAX_VALUE)) ||
+                str.equals(String.valueOf(Double.MAX_VALUE))) ? Decimal.INVALID : Decimal.parse(str);
+    }
+    
     /** Message reader interface */
     private interface IMessageReader extends Closeable {
     	String readStr() throws IOException;
@@ -2069,6 +2164,11 @@ class EDecoder implements ObjectInput {
     }
     
     static String decodeUnicodeEscapedString(String str) {    
+        
+        if (str == null) {
+            return str;
+        }
+        
         String v = new String(str);
         
         try {

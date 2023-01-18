@@ -15,6 +15,7 @@ import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 
 import com.ib.client.Contract;
+import com.ib.client.Decimal;
 import com.ib.controller.ApiController.IPositionHandler;
 import com.ib.controller.Formats;
 
@@ -76,7 +77,7 @@ public class PositionsPanel extends NewTabPanel {
 		Map<PositionKey,PositionRow> m_map = new HashMap<>();
 		List<PositionRow> m_list = new ArrayList<>();
 
-		@Override public void position(String account, Contract contract, double position, double avgCost) {
+		@Override public void position(String account, Contract contract, Decimal position, double avgCost) {
 			PositionKey key = new PositionKey( account, contract.conid() );
 			PositionRow row = m_map.get( key);
 			if (row == null) {
@@ -125,7 +126,7 @@ public class PositionsPanel extends NewTabPanel {
 			
 			switch( col) {
 				case 0: return row.m_account;
-				case 1: return row.m_contract.description();
+				case 1: return row.m_contract.textDescription();
 				case 2: return row.m_position;
 				case 3: return Formats.fmt( row.m_avgCost);
 				default: return null;
@@ -161,10 +162,10 @@ public class PositionsPanel extends NewTabPanel {
 	private static class PositionRow {
 		String m_account;
 		Contract m_contract;
-		double m_position;
+		Decimal m_position;
 		double m_avgCost;
 
-		void update(String account, Contract contract, double position, double avgCost) {
+		void update(String account, Contract contract, Decimal position, double avgCost) {
 			m_account = account;
 			m_contract = contract;
 			m_position = position;

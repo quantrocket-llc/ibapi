@@ -62,7 +62,7 @@ public class EReader extends Thread {
         	//if (parent().isConnected()) {
         		if( ex instanceof EOFException ) {
             		eWrapper().error(EClientErrors.NO_VALID_ID, EClientErrors.BAD_LENGTH.code(),
-            				EClientErrors.BAD_LENGTH.msg() + " " + ex.getMessage());
+            				EClientErrors.BAD_LENGTH.msg() + " " + ex.getMessage(), null);
         		}
         		else {
         			eWrapper().error( ex);

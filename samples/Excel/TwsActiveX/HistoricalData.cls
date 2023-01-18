@@ -62,10 +62,14 @@ Private Sub CancelHistoricalData_Click()
     ActiveCell.Offset(1, 0).Activate
 End Sub
 
+' request historical schedule click
+Private Sub RequestHistoricalSchedule_Click()
+    ReqHistoricalData 2
+End Sub
+
 ' request historical ticks click
 Private Sub RequestHistoricalTicks_Click()
    ReqHistoricalData 1
-   
 End Sub
 
 ' request historical data click
@@ -93,7 +97,7 @@ Private Sub ReqHistoricalData(reqType As Integer)
         .Strike = IIf(contractTable(id, Col_STRIKE).value = "", 0#, contractTable(id, Col_STRIKE).value)
         .Right = UCase(contractTable(id, Col_RIGHT).value)
         .multiplier = UCase(contractTable(id, Col_MULTIPLIER).value)
-        .exchange = UCase(contractTable(id, Col_EXCH).value)
+        .Exchange = UCase(contractTable(id, Col_EXCH).value)
         .primaryExchange = UCase(contractTable(id, Col_PRIMEXCH).value)
         .currency = UCase(contractTable(id, Col_CURRENCY).value)
         .localSymbol = UCase(contractTable(id, Col_LOCALSYMBOL).value)
@@ -172,7 +176,9 @@ Private Sub ReqHistoricalData(reqType As Integer)
     ElseIf reqType = 1 Then
         ' call reqHistoricalTicks method
         Api.Tws.reqHistoricalTicks id + ID_HISTDATA, lContractInfo, startDateTime, endDateTime, numberOfTicks, whatToShow, useRTH, ignoreSize, chartOptions
-
+    ElseIf reqType = 2 Then
+        ' call reqHistoricalDataEx method with barSize=1 day and whatToShow=SCHEDULE
+        Api.Tws.reqHistoricalDataEx id + ID_HISTDATA, lContractInfo, endDateTime, duration, "1 day", "SCHEDULE", useRTH, formatDate, False, chartOptions
     End If
     
     queryTable(id, Col_HIST_STATUS).value = STR_PROCESSING
@@ -181,7 +187,7 @@ Private Sub ReqHistoricalData(reqType As Integer)
 End Sub
 
 ' update historical data table
-Public Sub UpdateHistoricalData(reqId As Long, histDate As String, histOpen As Double, histHigh As Double, histLow As Double, histClose As Double, histVolume As Long, barCount As Long, WAP As Double, hasGaps As Long)
+Public Sub UpdateHistoricalData(reqId As Long, histDate As String, histOpen As Double, histHigh As Double, histLow As Double, histClose As Double, histVolume As Variant, barCount As Long, WAP As Variant, hasGaps As Long)
     
     reqId = reqId - ID_HISTDATA
     
@@ -204,9 +210,9 @@ Public Sub UpdateHistoricalData(reqId As Long, histDate As String, histOpen As D
         .Cells(3).value = histHigh
         .Cells(4).value = histLow
         .Cells(5).value = histClose
-        .Cells(6).value = histVolume
+        .Cells(6).value = Util.DecimalToString(histVolume)
         .Cells(7).value = barCount
-        .Cells(8).value = WAP
+        .Cells(8).value = Util.DecimalToString(WAP)
         .Cells(9).value = hasGaps
     End With
     
@@ -279,6 +285,12 @@ Private Sub InitialiseHistTicksSheet(sheet As Worksheet)
     sheet.Cells(2, 3).value = "Size"
 End Sub
 
+Private Sub InitialiseHistScheduleSheet(sheet As Worksheet)
+    sheet.Cells.ClearContents
+
+    InitialiseSheetRowId sheet, 3
+End Sub
+
 Private Function GenerateSheetName(contractInfo As TWSLib.IContract, endDateTime As String, duration As String, barSize As String, whatToShow As String, useRTH As Long, formatDate As Long)
     Dim s As String
     s = "Hist" & GenerateContractIdentifier(contractInfo)
@@ -292,7 +304,7 @@ Private Function GenerateSheetName(contractInfo As TWSLib.IContract, endDateTime
 End Function
 
 Public Sub ProcessError(ByVal id As Long, ByVal errorCode As Long, ByVal errorMsg As String)
-    queryTable(id - ID_HISTDATA, Col_HIST_STATUS).value = STR_ERROR + STR_COLON + Str(errorCode) + STR_SPACE + errorMsg
+    queryTable(id - ID_HISTDATA, Col_HIST_STATUS).value = STR_ERROR + STR_COLON + str(errorCode) + STR_SPACE + errorMsg
 End Sub
 
 Public Sub Initialise()
@@ -362,8 +374,8 @@ Public Sub UpdateHistoricalTicksLast(ByVal reqId As Long, ByVal ticks As TWSLib.
         With sheet.Rows(rowId)
             .Cells(1).value = histTickLast.time
             .Cells(2).value = histTickLast.price
-            .Cells(3).value = histTickLast.size
-            .Cells(4).value = histTickLast.exchange
+            .Cells(3).value = Util.DecimalToString(histTickLast.Size)
+            .Cells(4).value = histTickLast.Exchange
             .Cells(5).value = histTickLast.specialConditions
             .Cells(6).value = GenerateTickAttribLastString(histTickLast.tickAttribLast)
         End With
@@ -401,8 +413,8 @@ Public Sub UpdateHistoricalTicksBidAsk(ByVal reqId As Long, ByVal ticks As TWSLi
             .Cells(1).value = histTickBidAsk.time
             .Cells(2).value = histTickBidAsk.priceBid
             .Cells(3).value = histTickBidAsk.priceAsk
-            .Cells(4).value = histTickBidAsk.sizeBid
-            .Cells(5).value = histTickBidAsk.sizeAsk
+            .Cells(4).value = Util.DecimalToString(histTickBidAsk.sizeBid)
+            .Cells(5).value = Util.DecimalToString(histTickBidAsk.sizeAsk)
             .Cells(6).value = GenerateTickAttribBidAskString(histTickBidAsk.tickAttribBidAsk)
         End With
         IncrementSheetRowId sheet
@@ -439,9 +451,50 @@ Public Sub UpdateHistoricalTicks(ByVal reqId As Long, ByVal ticks As TWSLib.IHis
         With sheet.Rows(rowId)
             .Cells(1).value = histTick.time
             .Cells(2).value = histTick.price
-            .Cells(3).value = histTick.size
+            .Cells(3).value = Util.DecimalToString(histTick.Size)
         End With
         IncrementSheetRowId sheet
+    Next i
+    
+    ' finishing
+    queryTable(reqId, Col_HIST_STATUS).value = STR_FINISHED
+    
+    If newPageTable(reqId, Col_ACTIVATESHEET).value Then sheet.Activate
+End Sub
+
+' update historical data table with historical ticks
+Public Sub UpdateHistoricalSchedule(ByVal reqId As Long, ByVal startDateTime As String, ByVal endDateTime As String, ByVal timeZone As String, ByVal sessions As TWSLib.IHistoricalSessionList)
+    reqId = reqId - ID_HISTDATA
+    
+    Dim sheetName As String
+    sheetName = newPageTable(reqId, Col_SHEETNAME).value
+
+    If sheetName = STR_EMPTY Or IsNumeric(sheetName) Then Exit Sub
+    
+    Dim sheet As Worksheet
+    Dim needsInitialising As Boolean
+    Set sheet = FindOrAddSheet(sheetName, needsInitialising)
+    If needsInitialising Then InitialiseHistScheduleSheet sheet
+    
+    sheet.Cells(2, 1).value = "Start Date/Time"
+    sheet.Cells(2, 2).value = "End Date/Time"
+    sheet.Cells(2, 3).value = "Time Zone"
+    sheet.Cells(3, 1).value = startDateTime
+    sheet.Cells(3, 2).value = endDateTime
+    sheet.Cells(3, 3).value = timeZone
+    sheet.Cells(4, 1).value = "Sessions"
+    sheet.Cells(5, 1).value = "Start Date/Time"
+    sheet.Cells(5, 2).value = "End Date/Time"
+    sheet.Cells(5, 3).value = "Ref Date"
+    
+    Dim i As Integer
+    
+    Dim histSession As TWSLib.ComHistoricalSession
+    For i = 1 To sessions.Count
+        Set histSession = sessions.Item(i - 1)
+        sheet.Cells(5 + i, 1).value = histSession.startDateTime
+        sheet.Cells(5 + i, 2).value = histSession.endDateTime
+        sheet.Cells(5 + i, 3).value = histSession.refDate
     Next i
     
     ' finishing

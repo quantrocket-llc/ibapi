@@ -9,5 +9,14 @@
   - \subpage minimum_increment
   - \subpage margin
   - \subpage trigger_method_limit 
+
+  <h2>Changes in the date/time field</h2>
+	With the release of <b>TWS 10.17</b> and <b>TWS API 10.18</b> clients now can send date/time in different formats:
+    <ul>
+      <li>API allows UTC format "yyyymmdd-hh:mm:ss" in date/time fields.</li><br>
+      Example: <i>20220930-15:00:00</i>
+      <li>API allows date/time field format with instrument's exchange timezone (for all non-operator fields) and operator's time zone (for all fields).</li><br>
+      Example: <i>IBM 20220930-15:00:00 US/Eastern</i>
+    </ul>
     
 */

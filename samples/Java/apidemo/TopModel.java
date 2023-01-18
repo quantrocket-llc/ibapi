@@ -4,6 +4,7 @@
 package apidemo;
 
 import static com.ib.controller.Formats.fmt;
+import static com.ib.controller.Formats.fmt8;
 import static com.ib.controller.Formats.fmtPct;
 import static com.ib.controller.Formats.fmtTime;
 
@@ -13,16 +14,18 @@ import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
 import com.ib.client.Contract;
+import com.ib.client.Decimal;
 import com.ib.client.MarketDataType;
 import com.ib.client.TickAttrib;
 import com.ib.client.TickType;
+import com.ib.client.Util;
 import com.ib.controller.ApiController.TopMktDataAdapter;
 import com.ib.controller.Formats;
 
 class TopModel extends AbstractTableModel {
 	private List<TopRow> m_rows = new ArrayList<>();
 	private MarketDataPanel m_parentPanel;
-	private static final int CANCEL_CHBX_COL_INDEX = 26;
+	private static final int CANCEL_CHBX_COL_INDEX = 30;
 	String m_genericTicks = "";
 
 	TopModel(MarketDataPanel parentPanel) {
@@ -34,7 +37,7 @@ class TopModel extends AbstractTableModel {
 	}
 
 	void addRow( Contract contract) {
-		TopRow row = new TopRow( this, contract.description(), m_parentPanel );
+		TopRow row = new TopRow( this, contract.textDescription(), m_parentPanel );
 		m_rows.add( row);
 		ApiDemo.INSTANCE.controller().reqTopMktData(contract, m_genericTicks, false, false, row);
 		fireTableRowsInserted( m_rows.size() - 1, m_rows.size() - 1);
@@ -79,7 +82,7 @@ class TopModel extends AbstractTableModel {
 	}
 	
 	@Override public int getColumnCount() {
-		return 27;
+		return 31;
 	}
 	
 	@Override public String getColumnName(int col) {
@@ -110,6 +113,10 @@ class TopModel extends AbstractTableModel {
 			case 23: return "Futures Open Interest";
 			case 24: return "Avg Opt Volume";
             case 25: return "Shortable Shares";
+            case 26: return "Estimated IPO Midpoint";
+            case 27: return "Final IPO Last";
+            case 28: return "Yield Bid";
+            case 29: return "Yield Ask";
 			case CANCEL_CHBX_COL_INDEX: return "Cancel";
 
 			default: return null;
@@ -122,29 +129,34 @@ class TopModel extends AbstractTableModel {
 			case 0: return row.m_description;
 			case 1: return row.m_bidSize;
 			case 2: return fmt( row.m_bid);
-			case 3: return row.m_bidMask;
+			case 3: return Util.IntMaxString(row.m_bidMask);
 			case 4: return row.m_bidCanAutoExecute;
 			case 5: return row.m_bidPastLimit;
 			case 6: return row.m_preOpenBid;
 			case 7: return fmt( row.m_ask);
 			case 8: return row.m_askSize;
-			case 9: return row.m_askMask;
+			case 9: return Util.IntMaxString(row.m_askMask);
 			case 10: return row.m_askCanAutoExecute;
 			case 11: return row.m_askPastLimit;
 			case 12: return row.m_preOpenAsk;
 			case 13: return fmt( row.m_last);
 			case 14: return fmtTime( row.m_lastTime);
 			case 15: return row.change();
-			case 16: return Formats.fmt0( row.m_volume);
-			case 17: return row.m_minTick;
+			case 16: return row.m_volume;
+			case 17: return fmt8(row.m_minTick);
 			case 18: return row.m_bboExch;
-			case 19: return row.m_snapshotPermissions;
+			case 19: return Util.IntMaxString(row.m_snapshotPermissions);
 			case 20: return fmt( row.m_close);
 			case 21: return fmt( row.m_open);
 			case 22: return row.m_marketDataType;
 			case 23: return row.m_futuresOpenInterest;
 			case 24: return row.m_avgOptVolume;
             case 25: return row.m_shortableShares;
+            case 26: return row.m_estimatedIPOMidpoint;
+            case 27: return row.m_finalIPOLast;
+            case 28: return row.m_yieldBid;
+            case 29: return row.m_yieldAsk;
+            
 			case CANCEL_CHBX_COL_INDEX: return row.m_cancel;
 			default: return null;
 		}
@@ -173,10 +185,10 @@ class TopModel extends AbstractTableModel {
 		double m_ask;
 		double m_last;
 		long m_lastTime;
-		int m_bidSize;
-		int m_askSize;
+		Decimal m_bidSize;
+		Decimal m_askSize;
 		double m_close;
-		int m_volume;
+		Decimal m_volume;
 		double m_open;
 		boolean m_cancel;
 		String m_marketDataType = MarketDataType.getField(MarketDataType.REALTIME);
@@ -188,9 +200,13 @@ class TopModel extends AbstractTableModel {
 		String m_bboExch;
 		int m_snapshotPermissions;
 		int m_bidMask, m_askMask;
-		int m_futuresOpenInterest;
-		int m_avgOptVolume;
-		int m_shortableShares;
+		Decimal m_futuresOpenInterest;
+		Decimal m_avgOptVolume;
+		Decimal m_shortableShares;
+		double m_estimatedIPOMidpoint;
+		double m_finalIPOLast;
+		double m_yieldBid;
+		double m_yieldAsk;
 		
 		TopRow( AbstractTableModel model, String description, MarketDataPanel parentPanel) {
 			m_model = model;
@@ -239,12 +255,26 @@ class TopModel extends AbstractTableModel {
 				case DELAYED_OPEN:
 					m_open = price;
 					break;
+				case ESTIMATED_IPO_MIDPOINT:
+					m_estimatedIPOMidpoint = price;
+					break;
+				case FINAL_IPO_LAST:
+					m_finalIPOLast = price;
+					break;
+				case BID_YIELD:
+				case DELAYED_YIELD_BID:
+					m_yieldBid = price;
+					break;
+				case ASK_YIELD:
+				case DELAYED_YIELD_ASK:
+					m_yieldAsk = price;
+					break;
 				default: break;	
 			}
 			m_model.fireTableDataChanged(); // should use a timer to be more efficient
 		}
 
-		@Override public void tickSize( TickType tickType, int size) {
+		@Override public void tickSize( TickType tickType, Decimal size) {
 			if ( m_marketDataType.equalsIgnoreCase(MarketDataType.getField(MarketDataType.REALTIME)) &&
 					(tickType == TickType.DELAYED_BID_SIZE || 
 					tickType == TickType.DELAYED_ASK_SIZE ||

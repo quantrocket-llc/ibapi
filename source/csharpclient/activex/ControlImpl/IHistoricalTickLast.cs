@@ -15,7 +15,7 @@ namespace TWSLib
         [DispId(3)]
         double price { get; }
         [DispId(4)]
-        int size { get; }
+        object size { get; }
         [DispId(5)]
         string exchange { get; }
         [DispId(6)]

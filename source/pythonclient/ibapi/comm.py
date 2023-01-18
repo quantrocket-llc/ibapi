@@ -13,7 +13,7 @@ import struct
 import logging
 import sys
 
-from ibapi.common import UNSET_INTEGER, UNSET_DOUBLE
+from ibapi.common import UNSET_INTEGER, UNSET_DOUBLE, DOUBLE_INFINITY, INFINITY_STR
 from ibapi.utils import ClientException
 from ibapi.utils import isAsciiPrintable
 from ibapi.errors import INVALID_SYMBOL
@@ -51,6 +51,9 @@ def make_field_handle_empty(val) -> str:
 
     if UNSET_INTEGER == val or UNSET_DOUBLE == val:
         val = ""
+        
+    if DOUBLE_INFINITY == val:
+        val = INFINITY_STR
 
     return make_field(val)
 

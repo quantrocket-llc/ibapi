@@ -56,7 +56,7 @@ class TickByTickModel extends AbstractTableModel {
         case Last:
         case AllLast:
             switch (columnIndex) {
-                case 0: return Util.UnixSecondsToString(row.time(), "yyyyMMdd-HH:mm:ss zzz");
+                case 0: return Util.UnixSecondsToString(row.time(), "yyyyMMdd-HH:mm:ss");
                 case 1: return row.price();
                 case 2: return row.size();
                 case 3: return row.tickAttribLastStr();
@@ -66,7 +66,7 @@ class TickByTickModel extends AbstractTableModel {
             break;
         case BidAsk:
             switch (columnIndex) {
-                case 0: return Util.UnixSecondsToString(row.time(), "yyyyMMdd-HH:mm:ss zzz");
+                case 0: return Util.UnixSecondsToString(row.time(), "yyyyMMdd-HH:mm:ss");
                 case 1: return row.bidPrice();
                 case 2: return row.bidSize();
                 case 3: return row.askPrice();
@@ -76,7 +76,7 @@ class TickByTickModel extends AbstractTableModel {
             break;
         case MidPoint:
             switch (columnIndex) {
-                case 0: return Util.UnixSecondsToString(row.time(), "yyyyMMdd-HH:mm:ss zzz");
+                case 0: return Util.UnixSecondsToString(row.time(), "yyyyMMdd-HH:mm:ss");
                 case 1: return row.midPoint();
             }
             break;

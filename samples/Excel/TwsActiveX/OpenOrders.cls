@@ -12,6 +12,108 @@ Option Explicit
 '=================
 ' local constants
 '=================
+Private Enum ExtendedOpenOrderAttributesColumns
+    Col_TIMEINFORCE = 1
+    Col_OCAGROUP
+    Col_ACCOUNT
+    Col_OPENCLOSE
+    Col_ORIGIN
+    Col_ORDERREF
+    Col_TRANSMIT
+    Col_PARENTORDID
+    Col_BLOCKORDER
+    Col_SWEEPTOFILL
+    Col_DISPLAYSIZE
+    Col_TRIGGERMETHOD
+    Col_HIDDEN
+    Col_DISCRAMOUNT
+    Col_GOODAFTERTIME
+    Col_GOODTILLDATE
+    Col_FAGROUP
+    Col_FAMETHOD
+    Col_FAPERCENTAGE
+    Col_SHORTSALESLOT
+    Col_DESIGNLOC
+    Col_EXEMPTCODE
+    Col_OCATYPE
+    Col_RULE80A
+    Col_SETTLINGFIRM
+    Col_ALLORNONE
+    Col_MINQTY
+    Col_PERCENTOFFSET
+    Col_OPT_OUT_SMART_ROUTING
+    Col_AUCTIONSTRAT
+    Col_STARTINGPRICE
+    Col_STOCKREFPRICE
+    Col_DELTA
+    Col_STOCKRANGELOWER
+    Col_STOCKRANGEUPPER
+    Col_VOLATILITY
+    Col_VOLATILITYTYPE
+    Col_REFPRICETYPE
+    Col_DELTANEUORDTYPE
+    Col_CONTUPD
+    Col_DELTANEUAUXPRICE
+    Col_DELTANEUCONID
+    Col_DELTANEUSETTLINGFIRM
+    Col_DELTANEUCLEARINGACCOUNT
+    Col_DELTANEUCLEARINGINTENT
+    Col_DELTANEUOPENCLOSE
+    Col_DELTANEUSHORTSALE
+    Col_DELTANEUSHORTSALESLOT
+    Col_DELTANEUDESIGNATEDLOCATION
+    Col_TRAILSTOPPRICE
+    Col_TRAILINGPERCENT
+    Col_SCALEINITLVLSIZE
+    Col_SCALESUBSLVLSIZE
+    Col_SCALEPRICEINCR
+    Col_SCALEPRICEADJUSTVALUE
+    Col_SCALEPRICEADJUSTINTERVAL
+    Col_SCALEPROFITOFFSET
+    Col_SCALEAUTORESET
+    Col_SCALEINITPOSITION
+    Col_SCALEINITFILLQTY
+    Col_SCALERANDOMPERCENT
+    Col_OUTSIDERTH
+    Col_OVERRIDEPERCONS
+    Col_CLEARACC
+    Col_CLEARINT
+    Col_BASISPTS
+    Col_BASISPTSTYPE
+    Col_SMART_COMBO_ROUTING_PARAMS
+    Col_SOLICITED
+    Col_RANDOMIZE_SIZE
+    Col_RANDOMIZE_PRICE
+    Col_REFERENCE_CONTRACT_ID
+    Col_REFERENCE_EXCHANGE
+    Col_PEGGED_CHANGE_AMOUNT
+    Col_REFERENCE_CHANGE_AMOUNT
+    Col_IS_PEGGED_CHANGE_AMOUNT_DECREASE
+    Col_ADJUSTED_ORDER_TYPE
+    Col_TRIGGER_PRICE
+    Col_ADJUSTED_STOP_PRICE
+    Col_ADJUSTED_STOP_LIMIT_PRICE
+    Col_ADJUSTED_TRAILING_AMOUNT
+    Col_ADJUSTABLE_TRAILING_UNIT
+    Col_CONDITIONS
+    Col_CONDITIONS_IGNORE_RTH
+    Col_CONDITIONS_CANCEL_ORDER
+    Col_MODELCODE
+    Col_EXT_OPERATOR
+    Col_SOFT_DOLLAR_TIER
+    Col_IS_OMS_CONTAINER
+    Col_RELATIVE_DISCRETIONARY
+    Col_USEPRICEMGMTALGO
+    Col_DURATION
+    Col_POST_TO_ATS
+    Col_NOT_HELD
+    Col_AUTO_CANCEL_PARENT
+    Col_MIN_TRADE_QTY
+    Col_MIN_COMPETE_SIZE
+    Col_COMPETE_AGAINST_BEST_OFFSET
+    Col_MID_OFFSET_AT_WHOLE
+    Col_MID_OFFSET_AT_HALF
+End Enum
 
 Private contractTable As Range
 Private orderDescriptionTable As Range
@@ -81,7 +183,7 @@ Sub UpdateOpenOrder(orderId As Long, contract As TWSLib.IContract, order As TWSL
         contractTable(rowId, Col_STRIKE).value = .Strike
         contractTable(rowId, Col_RIGHT).value = .Right
         contractTable(rowId, Col_MULTIPLIER).value = .multiplier
-        contractTable(rowId, Col_EXCH).value = .exchange
+        contractTable(rowId, Col_EXCH).value = .Exchange
         contractTable(rowId, Col_PRIMEXCH).value = .primaryExchange
         contractTable(rowId, Col_CURRENCY).value = .currency
         contractTable(rowId, Col_LOCALSYMBOL).value = .localSymbol
@@ -93,7 +195,7 @@ Sub UpdateOpenOrder(orderId As Long, contract As TWSLib.IContract, order As TWSL
     With order
         orderStatusTable(rowId, Col_ORDERID).value = orderId
         orderDescriptionTable(rowId, Col_ACTION).value = .action
-        orderDescriptionTable(rowId, Col_TOTALQTY).value = .totalQuantity
+        orderDescriptionTable(rowId, Col_TOTALQTY).value = Util.DecimalToString(.totalQuantity)
         orderDescriptionTable(rowId, Col_CASH_QTY).value = Util.DblMaxStr(.cashQty)
         orderDescriptionTable(rowId, Col_ORDERTYPE).value = .orderType
         orderDescriptionTable(rowId, Col_LMTPRICE).value = Util.DblMaxStr(.lmtPrice)
@@ -125,7 +227,6 @@ Sub UpdateOpenOrder(orderId As Long, contract As TWSLib.IContract, order As TWSL
         ExtendedAttributesTable(rowId, Col_FAGROUP).value = .faGroup
         ExtendedAttributesTable(rowId, Col_FAMETHOD).value = .faMethod
         ExtendedAttributesTable(rowId, Col_FAPERCENTAGE).value = .faPercentage
-        ExtendedAttributesTable(rowId, Col_FAPROFILE).value = .faProfile
         ExtendedAttributesTable(rowId, Col_SHORTSALESLOT).value = .shortSaleSlot
         ExtendedAttributesTable(rowId, Col_DESIGNLOC).value = .designatedLocation
         ExtendedAttributesTable(rowId, Col_EXEMPTCODE).value = .exemptCode
@@ -135,9 +236,6 @@ Sub UpdateOpenOrder(orderId As Long, contract As TWSLib.IContract, order As TWSL
         ExtendedAttributesTable(rowId, Col_ALLORNONE).value = .allOrNone
         ExtendedAttributesTable(rowId, Col_MINQTY).value = Util.IntMaxStr(.minQty)
         ExtendedAttributesTable(rowId, Col_PERCENTOFFSET).value = Util.DblMaxStr(.percentOffset)
-        ExtendedAttributesTable(rowId, Col_ETRADEONLY).value = .eTradeOnly
-        ExtendedAttributesTable(rowId, Col_FIRMQUOTEONLY).value = .firmQuoteOnly
-        ExtendedAttributesTable(rowId, Col_NBBOPRICECAP).value = Util.DblMaxStr(.nbboPriceCap)
         ExtendedAttributesTable(rowId, Col_AUCTIONSTRAT).value = .auctionStrategy
         ExtendedAttributesTable(rowId, Col_STARTINGPRICE).value = Util.DblMaxStr(.startingPrice)
         ExtendedAttributesTable(rowId, Col_STOCKREFPRICE).value = Util.DblMaxStr(.stockRefPrice)
@@ -200,6 +298,19 @@ Sub UpdateOpenOrder(orderId As Long, contract As TWSLib.IContract, order As TWSL
         ExtendedAttributesTable(rowId, Col_IS_OMS_CONTAINER).value = .isOmsContainer
         ExtendedAttributesTable(rowId, Col_RELATIVE_DISCRETIONARY).value = .discretionaryUpToLimitPrice
         ExtendedAttributesTable(rowId, Col_USEPRICEMGMTALGO).value = .usePriceMgmtAlgo
+        ExtendedAttributesTable(rowId, Col_DURATION).value = Util.IntMaxStr(.duration)
+        ExtendedAttributesTable(rowId, Col_POST_TO_ATS).value = Util.IntMaxStr(.postToAts)
+        ExtendedAttributesTable(rowId, Col_NOT_HELD).value = .notHeld
+        ExtendedAttributesTable(rowId, Col_AUTO_CANCEL_PARENT).value = .autoCancelParent
+        ExtendedAttributesTable(rowId, Col_MIN_TRADE_QTY).value = Util.IntMaxStr(.minTradeQty)
+        ExtendedAttributesTable(rowId, Col_MIN_COMPETE_SIZE).value = Util.IntMaxStr(.minCompeteSize)
+        If .competeAgainstBestOffset = Util.GetInfinity() Then
+            ExtendedAttributesTable(rowId, Col_COMPETE_AGAINST_BEST_OFFSET).value = "UpToMid"
+        Else
+            ExtendedAttributesTable(rowId, Col_COMPETE_AGAINST_BEST_OFFSET).value = Util.DblMaxStr(.competeAgainstBestOffset)
+        End If
+        ExtendedAttributesTable(rowId, Col_MID_OFFSET_AT_WHOLE).value = Util.DblMaxStr(.midOffsetAtWhole)
+        ExtendedAttributesTable(rowId, Col_MID_OFFSET_AT_HALF).value = Util.DblMaxStr(.midOffsetAtHalf)
     End With
 
     If Not order.SmartComboRoutingParams Is Nothing Then
@@ -217,13 +328,13 @@ Sub UpdateOpenOrder(orderId As Long, contract As TWSLib.IContract, order As TWSL
 End Sub
 
 ' update order status
-Public Sub UpdateOrderStatus(orderId As Long, status As String, filled As Double, remaining As Double, avgFillPrice As Double, parentId As Long, permId As Long, lastFillPrice As Double)
+Public Sub UpdateOrderStatus(orderId As Long, status As String, filled As Variant, remaining As Variant, avgFillPrice As Double, parentId As Long, permId As Long, lastFillPrice As Double)
     ' find row to update by using orderId
     Dim id As Long
     id = OrderUtils.FindOrderRowIndexByPermId(permId, orderStatusTable)
     If id <> 0 Then
-        orderStatusTable(id, Col_ORDERSTATUS).value = status
-        orderStatusTable(id, Col_FILLED).value = filled
+        orderStatusTable(id, Col_ORDERSTATUS).value = Util.DecimalToString(status)
+        orderStatusTable(id, Col_FILLED).value = Util.DecimalToString(filled)
         orderStatusTable(id, Col_REMAINING).value = remaining
         orderStatusTable(id, Col_AVGFILLPRICE).value = avgFillPrice
         orderStatusTable(id, Col_LASTFILLPRICE).value = lastFillPrice
@@ -243,7 +354,7 @@ Public Sub Initialise()
     Set contractTable = Range("$A$7:$M$100")
     Set orderDescriptionTable = Range("$N$7:$S$100")
     Set orderStatusTable = Range("$T$7:$AA$100")
-    Set ExtendedAttributesTable = Range("$AB$7:$DR$100")
+    Set ExtendedAttributesTable = Range("$AB$7:$DW$100")
 End Sub
 
 Private Sub Worksheet_Activate()

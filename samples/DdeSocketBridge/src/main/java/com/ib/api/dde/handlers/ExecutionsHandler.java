@@ -51,7 +51,7 @@ public class ExecutionsHandler extends BaseHandler {
             // send reqExecutions request
             System.out.println("Handling executions request: id=" + request.requestId());
             clientSocket().reqExecutions(request.requestId(), request.executionFilter());
-            executionDataMap.ddeRequestStatus(executionDataMap.error() == null ? DdeRequestStatus.REQUESTED : DdeRequestStatus.ERROR);
+            executionDataMap.ddeRequestStatus(Utils.isNull(executionDataMap.error()) ? DdeRequestStatus.REQUESTED : DdeRequestStatus.ERROR);
         }
         
         ret = executionDataMap.ddeRequestStatus().toString();

@@ -5,6 +5,8 @@ package TestJavaClient;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -24,6 +26,8 @@ public class ExtOrdDlg extends JDialog {
     public boolean 		m_rc;
 
     private JTextField 	m_tif = new JTextField( "DAY");
+    private JTextField 	m_duration = new JTextField();
+    private JTextField 	m_postToAts = new JTextField();
     private JTextField 	m_activeStartTime = new JTextField();
     private JTextField 	m_activeStopTime = new JTextField();
     private JTextField 	m_ocaGroup = new JTextField();
@@ -55,9 +59,6 @@ public class ExtOrdDlg extends JDialog {
     private JTextField  m_overridePercentageConstraints = new JTextField();
     private JTextField  m_minQty = new JTextField();
     private JTextField  m_percentOffset = new JTextField();
-    private JTextField  m_eTradeOnly = new JTextField();
-    private JTextField  m_firmQuoteOnly = new JTextField();
-    private JTextField  m_nbboPriceCap = new JTextField();
     private JTextField  m_auctionStrategy = new JTextField("0");
     private JTextField  m_startingPrice = new JTextField();
     private JTextField  m_stockRefPrice = new JTextField();
@@ -107,6 +108,17 @@ public class ExtOrdDlg extends JDialog {
     private JCheckBox   m_dontUseAutoPriceForHedge = new JCheckBox("Don't use auto price for hedge", false);
     private JCheckBox   m_isOmsConainer = new JCheckBox("OMS Container", false);
     private JCheckBox   m_discretionaryUpToLimitPrice = new JCheckBox("Relative discretionary", false);
+    private JCheckBox   m_notHeld = new JCheckBox("Not held", false);
+    private JCheckBox   m_autoCancelParent = new JCheckBox("Auto Cancel Parent", false);
+    private JTextField  m_advancedErrorOverride = new JTextField();
+    private JTextField  m_manualOrderTime = new JTextField();
+    private JTextField  m_manualOrderCancelTime = new JTextField();
+    private JTextField  m_minTradeQty = new JTextField();
+    private JTextField  m_minCompeteSize = new JTextField();
+    private JTextField  m_competeAgainstBestOffset = new JTextField();
+    private JCheckBox   m_competeAgainstBestOffsetUpToMid = new JCheckBox("Compete Against Best Offset Up To Mid", false);
+    private JTextField  m_midOffsetAtWhole = new JTextField();
+    private JTextField  m_midOffsetAtHalf = new JTextField();
 
     ExtOrdDlg( OrderDlg owner) {
         super( owner, true);
@@ -118,6 +130,10 @@ public class ExtOrdDlg extends JDialog {
         extOrderDetailsPanel.setBorder( BorderFactory.createTitledBorder( "Extended Order Info") );
         extOrderDetailsPanel.add( new JLabel( "TIF") );
         extOrderDetailsPanel.add( m_tif);
+        extOrderDetailsPanel.add( new JLabel( "Duration") );
+        extOrderDetailsPanel.add( m_duration);
+        extOrderDetailsPanel.add( new JLabel( "Post To ATS") );
+        extOrderDetailsPanel.add( m_postToAts);
         extOrderDetailsPanel.add(new JLabel("Active Start Time"));
         extOrderDetailsPanel.add(m_activeStartTime);
         extOrderDetailsPanel.add(new JLabel("Active Stop Time"));
@@ -183,12 +199,6 @@ public class ExtOrdDlg extends JDialog {
         extOrderDetailsPanel.add(m_minQty);
         extOrderDetailsPanel.add(new JLabel("Percent Offset"));
         extOrderDetailsPanel.add(m_percentOffset);
-        extOrderDetailsPanel.add(new JLabel("Electronic Exchange Only"));
-        extOrderDetailsPanel.add(m_eTradeOnly);
-        extOrderDetailsPanel.add(new JLabel("Firm Quote Only"));
-        extOrderDetailsPanel.add(m_firmQuoteOnly);
-        extOrderDetailsPanel.add(new JLabel("NBBO Price Cap"));
-        extOrderDetailsPanel.add(m_nbboPriceCap);
         extOrderDetailsPanel.add( new JLabel( "") );
         extOrderDetailsPanel.add( new JLabel(""));
         extOrderDetailsPanel.add(new JLabel("BOX: Auction Strategy"));
@@ -275,9 +285,39 @@ public class ExtOrdDlg extends JDialog {
         extOrderDetailsPanel.add(new JLabel("MiFID II Execution Algo"));
         extOrderDetailsPanel.add(m_mifid2ExecutionAlgo);
         
+        extOrderDetailsPanel.add(new JLabel("Advanced error override"));
+        extOrderDetailsPanel.add(m_advancedErrorOverride);
         extOrderDetailsPanel.add(m_dontUseAutoPriceForHedge);
         extOrderDetailsPanel.add(m_isOmsConainer);
         extOrderDetailsPanel.add(m_discretionaryUpToLimitPrice);
+        extOrderDetailsPanel.add(m_notHeld);
+        extOrderDetailsPanel.add(m_autoCancelParent);
+        extOrderDetailsPanel.add(new JLabel(""));
+        extOrderDetailsPanel.add(new JLabel("Manual Order Time"));
+        extOrderDetailsPanel.add(m_manualOrderTime);
+        extOrderDetailsPanel.add(new JLabel("Manual Order Cancel Time"));
+        extOrderDetailsPanel.add(m_manualOrderCancelTime);
+        extOrderDetailsPanel.add( new JLabel(""));
+        extOrderDetailsPanel.add( new JLabel(""));
+        extOrderDetailsPanel.add(new JLabel("Min Trade Qty"));
+        extOrderDetailsPanel.add(m_minTradeQty);
+        extOrderDetailsPanel.add(new JLabel("Min Compete Size"));
+        extOrderDetailsPanel.add(m_minCompeteSize);
+        extOrderDetailsPanel.add(new JLabel("Compete Against Best Offset"));
+        extOrderDetailsPanel.add(m_competeAgainstBestOffset);
+        extOrderDetailsPanel.add(m_competeAgainstBestOffsetUpToMid);
+        extOrderDetailsPanel.add( new JLabel(""));
+        extOrderDetailsPanel.add(new JLabel("Mid Offset At Whole"));
+        extOrderDetailsPanel.add(m_midOffsetAtWhole);
+        extOrderDetailsPanel.add(new JLabel("Mid Offset At Half"));
+        extOrderDetailsPanel.add(m_midOffsetAtHalf);
+        
+        // add listeners
+        m_competeAgainstBestOffsetUpToMid.addItemListener(new ItemListener() {
+            @Override public void itemStateChanged(ItemEvent e) {
+                m_competeAgainstBestOffset.setEnabled(e.getStateChange() != ItemEvent.SELECTED);
+            }
+        });
 
         // create button panel
         JPanel buttonPanel = new JPanel();
@@ -306,6 +346,8 @@ public class ExtOrdDlg extends JDialog {
         try {
             // set extended order fields
             m_order.tif(m_tif.getText().trim());
+            m_order.duration(parseMaxInt(m_duration));
+            m_order.postToAts(parseMaxInt(m_postToAts));
             m_order.activeStartTime(m_activeStartTime.getText().trim());
             m_order.activeStopTime(m_activeStopTime.getText().trim());
             m_order.ocaGroup(m_ocaGroup.getText().trim());
@@ -337,9 +379,6 @@ public class ExtOrdDlg extends JDialog {
             m_order.minQty(parseMaxInt(m_minQty));
             m_order.overridePercentageConstraints(parseInt(m_overridePercentageConstraints) != 0);
             m_order.percentOffset(parseMaxDouble(m_percentOffset));
-            m_order.eTradeOnly(parseInt(m_eTradeOnly) != 0);
-            m_order.firmQuoteOnly(parseInt(m_firmQuoteOnly) != 0);
-            m_order.nbboPriceCap(parseMaxDouble(m_nbboPriceCap));
             m_order.optOutSmartRouting(m_optOutSmartRoutingCheckBox.isSelected());
             m_order.solicited(m_solicited.isSelected());
             m_order.auctionStrategy(parseInt(m_auctionStrategy));
@@ -389,6 +428,16 @@ public class ExtOrdDlg extends JDialog {
             m_order.dontUseAutoPriceForHedge(m_dontUseAutoPriceForHedge.isSelected());
             m_order.isOmsContainer(m_isOmsConainer.isSelected());
             m_order.discretionaryUpToLimitPrice(m_discretionaryUpToLimitPrice.isSelected());
+            m_order.notHeld(m_notHeld.isSelected());
+            m_order.autoCancelParent(m_autoCancelParent.isSelected());
+            m_order.advancedErrorOverride(m_advancedErrorOverride.getText());
+            m_order.manualOrderTime(m_manualOrderTime.getText());
+            m_order.minTradeQty(parseMaxInt(m_minTradeQty));
+            m_order.minCompeteSize(parseMaxInt(m_minCompeteSize));
+            m_order.competeAgainstBestOffset(m_competeAgainstBestOffsetUpToMid.isSelected() ? 
+                    Order.COMPETE_AGAINST_BEST_OFFSET_UP_TO_MID : parseMaxDouble(m_competeAgainstBestOffset)); 
+            m_order.midOffsetAtWhole(parseMaxDouble(m_midOffsetAtWhole));
+            m_order.midOffsetAtHalf(parseMaxDouble(m_midOffsetAtHalf));
         }
         catch( Exception e) {
             Main.inform( this, "Error - " + e);
@@ -434,5 +483,9 @@ public class ExtOrdDlg extends JDialog {
     void onCancel() {
         m_rc = false;
         setVisible( false);
+    }
+    
+    public String manualOrderCancelTime() {
+        return m_manualOrderCancelTime.getText();
     }
 }

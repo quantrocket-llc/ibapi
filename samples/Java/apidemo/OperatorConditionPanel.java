@@ -11,7 +11,7 @@ import apidemo.util.UpperField;
 public class  OperatorConditionPanel<T extends OperatorCondition> extends OnOKPanel {
 	final T m_condition;
 	final TCombo<String> m_operator = new TCombo<>("<=", ">=");
-	final UpperField m_value = new UpperField();
+	final UpperField m_value = new UpperField(true);
 	
 	OperatorConditionPanel(T condition) {
 		m_condition = condition;

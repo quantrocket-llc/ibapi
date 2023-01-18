@@ -35,7 +35,7 @@ public class AvailableAlgoParams {
 
 	//! [arrivalpx_params]
 	public static void FillArrivalPriceParams(Order baseOrder, double maxPctVol, String riskAversion, String startTime, 
-			String endTime, boolean forceCompletion, boolean allowPastTime, double monetaryValue) {
+			String endTime, boolean forceCompletion, boolean allowPastTime) {
 		
 		baseOrder.algoStrategy("ArrivalPx");
 		baseOrder.algoParams(new ArrayList<>());
@@ -45,14 +45,13 @@ public class AvailableAlgoParams {
 		baseOrder.algoParams().add(new TagValue("endTime", endTime));
 		baseOrder.algoParams().add(new TagValue("forceCompletion", forceCompletion ? "1" : "0"));
 		baseOrder.algoParams().add(new TagValue("allowPastEndTime", allowPastTime ? "1" : "0"));
-		baseOrder.algoParams().add(new TagValue("monetaryValue", String.valueOf(monetaryValue)));
                 
 	}
 	//! [arrivalpx_params]
 	
 	//! [darkice_params]
 	public static void FillDarkIceParams(Order baseOrder, int displaySize, String startTime, String endTime, 
-			boolean allowPastEndTime, double monetaryValue) {
+			boolean allowPastEndTime) {
 		
 		baseOrder.algoStrategy("DarkIce");
 		baseOrder.algoParams(new ArrayList<>());
@@ -60,13 +59,12 @@ public class AvailableAlgoParams {
 		baseOrder.algoParams().add(new TagValue("startTime", startTime));
 		baseOrder.algoParams().add(new TagValue("endTime", endTime));
 		baseOrder.algoParams().add(new TagValue("allowPastEndTime", allowPastEndTime ? "1" : "0"));
-		baseOrder.algoParams().add(new TagValue("monetaryValue", String.valueOf(monetaryValue)));
 		
 	}
 	//! [darkice_params]
 	
 	//! [pctvol_params]
-	public static void FillPctVolParams(Order baseOrder, double pctVol, String startTime, String endTime, boolean noTakeLiq, double monetaryValue) {
+	public static void FillPctVolParams(Order baseOrder, double pctVol, String startTime, String endTime, boolean noTakeLiq) {
 		
 		baseOrder.algoStrategy("PctVol");
 		baseOrder.algoParams(new ArrayList<>());
@@ -74,13 +72,13 @@ public class AvailableAlgoParams {
 		baseOrder.algoParams().add(new TagValue("startTime", startTime));
 		baseOrder.algoParams().add(new TagValue("endTime", endTime));
 		baseOrder.algoParams().add(new TagValue("noTakeLiq", noTakeLiq ? "1" : "0"));
-		baseOrder.algoParams().add(new TagValue("monetaryValue", String.valueOf(monetaryValue)));
+
 	}
 	//! [pctvol_params]
 	
 	//! [twap_params]
 	public static void FillTwapParams(Order baseOrder, String strategyType, String startTime, String endTime, 
-			boolean allowPastEndTime, double monetaryValue) {
+			boolean allowPastEndTime) {
 		
 		baseOrder.algoStrategy("Twap");
 		baseOrder.algoParams(new ArrayList<>());
@@ -88,14 +86,13 @@ public class AvailableAlgoParams {
 		baseOrder.algoParams().add(new TagValue("startTime", startTime));
 		baseOrder.algoParams().add(new TagValue("endTime", endTime));
 		baseOrder.algoParams().add(new TagValue("allowPastEndTime", allowPastEndTime ? "1" : "0"));
-		baseOrder.algoParams().add(new TagValue("monetaryValue", String.valueOf(monetaryValue)));
 		
 	}
 	//! [twap_params]
 	
 	//! [vwap_params]
 	public static void FillVwapParams(Order baseOrder, double maxPctVol, String startTime, String endTime, 
-			boolean allowPastEndTime, boolean noTakeLiq, boolean speedUp, double monetaryValue) {
+			boolean allowPastEndTime, boolean noTakeLiq, boolean speedUp) {
 		
 		baseOrder.algoStrategy("Vwap");
 		baseOrder.algoParams(new ArrayList<>());
@@ -105,7 +102,7 @@ public class AvailableAlgoParams {
 		baseOrder.algoParams().add(new TagValue("allowPastEndTime", allowPastEndTime ? "1" : "0"));
 		baseOrder.algoParams().add(new TagValue("noTakeLiq", noTakeLiq ? "1" : "0"));
 		baseOrder.algoParams().add(new TagValue("speedUp", speedUp ? "1" : "0"));
-		baseOrder.algoParams().add(new TagValue("monetaryValue", String.valueOf(monetaryValue)));
+
 		
 	}
 	//! [vwap_params]
@@ -163,7 +160,7 @@ public class AvailableAlgoParams {
         
 	//! [closepx_params]
 	public static void FillClosePriceParams(Order baseOrder, double maxPctVol, String riskAversion, String startTime, 
-			boolean forceCompletion, double monetaryValue){
+			boolean forceCompletion){
             
 		baseOrder.algoStrategy("ClosePx");
 		baseOrder.algoParams(new ArrayList<>());
@@ -171,13 +168,13 @@ public class AvailableAlgoParams {
 		baseOrder.algoParams().add(new TagValue("riskAversion", riskAversion));
 		baseOrder.algoParams().add(new TagValue("startTime", startTime));
 		baseOrder.algoParams().add(new TagValue("forceCompletion", forceCompletion ? "1" : "0"));
-		baseOrder.algoParams().add(new TagValue("monetaryValue", String.valueOf(monetaryValue)));
+
 	}
 	//! [closepx_params]
         
 	//! [pctvolpx_params]
 	public static void FillPriceVariantPctVolParams(Order baseOrder, double pctVol, double deltaPctVol, double minPctVol4Px, 
-			double maxPctVol4Px, String startTime, String endTime, boolean noTakeLiq, double monetaryValue){
+			double maxPctVol4Px, String startTime, String endTime, boolean noTakeLiq){
             
 		baseOrder.algoStrategy("PctVolPx");
 		baseOrder.algoParams(new ArrayList<>());
@@ -188,13 +185,13 @@ public class AvailableAlgoParams {
 		baseOrder.algoParams().add(new TagValue("startTime", startTime));
 		baseOrder.algoParams().add(new TagValue("endTime", endTime));
 		baseOrder.algoParams().add(new TagValue("noTakeLiq", noTakeLiq ? "1" : "0"));
-		baseOrder.algoParams().add(new TagValue("monetaryValue", String.valueOf(monetaryValue)));
+
 	}
 	//! [pctvolpx_params]
         
 	//! [pctvolsz_params]
 	public static void FillSizeVariantPctVolParams(Order baseOrder, double startPctVol, double endPctVol, 
-			String startTime, String endTime, boolean noTakeLiq, double monetaryValue){
+			String startTime, String endTime, boolean noTakeLiq){
             
 		baseOrder.algoStrategy("PctVolSz");
 		baseOrder.algoParams(new ArrayList<>());
@@ -203,13 +200,13 @@ public class AvailableAlgoParams {
 		baseOrder.algoParams().add(new TagValue("startTime", startTime));
 		baseOrder.algoParams().add(new TagValue("endTime", endTime));
 		baseOrder.algoParams().add(new TagValue("noTakeLiq", noTakeLiq ? "1" : "0"));
-		baseOrder.algoParams().add(new TagValue("monetaryValue", String.valueOf(monetaryValue)));
+
 	}
 	//! [pctvolsz_params]
         
 	//! [pctvoltm_params]
 	public static void FillTimeVariantPctVolParams(Order baseOrder, double startPctVol, double endPctVol, 
-			String startTime, String endTime, boolean noTakeLiq, double monetaryValue){
+			String startTime, String endTime, boolean noTakeLiq){
             
 		baseOrder.algoStrategy("PctVolTm");
 		baseOrder.algoParams(new ArrayList<>());
@@ -218,13 +215,13 @@ public class AvailableAlgoParams {
 		baseOrder.algoParams().add(new TagValue("startTime", startTime));
 		baseOrder.algoParams().add(new TagValue("endTime", endTime));
 		baseOrder.algoParams().add(new TagValue("noTakeLiq", noTakeLiq ? "1" : "0"));
-		baseOrder.algoParams().add(new TagValue("monetaryValue", String.valueOf(monetaryValue)));
+
 	}
 	//! [pctvoltm_params]
 	
 	//! [csfb_params]
 		public static void FillCSFBParams(Order baseOrder, double startPctVol, double endPctVol, 
-			String startTime, String endTime, boolean noTakeLiq, double monetaryValue){
+			String startTime, String endTime, boolean noTakeLiq){
         
 		// must be direct-routed to "CSFB"
 		
@@ -235,7 +232,7 @@ public class AvailableAlgoParams {
 		baseOrder.algoParams().add(new TagValue("startTime", startTime));
 		baseOrder.algoParams().add(new TagValue("endTime", endTime));
 		baseOrder.algoParams().add(new TagValue("noTakeLiq", noTakeLiq ? "1" : "0"));
-		baseOrder.algoParams().add(new TagValue("monetaryValue", String.valueOf(monetaryValue)));
+
 	}
 	//! [csfb_params]
 	

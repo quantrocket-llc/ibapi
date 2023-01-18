@@ -13,12 +13,12 @@ namespace TwsRtdServer
         private double m_lastPrice = 0.0;
         private double m_bidPrice = 0.0;
         private double m_askPrice = 0.0;
-        private int m_lastSize = 0;
-        private int m_bidSize = 0;
-        private int m_askSize = 0;
+        private decimal m_lastSize = 0;
+        private decimal m_bidSize;
+        private decimal m_askSize = 0;
         private double m_high = 0.0;
         private double m_low = 0.0;
-        private int m_volume = 0;
+        private decimal m_volume = 0;
         private double m_close = 0.0;
         private double m_open = 0.0;
         private string m_lastExch = "";
@@ -34,21 +34,23 @@ namespace TwsRtdServer
         private TwsRtdServerData.OptionComputationData m_modelOptionComputation = new TwsRtdServerData.OptionComputationData();
 
         // add generic ticks values
-        private int m_genTickAuctionVolume = 0;
-        private int m_genTickAuctionImbalance = 0;
+        private decimal m_genTickAuctionVolume = 0;
+        private decimal m_genTickAuctionImbalance = 0;
         private double m_genTickAuctionPrice = 0.0;
-        private int m_genTickRegulatoryImbalance = 0;
+        private decimal m_genTickRegulatoryImbalance = 0;
         private double m_genTickPlPrice = 0.0;
         private double m_genTickCreditmanMarkPrice = 0.0;
         private double m_genTickCreditmanSlowMarkPrice = 0.0;
-        private int m_genTickCallOptionVolume = 0;
-        private int m_genTickPutOptionVolume = 0;
-        private int m_genTickCallOptionOpenInterest = 0;
-        private int m_genTickPutOptionOpenInterest = 0;
+        private decimal m_genTickCallOptionVolume = 0;
+        private decimal m_genTickPutOptionVolume = 0;
+        private decimal m_genTickCallOptionOpenInterest = 0;
+        private decimal m_genTickPutOptionOpenInterest = 0;
         private double m_genTickOptionHistoricalVol = 0.0;
         private double m_genTickRTHistoricalVol = 0.0;
         private double m_genTickIndexFuturePremium = 0.0;
         private double m_genTickShortable = 0.0;
+        private double m_genTickEstimatedIPOMidpoint = 0.0;
+        private double m_genTickFinalIPOLast = 0.0;
         private string m_genTickFundamentals = "";
         private double m_genTickTradeCount = 0.0;
         private double m_genTickTradeRate = 0.0;
@@ -56,19 +58,19 @@ namespace TwsRtdServer
         private double m_genTickLastRTHTrade = 0.0;
         private string m_genTickIBDividends = "";
         private double m_genTickBondMultiplier = 0.0;
-        private int m_genTickAverageVolume = 0;
+        private decimal m_genTickAverageVolume = 0;
         private double m_genTickWeek13Hi = 0.0;
         private double m_genTickWeek13Lo = 0.0;
         private double m_genTickWeek26Hi = 0.0;
         private double m_genTickWeek26Lo = 0.0;
         private double m_genTickWeek52Hi = 0.0;
         private double m_genTickWeek52Lo = 0.0;
-        private int m_genTickShortTermVolume3Min = 0;
-        private int m_genTickShortTermVolume5Min = 0;
-        private int m_genTickShortTermVolume10Min = 0;
-        private int m_futuresOpenInterest = 0;
-        private int m_genTickAvgOptVolume = 0;
-        private int m_genTickShortableShares = 0;
+        private decimal m_genTickShortTermVolume3Min = 0;
+        private decimal m_genTickShortTermVolume5Min = 0;
+        private decimal m_genTickShortTermVolume10Min = 0;
+        private decimal m_futuresOpenInterest = 0;
+        private decimal m_genTickAvgOptVolume = 0;
+        private decimal m_genTickShortableShares = 0;
         private double m_genTickEtfNavClose = 0;
         private double m_genTickEtfNavPriorClose = 0;
         private double m_genTickEtfNavBid = 0;
@@ -82,12 +84,12 @@ namespace TwsRtdServer
         private double m_delayed_lastPrice = 0.0;
         private double m_delayed_bidPrice = 0.0;
         private double m_delayed_askPrice = 0.0;
-        private int m_delayed_lastSize = 0;
-        private int m_delayed_bidSize = 0;
-        private int m_delayed_askSize = 0;
+        private decimal m_delayed_lastSize = 0;
+        private decimal m_delayed_bidSize = 0;
+        private decimal m_delayed_askSize = 0;
         private double m_delayed_high = 0.0;
         private double m_delayed_low = 0.0;
-        private int m_delayed_volume = 0;
+        private decimal m_delayed_volume = 0;
         private double m_delayed_close = 0.0;
         private double m_delayed_open = 0.0;
         private string m_delayed_lastTimestamp = "";
@@ -112,13 +114,13 @@ namespace TwsRtdServer
                     m_bidPrice = (double)value;
                     break;
                 case TwsRtdServerData.LASTSIZE:
-                    m_lastSize = (int)value;
+                    m_lastSize = (decimal)value;
                     break;
                 case TwsRtdServerData.ASKSIZE:
-                    m_askSize = (int)value;
+                    m_askSize = (decimal)value;
                     break;
                 case TwsRtdServerData.BIDSIZE:
-                    m_bidSize = (int)value;
+                    m_bidSize = (decimal)value;
                     break;
                 case TwsRtdServerData.HIGH:
                     m_high = (double)value;
@@ -136,7 +138,7 @@ namespace TwsRtdServer
                     m_halted = (double)value;
                     break;
                 case TwsRtdServerData.VOLUME:
-                    m_volume = (int)value;
+                    m_volume = (decimal)value;
                     break;
                 case TwsRtdServerData.BIDEXCH:
                     m_bidExch = (string)value;
@@ -164,16 +166,16 @@ namespace TwsRtdServer
                     break;
                 // generic ticks
                 case TwsRtdServerData.GEN_TICK_AUCTION_VOLUME:
-                    m_genTickAuctionVolume = (int)value;
+                    m_genTickAuctionVolume = (decimal)value;
                     break;
                 case TwsRtdServerData.GEN_TICK_AUCTION_IMBALANCE:
-                    m_genTickAuctionImbalance = (int)value;
+                    m_genTickAuctionImbalance = (decimal)value;
                     break;
                 case TwsRtdServerData.GEN_TICK_AUCTION_PRICE:
                     m_genTickAuctionPrice = (double)value;
                     break;
                 case TwsRtdServerData.GEN_TICK_REGULATORY_IMBALANCE:
-                    m_genTickRegulatoryImbalance = (int)value;
+                    m_genTickRegulatoryImbalance = (decimal)value;
                     break;
                 case TwsRtdServerData.GEN_TICK_PL_PRICE:
                     m_genTickPlPrice = (double)value;
@@ -185,16 +187,16 @@ namespace TwsRtdServer
                     m_genTickCreditmanSlowMarkPrice = (double)value;
                     break;
                 case TwsRtdServerData.GEN_TICK_CALL_OPTION_VOLUME:
-                    m_genTickCallOptionVolume = (int)value;
+                    m_genTickCallOptionVolume = (decimal)value;
                     break;
                 case TwsRtdServerData.GEN_TICK_PUT_OPTION_VOLUME:
-                    m_genTickPutOptionVolume = (int)value;
+                    m_genTickPutOptionVolume = (decimal)value;
                     break;
                 case TwsRtdServerData.GEN_TICK_CALL_OPTION_OPEN_INTEREST:
-                    m_genTickCallOptionOpenInterest = (int)value;
+                    m_genTickCallOptionOpenInterest = (decimal)value;
                     break;
                 case TwsRtdServerData.GEN_TICK_PUT_OPTION_OPEN_INTEREST:
-                    m_genTickPutOptionOpenInterest = (int)value;
+                    m_genTickPutOptionOpenInterest = (decimal)value;
                     break;
                 case TwsRtdServerData.GEN_TICK_OPTION_HISTORICAL_VOL:
                     m_genTickOptionHistoricalVol = (double)value;
@@ -207,6 +209,12 @@ namespace TwsRtdServer
                     break;
                 case TwsRtdServerData.GEN_TICK_SHORTABLE:
                     m_genTickShortable = (double)value;
+                    break;
+                case TwsRtdServerData.GEN_TICK_ESTIMATED_IPO_MIDPOINT:
+                    m_genTickEstimatedIPOMidpoint = (double)value;
+                    break;
+                case TwsRtdServerData.GEN_TICK_FINAL_IPO_LAST:
+                    m_genTickFinalIPOLast = (double)value;
                     break;
                 case TwsRtdServerData.GEN_TICK_FUNDAMENTALS:
                     m_genTickFundamentals = (string)value;
@@ -230,7 +238,7 @@ namespace TwsRtdServer
                     m_genTickBondMultiplier = (double)value;
                     break;
                 case TwsRtdServerData.GEN_TICK_AVERAGE_VOLUME:
-                    m_genTickAverageVolume = (int)value;
+                    m_genTickAverageVolume = (decimal)value;
                     break;
                 case TwsRtdServerData.GEN_TICK_WEEK_13_HI:
                     m_genTickWeek13Hi = (double)value;
@@ -251,22 +259,22 @@ namespace TwsRtdServer
                     m_genTickWeek52Lo = (double)value;
                     break;
                 case TwsRtdServerData.GEN_TICK_SHORT_TERM_VOLUME_3_MIN:
-                    m_genTickShortTermVolume3Min = (int)value;
+                    m_genTickShortTermVolume3Min = (decimal)value;
                     break;
                 case TwsRtdServerData.GEN_TICK_SHORT_TERM_VOLUME_5_MIN:
-                    m_genTickShortTermVolume5Min = (int)value;
+                    m_genTickShortTermVolume5Min = (decimal)value;
                     break;
                 case TwsRtdServerData.GEN_TICK_SHORT_TERM_VOLUME_10_MIN:
-                    m_genTickShortTermVolume10Min = (int)value;
+                    m_genTickShortTermVolume10Min = (decimal)value;
                     break;
                 case TwsRtdServerData.FUTURES_OPEN_INTEREST:
-                    m_futuresOpenInterest = (int)value;
+                    m_futuresOpenInterest = (decimal)value;
                     break;
                 case TwsRtdServerData.GEN_TICK_AVG_OPT_VOLUME:
-                    m_genTickAvgOptVolume = (int)value;
+                    m_genTickAvgOptVolume = (decimal)value;
                     break;
                 case TwsRtdServerData.GEN_TICK_SHORTABLE_SHARES:
-                    m_genTickShortableShares = (int)value;
+                    m_genTickShortableShares = (decimal)value;
                     break;
                 case TwsRtdServerData.GEN_TICK_ETF_NAV_CLOSE:
                     m_genTickEtfNavClose = (double)value;
@@ -304,13 +312,13 @@ namespace TwsRtdServer
                     m_delayed_askPrice = (double)value;
                     break;
                 case TwsRtdServerData.DELAYED_LAST_SIZE:
-                    m_delayed_lastSize = (int)value;
+                    m_delayed_lastSize = (decimal)value;
                     break;
                 case TwsRtdServerData.DELAYED_BID_SIZE:
-                    m_delayed_bidSize = (int)value;
+                    m_delayed_bidSize = (decimal)value;
                     break;
                 case TwsRtdServerData.DELAYED_ASK_SIZE:
-                    m_delayed_askSize = (int)value;
+                    m_delayed_askSize = (decimal)value;
                     break;
                 case TwsRtdServerData.DELAYED_HIGH:
                     m_delayed_high = (double)value;
@@ -319,7 +327,7 @@ namespace TwsRtdServer
                     m_delayed_low = (double)value;
                     break;
                 case TwsRtdServerData.DELAYED_VOLUME:
-                    m_delayed_volume = (int)value;
+                    m_delayed_volume = (decimal)value;
                     break;
                 case TwsRtdServerData.DELAYED_CLOSE:
                     m_delayed_close = (double)value;
@@ -543,6 +551,12 @@ namespace TwsRtdServer
                     break;
                 case TwsRtdServerData.GEN_TICK_SHORTABLE:
                     value = m_genTickShortable;
+                    break;
+                case TwsRtdServerData.GEN_TICK_ESTIMATED_IPO_MIDPOINT:
+                    value = m_genTickEstimatedIPOMidpoint;
+                    break;
+                case TwsRtdServerData.GEN_TICK_FINAL_IPO_LAST:
+                    value = m_genTickFinalIPOLast;
                     break;
                 case TwsRtdServerData.GEN_TICK_FUNDAMENTALS:
                     value = m_genTickFundamentals;

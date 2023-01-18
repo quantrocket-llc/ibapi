@@ -6,9 +6,11 @@ package samples.testbed.orders;
 import java.util.ArrayList;
 import java.util.List;
 import com.ib.client.VolumeCondition;
+import com.ib.client.Types.TimeInForce;
 import com.ib.client.TimeCondition;
 import com.ib.client.PercentChangeCondition;
 import com.ib.client.MarginCondition;
+import com.ib.client.Decimal;
 import com.ib.client.ExecutionCondition;
 import com.ib.client.PriceCondition;
 import com.ib.client.Order;
@@ -20,7 +22,7 @@ import com.ib.client.TagValue;
 
 public class OrderSamples {
 	
-	public static Order AtAuction(String action, double quantity, double price) {
+	public static Order AtAuction(String action, Decimal quantity, double price) {
 		//! [auction]
 		Order order = new Order();
 		order.action(action);
@@ -32,7 +34,7 @@ public class OrderSamples {
 		return order;
 	}
 	
-	public static Order Discretionary(String action, double quantity, double price, double discretionaryAmt) {
+	public static Order Discretionary(String action, Decimal quantity, double price, double discretionaryAmt) {
 		//! [discretionary]
 		Order order = new Order();
 		order.action(action);
@@ -44,7 +46,7 @@ public class OrderSamples {
 		return order;
 	}
 
-	public static Order MarketOrder(String action, double quantity) {
+	public static Order MarketOrder(String action, Decimal quantity) {
 		//! [market]
 		Order order = new Order();
 		order.action(action);
@@ -54,7 +56,7 @@ public class OrderSamples {
 		return order;
 	}
 	
-	public static Order MarketIfTouched(String action, double quantity, double price) {
+	public static Order MarketIfTouched(String action, Decimal quantity, double price) {
 		//! [market_if_touched]
 		Order order = new Order();
 		order.action(action);
@@ -65,7 +67,7 @@ public class OrderSamples {
 		return order;
 	}
 	
-	public static Order MarketOnClose(String action, double quantity) {
+	public static Order MarketOnClose(String action, Decimal quantity) {
 		//! [market_on_close]
 		Order order = new Order();
 		order.action(action);
@@ -75,7 +77,7 @@ public class OrderSamples {
 		return order;
 	}
 	
-	public static Order MarketOnOpen(String action, double quantity) {
+	public static Order MarketOnOpen(String action, Decimal quantity) {
 		//! [market_on_open]
 		Order order = new Order();
 		order.action(action);
@@ -86,7 +88,7 @@ public class OrderSamples {
 		return order;
 	}
 	
-	public static Order MidpointMatch(String action, double quantity) {
+	public static Order MidpointMatch(String action, Decimal quantity) {
 		//! [midpoint_match]
 		Order order = new Order();
 		order.action(action);
@@ -96,7 +98,7 @@ public class OrderSamples {
 		return order;
 	}
 
-	public static Order Midprice(String action, double quantity, double priceCap) {
+	public static Order Midprice(String action, Decimal quantity, double priceCap) {
 		//! [midprice]
 		Order order = new Order();
 		order.action(action);
@@ -107,18 +109,18 @@ public class OrderSamples {
 		return order;
 	}
 	
-	public static Order PeggedToMarket(String action, double quantity, double marketOffset) {
+	public static Order PeggedToMarket(String action, Decimal quantity, double marketOffset) {
 		//! [pegged_market]
 		Order order = new Order();
 		order.action(action);
 		order.orderType("PEG MKT");
-		order.totalQuantity(100);
+		order.totalQuantity(Decimal.ONE_HUNDRED);
 		order.auxPrice(marketOffset);//Offset price
 		//! [pegged_market]
 		return order;
 	}
 	
-	public static Order PeggedToStock(String action, double quantity, double delta, double stockReferencePrice, double startingPrice) {
+	public static Order PeggedToStock(String action, Decimal quantity, double delta, double stockReferencePrice, double startingPrice) {
 		//! [pegged_stock]
 		Order order = new Order();
 		order.action(action);
@@ -131,7 +133,7 @@ public class OrderSamples {
 		return order;
 	}
 	
-	public static Order RelativePeggedToPrimary(String action, double quantity, double priceCap, double offsetAmount) {
+	public static Order RelativePeggedToPrimary(String action, Decimal quantity, double priceCap, double offsetAmount) {
 		//! [relative_pegged_primary]
 		Order order = new Order();
 		order.action(action);
@@ -143,7 +145,7 @@ public class OrderSamples {
 		return order;
 	}
 	
-	public static Order SweepToFill(String action, double quantity, double price) {
+	public static Order SweepToFill(String action, Decimal quantity, double price) {
 		//! [sweep_to_fill]
 		Order order = new Order();
 		order.action(action);
@@ -155,7 +157,7 @@ public class OrderSamples {
 		return order;
 	}
 	
-	public static Order AuctionLimit(String action, double quantity, double price, int auctionStrategy) {
+	public static Order AuctionLimit(String action, Decimal quantity, double price, int auctionStrategy) {
 		//! [auction_limit]
 		Order order = new Order();
 		order.action(action);
@@ -167,7 +169,7 @@ public class OrderSamples {
 		return order;
 	}
 	
-	public static Order AuctionPeggedToStock(String action, double quantity, double startingPrice, double delta) {
+	public static Order AuctionPeggedToStock(String action, Decimal quantity, double startingPrice, double delta) {
 		//! [auction_pegged_stock]
 		Order order = new Order();
 		order.action(action);
@@ -179,7 +181,7 @@ public class OrderSamples {
 		return order;
 	}
 	
-	public static Order AuctionRelative(String action, double quantity, double offset) {
+	public static Order AuctionRelative(String action, Decimal quantity, double offset) {
 		//! [auction_relative]
 		Order order = new Order();
 		order.action(action);
@@ -190,7 +192,7 @@ public class OrderSamples {
 		return order;
 	}
 	
-	public static Order Block(String action, double quantity, double price) {
+	public static Order Block(String action, Decimal quantity, double price) {
 		// ! [block]
 		Order order = new Order();
 		order.action(action);
@@ -202,7 +204,7 @@ public class OrderSamples {
 		return order;
 	}
 	
-	public static Order BoxTop(String action, double quantity) {
+	public static Order BoxTop(String action, Decimal quantity) {
 		// ! [boxtop]
 		Order order = new Order();
 		order.action(action);
@@ -212,16 +214,25 @@ public class OrderSamples {
 		return order;
 	}
 	
-	public static Order LimitOrder(String action, double quantity, double limitPrice) {
+	public static Order LimitOrder(String action, Decimal quantity, double limitPrice) {
 		// ! [limitorder]
 		Order order = new Order();
 		order.action(action);
 		order.orderType("LMT");
 		order.totalQuantity(quantity);
 		order.lmtPrice(limitPrice);
+		order.tif(TimeInForce.DAY);
 		// ! [limitorder]
 		return order;
 	}
+
+    public static Order LimitOrderWithManualOrderTime(String action, Decimal quantity, double limitPrice, String manualOrderTime) {
+        // ! [limitorderwithmanualordertime]
+        Order order = OrderSamples.LimitOrder(action, quantity, limitPrice);
+        order.manualOrderTime(manualOrderTime);
+        // ! [limitorderwithmanualordertime]
+        return order;
+    }
 	
 	// Forex orders can be placed in denomination of second currency in pair using cashQty field
 	// Requires TWS or IBG 963+
@@ -239,7 +250,7 @@ public class OrderSamples {
 	}
 	
 	
-	public static Order LimitIfTouched(String action, double quantity, double limitPrice, double triggerPrice) {
+	public static Order LimitIfTouched(String action, Decimal quantity, double limitPrice, double triggerPrice) {
 		// ! [limitiftouched]
 		Order order = new Order();
 		order.action(action);
@@ -251,7 +262,7 @@ public class OrderSamples {
 		return order;
 	}
 	
-	public static Order LimitOnClose(String action, double quantity, double limitPrice) {
+	public static Order LimitOnClose(String action, Decimal quantity, double limitPrice) {
 		// ! [limitonclose]
 		Order order = new Order();
 		order.action(action);
@@ -262,7 +273,7 @@ public class OrderSamples {
 		return order;
 	}
 	
-	public static Order LimitOnOpen(String action, double quantity, double limitPrice) {
+	public static Order LimitOnOpen(String action, Decimal quantity, double limitPrice) {
 		// ! [limitonopen]
 		Order order = new Order();
 		order.action(action);
@@ -274,7 +285,7 @@ public class OrderSamples {
 		return order;
 	}
 	
-	public static Order PassiveRelative(String action, double quantity, double offset) {
+	public static Order PassiveRelative(String action, Decimal quantity, double offset) {
 		// ! [passive_relative]
 		Order order = new Order();
 		order.action(action);
@@ -285,7 +296,7 @@ public class OrderSamples {
 		return order;
 	}
 	
-	public static Order PeggedToMidpoint(String action, double quantity, double offset, double limitPrice) {
+	public static Order PeggedToMidpoint(String action, Decimal quantity, double offset, double limitPrice) {
 		// ! [pegged_midpoint]
 		Order order = new Order();
 		order.action(action);
@@ -298,7 +309,7 @@ public class OrderSamples {
 	}
 	
 	//! [bracket]
-	public static List<Order> BracketOrder(int parentOrderId, String action, double quantity, double limitPrice, double takeProfitLimitPrice, double stopLossPrice) {
+	public static List<Order> BracketOrder(int parentOrderId, String action, Decimal quantity, double limitPrice, double takeProfitLimitPrice, double stopLossPrice) {
 		//This will be our main or "parent" order
 		Order parent = new Order();
 		parent.orderId(parentOrderId);
@@ -340,7 +351,7 @@ public class OrderSamples {
 	}
 	//! [bracket]
 	
-	public static Order MarketToLimit(String action, double quantity) {
+	public static Order MarketToLimit(String action, Decimal quantity) {
 		// ! [markettolimit]
 		Order order = new Order();
 		order.action(action);
@@ -350,7 +361,7 @@ public class OrderSamples {
 		return order;
 	}
 	
-	public static Order MarketWithProtection(String action, double quantity) {
+	public static Order MarketWithProtection(String action, Decimal quantity) {
 		// ! [marketwithprotection]
 		Order order = new Order();
 		order.action(action);
@@ -360,7 +371,7 @@ public class OrderSamples {
 		return order;
 	}
 	
-	public static Order Stop(String action, double quantity, double stopPrice) {
+	public static Order Stop(String action, Decimal quantity, double stopPrice) {
 		// ! [stop]
 		Order order = new Order();
 		order.action(action);
@@ -371,7 +382,7 @@ public class OrderSamples {
 		return order;
 	}
 	
-	public static Order StopLimit(String action, double quantity, double limitPrice, double stopPrice) {
+	public static Order StopLimit(String action, Decimal quantity, double limitPrice, double stopPrice) {
 		// ! [stoplimit]
 		Order order = new Order();
 		order.action(action);
@@ -383,7 +394,7 @@ public class OrderSamples {
 		return order;
 	}
 	
-	public static Order StopWithProtection(String action, double quantity, double stopPrice) {
+	public static Order StopWithProtection(String action, Decimal quantity, double stopPrice) {
 		// ! [stopwithprotection]
 		Order order = new Order();
 		order.action(action);
@@ -394,7 +405,7 @@ public class OrderSamples {
 		return order;
 	}
 	
-	public static Order TrailingStop(String action, double quantity, double trailingPercent, double trailStopPrice) {
+	public static Order TrailingStop(String action, Decimal quantity, double trailingPercent, double trailStopPrice) {
 		// ! [trailingstop]
 		Order order = new Order();
 		order.action(action);
@@ -406,7 +417,7 @@ public class OrderSamples {
 		return order;
 	}
 	
-	public static Order TrailingStopLimit(String action, double quantity, double lmtPriceOffset, double trailingAmount, double trailStopPrice) {
+	public static Order TrailingStopLimit(String action, Decimal quantity, double lmtPriceOffset, double trailingAmount, double trailStopPrice) {
 		// ! [trailingstoplimit]
 		Order order = new Order();
 		order.action(action);
@@ -419,7 +430,7 @@ public class OrderSamples {
 		return order;
 	}
 	
-	public static Order ComboLimitOrder(String action, double quantity, boolean nonGuaranteed, double limitPrice) {
+	public static Order ComboLimitOrder(String action, Decimal quantity, boolean nonGuaranteed, double limitPrice) {
 		// ! [combolimit]
 		Order order = new Order();
 		order.action(action);
@@ -434,7 +445,7 @@ public class OrderSamples {
 		return order;
 	}
 	
-	public static Order ComboMarketOrder(String action, double quantity, boolean nonGuaranteed) {
+	public static Order ComboMarketOrder(String action, Decimal quantity, boolean nonGuaranteed) {
 		// ! [combomarket]
 		Order order = new Order();
 		order.action(action);
@@ -448,7 +459,7 @@ public class OrderSamples {
 		return order;
 	}
 	
-	public static Order LimitOrderForComboWithLegPrices(String action, double quantity, boolean nonGuaranteed, double[] legPrices) {
+	public static Order LimitOrderForComboWithLegPrices(String action, Decimal quantity, boolean nonGuaranteed, double[] legPrices) {
 		// ! [limitordercombolegprices]
 		Order order = new Order();
 		order.action(action);
@@ -470,7 +481,7 @@ public class OrderSamples {
 		return order;
 	}
 	
-	public static Order RelativeLimitCombo(String action, double quantity, boolean nonGuaranteed, double limitPrice) {
+	public static Order RelativeLimitCombo(String action, Decimal quantity, boolean nonGuaranteed, double limitPrice) {
 		// ! [relativelimitcombo]
 		Order order = new Order();
 		order.action(action);
@@ -486,7 +497,7 @@ public class OrderSamples {
 		return order;
 	}
 	
-	public static Order RelativeMarketCombo(String action, double quantity, boolean nonGuaranteed) {
+	public static Order RelativeMarketCombo(String action, Decimal quantity, boolean nonGuaranteed) {
 		// ! [relativemarketcombo]
 		Order order = new Order();
 		order.action(action);
@@ -511,7 +522,7 @@ public class OrderSamples {
 	}
 	// ! [oca]
 	
-	public static Order Volatility(String action, double quantity, double volatilityPercent, int volatilityType) {
+	public static Order Volatility(String action, Decimal quantity, double volatilityPercent, int volatilityType) {
 		// ! [volatility]
 		Order order = new Order();
 		order.action(action);
@@ -526,14 +537,14 @@ public class OrderSamples {
 	//! [fhedge]
 	public static Order MarketFHedge(int parentOrderId, String action) {
 		//FX Hedge orders can only have a quantity of 0
-		Order order = MarketOrder(action, 0);
+		Order order = MarketOrder(action, Decimal.ZERO);
 		order.parentId(parentOrderId);
 		order.hedgeType("F");
 		return order;
 	}
 	//! [fhedge]
 	
-	public static Order PeggedToBenchmark(String action, double quantity, double startingPrice, boolean peggedChangeAmountDecrease, double peggedChangeAmount, double referenceChangeAmount, int referenceConId, String referenceExchange, double stockReferencePrice,  
+	public static Order PeggedToBenchmark(String action, Decimal quantity, double startingPrice, boolean peggedChangeAmountDecrease, double peggedChangeAmount, double referenceChangeAmount, int referenceConId, String referenceExchange, double stockReferencePrice,  
             double referenceContractLowerRange, double referenceContractUpperRange) {
 		//! [pegged_benchmark]
 		Order order = new Order();
@@ -716,12 +727,74 @@ public class OrderSamples {
         return volCon;
     }
 
-    public static Order WhatIfLimitOrder(String action, double quantity, double limitPrice) {
+    public static Order WhatIfLimitOrder(String action, Decimal quantity, double limitPrice) {
         // ! [whatiflimitorder]
         Order order = LimitOrder(action, quantity, limitPrice);
         order.whatIf(true);
         // ! [whatiflimitorder]
         return order;
     }
+	
+	public static Order LimitIBKRATS(String action, Decimal quantity, double limitPrice) {
+		// ! [limit_ibkrats]
+		Order order = new Order();
+		order.action(action);
+		order.orderType("LMT");
+		order.lmtPrice(limitPrice);
+		order.totalQuantity(quantity);
+		order.notHeld(true);
+		// ! [limit_ibkrats]
+		return order;
+	}
 
+    public static Order PegBestUpToMidOrder(String action, Decimal quantity, double limitPrice, int minTradeQty, 
+            int minCompeteSize, double midOffsetAtWhole, double midOffsetAtHalf) {
+        // ! [peg_best_up_to_mid_order]
+        Order order = new Order();
+        order.action(action);
+        order.orderType("PEG BEST");
+        order.lmtPrice(limitPrice);
+        order.totalQuantity(quantity);
+        order.notHeld(true);
+        order.minTradeQty(minTradeQty);
+        order.minCompeteSize(minCompeteSize);
+        order.competeAgainstBestOffset(Order.COMPETE_AGAINST_BEST_OFFSET_UP_TO_MID);
+        order.midOffsetAtWhole(midOffsetAtWhole);
+        order.midOffsetAtHalf(midOffsetAtHalf);
+        // ! [peg_best_up_to_mid_order]
+        return order;
+    }
+
+    public static Order PegBestOrder(String action, Decimal quantity, double limitPrice, int minTradeQty, 
+            int minCompeteSize, double competeAgainstBestOffset) {
+        // ! [peg_best_order]
+        Order order = new Order();
+        order.action(action);
+        order.orderType("PEG BEST");
+        order.lmtPrice(limitPrice);
+        order.totalQuantity(quantity);
+        order.notHeld(true);
+        order.minTradeQty(minTradeQty);
+        order.minCompeteSize(minCompeteSize);
+        order.competeAgainstBestOffset(competeAgainstBestOffset);
+        // ! [peg_best_order]
+        return order;
+    }
+
+    public static Order PegMidOrder(String action, Decimal quantity, double limitPrice, int minTradeQty, 
+            double midOffsetAtWhole, double midOffsetAtHalf) {
+        // ! [peg_mid_order]
+        Order order = new Order();
+        order.action(action);
+        order.orderType("PEG MID");
+        order.lmtPrice(limitPrice);
+        order.totalQuantity(quantity);
+        order.notHeld(true);
+        order.minTradeQty(minTradeQty);
+        order.midOffsetAtWhole(midOffsetAtWhole);
+        order.midOffsetAtHalf(midOffsetAtHalf);
+        // ! [peg_mid_order]
+        return order;
+    }
+	
 }

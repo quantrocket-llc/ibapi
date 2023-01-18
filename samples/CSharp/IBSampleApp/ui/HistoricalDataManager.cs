@@ -14,9 +14,6 @@ namespace IBSampleApp.ui
     {
         public const int HISTORICAL_ID_BASE = 30000000;
 
-        private string fullDatePattern = "yyyyMMdd  HH:mm:ss";
-        private string yearMonthDayPattern = "yyyyMMdd";
-
         protected int barCounter = -1;
         protected DataGridView gridView;
 
@@ -61,19 +58,11 @@ namespace IBSampleApp.ui
 
         private void PaintChart()
         {
-            DateTime dt;
             Chart historicalChart = (Chart)uiControl;
             for (int i = 0; i < historicalData.Count; i++)
             {
-                if (historicalData[i].Date.Length == fullDatePattern.Length)
-                    DateTime.TryParseExact(historicalData[i].Date, fullDatePattern, null, DateTimeStyles.None, out dt);
-                else if (historicalData[i].Date.Length == yearMonthDayPattern.Length)
-                    DateTime.TryParseExact(historicalData[i].Date, yearMonthDayPattern, null, DateTimeStyles.None, out dt);
-                else
-                    continue;
-
                 // adding date and high
-                historicalChart.Series[0].Points.AddXY(dt, historicalData[i].High);
+                historicalChart.Series[0].Points.AddXY(historicalData[i].Date, historicalData[i].High);
                 // adding low
                 historicalChart.Series[0].Points[i].YValues[1] = historicalData[i].Low;
                 //adding open
@@ -89,12 +78,12 @@ namespace IBSampleApp.ui
             gridView.Rows.Add(1);
 
             gridView[0, gridView.Rows.Count -1].Value = bar.Date;
-            gridView[1, gridView.Rows.Count - 1].Value = bar.Open;
-            gridView[2, gridView.Rows.Count - 1].Value = bar.High;
-            gridView[3, gridView.Rows.Count - 1].Value = bar.Low;
-            gridView[4, gridView.Rows.Count - 1].Value = bar.Close;
-            gridView[5, gridView.Rows.Count - 1].Value = bar.Volume;
-            gridView[6, gridView.Rows.Count - 1].Value = bar.Wap;
+            gridView[1, gridView.Rows.Count - 1].Value = Util.DoubleMaxString(bar.Open);
+            gridView[2, gridView.Rows.Count - 1].Value = Util.DoubleMaxString(bar.High);
+            gridView[3, gridView.Rows.Count - 1].Value = Util.DoubleMaxString(bar.Low);
+            gridView[4, gridView.Rows.Count - 1].Value = Util.DoubleMaxString(bar.Close);
+            gridView[5, gridView.Rows.Count - 1].Value = Util.DecimalMaxString(bar.Volume);
+            gridView[6, gridView.Rows.Count - 1].Value = Util.DecimalMaxString(bar.Wap);
         }
     }
 }

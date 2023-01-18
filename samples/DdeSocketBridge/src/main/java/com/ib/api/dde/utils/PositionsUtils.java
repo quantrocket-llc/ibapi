@@ -45,7 +45,7 @@ public class PositionsUtils {
             if (ddeRequestType == DdeRequestType.REQ_POSITIONS_MULTI) {
                 item.add(Utils.toString(positionData.modelCode()));
             }
-            item.add(Utils.toString(positionData.position(), "0"));
+            item.add(positionData.position().toString());
             item.add(Utils.toString(positionData.avgCost(), "0"));
             
             if (ddeRequestType == DdeRequestType.REQ_ACCOUNT_PORTFOLIO) {
@@ -55,7 +55,7 @@ public class PositionsUtils {
                 item.add(Utils.toString(positionData.realizedPNL(), "0"));
             }
         } else {
-            item.add(Utils.toString(positionData.position(), "0"));
+            item.add(positionData.position().toString());
             item.add(Utils.toString(positionData.marketPrice(), "0"));
             item.add(Utils.toString(positionData.marketValue(), "0"));
             item.add(Utils.toString(positionData.avgCost(), "0"));

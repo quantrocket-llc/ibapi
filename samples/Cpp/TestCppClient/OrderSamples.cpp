@@ -23,7 +23,7 @@
     /// the limit price set to the COP or the best bid/ask after the market opens.
     /// Products: FUT, STK
     /// </summary>
-Order OrderSamples::AtAuction(std::string action, double quantity, double price){
+Order OrderSamples::AtAuction(std::string action, Decimal quantity, double price){
 	//! [auction]
 	Order order;
 	order.action = action;
@@ -40,7 +40,7 @@ Order OrderSamples::AtAuction(std::string action, double quantity, double price)
     /// may be used to increase the price range over which the limit order is eligible to execute. The market sees only the limit price.
     /// Products: STK
     /// </summary>
-Order OrderSamples::Discretionary(std::string action, double quantity, double price, double discretionaryAmount){
+Order OrderSamples::Discretionary(std::string action, Decimal quantity, double price, double discretionaryAmount){
 	//! [discretionary]
 	Order order;
 	order.action = action;
@@ -58,7 +58,7 @@ Order OrderSamples::Discretionary(std::string action, double quantity, double pr
     /// lower/higher than the current displayed bid/ask.
     /// Products: BOND, CFD, EFP, CASH, FUND, FUT, FOP, OPT, STK, WAR
     /// </summary>
-Order OrderSamples::MarketOrder(std::string action, double quantity){
+Order OrderSamples::MarketOrder(std::string action, Decimal quantity){
 	//! [market]
 	Order order;
 	order.action = action;
@@ -77,7 +77,7 @@ Order OrderSamples::MarketOrder(std::string action, double quantity){
     /// stop order, except that an MIT sell order is placed above the current market price, and a stop sell order is placed below
     /// Products: BOND, CFD, CASH, FUT, FOP, OPT, STK, WAR
     /// </summary>
-Order OrderSamples::MarketIfTouched(std::string action, double quantity, double price){
+Order OrderSamples::MarketIfTouched(std::string action, Decimal quantity, double price){
 	//! [market_if_touched]
 	Order order;
 	order.action = action;
@@ -92,7 +92,7 @@ Order OrderSamples::MarketIfTouched(std::string action, double quantity, double 
     /// A Market-on-Close (MOC) order is a market order that is submitted to execute as close to the closing price as possible.
     /// Products: CFD, FUT, STK, WAR
     /// </summary>
-Order OrderSamples::MarketOnClose(std::string action, double quantity){
+Order OrderSamples::MarketOnClose(std::string action, Decimal quantity){
 	//! [market_on_close]
 	Order order;
 	order.action = action;
@@ -107,7 +107,7 @@ Order OrderSamples::MarketOnClose(std::string action, double quantity){
     /// submitted at the market's open and fills at the market price.
     /// Products: CFD, STK, OPT, WAR
     /// </summary>
-Order OrderSamples::MarketOnOpen(std::string action, double quantity){
+Order OrderSamples::MarketOnOpen(std::string action, Decimal quantity){
 	//! [market_on_open]
 	Order order;
 	order.action = action;
@@ -124,7 +124,7 @@ Order OrderSamples::MarketOnOpen(std::string action, double quantity){
     /// execute only when the midpoint price is better than the limit price. Standard MPM orders are completely anonymous.
     /// Products: STK
     /// </summary>
-Order OrderSamples::MidpointMatch(std::string action, double quantity){
+Order OrderSamples::MidpointMatch(std::string action, Decimal quantity){
 	//! [midpoint_match]
 	Order order;
 	order.action = action;
@@ -139,7 +139,7 @@ Order OrderSamples::MidpointMatch(std::string action, double quantity){
 	// the NBBO or better. Set an optional price cap to define the highest price (for a buy order) or the lowest price (for a sell 
 	// order) you are willing to accept. Requires TWS 975+. Smart-routing to US stocks only.
     /// </summary>
-Order OrderSamples::Midprice(std::string action, double quantity, double priceCap){
+Order OrderSamples::Midprice(std::string action, Decimal quantity, double priceCap){
 	//! [midprice]
 	Order order;
 	order.action = action;
@@ -159,7 +159,7 @@ Order OrderSamples::Midprice(std::string action, double quantity, double priceCa
     ///     Buy order price = Ask price - offset amount
     /// Products: STK
     /// </summary>
-Order OrderSamples::PeggedToMarket(std::string action, double quantity, double marketOffset){
+Order OrderSamples::PeggedToMarket(std::string action, Decimal quantity, double marketOffset){
 	//! [pegged_market]
 	Order order;
 	order.action = action;
@@ -180,7 +180,7 @@ Order OrderSamples::PeggedToMarket(std::string action, double quantity, double m
     /// price will be rounded to the nearest penny in favor of the order.
     /// Products: OPT
     /// </summary>
-Order OrderSamples::PeggedToStock(std::string action, double quantity, double delta, double stockReferencePrice, double startingPrice){
+Order OrderSamples::PeggedToStock(std::string action, Decimal quantity, double delta, double stockReferencePrice, double startingPrice){
 	//! [pegged_stock]
 	Order order;
 	order.action = action;
@@ -205,7 +205,7 @@ Order OrderSamples::PeggedToStock(std::string action, double quantity, double de
     /// Stocks, Options and Futures - not available on paper trading
     /// Products: CFD, STK, OPT, FUT
     /// </summary>
-Order OrderSamples::RelativePeggedToPrimary(std::string action, double quantity, double priceCap, double offsetAmount){
+Order OrderSamples::RelativePeggedToPrimary(std::string action, Decimal quantity, double priceCap, double offsetAmount){
 	//! [relative_pegged_primary]
 	Order order;
 	order.action = action;
@@ -225,7 +225,7 @@ Order OrderSamples::RelativePeggedToPrimary(std::string action, double quantity,
     /// Products: CFD, STK, WAR
     /// Supported Exchanges: SMART
     /// </summary>
-Order OrderSamples::SweepToFill(std::string action, double quantity, double price){
+Order OrderSamples::SweepToFill(std::string action, Decimal quantity, double price){
 	//! [sweep_to_fill]
 	Order order;
 	order.action = action;
@@ -248,7 +248,7 @@ Order OrderSamples::SweepToFill(std::string action, double quantity, double pric
     /// Products: OPT
     /// Supported Exchanges: BOX
     /// </summary>
-Order OrderSamples::AuctionLimit(std::string action, double quantity, double price, int auctionStrategy){
+Order OrderSamples::AuctionLimit(std::string action, Decimal quantity, double price, int auctionStrategy){
 	//! [auction_limit]
 	Order order;
 	order.action = action;
@@ -274,7 +274,7 @@ Order OrderSamples::AuctionLimit(std::string action, double quantity, double pri
     /// Products: OPT
     /// Supported Exchanges: BOX
     /// </summary>
-Order OrderSamples::AuctionPeggedToStock(std::string action, double quantity, double startingPrice, double delta){
+Order OrderSamples::AuctionPeggedToStock(std::string action, Decimal quantity, double startingPrice, double delta){
 	//! [auction_pegged_stock]
 	Order order;
 	order.action = action;
@@ -300,7 +300,7 @@ Order OrderSamples::AuctionPeggedToStock(std::string action, double quantity, do
     /// Products: OPT
     /// Supported Exchanges: BOX
     /// </summary>
-Order OrderSamples::AuctionRelative(std::string action, double quantity, double offset){
+Order OrderSamples::AuctionRelative(std::string action, Decimal quantity, double offset){
 	//! [auction_relative]
 	Order order;
 	order.action = action;
@@ -316,7 +316,7 @@ Order OrderSamples::AuctionRelative(std::string action, double quantity, double 
     /// orders over time without moving the market, use the Accumulate/Distribute algorithm.
     /// Products: OPT
     /// </summary>
-Order OrderSamples::Block(std::string action, double quantity, double price){
+Order OrderSamples::Block(std::string action, Decimal quantity, double price){
 	// ! [block]
 	Order order;
 	order.action = action;
@@ -334,7 +334,7 @@ Order OrderSamples::Block(std::string action, double quantity, double price){
     /// Products: OPT
     /// Supported Exchanges: BOX
     /// </summary>
-Order OrderSamples::BoxTop(std::string action, double quantity){
+Order OrderSamples::BoxTop(std::string action, Decimal quantity){
 	// ! [boxtop]
 	Order order;
 	order.action = action;
@@ -349,7 +349,7 @@ Order OrderSamples::BoxTop(std::string action, double quantity){
     /// it will not fill at a price less favorable than your limit price, but it does not guarantee a fill.
     /// Products: BOND, CFD, CASH, FUT, FOP, OPT, STK, WAR
     /// </summary>
-Order OrderSamples::LimitOrder(std::string action, double quantity, double limitPrice){
+Order OrderSamples::LimitOrder(std::string action, Decimal quantity, double limitPrice){
 	// ! [limitorder]
 	Order order;
 	order.action = action;
@@ -383,7 +383,7 @@ Order OrderSamples::LimitOrderWithCashQty(std::string action, double limitPrice,
     /// placed above the current market price, and a stop limit sell order is placed below.
     /// Products: BOND, CFD, CASH, FUT, FOP, OPT, STK, WAR
     /// </summary>
-Order OrderSamples::LimitIfTouched(std::string action, double quantity, double limitPrice, double triggerPrice){
+Order OrderSamples::LimitIfTouched(std::string action, Decimal quantity, double limitPrice, double triggerPrice){
 	// ! [limitiftouched]
 	Order order;
 	order.action = action;
@@ -400,7 +400,7 @@ Order OrderSamples::LimitIfTouched(std::string action, double quantity, double l
     /// limit price.
     /// Products: CFD, FUT, STK, WAR
     /// </summary>
-Order OrderSamples::LimitOnClose(std::string action, double quantity, double limitPrice){
+Order OrderSamples::LimitOnClose(std::string action, Decimal quantity, double limitPrice){
 	// ! [limitonclose]
 	Order order;
 	order.action = action;
@@ -416,7 +416,7 @@ Order OrderSamples::LimitOnClose(std::string action, double quantity, double lim
     /// and that will only execute at the specified limit price or better. Orders are filled in accordance with specific exchange rules.
     /// Products: CFD, STK, OPT, WAR
     /// </summary>
-Order OrderSamples::LimitOnOpen(std::string action, double quantity, double limitPrice){
+Order OrderSamples::LimitOnOpen(std::string action, Decimal quantity, double limitPrice){
 	// ! [limitonopen]
 	Order order;
 	order.action = action;
@@ -440,7 +440,7 @@ Order OrderSamples::LimitOnOpen(std::string action, double quantity, double limi
     /// the bid and the Relative adds the offset to the bid.
     /// Products: STK, WAR
     /// </summary>
-Order OrderSamples::PassiveRelative(std::string action, double quantity, double offset){
+Order OrderSamples::PassiveRelative(std::string action, Decimal quantity, double offset){
 	// ! [passive_relative]
 	Order order;
 	order.action = action;
@@ -458,7 +458,7 @@ Order OrderSamples::PassiveRelative(std::string action, double quantity, double 
     /// to be more aggressive. If the market moves in the opposite direction, the order will execute.
     /// Products: STK
     /// </summary>
-Order OrderSamples::PeggedToMidpoint(std::string action, double quantity, double offset, double limitPrice){
+Order OrderSamples::PeggedToMidpoint(std::string action, Decimal quantity, double offset, double limitPrice){
 	// ! [pegged_midpoint]
 	Order order;
 	order.action = action;
@@ -477,7 +477,7 @@ Order OrderSamples::PeggedToMidpoint(std::string action, double quantity, double
     /// Products: CFD, BAG, FOP, CASH, FUT, OPT, STK, WAR
     /// </summary>	
 	//! [bracket]
-void OrderSamples::BracketOrder(int parentOrderId, Order& parent, Order& takeProfit, Order& stopLoss, std::string action, double quantity, double limitPrice, double takeProfitLimitPrice, double stopLossPrice){
+void OrderSamples::BracketOrder(int parentOrderId, Order& parent, Order& takeProfit, Order& stopLoss, std::string action, Decimal quantity, double limitPrice, double takeProfitLimitPrice, double stopLossPrice){
 	//This will be our main or "parent" order
 	parent.orderId = parentOrderId;
 	parent.action = action;
@@ -515,7 +515,7 @@ void OrderSamples::BracketOrder(int parentOrderId, Order& parent, Order& takePro
     /// partially filled, the remainder of the order is canceled and re-submitted as a limit order with the limit price equal to the price 
     /// at which the filled portion of the order executed.
     /// </summary>
-Order OrderSamples::MarketToLimit(std::string action, double quantity){
+Order OrderSamples::MarketToLimit(std::string action, Decimal quantity){
 	// ! [markettolimit]
 	Order order;
 	order.action = action;
@@ -526,12 +526,12 @@ Order OrderSamples::MarketToLimit(std::string action, double quantity){
 }
 
 	/// <summary>
-    /// This order type is useful for futures traders using Globex. A Market with Protection order is a market order that will be cancelled and 
-    /// resubmitted as a limit order if the entire order does not immediately execute at the market price. The limit price is set by Globex to be 
+    /// A Market with Protection order is a market order that will be cancelled and 
+    /// resubmitted as a limit order if the entire order does not immediately execute at the market price. The limit price set to be 
     /// close to the current market price, slightly higher for a sell order and lower for a buy order.
     /// Products: FUT, FOP
     /// </summary>
-Order OrderSamples::MarketWithProtection(std::string action, double quantity){
+Order OrderSamples::MarketWithProtection(std::string action, Decimal quantity){
 	// ! [marketwithprotection]
 	Order order;
 	order.action = action;
@@ -549,7 +549,7 @@ Order OrderSamples::MarketWithProtection(std::string action, double quantity){
     /// profit on a short sale.
     /// Products: CFD, BAG, CASH, FUT, FOP, OPT, STK, WAR
     /// </summary>
-Order OrderSamples::Stop(std::string action, double quantity, double stopPrice){
+Order OrderSamples::Stop(std::string action, Decimal quantity, double stopPrice){
 	// ! [stop]
 	Order order;
 	order.action = action;
@@ -566,7 +566,7 @@ Order OrderSamples::Stop(std::string action, double quantity, double stopPrice){
     /// price, the order becomes executable and enters the market as a limit order, which is an order to buy or sell at a specified price or better.
     /// Products: CFD, CASH, FUT, FOP, OPT, STK, WAR
     /// </summary>
-Order OrderSamples::StopLimit(std::string action, double quantity, double limitPrice, double stopPrice){
+Order OrderSamples::StopLimit(std::string action, Decimal quantity, double limitPrice, double stopPrice){
 	// ! [stoplimit]
 	Order order;
 	order.action = action;
@@ -586,7 +586,7 @@ Order OrderSamples::StopLimit(std::string action, double quantity, double limitP
     /// trigger price +/- the protection points.
     /// Products: FUT
     /// </summary>
-Order OrderSamples::StopWithProtection(std::string action, double quantity, double stopPrice){
+Order OrderSamples::StopWithProtection(std::string action, Decimal quantity, double stopPrice){
 	// ! [stopwithprotection]
 	Order order;
 	order.action = action;
@@ -605,7 +605,7 @@ Order OrderSamples::StopWithProtection(std::string action, double quantity, doub
     /// trailing stop orders, and are most appropriate for use in falling markets.
     /// Products: CFD, CASH, FOP, FUT, OPT, STK, WAR
     /// </summary>
-Order OrderSamples::TrailingStop(std::string action, double quantity, double trailingPercent, double trailStopPrice){
+Order OrderSamples::TrailingStop(std::string action, Decimal quantity, double trailingPercent, double trailStopPrice){
 	// ! [trailingstop]
 	Order order;
 	order.action = action;
@@ -627,7 +627,7 @@ Order OrderSamples::TrailingStop(std::string action, double quantity, double tra
     /// and is generally used in falling markets.
     /// Products: BOND, CFD, CASH, FUT, FOP, OPT, STK, WAR
     /// </summary>
-Order OrderSamples::TrailingStopLimit(std::string action, double quantity, double lmtPriceOffset, double trailingAmount, double trailStopPrice){
+Order OrderSamples::TrailingStopLimit(std::string action, Decimal quantity, double lmtPriceOffset, double trailingAmount, double trailStopPrice){
 	// ! [trailingstoplimit]
 	Order order;
 	order.action = action;
@@ -647,7 +647,7 @@ Order OrderSamples::TrailingStopLimit(std::string action, double quantity, doubl
     /// best execution.
     /// Products: OPT, STK, FUT
     /// </summary>
-Order OrderSamples::ComboLimitOrder(std::string action, double quantity, double limitPrice, bool nonGuaranteed){
+Order OrderSamples::ComboLimitOrder(std::string action, Decimal quantity, double limitPrice, bool nonGuaranteed){
 	// ! [combolimit]
 	Order order;
 	order.action = action;
@@ -670,7 +670,7 @@ Order OrderSamples::ComboLimitOrder(std::string action, double quantity, double 
     /// best execution.
     /// Products: OPT, STK, FUT
     /// </summary>
-Order OrderSamples::ComboMarketOrder(std::string action, double quantity, bool nonGuaranteed){
+Order OrderSamples::ComboMarketOrder(std::string action, Decimal quantity, bool nonGuaranteed){
 	// ! [combomarket]
 	Order order;
 	order.action = action;
@@ -692,7 +692,7 @@ Order OrderSamples::ComboMarketOrder(std::string action, double quantity, bool n
     /// best execution.
     /// Products: OPT, STK, FUT
     /// </summary>
-Order OrderSamples::LimitOrderForComboWithLegPrices(std::string action, double quantity, std::vector<double> legprices, bool nonGuaranteed){
+Order OrderSamples::LimitOrderForComboWithLegPrices(std::string action, Decimal quantity, std::vector<double> legprices, bool nonGuaranteed){
 	// ! [limitordercombolegprices]
 	Order order;
 	order.action = action;
@@ -720,7 +720,7 @@ Order OrderSamples::LimitOrderForComboWithLegPrices(std::string action, double q
     /// best execution.
     /// Products: OPT, STK, FUT
     /// </summary>
-Order OrderSamples::RelativeLimitOrder(std::string action, double quantity, double limitPrice, bool nonGuaranteed){
+Order OrderSamples::RelativeLimitOrder(std::string action, Decimal quantity, double limitPrice, bool nonGuaranteed){
 	// ! [relativelimitcombo]
 	Order order;
 	order.action = action;
@@ -743,7 +743,7 @@ Order OrderSamples::RelativeLimitOrder(std::string action, double quantity, doub
     /// best execution.
     /// Products: OPT, STK, FUT
     /// </summary>
-Order OrderSamples::RelativeMarketCombo(std::string action, double quantity, bool nonGuaranteed){
+Order OrderSamples::RelativeMarketCombo(std::string action, Decimal quantity, bool nonGuaranteed){
 	// ! [relativemarketcombo]
 	Order order;
 	order.action = action;
@@ -788,7 +788,7 @@ void OrderSamples::OneCancelsAll(std::string ocaGroup, Order& ocaOrder, int ocaT
     /// receive.
     /// Products: FOP, OPT
     /// </summary>
-Order OrderSamples::Volatility(std::string action, double quantity, double volatilityPercent, int volatilityType){
+Order OrderSamples::Volatility(std::string action, Decimal quantity, double volatilityPercent, int volatilityType){
 	// ! [volatility]
 	Order order;
 	order.action = action;
@@ -810,7 +810,7 @@ Order OrderSamples::MarketFHedge(int parentOrderId, std::string action){
 }
 //! [fhedge]
 
-Order OrderSamples::PeggedToBenchmark(std::string action, double quantity, double startingPrice, bool peggedChangeAmountDecrease, double peggedChangeAmount, double referenceChangeAmount, int referenceConId, std::string referenceExchange, double stockReferencePrice, double referenceContractLowerRange, double referenceContractUpperRange){
+Order OrderSamples::PeggedToBenchmark(std::string action, Decimal quantity, double startingPrice, bool peggedChangeAmountDecrease, double peggedChangeAmount, double referenceChangeAmount, int referenceConId, std::string referenceExchange, double stockReferencePrice, double referenceContractLowerRange, double referenceContractUpperRange){
 	//! [pegged_benchmark]
 	Order order;
 	order.orderType = "PEG BENCH";
@@ -902,7 +902,7 @@ Order OrderSamples::AttachAdjustableToTrail(Order parent, double attachedOrderSt
 	return order;
 }
 
-Order OrderSamples::WhatIfLimitOrder(std::string action, double quantity, double limitPrice){
+Order OrderSamples::WhatIfLimitOrder(std::string action, Decimal quantity, double limitPrice){
 	// ! [whatiflimitorder]
 	Order order = LimitOrder(action, quantity, limitPrice);
 	order.whatIf = true;
@@ -1001,5 +1001,72 @@ OrderCondition* OrderSamples::Volume_Condition(int conId, std::string exchange, 
 	volCondition->conjunctionConnection(isConjunction);
 	//! [volume_condition]
 	return dynamic_cast<OrderCondition *>(volCondition);
+}
+
+Order OrderSamples::LimitIBKRATS(std::string action, Decimal quantity, double limitPrice){
+	// ! [limit_ibkrats]
+	Order order;
+	order.action = action;
+	order.orderType = "LMT";
+	order.lmtPrice = limitPrice;
+	order.totalQuantity = quantity;
+	order.notHeld = true;
+	// ! [limit_ibkrats]
+	return order;
+}
+
+Order OrderSamples::LimitOrderWithManualOrderTime(std::string action, Decimal quantity, double limitPrice, std::string manualOrderTime) {
+	// ! [limit_order_with_manual_order_time]
+	Order order = OrderSamples::LimitOrder(action, quantity, limitPrice);
+	order.manualOrderTime = manualOrderTime;
+	// ! [limit_order_with_manual_order_time]
+	return order;
+}
+
+Order OrderSamples::PegBestUpToMidOrder(std::string action, Decimal quantity, double limitPrice, int minTradeQty, int minCompeteSize, double midOffsetAtWhole, double midOffsetAtHalf) {
+	// ! [peg_best_up_to_mid_order]
+	Order order;
+	order.action = action;
+	order.orderType = "PEG BEST";
+	order.lmtPrice = limitPrice;
+	order.totalQuantity = quantity;
+	order.notHeld = true;
+	order.minTradeQty = minTradeQty;
+	order.minCompeteSize = minCompeteSize;
+	order.competeAgainstBestOffset = COMPETE_AGAINST_BEST_OFFSET_UP_TO_MID;
+	order.midOffsetAtWhole = midOffsetAtWhole;
+	order.midOffsetAtHalf = midOffsetAtHalf;
+	// ! [peg_best_up_to_mid_order]
+	return order;
+}
+
+Order OrderSamples::PegBestOrder(std::string action, Decimal quantity, double limitPrice, int minTradeQty, int minCompeteSize, double competeAgainstBestOffset) {
+	// ! [peg_best_order]
+	Order order;
+	order.action = action;
+	order.orderType = "PEG BEST";
+	order.lmtPrice = limitPrice;
+	order.totalQuantity = quantity;
+	order.notHeld = true;
+	order.minTradeQty = minTradeQty;
+	order.minCompeteSize = minCompeteSize;
+	order.competeAgainstBestOffset = competeAgainstBestOffset;
+	// ! [peg_best_order]
+	return order;
+}
+
+Order OrderSamples::PegMidOrder(std::string action, Decimal quantity, double limitPrice, int minTradeQty, double midOffsetAtWhole, double midOffsetAtHalf) {
+	// ! [peg_mid_order]
+	Order order;
+	order.action = action;
+	order.orderType = "PEG MID";
+	order.lmtPrice = limitPrice;
+	order.totalQuantity = quantity;
+	order.notHeld = true;
+	order.minTradeQty = minTradeQty;
+	order.midOffsetAtWhole = midOffsetAtWhole;
+	order.midOffsetAtHalf = midOffsetAtHalf;
+	// ! [peg_mid_order]
+	return order;
 }
 

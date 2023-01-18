@@ -170,6 +170,24 @@ namespace TWSLib
         }
 
         /**
+        * @brief Description of the contract
+        */
+        string Description
+        {
+            get { return data != null ? data.Description : default(string); }
+            set { if (data != null) data.Description = value; }
+        }
+
+        /**
+        * @brief IssuerId of the contract
+        */
+        string IssuerId
+        {
+            get { return data != null ? data.IssuerId : default(string); }
+            set { if (data != null) data.IssuerId = value; }
+        }
+
+        /**
         * @brief Description of the combo legs.
         */
         string ComboLegsDescription
@@ -247,6 +265,10 @@ namespace TWSLib
         string TWSLib.IContract.secIdType { get { return SecIdType; } set { SecIdType = value; } }
 
         string TWSLib.IContract.secId { get { return SecId; } set { SecId = value; } }
+
+        string TWSLib.IContract.description { get { return Description; } set { Description = value; } }
+
+        string TWSLib.IContract.issuerId { get { return IssuerId; } set { IssuerId = value; } }
 
         public static explicit operator ComContract(Contract c)
         {

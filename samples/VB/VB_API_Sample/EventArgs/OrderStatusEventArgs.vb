@@ -7,9 +7,9 @@ Class OrderStatusEventArgs
 
     Property status As String
 
-    Property filled As Integer
+    Property filled As Decimal
 
-    Property remaining As Integer
+    Property remaining As Decimal
 
     Property avgFillPrice As Double
 

@@ -24,9 +24,11 @@ import javax.swing.table.AbstractTableModel;
 import com.ib.client.ComboLeg;
 import com.ib.client.Contract;
 import com.ib.client.ContractDetails;
+import com.ib.client.Decimal;
 import com.ib.client.DeltaNeutralContract;
 import com.ib.client.Order;
 import com.ib.client.OrderState;
+import com.ib.client.Util;
 import com.ib.client.Types.Action;
 import com.ib.client.Types.SecType;
 import com.ib.controller.ApiController.IContractDetailsHandler;
@@ -242,7 +244,7 @@ public class ComboPanel extends JPanel implements INewTab {
 
 		protected void onPlaceOrder() {
 			Order o = new Order();
-			o.totalQuantity( 1);
+			o.totalQuantity( Decimal.ONE);
 
 			Contract c = getComboContractFromLegs();
 			TicketDlg dlg = new TicketDlg( c, o);
@@ -316,7 +318,7 @@ public class ComboPanel extends JPanel implements INewTab {
                     if (list.size() == 1) {
                         Contract c = list.get( 0).contract();
                         m_dnContract = new DeltaNeutralContract( c.conid(), m_delta.getDouble(), m_price.getDouble() );
-                        m_dnText.setText( String.format( "Delta-neutral: %s Delta: %s  Price: %s", c.description(), m_delta.getText(), m_price.getText() ) );
+                        m_dnText.setText( String.format( "Delta-neutral: %s Delta: %s  Price: %s", c.textDescription(), m_delta.getText(), m_price.getText() ) );
                     }
                     else {
                         ApiDemo.INSTANCE.show( "DN description does not define a uniqe contract");
@@ -329,10 +331,10 @@ public class ComboPanel extends JPanel implements INewTab {
 	}
 
 	static class EfpPanel extends JPanel {
-		private final UpperField m_symbol = new UpperField( "IBM");
-		private final UpperField m_futExch = new UpperField( "ONE");
-		private final UpperField m_lastTradeDate = new UpperField( "201309");
-		private final UpperField m_stkExch = new UpperField( "SMART");
+		private final UpperField m_symbol = new UpperField( "");
+		private final UpperField m_futExch = new UpperField( "");
+		private final UpperField m_lastTradeDate = new UpperField( "");
+		private final UpperField m_stkExch = new UpperField( "");
 		private final List<LegRow> m_legRows = new ArrayList<>();
 		private final LegModel m_legsModel = new LegModel( m_legRows);
 		private final JTable m_legsTable = new JTable( m_legsModel);
@@ -481,7 +483,7 @@ public class ComboPanel extends JPanel implements INewTab {
 
 		protected void onPlaceOrder() {
 			Order o = new Order();
-			o.totalQuantity( 1);
+			o.totalQuantity( Decimal.ONE);
 
 			Contract c = getComboContractFromLegs();
 			TicketDlg dlg = new TicketDlg( c, o);
@@ -497,7 +499,7 @@ public class ComboPanel extends JPanel implements INewTab {
 			}
 
 			void addRow(Contract contract) {
-				EfpRow row = new EfpRow( this, contract.description(), m_parentPanel );
+				EfpRow row = new EfpRow( this, contract.textDescription(), m_parentPanel );
 				m_rows.add( row);
 				ApiDemo.INSTANCE.controller().reqEfpMktData( contract, "", false, false, row);
 				fireTableRowsInserted( m_rows.size() - 1, m_rows.size() - 1);
@@ -532,15 +534,15 @@ public class ComboPanel extends JPanel implements INewTab {
 
 				switch( col) {
 					case 0: return row.m_description;
-					case 1: return row.m_bid;
-					case 2: return row.m_ask;
-					case 3: return row.m_basisPoints;
+					case 1: return Util.DoubleMaxString(row.m_bid);
+					case 2: return Util.DoubleMaxString(row.m_ask);
+					case 3: return Util.DoubleMaxString(row.m_basisPoints);
 					case 4: return row.m_formattedBasisPoints;
-					case 5: return row.m_impliedFuture;
-					case 6: return row.m_holdDays;
+					case 5: return Util.DoubleMaxString(row.m_impliedFuture);
+					case 6: return Util.IntMaxString(row.m_holdDays);
 					case 7: return row.m_futureLastTradeDate;
-					case 8: return row.m_dividendImpact;
-					case 9: return row.m_dividendsToLastTradeDate;
+					case 8: return Util.DoubleMaxString(row.m_dividendImpact);
+					case 9: return Util.DoubleMaxString(row.m_dividendsToLastTradeDate);
 					default: return null;
 				}
 			}
@@ -611,8 +613,8 @@ public class ComboPanel extends JPanel implements INewTab {
 			LegRow row = m_legRows.get( rowIn);
 			switch( col) {
 				case 0: return row.m_leg.action();
-				case 1: return row.m_leg.ratio();
-				case 2: return row.m_contract.description();
+				case 1: return Util.IntMaxString(row.m_leg.ratio());
+				case 2: return row.m_contract.textDescription();
 				default: return null;
 			}
 		}

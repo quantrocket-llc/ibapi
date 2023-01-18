@@ -52,7 +52,6 @@ Private Enum ExtendedCompletedOrderAttributesColumns
     Col_FAGROUP
     Col_FAMETHOD
     Col_FAPERCENTAGE
-    Col_FAPROFILE
     Col_SHORTSALESLOT
     Col_DESIGNLOC
     Col_EXEMPTCODE
@@ -120,6 +119,11 @@ Private Enum ExtendedCompletedOrderAttributesColumns
     Col_SHAREHOLDER
     Col_IMBALANCEE_ONLY
     Col_ROUTE_MARKETABLE_TO_BBO
+    Col_MIN_TRADE_QTY
+    Col_MIN_COMPETE_SIZE
+    Col_COMPETE_AGAINST_BEST_OFFSET
+    Col_MID_OFFSET_AT_WHOLE
+    Col_MID_OFFSET_AT_HALF
 End Enum
 
 '=================
@@ -165,7 +169,7 @@ Sub UpdateCompletedOrder(contract As TWSLib.IContract, order As TWSLib.IOrder, o
         contractTable(rowId, Col_STRIKE).value = .Strike
         contractTable(rowId, Col_RIGHT).value = .Right
         contractTable(rowId, Col_MULTIPLIER).value = .multiplier
-        contractTable(rowId, Col_EXCH).value = .exchange
+        contractTable(rowId, Col_EXCH).value = .Exchange
         contractTable(rowId, Col_PRIMEXCH).value = .primaryExchange
         contractTable(rowId, Col_CURRENCY).value = .currency
         contractTable(rowId, Col_LOCALSYMBOL).value = .localSymbol
@@ -176,9 +180,9 @@ Sub UpdateCompletedOrder(contract As TWSLib.IContract, order As TWSLib.IOrder, o
 
     With order
         completedOrderDescriptionTable(rowId, Col_ACTION).value = .action
-        completedOrderDescriptionTable(rowId, Col_TOTALQTY).value = .totalQuantity
+        completedOrderDescriptionTable(rowId, Col_TOTALQTY).value = Util.DecimalToString(.totalQuantity)
         completedOrderDescriptionTable(rowId, Col_CASH_QTY).value = Util.DblMaxStr(.cashQty)
-        completedOrderDescriptionTable(rowId, Col_FILLEDQTY).value = .filledQuantity
+        completedOrderDescriptionTable(rowId, Col_FILLEDQTY).value = Util.DecimalToString(.filledQuantity)
         completedOrderDescriptionTable(rowId, Col_ORDERTYPE).value = .orderType
         completedOrderDescriptionTable(rowId, Col_LMTPRICE).value = Util.DblMaxStr(.lmtPrice)
         completedOrderDescriptionTable(rowId, Col_AUXPRICE).value = Util.DblMaxStr(.auxPrice)
@@ -217,7 +221,6 @@ Sub UpdateCompletedOrder(contract As TWSLib.IContract, order As TWSLib.IOrder, o
         ExtendedCompletedOrderAttributesTable(rowId, Col_FAGROUP).value = .faGroup
         ExtendedCompletedOrderAttributesTable(rowId, Col_FAMETHOD).value = .faMethod
         ExtendedCompletedOrderAttributesTable(rowId, Col_FAPERCENTAGE).value = .faPercentage
-        ExtendedCompletedOrderAttributesTable(rowId, Col_FAPROFILE).value = .faProfile
         ExtendedCompletedOrderAttributesTable(rowId, Col_SHORTSALESLOT).value = .shortSaleSlot
         ExtendedCompletedOrderAttributesTable(rowId, Col_DESIGNLOC).value = .designatedLocation
         ExtendedCompletedOrderAttributesTable(rowId, Col_EXEMPTCODE).value = .exemptCode
@@ -282,6 +285,15 @@ Sub UpdateCompletedOrder(contract As TWSLib.IContract, order As TWSLib.IOrder, o
         ExtendedCompletedOrderAttributesTable(rowId, Col_SHAREHOLDER).value = .shareholder
         ExtendedCompletedOrderAttributesTable(rowId, Col_IMBALANCEE_ONLY).value = .imbalanceOnly
         ExtendedCompletedOrderAttributesTable(rowId, Col_ROUTE_MARKETABLE_TO_BBO).value = .routeMarketableToBbo
+        ExtendedCompletedOrderAttributesTable(rowId, Col_MIN_TRADE_QTY).value = Util.IntMaxStr(.minTradeQty)
+        ExtendedCompletedOrderAttributesTable(rowId, Col_MIN_COMPETE_SIZE).value = Util.IntMaxStr(.minCompeteSize)
+        If .competeAgainstBestOffset = Util.GetInfinity() Then
+            ExtendedCompletedOrderAttributesTable(rowId, Col_COMPETE_AGAINST_BEST_OFFSET).value = "UpToMid"
+        Else
+            ExtendedCompletedOrderAttributesTable(rowId, Col_COMPETE_AGAINST_BEST_OFFSET).value = Util.DblMaxStr(.competeAgainstBestOffset)
+        End If
+        ExtendedCompletedOrderAttributesTable(rowId, Col_MID_OFFSET_AT_WHOLE).value = Util.DblMaxStr(.midOffsetAtWhole)
+        ExtendedCompletedOrderAttributesTable(rowId, Col_MID_OFFSET_AT_HALF).value = Util.DblMaxStr(.midOffsetAtHalf)
     End With
 
     Dim tempStr As String
@@ -324,7 +336,7 @@ Public Sub Initialise()
     Set contractTable = Range("$A$7:$M$100")
     Set completedOrderDescriptionTable = Range("$N$7:$T$100")
     Set completedOrderStatusTable = Range("$U$7:$Y$100")
-    Set ExtendedCompletedOrderAttributesTable = Range("$Z$7:$DE$100")
+    Set ExtendedCompletedOrderAttributesTable = Range("$Z$7:$DI$100")
 End Sub
 
 Private Sub Worksheet_Activate()

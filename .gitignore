@@ -5,6 +5,9 @@
 *.o
 *.suo
 *.user
+*.bak
+*.exp
+*.lib
 /source/javaclient/nbproject/private/
 /source/csharpclient/client/bin
 /source/csharpclient/client/obj

@@ -79,7 +79,7 @@ namespace IBApi
         /**
          * @brief The contract's primary exchange.
 		 * For smart routed contracts, used to define contract in case of ambiguity. 
-		 * Should be defined as native exchange of contract, e.g. ISLAND for MSFT
+		 * Should be defined as native exchange of contract
 		 * For exchanges which contain a period in name, will only be part of exchange name prior to period, i.e. ENEXT for ENEXT.BE
          */
         public string PrimaryExch { get; set; }
@@ -108,6 +108,16 @@ namespace IBApi
         * @sa secIdType
         */
         public string SecId { get; set; }
+
+        /**
+        * @brief Description of the contract
+        */
+        public string Description { get; set; }
+
+        /**
+        * @brief IssuerId of the contract
+        */
+        public string IssuerId { get; set; }
 
         /**
          * @brief Description of the combo legs.

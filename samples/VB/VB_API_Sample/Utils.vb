@@ -1,4 +1,4 @@
-﻿' Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+' Copyright (C) 2023 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
 ' and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable.
 
 
@@ -106,6 +106,11 @@ Friend Class Utils
         EtfFrozenNavLast
         EtfNavHigh
         EtfNavLow
+        SocialMarketAnalytics
+        EstimatedIPOMidpoint
+        FinalIPOLast
+        DelayedYieldBid
+        DelayedYieldAsk
         Unknown
     End Enum
 
@@ -120,7 +125,6 @@ Friend Class Utils
 
     Public Enum FaMessageType
         Groups = 1
-        Profiles = 2
         Aliases = 3
     End Enum
 
@@ -205,18 +209,6 @@ Friend Class Utils
 
     Public Shared Function UnixMillisecondsToString(unixTime As Long, dateFormat As String) As String
         UnixMillisecondsToString = DateAdd(DateInterval.Second, unixTime / 1000, DateSerial(1970, 1, 1)).ToString(dateFormat)
-    End Function
-
-    Public Shared Function DoubleMaxToString(value As Double) As String
-        If value = Double.MaxValue Then
-            Return "N/A"
-        Else
-            Return value
-        End If
-    End Function
-
-    Public Shared Function FormatDoubleString(str As String) As String
-        Return Format(str, "Standard")
     End Function
 
     Public Shared Function isNotEmpty(str As String) As Boolean

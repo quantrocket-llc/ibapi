@@ -107,7 +107,7 @@ Private Sub reqTickByTickData_Click()
                 .Strike = contractTable(id, Col_STRIKE).value
                 .Right = IIf(UCase(contractTable(id, Col_RIGHT).value) = "", 0#, UCase(contractTable(id, Col_RIGHT).value))
                 .multiplier = UCase(contractTable(id, Col_MULTIPLIER).value)
-                .exchange = UCase(contractTable(id, Col_EXCH).value)
+                .Exchange = UCase(contractTable(id, Col_EXCH).value)
                 .primaryExchange = UCase(contractTable(id, Col_PRIMEXCH).value)
                 .currency = UCase(contractTable(id, Col_CURRENCY).value)
                 .localSymbol = UCase(contractTable(id, Col_LOCALSYMBOL).value)
@@ -132,16 +132,16 @@ Private Sub reqTickByTickData_Click()
     ActiveCell.Offset(1, 0).Activate
 End Sub
 
-Public Sub TickByTickAllLast(ByVal reqId As Long, ByVal tickType As Long, ByVal time As String, ByVal price As Double, ByVal size As Long, ByVal tickAttribLast As TWSLib.ITickAttribLast, ByVal exchange As String, ByVal specialConditions As String)
+Public Sub TickByTickAllLast(ByVal reqId As Long, ByVal tickType As Long, ByVal time As String, ByVal price As Double, ByVal Size As Variant, ByVal tickAttribLast As TWSLib.ITickAttribLast, ByVal Exchange As String, ByVal specialConditions As String)
     reqId = reqId - ID_TICKBYTICKDATA
     tickByTickTable(reqId, Col_TIME).value = Format(DateAdd("s", CLng(time), "01/01/1970"), "yyyy-mm-dd Hh:Nn:Ss")
     tickByTickTable(reqId, Col_PRICE).value = price
-    tickByTickTable(reqId, Col_SIZE).value = size
+    tickByTickTable(reqId, Col_SIZE).value = Util.DecimalToString(Size)
     tickByTickTable(reqId, Col_BIDPRICE).value = STR_EMPTY
     tickByTickTable(reqId, Col_ASKPRICE).value = STR_EMPTY
     tickByTickTable(reqId, Col_BIDSIZE).value = STR_EMPTY
     tickByTickTable(reqId, Col_ASKSIZE).value = STR_EMPTY
-    tickByTickTable(reqId, Col_EXCHANGE).value = exchange
+    tickByTickTable(reqId, Col_EXCHANGE).value = Exchange
     tickByTickTable(reqId, Col_SPECIALCONDITIONS).value = specialConditions
     tickByTickTable(reqId, Col_PASTLIMIT).value = tickAttribLast.PastLimit
     If tickType = 2 Then
@@ -154,15 +154,15 @@ Public Sub TickByTickAllLast(ByVal reqId As Long, ByVal tickType As Long, ByVal 
     tickByTickTable(reqId, Col_MIDPOINT).value = STR_EMPTY
 End Sub
 
-Public Sub TickByTickBidAsk(ByVal reqId As Long, ByVal time As String, ByVal bidPrice As Double, ByVal askPrice As Double, ByVal bidSize As Long, ByVal askSize As Long, ByVal tickAttribBidAsk As TWSLib.ITickAttribBidAsk)
+Public Sub TickByTickBidAsk(ByVal reqId As Long, ByVal time As String, ByVal bidPrice As Double, ByVal askPrice As Double, ByVal bidSize As Variant, ByVal askSize As Variant, ByVal tickAttribBidAsk As TWSLib.ITickAttribBidAsk)
     reqId = reqId - ID_TICKBYTICKDATA
     tickByTickTable(reqId, Col_TIME).value = Format(DateAdd("s", CLng(time), "01/01/1970"), "yyyy-mm-dd Hh:Nn:Ss")
     tickByTickTable(reqId, Col_PRICE).value = STR_EMPTY
     tickByTickTable(reqId, Col_SIZE).value = STR_EMPTY
     tickByTickTable(reqId, Col_BIDPRICE).value = bidPrice
     tickByTickTable(reqId, Col_ASKPRICE).value = askPrice
-    tickByTickTable(reqId, Col_BIDSIZE).value = bidSize
-    tickByTickTable(reqId, Col_ASKSIZE).value = askSize
+    tickByTickTable(reqId, Col_BIDSIZE).value = Util.DecimalToString(bidSize)
+    tickByTickTable(reqId, Col_ASKSIZE).value = Util.DecimalToString(askSize)
     tickByTickTable(reqId, Col_EXCHANGE).value = STR_EMPTY
     tickByTickTable(reqId, Col_SPECIALCONDITIONS).value = STR_EMPTY
     tickByTickTable(reqId, Col_PASTLIMIT).value = STR_EMPTY
@@ -191,7 +191,7 @@ Public Sub TickByTickMidPoint(ByVal reqId As Long, ByVal time As String, ByVal m
 End Sub
 
 Public Sub ProcessError(ByVal id As Long, ByVal errorCode As Long, ByVal errorMsg As String)
-    querySpecificationTable(id - ID_TICKBYTICKDATA, Col_STATUS).value = STR_ERROR + STR_COLON + Str(errorCode) + STR_SPACE + errorMsg
+    querySpecificationTable(id - ID_TICKBYTICKDATA, Col_STATUS).value = STR_ERROR + STR_COLON + str(errorCode) + STR_SPACE + errorMsg
 End Sub
 
 

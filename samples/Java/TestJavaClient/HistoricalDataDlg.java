@@ -51,8 +51,7 @@ public class HistoricalDataDlg extends JDialogBox {
         m_panel.setBorder(BorderFactory.createTitledBorder("Historical Data Query"));
         
         GregorianCalendar gc = new GregorianCalendar();
-        
-        gc.setTimeZone(TimeZone.getTimeZone("GMT"));
+        gc.setTimeZone(TimeZone.getTimeZone("US/Eastern"));
         String dateTime = "" +
             gc.get(Calendar.YEAR) +
             pad(gc.get(Calendar.MONTH) + 1) +
@@ -60,7 +59,7 @@ public class HistoricalDataDlg extends JDialogBox {
             pad(gc.get(Calendar.HOUR_OF_DAY)) + ":" +
             pad(gc.get(Calendar.MINUTE)) + ":" +
             pad(gc.get(Calendar.SECOND)) + " " +
-            gc.getTimeZone().getDisplayName( false, TimeZone.SHORT);
+            gc.getTimeZone().getID();
         
         GridBagConstraints gbc = new java.awt.GridBagConstraints();
         

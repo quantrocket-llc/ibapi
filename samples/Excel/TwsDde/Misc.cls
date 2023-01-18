@@ -45,7 +45,7 @@ Dim genId As Long
 ' Request soft dollar tiers when button is pressed
 ' ========================================================
 Sub requestSoftDollarTiers()
-    If CStr(Worksheets(STR_SHEET_NAME).range(CELL_SOFT_DOLLAR_TIERS_REQUEST_CONTROL).value) = util.STR_EMPTY Then ' only if not subscribed
+    If CStr(Worksheets(STR_SHEET_NAME).Range(CELL_SOFT_DOLLAR_TIERS_REQUEST_CONTROL).value) = util.STR_EMPTY Then ' only if not subscribed
         clearSoftDollarTiersTable
 
         Dim server As String
@@ -54,8 +54,8 @@ Sub requestSoftDollarTiers()
 
         ' get id
         With Worksheets(STR_SHEET_NAME)
-            .range(CELL_SOFT_DOLLAR_TIERS_REQUEST_CONTROL).Formula = util.composeLink(server, STR_REQ_SOFT_DOLLAR_TIERS, util.IDENTIFIER_ZERO, util.STR_EMPTY) ' subscription control
-            If util.cleanOnError(.range(CELL_SOFT_DOLLAR_TIERS_REQUEST_CONTROL)) Then
+            .Range(CELL_SOFT_DOLLAR_TIERS_REQUEST_CONTROL).Formula = util.composeLink(server, STR_REQ_SOFT_DOLLAR_TIERS, util.IDENTIFIER_ZERO, util.STR_EMPTY) ' subscription control
+            If util.cleanOnError(.Range(CELL_SOFT_DOLLAR_TIERS_REQUEST_CONTROL)) Then
                 clearSoftDollarTiersTable
                 Exit Sub
             End If
@@ -76,8 +76,8 @@ End Sub
 Sub clearSoftDollarTiersTable()
     ' clear soft dollar tiers table
     With Worksheets(STR_SHEET_NAME)
-        .range(SOFT_DOLLAR_TIERS_TABLE_RANGE).ClearContents
-        .range(CELL_SOFT_DOLLAR_TIERS_REQUEST_CONTROL).value = util.STR_EMPTY
+        .Range(SOFT_DOLLAR_TIERS_TABLE_RANGE).ClearContents
+        .Range(CELL_SOFT_DOLLAR_TIERS_REQUEST_CONTROL).value = util.STR_EMPTY
     End With
 End Sub
 
@@ -85,7 +85,7 @@ End Sub
 ' Request smart components when button is pressed
 ' ========================================================
 Sub requestSmartComponents()
-    If CStr(Worksheets(STR_SHEET_NAME).range(CELL_SMART_COMPONENTS_REQUEST_CONTROL).value) = util.STR_EMPTY Then ' only if not subscribed
+    If CStr(Worksheets(STR_SHEET_NAME).Range(CELL_SMART_COMPONENTS_REQUEST_CONTROL).value) = util.STR_EMPTY Then ' only if not subscribed
         clearSmartComponentsTable
 
         Dim server As String
@@ -96,11 +96,11 @@ Sub requestSmartComponents()
         Dim id As String, bboExchange As String
         id = util.getIDpost(genId, util.ID_REQ_SMART_COMPONENTS)
         With Worksheets(STR_SHEET_NAME)
-            .range(CELL_SMART_COMPONENTS_ID).value = id
-            bboExchange = .range(CELL_SMART_COMPONENTS_BBO_EXCHANGE).value
+            .Range(CELL_SMART_COMPONENTS_ID).value = id
+            bboExchange = .Range(CELL_SMART_COMPONENTS_BBO_EXCHANGE).value
 
-            .range(CELL_SMART_COMPONENTS_REQUEST_CONTROL).Formula = util.composeLink(server, STR_REQ_SMART_COMPONENTS, id, bboExchange) ' subscription control
-            If util.cleanOnError(.range(CELL_SMART_COMPONENTS_REQUEST_CONTROL)) Then
+            .Range(CELL_SMART_COMPONENTS_REQUEST_CONTROL).Formula = util.composeLink(server, STR_REQ_SMART_COMPONENTS, id, bboExchange) ' subscription control
+            If util.cleanOnError(.Range(CELL_SMART_COMPONENTS_REQUEST_CONTROL)) Then
                 clearSmartComponentsTable
                 Exit Sub
             End If
@@ -114,10 +114,10 @@ End Sub
 Sub clearSmartComponentsTable()
     ' clear smart components table
     With Worksheets(STR_SHEET_NAME)
-        .range(SMART_COMPONENTS_TABLE_RANGE).ClearContents
-        .range(CELL_SMART_COMPONENTS_REQUEST_CONTROL).value = util.STR_EMPTY
-        .range(CELL_SMART_COMPONENTS_ID).value = util.STR_EMPTY
-        .range(CELL_SMART_COMPONENTS_ERROR).value = util.STR_EMPTY
+        .Range(SMART_COMPONENTS_TABLE_RANGE).ClearContents
+        .Range(CELL_SMART_COMPONENTS_REQUEST_CONTROL).value = util.STR_EMPTY
+        .Range(CELL_SMART_COMPONENTS_ID).value = util.STR_EMPTY
+        .Range(CELL_SMART_COMPONENTS_ERROR).value = util.STR_EMPTY
     End With
 End Sub
 
@@ -145,23 +145,23 @@ Private Sub Worksheet_Calculate()
     With Worksheets(STR_SHEET_NAME)
 
         ' error
-        If CStr(.range(CELL_SMART_COMPONENTS_REQUEST_CONTROL).value) = util.STR_ERROR_UPPER And CStr(.range(CELL_SMART_COMPONENTS_ERROR).value) = util.STR_EMPTY Then
+        If CStr(.Range(CELL_SMART_COMPONENTS_REQUEST_CONTROL).value) = util.STR_ERROR_UPPER And CStr(.Range(CELL_SMART_COMPONENTS_ERROR).value) = util.STR_EMPTY Then
             server = util.getServerVal(STR_SHEET_NAME, CELL_SERVER_NAME)
             If server = util.STR_EMPTY Then Exit Sub
-            id = .range(CELL_SMART_COMPONENTS_ID).value
-            .range(CELL_SMART_COMPONENTS_ERROR).Formula = util.composeLink(server, STR_REQ_SMART_COMPONENTS_ERROR, id, util.STR_EMPTY)
+            id = .Range(CELL_SMART_COMPONENTS_ID).value
+            .Range(CELL_SMART_COMPONENTS_ERROR).Formula = util.composeLink(server, STR_REQ_SMART_COMPONENTS_ERROR, id, util.STR_EMPTY)
         End If
 
         ' smart components
-        If CStr(.range(CELL_SMART_COMPONENTS_REQUEST_CONTROL).value) = util.STR_RECEIVED Then
+        If CStr(.Range(CELL_SMART_COMPONENTS_REQUEST_CONTROL).value) = util.STR_RECEIVED Then
             Dim smartComponentsArray() As Variant
             server = util.getServerVal(STR_SHEET_NAME, CELL_SERVER_NAME)
             If server = util.STR_EMPTY Then Exit Sub
 
-            id = .range(CELL_SMART_COMPONENTS_ID).value
+            id = .Range(CELL_SMART_COMPONENTS_ID).value
             
             Dim bboExchange As String
-            bboExchange = .range(CELL_SMART_COMPONENTS_BBO_EXCHANGE).value
+            bboExchange = .Range(CELL_SMART_COMPONENTS_BBO_EXCHANGE).value
 
             ' send request and receive smart components table/array
             smartComponentsArray = util.sendRequest(server, STR_REQ_SMART_COMPONENTS, id & util.QMARK & bboExchange) ' returned array can be 1-Dimension or 2-Dimension
@@ -184,7 +184,7 @@ Private Sub Worksheet_Calculate()
         End If
         
         ' soft dollar tiers
-        If CStr(.range(CELL_SOFT_DOLLAR_TIERS_REQUEST_CONTROL).value) = util.STR_RECEIVED Then
+        If CStr(.Range(CELL_SOFT_DOLLAR_TIERS_REQUEST_CONTROL).value) = util.STR_RECEIVED Then
             Dim softDollarTiersArray() As Variant
             server = util.getServerVal(STR_SHEET_NAME, CELL_SERVER_NAME)
             If server = util.STR_EMPTY Then Exit Sub

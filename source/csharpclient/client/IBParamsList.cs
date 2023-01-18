@@ -1,4 +1,4 @@
-﻿/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2023 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 using System.Collections.Generic;
@@ -10,6 +10,11 @@ namespace IBApi
 {
     public static class IBParamsList
     {
+        public static void AddParameter(this BinaryWriter source, decimal value)
+        {
+            AddParameter(source, Util.DecimalMaxString(value));
+        }
+
         public static void AddParameter(this BinaryWriter source, OutgoingMessages msgId)
         {
             AddParameter(source, (int)msgId);
@@ -74,6 +79,8 @@ namespace IBApi
         {
             if (value == double.MaxValue)
                 source.Write(Constants.EOL);
+            else if (value == double.PositiveInfinity)
+                source.AddParameter(Constants.INFINITY_STR);
             else
                 source.AddParameter(value);
 
@@ -105,7 +112,7 @@ namespace IBApi
 
         private static bool isAsciiPrintable(char ch)
         {
-            return ch >= 32 && ch < 127;
+            return ch >= 32 && ch < 127 || ch == 9 ||ch == 10 || ch == 13;
         }
 
 

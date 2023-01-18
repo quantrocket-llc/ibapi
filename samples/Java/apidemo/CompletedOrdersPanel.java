@@ -87,16 +87,16 @@ public class CompletedOrdersPanel extends JPanel implements ICompletedOrdersHand
             CompletedOrder completedOrder = m_completedOrders.get( row);
 
             switch( col) {
-                case 0: return completedOrder.m_order.permId();
+                case 0: return Util.IntMaxString(completedOrder.m_order.permId());
                 case 1: return Util.LongMaxString(completedOrder.m_order.parentPermId());
                 case 2: return completedOrder.m_order.account();
                 case 3: return completedOrder.m_order.action();
                 case 4: return completedOrder.m_order.totalQuantity();
-                case 5: return completedOrder.m_order.cashQty();
+                case 5: return Util.DoubleMaxString(completedOrder.m_order.cashQty());
                 case 6: return completedOrder.m_order.filledQuantity();
-                case 7: return completedOrder.m_order.lmtPrice();
-                case 8: return completedOrder.m_order.auxPrice();
-                case 9: return completedOrder.m_contract.description();
+                case 7: return Util.DoubleMaxString(completedOrder.m_order.lmtPrice());
+                case 8: return Util.DoubleMaxString(completedOrder.m_order.auxPrice());
+                case 9: return completedOrder.m_contract.textDescription();
                 case 10: return completedOrder.m_orderState.status();
                 case 11: return completedOrder.m_orderState.completedTime();
                 case 12: return completedOrder.m_orderState.completedStatus();

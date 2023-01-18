@@ -30,7 +30,6 @@ public:
 	static Contract Commodity();
 	static Contract USOptionContract();
 	static Contract OptionAtBox();
-	static Contract NormalOption();
 	static Contract OptionWithTradingClass();
 	static Contract OptionWithLocalSymbol();
 	static Contract DutchWarrant();
@@ -51,11 +50,17 @@ public:
 	static Contract BTbroadtapeNewsFeed();
 	static Contract BZbroadtapeNewsFeed();
 	static Contract FLYbroadtapeNewsFeed();
-	static Contract MTbroadtapeNewsFeed();
+	//static Contract MTbroadtapeNewsFeed();
 	static Contract ContFut();
 	static Contract ContAndExpiringFut();
 	static Contract JefferiesContract();
 	static Contract CSFBContract();
+	static Contract Warrants();
+	static Contract IBKRATSContract();
+	static Contract CryptoContract();
+	static Contract StockWithIPOPrice();
+	static Contract ByFIGI();
+	static Contract ByIssuerId();
 };
 
 #endif

@@ -74,9 +74,9 @@ public class OrderUtils {
         
         if (completedOrderData.order() != null) {
             item.add(Utils.toString(completedOrderData.order().getAction()));
-            item.add(Utils.toString(completedOrderData.order().totalQuantity()));
+            item.add(completedOrderData.order().totalQuantity().toString());
             item.add(Utils.toString(completedOrderData.order().cashQty()));
-            item.add(Utils.toString(completedOrderData.order().filledQuantity()));
+            item.add(completedOrderData.order().filledQuantity().toString());
             item.add(Utils.toString(completedOrderData.order().getOrderType()));
             item.add(Utils.toString(completedOrderData.order().lmtPrice()));
             item.add(Utils.toString(completedOrderData.order().auxPrice()));
@@ -128,7 +128,6 @@ public class OrderUtils {
             item.add(Utils.toString(completedOrderData.order().faGroup()));
             item.add(Utils.toString(completedOrderData.order().getFaMethod()));
             item.add(Utils.toString(completedOrderData.order().faPercentage()));
-            item.add(Utils.toString(completedOrderData.order().faProfile()));
             item.add(Utils.toString(completedOrderData.order().volatility()));
             item.add(Utils.toString(completedOrderData.order().getVolatilityType()));
             item.add(Utils.toString(completedOrderData.order().continuousUpdate()));
@@ -183,8 +182,13 @@ public class OrderUtils {
             item.add(Utils.toString(completedOrderData.order().shareholder()));
             item.add(Utils.toString(completedOrderData.order().imbalanceOnly()));
             item.add(Utils.toString(completedOrderData.order().routeMarketableToBbo()));
+            item.add(Utils.toString(completedOrderData.order().minTradeQty()));
+            item.add(Utils.toString(completedOrderData.order().minCompeteSize()));
+            item.add(completedOrderData.order().isCompeteAgainstBestOffsetUpToMid() ? Utils.UP_TO_MID : Utils.toString(completedOrderData.order().competeAgainstBestOffset()));
+            item.add(Utils.toString(completedOrderData.order().midOffsetAtWhole()));
+            item.add(Utils.toString(completedOrderData.order().midOffsetAtHalf()));
         } else {
-            for (int j = 0; j < 86; j++) {
+            for (int j = 0; j < 90; j++) {
                 item.add(Utils.toString(""));
             }
         }
@@ -222,7 +226,7 @@ public class OrderUtils {
         
         if (openOrderData.order() != null) {
             item.add(Utils.toString(openOrderData.order().getAction()));
-            item.add(Utils.toString(openOrderData.order().totalQuantity()));
+            item.add(openOrderData.order().totalQuantity().toString());
             item.add(Utils.toString(openOrderData.order().getOrderType()));
             item.add(Utils.toString(openOrderData.order().lmtPrice()));
             item.add(Utils.toString(openOrderData.order().auxPrice()));
@@ -238,8 +242,8 @@ public class OrderUtils {
          
         if (openOrderData.orderStatus() != null) {
             item.add(Utils.toString(openOrderData.orderStatus().status()));
-            item.add(Utils.toString(openOrderData.orderStatus().filled(), "0"));
-            item.add(Utils.toString(openOrderData.orderStatus().remaining(), "0"));
+            item.add(openOrderData.orderStatus().filled().toString());
+            item.add(openOrderData.orderStatus().remaining().toString());
             item.add(Utils.toString(openOrderData.orderStatus().avgFillPrice()));
             item.add(Utils.toString(openOrderData.orderStatus().lastFillPrice()));
             if (isNew) {
@@ -292,7 +296,6 @@ public class OrderUtils {
                 item.add(Utils.toString(openOrderData.order().faGroup()));
                 item.add(Utils.toString(openOrderData.order().getFaMethod()));
                 item.add(Utils.toString(openOrderData.order().faPercentage()));
-                item.add(Utils.toString(openOrderData.order().faProfile()));
                 item.add(Utils.toString(openOrderData.order().volatility()));
                 item.add(Utils.toString(openOrderData.order().getVolatilityType()));
                 item.add(Utils.toString(openOrderData.order().continuousUpdate()));
@@ -327,9 +330,6 @@ public class OrderUtils {
                 item.add(Utils.toString(openOrderData.order().transmit()));
                 item.add(Utils.toString(openOrderData.order().parentId()));
                 item.add(Utils.toString(openOrderData.order().discretionaryAmt()));
-                item.add(Utils.toString(openOrderData.order().eTradeOnly()));
-                item.add(Utils.toString(openOrderData.order().firmQuoteOnly()));
-                item.add(Utils.toString(openOrderData.order().nbboPriceCap()));
                 item.add(Utils.toString(openOrderData.order().optOutSmartRouting()));
                 item.add(Utils.toString(openOrderData.order().auctionStrategy()));
                 item.add(Utils.toString(openOrderData.order().startingPrice()));
@@ -360,8 +360,16 @@ public class OrderUtils {
                 item.add(Utils.toString(openOrderData.order().isOmsContainer()));
                 item.add(Utils.toString(openOrderData.order().discretionaryUpToLimitPrice()));
                 item.add(Utils.toString(openOrderData.order().usePriceMgmtAlgo()));
+                item.add(Utils.toString(openOrderData.order().duration()));
+                item.add(Utils.toString(openOrderData.order().postToAts()));
+                item.add(Utils.toString(openOrderData.order().autoCancelParent()));
+                item.add(Utils.toString(openOrderData.order().minTradeQty()));
+                item.add(Utils.toString(openOrderData.order().minCompeteSize()));
+                item.add(openOrderData.order().isCompeteAgainstBestOffsetUpToMid() ? Utils.UP_TO_MID : Utils.toString(openOrderData.order().competeAgainstBestOffset()));
+                item.add(Utils.toString(openOrderData.order().midOffsetAtWhole()));
+                item.add(Utils.toString(openOrderData.order().midOffsetAtHalf()));
             } else {
-                for (int j = 0; j < 100; j++) {
+                for (int j = 0; j < 104; j++) {
                     item.add(Utils.toString(""));
                 }
             }
@@ -386,9 +394,6 @@ public class OrderUtils {
                 item.add(Utils.toString(openOrderData.order().orderRef()));
                 item.add(Utils.toString(openOrderData.order().percentOffset()));
                 item.add(Utils.toString(openOrderData.order().trailStopPrice()));
-                item.add(Utils.toString(openOrderData.order().eTradeOnly()));
-                item.add(Utils.toString(openOrderData.order().firmQuoteOnly()));
-                item.add(Utils.toString(openOrderData.order().nbboPriceCap()));
                 item.add(Utils.toString(openOrderData.order().discretionaryAmt()));
                 item.add(Utils.toString(openOrderData.order().startingPrice()));
                 item.add(Utils.toString(openOrderData.order().stockRefPrice()));
@@ -407,7 +412,6 @@ public class OrderUtils {
                 item.add(Utils.toString(openOrderData.order().faGroup()));
                 item.add(Utils.toString(openOrderData.order().getFaMethod()));
                 item.add(Utils.toString(openOrderData.order().faPercentage()));
-                item.add(Utils.toString(openOrderData.order().faProfile()));
                 item.add(Utils.toString(openOrderData.order().openClose()));
                 item.add(Utils.toString(openOrderData.order().origin()));
                 item.add(Utils.toString(openOrderData.order().settlingFirm()));
@@ -423,7 +427,7 @@ public class OrderUtils {
                 item.add(Utils.toString(openOrderData.order().randomizeSize()));
                 item.add(Utils.toString(openOrderData.order().randomizePrice()));
             } else {
-                for (int j = 0; j < 51; j++) {
+                for (int j = 0; j < 48; j++) {
                     item.add(Utils.toString(""));
                 }
             }
@@ -441,10 +445,10 @@ public class OrderUtils {
                 ret = orderStatus.status();
                 break;
             case FILLED:
-                ret = Utils.toString(orderStatus.filled());
+                ret = orderStatus.filled().toString();
                 break;
             case REMAINING:
-                ret = Utils.toString(orderStatus.remaining());
+                ret = orderStatus.remaining().toString();
                 break;
             case AVG_FILL_PRICE:
                 ret = Utils.toString(orderStatus.avgFillPrice());

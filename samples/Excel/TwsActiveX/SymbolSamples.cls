@@ -22,6 +22,8 @@ Private Enum SymbolSamplesTableColumns
     Col_SYMBOL_SAMPLES_PRIMARYEXCHANGE
     Col_SYMBOL_SAMPLES_CURRENCY
     Col_SYMBOL_SAMPLES_DERIVATIVESECTYPES
+    Col_SYMBOL_SAMPLES_DESCRIPTION
+    Col_SYMBOL_SAMPLES_ISSUERID
 End Enum
 
 Private activeReqId As Long
@@ -33,7 +35,7 @@ Private symbolSamplesTable As Range
 '=================
 
 Public Sub Initialise()
-    Set symbolSamplesTable = Range("$A$10:$F$50")
+    Set symbolSamplesTable = Range("$A$10:$H$50")
 End Sub
 
 Private Sub Worksheet_Activate()
@@ -66,13 +68,13 @@ Public Sub SymbolSamples(ByVal reqId As Long, ByVal contractDescriptions As TWSL
         Dim derivativeSecTypesStr As String
         
         Dim i As Long
-        For i = 1 To contractDescriptions.Count
+        For i = 0 To contractDescriptions.Count
             Set cd = contractDescriptions.Item(i)
-            symbolSamplesTable(i, Col_SYMBOL_SAMPLES_CONID).value = cd.contract.conId
-            symbolSamplesTable(i, Col_SYMBOL_SAMPLES_SYMBOL).value = cd.contract.Symbol
-            symbolSamplesTable(i, Col_SYMBOL_SAMPLES_SECTYPE).value = cd.contract.SecType
-            symbolSamplesTable(i, Col_SYMBOL_SAMPLES_PRIMARYEXCHANGE).value = cd.contract.primaryExchange
-            symbolSamplesTable(i, Col_SYMBOL_SAMPLES_CURRENCY).value = cd.contract.currency
+            symbolSamplesTable(i + 1, Col_SYMBOL_SAMPLES_CONID).value = cd.contract.conId
+            symbolSamplesTable(i + 1, Col_SYMBOL_SAMPLES_SYMBOL).value = cd.contract.Symbol
+            symbolSamplesTable(i + 1, Col_SYMBOL_SAMPLES_SECTYPE).value = cd.contract.SecType
+            symbolSamplesTable(i + 1, Col_SYMBOL_SAMPLES_PRIMARYEXCHANGE).value = cd.contract.primaryExchange
+            symbolSamplesTable(i + 1, Col_SYMBOL_SAMPLES_CURRENCY).value = cd.contract.currency
             
             derivativeSecTypesStr = ""
             
@@ -80,8 +82,11 @@ Public Sub SymbolSamples(ByVal reqId As Long, ByVal contractDescriptions As TWSL
             For j = 0 To cd.derivativeSecTypes.Count - 1
                 derivativeSecTypesStr = derivativeSecTypesStr & cd.derivativeSecTypes.Item(j) & Space(1)
             Next
-            symbolSamplesTable(i, Col_SYMBOL_SAMPLES_DERIVATIVESECTYPES).value = derivativeSecTypesStr
+            symbolSamplesTable(i + 1, Col_SYMBOL_SAMPLES_DERIVATIVESECTYPES).value = derivativeSecTypesStr
+            symbolSamplesTable(i + 1, Col_SYMBOL_SAMPLES_DESCRIPTION).value = cd.contract.Description
+            symbolSamplesTable(i + 1, Col_SYMBOL_SAMPLES_ISSUERID).value = cd.contract.issuerId
         Next
+        
     End If
 End Sub
 

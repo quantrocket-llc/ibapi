@@ -23,7 +23,7 @@ import com.ib.client.EClientSocket;
 
 /** Class handles head timestamp related requests, data and messages */
 public class HeadTimestampHandler extends BaseHandler {
-    // parserSystem.out.println
+    // parser
     private HeadTimestampRequestParser m_requestParser = new HeadTimestampRequestParser();
 
     // head timestamp requests
@@ -120,7 +120,7 @@ public class HeadTimestampHandler extends BaseHandler {
                 requestId = parseRequestId(messageTokens[0]);
             }
             ArrayList<String> table = Utils.convertArrayToTable(data);
-            Contract contract = parseContract(table, true, true, false, false, true);
+            Contract contract = parseContract(table, true, true, false, false, false, true);
             String whatToShow = "";
             int useRth = 0;
             int formatDate = 0;

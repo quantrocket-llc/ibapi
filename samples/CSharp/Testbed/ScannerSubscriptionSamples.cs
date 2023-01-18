@@ -34,15 +34,15 @@ namespace IBSamples
             return scanSub;
         }
 
-        public static ScannerSubscription MostActiveFutSoffex()
+        public static ScannerSubscription MostActiveFutEurex()
         {
-            //! [mostactivefutsoffex]
-            //Most active futures at SOFFEX
+            //! [mostactivefuteurex]
+            //Most active futures at EUREX
             ScannerSubscription scanSub = new ScannerSubscription();
             scanSub.Instrument = "FUT.EU";
-            scanSub.LocationCode = "FUT.EU.SOFFEX";
+            scanSub.LocationCode = "FUT.EU.EUREX";
             scanSub.ScanCode = "MOST_ACTIVE";
-            //! [mostactivefutsoffex]
+            //! [mostactivefuteurex]
             return scanSub;
         }
 

@@ -71,7 +71,7 @@ public class TickByTickDataMap extends BaseDataMap {
                     return Utils.toString(data.price(), SINGLE_SPACE);
                 }
                 if (tickType.equalsIgnoreCase(SIZE)) {
-                    return Utils.toString(data.size(), SINGLE_SPACE);
+                    return data.size().toString();
                 }
                 if (tickType.equalsIgnoreCase(EXCHANGE)) {
                     return data.exchange();
@@ -89,13 +89,13 @@ public class TickByTickDataMap extends BaseDataMap {
                     return Utils.toString(data.bidPrice(), SINGLE_SPACE);
                 }
                 if (tickType.equalsIgnoreCase(BID_SIZE)) {
-                    return Utils.toString(data.bidSize(), SINGLE_SPACE);
+                    return data.bidSize().toString();
                 }
                 if (tickType.equalsIgnoreCase(ASK_PRICE)) {
                     return Utils.toString(data.askPrice(), SINGLE_SPACE);
                 }
                 if (tickType.equalsIgnoreCase(ASK_SIZE)) {
-                    return Utils.toString(data.askSize(), SINGLE_SPACE);
+                    return data.askSize().toString();
                 }
                 if (tickType.equalsIgnoreCase(BID_PAST_LOW)) {
                     return data.tickAttribBidAsk().bidPastLow() ? TRUE : SINGLE_SPACE;

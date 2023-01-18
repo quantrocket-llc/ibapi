@@ -1,4 +1,4 @@
-﻿/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2023 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 using System.Collections.Generic;
@@ -12,7 +12,6 @@ namespace IBSampleApp.util
     {
         private static string LIST_OF_ALIASES = "ListOfAccountAliases";
         private static string LIST_OF_GROUPS = "ListOfGroups";
-        private static string LIST_OF_PROFILES = "ListOfAllocationProfiles";
 
         public static List<T> ParseFAInformation<T>(string faInformation)
         {
@@ -22,8 +21,6 @@ namespace IBSampleApp.util
                 return GetAliasesList(document).Cast<T>().ToList();
             if (document.DocumentElement.Name.Equals(LIST_OF_GROUPS))
                 return GetGroupsList(document).Cast<T>().ToList();
-            if (document.DocumentElement.Name.Equals(LIST_OF_PROFILES))
-                return GetProfilesList(document).Cast<T>().ToList();
             return null;
         }
 
@@ -52,34 +49,24 @@ namespace IBSampleApp.util
             XmlNodeList groupsList = groupsListNode.ChildNodes;
             for (int i = 0; i < groupsList.Count; i++)
             {
-                AdvisorGroup advisorGroup = new AdvisorGroup(groupsList.Item(i).ChildNodes[0].InnerText, groupsList.Item(i).ChildNodes[2].InnerText);
-                XmlNodeList accountNodes = groupsList.Item(i).ChildNodes[1].ChildNodes;
+                AdvisorGroup advisorGroup = new AdvisorGroup(groupsList.Item(i).ChildNodes[0].InnerText, groupsList.Item(i).ChildNodes[1].InnerText);
+                XmlNodeList accountNodes = groupsList.Item(i).ChildNodes[2].ChildNodes;
                 for (int j = 0; j < accountNodes.Count; j++)
                 {
-                    advisorGroup.Accounts.Add(accountNodes[j].InnerText);
+                    string accountName = accountNodes[j].ChildNodes[0].InnerText;
+                    string amount = null;
+                    if (accountNodes[j].ChildNodes.Count > 1)
+                    {
+                        amount = accountNodes[j].ChildNodes[1].InnerText;
+                    }
+
+                    advisorGroup.Accounts.Add(new Account(accountName, amount));
                 }
                 advisorGroups.Add(advisorGroup);
             }
             return advisorGroups;
         }
 
-        private static List<AllocationProfile> GetProfilesList(XmlDocument xmlDocument)
-        {
-            List<AllocationProfile> advisorProfiles = new List<AllocationProfile>();
-            XmlNode profilesListNode = xmlDocument.GetElementsByTagName(LIST_OF_PROFILES).Item(0);
-            XmlNodeList profilesList = profilesListNode.ChildNodes;
-            for (int i=0; i<profilesList.Count; i++)
-            {
-                AllocationProfile allocationProfile = new AllocationProfile(profilesList.Item(i).ChildNodes[0].InnerText, int.Parse(profilesList.Item(i).ChildNodes[1].InnerText));
-                XmlNodeList allocationNodes = profilesList[i].ChildNodes[2].ChildNodes;
-                for (int j = 0; j < allocationNodes.Count; j++)
-                {
-                    allocationProfile.Allocations.Add(new Allocation(allocationNodes[j].ChildNodes[0].InnerText, double.Parse(allocationNodes[j].ChildNodes[1].InnerText)));
-                }
-                advisorProfiles.Add(allocationProfile);
-            }
-            return advisorProfiles;
-        }
     }
 
     

@@ -11,7 +11,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>IBSampleApp</RootNamespace>
     <AssemblyName>IBSampleApp</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
@@ -54,6 +54,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="messages\HistoricalScheduleMessage.cs" />
     <Compile Include="messages\CompletedOrderMessage.cs" />
     <Compile Include="messages\OrderBoundMessage.cs" />
     <Compile Include="messages\TickByTickMidPointMessage.cs" />
@@ -108,6 +109,7 @@
     <Compile Include="messages\ScannerParametersMessage.cs" />
     <Compile Include="messages\SymbolSamplesMessage.cs" />
     <Compile Include="messages\TickOptionMessage.cs" />
+    <Compile Include="messages\TickGenericMessage.cs" />
     <Compile Include="messages\UpdateAccountTimeMessage.cs" />
     <Compile Include="messages\UpdatePortfolioMessage.cs" />
     <Compile Include="types\FinancialAdvisorTypes.cs" />
@@ -182,6 +184,7 @@
     <Compile Include="ui\SecurityDefinitionOptionParameterKey.cs" />
     <Compile Include="messages\SoftDollarTiersMessage.cs" />
     <Compile Include="ui\TickReqParamsMessage.cs" />
+    <Compile Include="ui\WshManager.cs" />
     <Compile Include="util\Utils.cs" />
     <Compile Include="util\XmlHelper.cs" />
     <EmbeddedResource Include="ui\ComboContractResults.resx">

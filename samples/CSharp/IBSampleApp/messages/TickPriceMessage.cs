@@ -5,17 +5,14 @@ using IBApi;
 
 namespace IBSampleApp.messages
 {
-    class TickPriceMessage : MarketDataMessage
+    class TickPriceMessage : TickGenericMessage
     {
         public TickPriceMessage(int requestId, int field, double price, TickAttrib attribs)
-            : base(requestId, field)
+            : base(requestId, field, price)
         {
-            Price = price;
             Attribs = attribs;
         }
 
         public TickAttrib Attribs { get; set; }
-
-        public double Price { get; set; }
     }
 }

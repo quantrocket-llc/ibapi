@@ -7,7 +7,7 @@ namespace IBSampleApp.messages
 {
     class PositionMultiMessage 
     {
-        public PositionMultiMessage(int reqId, string account, string modelCode, Contract contract, double pos, double avgCost)
+        public PositionMultiMessage(int reqId, string account, string modelCode, Contract contract, decimal pos, double avgCost)
         {
             ReqId = reqId;
             Account = account;
@@ -25,7 +25,7 @@ namespace IBSampleApp.messages
 
         public Contract Contract { get; set; }
 
-        public double Position { get; set; }
+        public decimal Position { get; set; }
 
         public double AverageCost { get; set; }
     }

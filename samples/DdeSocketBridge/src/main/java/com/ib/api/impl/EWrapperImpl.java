@@ -3,6 +3,7 @@
 
 package com.ib.api.impl;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -13,10 +14,12 @@ import com.ib.client.CommissionReport;
 import com.ib.client.Contract;
 import com.ib.client.ContractDescription;
 import com.ib.client.ContractDetails;
+import com.ib.client.Decimal;
 import com.ib.client.EWrapper;
 import com.ib.client.Execution;
 import com.ib.client.FamilyCode;
 import com.ib.client.HistogramEntry;
+import com.ib.client.HistoricalSession;
 import com.ib.client.HistoricalTick;
 import com.ib.client.HistoricalTickBidAsk;
 import com.ib.client.HistoricalTickLast;
@@ -70,7 +73,7 @@ public class EWrapperImpl implements EWrapper {
     }
 
     @Override
-    public void error(int id, int errorCode, String errorMsg) {
+    public void error(int id, int errorCode, String errorMsg, String advancedOrderRejectJson) {
         errorMsg = errorMsg.replace("\n", " "); // replace new lines with spaces
         System.out.println("Error: Id[" + id + "] ErrorCode [" + errorCode + "] ErrorMsg [" + errorMsg + "]");
         
@@ -78,7 +81,7 @@ public class EWrapperImpl implements EWrapper {
             m_twsService.disconnect();
         }
         // error event
-        m_twsService.addErrorMessage(new ErrorData(id, errorCode, errorMsg));
+        m_twsService.addErrorMessage(new ErrorData(id, errorCode, errorMsg, advancedOrderRejectJson));
 
         String errorMsgStr = new String(errorCode + ":" + errorMsg);
         
@@ -156,7 +159,9 @@ public class EWrapperImpl implements EWrapper {
         // reqContractDetails errors
         // 800001-900000 - reqContractDetails
         if (id >= 800001 && id <= 900000) {
-            m_twsService.updateContractDetailsRequestError(id, errorMsgStr);
+            if (errorCode != 2130) {
+                m_twsService.updateContractDetailsRequestError(id, errorMsgStr);
+            }
         }
 
         // reqHistoricalData errors
@@ -264,6 +269,12 @@ public class EWrapperImpl implements EWrapper {
         if (id >= 2600001 && id <= 2700000) {
             m_twsService.updateHistogramDataRequestError(id, errorMsgStr);
         }
+     
+        // reqHistoricalSchedule errors
+        // 2700001-2800000 - reqHistoricalSchedule
+        if (id >= 2700001 && id <= 2800000) {
+            m_twsService.updateHistoricalScheduleRequestError(id, errorMsgStr);
+        }
         
     }
 
@@ -280,7 +291,7 @@ public class EWrapperImpl implements EWrapper {
     }
 
     @Override
-    public void tickSize(int tickerId, int field, int size) {
+    public void tickSize(int tickerId, int field, Decimal size) {
         String fieldStr = Utils.getField(field);
         System.out.println("tickSize TickerId [" + tickerId + "] Field [" + fieldStr + "] Size [" + size + "]");
         m_twsService.updateMarketData(tickerId, fieldStr, size, DdeRequestStatus.SUBSCRIBED);
@@ -352,8 +363,8 @@ public class EWrapperImpl implements EWrapper {
     }
 
     @Override
-    public void orderStatus(int orderId, String status, double filled, 
-            double remaining, double avgFillPrice, int permId, int parentId, 
+    public void orderStatus(int orderId, String status, Decimal filled, 
+    		Decimal remaining, double avgFillPrice, int permId, int parentId, 
             double lastFillPrice, int clientId, String whyHeld, double mktCapPrice) {
         System.out.println("orderStatus OrderId [" + orderId + "] Status [" + status + "] Filled [" + filled + "] "
                 + "Remaining [" + remaining + "] AvgFillPrice [" + avgFillPrice + "] PermId [" + permId + "]"
@@ -413,7 +424,7 @@ public class EWrapperImpl implements EWrapper {
     }
 
     @Override
-    public void position(String account, Contract contract, double pos, double avgCost) {
+    public void position(String account, Contract contract, Decimal pos, double avgCost) {
         System.out.println("position Account [" + account + "] Contract [" + Utils.shortContractString(contract) + "] Position [" + pos + "] AvgCost [" + avgCost + "]");
         m_twsService.updatePositionData(new PositionData(0, account, "", contract, pos, avgCost), DdeRequestType.REQ_POSITIONS);
     }
@@ -430,7 +441,7 @@ public class EWrapperImpl implements EWrapper {
     }
 
     @Override
-    public void positionMulti(int reqId, String account, String modelCode, Contract contract, double pos, double avgCost) {
+    public void positionMulti(int reqId, String account, String modelCode, Contract contract, Decimal pos, double avgCost) {
         System.out.println("positionMulti ReqId [" + reqId + "] Account [" + account + "] ModelCode [" + modelCode + "] Contract [" + Utils.shortContractString(contract) + "] Position [" + pos + "] AvgCost [" + avgCost + "]");
         m_twsService.updatePositionData(new PositionData(reqId, account, modelCode, contract, pos, avgCost), DdeRequestType.REQ_POSITIONS_MULTI);
     }
@@ -487,7 +498,7 @@ public class EWrapperImpl implements EWrapper {
     }
 
     @Override
-    public void updatePortfolio(Contract contract, double position, 
+    public void updatePortfolio(Contract contract, Decimal position, 
             double marketPrice, double marketValue, double averageCost, 
             double unrealizedPNL, double realizedPNL, String accountName) {
         System.out.println("updatePortfolio Contract [" + Utils.shortContractString(contract) + "] Position [" + position + "] MarketPrice [" + marketPrice + 
@@ -510,14 +521,14 @@ public class EWrapperImpl implements EWrapper {
     }
 
     @Override
-    public void updateMktDepth(int tickerId, int position, int operation, int side, double price, int size) {
-        /* not supported */
+    public void updateMktDepth(int tickerId, int position, int operation, int side, double price, Decimal size) {
         System.out.println("updateMktDepth TickerId [" + tickerId + "] Position [" + position + "] Operation [" + operation + "] "
                 + "Side [" + side + "] Price [" + price + "] Size [" + size + "] ");
+        m_twsService.updateMarketDepthData(tickerId, new MarketDepthData(position,  "", operation, side, price, size, false), DdeRequestStatus.SUBSCRIBED);
     }
 
     @Override
-    public void updateMktDepthL2(int tickerId, int position, String marketMaker, int operation, int side, double price, int size, boolean isSmartDepth) {
+    public void updateMktDepthL2(int tickerId, int position, String marketMaker, int operation, int side, double price, Decimal size, boolean isSmartDepth) {
         System.out.println("updateMktDepthL2 TickerId [" + tickerId + "] Position [" + position + "] MarketMaker [" + marketMaker + "] Operation [" + operation + "] "
                 + "Side [" + side + "] Price [" + price + "] Size [" + size + "] IsSmartDepth [" + isSmartDepth + "]");
         m_twsService.updateMarketDepthData(tickerId, new MarketDepthData(position, marketMaker, operation, side, price, size, isSmartDepth), DdeRequestStatus.SUBSCRIBED);
@@ -585,14 +596,14 @@ public class EWrapperImpl implements EWrapper {
     }
 
     @Override
-    public void realtimeBar(int reqId, long time, double open, double high, double low, double close, long volume, double wap, int count) {
+    public void realtimeBar(int reqId, long time, double open, double high, double low, double close, Decimal volume, Decimal wap, int count) {
         System.out.println("realTimeBar ReqId [" + reqId + "] Time [" + time + "] Open [" + open + "] High [" + high + "] "
                 + "Low [" + low + "] Close [" + close + "] Volume [" + volume + "] Count [" + count + "] Wap [" + wap + "]");
         m_twsService.updateRealTimeBars(reqId, new Bar(Utils.longSecondsToDateTimeString(time, "yyyyMMdd HH:mm:ss"), open, high, low, close, volume, count, wap));
     }
     
     @Override
-    public void tickByTickAllLast(int reqId, int tickType, long time, double price, int size, TickAttribLast attribs,
+    public void tickByTickAllLast(int reqId, int tickType, long time, double price, Decimal size, TickAttribLast attribs,
             String exchange, String specialConditions) {
         System.out.println("tickByTickAllLast ReqId [" + reqId + "] TickType [" + tickType + "] Time [" + time + "] Price [" + price + "] "
                 + "Size [" + size + "] PastLimit [" + attribs.pastLimit() + "] Unreported [" + attribs.unreported() + "]");
@@ -606,7 +617,7 @@ public class EWrapperImpl implements EWrapper {
     }
 
     @Override
-    public void tickByTickBidAsk(int reqId, long time, double bidPrice, double askPrice, int bidSize, int askSize,
+    public void tickByTickBidAsk(int reqId, long time, double bidPrice, double askPrice, Decimal bidSize, Decimal askSize,
             TickAttribBidAsk attribs) {
         System.out.println("tickByTickBidAsk ReqId [" + reqId + "] Time [" + time + "] BidPrice [" + bidPrice + "] AskPrice [ " + askPrice + "] "
                 + "BidSize [" + bidSize + "] AskSize [" + askSize + "] BidPastLow [" + attribs.bidPastLow() + "] AskPastHigh [" + attribs.askPastHigh() + "]");
@@ -641,8 +652,8 @@ public class EWrapperImpl implements EWrapper {
     public void historicalTicks(int reqId, List<HistoricalTick> ticks, boolean done) {
         System.out.println("historicalTicks ReqId [" + reqId + "]");
         for (HistoricalTick tick : ticks) {
-            System.out.println("historicalTick Time [" + tick.time() + "] Price [" + tick.price() + "]");
-            m_twsService.updateHistoricalTicks(reqId, new TickByTickData(tick.time(), tick.price()));
+            System.out.println("historicalTick Time [" + tick.time() + "] Price [" + tick.price() + "] Size [" + tick.size() + "]");
+            m_twsService.updateHistoricalTicks(reqId, new TickByTickData(tick.time(), tick.price(), tick.size()));
         }
         if (done) {
             System.out.println("historicalTicksEnd ReqId [" + reqId + "]");
@@ -720,7 +731,8 @@ public class EWrapperImpl implements EWrapper {
             System.out.println("contractDescription ConId [" + contractDescription.contract().conid() + "]"
                     + " Symbol [" + contractDescription.contract().symbol() + "] SecType [" + contractDescription.contract().getSecType() + "]"
                     + " PrimExchange [" + contractDescription.contract().primaryExch() + "] Currency [" + contractDescription.contract().currency() + "]"
-                    + " Derivative SecTypes [" + contractDescription.derivativeSecTypes() + "]");
+                    + " Derivative SecTypes " + Arrays.toString(contractDescription.derivativeSecTypes())
+                    + " Description [" + contractDescription.contract().description() + "] IssuerId [" + contractDescription.contract().issuerId() + "]");
         }
         m_twsService.updateSymbolSamples(reqId, contractDescriptions);
     }
@@ -784,7 +796,7 @@ public class EWrapperImpl implements EWrapper {
     }
 
     @Override
-    public void pnlSingle(int reqId, int pos, double dailyPnL, double unrealizedPnL, double realizedPnL, double value) {
+    public void pnlSingle(int reqId, Decimal pos, double dailyPnL, double unrealizedPnL, double realizedPnL, double value) {
         System.out.println("pnlSingle ReqId [" + reqId + "] Position [" + pos + "] DailyPnL [" + dailyPnL + "] UnrealizedPnL [" + unrealizedPnL + "] "
                 + "RealizedPnL [" + realizedPnL + "] Value [" + value + "]");
         m_twsService.updatePnL(reqId, Utils.POSITION, pos, DdeRequestStatus.SUBSCRIBED);
@@ -926,5 +938,24 @@ public class EWrapperImpl implements EWrapper {
     public void replaceFAEnd(int reqId, String text) {
         System.out.println("replaceFAEnd ReqId [" + reqId + "] Text [" + text + "]");
         m_twsService.replaceFAEnd(reqId, text);
+    }
+
+    @Override
+    public void wshMetaData(int reqId, String dataJson) { /* not supported */ }
+
+    @Override
+    public void wshEventData(int reqId, String dataJson) { /* not supported */ }
+
+    @Override
+    public void historicalSchedule(int reqId, String startDateTime, String endDateTime, String timeZone, List<HistoricalSession> sessions) {
+        System.out.println("historicalSchedule ReqId [" + reqId + "] StartDateTime [" + startDateTime + "] EndDateTime [" + endDateTime + 
+                "] TimeZone [" + timeZone + "]");
+        m_twsService.updateHistoricalSchedule(reqId, startDateTime, endDateTime, timeZone, sessions);
+    }
+    
+    @Override
+    public void userInfo(int reqId, String whiteBrandingId) {
+        System.out.println("userInfo WhiteBrandingId [" + whiteBrandingId + "]");
+        m_twsService.updateUserInfo(whiteBrandingId);
     }
 }

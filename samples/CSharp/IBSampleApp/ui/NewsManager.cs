@@ -60,7 +60,7 @@ namespace IBSampleApp.ui
             if (tickNewsMessage.TickerId == TICK_NEWS_ID)
             {
                 TickNewsGrid.Rows.Add();
-                TickNewsGrid[0, rowCountTickNewsGrid].Value = Utils.UnixMillisecondsToString(tickNewsMessage.TimeStamp, "yyyy-MM-dd HH:mm:ss");
+                TickNewsGrid[0, rowCountTickNewsGrid].Value = Utils.UnixMillisecondsToString(tickNewsMessage.TimeStamp, "yyyyMMdd-HH:mm:ss");
                 TickNewsGrid[1, rowCountTickNewsGrid].Value = tickNewsMessage.ProviderCode;
                 TickNewsGrid[2, rowCountTickNewsGrid].Value = tickNewsMessage.ArticleId;
                 TickNewsGrid[3, rowCountTickNewsGrid].Value = tickNewsMessage.Headline;

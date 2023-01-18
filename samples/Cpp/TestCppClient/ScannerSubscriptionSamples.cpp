@@ -29,15 +29,15 @@ ScannerSubscription ScannerSubscriptionSamples::TopPercentGainersIbis()
 	return scanSub;
 }
 
-ScannerSubscription ScannerSubscriptionSamples::MostActiveFutSoffex()
+ScannerSubscription ScannerSubscriptionSamples::MostActiveFutEurex()
 {
-	//! [mostactivefutsoffex]
-	//Most active futures at SOFFEX
+	//! [mostactivefuteurex]
+	//Most active futures at EUREX
 	ScannerSubscription scanSub;
 	scanSub.instrument = "FUT.EU";
-    scanSub.locationCode = "FUT.EU.SOFFEX";
+    scanSub.locationCode = "FUT.EU.EUREX";
     scanSub.scanCode = "MOST_ACTIVE";
-	//! [mostactivefutsoffex]
+	//! [mostactivefuteurex]
 	return scanSub;
 }
 

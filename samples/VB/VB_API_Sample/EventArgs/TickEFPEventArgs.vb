@@ -9,8 +9,6 @@ Class TickEFPEventArgs
 
     Property basisPoints As Double
 
-    Property totalDividends As Object
-
     Property holdDays As Integer
 
     Property futureLastTradeDate As String

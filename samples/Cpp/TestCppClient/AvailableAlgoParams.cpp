@@ -7,7 +7,7 @@
 
 //! [arrivalpx_params]
 void AvailableAlgoParams::FillArrivalPriceParams(Order& baseOrder, double maxPctVol, std::string riskAversion, std::string startTime, std::string endTime, 
-	bool forceCompletion, bool allowPastTime, double monetaryValue){
+	bool forceCompletion, bool allowPastTime){
 	baseOrder.algoStrategy = "ArrivalPx";
 	baseOrder.algoParams.reset(new TagValueList());
 	TagValueSPtr tag1(new TagValue("maxPctVol", std::to_string(maxPctVol)));
@@ -16,70 +16,63 @@ void AvailableAlgoParams::FillArrivalPriceParams(Order& baseOrder, double maxPct
 	TagValueSPtr tag4(new TagValue("endTime", endTime));
 	TagValueSPtr tag5(new TagValue("forceCompletion", forceCompletion ? "1" : "0"));
 	TagValueSPtr tag6(new TagValue("allowPastEndTime", allowPastTime ? "1" : "0"));
-	TagValueSPtr tag7(new TagValue("monetaryValue", std::to_string(monetaryValue)));
 	baseOrder.algoParams->push_back(tag1);
 	baseOrder.algoParams->push_back(tag2);
 	baseOrder.algoParams->push_back(tag3);
 	baseOrder.algoParams->push_back(tag4);
 	baseOrder.algoParams->push_back(tag5);
 	baseOrder.algoParams->push_back(tag6);
-	baseOrder.algoParams->push_back(tag7);
 }
 //! [arrivalpx_params]
 
 //! [darkice_params]
-void AvailableAlgoParams::FillDarkIceParams(Order& baseOrder, int displaySize, std::string startTime, std::string endTime, bool allowPastEndTime, double monetaryValue){
+void AvailableAlgoParams::FillDarkIceParams(Order& baseOrder, int displaySize, std::string startTime, std::string endTime, bool allowPastEndTime){
 	baseOrder.algoStrategy = "DarkIce";
 	baseOrder.algoParams.reset(new TagValueList());
 	TagValueSPtr tag1(new TagValue("displaySize", std::to_string(displaySize)));
 	TagValueSPtr tag2(new TagValue("startTime", startTime));
 	TagValueSPtr tag3(new TagValue("endTime", endTime));
 	TagValueSPtr tag4(new TagValue("allowPastEndTime", allowPastEndTime ? "1" : "0"));
-	TagValueSPtr tag5(new TagValue("monetaryValue", std::to_string(monetaryValue)));
 	baseOrder.algoParams->push_back(tag1);
 	baseOrder.algoParams->push_back(tag2);
 	baseOrder.algoParams->push_back(tag3);
 	baseOrder.algoParams->push_back(tag4);
-	baseOrder.algoParams->push_back(tag5);
 }
 //! [darkice_params]
 
 //! [pctvol_params]
-void AvailableAlgoParams::FillPctVolParams(Order& baseOrder, double pctVol, std::string startTime, std::string endTime, bool noTakeLiq, double monetaryValue){
+void AvailableAlgoParams::FillPctVolParams(Order& baseOrder, double pctVol, std::string startTime, std::string endTime, bool noTakeLiq){
 	baseOrder.algoStrategy = "PctVol";
 	baseOrder.algoParams.reset(new TagValueList());
 	TagValueSPtr tag1(new TagValue("pctVol", std::to_string(pctVol)));
 	TagValueSPtr tag2(new TagValue("startTime", startTime));
 	TagValueSPtr tag3(new TagValue("endTime", endTime));
 	TagValueSPtr tag4(new TagValue("noTakeLiq", noTakeLiq ? "1" : "0"));
-	TagValueSPtr tag5(new TagValue("monetaryValue", std::to_string(monetaryValue)));
 	baseOrder.algoParams->push_back(tag1);
 	baseOrder.algoParams->push_back(tag2);
 	baseOrder.algoParams->push_back(tag3);
 	baseOrder.algoParams->push_back(tag4);
-	baseOrder.algoParams->push_back(tag5);
 }
 //! [pctvol_params]
 
 //! [twap_params]
-void AvailableAlgoParams::FillTwapParams(Order& baseOrder, std::string strategyType, std::string startTime, std::string endTime, bool allowPastEndTime, double monetaryValue){
+void AvailableAlgoParams::FillTwapParams(Order& baseOrder, std::string strategyType, std::string startTime, std::string endTime, bool allowPastEndTime){
 	baseOrder.algoStrategy = "Twap";
 	baseOrder.algoParams.reset(new TagValueList());
 	TagValueSPtr tag1(new TagValue("strategyType", strategyType));
 	TagValueSPtr tag2(new TagValue("startTime", startTime));
 	TagValueSPtr tag3(new TagValue("endTime", endTime));
 	TagValueSPtr tag4(new TagValue("allowPastEndTime", allowPastEndTime ? "1" : "0"));
-	TagValueSPtr tag5(new TagValue("monetaryValue", std::to_string(monetaryValue)));
 	baseOrder.algoParams->push_back(tag1);
 	baseOrder.algoParams->push_back(tag2);
 	baseOrder.algoParams->push_back(tag3);
 	baseOrder.algoParams->push_back(tag4);
-	baseOrder.algoParams->push_back(tag5);
+	
 }
 //! [twap_params]
 
 //! [vwap_params]
-void AvailableAlgoParams::FillVwapParams(Order& baseOrder, double maxPctVol, std::string startTime, std::string endTime, bool allowPastEndTime, bool noTakeLiq, bool speedUp, double monetaryValue){
+void AvailableAlgoParams::FillVwapParams(Order& baseOrder, double maxPctVol, std::string startTime, std::string endTime, bool allowPastEndTime, bool noTakeLiq, bool speedUp){
 	baseOrder.algoStrategy = "Vwap";
 	baseOrder.algoParams.reset(new TagValueList());
 	TagValueSPtr tag1(new TagValue("maxPctVol", std::to_string(maxPctVol)));
@@ -88,14 +81,12 @@ void AvailableAlgoParams::FillVwapParams(Order& baseOrder, double maxPctVol, std
 	TagValueSPtr tag4(new TagValue("allowPastEndTime", allowPastEndTime ? "1" : "0"));
 	TagValueSPtr tag5(new TagValue("noTakeLiq", noTakeLiq ? "1" : "0"));
 	TagValueSPtr tag6(new TagValue("speedUp", speedUp ? "1" : "0"));
-	TagValueSPtr tag7(new TagValue("monetaryValue", std::to_string(monetaryValue)));
 	baseOrder.algoParams->push_back(tag1);
 	baseOrder.algoParams->push_back(tag2);
 	baseOrder.algoParams->push_back(tag3);
 	baseOrder.algoParams->push_back(tag4);
 	baseOrder.algoParams->push_back(tag5);
 	baseOrder.algoParams->push_back(tag6);
-	baseOrder.algoParams->push_back(tag7);
 }
 //! [vwap_params]
 
@@ -157,25 +148,23 @@ void AvailableAlgoParams::FillAdaptiveParams(Order& baseOrder, std::string prior
 //! [adaptive_params]
 
 //! [closepx_params]
-void AvailableAlgoParams::FillClosePriceParams(Order& baseOrder, double maxPctVol, std::string riskAversion, std::string startTime, bool forceCompletion, double monetaryValue){
+void AvailableAlgoParams::FillClosePriceParams(Order& baseOrder, double maxPctVol, std::string riskAversion, std::string startTime, bool forceCompletion){
 	baseOrder.algoStrategy = "ClosePx";
 	baseOrder.algoParams.reset(new TagValueList());
 	TagValueSPtr tag1(new TagValue("maxPctVol", std::to_string(maxPctVol)));
 	TagValueSPtr tag2(new TagValue("riskAversion",riskAversion));
 	TagValueSPtr tag3(new TagValue("startTime", startTime));
 	TagValueSPtr tag4(new TagValue("forceCompletion", forceCompletion ? "1" : "0"));
-	TagValueSPtr tag5(new TagValue("monetaryValue", std::to_string(monetaryValue)));
 	baseOrder.algoParams->push_back(tag1);
 	baseOrder.algoParams->push_back(tag2);
 	baseOrder.algoParams->push_back(tag3);
 	baseOrder.algoParams->push_back(tag4);
-	baseOrder.algoParams->push_back(tag5);
 }
 //! [closepx_params]
 
 //! [pctvolpx_params]
 void AvailableAlgoParams::FillPriceVariantPctVolParams(Order baseOrder, double pctVol, double deltaPctVol, double minPctVol4Px, 
-													   double maxPctVol4Px, std::string startTime, std::string endTime, bool noTakeLiq, double monetaryValue){
+													   double maxPctVol4Px, std::string startTime, std::string endTime, bool noTakeLiq){
 	baseOrder.algoStrategy = "PctVolPx";
 	baseOrder.algoParams.reset(new TagValueList());
 	TagValueSPtr tag1(new TagValue("pctVol", std::to_string(pctVol)));
@@ -185,7 +174,6 @@ void AvailableAlgoParams::FillPriceVariantPctVolParams(Order baseOrder, double p
 	TagValueSPtr tag5(new TagValue("startTime", startTime));
 	TagValueSPtr tag6(new TagValue("endTime", endTime));
 	TagValueSPtr tag7(new TagValue("noTakeLiq", noTakeLiq ? "1" : "0"));
-	TagValueSPtr tag8(new TagValue("monetaryValue", std::to_string(monetaryValue)));
 	baseOrder.algoParams->push_back(tag1);
 	baseOrder.algoParams->push_back(tag2);
 	baseOrder.algoParams->push_back(tag3);
@@ -193,13 +181,12 @@ void AvailableAlgoParams::FillPriceVariantPctVolParams(Order baseOrder, double p
 	baseOrder.algoParams->push_back(tag5);
 	baseOrder.algoParams->push_back(tag6);
 	baseOrder.algoParams->push_back(tag7);
-	baseOrder.algoParams->push_back(tag8);
 }
 //! [pctvolpx_params]
 
 //! [pctvolsz_params]
 void AvailableAlgoParams::FillSizeVariantPctVolParams(Order baseOrder, double startPctVol, double endPctVol, 
-								std::string startTime, std::string endTime, bool noTakeLiq, double monetaryValue){
+								std::string startTime, std::string endTime, bool noTakeLiq){
 	baseOrder.algoStrategy = "PctVolSz";
 	baseOrder.algoParams.reset(new TagValueList());
 	TagValueSPtr tag1(new TagValue("startPctVol", std::to_string(startPctVol)));
@@ -207,19 +194,17 @@ void AvailableAlgoParams::FillSizeVariantPctVolParams(Order baseOrder, double st
 	TagValueSPtr tag3(new TagValue("startTime", startTime));
 	TagValueSPtr tag4(new TagValue("endTime", endTime));
 	TagValueSPtr tag5(new TagValue("noTakeLiq", noTakeLiq ? "1" : "0"));
-	TagValueSPtr tag6(new TagValue("monetaryValue", std::to_string(monetaryValue)));
 	baseOrder.algoParams->push_back(tag1);
 	baseOrder.algoParams->push_back(tag2);
 	baseOrder.algoParams->push_back(tag3);
 	baseOrder.algoParams->push_back(tag4);
 	baseOrder.algoParams->push_back(tag5);
-	baseOrder.algoParams->push_back(tag6);
 }
 //! [pctvolsz_params]
 
 //! [pctvoltm_params]
 void AvailableAlgoParams::FillTimeVariantPctVolParams(Order baseOrder, double startPctVol, double endPctVol, std::string startTime, 
-								 std::string endTime, bool noTakeLiq, double monetaryValue){
+								 std::string endTime, bool noTakeLiq){
 	baseOrder.algoStrategy = "PctVolTm";
 	baseOrder.algoParams.reset(new TagValueList());
 	TagValueSPtr tag1(new TagValue("startPctVol", std::to_string(startPctVol)));
@@ -227,13 +212,11 @@ void AvailableAlgoParams::FillTimeVariantPctVolParams(Order baseOrder, double st
 	TagValueSPtr tag3(new TagValue("startTime", startTime));
 	TagValueSPtr tag4(new TagValue("endTime", endTime));
 	TagValueSPtr tag5(new TagValue("noTakeLiq", noTakeLiq ? "1" : "0"));
-	TagValueSPtr tag6(new TagValue("monetaryValue", std::to_string(monetaryValue)));
 	baseOrder.algoParams->push_back(tag1);
 	baseOrder.algoParams->push_back(tag2);
 	baseOrder.algoParams->push_back(tag3);
 	baseOrder.algoParams->push_back(tag4);
 	baseOrder.algoParams->push_back(tag5);
-	baseOrder.algoParams->push_back(tag6);
 }
 //! [pctvoltm_params]
 

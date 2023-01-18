@@ -422,7 +422,7 @@ public class NewsDataHandler extends BaseHandler {
                 requestId = parseRequestId(messageTokens[0]);
             }
             ArrayList<String> table = Utils.convertArrayToTable(data);
-            Contract contract = parseContract(table, true, true, true, false, false);
+            Contract contract = parseContract(table, true, true, true, false, false, false);
             
             return new NewsTicksRequest(requestId, contract, requestStr);
         }

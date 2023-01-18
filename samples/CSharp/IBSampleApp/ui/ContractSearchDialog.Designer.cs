@@ -143,7 +143,8 @@ namespace IBSampleApp.ui
             "CMDTY",
             "BSK",
             "ICU",
-            "ICS"});
+            "ICS",
+            "CRYPTO"});
             this.cbSecType.Location = new System.Drawing.Point(86, 11);
             this.cbSecType.Name = "cbSecType";
             this.cbSecType.Size = new System.Drawing.Size(100, 21);

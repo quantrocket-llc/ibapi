@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -9,9 +9,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>TWSLib</RootNamespace>
     <AssemblyName>TWSLib</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -22,6 +23,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <RegisterForComInterop>true</RegisterForComInterop>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -31,6 +33,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <RegisterForComInterop>true</RegisterForComInterop>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -139,6 +142,9 @@
     <Compile Include="..\client\HistogramEntry.cs">
       <Link>CSharpAPI\HistogramEntry.cs</Link>
     </Compile>
+    <Compile Include="..\client\HistoricalSession.cs">
+      <Link>CSharpAPI\HistoricalSession.cs</Link>
+    </Compile>
     <Compile Include="..\client\HistoricalTick.cs">
       <Link>CSharpAPI\HistoricalTick.cs</Link>
     </Compile>
@@ -226,6 +232,9 @@
     <Compile Include="..\client\VolumeCondition.cs">
       <Link>CSharpAPI\VolumeCondition.cs</Link>
     </Compile>
+    <Compile Include="..\client\WshEventData.cs">
+      <Link>CSharpAPI\WshEventData.cs</Link>
+    </Compile>
     <Compile Include="ComWrappers\comComboLeg.cs" />
     <Compile Include="ComWrappers\comCommissionReport.cs" />
     <Compile Include="ComWrappers\comContract.cs" />
@@ -236,6 +245,7 @@
     <Compile Include="ComWrappers\comExecutionFilter.cs" />
     <Compile Include="ComWrappers\ComFamilyCode.cs" />
     <Compile Include="ComWrappers\ComHistogramEntry.cs" />
+    <Compile Include="ComWrappers\ComHistoricalSession.cs" />
     <Compile Include="ComWrappers\ComList.cs" />
     <Compile Include="ComWrappers\ComNewsProvider.cs" />
     <Compile Include="ComWrappers\comOrder.cs" />
@@ -255,7 +265,10 @@
     <Compile Include="ComWrappers\ComTickAttribBidAsk.cs" />
     <Compile Include="ComWrappers\ComSmartComponent.cs" />
     <Compile Include="ComWrappers\ComSmartComponentList.cs" />
+    <Compile Include="ComWrappers\ComWshEventData.cs" />
     <Compile Include="ControlImpl\IComList.cs" />
+    <Compile Include="ControlImpl\IHistoricalSession.cs" />
+    <Compile Include="ControlImpl\IHistoricalSessionList.cs" />
     <Compile Include="ControlImpl\ISoftDollarTier.cs" />
     <Compile Include="ComWrappers\ComSoftDollarTierList.cs" />
     <Compile Include="ControlImpl\ITickAtrribBidAsk.cs" />
@@ -294,6 +307,7 @@
     <Compile Include="ControlImpl\ITagValueList.cs" />
     <Compile Include="ControlImpl\ITws.cs" />
     <Compile Include="ControlImpl\ITwsEvents.cs" />
+    <Compile Include="ControlImpl\IWshEventData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ControlImpl\Tws.cs" />
   </ItemGroup>

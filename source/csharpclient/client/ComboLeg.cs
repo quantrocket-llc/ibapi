@@ -59,7 +59,10 @@ namespace IBApi
         public string DesignatedLocation { get; set; }
 
         /**
-         * @brief DOC_TODO
+         * @brief Mark order as exempt from short sale uptick rule.\n
+	 * Possible values:\n
+	 * 0 - Does not apply the rule.\n
+	 * -1 - Applies the short sale uptick rule.
          */
         public int ExemptCode { get; set; }
 

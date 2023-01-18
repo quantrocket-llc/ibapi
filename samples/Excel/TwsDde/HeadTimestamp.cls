@@ -102,8 +102,8 @@ Sub requestHeadTimestamp()
         .Cells(ActiveCell.row, idColumnIndex).value = id
     
         ' range to poke
-        Dim rangeToPoke As range
-        Set rangeToPoke = .range(.Cells(ActiveCell.row, startOfContractColumns), .Cells(ActiveCell.row, idColumnIndex - 1))
+        Dim rangeToPoke As Range
+        Set rangeToPoke = .Range(.Cells(ActiveCell.row, startOfContractColumns), .Cells(ActiveCell.row, idColumnIndex - 1))
     
         ' fill status column with formula
         .Cells(ActiveCell.row, statusColumnIndex).Formula = util.composeLink(server, STR_HEAD_TIMESTAMP_TICK, id, util.STR_STATUS)

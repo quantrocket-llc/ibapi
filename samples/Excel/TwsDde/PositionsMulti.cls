@@ -41,7 +41,7 @@ Dim genId As Long
 ' Subscribes to positions multi when button is pressed
 ' ========================================================
 Sub subscribePositionsMulti()
-    If CStr(Worksheets(STR_SHEET_NAME).range(CELL_SUBSCRIPTION_CONTROL).value) = util.STR_EMPTY Then ' only if not subscribed
+    If CStr(Worksheets(STR_SHEET_NAME).Range(CELL_SUBSCRIPTION_CONTROL).value) = util.STR_EMPTY Then ' only if not subscribed
         requestPositionsMulti
     End If
 End Sub
@@ -50,7 +50,7 @@ End Sub
 ' Re-subscribes to positions multi when workbook is opened
 ' ========================================================
 Sub resubscribePositionsMulti()
-    If CStr(Worksheets(STR_SHEET_NAME).range(CELL_SUBSCRIPTION_CONTROL).value) = util.STR_CANCELLED Then ' re-subscribe only if cancelled
+    If CStr(Worksheets(STR_SHEET_NAME).Range(CELL_SUBSCRIPTION_CONTROL).value) = util.STR_CANCELLED Then ' re-subscribe only if cancelled
         requestPositionsMulti
     End If
 End Sub
@@ -69,14 +69,14 @@ Sub requestPositionsMulti()
     Dim id As String, account As String, model As String
     id = util.getIDpost(genId, util.ID_REQ_POSITIONS_MULTI)
     With Worksheets(STR_SHEET_NAME)
-        .range(CELL_ID).value = id
-        account = .range(CELL_ACCOUNT).value
-        model = .range(CELL_MODEL_CODE).value
+        .Range(CELL_ID).value = id
+        account = .Range(CELL_ACCOUNT).value
+        model = .Range(CELL_MODEL_CODE).value
         
-        .range(CELL_SUBSCRIPTION_CONTROL).Formula = util.composeLink(server, STR_REQ_POSITIONS_MULTI, id, account & util.UNDERSCORE & model) ' subscription control
-        If util.cleanOnError(.range(CELL_SUBSCRIPTION_CONTROL)) Then
-            .range(CELL_SUBSCRIPTION_CONTROL).value = util.STR_EMPTY
-            .range(CELL_ID).value = util.STR_EMPTY
+        .Range(CELL_SUBSCRIPTION_CONTROL).Formula = util.composeLink(server, STR_REQ_POSITIONS_MULTI, id, account & util.UNDERSCORE & model) ' subscription control
+        If util.cleanOnError(.Range(CELL_SUBSCRIPTION_CONTROL)) Then
+            .Range(CELL_SUBSCRIPTION_CONTROL).value = util.STR_EMPTY
+            .Range(CELL_ID).value = util.STR_EMPTY
         End If
     End With
 End Sub
@@ -86,7 +86,7 @@ End Sub
 ' ========================================================
 Sub clearPositionsMultiTable()
     ' clear positions table
-    Worksheets(STR_SHEET_NAME).range(POSITIONS_TABLE_RANGE).ClearContents
+    Worksheets(STR_SHEET_NAME).Range(POSITIONS_TABLE_RANGE).ClearContents
 End Sub
 
 ' ========================================================
@@ -108,11 +108,11 @@ End Sub
 ' ========================================================
 Sub cancelPositionsMulti(controlValue As String)
     With Worksheets(STR_SHEET_NAME)
-        If .range(CELL_SUBSCRIPTION_CONTROL).value = util.STR_SUBSCRIBED Or .range(CELL_SUBSCRIPTION_CONTROL).value = util.STR_ERROR_UPPER Then
+        If .Range(CELL_SUBSCRIPTION_CONTROL).value = util.STR_SUBSCRIBED Or .Range(CELL_SUBSCRIPTION_CONTROL).value = util.STR_ERROR_UPPER Then
             Dim id As String
-            id = .range(CELL_ID).value
+            id = .Range(CELL_ID).value
     
-            If .range(CELL_SUBSCRIPTION_CONTROL).value = util.STR_SUBSCRIBED Then
+            If .Range(CELL_SUBSCRIPTION_CONTROL).value = util.STR_SUBSCRIBED Then
                 Dim server As String
                 server = util.getServerVal(STR_SHEET_NAME, CELL_SERVER_NAME)
                 If server = util.STR_EMPTY Then Exit Sub
@@ -120,9 +120,9 @@ Sub cancelPositionsMulti(controlValue As String)
                 util.sendRequest server, STR_CANCEL_POSITIONS_MULTI, id
             End If
             
-            .range(CELL_SUBSCRIPTION_CONTROL).value = controlValue ' subscription control
-            .range(CELL_ID).value = util.STR_EMPTY
-            .range(CELL_ERROR).value = util.STR_EMPTY
+            .Range(CELL_SUBSCRIPTION_CONTROL).value = controlValue ' subscription control
+            .Range(CELL_ID).value = util.STR_EMPTY
+            .Range(CELL_ERROR).value = util.STR_EMPTY
     
         End If
     End With
@@ -139,23 +139,23 @@ Private Sub Worksheet_Calculate()
     
     With Worksheets(STR_SHEET_NAME)
     
-        If CStr(.range(CELL_SUBSCRIPTION_CONTROL).value) = util.STR_ERROR_UPPER And CStr(.range(CELL_ERROR).value) = util.STR_EMPTY Then
+        If CStr(.Range(CELL_SUBSCRIPTION_CONTROL).value) = util.STR_ERROR_UPPER And CStr(.Range(CELL_ERROR).value) = util.STR_EMPTY Then
             server = util.getServerVal(STR_SHEET_NAME, CELL_SERVER_NAME)
             If server = util.STR_EMPTY Then Exit Sub
-            id = .range(CELL_ID).value
-            .range(CELL_ERROR).Formula = util.composeLink(server, STR_REQ_POSITIONS_MULTI_ERROR, id, util.STR_EMPTY)
+            id = .Range(CELL_ID).value
+            .Range(CELL_ERROR).Formula = util.composeLink(server, STR_REQ_POSITIONS_MULTI_ERROR, id, util.STR_EMPTY)
         End If
         
-        If CStr(.range(CELL_SUBSCRIPTION_CONTROL).value) = util.STR_RECEIVED Then
+        If CStr(.Range(CELL_SUBSCRIPTION_CONTROL).value) = util.STR_RECEIVED Then
             Dim positionsMultiArray() As Variant
             server = util.getServerVal(STR_SHEET_NAME, CELL_SERVER_NAME)
             If server = util.STR_EMPTY Then Exit Sub
             
-            id = .range(CELL_ID).value
+            id = .Range(CELL_ID).value
     
             Dim account As String, modelCode As String
-            account = .range(CELL_ACCOUNT).value
-            modelCode = .range(CELL_MODEL_CODE).value
+            account = .Range(CELL_ACCOUNT).value
+            modelCode = .Range(CELL_MODEL_CODE).value
     
             ' send request and receive positions multi table/array
             positionsMultiArray = util.sendRequest(server, STR_REQ_POSITIONS_MULTI, id & util.QMARK & account & util.UNDERSCORE & modelCode) ' returned array can be 1-Dimension or 2-Dimension
@@ -202,9 +202,9 @@ Private Function findPositionRow(conid As String, account As String, modelCode A
     Dim row As Integer, i As Integer
     Dim arr1 As Variant, arr2 As Variant, arr3 As Variant
     With Worksheets(STR_SHEET_NAME)
-        arr1 = .range(.Cells(POSITIONS_START_ROW, COLUMN_CONID), .Cells(POSITIONS_END_ROW, COLUMN_CONID)).value
-        arr2 = .range(.Cells(POSITIONS_START_ROW, COLUMN_ACCOUNT), .Cells(POSITIONS_END_ROW, COLUMN_ACCOUNT)).value
-        arr3 = .range(.Cells(POSITIONS_START_ROW, COLUMN_MODEL_CODE), .Cells(POSITIONS_END_ROW, COLUMN_MODEL_CODE)).value
+        arr1 = .Range(.Cells(POSITIONS_START_ROW, COLUMN_CONID), .Cells(POSITIONS_END_ROW, COLUMN_CONID)).value
+        arr2 = .Range(.Cells(POSITIONS_START_ROW, COLUMN_ACCOUNT), .Cells(POSITIONS_END_ROW, COLUMN_ACCOUNT)).value
+        arr3 = .Range(.Cells(POSITIONS_START_ROW, COLUMN_MODEL_CODE), .Cells(POSITIONS_END_ROW, COLUMN_MODEL_CODE)).value
         
         For i = 1 To POSITIONS_END_ROW - POSITIONS_START_ROW + 1
             If CStr(arr1(i, 1)) = util.STR_EMPTY And CStr(arr2(i, 1)) = util.STR_EMPTY And CStr(arr3(i, 1)) = util.STR_EMPTY Or _

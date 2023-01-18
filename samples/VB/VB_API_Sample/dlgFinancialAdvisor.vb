@@ -1,4 +1,4 @@
-﻿' Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+' Copyright (C) 2023 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
 ' and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable.
 
 
@@ -36,12 +36,10 @@ Friend Class dlgFinancialAdvisor
     'Required by the Windows Form Designer
     Private components As System.ComponentModel.IContainer
     Public ToolTip1 As System.Windows.Forms.ToolTip
-    Public WithEvents lstProfiles As System.Windows.Forms.TextBox
     Public WithEvents lstAliases As System.Windows.Forms.TextBox
     Public WithEvents lstGroups As System.Windows.Forms.TextBox
     Public WithEvents Frame1 As System.Windows.Forms.GroupBox
     Public WithEvents cmdClose As System.Windows.Forms.Button
-    Public WithEvents Frame2 As System.Windows.Forms.GroupBox
     Public WithEvents Frame3 As System.Windows.Forms.GroupBox
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.
@@ -49,34 +47,13 @@ Friend Class dlgFinancialAdvisor
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.lstProfiles = New System.Windows.Forms.TextBox()
         Me.lstAliases = New System.Windows.Forms.TextBox()
         Me.Frame1 = New System.Windows.Forms.GroupBox()
         Me.lstGroups = New System.Windows.Forms.TextBox()
         Me.cmdClose = New System.Windows.Forms.Button()
-        Me.Frame2 = New System.Windows.Forms.GroupBox()
         Me.Frame3 = New System.Windows.Forms.GroupBox()
         Me.Frame1.SuspendLayout()
         Me.SuspendLayout()
-        '
-        'lstProfiles
-        '
-        Me.lstProfiles.AcceptsReturn = True
-        Me.lstProfiles.BackColor = System.Drawing.SystemColors.Window
-        Me.lstProfiles.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.lstProfiles.Cursor = System.Windows.Forms.Cursors.IBeam
-        Me.lstProfiles.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lstProfiles.ForeColor = System.Drawing.SystemColors.WindowText
-        Me.lstProfiles.Location = New System.Drawing.Point(16, 216)
-        Me.lstProfiles.MaxLength = 0
-        Me.lstProfiles.Multiline = True
-        Me.lstProfiles.Name = "lstProfiles"
-        Me.lstProfiles.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.lstProfiles.ScrollBars = System.Windows.Forms.ScrollBars.Both
-        Me.lstProfiles.Size = New System.Drawing.Size(633, 121)
-        Me.lstProfiles.TabIndex = 4
-        Me.lstProfiles.Text = "Start" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10)
-        Me.lstProfiles.WordWrap = False
         '
         'lstAliases
         '
@@ -86,13 +63,13 @@ Friend Class dlgFinancialAdvisor
         Me.lstAliases.Cursor = System.Windows.Forms.Cursors.IBeam
         Me.lstAliases.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lstAliases.ForeColor = System.Drawing.SystemColors.WindowText
-        Me.lstAliases.Location = New System.Drawing.Point(16, 392)
+        Me.lstAliases.Location = New System.Drawing.Point(16, 363)
         Me.lstAliases.MaxLength = 0
         Me.lstAliases.Multiline = True
         Me.lstAliases.Name = "lstAliases"
         Me.lstAliases.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.lstAliases.ScrollBars = System.Windows.Forms.ScrollBars.Both
-        Me.lstAliases.Size = New System.Drawing.Size(633, 121)
+        Me.lstAliases.Size = New System.Drawing.Size(633, 150)
         Me.lstAliases.TabIndex = 3
         Me.lstAliases.Text = "Start" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10)
         Me.lstAliases.WordWrap = False
@@ -106,7 +83,7 @@ Friend Class dlgFinancialAdvisor
         Me.Frame1.Location = New System.Drawing.Point(8, 16)
         Me.Frame1.Name = "Frame1"
         Me.Frame1.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.Frame1.Size = New System.Drawing.Size(649, 161)
+        Me.Frame1.Size = New System.Drawing.Size(649, 313)
         Me.Frame1.TabIndex = 1
         Me.Frame1.TabStop = False
         Me.Frame1.Text = "Groups:"
@@ -125,7 +102,7 @@ Friend Class dlgFinancialAdvisor
         Me.lstGroups.Name = "lstGroups"
         Me.lstGroups.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.lstGroups.ScrollBars = System.Windows.Forms.ScrollBars.Both
-        Me.lstGroups.Size = New System.Drawing.Size(633, 121)
+        Me.lstGroups.Size = New System.Drawing.Size(633, 276)
         Me.lstGroups.TabIndex = 2
         Me.lstGroups.Text = "Start" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10)
         Me.lstGroups.WordWrap = False
@@ -144,28 +121,15 @@ Friend Class dlgFinancialAdvisor
         Me.cmdClose.Text = "Accept Edits"
         Me.cmdClose.UseVisualStyleBackColor = True
         '
-        'Frame2
-        '
-        Me.Frame2.BackColor = System.Drawing.Color.Gainsboro
-        Me.Frame2.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Frame2.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.Frame2.Location = New System.Drawing.Point(8, 192)
-        Me.Frame2.Name = "Frame2"
-        Me.Frame2.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.Frame2.Size = New System.Drawing.Size(649, 161)
-        Me.Frame2.TabIndex = 5
-        Me.Frame2.TabStop = False
-        Me.Frame2.Text = "Profiles:"
-        '
         'Frame3
         '
         Me.Frame3.BackColor = System.Drawing.Color.Gainsboro
         Me.Frame3.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Frame3.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.Frame3.Location = New System.Drawing.Point(8, 368)
+        Me.Frame3.Location = New System.Drawing.Point(8, 335)
         Me.Frame3.Name = "Frame3"
         Me.Frame3.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.Frame3.Size = New System.Drawing.Size(649, 161)
+        Me.Frame3.Size = New System.Drawing.Size(649, 194)
         Me.Frame3.TabIndex = 6
         Me.Frame3.TabStop = False
         Me.Frame3.Text = "Aliases"
@@ -175,11 +139,9 @@ Friend Class dlgFinancialAdvisor
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
         Me.BackColor = System.Drawing.Color.Gainsboro
         Me.ClientSize = New System.Drawing.Size(667, 595)
-        Me.Controls.Add(Me.lstProfiles)
         Me.Controls.Add(Me.lstAliases)
         Me.Controls.Add(Me.Frame1)
         Me.Controls.Add(Me.cmdClose)
-        Me.Controls.Add(Me.Frame2)
         Me.Controls.Add(Me.Frame3)
         Me.Cursor = System.Windows.Forms.Cursors.Default
         Me.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -218,7 +180,7 @@ Friend Class dlgFinancialAdvisor
 
     Private m_utils As Utils
     Private m_ok As Boolean
-    Public aliasesXML, groupsXML, profilesXML, CRSTR As Object
+    Public aliasesXML, groupsXML, CRSTR As Object
     Public CRLFSTR As String
     ' ========================================================
     ' Button Events
@@ -233,18 +195,16 @@ Friend Class dlgFinancialAdvisor
     ' Public methods
     ' ========================================================
 
-    Public Sub init(utilities As Utils, faGroupXML As String, faProfilesXML As String, faAliasesXML As String)
+    Public Sub init(utilities As Utils, faGroupXML As String, faAliasesXML As String)
         m_utils = utilities
         CRSTR = Chr(10)
         CRLFSTR = Chr(13) & Chr(10)
         lstGroups.Text = Replace(faGroupXML, CRSTR, CRLFSTR)
-        lstProfiles.Text = Replace(faProfilesXML, CRSTR, CRLFSTR)
         lstAliases.Text = Replace(faAliasesXML, CRSTR, CRLFSTR)
         m_ok = False
     End Sub
     Public Function ok() As Object
         groupsXML = Replace(lstGroups.Text, CRLFSTR, CRSTR)
-        profilesXML = Replace(lstProfiles.Text, CRLFSTR, CRSTR)
         aliasesXML = Replace(lstAliases.Text, CRLFSTR, CRSTR)
         ok = m_ok
     End Function

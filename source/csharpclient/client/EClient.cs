@@ -1,4 +1,4 @@
-/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+/* Copyright (C) 2023 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 using System;
 using System.Net;
@@ -55,7 +55,7 @@ namespace IBApi
         {
             if (IsConnected())
             {
-                wrapper.error(clientId, EClientErrors.AlreadyConnected.Code, EClientErrors.AlreadyConnected.Message);
+                wrapper.error(clientId, EClientErrors.AlreadyConnected.Code, EClientErrors.AlreadyConnected.Message, "");
 
                 return;
             }
@@ -143,7 +143,7 @@ namespace IBApi
             }
             catch (IOException)
             {
-                wrapper.error(clientId, EClientErrors.CONNECT_FAIL.Code, EClientErrors.CONNECT_FAIL.Message);
+                wrapper.error(clientId, EClientErrors.CONNECT_FAIL.Code, EClientErrors.CONNECT_FAIL.Message, "");
                 throw;
             }
         }
@@ -309,7 +309,7 @@ namespace IBApi
             }
             catch (EClientException e)
             {
-                wrapper.error(requestId, e.Err.Code, e.Err.Message + e.Text);
+                wrapper.error(requestId, e.Err.Code, e.Err.Message + e.Text, "");
                 return;
             }
 
@@ -388,7 +388,7 @@ namespace IBApi
             }
             catch (EClientException e)
             {
-                wrapper.error(reqId, e.Err.Code, e.Err.Message + e.Text);
+                wrapper.error(reqId, e.Err.Code, e.Err.Message + e.Text, "");
                 return;
             }
 
@@ -453,7 +453,7 @@ namespace IBApi
             }
             catch (EClientException e)
             {
-                wrapper.error(reqId, e.Err.Code, e.Err.Message + e.Text);
+                wrapper.error(reqId, e.Err.Code, e.Err.Message + e.Text, "");
                 return;
             }
 
@@ -586,12 +586,31 @@ namespace IBApi
          * @param orderId the order's client id
          * @sa placeOrder, reqGlobalCancel
          */
-        public void cancelOrder(int orderId)
+        public void cancelOrder(int orderId, string manualOrderCancelTime)
         {
             if (!CheckConnection())
                 return;
-            SendCancelRequest(OutgoingMessages.CancelOrder, 1, orderId,
-                EClientErrors.FAIL_SEND_CORDER);
+
+            if (!IsEmpty(manualOrderCancelTime))
+            {
+                if (!CheckServerVersion(orderId, MinServerVer.MANUAL_ORDER_TIME, " It does not support manual order cancel time attribute"))
+                    return;
+            }
+
+            const int VERSION = 1;
+            var paramsList = new BinaryWriter(new MemoryStream());
+            var lengthPos = prepareBuffer(paramsList);
+
+            paramsList.AddParameter(OutgoingMessages.CancelOrder);
+            paramsList.AddParameter(VERSION);
+            paramsList.AddParameter(orderId);
+
+            if (serverVersion >= MinServerVer.MANUAL_ORDER_TIME)
+            {
+                paramsList.AddParameter(manualOrderCancelTime);
+            }
+
+            CloseAndSend(paramsList, lengthPos, EClientErrors.FAIL_SEND_CANCELPNL);
         }
 
         /**
@@ -692,7 +711,7 @@ namespace IBApi
             }
             catch (EClientException e)
             {
-                wrapper.error(tickerId, e.Err.Code, e.Err.Message + e.Text);
+                wrapper.error(tickerId, e.Err.Code, e.Err.Message + e.Text, "");
                 return;
             }
 
@@ -921,7 +940,10 @@ namespace IBApi
                     paramsList.AddParameter(order.FaGroup);
                     paramsList.AddParameter(order.FaMethod);
                     paramsList.AddParameter(order.FaPercentage);
-                    paramsList.AddParameter(order.FaProfile);
+                    if (serverVersion < MinServerVer.MIN_SERVER_VER_FA_PROFILE_DESUPPORT)
+                    {
+                        paramsList.AddParameter(""); // send deprecated faProfile field
+                    }
                 }
 
                 if (serverVersion >= MinServerVer.MODELS_SUPPORT)
@@ -951,9 +973,9 @@ namespace IBApi
                     paramsList.AddParameter(order.AllOrNone);
                     paramsList.AddParameterMax(order.MinQty);
                     paramsList.AddParameterMax(order.PercentOffset);
-                    paramsList.AddParameter(order.ETradeOnly);
-                    paramsList.AddParameter(order.FirmQuoteOnly);
-                    paramsList.AddParameterMax(order.NbboPriceCap);
+                    paramsList.AddParameter(false);
+                    paramsList.AddParameter(false);
+                    paramsList.AddParameterMax(double.MaxValue);
                     paramsList.AddParameterMax(order.AuctionStrategy);
                     paramsList.AddParameterMax(order.StartingPrice);
                     paramsList.AddParameterMax(order.StockRefPrice);
@@ -1228,10 +1250,62 @@ namespace IBApi
                 {
                     paramsList.AddParameter(order.UsePriceMgmtAlgo);
                 }
+
+                if (serverVersion >= MinServerVer.DURATION)
+                {
+                    paramsList.AddParameter(order.Duration);
+                }
+
+                if (serverVersion >= MinServerVer.POST_TO_ATS)
+                {
+                    paramsList.AddParameter(order.PostToAts);
+                }
+
+                if (serverVersion >= MinServerVer.AUTO_CANCEL_PARENT)
+                {
+                    paramsList.AddParameter(order.AutoCancelParent);
+                }
+
+                if (serverVersion >= MinServerVer.ADVANCED_ORDER_REJECT)
+                {
+                    paramsList.AddParameter(order.AdvancedErrorOverride);
+                }
+
+                if (serverVersion >= MinServerVer.MANUAL_ORDER_TIME)
+                {
+                    paramsList.AddParameter(order.ManualOrderTime);
+                }
+
+                if (serverVersion >= MinServerVer.PEGBEST_PEGMID_OFFSETS)
+                {
+                    if (contract.Exchange == "IBKRATS")
+                    {
+                        paramsList.AddParameterMax(order.MinTradeQty);
+                    }
+                    bool sendMidOffsets = false;
+                    if (order.OrderType == "PEG BEST")
+                    {
+                        paramsList.AddParameterMax(order.MinCompeteSize);
+                        paramsList.AddParameterMax(order.CompeteAgainstBestOffset);
+                        if (order.CompeteAgainstBestOffset == Order.COMPETE_AGAINST_BEST_OFFSET_UP_TO_MID)
+                        {
+                            sendMidOffsets = true;
+                        }
+                    }
+                    else if (order.OrderType == "PEG MID")
+                    {
+                        sendMidOffsets = true;
+                    }
+                    if (sendMidOffsets)
+                    {
+                        paramsList.AddParameterMax(order.MidOffsetAtWhole);
+                        paramsList.AddParameterMax(order.MidOffsetAtHalf);
+                    }
+                }
             }
             catch (EClientException e)
             {
-                wrapper.error(id, e.Err.Code, e.Err.Message + e.Text);
+                wrapper.error(id, e.Err.Code, e.Err.Message + e.Text, "");
                 return;
             }
 
@@ -1242,10 +1316,9 @@ namespace IBApi
          * @brief Replaces Financial Advisor's settings
          * A Financial Advisor can define three different configurations:
          *    1. Groups: offer traders a way to create a group of accounts and apply a single allocation method to all accounts in the group.
-         *    2. Profiles: let you allocate shares on an account-by-account basis using a predefined calculation value.
          *    3. Account Aliases: let you easily identify the accounts by meaningful names rather than account numbers.
          * More information at https://www.interactivebrokers.com/en/?f=%2Fen%2Fsoftware%2Fpdfhighlights%2FPDF-AdvisorAllocations.php%3Fib_entity%3Dllc
-         * @param faDataType the configuration to change. Set to 1, 2 or 3 as defined above.
+         * @param faDataType the configuration to change. Set to 1 or 3 as defined above.
          * @param xml the xml-formatted configuration string
          * @sa requestFA
          */
@@ -1253,6 +1326,12 @@ namespace IBApi
         {
             if (!CheckConnection())
                 return;
+
+            if (serverVersion >= MinServerVer.MIN_SERVER_VER_FA_PROFILE_DESUPPORT && faDataType == 2)
+            {
+                wrapper.error(reqId, EClientErrors.FA_PROFILE_NOT_SUPPORTED.Code, EClientErrors.FA_PROFILE_NOT_SUPPORTED.Message, "");
+                return;
+            }
 
             var paramsList = new BinaryWriter(new MemoryStream());
             var lengthPos = prepareBuffer(paramsList);
@@ -1270,7 +1349,7 @@ namespace IBApi
             }
             catch (EClientException e)
             {
-                wrapper.error(reqId, e.Err.Code, e.Err.Message + e.Text);
+                wrapper.error(reqId, e.Err.Code, e.Err.Message + e.Text, "");
                 return;
             }
 
@@ -1281,16 +1360,22 @@ namespace IBApi
          * @brief Requests the FA configuration
          * A Financial Advisor can define three different configurations:
          *      1. Groups: offer traders a way to create a group of accounts and apply a single allocation method to all accounts in the group.
-         *      2. Profiles: let you allocate shares on an account-by-account basis using a predefined calculation value.
          *      3. Account Aliases: let you easily identify the accounts by meaningful names rather than account numbers.
          * More information at https://www.interactivebrokers.com/en/?f=%2Fen%2Fsoftware%2Fpdfhighlights%2FPDF-AdvisorAllocations.php%3Fib_entity%3Dllc
-         * @param faDataType the configuration to change. Set to 1, 2 or 3 as defined above.
+         * @param faDataType the configuration to change. Set to 1 or 3 as defined above.
          * @sa replaceFA
          */
         public void requestFA(int faDataType)
         {
             if (!CheckConnection())
                 return;
+
+            if (serverVersion >= MinServerVer.MIN_SERVER_VER_FA_PROFILE_DESUPPORT && faDataType == 2)
+            {
+                wrapper.error(IncomingMessage.NotValid, EClientErrors.FA_PROFILE_NOT_SUPPORTED.Code, EClientErrors.FA_PROFILE_NOT_SUPPORTED.Message, "");
+                return;
+            }
+
             const int VERSION = 1;
             var paramsList = new BinaryWriter(new MemoryStream());
             var lengthPos = prepareBuffer(paramsList);
@@ -1365,7 +1450,7 @@ namespace IBApi
             }
             catch (EClientException e)
             {
-                wrapper.error(reqId, e.Err.Code, e.Err.Message + e.Text);
+                wrapper.error(reqId, e.Err.Code, e.Err.Message + e.Text, "");
                 return;
             }
 
@@ -1374,7 +1459,7 @@ namespace IBApi
 
         /**
          * @brief Subscribes to a specific account's information and portfolio.
-         * Through this method, a single account's subscription can be started/stopped. As a result from the subscription, the account's information, portfolio and last update time will be received at EWrapper::updateAccountValue, EWrapper::updateAccountPortfolio, EWrapper::updateAccountTime respectively. All account values and positions will be returned initially, and then there will only be updates when there is a change in a position, or to an account value every 3 minutes if it has changed. 
+         * Through this method, a single account's subscription can be started/stopped. As a result from the subscription, the account's information, portfolio and last update time will be received at EWrapper::updateAccountValue, EWrapper::updateAccountPortfolio, EWrapper::updateAccountTime respectively. All account values and positions will be returned initially, and then there will only be updates when there is a change in a position, or to an account value every 3 minutes if it has changed.
          * Only one account can be subscribed at a time. A second subscription request for another account when the previous one is still active will cause the first one to be canceled in favour of the second one. Consider user reqPositions if you want to retrieve all your accounts' portfolios directly.
          * @param subscribe set to true to start the subscription and to false to stop it.
          * @param acctCode the account id (i.e. U123456) for which the information is requested.
@@ -1398,7 +1483,7 @@ namespace IBApi
             }
             catch (EClientException e)
             {
-                wrapper.error(IncomingMessage.NotValid, e.Err.Code, e.Err.Message + e.Text);
+                wrapper.error(IncomingMessage.NotValid, e.Err.Code, e.Err.Message + e.Text, "");
                 return;
             }
 
@@ -1470,6 +1555,9 @@ namespace IBApi
                 " It does not support PrimaryExch parameter when requesting contract details."))
                 return;
 
+            if (!IsEmpty(contract.IssuerId) && !CheckServerVersion(reqId, MinServerVer.MIN_SERVER_VER_BOND_ISSUERID,
+                " It does not support IssuerId parameter when requesting contract details."))
+                return;
 
             int VERSION = 8;
 
@@ -1530,10 +1618,14 @@ namespace IBApi
                     paramsList.AddParameter(contract.SecIdType);
                     paramsList.AddParameter(contract.SecId);
                 }
+                if (serverVersion >= MinServerVer.MIN_SERVER_VER_BOND_ISSUERID)
+                {
+                    paramsList.AddParameter(contract.IssuerId);
+                }
             }
             catch (EClientException e)
             {
-                wrapper.error(reqId, e.Err.Code, e.Err.Message + e.Text);
+                wrapper.error(reqId, e.Err.Code, e.Err.Message + e.Text, "");
                 return;
             }
 
@@ -1594,7 +1686,7 @@ namespace IBApi
                     paramsList.AddParameter(filter.ClientId);
                     paramsList.AddParameter(filter.AcctCode);
 
-                    // Note that the valid format for time is "yyyymmdd-hh:mm:ss"
+                    // Note that the valid format for time is "yyyyMMdd-HH:mm:ss" (UTC) or "yyyyMMdd HH:mm:ss timezone"
                     paramsList.AddParameter(filter.Time);
                     paramsList.AddParameter(filter.Symbol);
                     paramsList.AddParameter(filter.SecType);
@@ -1604,7 +1696,7 @@ namespace IBApi
             }
             catch (EClientException e)
             {
-                wrapper.error(reqId, e.Err.Code, e.Err.Message + e.Text);
+                wrapper.error(reqId, e.Err.Code, e.Err.Message + e.Text, "");
                 return;
             }
 
@@ -1612,7 +1704,7 @@ namespace IBApi
         }
 
         /**
-         * @brief Requests the contract's fundamental data.
+         * @brief Legacy/DEPRECATED. Requests the contract's fundamental data.
          * Fundamental data is returned at EWrapper::fundamentalData
          * @param reqId the request's unique identifier.
          * @param contract the contract's description for which the data will be returned.
@@ -1669,7 +1761,7 @@ namespace IBApi
             }
             catch (EClientException e)
             {
-                wrapper.error(reqId, e.Err.Code, e.Err.Message + e.Text);
+                wrapper.error(reqId, e.Err.Code, e.Err.Message + e.Text, "");
                 return;
             }
 
@@ -1735,8 +1827,8 @@ namespace IBApi
          *      - BID_ASK
          *      - HISTORICAL_VOLATILITY
          *      - OPTION_IMPLIED_VOLATILITY
-         *	    - FEE_RATE
-         *	    - REBATE_RATE
+         *      - FEE_RATE
+         *      - SCHEDULE
          * @param useRTH set to 0 to obtain the data which was also generated outside of the Regular Trading Hours, set to 1 to obtain only the RTH data
          * @param formatDate set to 1 to obtain the bars' time as yyyyMMdd HH:mm:ss, set to 2 to obtain it like system time format in seconds
 		 * @param keepUpToDate set to True to received continuous updates on most recent bar data. If True, and endDateTime cannot be specified.
@@ -1754,6 +1846,12 @@ namespace IBApi
             if (!IsEmpty(contract.TradingClass) || contract.ConId > 0)
             {
                 if (!CheckServerVersion(tickerId, MinServerVer.TRADING_CLASS, " It does not support conId nor trading class parameters when requesting historical data."))
+                    return;
+            }
+
+            if (!IsEmpty(whatToShow) && whatToShow.Equals("SCHEDULE"))
+            {
+                if (!CheckServerVersion(tickerId, MinServerVer.HISTORICAL_SCHEDULE, " It does not support requesting of historical schedule."))
                     return;
             }
 
@@ -1839,7 +1937,7 @@ namespace IBApi
             }
             catch (EClientException e)
             {
-                wrapper.error(tickerId, e.Err.Code, e.Err.Message + e.Text);
+                wrapper.error(tickerId, e.Err.Code, e.Err.Message + e.Text, "");
                 return;
             }
 
@@ -2031,7 +2129,7 @@ namespace IBApi
             }
             catch (EClientException e)
             {
-                wrapper.error(tickerId, e.Err.Code, e.Err.Message + e.Text);
+                wrapper.error(tickerId, e.Err.Code, e.Err.Message + e.Text, "");
                 return;
             }
 
@@ -2154,7 +2252,7 @@ namespace IBApi
             }
             catch (EClientException e)
             {
-                wrapper.error(tickerId, e.Err.Code, e.Err.Message + e.Text);
+                wrapper.error(tickerId, e.Err.Code, e.Err.Message + e.Text, "");
                 return;
             }
 
@@ -2288,7 +2386,7 @@ namespace IBApi
             }
             catch (EClientException e)
             {
-                wrapper.error(tickerId, e.Err.Code, e.Err.Message + e.Text);
+                wrapper.error(tickerId, e.Err.Code, e.Err.Message + e.Text, "");
                 return;
             }
 
@@ -2391,7 +2489,7 @@ namespace IBApi
             }
             catch (EClientException e)
             {
-                wrapper.error(reqId, e.Err.Code, e.Err.Message + e.Text);
+                wrapper.error(reqId, e.Err.Code, e.Err.Message + e.Text, "");
                 return;
             }
 
@@ -2453,7 +2551,7 @@ namespace IBApi
             }
             catch (EClientException e)
             {
-                wrapper.error(IncomingMessage.NotValid, e.Err.Code, e.Err.Message + e.Text);
+                wrapper.error(IncomingMessage.NotValid, e.Err.Code, e.Err.Message + e.Text, "");
                 return;
             }
 
@@ -2481,7 +2579,7 @@ namespace IBApi
             }
             catch (EClientException e)
             {
-                wrapper.error(IncomingMessage.NotValid, e.Err.Code, e.Err.Message + e.Text);
+                wrapper.error(IncomingMessage.NotValid, e.Err.Code, e.Err.Message + e.Text, "");
                 return;
             }
 
@@ -2517,7 +2615,7 @@ namespace IBApi
             }
             catch (EClientException e)
             {
-                wrapper.error(IncomingMessage.NotValid, e.Err.Code, e.Err.Message + e.Text);
+                wrapper.error(IncomingMessage.NotValid, e.Err.Code, e.Err.Message + e.Text, "");
                 return;
             }
 
@@ -2546,7 +2644,7 @@ namespace IBApi
             }
             catch (EClientException e)
             {
-                wrapper.error(IncomingMessage.NotValid, e.Err.Code, e.Err.Message + e.Text);
+                wrapper.error(IncomingMessage.NotValid, e.Err.Code, e.Err.Message + e.Text, "");
                 return;
             }
 
@@ -2623,7 +2721,7 @@ namespace IBApi
             }
             catch (EClientException e)
             {
-                wrapper.error(requestId, e.Err.Code, e.Err.Message + e.Text);
+                wrapper.error(requestId, e.Err.Code, e.Err.Message + e.Text, "");
                 return;
             }
 
@@ -2678,7 +2776,7 @@ namespace IBApi
             }
             catch (EClientException e)
             {
-                wrapper.error(requestId, e.Err.Code, e.Err.Message + e.Text);
+                wrapper.error(requestId, e.Err.Code, e.Err.Message + e.Text, "");
                 return;
             }
 
@@ -2739,7 +2837,7 @@ namespace IBApi
             }
             catch (EClientException e)
             {
-                wrapper.error(requestId, e.Err.Code, e.Err.Message + e.Text);
+                wrapper.error(requestId, e.Err.Code, e.Err.Message + e.Text, "");
                 return;
             }
 
@@ -2802,7 +2900,7 @@ namespace IBApi
             }
             catch (EClientException e)
             {
-                wrapper.error(reqId, e.Err.Code, e.Err.Message + e.Text);
+                wrapper.error(reqId, e.Err.Code, e.Err.Message + e.Text, "");
                 return;
             }
 
@@ -2876,7 +2974,7 @@ namespace IBApi
             }
             catch (EClientException e)
             {
-                wrapper.error(reqId, e.Err.Code, e.Err.Message + e.Text);
+                wrapper.error(reqId, e.Err.Code, e.Err.Message + e.Text, "");
                 return;
             }
 
@@ -2929,7 +3027,7 @@ namespace IBApi
             }
             catch (EClientException e)
             {
-                wrapper.error(reqId, e.Err.Code, e.Err.Message + e.Text);
+                wrapper.error(reqId, e.Err.Code, e.Err.Message + e.Text, "");
                 return;
             }
 
@@ -2990,7 +3088,7 @@ namespace IBApi
             }
             catch (EClientException e)
             {
-                wrapper.error(requestId, e.Err.Code, e.Err.Message + e.Text);
+                wrapper.error(requestId, e.Err.Code, e.Err.Message + e.Text, "");
                 return;
             }
 
@@ -3037,7 +3135,7 @@ namespace IBApi
             }
             catch (EClientException e)
             {
-                wrapper.error(requestId, e.Err.Code, e.Err.Message + e.Text);
+                wrapper.error(requestId, e.Err.Code, e.Err.Message + e.Text, "");
                 return;
             }
 
@@ -3077,7 +3175,7 @@ namespace IBApi
             }
             catch (EClientException e)
             {
-                wrapper.error(tickerId, e.Err.Code, e.Err.Message + e.Text);
+                wrapper.error(tickerId, e.Err.Code, e.Err.Message + e.Text, "");
                 return;
             }
 
@@ -3138,7 +3236,7 @@ namespace IBApi
             }
             catch (EClientException e)
             {
-                wrapper.error(tickerId, e.Err.Code, e.Err.Message + e.Text);
+                wrapper.error(tickerId, e.Err.Code, e.Err.Message + e.Text, "");
                 return;
             }
 
@@ -3221,7 +3319,7 @@ namespace IBApi
             }
             catch (EClientException e)
             {
-                wrapper.error(reqId, e.Err.Code, e.Err.Message + e.Text);
+                wrapper.error(reqId, e.Err.Code, e.Err.Message + e.Text, "");
                 return;
             }
 
@@ -3282,7 +3380,7 @@ namespace IBApi
             }
             catch (EClientException e)
             {
-                wrapper.error(reqId, e.Err.Code, e.Err.Message + e.Text);
+                wrapper.error(reqId, e.Err.Code, e.Err.Message + e.Text, "");
                 return;
             }
 
@@ -3354,11 +3452,183 @@ namespace IBApi
             }
             catch (EClientException e)
             {
-                wrapper.error(reqId, e.Err.Code, e.Err.Message + e.Text);
+                wrapper.error(reqId, e.Err.Code, e.Err.Message + e.Text, "");
                 return;
             }
 
             CloseAndSend(reqId, paramsList, lengthPos, EClientErrors.FAIL_SEND_REQHISTORICALTICKS);
+        }
+
+        /**
+        * @brief Requests metadata from the WSH calendar
+        * @param reqId
+        */
+
+        public void reqWshMetaData(int reqId)
+        {
+            if (!CheckConnection())
+                return;
+
+            if (!CheckServerVersion(MinServerVer.WSHE_CALENDAR,
+                    "  It does not support WSHE Calendar API."))
+                return;
+
+            var paramsList = new BinaryWriter(new MemoryStream());
+            var lengthPos = prepareBuffer(paramsList);
+
+            try
+            {
+                paramsList.AddParameter(OutgoingMessages.ReqWshMetaData);
+                paramsList.AddParameter(reqId);
+            }
+            catch (EClientException e)
+            {
+                wrapper.error(reqId, e.Err.Code, e.Err.Message + e.Text, "");
+                return;
+            }
+
+            CloseAndSend(reqId, paramsList, lengthPos, EClientErrors.FAIL_SEND_REQ_WSH_META_DATA);
+        }
+
+        /**
+        * @brief Cancels pending request for WSH metadata
+        * @param reqId
+        */
+
+        public void cancelWshMetaData(int reqId)
+        {
+            if (!CheckConnection())
+                return;
+
+            if (!CheckServerVersion(MinServerVer.WSHE_CALENDAR,
+                    "  It does not support WSHE Calendar API."))
+                return;
+
+            var paramsList = new BinaryWriter(new MemoryStream());
+            var lengthPos = prepareBuffer(paramsList);
+
+            paramsList.AddParameter(OutgoingMessages.CancelWshMetaData);
+            paramsList.AddParameter(reqId);
+
+            CloseAndSend(paramsList, lengthPos, EClientErrors.FAIL_SEND_CAN_WSH_META_DATA);
+        }
+
+        /**
+        * @brief Requests event data from the wSH calendar
+        * @param reqId
+        * @param conId contract ID (conId) of contract to receive WSH Event Data for.
+        */
+
+        public void reqWshEventData(int reqId, WshEventData wshEventData)
+        {
+            if (!CheckConnection())
+                return;
+
+            if (!CheckServerVersion(MinServerVer.WSHE_CALENDAR, "  It does not support WSHE Calendar API."))
+                return;
+
+            if (serverVersion < MinServerVer.MIN_SERVER_VER_WSH_EVENT_DATA_FILTERS)
+            {
+                if (!IsEmpty(wshEventData.Filter) || wshEventData.FillWatchlist || wshEventData.FillPortfolio || wshEventData.FillCompetitors)
+                {
+                    ReportError(reqId, EClientErrors.UPDATE_TWS, "  It does not support WSH event data filters.");
+                    return;
+                }
+            }
+
+            if (serverVersion < MinServerVer.MIN_SERVER_VER_WSH_EVENT_DATA_FILTERS_DATE)
+            {
+                if (!IsEmpty(wshEventData.StartDate) || !IsEmpty(wshEventData.EndDate) || wshEventData.TotalLimit != int.MaxValue)
+                {
+                    ReportError(reqId, EClientErrors.UPDATE_TWS, "  It does not support WSH event data date filters.");
+                    return;
+                }
+            }
+
+            var paramsList = new BinaryWriter(new MemoryStream());
+            var lengthPos = prepareBuffer(paramsList);
+
+            try
+            {
+                paramsList.AddParameter(OutgoingMessages.ReqWshEventData);
+                paramsList.AddParameter(reqId);
+                paramsList.AddParameter(wshEventData.ConId);
+
+                if (serverVersion >= MinServerVer.MIN_SERVER_VER_WSH_EVENT_DATA_FILTERS)
+                {
+                    paramsList.AddParameter(wshEventData.Filter);
+                    paramsList.AddParameter(wshEventData.FillWatchlist);
+                    paramsList.AddParameter(wshEventData.FillPortfolio);
+                    paramsList.AddParameter(wshEventData.FillCompetitors);
+                }
+
+                if (serverVersion >= MinServerVer.MIN_SERVER_VER_WSH_EVENT_DATA_FILTERS_DATE)
+                {
+                    paramsList.AddParameter(wshEventData.StartDate);
+                    paramsList.AddParameter(wshEventData.EndDate);
+                    paramsList.AddParameter(wshEventData.TotalLimit);
+                }
+            }
+            catch (EClientException e)
+            {
+                wrapper.error(reqId, e.Err.Code, e.Err.Message + e.Text, "");
+                return;
+            }
+
+            CloseAndSend(reqId, paramsList, lengthPos, EClientErrors.FAIL_SEND_REQ_WSH_EVENT_DATA);
+        }
+
+        /**
+        * @brief Cancels pending WSH event data request
+        * @param reqId
+        */
+
+        public void cancelWshEventData(int reqId)
+        {
+            if (!CheckConnection())
+                return;
+
+            if (!CheckServerVersion(MinServerVer.WSHE_CALENDAR,
+                    "  It does not support WSHE Calendar API."))
+                return;
+
+            var paramsList = new BinaryWriter(new MemoryStream());
+            var lengthPos = prepareBuffer(paramsList);
+
+            paramsList.AddParameter(OutgoingMessages.CancelWshEventData);
+            paramsList.AddParameter(reqId);
+
+            CloseAndSend(paramsList, lengthPos, EClientErrors.FAIL_SEND_CAN_WSH_EVENT_DATA);
+        }
+
+        /**
+        * @brief Requests user info
+        * @param reqId
+        */
+
+        public void reqUserInfo(int reqId)
+        {
+            if (!CheckConnection())
+                return;
+
+            if (!CheckServerVersion(MinServerVer.USER_INFO, " It does not support user info requests."))
+                return;
+
+            var paramsList = new BinaryWriter(new MemoryStream());
+            var lengthPos = prepareBuffer(paramsList);
+
+            try
+            {
+                paramsList.AddParameter(OutgoingMessages.ReqUserInfo);
+                paramsList.AddParameter(reqId);
+            }
+            catch (EClientException e)
+            {
+                wrapper.error(reqId, e.Err.Code, e.Err.Message + e.Text, "");
+                return;
+            }
+
+            CloseAndSend(reqId, paramsList, lengthPos, EClientErrors.FAIL_SEND_REQ_USER_INFO);
         }
 
         protected bool CheckServerVersion(int requiredVersion)
@@ -3399,7 +3669,7 @@ namespace IBApi
             }
             catch (Exception)
             {
-                wrapper.error(reqId, error.Code, error.Message);
+                wrapper.error(reqId, error.Code, error.Message, "");
                 Close();
             }
         }
@@ -3410,7 +3680,7 @@ namespace IBApi
         {
             if (!isConnected)
             {
-                wrapper.error(IncomingMessage.NotValid, EClientErrors.NOT_CONNECTED.Code, EClientErrors.NOT_CONNECTED.Message);
+                wrapper.error(IncomingMessage.NotValid, EClientErrors.NOT_CONNECTED.Code, EClientErrors.NOT_CONNECTED.Message, "");
                 return false;
             }
 
@@ -3434,7 +3704,7 @@ namespace IBApi
 
         protected void ReportError(int reqId, int code, string message)
         {
-            wrapper.error(reqId, code, message);
+            wrapper.error(reqId, code, message, "");
         }
 
         protected void SendCancelRequest(OutgoingMessages msgType, int version, int reqId, CodeMsgPair errorMessage)
@@ -3450,7 +3720,7 @@ namespace IBApi
             }
             catch (EClientException e)
             {
-                wrapper.error(reqId, e.Err.Code, e.Err.Message + e.Text);
+                wrapper.error(reqId, e.Err.Code, e.Err.Message + e.Text, "");
                 return;
             }
 
@@ -3460,7 +3730,7 @@ namespace IBApi
             }
             catch (Exception)
             {
-                wrapper.error(reqId, errorMessage.Code, errorMessage.Message);
+                wrapper.error(reqId, errorMessage.Code, errorMessage.Message, "");
                 Close();
             }
         }
@@ -3477,7 +3747,7 @@ namespace IBApi
             }
             catch (EClientException e)
             {
-                wrapper.error(IncomingMessage.NotValid, e.Err.Code, e.Err.Message + e.Text);
+                wrapper.error(IncomingMessage.NotValid, e.Err.Code, e.Err.Message + e.Text, "");
                 return;
             }
 
@@ -3487,7 +3757,7 @@ namespace IBApi
             }
             catch (Exception)
             {
-                wrapper.error(IncomingMessage.NotValid, errorMessage.Code, errorMessage.Message);
+                wrapper.error(IncomingMessage.NotValid, errorMessage.Code, errorMessage.Message, "");
                 Close();
             }
         }
@@ -3806,6 +4076,55 @@ namespace IBApi
                 ReportError(id, EClientErrors.UPDATE_TWS, " It does not support Use Price Management Algo requests.");
 
                 return false;
+            }
+
+            if (serverVersion < MinServerVer.DURATION && order.Duration != int.MaxValue)
+            {
+                ReportError(id, EClientErrors.UPDATE_TWS, " It does not support duration attribute.");
+
+                return false;
+            }
+
+            if (serverVersion < MinServerVer.POST_TO_ATS && order.PostToAts != int.MaxValue)
+            {
+                ReportError(id, EClientErrors.UPDATE_TWS, " It does not support postToAts attribute.");
+
+                return false;
+            }
+
+            if (serverVersion < MinServerVer.AUTO_CANCEL_PARENT && order.AutoCancelParent)
+            {
+                ReportError(id, EClientErrors.UPDATE_TWS, " It does not support autoCancelParent attribute.");
+
+                return false;
+            }
+
+            if (serverVersion < MinServerVer.ADVANCED_ORDER_REJECT && !IsEmpty(order.AdvancedErrorOverride))
+            {
+                ReportError(id, EClientErrors.UPDATE_TWS, " It does not support advanced error override attribute.");
+
+                return false;
+            }
+
+            if (serverVersion < MinServerVer.MANUAL_ORDER_TIME && !IsEmpty(order.ManualOrderTime))
+            {
+                ReportError(id, EClientErrors.UPDATE_TWS, " It does not support manual order time attribute.");
+
+                return false;
+            }
+
+            if (serverVersion < MinServerVer.PEGBEST_PEGMID_OFFSETS)
+            {
+                if (order.MinTradeQty != int.MaxValue ||
+                    order.MinCompeteSize != int.MaxValue ||
+                    order.CompeteAgainstBestOffset != double.MaxValue ||
+                    order.MidOffsetAtWhole != double.MaxValue ||
+                    order.MidOffsetAtHalf != double.MaxValue)
+                {
+                    ReportError(id, EClientErrors.UPDATE_TWS,
+                        "  It does not support PEG BEST / PEG MID order parameters: minTradeQty, minCompeteSize, competeAgainstBestOffset, midOffsetAtWhole and midOffsetAtHalf");
+                    return false;
+                }
             }
 
             return true;
