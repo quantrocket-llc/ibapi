@@ -13,7 +13,7 @@ import sys
 import logging
 import inspect
 
-from decimal import Decimal
+from decimal import Decimal, InvalidOperation
 from ibapi.common import UNSET_INTEGER, UNSET_DOUBLE, UNSET_LONG, UNSET_DECIMAL, DOUBLE_INFINITY, INFINITY_STR
 
 
@@ -116,13 +116,11 @@ def decode(the_type, fields, show_unset = False, use_unicode = False):
 def decode_or_none(*args, **kwargs):
     """
     Utility function that calls decode but returns None if decode fails with
-    ValueError: could not convert string to float
+    ValueError or decimal.InvalidOperation.
     """
     try:
         return decode(*args, **kwargs)
-    except ValueError as e:
-        if "could not convert string to float" not in repr(e):
-            raise
+    except (ValueError, InvalidOperation):
         return None
 
 def ExerciseStaticMethods(klass):
